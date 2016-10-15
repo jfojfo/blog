@@ -1,12 +1,90 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
+<!doctype html>
+
+
+
   
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>XPCOM Part 2: XPCOM component basics Back to top | jfo planet</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="http://www.ibm.com/developerworks/webservices/library/co-xpcom2.htmlThe idea behind XPCOM as a technology is to provide a modular framework that is platform- and language-neutral. There is very littl">
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="jfo, blog" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="http://www.ibm.com/developerworks/webservices/library/co-xpcom2.htmlThe idea behind XPCOM as a technology is to provide a modular framework that is platform- and language-neutral. There is very littl">
 <meta property="og:type" content="article">
 <meta property="og:title" content="XPCOM Part 2: XPCOM component basics Back to top">
 <meta property="og:url" content="http://blog.pickbox.me/2007/07/15/XPCOM-Part-2-XPCOM-component-basics-Back-to-top/index.html">
@@ -19,366 +97,546 @@
 <meta name="twitter:title" content="XPCOM Part 2: XPCOM component basics Back to top">
 <meta name="twitter:description" content="http://www.ibm.com/developerworks/webservices/library/co-xpcom2.htmlThe idea behind XPCOM as a technology is to provide a modular framework that is platform- and language-neutral. There is very littl">
 <meta name="twitter:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif">
-  
-    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="//favicon.ico">
-  
-  <script src="/style.js"></script>
-  
 
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://blog.pickbox.me/2007/07/15/XPCOM-Part-2-XPCOM-component-basics-Back-to-top/"/>
+
+
+  <title> XPCOM Part 2: XPCOM component basics Back to top | jfo planet </title>
 </head>
 
-<body>
-  <div id="container">
-    <div class="left-col">
-      <div class="overlay"></div>
-<div class="intrude-less">
-	<header id="header" class="inner">
-		<a href="/" class="profilepic">
-			
-			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
-			
-		</a>
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
 
-		<hgroup>
-		  <h1 class="header-author"><a href="/">jfo</a></h1>
-		</hgroup>
+  
 
-		
-		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
-		
 
-		<nav class="header-menu">
-			<ul>
-			
-				<li><a href="/">主页</a></li>
-	        
-			</ul>
-		</nav>
-		<nav class="header-smart-menu">
-	        
-    		
-    			
-    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
-    			
-    			
-            
-		</nav>
-		<nav class="header-nav">
-			<div class="social">
-				
-					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
-		        
-					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
-		        
-			</div>
-		</nav>
-	</header>		
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">jfo planet</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Hope is the best gift that tomorrow gives.</p>
 </div>
 
-    </div>
-    <div class="mid-col">
-      <nav id="mobile-nav">
-  	<div class="overlay">
-  		<div class="slider-trigger"><i class="icon-list"></i></div>
-  		<h1 class="header-author js-mobile-header hide">jfo</h1>
-  	</div>
-	<div class="intrude-less">
-		<header id="header" class="inner">
-			<div class="profilepic">
-				
-					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
-				
-			</div>
-			<hgroup>
-			  <h1 class="header-author">jfo</h1>
-			</hgroup>
-			
-			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
-			
-			<nav class="header-menu">
-				<ul>
-				
-					<li><a href="/">主页</a></li>
-		        
-				</ul>
-			</nav>
-			<nav class="header-nav">
-				<div class="social">
-					
-						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
-			        
-						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
-			        
-				</div>
-			</nav>
-		</header>				
-	</div>
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
 </nav>
 
-      <div class="body-wrap">
-        <article id="post-XPCOM-Part-2-XPCOM-component-basics-Back-to-top" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
     
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
+
   
-    <h1 class="article-title" itemprop="name">
-      XPCOM Part 2: XPCOM component basics Back to top
-    </h1>
   
 
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                XPCOM Part 2: XPCOM component basics Back to top
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2007-07-15T21:46:00+08:00" content="2007-07-15">
+              2007-07-15
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/com组件/" itemprop="url" rel="index">
+                    <span itemprop="name">com组件</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
       
         <p> <a href="http://www.ibm.com/developerworks/webservices/library/co-xpcom2.html" target="_blank">http://www.ibm.com/developerworks/webservices/library/co-xpcom2.html</a><br><br><br><br></p><p>The idea behind XPCOM as a technology is to provide a modular framework that is platform- and language-neutral. There is very little that a component written in C++ can do that can’t be done in JavaScript or some other scripting language. The mechanism used in XPCOM to accomplish this feat is a type library.</p><p><a name="h0">Type library</a></p><p>   A type library provides a common data format or interchange mechanism for describing the methods, attributes, parameters, and interfaces of a component. By establishing a common format, the same interfaces can be described across multiple platforms and multiple programming languages. This is useful for supporting a generic marshalling or proxy mechanism. Using the type info, a program can determine every parameter of any given method or attribute on some interface. With this knowledge, it can move data back and forth between the interface and some other environment. That other environment can be a scripting engine or a proxy mechanism for crossing thread, process, or network boundaries. In the case of a scripting engine, this is how a component gets defined in the scripting environment so that scripted code can invoke methods on a component’s interface. </p><p>XPConnect is an additional layer built on top of XPCOM that can marshal an XPCOM interface into the JavaScript engine by reading an XPCOM type library file. XPConnect also allows XPCOM components to be written entirely in JavaScript so you can have C++ code call a JS component, or use JS to load and manipulate a compiled C++ component. In addition to JavaScript, the Python language has been added as another scripting alternative using a mechanism similar to XPConnect.</p><br> <img width="100%" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif"> <img width="16" height="16" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif"><br> <a href="http://www.ibm.com/developerworks/webservices/library/co-xpcom2.html#main" target="_blank" rel="external"><strong>Back to top</strong></a> <br><br><p><a name="h5">Macros and smart pointers</a></p><p>  To combat this type of error, XPCOM includes some C++ templates that allow you to declare a smart interface pointer. The templates give you a &quot;set and forget&quot; pointer. Set the pointer to an interface and it will remember to release the interface for you. Set the pointer to another interface and it will release the previous one. Sounds simple enough. You declare your smart pointer within the scope needed and assign it to an interface. You use the smart pointer as you would a plain vanilla interface pointer. When the smart pointer loses scope, its built-in destructor will call the <code>Release</code> method for you. </p><p>Taking a look at just about any Mozilla code that uses <code>nsCOMPtr</code> or <code>nsIPtr</code> you will see something like the code in Listing 5.</p><strong>Listing 5. Mozilla code using nsCOMPtr or nslPtr</strong>                                    nsresult nsExample::DoSomething(void)<br>{<br>  nsresult rv;<br>  nsCOMPtr&lt;nsIManager&gt; pManager;<br>  <em>aResult = nsnull;<br>  pManager = do_GetService(&quot;Some contract ID goes here&quot;);<br>  if (pManager == nsnull)<br>    return NS_ERROR_NOT_AVAILABLE;<br>  rv = pManager-&gt;ManageSomething(); // do some more work here …<br>  return rv;<br>}<br><br> <br><p>In Listing 5, a smart pointer to the fictional <code>nsIManager</code> interface is declared with the name <code>pManager</code> (see the line that starts with &quot;<code>nsCOMPtr ..</code>&quot;). The smart pointer is assigned to some service. After testing that a valid pointer was indeed returned, the code above dereferences the pointer to call the <code>ManageSomething()</code> method.  When the above function returns, the <code>pManager</code> smart pointer will be destroyed –  but not before calling <code>Release</code> on the interface pointer held inside.</p><p>XPCOM expedites a lot of the declaratory grunt work demanded by C++ through the use of a family of C macros. Most interfaces return a <code>nsresult</code>. In most cases, the magic value to check for in an <code>nsresult</code> is <code>NS_OK</code>. (For an exhaustive list of <code>nsresult</code> values take a look at <code>nsError.h</code>.)</p><p>The XPCOM include files <code>nsCom.h, nsDebug.h, nsError.h, nsIServiceManager.h</code> and <code>nsISupportsUtils.h</code> provide some additional macros for testing, debugging and implementation.</p><p>When you browse the header files of various C++ XPCOM components you’ll see <code>NS_DECL_ISUPPORTS</code> as part of the class definition. This macro provides the definitions for the <code>nsISupports</code> interface.</p><strong>Listing 6. Definitions for nsISupports</strong>                                    public:<br>    NS_IMETHOD QueryInterface(REFNSIID aIID void** aInstancePtr);<br>    NS<em>IMETHOD</em>(nsrefcnt) AddRef(void);<br>    NS<em>IMETHOD</em>(nsrefcnt) Release(void);<br>    nsrefcnt mRefCnt;<br><br> <br><p>When you browse a component’s corresponding implementation file, you’ll see another mysterious one-line macro named <code>NS_IMPL_ISUPPORTS1</code> (or similar). This macro provides the actual implementation of the <code>nsISupports</code> interface. The digit &quot;1&quot; at the end of the macro denotes the number of interfaces (besides <code>nsISupports</code>) that the component implements.  If a class implemented two interfaces it could use <code>NS_IMPL_ISUPPORTS2</code>.</p><p>Remember the <code>mRefCnt</code> data member above –  we’ll be making reference to it again shortly.</p><p>Here’s how the <code>NS_IMPL_ISUPPORTS1</code> macro is defined in <code>nsISupportsUtils.h</code>:</p><strong>Listing 7. NS_IMPL_ISUPPORTS1</strong>                                    #define NS_IMPL_ISUPPORTS1(_class, _interface) <br>  NS_IMPL_ADDREF(_class)                       <br>  NS_IMPL_RELEASE(_class)                      <br>  NS_IMPL_QUERY_INTERFACE1(_class, _interface)<br> <br><p>As you can see, it’s just defined in terms of three other macros. Digging further, we start with the definition for <code>NS_IMPL_ADDREF</code>:</p><strong>Listing 8. NS_IMPL_ADDREF</strong>                                    #define NS_IMPL_ADDREF(_class)                               <br>NS<em>IMETHODIMP</em>(nsrefcnt) _class::AddRef(void)                <br>{                                                            <br>  NS_PRECONDITION(PRInt32(mRefCnt) &gt;= 0, &quot;illegal refcnt&quot;);  <br>  NS_ASSERT_OWNINGTHREAD(_class);                            <br>  ++mRefCnt;                                                 <br>  NS_LOG_ADDREF(this, mRefCnt, #_class, sizeof(</em>this));      <br>  return mRefCnt;                                            <br>}<br> <br><p>Finally some real code to look at! Out of five lines of code, three of them are debugging macros that we can safely ignore. The last line of code is a return statement. Any code calling <code>AddRef</code> is supposed to discard the value returned, so we can ignore the return statement.  </p><p> The one line of code of interest to us is the <code>++mRefCnt</code> statement. All it does is increment a counter so every time we call <code>AddRef</code> on some interface, all we are doing (in all likelihood) is causing that component to increment some internal counter. Next, let’s peek at the <code>NS_IMPL_RELEASE</code> macro:</p><strong>Listing 9. NS_IMPL_RELEASE macro</strong>                                    #define NS_IMPL_RELEASE(_class)                              <br>NS<em>IMETHODIMP</em>(nsrefcnt) _class::Release(void)               <br>{                                                            <br>  NS_PRECONDITION(0 != mRefCnt, &quot;dup release&quot;);              <br>  NS_ASSERT_OWNINGTHREAD(_class);                            <br>  –mRefCnt;                                                 <br>  NS_LOG_RELEASE(this, mRefCnt, #_class);                    <br>  if (mRefCnt == 0) {                                        <br>    mRefCnt = 1; /<em> stabilize </em>/                             <br>    NS_DELETEXPCOM(this);                                    <br>    return 0;                                                <br>  }                                                          <br>  return mRefCnt;                                            <br>}<br> <br><p>Again, we’ve got three statements involving debugging macros that we can safely ignore, along with two return statements that we can ignore for reasons explained above.</p><p>The two statements we care about are <code>–mRefCnt</code>, which decrements the object’s counter and <code>if (mRefCnt == 0)</code>, which tests to see if the counter has reached a value of zero. The next couple of lines tell us that the object will delete itself when this internal counter reaches zero.</p><p>In summary, <code>AddRef</code> increments the counter, <code>Release</code> decrements the counter – and when the number of calls to <code>AddRef</code> equal the number of calls to <code>Release</code>, the net reference count becomes zero and the component destroys itself. This whole reference-counting idea is starting to look fairly straightforward.  Next we’ve got <code>NS_IMPL_QUERY_INTERFACE1</code> defined in Listing 10.</p><strong>Listing 10. NS_IMPL_QUERY_INTERFACE1</strong>                                    #define NS_IMPL_QUERY_INTERFACE1(_class, _i1)            <br>  NS_INTERFACE_MAP_BEGIN(_class)                         <br>    NS_INTERFACE_MAP_ENTRY(_i1)                          <br>    NS_INTERFACE_MAP_ENTRY_AMBIGUOUS(nsISupports, _i1)   <br>  NS_INTERFACE_MAP_END<br> <br><p>Drat! More macros to look up. By now, all of the MFC coders are chuckling because they’ve seen this kind of macro indirection nonsense before. These macros are building an interface map for the component so their order and position is important to creating a <code>QueryInterface</code> implementation.  Undaunted by this indirection, we plow ahead and look at <code>NS_INTERFACE_MAP_BEGIN</code>.  It turns out that it’s just an alias for <code>NS_IMPL_QUERY_HEAD</code> which expands into the code in Listing 11.</p><strong>Listing 11. NS_INTERFACE_MAP_BEGIN</strong>                                    #define NS_IMPL_QUERY_HEAD(_class)                                       <br>NS_IMETHODIMP _class::QueryInterface(REFNSIID aIID, void<em>* aInstancePtr) <br>{                                                                        <br>  NS_ASSERTION(aInstancePtr, &quot;QueryInterface requires a non-NULL destination!&quot;); <br>  if ( !aInstancePtr )                                                   <br>    return NS_ERROR_NULL_POINTER;                                        <br>  nsISupports</em> foundInterface;<br> <br><p>The code in this macro doesn’t really do any work. It just provides the function’s declaratory preamble and some lightweight error checking in the form of a test for a null return pointer. There isn’t even a closing curly brace to complete the function so it’s logical to suspect this macro is intended to be followed by other macros that fill in rest of the code. This next macro does some of that work. <code>NS_INTERFACE_MAP_ENTRY</code> is just an alias for <code>NS_IMPL_QUERY_BODY</code>.</p><strong>Listing 12. NS_IMPL_QUERY_BODY</strong>                                    #define NS_IMPL_QUERY_BODY(_interface)                  <br>  if ( aIID.Equals(NS_GET_IID(_interface)) )            <br>    foundInterface = NS_STATIC_CAST(_interface<em>, this); <br>  else<br><br> <br><p>This is the critical snippet of code that does the matching for our interface map. Because of the way the if/else statements are structured, we can stack multiple <code>NS_IMPL_QUERY_BODY</code> macros in succession to build an interface map that will answer to any number of interface IDs. The next macro, <code>NS_INTERFACE_MAP_ENTRY_AMBIGUOUS</code>, is just an alias for <code>NS_IMPL_QUERY_BODY_AMBIGUOUS</code>.</p><strong>Listing 13. NS_IMPL_QUERY_BODY_AMBIGUOUS</strong>                                    #define NS_IMPL_QUERY_BODY_AMBIGUOUS(_interface, _implClass)             <br>  if ( aIID.Equals(NS_GET_IID(_interface)) )                             <br>    foundInterface = NS_STATIC_CAST(_interface</em>, NS_STATIC_CAST(_implClass<em>, this)); <br>  else<br><br> <br><p> <code>NS_IMPL_QUERY_BODY_AMBIGUOUS</code> looks like it is doing the same work as <code>NS_IMPL_QUERY_BODY</code> – which it is. The only extra work being done here is avoiding a compiler error when trying to return an interface pointer for <code>nsISupports</code> when there are two or more supported interfaces that derive from <code>nsISupports</code>. Any one of them is also a valid <code>nsISupports</code> interface pointer – so the dilemma for the C++ compiler is to choose which one. One requirement placed on an XPCOM interface-dispensing mechanism is that it always return the same pointer for the same interface ID – so this macro also helps to comply with this rule by specifying which <code>nsISupports</code>-derived interface pointer gets to be used as  the  <code>nsISupports</code> interface pointer. As Listing 14 illustrates, <code>NS_INTERFACE_MAP_END</code> is just an alias for <code>NS_IMPL_QUERY_TAIL_GUTS</code>.</p><strong>Listing 14. NS_IMPL_QUERY_TAIL_GUTS</strong>                                    #define NS_IMPL_QUERY_TAIL_GUTS    <br>    foundInterface = 0;            <br>  nsresult status;                 <br>  if ( !foundInterface )           <br>    status = NS_NOINTERFACE;       <br>  else                             <br>    {                              <br>      NS_ADDREF(foundInterface);   <br>      status = NS_OK;              <br>    }                              <br>  </em>aInstancePtr = foundInterface;  <br>  return status;                   <br>}<br> <br><p>At long last, we get to the end of the implementation of <code>QueryInterface</code>. This last snippet of code returns an error code of <code>NS_NOINTERFACE</code> if the caller’s interface ID does not match any of the IDs in its map.  If the caller’s interface ID matches one of the object’s supported interfaces, the code calls the object’s <code>AddRef</code> method and returns a pointer to the interface along with a result code of <code>NS_OK</code>.</p><p>The code we’ve just gone through is a stock implementation of <code>nsISupports</code> for a component with a single interface.  The stock implementations for supporting multiple interfaces are similar. Actual components may be written using one of the stock implementations or they may provide their own. In most cases, they will use the macros found in <code>nsISupportsUtils.h</code>. By now you should see why it is so important to be able to dissect C style macros – particularly those with nested definitions – if you want to be able to read and understand the mozilla/XPCOM code base.</p> <p></p>
 
       
     </div>
-    <div class="article-info article-info-index">
+
+    <div>
       
-      <a href="/2007/07/15/XPCOM-Part-2-XPCOM-component-basics-Back-to-top/" class="archive-article-date">
-  	<time datetime="2007-07-15T13:46:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-07-15</time>
-</a>
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2007/07/15/XPCOM-Part-3-Setting-up-XPCOM/" rel="next" title="XPCOM Part 3: Setting up XPCOM">
+                <i class="fa fa-chevron-left"></i> XPCOM Part 3: Setting up XPCOM
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2007/07/15/link/" rel="prev" title="link">
+                link <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
       
       
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/com组件/">com组件</a>
-	</div>
+    </footer>
+  </article>
 
 
-      <div class="clearfix"></div>
+
+    <div class="post-spread">
+      
     </div>
   </div>
-</article>
 
-  
-<nav id="article-nav">
-  
-    <a href="/2007/07/15/link/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
         
-          link
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/wp-content/uploads/penguin.gif"
+               alt="jfo" />
+          <p class="site-author-name" itemprop="name">jfo</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">596</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/jfojfo" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/jfojfo" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.pickbox.me" title="收藏夹" target="_blank">收藏夹</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://note.pickbox.me" title="网络剪贴板" target="_blank">网络剪贴板</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://iguangba.pickbox.me" title="爱逛吧" target="_blank">爱逛吧</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
         
       </div>
-    </a>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
   
-  
-    <a href="/2007/07/15/XPCOM-Part-3-Setting-up-XPCOM/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">XPCOM Part 3: Setting up XPCOM</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-
-
-<div class="share_jia">
-	<!-- JiaThis Button BEGIN -->
-	<div class="jiathis_style">
-		<span class="jiathis_txt">Share to: &nbsp; </span>
-		<a class="jiathis_button_facebook"></a> 
-	    <a class="jiathis_button_twitter"></a>
-	    <a class="jiathis_button_plus"></a> 
-	    <a class="jiathis_button_tsina"></a>
-		<a class="jiathis_button_cqq"></a>
-		<a class="jiathis_button_douban"></a>
-		<a class="jiathis_button_weixin"></a>
-		<a class="jiathis_button_tumblr"></a>
-    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
-	</div>
-	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
-	<!-- JiaThis Button END -->
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jfo</span>
 </div>
 
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
 
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
 
+        
 
-
-
-
-
-
+        
       </div>
-      <footer id="footer">
-  <div class="outer">
-    <div id="footer-info">
-    	<div class="footer-left">
-    		&copy; 2016 jfo
-    	</div>
-      	<div class="footer-right">
-      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
-      	</div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
     </div>
   </div>
-</footer>
-    </div>
-    <script>
-	var yiliaConfig = {
-		fancybox: true,
-		mathjax: false,
-		animate: true,
-		isHome: false,
-		isPost: true,
-		isArchive: false,
-		isTag: false,
-		isCategory: false,
-		open_in_new: false,
-		root: "/",
-		innerArchive: true
-	}
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
 
-<script src="/./main.js"></script>
 
 
-    
-<div class="tools-col">
-  <ul class="btn-wrap">
-    
-      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
-    
-    
-      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
-    
-    
-      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
-    
-    
-      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
-    
-  </ul>
-  <div class="tools-wrap">
-    
-    	<section class="tools-section tools-section-all chose">
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-tag">
-    			<div class="widget tagcloud" id="js-tagcloud">
-    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
-    			</div>
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-friends">
-  		
-  			<div class="friends-wrap" id="js-friends">
-  			
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
-  	        
-  	        </div>
-  		
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-me">
-  	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
-  	  	
-    	</section>
-    
-  </div>
+
+
+
   
-</div>
 
-    <!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
 
-    <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
 
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
 
-        <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
 
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
 
-            <div class="pswp__top-bar">
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
 
-                <!--  Controls are self-explanatory. Order can be changed. -->
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
 
-                <div class="pswp__counter"></div>
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
 
-                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+  
 
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
 
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
 
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
-                </div>
-            </div>
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
 
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div> 
-            </div>
 
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
 
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
+  
+  
 
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
 
-        </div>
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
 
-    </div>
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
 
-</div>
-  </div>
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
 </body>
 </html>

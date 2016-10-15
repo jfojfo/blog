@@ -1,12 +1,90 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
+<!doctype html>
+
+
+
   
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>Using Ant to Automate Building Android Applications | jfo planet</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="keytool.exe -list -keystore key.store -vkeytool.exe -genkey -keystore key.store -alias dicewars -validity 222222keytool.exe -importkeystore -srckeystore ../../MyControlWidget/config/mycontrol.keystor">
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="jfo, blog" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="keytool.exe -list -keystore key.store -vkeytool.exe -genkey -keystore key.store -alias dicewars -validity 222222keytool.exe -importkeystore -srckeystore ../../MyControlWidget/config/mycontrol.keystor">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Using Ant to Automate Building Android Applications">
 <meta property="og:url" content="http://blog.pickbox.me/2011/10/09/Using-Ant-to-Automate-Building-Android-Applications/index.html">
@@ -16,365 +94,545 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Using Ant to Automate Building Android Applications">
 <meta name="twitter:description" content="keytool.exe -list -keystore key.store -vkeytool.exe -genkey -keystore key.store -alias dicewars -validity 222222keytool.exe -importkeystore -srckeystore ../../MyControlWidget/config/mycontrol.keystor">
-  
-    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="//favicon.ico">
-  
-  <script src="/style.js"></script>
-  
 
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://blog.pickbox.me/2011/10/09/Using-Ant-to-Automate-Building-Android-Applications/"/>
+
+
+  <title> Using Ant to Automate Building Android Applications | jfo planet </title>
 </head>
 
-<body>
-  <div id="container">
-    <div class="left-col">
-      <div class="overlay"></div>
-<div class="intrude-less">
-	<header id="header" class="inner">
-		<a href="/" class="profilepic">
-			
-			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
-			
-		</a>
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
 
-		<hgroup>
-		  <h1 class="header-author"><a href="/">jfo</a></h1>
-		</hgroup>
+  
 
-		
-		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
-		
 
-		<nav class="header-menu">
-			<ul>
-			
-				<li><a href="/">主页</a></li>
-	        
-			</ul>
-		</nav>
-		<nav class="header-smart-menu">
-	        
-    		
-    			
-    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
-    			
-    			
-            
-		</nav>
-		<nav class="header-nav">
-			<div class="social">
-				
-					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
-		        
-					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
-		        
-			</div>
-		</nav>
-	</header>		
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">jfo planet</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Hope is the best gift that tomorrow gives.</p>
 </div>
 
-    </div>
-    <div class="mid-col">
-      <nav id="mobile-nav">
-  	<div class="overlay">
-  		<div class="slider-trigger"><i class="icon-list"></i></div>
-  		<h1 class="header-author js-mobile-header hide">jfo</h1>
-  	</div>
-	<div class="intrude-less">
-		<header id="header" class="inner">
-			<div class="profilepic">
-				
-					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
-				
-			</div>
-			<hgroup>
-			  <h1 class="header-author">jfo</h1>
-			</hgroup>
-			
-			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
-			
-			<nav class="header-menu">
-				<ul>
-				
-					<li><a href="/">主页</a></li>
-		        
-				</ul>
-			</nav>
-			<nav class="header-nav">
-				<div class="social">
-					
-						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
-			        
-						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
-			        
-				</div>
-			</nav>
-		</header>				
-	</div>
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
 </nav>
 
-      <div class="body-wrap">
-        <article id="post-Using-Ant-to-Automate-Building-Android-Applications" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
     
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
+
   
-    <h1 class="article-title" itemprop="name">
-      Using Ant to Automate Building Android Applications
-    </h1>
   
 
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Using Ant to Automate Building Android Applications
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2011-10-09T17:59:00+08:00" content="2011-10-09">
+              2011-10-09
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
       
          <p></p><p><del></del></p><p>keytool.exe -list -keystore key.store -v</p><p>keytool.exe -genkey -keystore key.store -alias dicewars -validity 222222</p><p>keytool.exe -importkeystore -srckeystore ../../MyControlWidget/config/mycontrol.keystore -destkeystore key.store</p><p>keytool.exe -export -file dice.cer -keystore key.store -alias dicewars</p><p></p><p>&nbsp;</p><p><a href="http://www.androidengineer.com/2010/06/using-ant-to-automate-building-android.html" target="_blank" rel="external">http://www.androidengineer.com/2010/06/using-ant-to-automate-building-android.html</a></p><p>&nbsp;</p><p>The standard way to develop and deploy Android applications is using Eclipse. This is great because it is free, easy to use, and many Java developers already use Eclipse. To deploy your applications using Eclipse, you simply right-click on the on the project, choose to export the application, and follow the prompts</p><br>There are a few things we cannot easily do with this system, though. Using the Eclipse GUI does not allow one to easily:<br>Add custom build steps.Use an automated build system.Use build configurations.Build the&nbsp;<i>release</i>&nbsp;project with one command.Fortunately, the Android SDK comes equipped with support for&nbsp;<a href="http://ant.apache.org/" target="_blank" rel="external">Ant</a>, which is a common build script system popular among Java developers. It is how you can develop Android applications&nbsp;<a href="http://developer.android.com/guide/developing/other-ide.html" target="_blank" rel="external">without using Eclipse</a>, if you so desire. This tutorial will show you how to incorporate an Ant build script into your Android projects (even if you still develop with Eclipse), create your release package ready for Marketplace deployment in one step, create a build configuration using a properties file, and alter your source files based on the configuration.<br><br>You can use the Ant build script to solve all of the problems listed above. &nbsp;This tutorial expects you to already have your&nbsp;<a href="http://developer.android.com/index.html" target="_blank" rel="external">Android SDK</a>&nbsp;setup correctly, and to have&nbsp;<a href="http://ant.apache.org/bindownload.cgi" target="_blank" rel="external">Ant installed</a>. &nbsp;It will also help to know a little about Ant if you want to add custom build steps, but you don’t really need to know anything to follow the tutorial here.<br><br>Although I don’t personally use an automated build system for my projects, I do use it to create configuration files and to run custom build scripts. I also believe that it is very important to have a one-step build system, which means that there is only one command to create your final release package&nbsp;(I’ll explain why later). You can already run your application in debug mode with Eclipse with one step, but I feel it is important to be able to create the release package in one step as well.<br><br>Finally, if this is too much reading for your taste, you can jump straight into the summary for a few simple steps, and download the sample application at the end of the tutorial.<br>Ant in a nutshellA build script in Ant is an XML file. &nbsp;The default filename for a Ant build file isbuild.xml. Build steps in Ant are called&nbsp;<i><a href="http://ant.apache.org/manual/tasksoverview.html" target="_blank" rel="external">tasks</a></i>, which are defined by&nbsp;<i>targets</i>&nbsp;in the build file. When you build your Android application with the default build script, you would type&nbsp;ant release&nbsp;at the command line. In this case, Ant looks for the default filename&nbsp;build.xml, and&nbsp;release&nbsp;is the target which it builds. The&nbsp;releasetarget builds the application ready for release (as opposed to for debugging). Another example would be&nbsp;ant clean, which cleans the project binaries.<br>You can do pretty much anything you can imagine with more custom build scripts, from copying files to making network calls. More detail about how to use Ant is beyond the scope of this tutorial, but I will show you some useful tricks.<br><i>One custom script which I enjoy very much uses&nbsp;</i><a href="http://proguard.sourceforge.net/" target="_blank" rel="external"><i>ProGuard</i></a><i>&nbsp;to obfuscate and shrink the code. I see the code size of my applications drop by a whopping 50% using it. It helps for users who may think your application is taking too much space on their device. I’ll explain how to do this in a future tutorial.</i>Adding build.xml to an existing projectIf you already have a project that you’d like to add the Ant build script to, then there is an easy command line tool you can use. Open up a command prompt and navigate to the base directory of your project. From there, use the command:<br>android update project –path .<br><br>Here is an example of successful output:<br>&gt;android update project –path .<br>Updated local.properties<br>Added file C:devblogantbuildbuild.xml<br>If the&nbsp;android&nbsp;command is not found, then you need to update your path to include the Android tools. &nbsp;On Windows, you can use something like&nbsp;set path=%PATH%;C:devandroid-sdk-windowstools&nbsp;(substituting your actual Android installation directory), or even better add it to your path persistently by updating the environment variables through your system properties.<br><br>Now you will have a working ant build script in&nbsp;build.xml. &nbsp;You can test your setup by typing&nbsp;ant&nbsp;at the command prompt, and you should receive something similar to the following boilerplate help:<br><br>&gt;ant<br>Buildfile: C:devblogantbuildbuild.xml<br>&nbsp;&nbsp; &nbsp;[setup] Android SDK Tools Revision 6<br>&nbsp;&nbsp; &nbsp;[setup] Project Target: Android 1.5<br>&nbsp;&nbsp; &nbsp;[setup] API level: 3<br>&nbsp;&nbsp; &nbsp;[setup] WARNING: No minSdkVersion value set. Application will install on all Android versions.<br>&nbsp;&nbsp; &nbsp;[setup] Importing rules file: platformsandroid-3antant_rules_r2.xml<br><br>help:<br>&nbsp;&nbsp; &nbsp; [echo] Android Ant Build. Available targets:<br>&nbsp;&nbsp; &nbsp; [echo] &nbsp; &nbsp;help: &nbsp; &nbsp; &nbsp;Displays this help.<br>&nbsp;&nbsp; &nbsp; [echo] &nbsp; &nbsp;clean: &nbsp; &nbsp; Removes output files created by other targets.<br>&nbsp;&nbsp; &nbsp; [echo] &nbsp; &nbsp;compile: &nbsp; Compiles project’s .java files into .class files.<br>&nbsp;&nbsp; &nbsp; [echo] &nbsp; &nbsp;debug: &nbsp; &nbsp; Builds the application and signs it with a debug key.<br>&nbsp;&nbsp; &nbsp; [echo] &nbsp; &nbsp;release: &nbsp; Builds the application. The generated apk file must be<br>&nbsp;&nbsp; &nbsp; [echo] &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; signed before it is published.<br>&nbsp;&nbsp; &nbsp; [echo] &nbsp; &nbsp;install: &nbsp; Installs/reinstalls the debug package onto a running<br>&nbsp;&nbsp; &nbsp; [echo] &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; emulator or device.<br>&nbsp;&nbsp; &nbsp; [echo] &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; If the application was previously installed, the<br>&nbsp;&nbsp; &nbsp; [echo] &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; signatures must match.<br>&nbsp;&nbsp; &nbsp; [echo] &nbsp; &nbsp;uninstall: Uninstalls the application from a running emulator or<br>&nbsp;&nbsp; &nbsp; [echo] &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; device.<br><br>BUILD SUCCESSFUL<br>If the&nbsp;ant&nbsp;command is not found, then you need to update your path. Like above, on Windows use&nbsp;set path=%PATH%;C:devapache-ant-1.8.1bin&nbsp;(substituting your actual Ant installation directory), or even better update your environment variables.<br><br>At this point you should be able to type&nbsp;ant release&nbsp;at the command prompt, which will build the project, placing the unsigned .apk file inside of the&nbsp;bin/directory.<br><br><i>Note that the output from Ant will show further instructions under&nbsp;-release-nosign:&nbsp;which says to sign the apk manually and to run zipalign. &nbsp;We’ll get to these steps later in the signing section below.</i><br>Creating a new project with build.xmlIf you’ve already created your project and followed the above instructions, you can skip this section. If not, you can may either create a new Android project using the regular Eclipse method (via New &gt; Other… &gt; Android Project), and follow the instructions in the above section, or you can use the command line as described here.<br><br>android create project –name YourProjectName –path C:devYourProject –target android-3&nbsp;–package com.company.testproject –activity MainActivity<br><br>Here is an example of successful output:<br><br>&gt;android create project –name YourTestProject –path c:tempTestProject –target android-3 –package com.company.testproject –activity MainActivity<br><br>Created project directory: c:tempTestProject<br>Created directory C:tempTestProjectsrccomcompanytestproject<br>Added file c:tempTestProjectsrccomcompanytestprojectMainActivity.java<br>Created directory C:tempTestProjectres<br>Created directory C:tempTestProjectbin<br>Created directory C:tempTestProjectlibs<br>Created directory C:tempTestProjectresvalues<br>Added file c:tempTestProjectresvaluesstrings.xml<br>Created directory C:tempTestProjectreslayout<br>Added file c:tempTestProjectreslayoutmain.xml<br>Added file c:tempTestProjectAndroidManifest.xml<br>Added file c:tempTestProjectbuild.xml<br><b>Note</b><i>:</i>&nbsp;To see the available targets, use&nbsp;android list target&nbsp;and you should see something like:<br><br>&gt;android list target<br>id: 1 or &quot;android-3&quot;<br>&nbsp;&nbsp; &nbsp; Name: Android 1.5<br>&nbsp;&nbsp; &nbsp; Type: Platform<br>&nbsp;&nbsp; &nbsp; API level: 3<br>&nbsp;&nbsp; &nbsp; Revision: 4<br>&nbsp;&nbsp; &nbsp; Skins: HVGA (default), HVGA-L, HVGA-P, QVGA-L, QVGA-PIn the above case, you can use either&nbsp;1&nbsp;or&nbsp;android-3&nbsp;as the target ID. &nbsp;In the sample project, I chose&nbsp;android-4, which corresponds to Android 1.6.<br><br>Once the project is created, you can test if your project build is setup correctly by typing&nbsp;ant&nbsp;at the command line. &nbsp;See the above section for further instructions.<br>Synchronizing&nbsp;with EclipseIf you open the Ant build script,&nbsp;build.xml, in Eclipse, you will see an error on the second line of the file at this line:&nbsp;&lt;project name=&quot;MainActivity&quot; default=&quot;help&quot;&gt;. &nbsp;The problem with this line is that it is saying that the default Ant target is &quot;help&quot;, but the actual Ant targets used in the build file are imported from another location, which the Eclipse editor does not recognize. The import is done at the line&nbsp;&lt;taskdef name=&quot;setup&quot;, which imports Ant files from the Android SDK.<br><br>Unfortunately, while this error is active in your project, you cannot debug your project from Eclipse, even though the Ant&nbsp;build.xml&nbsp;is not needed. There are two solutions. You can remove&nbsp;default=&quot;help&quot;&nbsp;from the file, which will remove the error in Eclipse. If you do this, and type&nbsp;ant&nbsp;at a command prompt without any targets (as opposed to &quot;ant release&quot;), you won’t get the default help. &nbsp;Or, you can copy the imported Ant files directly into your code, which is exactly what you must do if you would like to customize your build. If you follow this tutorial, you won’t have to worry about this error. See the&nbsp;<i>Customizing the build</i>&nbsp;section for more information.<br>Automatically signing your applicationBefore an application can be delivered to a device, the package must be signed. When debugging using Eclipse, the package is technically signed with a debugging key. (Alternatively, you can build a debug package using&nbsp;ant debug) For actual applications delivered to the Android Marketplace, you need to sign them with a real key. It is useful to put this step into the build process. On top of the ease of automating the process, it allows you to build your application in one step. (<a href="http://www.seattle20.com/blog/Tech-Startups-101-The-One-Click-Build.aspx" target="_blank" rel="external">One-step</a>&nbsp;<a href="http://www.joelonsoftware.com/articles/fog0000000043.html" target="_blank" rel="external">builds</a>&nbsp;are a Good IdeaTM)<br><br>If you have not already created a key, you can do so automatically using Eclipse (Right click project &gt;&nbsp;<i>Android Tools</i>&nbsp;&gt;&nbsp;<i>Export Signed Application Package…</i>), or follow the instructions&nbsp;<a href="http://developer.android.com/guide/publishing/app-signing.html" target="_blank" rel="external">here</a>.<br><br>Now we must tell the build script about our keystore. Create a file calledbuild.properties&nbsp;in your project’s base directory (in the same directory asbuild.xml&nbsp;and the other properties files), if it does not already exist. Add the following lines:<br>key.store=keystore<br>key.alias=www.androidengineer.com<br>Where&nbsp;keystore&nbsp;is the name of your keystore file and change the value ofkey.alias&nbsp;to your keystore’s alias. Now when you run&nbsp;ant release, you will be prompted for your passwords, and the build will automatically sign and zipalign your package.<br><br>Of course, having to enter your password doesn’t make for a one-step build process. So you could not use this for an automated build machine, for one thing. It also has the disadvantage of requiring you to type the password, which it will display clearly on the screen, which may be a security issue in some circumstances. &nbsp;We can put the passwords into&nbsp;build.properties&nbsp;as well, which will solve the issue:<br>key.store.password=password<br>key.alias.password=password<br><b>Caution:</b>&nbsp;There can be several issues with storing the keystore and passwords. Depending on your organization’s security policies, you may not be able to store the passwords in version control, or you may not be able to give out the information to all developers who have access to the source. If you want to check in the keystore and the&nbsp;build.properties&nbsp;file, but not the passwords, you can create a separate properties file which could only be allowed on certain machines but not checked in to version control. For example, you could create asecure.properties&nbsp;file which goes on the build machine, but not checked in to version control so all developers wouldn’t have access to it; import the extra properties file by adding&nbsp;&lt;property file=&quot;secure.properties&quot; /&gt;&nbsp;to&nbsp;build.xml. Finally, you could always build the APKs unsigned with&nbsp;ant release&nbsp;by not adding any information to the properties files. &nbsp;The package built using this method will need to be&nbsp;<a href="http://developer.android.com/guide/publishing/app-signing.html" target="_blank" rel="external">signed and aligned</a>.<br>Customizing the buildNow that we’ve got a working Ant build script, we can create a one-step build. But if we want to customize the build further, we’ll have to do a few extra steps. You can do anything with your build that you can do with&nbsp;<a href="http://ant.apache.org/manual/index.html" target="_blank" rel="external">Ant</a>. There are a few things we’ll have to do first.<br><br>The Ant&nbsp;<i>targets</i>&nbsp;are actually located in the Android SDK. &nbsp;The&nbsp;<i>targets</i>&nbsp;are what you type after&nbsp;ant&nbsp;on the command line, such as&nbsp;release,&nbsp;clean, etc. &nbsp;To customize the build&nbsp;further, we need to copy the imported targets into our own build file.<br><br>If you look in&nbsp;build.xml, you can see the instructions for how to customize your build steps:<br><br>The rules file is imported from<br>&lt;SDK&gt;/platforms/&lt;target_platform&gt;/templates/android_rules.xml<br>To customize some build steps for your project:<br>&nbsp; - copy the content of the main node&nbsp;&lt;project&gt; from android_rules.xml<br>&nbsp; - paste it in this build.xml below the&nbsp;&lt;setup /&gt; task.<br>&nbsp; - disable the import by changing the setup task below to&nbsp;&lt;setup import=&quot;false&quot; /&gt;<br>Find the&nbsp;android_rules.xml&nbsp;file in your Android SDK. For example, mine is located at&nbsp;C:devandroid-sdk-windowsplatformsandroid-4templates. There, copy almost the entire file, excluding the project node (copy below&nbsp;&lt;project name=&quot;MainActivity&quot;&gt;&nbsp;to above&nbsp;&lt;/project&gt;), and paste it in your&nbsp;build.xml&nbsp;file. Also, change the line&nbsp;&lt;setup /&gt;&nbsp;to&nbsp;&lt;setup import=&quot;false&quot;/&gt;.<br><br>Now you can change around the build as you please. Test that the build file is still working properly by running a build. &nbsp;For an example of what you can do with the custom build script, see the next section.<br>Using a Java configuration fileThis is a great way to use a build property to affect the source code of your Android application. Imagine a configuration class in your project which sets some variables, such as a debugging flag or a URL string. You probably have a different set of these values when developing than when you release your application. For example, you may turn the logging flag off, or change the URL from a debugging server to a production server.<br><br>public&nbsp;class&nbsp;Config<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;/<strong>&nbsp;Whether&nbsp;or&nbsp;not&nbsp;to&nbsp;include&nbsp;logging&nbsp;statements&nbsp;in&nbsp;the&nbsp;application.&nbsp;*/<br>&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;final&nbsp;static&nbsp;boolean&nbsp;LOGGING&nbsp;=&nbsp;true;<br>}<br>It would be nice to have the above&nbsp;LOGGING&nbsp;flag be set from your build. That way, you can be sure that when you create your release package, all of the code you used for debugging won’t be included. For example, you may have debugging log statements like this:<br><br>if&nbsp;(Config.LOGGING)<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;Log.d(TAG,&nbsp;&quot;[onCreate]&nbsp;Success&quot;);<br>}<br>You will probably want to leave these statements on during development, but remove them at release. &nbsp;In fact, it is good practice to leave logging statements in your source code. It helps with later&nbsp;maintenance&nbsp;when you, and especially others, need to know how your code works. On the other hand, it is bad practice for an application to litter the Android log with your debugging statements. Using these configuration variables allows you to turn the logging on and off, while still leaving the source code intact.<br><br><i>Another great advantage of using this method of logging is that the bytecode contained within the logging statement can be completely removed by a Java bytecode shrinker such as ProGuard, which can be integrated into your build script. &nbsp;I’ll discuss how to do this in a later blog post.</i><br><br>A nice way to set the&nbsp;Config.LOGGING&nbsp;flag is in your build properties. &nbsp;Add the following to&nbsp;build.properties:<br># Turn on or off logging.<br>config.logging=true<br>To have this build property be incorporated into our source code, I will use the Ant type&nbsp;<a href="http://ant.apache.org/manual/Types/filterset.html" target="_blank" rel="external">filterset</a>&nbsp;with the&nbsp;<a href="http://ant.apache.org/manual/Tasks/copy.html" target="_blank" rel="external">copy</a>&nbsp;task. What we can do is create a Java template file which has tokens such as&nbsp;@CONFIG.LOGGING@&nbsp;and copy it to our source directory, replacing the tokens with whatever the build properties values are. &nbsp;For example, in the sample application I have a file called&nbsp;Config.java&nbsp;in the&nbsp;config/directory.<br><br>public&nbsp;class&nbsp;Config<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;/</strong>&nbsp;Whether&nbsp;or&nbsp;not&nbsp;to&nbsp;include&nbsp;logging&nbsp;statements&nbsp;in&nbsp;the&nbsp;application.&nbsp;*/<br>&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;final&nbsp;static&nbsp;boolean&nbsp;LOGGING&nbsp;=&nbsp;@CONFIG.LOGGING@;<br>}<br>Please note that this is&nbsp;<i>not</i>&nbsp;a source file, and that&nbsp;config/Config.java&nbsp;is notthe actual file used when compiling the project. The filesrc/com/yourpackage/Config.java, which is the copied file destination, is what will be used as a source file.<br><br>Now I will alter the build file to copy the template file to the source path, but replace&nbsp;@CONFIG.LOGGING&nbsp;with the value of the property&nbsp;config.logging, which istrue. I will create an Ant target called&nbsp;config&nbsp;which will copy the above template to the source directory. This will be called before the&nbsp;compile&nbsp;target.<br><br>&nbsp;&nbsp; &nbsp;&lt;!–&nbsp;Copy Config.java to our source tree, replacing custom tokens with&nbsp;values in build.properties. The configuration depends on &quot;clean&quot;&nbsp;because otherwise the build system will not detect changes in the&nbsp;configuration.&nbsp;–&gt;<br>&lt;target name=&quot;config&quot;&gt;<br><br>&lt;property name=&quot;config-target-path&quot; value=&quot;${source.dir}/com/androidengineer/antbuild&quot;/&gt;<br><br>&lt;!– Copy the configuration file, replacing tokens in the file. –&gt;<br>&lt;copy file=&quot;config/Config.java&quot; todir=&quot;${config-target-path}&quot;<br>&nbsp;&nbsp; &nbsp; &nbsp;overwrite=&quot;true&quot; encoding=&quot;utf-8&quot;&gt;<br>&lt;filterset&gt;<br>&lt;filter token=&quot;CONFIG.LOGGING&quot; value=&quot;${config.logging}&quot;/&gt;<br>&lt;/filterset&gt;<br>&lt;/copy&gt;<br><br>&lt;!– Now set it to read-only, as we don’t want people accidentally<br>&nbsp;&nbsp; &nbsp; editing the wrong one. NOTE: This step is unnecessary, but I do<br>&nbsp;&nbsp; &nbsp; it so the developers remember that this is not the original file. –&gt;<br>&lt;chmod file=&quot;${config-target-path}/Config.java&quot; perm=&quot;-w&quot;/&gt;<br>&lt;attrib file=&quot;${config-target-path}/Config.java&quot; readonly=&quot;true&quot;/&gt;<br><br>&lt;/target&gt;<br><br>To make this Ant target execute before the&nbsp;compile&nbsp;target, we simply add&nbsp;configto the dependency of&nbsp;compile:&nbsp;&lt;target name=&quot;compile&quot; depends=&quot;config, -resource-src, -aidl&quot;.&nbsp;We also make the&nbsp;config&nbsp;target call&nbsp;clean, because otherwise the build system will not detect changes in the configuration, and may not recompile the proper classes.<br><br><b>Note</b>: The above Ant task sets the target file (in your source directory) to read-only. &nbsp;This is not necessary, but I add it as a precaution to remind me that it is not the original file that I need to edit. &nbsp;When developing, I will change the configuration sometimes without using the build, and Eclipse will automatically change the file from read-only for me. &nbsp;I also do not check in the target file into version control; only the original template and&nbsp;build.properties.<br>Version controlDo not check in the&nbsp;local.properties&nbsp;file which is generated by the Android build tools. This is noted in the file itself; it sets paths based on the local machine.<i>Do</i>&nbsp;check in the&nbsp;default.properties&nbsp;file, which is used by the Android tools, andbuild.properties, which is the file which you edit to customize your project’s build.<br><br>I also don’t check in the target&nbsp;Config.java&nbsp;in the source directory, nor anything else is configured by the build. I don’t want local changes to propagate to other developers, so I only check in the original template file in the&nbsp;config/&nbsp;directory.<br><br>In my projects, when I release a new version of a project I always check in the properties file and tag it in the source repository with a tag name such as &quot;VERSION_2.0&quot;. That way we are certain of what properties the application was built with, and we can reproduce the application exactly as it was released, if we later need to.<br>Summary1. At the command line run&nbsp;android create project, or&nbsp;android update project&nbsp;in your project base directory if it already exists.<br>2. (<i>Optional</i>) Add&nbsp;key.store&nbsp;and&nbsp;key.alias&nbsp;to&nbsp;build.properties&nbsp;if you want to include the signing step in your build.<br>3. (<i>Optional</i>) Add&nbsp;key.store.password&nbsp;and&nbsp;key.alias.password&nbsp;to&nbsp;build.propertiesif you want to include the keystore passwords, to make the build run without any further input needed.<br>4.&nbsp;(<i>Optional</i>)&nbsp;If you would like to further customize the build, copy the SDK Ant build code from&nbsp;&lt;SDK&gt;/platforms/&lt;target_platform&gt;/templates/android_rules.xmlto your local&nbsp;build.xml&nbsp;and change&nbsp;&lt;setup /&gt;&nbsp;to&nbsp;&lt;setup import=&quot;false&quot;/&gt;.<br>5. Use&nbsp;ant release&nbsp;to build your project. It will create the package in&nbsp;bin/.<br>Sample ApplicationThe sample application is a simple Hello World application, but it also includes the custom build script as described in this tutorial. &nbsp;It also includes the&nbsp;Config.java&nbsp;which is configurable by the build. First, you must run &quot;android update project -p .&quot; from the command line in the project’s directory to let the tools set the SDK path in&nbsp;local.properties. Then you can turn on and off logging by changing the value of&nbsp;config.logging&nbsp;in&nbsp;build.properties. Finally,&nbsp;run&nbsp;ant release&nbsp;to build the application, which will create the signed&nbsp;bin/MainActivity-release.apk&nbsp;file ready to be released.<br><p></p> 
       
     </div>
-    <div class="article-info article-info-index">
+
+    <div>
       
-      <a href="/2011/10/09/Using-Ant-to-Automate-Building-Android-Applications/" class="archive-article-date">
-  	<time datetime="2011-10-09T09:59:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2011-10-09</time>
-</a>
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2011/09/28/重复导入联系人的问题（Contact-AGGREGATION）/" rel="next" title="重复导入联系人的问题（Contact AGGREGATION）">
+                <i class="fa fa-chevron-left"></i> 重复导入联系人的问题（Contact AGGREGATION）
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2011/11/25/JQuery参考/" rel="prev" title="JQuery参考">
+                JQuery参考 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
       
       
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/Android/">Android</a>
-	</div>
+    </footer>
+  </article>
 
 
-      <div class="clearfix"></div>
+
+    <div class="post-spread">
+      
     </div>
   </div>
-</article>
 
-  
-<nav id="article-nav">
-  
-    <a href="/2011/11/25/JQuery参考/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
         
-          JQuery参考
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/wp-content/uploads/penguin.gif"
+               alt="jfo" />
+          <p class="site-author-name" itemprop="name">jfo</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">596</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/jfojfo" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/jfojfo" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.pickbox.me" title="收藏夹" target="_blank">收藏夹</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://note.pickbox.me" title="网络剪贴板" target="_blank">网络剪贴板</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://iguangba.pickbox.me" title="爱逛吧" target="_blank">爱逛吧</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
         
       </div>
-    </a>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
   
-  
-    <a href="/2011/09/28/重复导入联系人的问题（Contact-AGGREGATION）/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">重复导入联系人的问题（Contact AGGREGATION）</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-
-
-<div class="share_jia">
-	<!-- JiaThis Button BEGIN -->
-	<div class="jiathis_style">
-		<span class="jiathis_txt">Share to: &nbsp; </span>
-		<a class="jiathis_button_facebook"></a> 
-	    <a class="jiathis_button_twitter"></a>
-	    <a class="jiathis_button_plus"></a> 
-	    <a class="jiathis_button_tsina"></a>
-		<a class="jiathis_button_cqq"></a>
-		<a class="jiathis_button_douban"></a>
-		<a class="jiathis_button_weixin"></a>
-		<a class="jiathis_button_tumblr"></a>
-    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
-	</div>
-	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
-	<!-- JiaThis Button END -->
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jfo</span>
 </div>
 
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
 
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
 
+        
 
-
-
-
-
-
+        
       </div>
-      <footer id="footer">
-  <div class="outer">
-    <div id="footer-info">
-    	<div class="footer-left">
-    		&copy; 2016 jfo
-    	</div>
-      	<div class="footer-right">
-      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
-      	</div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
     </div>
   </div>
-</footer>
-    </div>
-    <script>
-	var yiliaConfig = {
-		fancybox: true,
-		mathjax: false,
-		animate: true,
-		isHome: false,
-		isPost: true,
-		isArchive: false,
-		isTag: false,
-		isCategory: false,
-		open_in_new: false,
-		root: "/",
-		innerArchive: true
-	}
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
 
-<script src="/./main.js"></script>
 
 
-    
-<div class="tools-col">
-  <ul class="btn-wrap">
-    
-      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
-    
-    
-      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
-    
-    
-      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
-    
-    
-      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
-    
-  </ul>
-  <div class="tools-wrap">
-    
-    	<section class="tools-section tools-section-all chose">
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-tag">
-    			<div class="widget tagcloud" id="js-tagcloud">
-    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
-    			</div>
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-friends">
-  		
-  			<div class="friends-wrap" id="js-friends">
-  			
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
-  	        
-  	        </div>
-  		
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-me">
-  	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
-  	  	
-    	</section>
-    
-  </div>
+
+
+
   
-</div>
 
-    <!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
 
-    <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
 
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
 
-        <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
 
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
 
-            <div class="pswp__top-bar">
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
 
-                <!--  Controls are self-explanatory. Order can be changed. -->
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
 
-                <div class="pswp__counter"></div>
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
 
-                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+  
 
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
 
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
 
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
-                </div>
-            </div>
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
 
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div> 
-            </div>
 
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
 
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
+  
+  
 
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
 
-        </div>
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
 
-    </div>
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
 
-</div>
-  </div>
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
 </body>
 </html>

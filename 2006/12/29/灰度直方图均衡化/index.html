@@ -1,12 +1,90 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
+<!doctype html>
+
+
+
   
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>灰度直方图均衡化 | jfo planet</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="图形处理中有一种对比度变换，像显示器就有对比度调节，PhotoShop也有图片的对比度修改，对比度的提高可以使图像细节清晰，相反，对比度的减小可以隐藏图像的细节，在一定程度上使图像柔和。对比度变换其中一种比较简单的方法是直方图均衡化。所谓直方图就是在某一灰度级的象素个数占整幅图像的象素比&amp;nbsp; h=nj/N,其中nj是灰度级在j的象素数，N是总象素数，扫描整幅图像得出的h的离散序列就是图像">
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="jfo, blog" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="图形处理中有一种对比度变换，像显示器就有对比度调节，PhotoShop也有图片的对比度修改，对比度的提高可以使图像细节清晰，相反，对比度的减小可以隐藏图像的细节，在一定程度上使图像柔和。对比度变换其中一种比较简单的方法是直方图均衡化。所谓直方图就是在某一灰度级的象素个数占整幅图像的象素比&amp;nbsp; h=nj/N,其中nj是灰度级在j的象素数，N是总象素数，扫描整幅图像得出的h的离散序列就是图像">
 <meta property="og:type" content="article">
 <meta property="og:title" content="灰度直方图均衡化">
 <meta property="og:url" content="http://blog.pickbox.me/2006/12/29/灰度直方图均衡化/index.html">
@@ -21,366 +99,546 @@
 <meta name="twitter:title" content="灰度直方图均衡化">
 <meta name="twitter:description" content="图形处理中有一种对比度变换，像显示器就有对比度调节，PhotoShop也有图片的对比度修改，对比度的提高可以使图像细节清晰，相反，对比度的减小可以隐藏图像的细节，在一定程度上使图像柔和。对比度变换其中一种比较简单的方法是直方图均衡化。所谓直方图就是在某一灰度级的象素个数占整幅图像的象素比&amp;nbsp; h=nj/N,其中nj是灰度级在j的象素数，N是总象素数，扫描整幅图像得出的h的离散序列就是图像">
 <meta name="twitter:image" content="http://www-scf.usc.edu/%7Eflv/ipbook/chap05.files/image038.jpg">
-  
-    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="//favicon.ico">
-  
-  <script src="/style.js"></script>
-  
 
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://blog.pickbox.me/2006/12/29/灰度直方图均衡化/"/>
+
+
+  <title> 灰度直方图均衡化 | jfo planet </title>
 </head>
 
-<body>
-  <div id="container">
-    <div class="left-col">
-      <div class="overlay"></div>
-<div class="intrude-less">
-	<header id="header" class="inner">
-		<a href="/" class="profilepic">
-			
-			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
-			
-		</a>
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
 
-		<hgroup>
-		  <h1 class="header-author"><a href="/">jfo</a></h1>
-		</hgroup>
+  
 
-		
-		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
-		
 
-		<nav class="header-menu">
-			<ul>
-			
-				<li><a href="/">主页</a></li>
-	        
-			</ul>
-		</nav>
-		<nav class="header-smart-menu">
-	        
-    		
-    			
-    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
-    			
-    			
-            
-		</nav>
-		<nav class="header-nav">
-			<div class="social">
-				
-					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
-		        
-					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
-		        
-			</div>
-		</nav>
-	</header>		
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">jfo planet</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Hope is the best gift that tomorrow gives.</p>
 </div>
 
-    </div>
-    <div class="mid-col">
-      <nav id="mobile-nav">
-  	<div class="overlay">
-  		<div class="slider-trigger"><i class="icon-list"></i></div>
-  		<h1 class="header-author js-mobile-header hide">jfo</h1>
-  	</div>
-	<div class="intrude-less">
-		<header id="header" class="inner">
-			<div class="profilepic">
-				
-					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
-				
-			</div>
-			<hgroup>
-			  <h1 class="header-author">jfo</h1>
-			</hgroup>
-			
-			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
-			
-			<nav class="header-menu">
-				<ul>
-				
-					<li><a href="/">主页</a></li>
-		        
-				</ul>
-			</nav>
-			<nav class="header-nav">
-				<div class="social">
-					
-						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
-			        
-						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
-			        
-				</div>
-			</nav>
-		</header>				
-	</div>
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
 </nav>
 
-      <div class="body-wrap">
-        <article id="post-灰度直方图均衡化" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
     
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
+
   
-    <h1 class="article-title" itemprop="name">
-      灰度直方图均衡化
-    </h1>
   
 
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                灰度直方图均衡化
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2006-12-29T19:51:00+08:00" content="2006-12-29">
+              2006-12-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/DefaultCategory/" itemprop="url" rel="index">
+                    <span itemprop="name">DefaultCategory</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
       
         <p> </p><p>图形处理中有一种对比度变换，像显示器就有对比度调节，PhotoShop也有图片的对比度修改，对比度的提高可以使图像细节清晰，相反，对比度的减小可以隐藏图像的细节，在一定程度上使图像柔和。<br><br>对比度变换其中一种比较简单的方法是直方图均衡化。<br>所谓直方图就是在某一灰度级的象素个数占整幅图像的象素比&nbsp; h=nj/N,其中nj是灰度级在j的象素数，N是总象素数，扫描整幅图像得出的h的离散序列就是图像的直方图，h求和必然＝1，所以直方图可以看成是象素对于灰度的概率分布函数。<br><br>直方图是高低不齐的，因为象素灰度是随机变化的，直方图均衡化就是用一定的算法使直方图大致平和。<br><br>算法如下：<br>对于一个直方图<br>设 Pr(r)是原始图像直方图，Ps(s)是均衡化的直方图，<br>由于其是一个概率分布函数<br>所以有 Ps(s)ds=Pr(r)dr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (编辑关系，ds,dr是积分变量)<br>因为要进行均衡化，令 Ps(s)=1,<br>得 ds=Pr(r)dr/1<br>两边积分得 s=F Pr(r)dr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (因为编辑关系，左边F表示积分符号….-_<em>-++)<br>数字图像是离散的，因此离散化上式得<br>sk=E{j=0,k}(nj/N)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;左式k,j是离散量下标，因为编辑关系，E{0,k}表示下标0到k的连加符号，N是象素总数<br>由此得出每一象素的sk为均衡化后的正规化灰度（即灰度正规化到[0,1])，统计sk即可得出均衡化后的直方图。<br>在均衡化过程中可以对每一象素映射到新的实际灰度值sk*255，就实现了图像的变换<br>（严格理论中应该是灰度正规化到[0,1]区间，然后均衡化后的sk还要量化到原始的正规灰度以实现灰度合并，下面的BCB程序并没有量化，而且255是固定灰度级，因为256色BMP的彩色表就是256个表项)<br><br>现在开始实践<br>用BCB对一BMP灰度图像进行直方图均衡化处理，代码如下<br>//—————————-BCB6代码<br><br>#include &lt;vcl.h&gt;<br>#pragma hdrstop<br>#include&lt;stdio.h&gt;<br>#include &quot;Unit1.h&quot;<br>#include&quot;File1.h&quot;</em></p><p>#pragma pack(1)</p><p>//BMP文件头<br>struct BITMAPFILEHEADER<br>{<br>&nbsp;short type;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int bfSize;<br>&nbsp;short re1,re2;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int Offbits;<br>};<br>//BMP信息头<br>struct BITMAPINFO<em><br>{<br>&nbsp;long size;<br>&nbsp;long width,height;<br>&nbsp;short planes,bitCount;<br>&nbsp;long comp,sizeImg;<br>&nbsp;long xpels,ypels;<br>&nbsp;long used,important;<br>};<br>//BMP彩色表项<br>struct COLOR</em><br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; char blue,green,red,re;<br>};<br>//——将BMP彩色表的数据校正到BCB TColor的数据。<br>void SwitchColor(long &amp;c)<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; long blue=c&amp;&nbsp; 0x000000ff;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; long green=c&amp; 0x0000ff00;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; long red=c&amp;&nbsp;&nbsp; 0x00ff0000;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c=(blue&lt;&lt;16) | green | (red&gt;&gt;16);<br>}</p><p>void xxx()<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FILE <em>f=fopen(&quot;f:\bbs_prev2.bmp&quot;,&quot;rb&quot;);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(f==NULL)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /</em>判断文件是否打开成功<em>/<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ShowMessage(&quot;File open error&quot;);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</em></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fseek(f,0,0);//移动到开头</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //———-读BMP文件头<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BITMAPFILEHEADER_ bmph=new BITMAPFILEHEADER<em>();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(fread((char*)bmph,sizeof(BITMAPFILEHEADER</em>),1,f)==NULL)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ShowMessage(&quot;File read error&quot;);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //———–读BMP信息头<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BITMAPINFO<em> *bmpi=new BITMAPINFO</em>();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(fread((char<em>)bmpi,sizeof(BITMAPINFO_),1,f)==NULL)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ShowMessage(&quot;File read error2&quot;);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</em></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //————–读彩色表<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; long c=new long[bmph-&gt;Offbits-sizeof(BITMAPFILEHEADER<em>)-sizeof(BITMAPINFO</em>)];<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fread((char<em>)c,bmph-&gt;Offbits-sizeof(BITMAPFILEHEADER<em>)-sizeof(BITMAPINFO</em>),1,f);</em></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //———-显示一些信息<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Form1-&gt;Edit1-&gt;Text=IntToStr(bmph-&gt;bfSize);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Form1-&gt;Edit2-&gt;Text=IntToStr(bmpi-&gt;width);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Form1-&gt;Edit3-&gt;Text=IntToStr(bmpi-&gt;height);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Form1-&gt;Edit4-&gt;Text=IntToStr(bmpi-&gt;comp);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Form1-&gt;Edit5-&gt;Text=IntToStr(bmpi-&gt;used);</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int i,j,k,wc;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; long N=bmph-&gt;bfSize- bmph-&gt;Offbits;//象素总数<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; unsigned char image=new char[N]; //位图矩阵<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; unsigned char <em>newimage=new char[N];//变换后的位图矩阵</em></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fread(image,N,1,f);//读入位图矩阵</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //———直方图数列初始化<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //———直方图数列用来存储正规化后的灰度<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double h=new double[255];//255个灰度级，保存原始图像正规化灰度直方图数据<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for(i=0;i&lt;255;i++)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; h[i]=0.0;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double <em>nh=new double[255];//255个灰度级，保存变换后的图像正规化灰度直方图<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for(i=0;i&lt;255;i++)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; nh[i]=0.0;</em></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; long count=new long[255]; //每一灰度级的象素数量统计<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for(i=0;i&lt;255;i++)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; count[i]=0;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for(i=0;i&lt;N;i++)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; count[image[i]]++;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //－－－－－正规化灰度概率统计<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for(i=0;i&lt;255;i++)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; h[i]=count[i]/(double)N;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //——正规化新灰度图<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double hc;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for(i=0;i&lt;N;i++)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; hc=0;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for(j=0;j&lt;image[i];j++)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; hc+=h[j];<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; nh[image[i]]+=hc; //保存新正规化灰度图<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; newimage[i]=hc<em>255; //保存新图像灰度索引<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //———-显示直方图<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for(i=0;i&lt;255;i++)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //原始直方图<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Form1-&gt;Canvas-&gt;MoveTo(10+i,200);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Form1-&gt;Canvas-&gt;LineTo(10+i,200+h[i]</em>N);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //新直方图<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Form1-&gt;Canvas-&gt;MoveTo(300+i,200);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Form1-&gt;Canvas-&gt;LineTo(300+i,200+nh[i]<em>255);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //——显示图形<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; TColor </em>tc;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(bmpi-&gt;width%4==0)//———–因为BMP图像4字节对齐<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; wc=bmpi-&gt;width/4<em>4;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; wc=(bmpi-&gt;width/4+1)</em>4;</p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; long a;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; long pos=0;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for( i=0;i&lt;bmpi-&gt;height;i++)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for(j=0;j&lt;wc;j++)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //—–原始图形<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; a= c[image[pos]];<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SwitchColor(a);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Form1-&gt;Canvas-&gt;Pixels[10+j][600-i]=a;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //——新图形<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; a= c[newimage[pos]];<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SwitchColor(a);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Form1-&gt;Canvas-&gt;Pixels[300+j][600-i]=a;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pos++;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fclose(f);<br>}<br><br>这个程序使用256色BMP文件，但程序代码是针对灰度图像的，用于彩色图像时得出一些古怪色彩配合而已。<br><br>在对灰度图像均衡化时<br>如果原始图像对比度本来就很高，如果再均衡化则灰度调和，对比度降低。<br>在泛白缓和的图像中，由于均衡化过程中会合并一些象素灰度，则会增大对比度，这里255灰度级太多，合并不明显。<br><br><br><br><br><br><br><br><br> 5.9  <a name="_Toc486331890"></a><a name="_Toc486332890"></a><a name="_Toc486338999"></a><a name="_Toc454810864"></a><a name="_Toc454856638">灰度直方图均衡化</a><a target="_blank" href="http://www-scf.usc.edu/~flv/ipbook/chap05.htm">http://www-scf.usc.edu/~flv/ipbook/chap05.htm</a><p>在介绍灰度直方图均衡化(histogram      equalization)之前，先讲讲直方图修正。所谓直方图修正，就是通过一个灰度映射函数G<sub>new</sub>=F(G<sub>old</sub>)，将原灰度直方图改造成你所希望的直方图。所以，直方图修正的关键就是灰度映射函数。我们刚才介绍的阈值化、削波、灰度窗口变换等等，都是灰度映射函数。</p><p>直方图均衡化是一种最常用的直方图修正。它是把给定图象的直方图分布改造成均匀直方图分布。由信息学的理论来解释，具有最大熵(信息量)的图象为均衡化图象。直观地讲，直方图均衡化导致图象的对比度增加。</p><p>由于直方图均衡化涉及到很多概率和数学的知识，具体的细节这里就不介绍了，只给出算法。通过下面的例子，就很容易明白了。</p><p>有一幅图象，共有16级灰度，其直方图分布为Pi,      i=0,1,&hellip;,15，求经直方图均衡化后，量化级别为10级的灰度图象的直方图分布Qi，其中Pi和Qi为分布的概率，即灰度i出现的次数与总的点数之比。</p><p>Pi： 0.03,0,0.06,0.10,0.20,0.11,0,0,0,0.03,0,0.06,0.10,0.20,0.11,0</p><p>步骤1：用一个数组s记录Pi，即</p><p>s[0]=0.03,s[1]=0,s[2]=0.06,&hellip;,s[14]=0.11,s[15]=0</p><p>步骤2：i从1开始，令s[i]=s[i]+s[i-1]+ … + s[0]，得到的结果是</p><p>s： 0.03,0.03,0.09,0.19,0.39,0.50,0.50,0.50,0.50,0.53,0.53,0.59,0.69,0.89,1.0,1.0</p><p>步骤3：用一个数组L记录新的调色板索引值，即令L[i]=s[i]&times;(10-1)，得到的结果是L：0,0,1,2,4,5,5,5,5,5,5,5,6,8,9,9</p><p>这样就找到了原来的调色板索引值和新的调色板索引值之间的对应关系，即</p><p>0&rarr;0,1&rarr;0,2&rarr;1,3&rarr;2,4&rarr;4,5&rarr;5,6&rarr;5,7&rarr;5,8&rarr;5,9&rarr;5,10&rarr;5,11&rarr;5,12&rarr;6,</p><p>13&rarr;8,14&rarr;9,15&rarr;9。</p><p>步骤4：将老的索引值对应的概率合并，作为对应的新的索引值的概率。例如，原来的索引值0,1都对应了新的索引值0，则灰度索引值为0的概率为P<sub>0</sub>+P<sub>1</sub>=0.03；新的索引值3和7找不到老的索引值与之对应，所以令Q<sub>3</sub>和Q<sub>7</sub>为0。最后得到的结果是Qi：0.03,0.06,0.10,0,0.20,0.20,0.10,0,0.20,0.11</p><p>图5.17为Pi的分布，图5.18为Qi的分布，对照一下，不难发现图5.18的分布比图5.17要均匀一些。</p> <p> <img width="349" height="247" src="http://www-scf.usc.edu/%7Eflv/ipbook/chap05.files/image038.jpg"> </p> <p><strong>图5.17&nbsp;&nbsp; Pi</strong><strong>的分布</strong></p> <p> <img width="208" height="244" src="http://www-scf.usc.edu/%7Eflv/ipbook/chap05.files/image040.jpg"> </p> <p><strong>图5.18&nbsp;&nbsp; Qi</strong><strong>的分布</strong></p> <p>要注意的是，均衡化处理后的图象只能是近似均匀分布。均衡化图象的动态范围扩大了，但其本质是扩大了量化间隔，而量化级别反而减少了，因此，原来灰度不同的象素经处理后可能变的相同，形成了一片的相同灰度的区域，各区域之间有明显的边界，从而出现了伪轮廓。</p><p>图5.19为图5.13经直方图均衡化处理后，量化为128级灰度的结果；图5.20为它的直方图分布。为什么天亮了起来呢？分析一下就明白了：因为原图中低灰度的点太多了，所以s数组前面的元素很大。经过L[i]=s[i]&times;(128-1)的处理后，原图中低灰度的点的灰度值提高了不少，所以那片暗区变亮了。同时可以看出，天空中出现了伪轮廓。</p><p> <img width="206" height="288" src="http://www-scf.usc.edu/%7Eflv/ipbook/chap05.files/image041.gif"> </p><strong>图5.19&nbsp;&nbsp; </strong><strong>图5.13</strong><strong>经直方图均衡化处理后的结果<br></strong><p><strong> <br></strong></p><p><strong>图5.20&nbsp;&nbsp; </strong><strong>图5.19</strong><strong>的灰度直方图</strong></p><p>图5.21为图5.1直方图均衡化后的结果(128级灰度)，暗的区域(手)变亮了，看起来更清楚一些。</p><p> <img width="400" height="320" src="http://www-scf.usc.edu/%7Eflv/ipbook/chap05.files/image043.gif"> </p><p><strong>图5.21&nbsp;&nbsp; </strong><strong>图5.1</strong><strong>直方图均衡化后的结果</strong></p><p>下面给出直方图均衡化的源程序：</p><p>int EquaScale; //为新的灰度级别</p><p>BOOL HistogramEqua(HWND hWnd)</p><p>{</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DLGPROC&nbsp;&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      dlgInputBox = NULL;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DWORD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      BufSize,OffBits;</p><p>LPBITMAPINFOHEADER&nbsp;&nbsp;&nbsp; lpImgData;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LPSTR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; lpPtr;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; HLOCAL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp; hTempImgData;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LPBITMAPINFOHEADER&nbsp;&nbsp;&nbsp;      lpTempImgData;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LPSTR&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      lpTempPtr;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; HDC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;&nbsp; hDc;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; HFILE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp; hf;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LONG&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp; x,y;</p><p>&nbsp;&nbsp; &nbsp; LOGPALETTE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp; <em>pPal;</em></p><p>&nbsp;&nbsp; &nbsp; HPALETTE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp; hPrevPalette; </p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; HLOCAL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;&nbsp; hPal;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; WORD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp; i;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int&nbsp;      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      Gray;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DWORD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;&nbsp; GrayHits[256];</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      GrayIndex[256];</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; float&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp; s[256];</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(      NumColors!=256){ //必须是256级灰度图</p><p>MessageBox(hWnd,&quot;Must be a 256 grayscale bitmap!&quot;,&quot;Error      Message&quot;,</p><p>MB_OK|MB_ICONEXCLAMATION);</p><p>return FALSE;</p><p>}</p><p>//出现对话框，输入新的灰度级别</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dlgInputBox      = (DLGPROC) MakeProcInstance ( (FARPROC)InputBox, ghInst );</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; DialogBox      (ghInst, &quot;INPUTBOX&quot;, hWnd, dlgInputBox);</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FreeProcInstance      ( (FARPROC) dlgInputBox );</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(      EquaScale &gt;=255){ //量化级别不能大于255</p><p>MessageBox(hWnd,&quot;The new scale can not be larger      than 255&quot;,</p><p>&quot;Error Message&quot;,MB_OK|MB_ICONEXCLAMATION);</p><p>return FALSE;</p><p>&nbsp;&nbsp; &nbsp; }</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //OffBits为到实际位图数据的偏移值</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; OffBits=bf.bfOffBits-sizeof(BITMAPFILEHEADER);</p><p>//BufSize为缓冲区的大小</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BufSize=OffBits+bi.biHeightLineBytes;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      if((hTempImgData=LocalAlloc(LHND,BufSize))==NULL)</p><p>&nbsp;&nbsp; &nbsp; {</p><p>&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      MessageBox(hWnd,&quot;Error alloc memory!&quot;,&quot;Error Message&quot;,MB_OK|</p><p>MB_ICONEXCLAMATION);</p><p>return FALSE;</p><p>}</p><p>//lpImgData指向原图，//lpTempImgData指向新开的缓冲区</p><p>&nbsp;&nbsp; &nbsp; lpImgData=(LPBITMAPINFOHEADER)GlobalLock(hImgData);&nbsp;&nbsp;&nbsp;    </p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; lpTempImgData=(LPBITMAPINFOHEADER)LocalLock(hTempImgData);</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //拷贝头信息</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; memcpy(lpTempImgData,lpImgData,OffBits);</p><p>//ColorHits为记录颜色使用频率的数组，ColorIndex为记录颜色索引值的</p><p>//数组</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //先清零</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; memset(GrayHits,0,256<em>sizeof(DWORD));</em></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; memset(GrayIndex,0,256sizeof(WORD));</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for(y=0;y&lt;bi.biHeight;y++){</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      lpPtr=(unsigned char <em>)lpImgData+(BufSize-LineBytes-y</em>LineBytes);</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      for(x=0;x&lt;bi.biWidth;x++){</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      Gray=(unsigned char )<em>(lpPtr++);</em></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      GrayHits[Gray]++; //统计该颜色用到的次数</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      }</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for(i=0;i&lt;256;i++)</p><p>//次数除以总点数得到频率      </p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      s[i]=(float)GrayHits[i]/((float)bi.biWidth(float)bi.biHeight); </p><p>for(i=1;i&lt;256;i++)</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      s[i]+=s[i-1];&nbsp; //每一项都是前面所有项的累加</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for(i=0;i&lt;256;i++)</p><p>//根据新的量化级别，计算新的灰度索引值</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      GrayIndex[i]=(int)(s[i]<em>(EquaScale-1)); </em></p><p>//为新的调色板分配内存</p><p>&nbsp;&nbsp; &nbsp; hPal=LocalAlloc(LHND,sizeof(LOGPALETTE)+</p><p>256sizeof(PALETTEENTRY));</p><p>pPal =(LOGPALETTE <em>)LocalLock(hPal);</em></p><p>//先将调色板内存全部清零</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; memset(pPal,0,sizeof(LOGPALETTE)      + 256 sizeof(PALETTEENTRY));</p><p>&nbsp;&nbsp; &nbsp; pPal-&gt;palNumEntries      =(WORD) 256;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pPal-&gt;palVersion&nbsp;&nbsp;&nbsp;      = 0x300;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; lpTempPtr=(char      <em>)lpTempImgData+sizeof(BITMAPINFOHEADER);</em></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for      (i = 0; i &lt; EquaScale; i++) {</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      Gray=(int)(i255.0/(EquaScale-1));&nbsp; //根据新的量化级别，计算灰度值</p><p>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      pPal-&gt;palPalEntry[i].peRed=(BYTE)Gray;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      pPal-&gt;palPalEntry[i].peGreen=(BYTE)Gray;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      pPal-&gt;palPalEntry[i].peBlue=(BYTE)Gray;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      pPal-&gt;palPalEntry[i].peFlags=(BYTE)0;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      <em>(lpTempPtr++)=(unsigned char)Gray;</em></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      (lpTempPtr++)=(unsigned char)Gray;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      <em>(lpTempPtr++)=(unsigned char)Gray;</em></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      (lpTempPtr++)=0;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(hPalette!=NULL)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    </p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      DeleteObject(hPalette);</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //产生新的逻辑调色板</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; hPalette=CreatePalette(pPal);</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LocalUnlock(hPal);</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LocalFree(hPal);</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; hDc=GetDC(hWnd);</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(hPalette){</p><p>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;      hPrevPalette=SelectPalette(hDc,hPalette,FALSE);</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      RealizePalette(hDc);</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for(y=0;y&lt;bi.biHeight;y++){</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      lpPtr=(char <em>)lpImgData+(BufSize-LineBytes-y</em>LineBytes);</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      lpTempPtr=(char <em>)lpTempImgData+(BufSize-LineBytes-y</em>LineBytes);</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      for(x=0;x&lt;bi.biWidth;x++){</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      Gray=(unsigned char )<em>(lpPtr++); //原灰度索引值</em></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      Gray=GrayIndex[Gray]; //对应的新的灰度索引值</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      (lpTempPtr++)=(unsigned char)Gray;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      }</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</p><p>&nbsp;&nbsp; &nbsp; if(hBitmap!=NULL)</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;      DeleteObject(hBitmap);</p><p>//产生新的位图&nbsp;&nbsp;&nbsp;&nbsp; </p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; hBitmap=CreateDIBitmap(hDc,(LPBITMAPINFOHEADER)lpTempImgData,</p><p>(LONG)CBM_INIT,</p><p>(LPSTR)lpTempImgData+</p><p>sizeof(BITMAPINFOHEADER)+</p><p>256*sizeof(RGBQUAD),</p><p>(LPBITMAPINFO)lpTempImgData,</p><p>DIB_RGB_COLORS);</p><p>if(hPalette &amp;&amp; hPrevPalette){</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      SelectPalette(hDc,hPrevPalette,FALSE);</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      RealizePalette(hDc);</p><p>}</p><p>hf=_lcreat(&quot;c:\equa.bmp&quot;,0);</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; _lwrite(hf,(LPSTR)&amp;bf,sizeof(BITMAPFILEHEADER));    </p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; _lwrite(hf,(LPSTR)lpTempImgData,BufSize);</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; _lclose(hf);</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //释放内存和资源</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ReleaseDC(hWnd,hDc);</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LocalUnlock(hTempImgData);</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; LocalFree(hTempImgData);</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; GlobalUnlock(hImgData);</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return      TRUE;</p><p>}</p><br> <p></p>
 
       
     </div>
-    <div class="article-info article-info-index">
+
+    <div>
       
-      <a href="/2006/12/29/灰度直方图均衡化/" class="archive-article-date">
-  	<time datetime="2006-12-29T11:51:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2006-12-29</time>
-</a>
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2006/12/23/ubuntu6-06正式版硬盘安装指南/" rel="next" title="ubuntu6.06正式版硬盘安装指南">
+                <i class="fa fa-chevron-left"></i> ubuntu6.06正式版硬盘安装指南
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2006/12/31/使用wine出现的问题与解决/" rel="prev" title="使用wine出现的问题与解决">
+                使用wine出现的问题与解决 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
       
       
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/DefaultCategory/">DefaultCategory</a>
-	</div>
+    </footer>
+  </article>
 
 
-      <div class="clearfix"></div>
+
+    <div class="post-spread">
+      
     </div>
   </div>
-</article>
 
-  
-<nav id="article-nav">
-  
-    <a href="/2006/12/31/使用wine出现的问题与解决/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
         
-          使用wine出现的问题与解决
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/wp-content/uploads/penguin.gif"
+               alt="jfo" />
+          <p class="site-author-name" itemprop="name">jfo</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">596</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/jfojfo" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/jfojfo" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.pickbox.me" title="收藏夹" target="_blank">收藏夹</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://note.pickbox.me" title="网络剪贴板" target="_blank">网络剪贴板</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://iguangba.pickbox.me" title="爱逛吧" target="_blank">爱逛吧</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
         
       </div>
-    </a>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
   
-  
-    <a href="/2006/12/23/ubuntu6-06正式版硬盘安装指南/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">ubuntu6.06正式版硬盘安装指南</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-
-
-<div class="share_jia">
-	<!-- JiaThis Button BEGIN -->
-	<div class="jiathis_style">
-		<span class="jiathis_txt">Share to: &nbsp; </span>
-		<a class="jiathis_button_facebook"></a> 
-	    <a class="jiathis_button_twitter"></a>
-	    <a class="jiathis_button_plus"></a> 
-	    <a class="jiathis_button_tsina"></a>
-		<a class="jiathis_button_cqq"></a>
-		<a class="jiathis_button_douban"></a>
-		<a class="jiathis_button_weixin"></a>
-		<a class="jiathis_button_tumblr"></a>
-    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
-	</div>
-	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
-	<!-- JiaThis Button END -->
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jfo</span>
 </div>
 
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
 
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
 
+        
 
-
-
-
-
-
+        
       </div>
-      <footer id="footer">
-  <div class="outer">
-    <div id="footer-info">
-    	<div class="footer-left">
-    		&copy; 2016 jfo
-    	</div>
-      	<div class="footer-right">
-      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
-      	</div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
     </div>
   </div>
-</footer>
-    </div>
-    <script>
-	var yiliaConfig = {
-		fancybox: true,
-		mathjax: false,
-		animate: true,
-		isHome: false,
-		isPost: true,
-		isArchive: false,
-		isTag: false,
-		isCategory: false,
-		open_in_new: false,
-		root: "/",
-		innerArchive: true
-	}
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
 
-<script src="/./main.js"></script>
 
 
-    
-<div class="tools-col">
-  <ul class="btn-wrap">
-    
-      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
-    
-    
-      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
-    
-    
-      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
-    
-    
-      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
-    
-  </ul>
-  <div class="tools-wrap">
-    
-    	<section class="tools-section tools-section-all chose">
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-tag">
-    			<div class="widget tagcloud" id="js-tagcloud">
-    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
-    			</div>
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-friends">
-  		
-  			<div class="friends-wrap" id="js-friends">
-  			
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
-  	        
-  	        </div>
-  		
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-me">
-  	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
-  	  	
-    	</section>
-    
-  </div>
+
+
+
   
-</div>
 
-    <!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
 
-    <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
 
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
 
-        <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
 
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
 
-            <div class="pswp__top-bar">
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
 
-                <!--  Controls are self-explanatory. Order can be changed. -->
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
 
-                <div class="pswp__counter"></div>
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
 
-                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+  
 
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
 
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
 
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
-                </div>
-            </div>
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
 
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div> 
-            </div>
 
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
 
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
+  
+  
 
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
 
-        </div>
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
 
-    </div>
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
 
-</div>
-  </div>
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
 </body>
 </html>

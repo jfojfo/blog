@@ -1,12 +1,90 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
+<!doctype html>
+
+
+
   
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>gprof、mkgraph、Graphviz 可视化函数调用 | jfo planet</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="http://oss.lzu.edu.cn/modules/newbb/viewtopic.php?topic_id=884gprof用法gprof -b cflow gmon.out | lesscflowcflow parser.cmkgraph：从gmon.out中提取调用关系，生产.dot文件和graphic文件mkgraph0.sh cflow gmon.outKFT(kernel f">
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="jfo, blog" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="http://oss.lzu.edu.cn/modules/newbb/viewtopic.php?topic_id=884gprof用法gprof -b cflow gmon.out | lesscflowcflow parser.cmkgraph：从gmon.out中提取调用关系，生产.dot文件和graphic文件mkgraph0.sh cflow gmon.outKFT(kernel f">
 <meta property="og:type" content="article">
 <meta property="og:title" content="gprof、mkgraph、Graphviz 可视化函数调用">
 <meta property="og:url" content="http://blog.pickbox.me/2007/11/20/gprof、mkgraph、Graphviz-可视化函数调用/index.html">
@@ -36,366 +114,546 @@
 <meta name="twitter:title" content="gprof、mkgraph、Graphviz 可视化函数调用">
 <meta name="twitter:description" content="http://oss.lzu.edu.cn/modules/newbb/viewtopic.php?topic_id=884gprof用法gprof -b cflow gmon.out | lesscflowcflow parser.cmkgraph：从gmon.out中提取调用关系，生产.dot文件和graphic文件mkgraph0.sh cflow gmon.outKFT(kernel f">
 <meta name="twitter:image" content="http://oss.lzu.edu.cn/modules/newbb/images/imagesets/default/schinese/p_edit-a.gif">
-  
-    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="//favicon.ico">
-  
-  <script src="/style.js"></script>
-  
 
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://blog.pickbox.me/2007/11/20/gprof、mkgraph、Graphviz-可视化函数调用/"/>
+
+
+  <title> gprof、mkgraph、Graphviz 可视化函数调用 | jfo planet </title>
 </head>
 
-<body>
-  <div id="container">
-    <div class="left-col">
-      <div class="overlay"></div>
-<div class="intrude-less">
-	<header id="header" class="inner">
-		<a href="/" class="profilepic">
-			
-			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
-			
-		</a>
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
 
-		<hgroup>
-		  <h1 class="header-author"><a href="/">jfo</a></h1>
-		</hgroup>
+  
 
-		
-		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
-		
 
-		<nav class="header-menu">
-			<ul>
-			
-				<li><a href="/">主页</a></li>
-	        
-			</ul>
-		</nav>
-		<nav class="header-smart-menu">
-	        
-    		
-    			
-    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
-    			
-    			
-            
-		</nav>
-		<nav class="header-nav">
-			<div class="social">
-				
-					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
-		        
-					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
-		        
-			</div>
-		</nav>
-	</header>		
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">jfo planet</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Hope is the best gift that tomorrow gives.</p>
 </div>
 
-    </div>
-    <div class="mid-col">
-      <nav id="mobile-nav">
-  	<div class="overlay">
-  		<div class="slider-trigger"><i class="icon-list"></i></div>
-  		<h1 class="header-author js-mobile-header hide">jfo</h1>
-  	</div>
-	<div class="intrude-less">
-		<header id="header" class="inner">
-			<div class="profilepic">
-				
-					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
-				
-			</div>
-			<hgroup>
-			  <h1 class="header-author">jfo</h1>
-			</hgroup>
-			
-			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
-			
-			<nav class="header-menu">
-				<ul>
-				
-					<li><a href="/">主页</a></li>
-		        
-				</ul>
-			</nav>
-			<nav class="header-nav">
-				<div class="social">
-					
-						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
-			        
-						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
-			        
-				</div>
-			</nav>
-		</header>				
-	</div>
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
 </nav>
 
-      <div class="body-wrap">
-        <article id="post-gprof、mkgraph、Graphviz-可视化函数调用" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
     
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
+
   
-    <h1 class="article-title" itemprop="name">
-      gprof、mkgraph、Graphviz 可视化函数调用
-    </h1>
   
 
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                gprof、mkgraph、Graphviz 可视化函数调用
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2007-11-20T14:32:00+08:00" content="2007-11-20">
+              2007-11-20
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux-Debug/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux Debug</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
       
         <p> <a target="_blank" href="http://oss.lzu.edu.cn/modules/newbb/viewtopic.php?topic_id=884">http://oss.lzu.edu.cn/modules/newbb/viewtopic.php?topic_id=884</a><br><br>gprof用法<br>gprof -b cflow gmon.out | less<br>cflow<br>cflow parser.c<br>mkgraph：从gmon.out中提取调用关系，生产.dot文件和graphic文件<br>mkgraph0.sh cflow gmon.out<br>KFT(kernel function trace)<br><a href="http://tree.celinuxforum.org/CelfPubWiki/KernelFunctionTrace" target="_blank">http://tree.celinuxforum.org/CelfPubWiki/KernelFunctionTrace</a><br>CodeViz - A call graph generation utility for C/C++<br><a target="_blank" href="http://www.csn.ul.ie/%7Emel/projects/codeviz/">http://www.csn.ul.ie/~mel/projects/codeviz/</a><br><br><br>作者: 姜洪庆 出处:51CTO.com<br>关 键 词：gprof  callgraph  函数消耗的时间  Linux应用分析<br>阅读提示：本文介绍了如何使用Gnu gprof 对Linux平台下的现有程序进行优化分析和生成程序调用图。主要偏重于对生成和使用流程图作介绍。<br><br>【51CTO.com独家稿件】Gprof 简介:<br><br>Gprof功能：打印出程序运行中各个函数消耗的时间，可以帮助程序员找出众多函数中耗时最多的函数。产生程序运行时候的函数调用关系，包括调用次数，可以帮助程序员分析程序的运行流程。<br><br>有 了函数的调用关系，这会让开发人员大大提高工作效率，不用费心地去一点点找出程序的运行流程，这对小程序来说可能效果不是很明显，但对于有几万，几十万代 码量的工程来说，效率是毋庸置疑的！而且这个功能对于维护旧代码或者是分析Open Source来说那是相当诱人的，有了调用图，对程序的运行框架也就有了一个大体了解，知道了程序的&ldquo;骨架&ldquo;，分析它也就不会再那么茫然，尤其是对自己不 熟悉的代码和Open Source。费话不多说了，让我们开始我们的分析之旅吧！<br><br>Gprof 实现原理：<br><br>通过在编译和 链接你的程序的时候（使用 -pg 编译和链接选项），gcc 在你应用程序的每个函数中都加入了一个名为mcount ( or &ldquo;_mcount&rdquo; , or &ldquo;__mcount&rdquo; , 依赖于编译器或操作系统)的函数，也就是说你的应用程序里的每一个函数都会调用mcount, 而mcount 会在内存中保存一张函数调用图，并通过函数调用堆栈的形式查找子函数和父函数的地址。这张调用图也保存了所有与函数相关的调用时间，调用次数等等的所有信 息。<br><br>Gprof基本用法：<br><br>1． 使用 -pg 编译和链接你的应用程序。<br><br>2． 执行你的应用程序使之生成供gprof 分析的数据。<br><br>3． 使用gprof 程序分析你的应用程序生成的数据。<br><br>Gprof 简单使用：<br><br>让我们简单的举个例子来看看Gprof是如何使用的。<br><br>1．打开linux终端。新建一个test.c文件，并生用-pg 编译和链接该文件。 test.c 文件内容如下：<br>引文:<blockquote>#include &quot;stdio.h&quot;<br><br>#include &quot;stdlib.h&quot;<br><br><br><br>void a(){<br><br>printf(&quot;tt+—call a() functionn&quot;);<br><br>}<br><br><br><br>void c(){<br><br>printf(&quot;tt+—call c() functionn&quot;);<br><br>}<br><br><br><br>int b(){<br><br>printf(&quot;t+— call b() functionn&quot;);<br><br>a();<br><br>c();<br><br>return 0;<br><br>}<br><br>int main(){<br><br>printf(&quot; main() function()n&quot;);<br><br>b();<br><br>}</blockquote><br><br><br>命令行里面输入下面命令，没加-c选项，gcc 会默认进行编译并链接生成a.out:<br>引文:<blockquote>[linux /home/test]$gcc -pg test.c</blockquote><br><br><br>如 果没有编译错误，gcc会在当前目录下生成一个a.out文件，当然你也可以使用 &ndash;o 选项给生成的文件起一个别的名字，像 gcc &ndash;pg test.c &ndash;o test , 则gcc会生成一个名为test的可执行文件,在命令行下输入[linux /home/test]$./test , 就可以执行该程序了，记住一定要加上 ./ 否则程序看上去可能是执行，可是什么输出都没有。<br><br>2．执行你的应用程序使之生成供gprof 分析的数据。  命令行里面输入:<br>引文:<blockquote>[linux /home/test]$a.out<br><br>main() function()<br><br>+— call b() function<br><br>+—call a() function<br><br>+—call c() function<br><br>[linux /home/test]$</blockquote><br>你会在当前目录下看到一个gmon.out 文件， 这个文件就是供gprof 分析使用的。<br><br>3．使用gprof 程序分析你的应用程序生成的数据。<br><br>命令行里面输入:<br>引文:<blockquote>[linux /home/test]$ gprof -b a.out gmon.out | less</blockquote><br>由 于gprof输出的信息比较多，这里使用了 less 命令，该命令可以让我们通过上下方向建查看gprof产生的输出，| 表示gprof -b a.out gmon.out 的输出作为 less的输入。下面是我从gprof输出中摘抄出的与我们有关的一些详细信息。<br>引文:<blockquote>%     cumulative    self              self     total<br><br>time   seconds     seconds    calls  Ts/call  Ts/call  name<br><br>0.00      0.00     0.00        1     0.00     0.00  a<br><br>0.00      0.00     0.00        1     0.00     0.00  b<br><br>0.00      0.00     0.00        1     0.00     0.00  c<br><br>Call graph<br><br>granularity: each sample hit covers 4 byte(s) no time propagated<br><br>index % time    self  children    called     name<br><br>0.00    0.00       1/1           b [2]<br><br>[1]      0.0    0.00    0.00       1         a [1]<br><br>———————————————–<br><br>0.00    0.00       1/1           main [10]<br><br>[2]      0.0    0.00    0.00       1         b [2]<br><br>0.00    0.00       1/1           a [1]<br><br>0.00    0.00       1/1           c [3]<br><br>———————————————–<br><br>0.00    0.00       1/1           b [2]<br><br>[3]      0.0    0.00    0.00       1         c [3]<br></blockquote><br>从上面的输出我们能明显的看出来，main 调用了 b 函数， 而b 函数分别调用了a 和 c 函数。由于我们的函数只是简单的输出了一个字串，故每个函数的消耗时间都是0 秒。<a href="http://oss.lzu.edu.cn/modules/newbb/edit.php?forum=13&amp;topic_id=884&amp;viewmode=compact&amp;order=ASC&amp;post_id=3415" title="编辑" target="_blank" rel="external"> <img src="http://oss.lzu.edu.cn/modules/newbb/images/imagesets/default/schinese/p_edit-a.gif" alt="编辑"></a> <a href="http://oss.lzu.edu.cn/modules/newbb/delete.php?forum=13&amp;topic_id=884&amp;viewmode=compact&amp;order=ASC&amp;post_id=3415" title="删除" target="_blank" rel="external"> <img src="http://oss.lzu.edu.cn/modules/newbb/images/imagesets/default/schinese/p_delete-a.gif" alt="删除"></a> <a href="http://oss.lzu.edu.cn/modules/newbb/reply.php?forum=13&amp;topic_id=884&amp;viewmode=compact&amp;order=ASC&amp;start=0&amp;post_id=3415" title="回复" target="_blank" rel="external"> <img src="http://oss.lzu.edu.cn/modules/newbb/images/imagesets/default/schinese/p_reply-a.gif" alt="回复"></a> <a href="http://oss.lzu.edu.cn/modules/newbb/report.php?forum=13&amp;topic_id=884&amp;viewmode=compact&amp;order=ASC&amp;post_id=3415" title="举报" target="_blank" rel="external"> <img src="http://oss.lzu.edu.cn/modules/newbb/images/imagesets/default/schinese/p_report-a.gif" alt="举报"></a> <a href="http://oss.lzu.edu.cn/modules/newbb/viewtopic.php?topic_id=884#threadtop" target="_blank" rel="external"> <img src="http://oss.lzu.edu.cn/modules/newbb/images/imagesets/default/schinese/p_up-a.gif" alt="回顶部"></a><br><br><a href="http://oss.lzu.edu.cn/modules/newbb/viewtopic.php?post_id=3416#forumpost3416" target="_blank" rel="external">#2</a>  回复: 使用Gnu gprof进行Linux平台下的程序分析<a href="http://oss.lzu.edu.cn/userinfo.php?uid=1" target="_blank" rel="external">O.S</a>    5/25 16:05:03<img src="http://server.51cto.com/files/uploadimg/20070305/1113150.png"><br>常用的Gprof 命令选项解释：<br><br>-b不再输出统计图表中每个字段的详细描述。<br><br>-p 只输出函数的调用图（Call graph 的那部分信息）。<br><br>-q 只输出函数的时间消耗列表。<br><br>-E Name不再输出函数Name 及其子函数的调用图，此标志类似于 -e 标志，但它在总时间和百分比时间的计算中排除了由函数Name 及其子函数所用的时间。<br><br>-e Name 不再输出函数Name 及其子函数的调用图（除非它们有未被限制的其它父函数）。可以给定多个 -e 标志。一个 -e 标志只能指定一个函数。<br><br>-F Name 输出函数Name 及其子函数的调用图，它类似于 -f 标志，但它在总时间和百分比时间计算中仅使用所打印的例程的时间。可以指定多个 -F 标志。一个 -F 标志只能指定一个函数。-F 标志覆盖 -E 标志。<br><br>-f Name输出函数Name 及其子函数的调用图。可以指定多个 -f 标志。一个 -f 标志只能指定一个函数。<br><br>-z 显示使用次数为零的例程（按照调用计数和累积时间计算）。<br><br>到这为止你可能对gprof 有了一个比较感性的认识了，你可能会问如何用它去分析一个真正的Open Source 呢！下面就让我们去用gprof去分析一个Open Source，看看如何去在真实的环境中使用它。<br><br>使用Gprof 分析 Cflow开源项目<br><br>CFlow 是程序流程分析工具，该工具可以通过分析C源代码，产生程序调用图！有点跟Gprof差不多，不过CFlow是通过源代码进行的静态分析并且 不能分析C++ 程序,你可以到<a href="http://www.gnu.org/software/cflow/%E5%8E%BB%E4%B8%8B%E8%BD%BD%E6%BA%90%E4%BB%A3%E7%A0%81%E3%80%82" target="_blank">http://www.gnu.org/software/cflow/去下载源代码。</a><br><br>假设你已经下载了该源代码（cflow-1.1.tar.gz）,并把它放置在/home目录下，让我们看看如何在这个应用上使用gprof。<br><br>1． 使用 -pg 编译和链接该应用程序,请输入下列命令。 <br>引文:<blockquote>[linux /home/]tar zxvf cflow-1.1.tar.gz<br><br>[linux /home/cflow-1.1/src]$./configure<br><br>[linux /home]$make CFLAGS=-pg LDFLAGS=-pg </blockquote><br>如 果没有出错你会在/home/cflow-1.1/src 目录下发行一个名为cflow的可执行文件，这就是我们加入-pg编译选项后编译出来的可以产生供gprof提取信息的可执行文件。记住一定要在编译和链 接的时候都使用-pg选项，否则可能不会产生gmon.out文件。对于cflow项目，CFLAGS=-pg 是设置它的编译选项，LDFLAGS=-pg是设置它的链接选项。当然你也可以直接修改它的Makefile来达到上述相同的目的，不过一定要记住编译和 链接都要使用-pg选项。<br><br>2． 运行cflow 程序使之生成gmon.out 文件供gprof使用。<br>引文:<blockquote>[linux /home/cflow-1.1/src]$cflow parser.c</blockquote><br>查看/home/cflow-1.1/src目录下有没有产生gmon.out文件，如果没有请重复第一步，并确认你已经在编译和链接程序的时候使用了-pg 选项。Cflow的使用请参考<a href="http://www.gnu.org/software/cflow/manual/cflow.html%E3%80%82" target="_blank">http://www.gnu.org/software/cflow/manual/cflow.html。</a> <br><br>3． 使用gprof分析程序<br><br>[linux /home/cflow-1.1/src]$gprof -b cflow gmon.out | less<br><br>恭喜你，不出意外你会在屏幕上看到gprof的输出，函数消耗时间和函数调用图，下面是我从我的输出中摘抄出来的一小段。<br>引文:<blockquote>%   cumulative   self              self     total<br><br>time   seconds   seconds    calls  Ts/call  Ts/call  name<br><br>0.00      0.00     0.00   118262     0.00     0.00  include_symbol<br><br>0.00      0.00     0.00    92896     0.00     0.00  is_printable<br><br>0.00      0.00     0.00    28704     0.00     0.00  set_level_mark<br><br>0.00      0.00     0.00    28703     0.00     0.00  is_last<br><br>0.00      0.00     0.00    19615     0.00     0.00  auto_processor<br><br>0.00      0.00     0.00    15494     0.00     0.00  gnu_output_handler<br><br>0.00      0.00     0.00    12286     0.00     0.00  delete_parm_processor<br><br>0.00      0.00     0.00     7728     0.00     0.00  newline<br><br>0.00      0.00     0.00     7728     0.00     0.00  print_function_name<br><br>0.00      0.00     0.00     7728     0.00     0.00  print_level<br><br>。。。。。。<br><br>。。。。。。<br><br>Call graph<br><br>granularity: each sample hit covers 4 byte(s) no time propagated<br><br>index % time    self  children   called     name<br><br>[1]      0.0    0.00    0.00     79+855  [1]<br><br>0.00    0.00    166     dcl [52]<br><br>0.00    0.00    163     parse_dcl [53]<br><br>0.00    0.00    150     dirdcl [56]<br><br>0.00    0.00    129     parse_declaration [63]<br><br>0.00    0.00     98     parse_variable_declaration [66]<br><br>0.00    0.00     63     maybe_parm_list [69]<br><br>0.00    0.00     63    parse_function_declaration [70]<br><br>0.00    0.00     39    func_body [74]<br><br>。。。。。。<br><br>。。。。。。</blockquote><br>通过分析％time你就知道了那个函数消耗的时间最多，你可以根据这个输出信息做有目的的优化，不过cflow执行的速度是在是太快了，以至％time都是0 (消耗时间是以秒为单位进行统计的)。<a href="http://oss.lzu.edu.cn/modules/newbb/edit.php?forum=13&amp;topic_id=884&amp;viewmode=compact&amp;order=ASC&amp;post_id=3416" title="编辑" target="_blank" rel="external"> <img src="http://oss.lzu.edu.cn/modules/newbb/images/imagesets/default/schinese/p_edit-a.gif" alt="编辑"></a> <a href="http://oss.lzu.edu.cn/modules/newbb/delete.php?forum=13&amp;topic_id=884&amp;viewmode=compact&amp;order=ASC&amp;post_id=3416" title="删除" target="_blank" rel="external"> <img src="http://oss.lzu.edu.cn/modules/newbb/images/imagesets/default/schinese/p_delete-a.gif" alt="删除"></a> <a href="http://oss.lzu.edu.cn/modules/newbb/reply.php?forum=13&amp;topic_id=884&amp;viewmode=compact&amp;order=ASC&amp;start=0&amp;post_id=3416" title="回复" target="_blank" rel="external"> <img src="http://oss.lzu.edu.cn/modules/newbb/images/imagesets/default/schinese/p_reply-a.gif" alt="回复"></a> <a href="http://oss.lzu.edu.cn/modules/newbb/report.php?forum=13&amp;topic_id=884&amp;viewmode=compact&amp;order=ASC&amp;post_id=3416" title="举报" target="_blank" rel="external"> <img src="http://oss.lzu.edu.cn/modules/newbb/images/imagesets/default/schinese/p_report-a.gif" alt="举报"></a> <a href="http://oss.lzu.edu.cn/modules/newbb/viewtopic.php?topic_id=884#threadtop" target="_blank" rel="external"> <img src="http://oss.lzu.edu.cn/modules/newbb/images/imagesets/default/schinese/p_up-a.gif" alt="回顶部"></a><br><br><a href="http://oss.lzu.edu.cn/modules/newbb/viewtopic.php?post_id=3417#forumpost3417" target="_blank" rel="external">#3</a>  回复: 使用Gnu gprof进行Linux平台下的程序分析<a href="http://oss.lzu.edu.cn/userinfo.php?uid=1" target="_blank" rel="external">O.S</a>    5/25 16:19:45生成图形化的函数调用图<br><br>1．Graphviz 工具<br><br>看 到这里你也可能觉得上面的函数调用图实在是不方便察看，也看不出来一个程序调用的整体框架。没有关系，我再介绍一个有用的工具给你，使用 Graphviz，Graphviz or Graph Visualization 是由 AT&amp;T 开发的一个开源的图形可视化工具。它提供了多种画图能力，但是我们重点关注的是它使用 Dot 语言直连图的能力。在这里，将简单介绍如何使用 Dot 来创建一个图形，并展示如何将分析数据转换成 Graphviz 可以使用的规范, Dot 使用的图形规范。<br><br>使用 Dot 语言，你可以指定三种对象：图、节点和边。为了让你理解这些对象的含义，我将构建一个例子来展示这些元素的用法。<br><br>下 图给出了一个简单的定向图（directed graph），其中包含 3 个节点。第一行声明这个图为 G，并且声明了该图的类型（digraph）。接下来的三行代码用于创建该图的节点，这些节点分别名为 node1、node2 和 node3。节点是在它们的名字出现在图规范中时创建的。边是在在两个节点使用边操作（-&gt;）连接在一起时创建的，如第 6 行到第 8 行所示。我还对边使用了一个可选的属性 label，用它来表示边在图中的名称。最后，在第 9 行完成对该图规范的定义。<br><br>使用 Dot 符号表示的示例图（test.dot） <br>引文:<blockquote> 1： digraph G {<br><br>2：   node1;<br><br>3：   node2;<br><br>4：   node3;<br><br>5：<br><br>6：   node1 -&gt; node2 [label=&quot;edge_1_2&quot;];<br><br>7：   node1 -&gt; node3 [label=&quot;edge_1_3&quot;];<br><br>8：   node2 -&gt; node3 [label=&quot;edge_2_3&quot;];<br><br>9： }</blockquote><br><br>要将这个 .dot 文件转换成一个图形映像，则需要使用 Dot 工具，这个工具是在 Graphviz 包中提供的。清单 6 介绍了这种转换。<br><br>清单 6. 使用 Dot 来创建 JPG 映像<br><br>[linux /home]$ dot -Tjpg test.dot -o test.jpg<br><br>在 这段代码中，我告诉 Dot 使用 test.dot 图形规范，并生成一个 JPG 图像，将其保存在文件 test.jpg 中。所生成的图像如图1所示。在此处，我使用了 JPG 格式，但是 Dot 工具也可以支持其他格式，其中包括 GIF、PNG 和 postscript等等。<br><img src="http://server.51cto.com/files/uploadimg/20070305/1113151.png">］<br><br>Dot 语言还可以支持其他一些选项，包括外形、颜色和很多属性。有兴趣可以查看graphviz相关文档。<br><br>2．从gprof的输出中提取调用图信息，产生可供Graphviz使用的dot文件。<br><br>这样的脚本有人已经实现了，我们只要下载一个现成的就可以了，首先从<a href="http://www.ioplex.com/%7Emiallen/" target="_blank">http://www.ioplex.com/~miallen/</a> 网站下载一个mkgraph脚本。解压该脚本到包含gmon.out文件的目录下。使用mkgraph0.sh产生调用的jpg图像文件。例如：使用上面的例子，生成cflow的调用图。<br><br>[linux /home/cflow-1.1/src]$ mkgraph0.sh cflow gmon.out<br><br>部分调用图如下，有了这个图是不是对程序整体框架有了个清晰地了解，如果你对生成的调用图效果不满意，你还可以通过修改mkgraph0脚本使之产生合适的dot文件即可：<br><img src="http://server.51cto.com/files/uploadimg/20070305/1113152.png"><br><br><br>总结：<br><br>使用gprof , Graphviz , mkgraph 生成函数调用图<br><br>1． 使用 -pg 编译和链接你的应用程序。<br><br>2． 执行你的应用程序使之生成供gprof 分析的数据。<br><br>3． 使用mkgraph脚本生成图形化的函数调用图。<br><br>相关资料：<br><br>文档：用 Graphviz 可视化函数调用<br><br>文档：Speed your code with the GNU profiler<br><br>文档：gropf 帮助文件<br><br>Mkgraph 脚本：<a href="http://www.ioplex.com/%7Emiallen/" target="_blank">http://www.ioplex.com/~miallen/</a><br><br>Graphviz 工具：<a href="http://www.graphviz.org/" target="_blank">http://www.graphviz.org</a><br><br>Cflow         ：<a href="http://www.gnu.org/software/cflow/" target="_blank">http://www.gnu.org/software/cflow/</a><a href="http://oss.lzu.edu.cn/modules/newbb/edit.php?forum=13&amp;topic_id=884&amp;viewmode=compact&amp;order=ASC&amp;post_id=3417" title="编辑" target="_blank" rel="external"> <img src="http://oss.lzu.edu.cn/modules/newbb/images/imagesets/default/schinese/p_edit-a.gif" alt="编辑"></a> <a href="http://oss.lzu.edu.cn/modules/newbb/delete.php?forum=13&amp;topic_id=884&amp;viewmode=compact&amp;order=ASC&amp;post_id=3417" title="删除" target="_blank" rel="external"> <img src="http://oss.lzu.edu.cn/modules/newbb/images/imagesets/default/schinese/p_delete-a.gif" alt="删除"></a> <a href="http://oss.lzu.edu.cn/modules/newbb/reply.php?forum=13&amp;topic_id=884&amp;viewmode=compact&amp;order=ASC&amp;start=0&amp;post_id=3417" title="回复" target="_blank" rel="external"> <img src="http://oss.lzu.edu.cn/modules/newbb/images/imagesets/default/schinese/p_reply-a.gif" alt="回复"></a> <a href="http://oss.lzu.edu.cn/modules/newbb/report.php?forum=13&amp;topic_id=884&amp;viewmode=compact&amp;order=ASC&amp;post_id=3417" title="举报" target="_blank" rel="external"> <img src="http://oss.lzu.edu.cn/modules/newbb/images/imagesets/default/schinese/p_report-a.gif" alt="举报"></a> <a href="http://oss.lzu.edu.cn/modules/newbb/viewtopic.php?topic_id=884#threadtop" target="_blank" rel="external"> <img src="http://oss.lzu.edu.cn/modules/newbb/images/imagesets/default/schinese/p_up-a.gif" alt="回顶部"></a><br><br><a href="http://oss.lzu.edu.cn/modules/newbb/viewtopic.php?post_id=3766#forumpost3766" target="_blank" rel="external">#4</a>  回复: 使用Gnu gprof进行Linux平台下的程序分析<a href="http://oss.lzu.edu.cn/userinfo.php?uid=14" target="_blank" rel="external">falcon</a>    6/27 16:16:32这个工具确实相当有用，尤其是阅读源代码。<br><br>在分析内核源代码的时候，有一个和gprof类似的工具，叫KFT(kernel function trace)，也可以用来生成内核函数的调用图，以及分析各种时间关系等。<br><br>因此，综合这两个工具就可以非常方便的阅读和分析内核态和应用态的程序拉。<br><br>其实在gdb里头也可以用bt命令生成当前函数的被调用关系图，不过在调试gdb本身的时候，似乎得需要gprof的帮助拉，因为被调试的gdb没有办法拥有它自身的交互模式用以执行那些交互命令。<br><br>[1] KFT的网站：<a href="http://tree.celinuxforum.org/CelfPubWiki/KernelFunctionTrace" target="_blank">http://tree.celinuxforum.org/CelfPubWiki/KernelFunctionTrace</a><br>附件里头有我写的一个自动进行KFT分析的脚本（有待优化，最新版本请关注我的首页<a href="http://dslab.lzu.edu.cn/members/falcon" target="_blank">http://dslab.lzu.edu.cn/members/falcon</a>）<br>[2] Call Graph Drawing Interface Page(for gprof，貌似Makefile文件和vco有点问题，用的时候注意一下[falcon补充])<br><a href="http://www.ida.liu.se/%7Evaden/cgdi/" target="_blank">http://www.ida.liu.se/~vaden/cgdi/</a><br>[3] CodeViz - A call graph generation utility for C/C++<br><a href="http://www.csn.ul.ie/%7Emel/projects/codeviz/" target="_blank">http://www.csn.ul.ie/~mel/projects/codeviz/</a><br><strong>附件</strong>:<br><hr><br><a href="http://oss.lzu.edu.cn/modules/newbb/dl_attachment.php?attachid=1182932514&amp;post_id=3766" target="_blank" rel="external"> <img src="http://oss.lzu.edu.cn/modules/newbb/images/filetypes/unknown.gif" alt="sh"> autokft.sh</a> 大小: 3.38 KB; 下载次数: 46 </p>
 
       
     </div>
-    <div class="article-info article-info-index">
+
+    <div>
       
-      <a href="/2007/11/20/gprof、mkgraph、Graphviz-可视化函数调用/" class="archive-article-date">
-  	<time datetime="2007-11-20T06:32:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-11-20</time>
-</a>
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2007/11/20/利用core文件调试/" rel="next" title="利用core文件调试">
+                <i class="fa fa-chevron-left"></i> 利用core文件调试
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2007/11/20/Call-graph-g2v、vco、xvcg-mkinput、mkgraph-mkgraph0-sh、dot-cyg-profile-func-enter、pvtrace、dot/" rel="prev" title="Call graph: g2v、vco、xvcg/mkinput、mkgraph/mkgraph0.sh、dot/__cyg_profile_func_enter、pvtrace、dot">
+                Call graph: g2v、vco、xvcg/mkinput、mkgraph/mkgraph0.sh、dot/__cyg_profile_func_enter、pvtrace、dot <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
       
       
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/Linux-Debug/">Linux Debug</a>
-	</div>
+    </footer>
+  </article>
 
 
-      <div class="clearfix"></div>
+
+    <div class="post-spread">
+      
     </div>
   </div>
-</article>
 
-  
-<nav id="article-nav">
-  
-    <a href="/2007/11/20/Call-graph-g2v、vco、xvcg-mkinput、mkgraph-mkgraph0-sh、dot-cyg-profile-func-enter、pvtrace、dot/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
         
-          Call graph: g2v、vco、xvcg/mkinput、mkgraph/mkgraph0.sh、dot/__cyg_profile_func_enter、pvtrace、dot
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/wp-content/uploads/penguin.gif"
+               alt="jfo" />
+          <p class="site-author-name" itemprop="name">jfo</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">596</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/jfojfo" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/jfojfo" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.pickbox.me" title="收藏夹" target="_blank">收藏夹</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://note.pickbox.me" title="网络剪贴板" target="_blank">网络剪贴板</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://iguangba.pickbox.me" title="爱逛吧" target="_blank">爱逛吧</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
         
       </div>
-    </a>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
   
-  
-    <a href="/2007/11/20/利用core文件调试/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">利用core文件调试</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-
-
-<div class="share_jia">
-	<!-- JiaThis Button BEGIN -->
-	<div class="jiathis_style">
-		<span class="jiathis_txt">Share to: &nbsp; </span>
-		<a class="jiathis_button_facebook"></a> 
-	    <a class="jiathis_button_twitter"></a>
-	    <a class="jiathis_button_plus"></a> 
-	    <a class="jiathis_button_tsina"></a>
-		<a class="jiathis_button_cqq"></a>
-		<a class="jiathis_button_douban"></a>
-		<a class="jiathis_button_weixin"></a>
-		<a class="jiathis_button_tumblr"></a>
-    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
-	</div>
-	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
-	<!-- JiaThis Button END -->
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jfo</span>
 </div>
 
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
 
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
 
+        
 
-
-
-
-
-
+        
       </div>
-      <footer id="footer">
-  <div class="outer">
-    <div id="footer-info">
-    	<div class="footer-left">
-    		&copy; 2016 jfo
-    	</div>
-      	<div class="footer-right">
-      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
-      	</div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
     </div>
   </div>
-</footer>
-    </div>
-    <script>
-	var yiliaConfig = {
-		fancybox: true,
-		mathjax: false,
-		animate: true,
-		isHome: false,
-		isPost: true,
-		isArchive: false,
-		isTag: false,
-		isCategory: false,
-		open_in_new: false,
-		root: "/",
-		innerArchive: true
-	}
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
 
-<script src="/./main.js"></script>
 
 
-    
-<div class="tools-col">
-  <ul class="btn-wrap">
-    
-      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
-    
-    
-      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
-    
-    
-      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
-    
-    
-      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
-    
-  </ul>
-  <div class="tools-wrap">
-    
-    	<section class="tools-section tools-section-all chose">
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-tag">
-    			<div class="widget tagcloud" id="js-tagcloud">
-    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
-    			</div>
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-friends">
-  		
-  			<div class="friends-wrap" id="js-friends">
-  			
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
-  	        
-  	        </div>
-  		
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-me">
-  	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
-  	  	
-    	</section>
-    
-  </div>
+
+
+
   
-</div>
 
-    <!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
 
-    <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
 
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
 
-        <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
 
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
 
-            <div class="pswp__top-bar">
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
 
-                <!--  Controls are self-explanatory. Order can be changed. -->
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
 
-                <div class="pswp__counter"></div>
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
 
-                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+  
 
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
 
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
 
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
-                </div>
-            </div>
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
 
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div> 
-            </div>
 
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
 
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
+  
+  
 
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
 
-        </div>
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
 
-    </div>
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
 
-</div>
-  </div>
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
 </body>
 </html>

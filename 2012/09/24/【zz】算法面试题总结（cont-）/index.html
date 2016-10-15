@@ -1,12 +1,90 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
+<!doctype html>
+
+
+
   
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>【zz】算法面试题总结（cont.） | jfo planet</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="http://www.cnblogs.com/xwdreamer/archive/2011/12/13/2296910.html&amp;nbsp;44.腾讯面试题：1.设计一个魔方（六面）的程序。2.有一千万条短信，有重复，以文本文件的形式保存，一行一条，有重复。请用5分钟时间，找出重复出现最多的前10条。3.收藏了1万条url，现在给你一条url，如何找出相似的url。（面试官不解释何为相似）&amp;nb">
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="jfo, blog" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="http://www.cnblogs.com/xwdreamer/archive/2011/12/13/2296910.html&amp;nbsp;44.腾讯面试题：1.设计一个魔方（六面）的程序。2.有一千万条短信，有重复，以文本文件的形式保存，一行一条，有重复。请用5分钟时间，找出重复出现最多的前10条。3.收藏了1万条url，现在给你一条url，如何找出相似的url。（面试官不解释何为相似）&amp;nb">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【zz】算法面试题总结（cont.）">
 <meta property="og:url" content="http://blog.pickbox.me/2012/09/24/【zz】算法面试题总结（cont-）/index.html">
@@ -16,365 +94,545 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【zz】算法面试题总结（cont.）">
 <meta name="twitter:description" content="http://www.cnblogs.com/xwdreamer/archive/2011/12/13/2296910.html&amp;nbsp;44.腾讯面试题：1.设计一个魔方（六面）的程序。2.有一千万条短信，有重复，以文本文件的形式保存，一行一条，有重复。请用5分钟时间，找出重复出现最多的前10条。3.收藏了1万条url，现在给你一条url，如何找出相似的url。（面试官不解释何为相似）&amp;nb">
-  
-    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="//favicon.ico">
-  
-  <script src="/style.js"></script>
-  
 
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://blog.pickbox.me/2012/09/24/【zz】算法面试题总结（cont-）/"/>
+
+
+  <title> 【zz】算法面试题总结（cont.） | jfo planet </title>
 </head>
 
-<body>
-  <div id="container">
-    <div class="left-col">
-      <div class="overlay"></div>
-<div class="intrude-less">
-	<header id="header" class="inner">
-		<a href="/" class="profilepic">
-			
-			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
-			
-		</a>
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
 
-		<hgroup>
-		  <h1 class="header-author"><a href="/">jfo</a></h1>
-		</hgroup>
+  
 
-		
-		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
-		
 
-		<nav class="header-menu">
-			<ul>
-			
-				<li><a href="/">主页</a></li>
-	        
-			</ul>
-		</nav>
-		<nav class="header-smart-menu">
-	        
-    		
-    			
-    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
-    			
-    			
-            
-		</nav>
-		<nav class="header-nav">
-			<div class="social">
-				
-					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
-		        
-					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
-		        
-			</div>
-		</nav>
-	</header>		
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">jfo planet</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Hope is the best gift that tomorrow gives.</p>
 </div>
 
-    </div>
-    <div class="mid-col">
-      <nav id="mobile-nav">
-  	<div class="overlay">
-  		<div class="slider-trigger"><i class="icon-list"></i></div>
-  		<h1 class="header-author js-mobile-header hide">jfo</h1>
-  	</div>
-	<div class="intrude-less">
-		<header id="header" class="inner">
-			<div class="profilepic">
-				
-					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
-				
-			</div>
-			<hgroup>
-			  <h1 class="header-author">jfo</h1>
-			</hgroup>
-			
-			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
-			
-			<nav class="header-menu">
-				<ul>
-				
-					<li><a href="/">主页</a></li>
-		        
-				</ul>
-			</nav>
-			<nav class="header-nav">
-				<div class="social">
-					
-						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
-			        
-						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
-			        
-				</div>
-			</nav>
-		</header>				
-	</div>
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
 </nav>
 
-      <div class="body-wrap">
-        <article id="post-【zz】算法面试题总结（cont-）" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
     
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
+
   
-    <h1 class="article-title" itemprop="name">
-      【zz】算法面试题总结（cont.）
-    </h1>
   
 
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                【zz】算法面试题总结（cont.）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2012-09-24T22:34:00+08:00" content="2012-09-24">
+              2012-09-24
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/c-c-algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">c/c++/algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
       
          <p><a href="http://www.cnblogs.com/xwdreamer/archive/2011/12/13/2296910.html" target="_blank">http://www.cnblogs.com/xwdreamer/archive/2011/12/13/2296910.html</a><span style="font-family: 'Microsoft Yahei',微软雅黑,Tahoma,Arial,Helvetica,STHeiti; color: #454545; background-color: #ffffff;">&nbsp;</span><br></p><p><span style="font-family: 'Microsoft Yahei',微软雅黑,Tahoma,Arial,Helvetica,STHeiti; color: #454545; background-color: #ffffff;"><br></span></p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">44.腾讯面试题：<br>1.设计一个魔方（六面）的程序。<br>2.有一千万条短信，有重复，以文本文件的形式保存，一行一条，有重复。<br>请用5分钟时间，找出重复出现最多的前10条。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">3.收藏了1万条url，现在给你一条url，如何找出相似的url。（面试官不解释何为相似）</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">45.雅虎：<br>1.对于一个整数矩阵，存在一种运算，对矩阵中任意元素加一时，需要其相邻（上下左右）</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">某一个元素也加一，现给出一正数矩阵，判断其是否能够由一个全零矩阵经过上述运算得到。<br>2.一个整数数组，长度为n，将其分为m份，使各份的和相等，求m的最大值<br>&nbsp;&nbsp;比如{3，2，4，3，6}&nbsp;可以分成{3，2，4，3，6}&nbsp;m=1;&nbsp;<br>&nbsp;&nbsp;{3,6}{2,4,3}&nbsp;m=2<br>&nbsp;&nbsp;{3,3}{2,4}{6}&nbsp;m=3&nbsp;所以m的最大值为3</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;"><br>46.搜狐：<br>四对括号可以有多少种匹配排列方式？比如两对括号可以有两种：（）（）和（（））<br>47.创新工场：<br>求一个数组的最长递减子序列&nbsp;比如{9，4，3，2，5，4，3，2}的最长递减子序列为{9，5，4，3，2}</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">48.微软：<br>一个数组是由一个递减数列左移若干位形成的，比如{4，3，2，1，6，5}<br>是由{6，5，4，3，2，1}左移两位形成的，在这种数组中查找某一个数。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">49.一道看上去很吓人的算法面试题：<br>如何对n个数进行排序，要求时间复杂度O(n)，空间复杂度O(1)</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">50.网易有道笔试：<br>1.求一个二叉树中任意两个节点间的最大距离，两个节点的距离的定义是&nbsp;这两个节点间边的个数，<br>比如某个孩子节点和父节点间的距离是1，和相邻兄弟节点间的距离是2，优化时间空间复杂度。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">2.求一个有向连通图的割点，割点的定义是，<br>如果除去此节点和与其相关的边，有向图不再连通，描述算法。<br>——————————————————————-</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;"><br>51.和为n连续正数序列。<br>题目：输入一个正数n，输出所有和为n连续正数序列。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">例如输入15，由于1+2+3+4+5=4+5+6=7+8=15，所以输出3个连续序列1-5、4-6和7-8。<br>分析：这是网易的一道面试题。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;"><br>52.二元树的深度。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">题目：输入一棵二元树的根结点，求该树的深度。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">从根结点到叶结点依次经过的结点（含根、叶结点）形成树的一条路径，最长路径的长度为树的深度。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">例如：输入二元树：<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;14<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;16</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">输出该树的深度3。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">二元树的结点定义如下：</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">struct&nbsp;SBinaryTreeNode&nbsp;//&nbsp;a&nbsp;node&nbsp;of&nbsp;the&nbsp;binary&nbsp;tree<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_nValue;&nbsp;//&nbsp;value&nbsp;of&nbsp;node<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SBinaryTreeNode&nbsp;&nbsp;<em>m_pLeft;&nbsp;&nbsp;//&nbsp;left&nbsp;child&nbsp;of&nbsp;node<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SBinaryTreeNode&nbsp;&nbsp;</em>m_pRight;&nbsp;//&nbsp;right&nbsp;child&nbsp;of&nbsp;node<br>};<br>分析：这道题本质上还是考查二元树的遍历。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">53.字符串的排列。<br>题目：输入一个字符串，打印出该字符串中字符的所有排列。<br>例如输入字符串abc，则输出由字符a、b、c所能排列出来的所有字符串<br>abc、acb、bac、bca、cab和cba。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">分析：这是一道很好的考查对递归理解的编程题，<br>因此在过去一年中频繁出现在各大公司的面试、笔试题中。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">54.调整数组顺序使奇数位于偶数前面。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">题目：输入一个整数数组，调整数组中数字的顺序，使得所有奇数位于数组的前半部分，<br>所有偶数位于数组的后半部分。要求时间复杂度为O(n)。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">55.<br>题目：类CMyString的声明如下：<br>class&nbsp;CMyString<br>{<br>public:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CMyString(char<em>&nbsp;pData&nbsp;=&nbsp;NULL);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CMyString(const&nbsp;CMyString&amp;&nbsp;str);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;~CMyString(void);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CMyString&amp;&nbsp;operator&nbsp;=&nbsp;(const&nbsp;CMyString&amp;&nbsp;str);</em></p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">private:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;char&nbsp;m_pData;<br>};<br>请实现其赋值运算符的重载函数，要求异常安全，即当对一个对象进行赋值时发生异常，对象的状态不能改变。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">56.最长公共字串。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">题目：如果字符串一的所有字符按其在字符串中的顺序出现在另外一个字符串二中，</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">则字符串一称之为字符串二的子串。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">注意，并不要求子串（字符串一）的字符必须连续出现在字符串二中。<br>请编写一个函数，输入两个字符串，求它们的最长公共子串，并打印出最长公共子串。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">例如：输入两个字符串BDCABA和ABCBDAB，字符串BCBA和BDAB都是是它们的最长公共子串，<br>则输出它们的长度4，并打印任意一个子串。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">分析：求最长公共子串（Longest&nbsp;Common&nbsp;Subsequence,&nbsp;LCS）是一道非常经典的动态规划题，</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">因此一些重视算法的公司像MicroStrategy都把它当作面试题。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;"><br>57.用俩个栈实现队列。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">题目：某队列的声明如下：</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">template&lt;typename&nbsp;T&gt;&nbsp;class&nbsp;CQueue<br>{<br>public:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CQueue()&nbsp;{}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;~CQueue()&nbsp;{}</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;void&nbsp;appendTail(const&nbsp;T&amp;&nbsp;node);&nbsp;&nbsp;//&nbsp;append&nbsp;a&nbsp;element&nbsp;to&nbsp;tail<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;void&nbsp;deleteHead();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;remove&nbsp;a&nbsp;element&nbsp;from&nbsp;head</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">private:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;T&gt;&nbsp;m_stack1;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;T&gt;&nbsp;m_stack2;<br>};</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">分析：从上面的类的声明中，我们发现在队列中有两个栈。<br>因此这道题实质上是要求我们用两个栈来实现一个队列。<br>相信大家对栈和队列的基本性质都非常了解了：栈是一种后入先出的数据容器，<br>因此对队列进行的插入和删除操作都是在栈顶上进行；队列是一种先入先出的数据容器，<br>我们总是把新元素插入到队列的尾部，而从队列的头部删除元素。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;"><br>58.从尾到头输出链表。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">题目：输入一个链表的头结点，从尾到头反过来输出每个结点的值。链表结点定义如下：<br>struct&nbsp;ListNode<br>{</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_nKey;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ListNode<em>&nbsp;m_pNext;<br>};<br>分析：这是一道很有意思的面试题。<br>该题以及它的变体经常出现在各大公司的面试、笔试题中。</em></p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;"><br>59.不能被继承的类。<br>题目：用C++设计一个不能被继承的类。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">分析：这是Adobe公司2007年校园招聘的最新笔试题。<br>这道题除了考察应聘者的C++基本功底外，还能考察反应能力，是一道很好的题目。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">60.在O（1）时间内删除链表结点。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">题目：给定链表的头指针和一个结点指针，在O(1)时间删除该结点。链表结点的定义如下：</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">struct&nbsp;ListNode</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">{</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_nKey;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ListNode&nbsp;&nbsp;m_pNext;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">};</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">函数的声明如下：<br>void&nbsp;DeleteNode(ListNode<em>&nbsp;pListHead,&nbsp;ListNode</em>&nbsp;pToBeDeleted);</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">分析：这是一道广为流传的Google面试题，能有效考察我们的编程基本功，还能考察我们的反应速度，</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">更重要的是，还能考察我们对时间复杂度的理解。<br>————————————————————————-</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">61.找出数组中两个只出现一次的数字<br>题目：一个整型数组里除了两个数字之外，其他的数字都出现了两次。<br>请写程序找出这两个只出现一次的数字。要求时间复杂度是O(n)，空间复杂度是O(1)。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">分析：这是一道很新颖的关于位运算的面试题。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;"><br>62.找出链表的第一个公共结点。<br>题目：两个单向链表，找出它们的第一个公共结点。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">链表的结点定义为：<br>struct&nbsp;ListNode</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">{</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;m_nKey;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ListNode<em>&nbsp;&nbsp;&nbsp;m_pNext;</em></p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">};</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">分析：这是一道微软的面试题。微软非常喜欢与链表相关的题目，<br>因此在微软的面试题中，链表出现的概率相当高。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;"><br>63.在字符串中删除特定的字符。<br>题目：输入两个字符串，从第一字符串中删除第二个字符串中所有的字符。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">例如，输入”They&nbsp;are&nbsp;students.”和”aeiou”，</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">则删除之后的第一个字符串变成”Thy&nbsp;r&nbsp;stdnts.”。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">分析：这是一道微软面试题。在微软的常见面试题中，与字符串相关的题目占了很大的一部分，<br>因为写程序操作字符串能很好的反映我们的编程基本功。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;"><br>64.&nbsp;寻找丑数。<br>题目：我们把只包含因子2、3和5的数称作丑数（Ugly&nbsp;Number）。例如6、8都是丑数，<br>但14不是，因为它包含因子7。习惯上我们把1当做是第一个丑数。<br>求按从小到大的顺序的第1500个丑数。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">分析：这是一道在网络上广为流传的面试题，据说google曾经采用过这道题。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;"><br>65.输出1到最大的N位数<br>题目：输入数字n，按顺序输出从1最大的n位10进制数。比如输入3，</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">则输出1、2、3一直到最大的3位数即999。<br>分析：这是一道很有意思的题目。看起来很简单，其实里面却有不少的玄机。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">66.颠倒栈。<br>题目：用递归颠倒一个栈。例如输入栈{1,&nbsp;2,&nbsp;3,&nbsp;4,&nbsp;5}，1在栈顶。<br>颠倒之后的栈为{5,&nbsp;4,&nbsp;3,&nbsp;2,&nbsp;1}，5处在栈顶。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;"><br>&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">67.俩个闲玩娱乐。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">1.扑克牌的顺子<br>从扑克牌中随机抽5张牌，判断是不是一个顺子，即这5张牌是不是连续的。<br>2-10为数字本身，A为1，J为11，Q为12，K为13，而大小王可以看成任意数字。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">2.n个骰子的点数。<br>把n个骰子扔在地上，所有骰子朝上一面的点数之和为S。输入n，<br>打印出S的所有可能的值出现的概率。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;"><br>68.把数组排成最小的数。<br>题目：输入一个正整数数组，将它们连接起来排成一个数，输出能排出的所有数字中最小的一个。<br>例如输入数组{32,&nbsp;&nbsp;321}，则输出这两个能排成的最小数字32132。<br>请给出解决问题的算法，并证明该算法。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">分析：这是09年6月份百度的一道面试题，<br>从这道题我们可以看出百度对应聘者在算法方面有很高的要求。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;"><br>69.旋转数组中的最小元素。<br>题目：把一个数组最开始的若干个元素搬到数组的末尾，我们称之为数组的旋转。输入一个排好序的数组的一个旋转，</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">输出旋转数组的最小元素。例如数组{3,&nbsp;4,&nbsp;5,&nbsp;1,&nbsp;2}为{1,&nbsp;2,&nbsp;3,&nbsp;4,&nbsp;5}的一个旋转，该数组的最小值为1。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;&nbsp;&nbsp;&nbsp;分析：这道题最直观的解法并不难。从头到尾遍历数组一次，就能找出最小的元素，<br>时间复杂度显然是O(N)。但这个思路没有利用输入数组的特性，我们应该能找到更好的解法。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;"><br>70.给出一个函数来输出一个字符串的所有排列。<br>ANSWER&nbsp;简单的回溯就可以实现了。当然排列的产生也有很多种算法，去看看组合数学，</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">还有逆序生成排列和一些不需要递归生成排列的方法。<br>印象中Knuth的&lt;TAOCP&gt;第一卷里面深入讲了排列的生成。这些算法的理解需要一定的数学功底，<br>也需要一定的灵感，有兴趣最好看看。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;"><br>71.数值的整数次方。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">题目：实现函数double&nbsp;Power(double&nbsp;base,&nbsp;int&nbsp;exponent)，求base的exponent次方。<br>不需要考虑溢出。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">分析：这是一道看起来很简单的问题。可能有不少的人在看到题目后30秒写出如下的代码：<br>double&nbsp;Power(double&nbsp;base,&nbsp;int&nbsp;exponent)<br>{</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;double&nbsp;result&nbsp;=&nbsp;1.0;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for(int&nbsp;i&nbsp;=&nbsp;1;&nbsp;i&nbsp;&lt;=&nbsp;exponent;&nbsp;++i)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result&nbsp;=&nbsp;base;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;result;<br>}</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">72.<br>题目：设计一个类，我们只能生成该类的一个实例。<br>分析：只能生成一个实例的类是实现了Singleton模式的类型。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;<br>73.对策字符串的最大长度。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">题目：输入一个字符串，输出该字符串中对称的子字符串的最大长度。<br>比如输入字符串“google”，由于该字符串里最长的对称子字符串是“goog”，因此输出4。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">分析：可能很多人都写过判断一个字符串是不是对称的函数，这个题目可以看成是该函数的加强版。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;"><br>74.数组中超过出现次数超过一半的数字</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">题目：数组中有一个数字出现的次数超过了数组长度的一半，找出这个数字。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">分析：这是一道广为流传的面试题，包括百度、微软和Google在内的多家公司都<br>曾经采用过这个题目。要几十分钟的时间里很好地解答这道题，<br>除了较好的编程能力之外，还需要较快的反应和较强的逻辑思维能力。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">75.二叉树两个结点的最低共同父结点<br>题目：二叉树的结点定义如下：<br>struct&nbsp;TreeNode<br>{</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;m_nvalue;<br>&nbsp;&nbsp;&nbsp;&nbsp;TreeNode<em>&nbsp;m_pLeft;<br>&nbsp;&nbsp;&nbsp;&nbsp;TreeNode</em>&nbsp;m_pRight;<br>};</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">输入二叉树中的两个结点，输出这两个结点在数中最低的共同父结点。<br>分析：求数中两个结点的最低共同结点是面试中经常出现的一个问题。这个问题至少有两个变种。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;"><br>76.复杂链表的复制</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">题目：有一个复杂链表，其结点除了有一个m_pNext指针指向下一个结点外，<br>还有一个m_pSibling指向链表中的任一结点或者NULL。其结点的C++定义如下：<br>&nbsp;struct&nbsp;ComplexNode<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;m_nValue;<br>&nbsp;&nbsp;&nbsp;&nbsp;ComplexNode<em>&nbsp;m_pNext;<br>&nbsp;&nbsp;&nbsp;&nbsp;ComplexNode</em>&nbsp;m_pSibling;<br>};</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">下图是一个含有5个结点的该类型复杂链表。<br>图中实线箭头表示m_pNext指针，虚线箭头表示m_pSibling指针。为简单起见，<br>指向NULL的指针没有画出。&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>请完成函数ComplexNode<em>&nbsp;Clone(ComplexNode</em>&nbsp;pHead)，以复制一个复杂链表。&nbsp;<br>分析：在常见的数据结构上稍加变化，这是一种很新颖的面试题。<br>要在不到一个小时的时间里解决这种类型的题目，我们需要较快的反应能力，<br>对数据结构透彻的理解以及扎实的编程功底。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;"><br>77.关于链表问题的面试题目如下：</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">1.给定单链表，检测是否有环。<br>&nbsp;使用两个指针p1,p2从链表头开始遍历，p1每次前进一步，p2每次前进两步。如果p2到达链表尾部，<br>说明无环，否则p1、p2必然会在某个时刻相遇(p1==p2)，从而检测到链表中有环。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">2.给定两个单链表(head1,&nbsp;head2)，检测两个链表是否有交点，如果有返回第一个交点。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果head1==head2，那么显然相交，直接返回head1。<br>否则，分别从head1,head2开始遍历两个链表获得其长度len1与len2，假设len1&gt;=len2，<br>那么指针p1由head1开始向后移动len1-len2步，指针p2=head2，<br>下面p1、p2每次向后前进一步并比较p1p2是否相等，如果相等即返回该结点，<br>否则说明两个链表没有交点。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;"><br>3.给定单链表(head)，如果有环的话请返回从头结点进入环的第一个节点。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;运用题一，我们可以检查链表中是否有环。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果有环，那么p1p2重合点p必然在环中。从p点断开环，<br>方法为：p1=p,&nbsp;p2=p-&gt;next,&nbsp;p-&gt;next=NULL。此时，原单链表可以看作两条单链表，<br>一条从head开始，另一条从p2开始，于是运用题二的方法，我们找到它们的第一个交点即为所求。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;"><br>4.只给定单链表中某个结点p(并非最后一个结点，即p-&gt;next!=NULL)指针，删除该结点。<br>&nbsp;办法很简单，首先是放p中数据,然后将p-&gt;next的数据copy入p中，接下来删除p-&gt;next即可。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">5.只给定单链表中某个结点p(非空结点)，在p前面插入一个结点。<br>&nbsp;&nbsp;办法与前者类似，首先分配一个结点q，将q插入在p后，接下来将p中的数据copy入q中，<br>然后再将要插入的数据记录在p中。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">78.链表和数组的区别在哪里？</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">分析：主要在基本概念上的理解。<br>但是最好能考虑的全面一点，现在公司招人的竞争可能就在细节上产生，<br>谁比较仔细，谁获胜的机会就大。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;<br>79.<br>1.编写实现链表排序的一种算法。说明为什么你会选择用这样的方法？<br>2.编写实现数组排序的一种算法。说明为什么你会选择用这样的方法？<br>3.请编写能直接实现strstr()函数功能的代码。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;"><br>&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">80.阿里巴巴一道笔试题</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">问题描述:<br>12个高矮不同的人,排成两排,每排必须是从矮到高排列,而且第二排比对应的第一排的人高,问排列方式有多少种?<br>这个笔试题,很YD,因为把某个递归关系隐藏得很深。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">先来几组百度的面试题：</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">===================</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">81.第1组百度面试题<br>1.一个int数组，里面数据无任何限制，要求求出所有这样的数a[i]，<br>其左边的数都小于等于它，右边的数都大于等于它。<br>能否只用一个额外数组和少量其它空间实现。<br>2.一个文件，内含一千万行字符串，每个字符串在1K以内，<br>要求找出所有相反的串对，如abc和cba。<br>3.STL的set用什么实现的？为什么不用hash？</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">82.第2组百度面试题<br>1.给出两个集合A和B，其中集合A={name}，<br>集合B={age、sex、scholarship、address、…}，<br>要求：<br>问题1、根据集合A中的name查询出集合B中对应的属性信息；<br>问题2、根据集合B中的属性信息（单个属性，如age&lt;20等），查询出集合A中对应的name。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">2.给出一个文件，里面包含两个字段{url、size}，<br>即url为网址，size为对应网址访问的次数，<br>要求：<br>问题1、利用Linux&nbsp;Shell命令或自己设计算法，<br>查询出url字符串中包含“baidu”子字符串对应的size字段值；<br>问题2、根据问题1的查询结果，对其按照size由大到小的排列。<br>（说明：url数据量很大，100亿级以上）</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">83.第3组百度面试题<br>1.今年百度的一道题目<br>百度笔试：给定一个存放整数的数组，重新排列数组使得数组左边为奇数，右边为偶数。<br>要求：空间复杂度O(1)，时间复杂度为O（n）。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">2.百度笔试题<br>用C语言实现函数void&nbsp;<em>&nbsp;memmove(void&nbsp;</em>dest,&nbsp;const&nbsp;void&nbsp;<em>src,&nbsp;size_t&nbsp;n)。<br>memmove函数的功能是拷贝src所指的内存内容前n个字节到dest所指的地址上。<br>分析：<br>由于可以把任何类型的指针赋给void类型的指针<br>这个函数主要是实现各种数据类型的拷贝。</em></p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">84.第4组百度面试题<br>2010年3道百度面试题[相信，你懂其中的含金量]<br>1.a~z包括大小写与0~9组成的N个数<br>用最快的方式把其中重复的元素挑出来。<br>2.已知一随机发生器，产生0的概率是p，产生1的概率是1-p，现在要你构造一个发生器，<br>使得它构造0和1的概率均为1/2；构造一个发生器，使得它构造1、2、3的概率均为1/3；…，<br>构造一个发生器，使得它构造1、2、3、…n的概率均为1/n，要求复杂度最低。<br>3.有10个文件，每个文件1G，<br>每个文件的每一行都存放的是用户的query，每个文件的query都可能重复。<br>要求按照query的频度排序.</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">85.又见字符串的问题<br>1.给出一个函数来复制两个字符串A和B。<br>字符串A的后几个字节和字符串B的前几个字节重叠。<br>分析：记住，这种题目往往就是考你对边界的考虑情况。<br>2.已知一个字符串，比如asderwsde,寻找其中的一个子字符串比如sde的个数，<br>如果没有返回0，有的话返回子字符串的个数。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;<br>86.<br>怎样编写一个程序，把一个有序整数数组放到二叉树中？<br>分析:本题考察二叉搜索树的建树方法，简单的递归结构。<br>关于树的算法设计一定要联想到递归，因为树本身就是递归的定义。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">而，学会把递归改称非递归也是一种必要的技术。<br>毕竟，递归会造成栈溢出，关于系统底层的程序中不到非不得以最好不要用。<br>但是对某些数学问题，就一定要学会用递归去解决。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">87.<br>1.大整数数相乘的问题。（这是2002年在一考研班上遇到的算法题）<br>2.求最大连续递增数字串（如“ads3sl456789DF3456ld345AA”中的“456789”）<br>3.实现strstr功能，即在父串中寻找子串首次出现的位置。<br>（笔试中常让面试者实现标准库中的一些函数）</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;"><br>88.2005年11月金山笔试题。编码完成下面的处理函数。<br>函数将字符串中的字符&#39;&#39;移到串的前部分，</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">前面的非&#39;<em>&#39;字符后移，但不能改变非&#39;</em>&#39;字符的先后顺序，函数返回串中字符&#39;<em>&#39;的数量。<br>如原始串为：ab<strong>cd</strong>e</em>12，<br>处理后为<strong>*</strong>abcde12，函数并返回值为5。（要求使用尽量少的时间和辅助空间）</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">89.神州数码、华为、东软笔试题<br>1.2005年11月15日华为软件研发笔试题。实现一单链表的逆转。<br>2.编码实现字符串转整型的函数（实现函数atoi的功能），据说是神州数码笔试题。如将字符<br>串&nbsp;”+123”123,&nbsp;”-0123”-123,&nbsp;“123CS45”123,&nbsp;“123.45CS”123,&nbsp;“CS123.45”0<br>3.快速排序（东软喜欢考类似的算法填空题，又如堆排序的算法等）<br>4.删除字符串中的数字并压缩字符串。<br>如字符串”abc123de4fg56”处理后变为”abcdefg”。注意空间和效率。<br>（下面的算法只需要一次遍历，不需要开辟新空间，时间复杂度为O(N)）<br>5.求两个串中的第一个最长子串（神州数码以前试题）。<br>如&quot;abractyeyt&quot;,&quot;dgdsaeactyey&quot;的最大子串为&quot;actyet&quot;。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;"><br>90.<br>1.不开辟用于交换数据的临时空间，如何完成字符串的逆序<br>(在技术一轮面试中，有些面试官会这样问)。<br>2.删除串中指定的字符<br>（做此题时，千万不要开辟新空间，否则面试官可能认为你不适合做嵌入式开发）<br>3.判断单链表中是否存在环。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">&nbsp;</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;">91.<br>1.一道著名的毒酒问题<br>有1000桶酒，其中1桶有毒。而一旦吃了，毒性会在1周后发作。<br>现在我们用小老鼠做实验，要在1周内找出那桶毒酒，问最少需要多少老鼠。<br>2.有趣的石头问题<br>有一堆1万个石头和1万个木头，对于每个石头都有1个木头和它重量一样，<br>把配对的石头和木头找出来。</p><p style="font-family: Verdana,sans-serif,宋体; color: #333333; background-color: #f9f9f9; line-height: 20px; margin-left: auto; margin-right: auto; margin-bottom: 20px;"><br></p> 
       
     </div>
-    <div class="article-info article-info-index">
+
+    <div>
       
-      <a href="/2012/09/24/【zz】算法面试题总结（cont-）/" class="archive-article-date">
-  	<time datetime="2012-09-24T14:34:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2012-09-24</time>
-</a>
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/09/24/【zz】算法面试题总结/" rel="next" title="【zz】算法面试题总结">
+                <i class="fa fa-chevron-left"></i> 【zz】算法面试题总结
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2012/11/24/三个极度自私的人分一个蛋糕，采用什么策略，能让三人都觉得公平？/" rel="prev" title="三个极度自私的人分一个蛋糕，采用什么策略，能让三人都觉得公平？">
+                三个极度自私的人分一个蛋糕，采用什么策略，能让三人都觉得公平？ <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
       
       
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a>
-	</div>
+    </footer>
+  </article>
 
 
-      <div class="clearfix"></div>
+
+    <div class="post-spread">
+      
     </div>
   </div>
-</article>
 
-  
-<nav id="article-nav">
-  
-    <a href="/2012/11/24/三个极度自私的人分一个蛋糕，采用什么策略，能让三人都觉得公平？/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
         
-          三个极度自私的人分一个蛋糕，采用什么策略，能让三人都觉得公平？
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/wp-content/uploads/penguin.gif"
+               alt="jfo" />
+          <p class="site-author-name" itemprop="name">jfo</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">596</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/jfojfo" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/jfojfo" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.pickbox.me" title="收藏夹" target="_blank">收藏夹</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://note.pickbox.me" title="网络剪贴板" target="_blank">网络剪贴板</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://iguangba.pickbox.me" title="爱逛吧" target="_blank">爱逛吧</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
         
       </div>
-    </a>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
   
-  
-    <a href="/2012/09/24/【zz】算法面试题总结/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">【zz】算法面试题总结</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-
-
-<div class="share_jia">
-	<!-- JiaThis Button BEGIN -->
-	<div class="jiathis_style">
-		<span class="jiathis_txt">Share to: &nbsp; </span>
-		<a class="jiathis_button_facebook"></a> 
-	    <a class="jiathis_button_twitter"></a>
-	    <a class="jiathis_button_plus"></a> 
-	    <a class="jiathis_button_tsina"></a>
-		<a class="jiathis_button_cqq"></a>
-		<a class="jiathis_button_douban"></a>
-		<a class="jiathis_button_weixin"></a>
-		<a class="jiathis_button_tumblr"></a>
-    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
-	</div>
-	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
-	<!-- JiaThis Button END -->
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jfo</span>
 </div>
 
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
 
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
 
+        
 
-
-
-
-
-
+        
       </div>
-      <footer id="footer">
-  <div class="outer">
-    <div id="footer-info">
-    	<div class="footer-left">
-    		&copy; 2016 jfo
-    	</div>
-      	<div class="footer-right">
-      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
-      	</div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
     </div>
   </div>
-</footer>
-    </div>
-    <script>
-	var yiliaConfig = {
-		fancybox: true,
-		mathjax: false,
-		animate: true,
-		isHome: false,
-		isPost: true,
-		isArchive: false,
-		isTag: false,
-		isCategory: false,
-		open_in_new: false,
-		root: "/",
-		innerArchive: true
-	}
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
 
-<script src="/./main.js"></script>
 
 
-    
-<div class="tools-col">
-  <ul class="btn-wrap">
-    
-      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
-    
-    
-      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
-    
-    
-      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
-    
-    
-      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
-    
-  </ul>
-  <div class="tools-wrap">
-    
-    	<section class="tools-section tools-section-all chose">
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-tag">
-    			<div class="widget tagcloud" id="js-tagcloud">
-    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
-    			</div>
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-friends">
-  		
-  			<div class="friends-wrap" id="js-friends">
-  			
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
-  	        
-  	        </div>
-  		
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-me">
-  	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
-  	  	
-    	</section>
-    
-  </div>
+
+
+
   
-</div>
 
-    <!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
 
-    <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
 
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
 
-        <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
 
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
 
-            <div class="pswp__top-bar">
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
 
-                <!--  Controls are self-explanatory. Order can be changed. -->
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
 
-                <div class="pswp__counter"></div>
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
 
-                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+  
 
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
 
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
 
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
-                </div>
-            </div>
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
 
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div> 
-            </div>
 
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
 
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
+  
+  
 
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
 
-        </div>
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
 
-    </div>
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
 
-</div>
-  </div>
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
 </body>
 </html>

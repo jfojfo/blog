@@ -1,12 +1,90 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
+<!doctype html>
+
+
+
   
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>算法集合 | jfo planet</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="一、如何判断一个单链表是有环的？（注意不能用标志位，最多只能用两个额外指针）struct node { char val; node next;}bool check(const node head) {} //return false : 无环；true: 有环一种O（n）的办法就是（搞两个指针，一个每次递增一步，一个每次递增两步，如果有环的话两者必然重合，反之亦然）：bool check(c">
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="jfo, blog" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="一、如何判断一个单链表是有环的？（注意不能用标志位，最多只能用两个额外指针）struct node { char val; node next;}bool check(const node head) {} //return false : 无环；true: 有环一种O（n）的办法就是（搞两个指针，一个每次递增一步，一个每次递增两步，如果有环的话两者必然重合，反之亦然）：bool check(c">
 <meta property="og:type" content="article">
 <meta property="og:title" content="算法集合">
 <meta property="og:url" content="http://blog.pickbox.me/2008/03/01/算法集合/index.html">
@@ -16,366 +94,546 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="算法集合">
 <meta name="twitter:description" content="一、如何判断一个单链表是有环的？（注意不能用标志位，最多只能用两个额外指针）struct node { char val; node next;}bool check(const node head) {} //return false : 无环；true: 有环一种O（n）的办法就是（搞两个指针，一个每次递增一步，一个每次递增两步，如果有环的话两者必然重合，反之亦然）：bool check(c">
-  
-    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="//favicon.ico">
-  
-  <script src="/style.js"></script>
-  
 
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://blog.pickbox.me/2008/03/01/算法集合/"/>
+
+
+  <title> 算法集合 | jfo planet </title>
 </head>
 
-<body>
-  <div id="container">
-    <div class="left-col">
-      <div class="overlay"></div>
-<div class="intrude-less">
-	<header id="header" class="inner">
-		<a href="/" class="profilepic">
-			
-			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
-			
-		</a>
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
 
-		<hgroup>
-		  <h1 class="header-author"><a href="/">jfo</a></h1>
-		</hgroup>
+  
 
-		
-		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
-		
 
-		<nav class="header-menu">
-			<ul>
-			
-				<li><a href="/">主页</a></li>
-	        
-			</ul>
-		</nav>
-		<nav class="header-smart-menu">
-	        
-    		
-    			
-    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
-    			
-    			
-            
-		</nav>
-		<nav class="header-nav">
-			<div class="social">
-				
-					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
-		        
-					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
-		        
-			</div>
-		</nav>
-	</header>		
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">jfo planet</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Hope is the best gift that tomorrow gives.</p>
 </div>
 
-    </div>
-    <div class="mid-col">
-      <nav id="mobile-nav">
-  	<div class="overlay">
-  		<div class="slider-trigger"><i class="icon-list"></i></div>
-  		<h1 class="header-author js-mobile-header hide">jfo</h1>
-  	</div>
-	<div class="intrude-less">
-		<header id="header" class="inner">
-			<div class="profilepic">
-				
-					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
-				
-			</div>
-			<hgroup>
-			  <h1 class="header-author">jfo</h1>
-			</hgroup>
-			
-			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
-			
-			<nav class="header-menu">
-				<ul>
-				
-					<li><a href="/">主页</a></li>
-		        
-				</ul>
-			</nav>
-			<nav class="header-nav">
-				<div class="social">
-					
-						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
-			        
-						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
-			        
-				</div>
-			</nav>
-		</header>				
-	</div>
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
 </nav>
 
-      <div class="body-wrap">
-        <article id="post-算法集合" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
     
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
+
   
-    <h1 class="article-title" itemprop="name">
-      算法集合
-    </h1>
   
 
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                算法集合
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2008-03-01T19:53:00+08:00" content="2008-03-01">
+              2008-03-01
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/c-c-algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">c/c++/algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
       
         <p> </p><p>一、如何判断一个单链表是有环的？（注意不能用标志位，最多只能用两个额外指针）<br>struct node { char val; node<em> next;}<br>bool check(const node</em> head) {} //return false : 无环；true: 有环<br>一种O（n）的办法就是（搞两个指针，一个每次递增一步，一个每次递增两步，如果有环的话两者必然重合，反之亦然）：<br>bool check(const node<em> head)<br>{<br>if(head==NULL) <br>return false;&#160;&#160;&#160;<br>node </em>low=head, <em>fast=head-&gt;next;<br>while(fast!=NULL &amp;&amp; fast-&gt;next!=NULL)<br>{<br>low=low-&gt;next;<br>fast=fast-&gt;next-&gt;next;<br>if(low==fast) <br>return true;<br>}<br>return false;<br>}</em></p><p><br></p>  二、删除一个单项链表的最中间的元素，要求时间尽可能短（不能使用两次循环）<br>&#160;&#160;&#160;             一个指针每次在链表中前进一个位置，另一个前进两个。<br>“并行”！<br>/**<br> 得到如下样式的二维数组<br><em> zigzag（jpeg编码里取象素数据的排列顺序）<br></em><br><em>&#160;&#160;             0, 1, 5, 6,14,15,27,28,<br></em>&#160;&#160;             2, 4, 7,13,16,26,29,42,<br><em>&#160;&#160;             3, 8,12,17,25,30,41,43,<br></em>&#160;&#160;             9,11,18,24,31,40,44,53,<br><em>&#160;&#160;             10,19,23,32,39,45,52,54,<br></em>&#160;&#160;             20,22,33,38,46,51,55,60,<br><em>&#160;&#160;             21,34,37,47,50,56,59,61,<br></em>&#160;&#160;             35,36,48,49,57,58,62,63<br><em>/<br>#include &lt;iostream&gt;<br>#include &lt;algorithm&gt;<br>using namespace std;<br>#define DEMENTION 6<br>int main()<br>{<br>int array[DEMENTION][DEMENTION];<br>int i, j, k;<br>int flag = 1;<br>int count = 1;<br><br>for(k=0; k&lt;DEMENTION; ++k) {<br>if(flag) {<br>flag = 0;<br>for(i=0,j=k; i&lt;=k&amp;&amp;j&gt;=0; ++i,–j) {<br>array[j][i] = count++;<br>}<br>}<br>else {<br>flag = 1;<br>for(i=0,j=k; i&lt;=k&amp;&amp;j&gt;=0; ++i, –j) {<br>array[i][j] = count++;<br>}<br>}<br>}<br>for(k=DEMENTION-1; k&gt;=0; –k) {<br>if(flag) {<br>flag = 0;<br>for(i=DEMENTION-k,j=DEMENTION-1; i&lt;DEMENTION&amp;&amp;j&gt;=DEMENTION-k; ++i,–j) {<br>array[j][i] = count++;<br>}<br>}<br>else {<br>flag = 1;<br>for(i=DEMENTION-k,j=DEMENTION-1; i&lt;DEMENTION&amp;&amp;j&gt;=DEMENTION-k; ++i,–j) {<br>array[i][j] = count++;<br>}<br>}<br>}<br><br>for(i=0; i&lt;DEMENTION; ++i) {<br>copy(array[i], array[i]+DEMENTION, ostream_iterator&lt;int&gt;(cout, &quot; &quot;));<br>cout &lt;&lt; endl;<br>}<br><br>return 0;<br>} <br>or<br>/</em> 数组赋值 <em>/<br>squa = N</em>N;&#160;&#160;&#160;             <br>for(i = 0; i &lt; N; i++)<br>for(j = 0; j &lt; N; j++) {<br>s = i + j;<br>if(s &lt; N)<br>a[i][j] = s<em>(s+1)/2 + (((i+j)%2 == 0)? i : j);<br>else {<br>s = (N-1-i) + (N-1-j);<br>a[i][j] = squa - s</em>(s+1)/2 - (N - (((i+j)%2 == 0)? i : j));<br>}<br>}<br><br><br><br>三、给定九个数，例如：1，3，3，5，6，7，8，8，9计算出这九个数的排列的种数。需要考虑重复情况，如果给定9个1，则只有一种结果。 <br>限制：不能使用stl库 <br>要求：完成函数 unsigned int foo(unsigned int <em>arr); <br>输入算法代码，并给出算法复杂度分析。 <br>分析： <br>#include &lt;cstdlib&gt;<br>#include &lt;iostream&gt;<br>using namespace std;<br>unsigned int foo(unsigned int </em>arr)<br>{<br>unsigned int p[] ={1,2,6,24,120,720,5040,40320,362880};<br>unsigned int i,j,c,s=p[8];//first the number is p99<br>for(i = 0; i &lt; 7; i++)<br>for(j = i+1; j &lt; 8; j++)<br>{<br>if(arr[i]&gt;arr[j])  //swap two number<br>{<br>arr[i]^=arr[j];<br>arr[j]^=arr[i];<br>arr[i]^=arr[j];<br>}&#160;&#160;&#160;            <br>}&#160;&#160;&#160;            <br>i = 0;<br>c = 0;<br>while(i&lt;8)<br>{<br>j = i+1;<br>while(arr[i]==arr[j])//compute the number of the repetition <br>{<br>c++;&#160;&#160;            <br>j++;  <br>}&#160;&#160;&#160;            <br>s/=p[c];<br>c=0;<br>i=j;<br>}&#160;&#160;&#160;            <br>return s;<br>}<br><br>int main()<br>{<br>unsigned int a[]={1,3,3,5,6,7,8,8,9};<br>cout&lt;&lt;&quot;The number of permutation is: &quot;&lt;&lt;foo(a)&lt;&lt;endl;<br>system(&quot;pause&quot;);<br>return 0;<br>}&#160;&#160;&#160;&#160;            <br>还可以改进排序那部分。<br><br><br><br>四、有一个数在一个数组中出现50%以上，让你在O(n)的时间内，O(1)的空间复杂度，找出那个数，其中数组内的数都是随机数，但是有范围。<br>一个数超过了50%，那么就每次拿这个数（设为A）和其它数抵消，最后剩下的肯定是它，但是空间复杂度是O(1)，所以只能顺序的读入数组，且不能整个存 储。那么就不能保证每次都是拿A和非A抵消，再一想，只要抵消两个不同的数就行了，那么如果碰到两个相同的数呢，留一个，但是要记录重复的次数，稍加考虑 就能看出，这个次数始终记录的都会是一个数重复的次数，不会出现要同时记录多个数的重复次数，因为遇到不同的就抵消了，这样的话只要开3个数的空间，顺序 扫描一边数组就能得出所要求的数。下面举个简单例子：<br><br>数组内数为：2 2 2 4 4 3 3 2 2 2<br>经过三步处理之后当前数是2，重复次数是3，遇到4，当前数还是2，重复数-1=2，如此下去，当遇到第二个3时，当前数是3，遇到下一个2，抵消，再遇到2，当前数就是2，最后当前数仍是2，重复数是1，则所求是2…<br> <br>五、经典DP：用面值为1、2、5、10、20的纸钞组合出100块钱，一共有多少种可能。 <br>C(n,S)：用前n种纸钞组合出S块钱的组合数，1&lt;=n&lt;=5<br>总可能数 ＝ C(4,100) + C(4,80) + C(4,60) + … + C(4,20) + C(4,0)<br>C(4,100):不用20的纸钞<br>C(4,80) :用1张20的纸钞<br>C(4,0)  :用5张20的纸钞<br><br>C(4,80) = C(3,80) + C(3,70) + … + C(3,10) + C(3,0)<br>C(4,60) = C(3,60) + C(3,50) + … + C(3,10) + C(3,0)<br>…<br>记录重复出现的中间结果，达到优化<br><br>六、另类最大递增子序列问题：一个数组（其中每个元素都互不相同），它的子序列是指从原数组中抠掉若干个元素留下来的序列（因此并不要求连续）。递增子序列是指那些元素递增的子序列。最大递增子序列是指这样的一些递增子序列：无论从原数组中返还哪个元素，都不会使得这个子序列再增长为一个更长的递增子序列了。（注意，最大递增子序列不同于最长递增子序列。）求一个算法，返回一个数组中的最大递增子序列的个数。 <br><br><p>英文描述： <br>A subsequence of a sequence of numbers a is the result of erasing zero or <br>more elements from a. An increasing subsequence is a subsequence in which <br>each element (except the first) is strictly greater than the previous <br>element. An increasing subsequence of a is maximal if unerasing any of the <br>erased elements of a does not result in a longer increasing subsequence.</p>For example, if a={1,3,2,6,4,5} then {1,3,4} is an increasing subsequence <br>but not a maximal increasing subsequence. {1,2,4,5}, {1,3,4,5}, {1,2,6} and <br>{1,3,6}, on the other hand, are maximal increasing subsequences. <br><br><br>第前一个问题的&quot;扩展&quot;版本是&quot;最长递增子序列&quot;问题：最长递增子序列问题要求一个算法返回数组中最长的递增子序列的长度。问题严格描述如下：设L=&lt;a1 <br>,a2,…,an&gt;是n个不同的实数的序列，L的递增子序列是这样一个子序列Lin=&lt;aK1,ak2,…,akm&gt;，其中k1&lt;k2&lt;…&lt;km且aK1&lt;ak2&lt;…&lt;akm。求最大的m值。 <br> <br>二分法，分为两部分，分别找出各自的最大递增子序列，然后合并<br> <br><br><br>七、Write a function to find the two closest points given N points in X-Y <br>coordinates, and analyze the time and space complexity of your function. <br>The input to this funciton is a pointer or reference to an array of <br>points, along with N. The ouput is a pointer or reference to a two-element array that stores <br>the coordinates of the two points closest to each other. <br><br>雕琢分而治之最近点对算法：<a href="http://jcst.ict.ac.cn/content/papere.asp?lg=cn&amp;i=7406" target="_blank">http://jcst.ict.ac.cn/content/papere.asp?lg=cn&amp;i=7406</a><br><br><br>八、Write a function to find any subset of 3 integers from a set of N <br>integers that have a sum with the smallest absolute value, and analyze <br>the time and space complexity of your function. <br>The input to this funciton is pointer or reference to any array of <br>integers, along with the value of N. <br>When N&gt;=3, the ouput is a 3-element array of integers, such that their <br>sum has the smalles absolute value. <br>When N&lt;3, the ouput is null. <br>For example,given the following input:{-99, -66, 0, 2, 3}, your <br>function should return {0,2,3} <br><br>如果有3个0， 那么直接返回。<br>如果有2个0，看最小的正数和最大的负数。<br>如果有1个0或没有0，对正数和负数排序，对每个负数a，在正数数组中查找两个离-a 最近的元素；对每个正数，在负数数组中找两个离-a最近的元素。<br>如何“对每个负数a，在正数数组中查找两个离-a 最近的元素“？<br>将正数序列（已排好序）中每一个数减去|a/2|，问题转化为“在这个新的序列中找两个数，使得和的绝对值最小”，<br>进一步转化为“在新序列中，将所有负数取其绝对值，插入到正数序列中（O(N)）并标记好这些数，然后找距离这些数距离最近的点（O(N)）”<br>因此总的可以在O(N2)解决<br><br><br>九、给出n个石头，每个石头都有一个权值。要求从最左边开始向右敲，再从最右边开始向左敲，每个石头只能敲一次且必须敲一次，求一种敲法，使得敲法序列中相邻两个石头的权值的差之和最小。  <br> <br><a target="_blank" href="http://groups.google.com/group/pongba/msg/5e0a258fc35ca21c">http://groups.google.com/group/pongba/msg/5e0a258fc35ca21c</a><br><br>？？<br><br><br>十、有 A-H 8种颜色，每种颜色有一个分值。给出n个珠子，每个珠子有8个面，每个面上都涂有颜色。把这n个珠子串起来变成一个环，要求相邻两个珠子的接触面颜色必须相同，总分值为每相邻两个珠子的接触面颜色的分值之和。求这n个珠子可以获得的最大分值。<br><br>？？<br><br><br><br><p>十一、只翻转列，使得满足要求的行最多<br></p><p>Jack has bought a rectangular table containing a grid of lamps. Each lamp is initially either &quot;on&quot; or &quot;off&quot;. There is a switch underneath each column, and when the switch is flipped, all the lamps in that column reverse their states (&quot;on&quot; lamps become &quot;off&quot; and vice versa).</p><p>A row in the grid is considered lit if all the lamps in that row are &quot;on&quot;.  Jack must make exactly <strong>K</strong> flips.  The <strong>K</strong> flips do not necessarily have to be performed on <strong>K</strong> distinct switches.  His goal is to have as many lit rows as possible after making those flips.</p><p>You are given a string[] <strong>initial</strong>, where the j-th character of the i-th element is ‘1’ (one) if the lamp in row i, column j is initially &quot;on&quot;, and ‘0’ (zero) otherwise. Return the maximal number of rows that can be lit after performing exactly <strong>K</strong> flips.</p><p>-&#160;&#160;&#160;        initial will contain between 1 and 50 elements, inclusive.<br>-&#160;&#160;&#160;        Each element of initial will contain between 1 and 50 characters, inclusive.<br>-&#160;&#160;&#160;        Each element of initial will contain the same number of characters.<br>-&#160;&#160;&#160;        Each element of initial will contain only the digits ‘0’ and ‘1’.<br>-&#160;&#160;&#160;        K will be between 0 and 1000, inclusive.</p><p>分析：</p><p>Sooner or later you should notice one very important fact: all equal rows remain equal after any number of flips. So, if some row is lit at any moment, all initially equal rows will be lit as well and all other rows will not be lit. Therefore, the solution is to try for each row to make lit, and if it is possible, count the number of rows equal to this one and choose among such rows one with the maximal number of equal rows.</p><p>How to check if the given row can be lit after exactly <strong>K</strong> flips ? Note that the order of flips doesn’t affect on the final result. Also, making 2 flips in the same column doesn’t change row at all. Suppose we have <strong>M</strong>     &quot;off&quot; lamps in this row. To be able to switch all these lamps to the &quot;on&quot; state     we need exactly <strong>M</strong> flips. So, <strong>K</strong> should be no less     than <strong>M</strong>. Now, if <strong>(K-M)</strong> is even, we can flip always     the first column and at the end the row will be lit. If <strong>(K-M)</strong> is     odd, it’s impossible to lit this row after exactly <strong>(K-M)</strong> flips.</p><p>struct LampsGrid { <br>int mostLit( vector &lt;string&gt; initial, int K ) { // caret here <br>int res = 0; <br>for ( int i=0; i&lt;(int)initial.size(); ++i ) { <br>int zeros = count(initial[i].begin(), initial[i].end(), ‘0’); <br>if ( zeros%2 == K%2 &amp;&amp; zeros &lt;= K ) { <br>res = max( res, count(initial.begin(), initial.end(), initial[i]) ); <br>} <br>} <br>return res; <br>} <br>};</p><p> </p><p> </p><p> </p><br><p>十二、<a target="_blank" href="http://blog.163.com/lfw2565295@126/blog/static/1220051620094353252677/"><strong>Tree of Tree</strong></a><br></p><p>You’re given a tree with weights of each node, you need to find the maximum subtree of specified size of this tree. </p><p><strong><em>Tree Definition </em></strong><br>A tree is a connected graph which contains no cycles.</p><p><strong>Input</strong></p><p>There are several test cases in the input.</p><p>The first line of each case are two integers N(1 &lt;= N &lt;= 100), K(1 &lt;= K &lt;= N), where N is the number of nodes of this tree, and K is the subtree’s size, followed by a line with N nonnegative integers, where the k-th integer indicates the weight of k-th node. The following N - 1 lines describe the tree, each line are two integers which means there is an edge between these two nodes. All indices above are zero-base and it is guaranteed that the description of the tree is correct.</p><p><strong>Output</strong></p><p>One line with a single integer for each case, which is the total weights of the maximum subtree.</p><p><strong>Sample Input</strong></p>3 1<br>10 20 30<br>0 1<br>0 2<br>3 2<br>10 20 30<br>0 1<br>0 2<p><strong>Sample Output</strong></p>30<br><br>40<p> </p><hr><p>Author: <strong>LIU, Yaoting</strong><br>Source: <strong>ZOJ Monthly, May 2009</strong></p><p> </p><p>#include&lt;iostream&gt;<br>#include&lt;vector&gt;<br>using namespace std;<br>const int M=105;<br>int n,k;<br>int d[M][M],w[M];<br>vector&lt;int&gt; sun[M];<br>void dp(int x,int y){<br>int i,j,t1[M];<br>memset(t1,0,sizeof(t1));<br>for(i=1; i&lt;=k; i++){<br>for(j=1; j&lt;=i; j++)<br>t1[i]=max(t1[i], d[x][j]+d[y][i-j]);<br>}<br>for(i=1; i&lt;=k; i++) d[x][i]=max(d[x][i],t1[i]);<br>}<br>void dfs(int now,int pre){<br>int len=sun[now].size();<br>int cnt=0;<br>//if(pre!=-1 &amp;&amp; len==1) { d[now][1]=w[now]; return; }<br>for(int i=0; i&lt;len; i++){<br>if(sun[now][i]!=pre) {<br>dfs(sun[now][i],now);<br>d[now][1]=w[now];<br>dp(now,sun[now][i]);<br>cnt++;<br>}<br>}<br>if(cnt==0) d[now][1]=w[now]; //初始化。。 <br>}<br>int main(){<br>while(scanf(&quot;%d%d&quot;,&amp;n,&amp;k) != EOF ){<br>for(int i=0; i&lt;n; i++) {<br>scanf(&quot;%d&quot;,&amp;w[i]);  sun[i].clear();<br>}<br>int l,r;<br>for(int i=1; i&lt;n; i++) {<br>scanf(&quot;%d%d&quot;,&amp;l,&amp;r);<br>sun[l].push_back(r);<br>sun[r].push_back(l);<br>}<br>int res=0;<br>memset(d,0,sizeof(d));<br>dfs(0,-1);<br>for(int i=0; i&lt;n; i++) res=max(res,d[i][k]);<br>printf(&quot;%dn&quot;,res); <br>}<br>return 0;<br>}</p><p> </p><p> </p><p> </p><br>十三、<br>对任意输入的正整数N，编写C程序求N!的尾部连续0的个数，并指出计算复杂度。<br>如：18！＝6402373705728000，尾部连续0的个数是3。&#160; <br><br>int ZeroNumber(int n) <br>{<br>int base = 5;<br>int sum&#160; = 0;<br><br>while (n &gt;= base) {<br>sum += n / base;<br>base *= 5;<br>}<br><br>return sum;<br>}<br><br><br><br><br><br><br><del>continue</del><br> <p></p>
 
       
     </div>
-    <div class="article-info article-info-index">
+
+    <div>
       
-      <a href="/2008/03/01/算法集合/" class="archive-article-date">
-  	<time datetime="2008-03-01T11:53:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-03-01</time>
-</a>
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2008/02/29/MIME-content-types/" rel="next" title="MIME content-types">
+                <i class="fa fa-chevron-left"></i> MIME content-types
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2008/03/01/CSS参考/" rel="prev" title="CSS参考">
+                CSS参考 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
       
       
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a>
-	</div>
+    </footer>
+  </article>
 
 
-      <div class="clearfix"></div>
+
+    <div class="post-spread">
+      
     </div>
   </div>
-</article>
 
-  
-<nav id="article-nav">
-  
-    <a href="/2008/03/01/CSS参考/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
         
-          CSS参考
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/wp-content/uploads/penguin.gif"
+               alt="jfo" />
+          <p class="site-author-name" itemprop="name">jfo</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">596</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/jfojfo" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/jfojfo" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.pickbox.me" title="收藏夹" target="_blank">收藏夹</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://note.pickbox.me" title="网络剪贴板" target="_blank">网络剪贴板</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://iguangba.pickbox.me" title="爱逛吧" target="_blank">爱逛吧</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
         
       </div>
-    </a>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
   
-  
-    <a href="/2008/02/29/MIME-content-types/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">MIME content-types</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-
-
-<div class="share_jia">
-	<!-- JiaThis Button BEGIN -->
-	<div class="jiathis_style">
-		<span class="jiathis_txt">Share to: &nbsp; </span>
-		<a class="jiathis_button_facebook"></a> 
-	    <a class="jiathis_button_twitter"></a>
-	    <a class="jiathis_button_plus"></a> 
-	    <a class="jiathis_button_tsina"></a>
-		<a class="jiathis_button_cqq"></a>
-		<a class="jiathis_button_douban"></a>
-		<a class="jiathis_button_weixin"></a>
-		<a class="jiathis_button_tumblr"></a>
-    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
-	</div>
-	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
-	<!-- JiaThis Button END -->
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jfo</span>
 </div>
 
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
 
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
 
+        
 
-
-
-
-
-
+        
       </div>
-      <footer id="footer">
-  <div class="outer">
-    <div id="footer-info">
-    	<div class="footer-left">
-    		&copy; 2016 jfo
-    	</div>
-      	<div class="footer-right">
-      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
-      	</div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
     </div>
   </div>
-</footer>
-    </div>
-    <script>
-	var yiliaConfig = {
-		fancybox: true,
-		mathjax: false,
-		animate: true,
-		isHome: false,
-		isPost: true,
-		isArchive: false,
-		isTag: false,
-		isCategory: false,
-		open_in_new: false,
-		root: "/",
-		innerArchive: true
-	}
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
 
-<script src="/./main.js"></script>
 
 
-    
-<div class="tools-col">
-  <ul class="btn-wrap">
-    
-      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
-    
-    
-      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
-    
-    
-      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
-    
-    
-      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
-    
-  </ul>
-  <div class="tools-wrap">
-    
-    	<section class="tools-section tools-section-all chose">
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-tag">
-    			<div class="widget tagcloud" id="js-tagcloud">
-    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
-    			</div>
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-friends">
-  		
-  			<div class="friends-wrap" id="js-friends">
-  			
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
-  	        
-  	        </div>
-  		
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-me">
-  	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
-  	  	
-    	</section>
-    
-  </div>
+
+
+
   
-</div>
 
-    <!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
 
-    <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
 
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
 
-        <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
 
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
 
-            <div class="pswp__top-bar">
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
 
-                <!--  Controls are self-explanatory. Order can be changed. -->
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
 
-                <div class="pswp__counter"></div>
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
 
-                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+  
 
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
 
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
 
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
-                </div>
-            </div>
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
 
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div> 
-            </div>
 
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
 
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
+  
+  
 
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
 
-        </div>
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
 
-    </div>
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
 
-</div>
-  </div>
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
 </body>
 </html>

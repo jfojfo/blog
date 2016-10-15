@@ -1,12 +1,90 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
+<!doctype html>
+
+
+
   
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>【zz】__cyg_profile_func_enter、pvtrace、Graphviz 可视化函数调用 | jfo planet</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="http://www-128.ibm.com/developerworks/cn/linux/l-graphvis/跟踪函数调用cyg_profile_func_entercyg_profile_func_exitgcc -g -finstrument-functions test.c -o test生成函数调用关系表示（.dot文件）pvtrace a.out需要trace.txt文件（在cy">
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="jfo, blog" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="http://www-128.ibm.com/developerworks/cn/linux/l-graphvis/跟踪函数调用cyg_profile_func_entercyg_profile_func_exitgcc -g -finstrument-functions test.c -o test生成函数调用关系表示（.dot文件）pvtrace a.out需要trace.txt文件（在cy">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【zz】__cyg_profile_func_enter、pvtrace、Graphviz 可视化函数调用">
 <meta property="og:url" content="http://blog.pickbox.me/2007/11/19/【zz】-cyg-profile-func-enter、pvtrace、Graphviz-可视化函数调用/index.html">
@@ -49,366 +127,546 @@
 <meta name="twitter:title" content="【zz】__cyg_profile_func_enter、pvtrace、Graphviz 可视化函数调用">
 <meta name="twitter:description" content="http://www-128.ibm.com/developerworks/cn/linux/l-graphvis/跟踪函数调用cyg_profile_func_entercyg_profile_func_exitgcc -g -finstrument-functions test.c -o test生成函数调用关系表示（.dot文件）pvtrace a.out需要trace.txt文件（在cy">
 <meta name="twitter:image" content="http://img.pickbox.me/wp-content/uploads/pic/cede271f9c1e68c4a6866915.jpg">
-  
-    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="//favicon.ico">
-  
-  <script src="/style.js"></script>
-  
 
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://blog.pickbox.me/2007/11/19/【zz】-cyg-profile-func-enter、pvtrace、Graphviz-可视化函数调用/"/>
+
+
+  <title> 【zz】__cyg_profile_func_enter、pvtrace、Graphviz 可视化函数调用 | jfo planet </title>
 </head>
 
-<body>
-  <div id="container">
-    <div class="left-col">
-      <div class="overlay"></div>
-<div class="intrude-less">
-	<header id="header" class="inner">
-		<a href="/" class="profilepic">
-			
-			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
-			
-		</a>
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
 
-		<hgroup>
-		  <h1 class="header-author"><a href="/">jfo</a></h1>
-		</hgroup>
+  
 
-		
-		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
-		
 
-		<nav class="header-menu">
-			<ul>
-			
-				<li><a href="/">主页</a></li>
-	        
-			</ul>
-		</nav>
-		<nav class="header-smart-menu">
-	        
-    		
-    			
-    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
-    			
-    			
-            
-		</nav>
-		<nav class="header-nav">
-			<div class="social">
-				
-					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
-		        
-					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
-		        
-			</div>
-		</nav>
-	</header>		
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">jfo planet</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Hope is the best gift that tomorrow gives.</p>
 </div>
 
-    </div>
-    <div class="mid-col">
-      <nav id="mobile-nav">
-  	<div class="overlay">
-  		<div class="slider-trigger"><i class="icon-list"></i></div>
-  		<h1 class="header-author js-mobile-header hide">jfo</h1>
-  	</div>
-	<div class="intrude-less">
-		<header id="header" class="inner">
-			<div class="profilepic">
-				
-					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
-				
-			</div>
-			<hgroup>
-			  <h1 class="header-author">jfo</h1>
-			</hgroup>
-			
-			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
-			
-			<nav class="header-menu">
-				<ul>
-				
-					<li><a href="/">主页</a></li>
-		        
-				</ul>
-			</nav>
-			<nav class="header-nav">
-				<div class="social">
-					
-						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
-			        
-						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
-			        
-				</div>
-			</nav>
-		</header>				
-	</div>
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
 </nav>
 
-      <div class="body-wrap">
-        <article id="post-【zz】-cyg-profile-func-enter、pvtrace、Graphviz-可视化函数调用" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
     
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
+
   
-    <h1 class="article-title" itemprop="name">
-      【zz】__cyg_profile_func_enter、pvtrace、Graphviz 可视化函数调用
-    </h1>
   
 
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                【zz】__cyg_profile_func_enter、pvtrace、Graphviz 可视化函数调用
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2007-11-19T19:38:00+08:00" content="2007-11-19">
+              2007-11-19
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux-Debug/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux Debug</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
       
         <p> <a href="http://www-128.ibm.com/developerworks/cn/linux/l-graphvis/" target="_blank">http://www-128.ibm.com/developerworks/cn/linux/l-graphvis/</a><br>跟踪函数调用<br><strong>cyg_profile_func_enter<br></strong>cyg_profile_func_exit<br>gcc -g -finstrument-functions test.c -o test<br><br>生成函数调用关系表示（.dot文件）<br>pvtrace a.out<br>需要trace.txt文件（在<strong>cyg_profile_func_enter/exit中生成）<br>E0x80487d6<br>X0x80487d6<br>E0x80489bf<br>X0x80489bf<br>。。。。<br><br>生成图形<br>dot -Tjpg test.dot -o test.jpg<br><code><br>对unifiedkernel中运行notepad时 ntdll.dll.so 的函数调用map：<br></code><img src="http://img.pickbox.me/wp-content/uploads/pic/cede271f9c1e68c4a6866915.jpg" small="0" class="blogimg"><br>                                    用 Graphviz 可视化函数调用            <p><em>使用开源软件来简化复杂调用结构</em></p> <img width="1" height="6" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif" class="display-img"> <img width="10" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <img width="10" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <p>级别： 初级</p> <p><a href="http://www-128.ibm.com/developerworks/cn/linux/l-graphvis/#author" target="_blank" rel="external">M. Tim Jones</a> (), 资深软件工程师, Emulex</p> <p>2005 年  7 月  11 日</p> <blockquote>花一些时间遍历一下源代码，可以向您展现所有的函数调用过程；但是如果函数指针非常复杂，或者代码太长且晦涩难懂，那么这个过程就可能更加困难了。本文将向您介绍如何使用开源软件和一些定制的代码来构建一个动态的图形函数调用生成器。</blockquote> <p>可以将以图形形式查看应 用程序的调用过程看作是一个学习经历。这样做可以帮助您理解应用程序的内部行为，并获得有关程序优化方面的信息。例如，通过对那些经常调用的函数进行优 化，您就可以用最少的努力来获得最佳的性能。另外，调用跟踪还可以判断用户函数的最大调用深度，这可以用来对调用栈使用的内存进行有效限制（在嵌入式系统 中，这是非常重要的一个考虑因素）。</p> <p>为了捕获并显示调用图，您需要 4 个元素：GNU 编译器工具链、Addr2line 工具、定制的中间代码和一个名为 Graphviz 的代码。Addr2line 工具可以识别函数、给定地址的源代码行数和可执行映像。定制的中间代码是一个非常简单的工具，它可以减少对图形规范的地址跟踪。Graphviz 工具可以生成图形映像。整个过程如图 1 所示。</p> <br> <a name="N1006E"><strong>图 1. 搜集、简化和可视化跟踪路径的过程</strong></a><br> <img width="407" height="407" alt="跟踪过程" src="http://www-128.ibm.com/developerworks/cn/linux/l-graphvis/figure1.gif"> <br><p><a name="N1007D">数据搜集：捕获函数调用路径</a></p><p>要收集一个函数调用的踪迹，您需要确定每个函数在应用程序中调用的时间。在过去，都是通过在函数的入口处和退出处插入一个惟一的符号来手工检测每个函数的。这个过程非常繁琐，而且很容易出错，通常需要对源代码进行大量的修改。</p><p>幸运的是，GNU 编译器工具链（也称为 <em>gcc</em>） 提供了一种自动检测应用程序中的各个函数的方法。在执行应用程序时，就可以收集相关的分析数据。您只需要提供两个特殊的分析函数即可。其中一个函数在每次 执行想要跟踪的函数时都会调用；而另外一个函数则在每次退出想要跟踪的函数时调用（参见清单 1）。这两个函数都是特别指定的，因此，编译器可以识别它们。</p><br><a name="N10091"><strong>清单 1. GNU 的入口和出口配置函数</strong></a><br> <br>void </strong>cyg_profile_func_enter( void <em>func_address, void </em>call_site )<br>                                <strong>attribute</strong> ((no_instrument_function));<br>void <strong>cyg_profile_func_exit ( void <em>func_address, void </em>call_site )<br>                                </strong>attribute<strong> ((no_instrument_function));                        <br> <img width="10" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <a name="N1009A"><strong>避免使用特殊的检测函数</strong></a><br> <p>您或许会产生疑惑，如果 gcc 就是我们需要的检测函数，那么为什么它不检测 <code></code></p></strong>cyg_<em> 分析函数呢？gcc 的开发者曾思考过这个问题，他们提供了一个名为 <code>no_instrument_function</code> 的函数属性，这个函数属性可以应用于函数原型，禁止对它们进行检测。不要将这个函数属性应用到分析函数上，这样会导致无限递归分析循环和大量的无用数据。</em></p> <p>在调用一个检测函数时，<code><strong>cyg_profile_func_enter</strong></code> 同时也会被调用，并以 <code>func_address</code> 形式传递调用的函数地址，以及从中调用该函数的 <code>call_site</code> 形式的地址。反之，当一个函数退出时，也会调用 <code>cyg_profile_func_exit</code> 函数，并传递 <code>func_address</code> 形式的函数地址，以及函数从中退出的真实地址，该地址的表示形式为 <code>call_site</code>。</p><p>在这些分析函数中，您可以记录下地址对，以供以后再进行分析使用。要请求 gcc 所有的检测函数，每个文件都必须使用 <code>-finstrument-functions</code> 和 <code>-g</code> 选项进行编译，这样可以保留调试符号。</p><p>因 此，现在您就可以为 gcc 提供一些分析函数了，这些函数可以透明地插入应用程序中的函数入口点和函数退出点。但在调用分析函数时，又应该怎样处理所提供的地址呢？您有很多选择，但 是为了简便起见，可以将这个地址简单地写入一个文件，要注意哪个地址是函数的入口地址，哪个地址是函数的出口地址（参见清单 2）。</p><p><strong>注意：</strong>在清单 2 中并没有使用调用 Callsite 信息，因为这些信息对于分析程序来说是不必要的。</p><br><a name="N100DF"><strong>清单 2. 分析函数</strong></a><br> <br>void __cyg_profile_func_enter( void this, void <em>callsite )<br>{<br>  /</em> Function Entry Address <em>/<br>  fprintf(fp, &quot;E%pn&quot;, (int </em>)this);<br>}<br>void <strong>cyg_profile_func_exit( void <em>this, void </em>callsite )<br>{<br>  /<em> Function Exit Address </em>/<br>  fprintf(fp, &quot;X%pn&quot;, (int <em>)this);<br>}                        <br><p>现在您可以搜集分析数据了，但是您应该在什么地方打开或关闭您的跟踪输出文件呢？到现在为止，还不需要为了进行分析而对源程序进行任何修改。因此，您该如何检测整个应用程序（包括 <code>main</code> 函数）而不用对分析数据的输出结果进行初始化呢？gcc 的开发者也考虑过这个问题，它们为 <code>main</code> 函数的 constructor 函数和 destructor 函数提供了一些碰巧能够满足这个要求一些方法。<code>constructor</code> 函数是在调用 <code>main</code> 函数之前调用的，而 <code>destructor</code> 函数则是在应用程序退出时调用的。</p><p>要创建 constructor 和 destructor 函数，则需要声明两个函数，然后对这两个函数应用 <code>constructor</code> 和 <code>destructor</code> 函数属性。在 <code>constructor</code> 函数中，会打开一个新的跟踪文件，分析数据的地址跟踪就是写入这个文件的；在 <code>destructor</code> 函数中，会关闭这个跟踪文件（参见清单 3）。</p><br><a name="N10114"><strong>清单 3. 分析 constructor 和 destructor 函数</strong></a><br> <br>/</em> Constructor and Destructor Prototypes */<br>void main_constructor( void )<br> </strong>attribute<strong> ((no_instrument_function, constructor));<br>void main_destructor( void )<br> </strong>attribute<strong> ((no_instrument_function, destructor));<br>/<em> Output trace file pointer </em>/<br>static FILE *fp;<br>void main_constructor( void )<br>{<br>  fp = fopen( &quot;trace.txt&quot;, &quot;w&quot; );<br>  if (fp == NULL) exit(-1);<br>}<br>void main_deconstructor( void )<br>{<br>  fclose( fp );<br>}                        <br><p>如果编译分析函数（在 instrument.c）并将它们与目标应用程序链接在一起，然后再执行目标应用程序，结果会生成一个应用程序的调用追踪，追踪记录被写入 <em>trace.txt</em> 文件。跟踪文件与调用的应用程序处于相同的目录中。最终结果是，您可能会得到一个其中满是地址的非常大的文件。为了能够让这些数据更有意义，您可以使用一个不太出名的叫做 Addr2line 的 GNU 工具。</p><br> <img width="100%" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif"><br> <img width="8" height="6" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <img width="100%" height="4" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"><br> <img width="16" height="16" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif"> <a href="http://www-128.ibm.com/developerworks/cn/linux/l-graphvis/#main" target="_blank" rel="external"><strong>回页首</strong></a> <br><br><p><a name="N10121">使用 Addr2line 将函数地址解析为函数名</a></p><p>Addr2line 工具（它是标准的 GNU Binutils 中的一部分）是一个可以将指令的地址和可执行映像转换成文件名、函数名和源代码行数的工具。这种功能对于将跟踪地址转换成更有意义的内容来说简直是太棒了。</p><p>要了解这个过程是怎样工作的，我们可以试验一个简单的交互式的例子。（我直接从 shell 中进行操作，因为这是最简单地展示这个过程的方法，如清单 4 所示。）这个示例 C 文件（test.c）是通过 <code>cat</code> 一个简单的应用程序实现的（也就是说，将标准输出的文本重定向到一个文件中）。然后使用 gcc 来编译这个文件，它会传递一些特殊的选项。首先，要（使用 <code>-Wl</code> 选项）通知链接器生成一个映像文件，并（使用 <code>-g</code> 选项）通知编译器生成调试符号。最终生成可执行文件 <em>test</em>。得到新的可执行应用程序之后，您就可以使用 <code>grep</code> 工具在映像文件中查找 <code>main</code> 来寻找它的地址了。使用这个地址和 Addr2line 工具，就可以判断出函数名（<code>main</code>）、源文件（/home/mtj/test/test.c）以及它在源文件中的行号（4）。</p><p>在调用 Addr2line 工具时，要使用 <code>-e</code> 选项来指定可执行映像是 <code>test</code>。通过使用 <code>-f</code> 选项，可以告诉工具输出函数名。</p><br><a name="N1015C"><strong>清单 4. addr2line 的一个交互式例子</strong></a><br> <br>$ cat &gt;&gt; test.c<br>#include &lt;stdio.h&gt;<br>int main()<br>{<br>  printf(&quot;Hello Worldn&quot;);<br>  return 0;<br>}<br>&lt;ctld-d&gt;<br>$ gcc -Wl,-Map=test.map -g -o test test.c<br>$ grep main test.map<br> 0x08048258  </strong>libc_start_main@@GLIBC_2.0<br> 0x08048258  main<br>$ addr2line 0x08048258 -e test -f<br>main<br>/home/mtj/test/test.c:4<br>$                        <br> <img width="10" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <a name="N1016B"><strong>Addr2line 和调试器</strong></a><br> <p>Addr2line 工具提供了基本的符号调试信息，不过 GNU Debugger （GDB）使用的是其他一些内部方法。</p> <br> <img width="100%" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif"><br> <img width="8" height="6" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <img width="100%" height="4" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"><br> <img width="16" height="16" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif"> <a href="http://www-128.ibm.com/developerworks/cn/linux/l-graphvis/#main" target="_blank" rel="external"><strong>回页首</strong></a> <br><br><p><a name="N10175">精简函数跟踪数据</a></p><p>现 在您有了一个可以搜集函数函数地址的追踪数据的方法，还可以使用 Addr2line 工具将地址转换为函数名。然而，从应用程序中产生大量的跟踪数据之后，如何对这些数据进行精简，从而使其更有意义呢？这就是使用一些定制的中间代码在开源 工具之间建立联系的地方。本文提供了这个工具（Pvtrace）的带有注释的完整代码，包括如何编译和使用该工具的一些说明。（有关的更多信息，请参阅 <a href="http://www-128.ibm.com/developerworks/cn/linux/l-graphvis/#download" target="_blank" rel="external">下载</a> 一节。）</p><p>回想一下图 1 中的内容，在执行设置了检测函数的应用程序时，会创建一个名为 <em>trace.txt</em> 的文本文件。这个人们可以读取的文件中包含了一系列地址信息 &mdash;&mdash; 每行一个地址，每行都有一个前缀字符。如果前缀是 <em>E</em>，那么这个地址就是一个函数的入口地址（也就是说，您正在调用这个函数）。如果前缀是一个 <em>X</em> 字符，那么这个地址就是一个出口地址（也就是说，您正在从这个函数中退出）。</p><p>因 此，如果在跟踪文件中有一个入口地址（A）紧跟着另外一个入口地址（B），那么您就可以推断是 A 调用了 B。如果一个入口地址（A）后面跟着一个出口地址（A），那么就说明这个函数（A）被调用后就直接返回了。当涉及大量的调用链时，就很难分析究竟是谁调用 了谁，因此，一种简单的解决方案是维护一个整个地址的堆栈。每次在跟踪文件中碰到一个入口地址时，就将其压入堆栈。栈顶的地址就代表最后一次被调用的函数 （也就是当前的活动函数）。如果后面紧接着是另外一个入口地址，这说明堆栈中的地址调用了这个刚从跟踪文件处读出的地址。在碰到退出函数时，当前的活动函 数就会返回，并释放栈顶元素。这会将上下文返到回前一个函数，由此，就可以产生正确的调用链过程。</p><p>图 2 介绍了这个概念，以及精简数据的方法。在分析跟踪文件中的调用链时，会构建一个连通矩阵，用来表示哪个函数调用了其他哪些函数。这个矩阵的行表示调用函数 的地址，列表示被调用的地址。对于每个调用对来说，行与列的交叉点不断进行累加（调用次数）。当处理完整个跟踪文件时，其结果是该应用程序的整个调用历史 的一个非常简单的表示，其中包含了调用的次数。</p><br><a name="N10197"><strong>图 2. 对跟踪数据进行处理和精简，并生成矩阵格式</strong></a><br><img width="295" height="493" alt="精简过程" src="http://www-128.ibm.com/developerworks/cn/linux/l-graphvis/figure2.gif"> <br> <img width="10" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <a name="N101A8"><strong>编译并安装工具</strong></a><br> <p>在下载并解压 Pvtrace 工具之后，只需在子目录中输入 <code>make</code> 命令，就可以编译 Pvtrace 工具了。也可以使用下面的代码将这个工具安装到 /usr/local/bin 目录中：</p>                                                                                                                                                            $ unzip pvtrace.zip -d pvtrace<br>$ cd pvtrace<br>$ make<br>$ make install                                                                                                                                                                                                                        <p>现在我们已经构建了简化的函数连通性矩阵，接下来应该构建图形的表示了。让我们深入研究 Graphviz，了便理解如何从连通矩阵生成一个调用图。</p><br> <img width="100%" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif"><br> <img width="8" height="6" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <img width="100%" height="4" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"><br> <img width="16" height="16" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif"> <a href="http://www-128.ibm.com/developerworks/cn/linux/l-graphvis/#main" target="_blank" rel="external"><strong>回页首</strong></a> <br><br><p><a name="N101BE">使用 Graphviz</a></p><p>Graphviz 或 Graph Visualization 是由 AT&amp;T 开发的一个开源的图形可视化工具。它提供了多种画图能力，但是我们重点关注的是它使用 Dot 语言直连图的能力。在本文中，我们将简单介绍如何使用 Dot 来创建一个图形，并展示如何将分析数据转换成 Graphviz 可以使用的规范。（请参阅 <a href="http://www-128.ibm.com/developerworks/cn/linux/l-graphvis/#resources" target="_blank" rel="external">参考资料</a> 一节，以获得有关下载这个开源软件的信息。）</p><p><a name="N101CC">Dot 使用的图形规范</a></p><p>使用 Dot 语言，您可以指定三种对象：图、节点和边。为了让您理解这些对象的含义，我们将构建一个例子来展示这些元素的用法。</p><p>清单 5 给出了一个简单的定向图（directed graph），其中包含 3 个节点。第一行声明这个图为 <em>G</em>，并且声明了该图的类型（digraph）。接下来的三行代码用于创建该图的节点，这些节点分别名为 <em>node1</em>、<em>node2</em> 和 <em>node3</em>。节点是在它们的名字出现在图规范中时创建的。边是在在两个节点使用边操作（<code>-&gt;</code>）连接在一起时创建的，如第 6 行到第 8 行所示。我还对边使用了一个可选的属性 <code>label</code>，用它来表示边在图中的名称。最后，在第 9 行完成对该图规范的定义。</p><br><a name="N101F0"><strong>清单 5. 使用 Dot 符号表示的示例图（test.dot）</strong></a><br> <br>1:  digraph G {<br>2:    node1;<br>3:    node2;<br>4:    node3;<br>5:<br>6:    node1 -&gt; node2 [label=&quot;edge_1_2&quot;];<br>7:    node1 -&gt; node3 [label=&quot;edge_1_3&quot;];<br>8:    node2 -&gt; node3 [label=&quot;edge_2_3&quot;];<br>9:  }                        <br><p>要将这个 .dot 文件转换成一个图形映像，则需要使用 Dot 工具，这个工具是在 Graphviz 包中提供的。清单 6 介绍了这种转换。</p><br><a name="N101FE"><strong>清单 6. 使用 Dot 来创建 JPG 映像</strong></a><br> <br>$ dot -Tjpg test.dot -o test.jpg<br>$                        <br><p>在这段代码中，我告诉 Dot 使用 test.dot 图形规范，并生成一个 JPG 图像，将其保存在文件 test.jpg 中。所生成的图像如图 3 所示。在此处，我使用了 JPG 格式，但是 Dot 工具也可以支持其他格式，其中包括 GIF、PNG 和 postscript。</p><br><a name="N1020A"><strong>图 3. Dot 创建的示例图</strong></a><br><img width="207" height="248" alt="Dot 创建的示例图" src="http://www-128.ibm.com/developerworks/cn/linux/l-graphvis/figure3.gif"> <br><p>Dot 语言还可以支持其他一些选项，包括外形、颜色和很多属性。但是就我们想要实现的功能而言，这个选项就足够了。</p><p> </p> <img width="100%" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif"><br> <img width="8" height="6" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <img width="100%" height="4" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"><br> <img width="16" height="16" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif"> <a href="http://www-128.ibm.com/developerworks/cn/linux/l-graphvis/#main" target="_blank" rel="external"><strong>回页首</strong></a> <br><br><p><a name="N1021C">综合</a></p><p>现在我们已经看到了整个过程的各个阶段了，下面可以采用一个例子来展示如何将这些阶段合并在一起了。现在，您应该已经展开并安装了 Pvtrace 工具，然后还需要将 instrument.c 文件复制到工作源代码目录中。</p><p>在这个例子中，我使用了一个源文件 <em>test.c</em> 进行检测。清单 7 给出了整个过程。在第 3 行中，我使用检测源（instrument.c）来构建（编译并连接）应用程序。然后在第 4 行执行 <code>test</code>，再使用 <code>ls</code> 命令验证已经生成了 trace.txt 文件。在第 8 行，我调用了 Pvtrace 工具，并提供这个映像文件作为它惟一的参数。映像名是必需的，这样 Addr2line（在 Pvtrace 中调用）就可以访问这个映像中的调试信息。在第 9 行中，我又执行了一次 <code>ls</code> 命令，以确保 Pvtrace 生成了 graph.dot 文件。最后，在第 12 行，使用 Dot 将这个图形规范转换成一个 JPG 图形映像。</p><br><a name="N1023C"><strong>清单 7. 创建调用跟踪图的整个过程</strong></a><br> <br> 1:  $ ls<br> 2:  instrument.c    test.c<br> 3:  $ gcc -g -finstrument-functions test.c -o test<br> 4:  $ ./test<br> 5:  $ ls<br> 6:  instrument.c     test.c<br> 7:  test             trace.txt<br> 8:  $ pvtrace test<br> 9:  $ ls<br>10:  graph.dot        test           trace.txt<br>11:  instrument.c     test.c<br>12:  $ dot -Tjpg graph.dot -o graph.jpg<br>13:  $ ls<br>14:  graph.dot        instrument.c   test.c<br>15:  graph.jpg        test           trace.txt<br>16:  $                        <br><p>这个过程的示例输出如图 4 所示。这个示例图是从使用 Q 学习的一个简单增强式学习应用程序中得到的。</p><br><a name="N10251"><strong>图 4. 示例应用程序的跟踪结果</strong></a><br><img width="479" height="356" alt="示例应用程序的跟踪结果" src="http://www-128.ibm.com/developerworks/cn/linux/l-graphvis/figure4.gif"> <br><p>您 也可以使用这种方法对更大的应用程序进行分析。我要展示的最后一个例子是 Gzip 工具。我简单地将 instrument.c 加入 Gzip 的 Makefile 中，作为其依赖的一个源文件，然后编译 Gzip，并使用它生成一个跟踪文件。这个图形太大了，不太容易进行更详细的分析，但是下图表示了 Gzip 对一个小文件进行压缩时的处理过程。</p><br><a name="N10265"><strong>图 5. Gzip 跟踪结果</strong></a><br><img width="600" height="291" alt="Gzip 跟踪结果" src="http://www-128.ibm.com/developerworks/cn/linux/l-graphvis/figure5.jpg"> <br><br> <img width="100%" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif"><br> <img width="8" height="6" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <img width="100%" height="4" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"><br> <img width="16" height="16" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif"> <a href="http://www-128.ibm.com/developerworks/cn/linux/l-graphvis/#main" target="_blank" rel="external"><strong>回页首</strong></a> <br><br><p><a name="N10274">结束语</a></p><p>使 用开源软件和少量的中间代码，只需要花很少的时间就可以开发出非常有用的项目。通过使用对应用程序进行分析的几个 GNU 编译器扩展，可以使用 Addr2line 工具进行地址转换，并对 Graphviz 应用程序进行图形可视化，然后您就可以得到一个程序，该程序可以对应用程序进行分析，并展示一个说明调用链的定向图。通过图形来查看一个应用程序的调用链 对于理解应用程序的内部行为来说非常重要。在正确了解调用链及其各自的频率之后，这些知识可能对调试和优化应用程序非常有用。</p> <p></p>
 
       
     </div>
-    <div class="article-info article-info-index">
+
+    <div>
       
-      <a href="/2007/11/19/【zz】-cyg-profile-func-enter、pvtrace、Graphviz-可视化函数调用/" class="archive-article-date">
-  	<time datetime="2007-11-19T11:38:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-11-19</time>
-</a>
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2007/11/19/example-for-从程序员角度看ELF/" rel="next" title="example for 从程序员角度看ELF">
+                <i class="fa fa-chevron-left"></i> example for 从程序员角度看ELF
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2007/11/20/利用core文件调试/" rel="prev" title="利用core文件调试">
+                利用core文件调试 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
       
       
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/Linux-Debug/">Linux Debug</a>
-	</div>
+    </footer>
+  </article>
 
 
-      <div class="clearfix"></div>
+
+    <div class="post-spread">
+      
     </div>
   </div>
-</article>
 
-  
-<nav id="article-nav">
-  
-    <a href="/2007/11/20/利用core文件调试/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
         
-          利用core文件调试
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/wp-content/uploads/penguin.gif"
+               alt="jfo" />
+          <p class="site-author-name" itemprop="name">jfo</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">596</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/jfojfo" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/jfojfo" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.pickbox.me" title="收藏夹" target="_blank">收藏夹</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://note.pickbox.me" title="网络剪贴板" target="_blank">网络剪贴板</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://iguangba.pickbox.me" title="爱逛吧" target="_blank">爱逛吧</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
         
       </div>
-    </a>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
   
-  
-    <a href="/2007/11/19/example-for-从程序员角度看ELF/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">example for 从程序员角度看ELF</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-
-
-<div class="share_jia">
-	<!-- JiaThis Button BEGIN -->
-	<div class="jiathis_style">
-		<span class="jiathis_txt">Share to: &nbsp; </span>
-		<a class="jiathis_button_facebook"></a> 
-	    <a class="jiathis_button_twitter"></a>
-	    <a class="jiathis_button_plus"></a> 
-	    <a class="jiathis_button_tsina"></a>
-		<a class="jiathis_button_cqq"></a>
-		<a class="jiathis_button_douban"></a>
-		<a class="jiathis_button_weixin"></a>
-		<a class="jiathis_button_tumblr"></a>
-    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
-	</div>
-	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
-	<!-- JiaThis Button END -->
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jfo</span>
 </div>
 
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
 
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
 
+        
 
-
-
-
-
-
+        
       </div>
-      <footer id="footer">
-  <div class="outer">
-    <div id="footer-info">
-    	<div class="footer-left">
-    		&copy; 2016 jfo
-    	</div>
-      	<div class="footer-right">
-      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
-      	</div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
     </div>
   </div>
-</footer>
-    </div>
-    <script>
-	var yiliaConfig = {
-		fancybox: true,
-		mathjax: false,
-		animate: true,
-		isHome: false,
-		isPost: true,
-		isArchive: false,
-		isTag: false,
-		isCategory: false,
-		open_in_new: false,
-		root: "/",
-		innerArchive: true
-	}
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
 
-<script src="/./main.js"></script>
 
 
-    
-<div class="tools-col">
-  <ul class="btn-wrap">
-    
-      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
-    
-    
-      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
-    
-    
-      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
-    
-    
-      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
-    
-  </ul>
-  <div class="tools-wrap">
-    
-    	<section class="tools-section tools-section-all chose">
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-tag">
-    			<div class="widget tagcloud" id="js-tagcloud">
-    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
-    			</div>
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-friends">
-  		
-  			<div class="friends-wrap" id="js-friends">
-  			
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
-  	        
-  	        </div>
-  		
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-me">
-  	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
-  	  	
-    	</section>
-    
-  </div>
+
+
+
   
-</div>
 
-    <!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
 
-    <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
 
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
 
-        <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
 
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
 
-            <div class="pswp__top-bar">
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
 
-                <!--  Controls are self-explanatory. Order can be changed. -->
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
 
-                <div class="pswp__counter"></div>
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
 
-                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+  
 
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
 
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
 
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
-                </div>
-            </div>
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
 
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div> 
-            </div>
 
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
 
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
+  
+  
 
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
 
-        </div>
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
 
-    </div>
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
 
-</div>
-  </div>
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
 </body>
 </html>

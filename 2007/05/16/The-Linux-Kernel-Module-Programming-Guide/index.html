@@ -1,12 +1,90 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
+<!doctype html>
+
+
+
   
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>The Linux Kernel Module Programming Guide | jfo planet</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="http://kernel.lupaworld.com/newbie/lkmpg/#AEN150＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝.|– Makefile|– hello|&amp;nbsp;&amp;nbsp;   |– Makefile|&amp;nbsp;&amp;nbsp;   -- hello-3.c&amp;lt;br /&amp;gt;– winnt_mod&amp;nbsp;&amp;n">
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="jfo, blog" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="http://kernel.lupaworld.com/newbie/lkmpg/#AEN150＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝.|– Makefile|– hello|&amp;nbsp;&amp;nbsp;   |– Makefile|&amp;nbsp;&amp;nbsp;   -- hello-3.c&amp;lt;br /&amp;gt;– winnt_mod&amp;nbsp;&amp;n">
 <meta property="og:type" content="article">
 <meta property="og:title" content="The Linux Kernel Module Programming Guide">
 <meta property="og:url" content="http://blog.pickbox.me/2007/05/16/The-Linux-Kernel-Module-Programming-Guide/index.html">
@@ -16,366 +94,546 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="The Linux Kernel Module Programming Guide">
 <meta name="twitter:description" content="http://kernel.lupaworld.com/newbie/lkmpg/#AEN150＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝.|– Makefile|– hello|&amp;nbsp;&amp;nbsp;   |– Makefile|&amp;nbsp;&amp;nbsp;   -- hello-3.c&amp;lt;br /&amp;gt;– winnt_mod&amp;nbsp;&amp;n">
-  
-    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="//favicon.ico">
-  
-  <script src="/style.js"></script>
-  
 
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://blog.pickbox.me/2007/05/16/The-Linux-Kernel-Module-Programming-Guide/"/>
+
+
+  <title> The Linux Kernel Module Programming Guide | jfo planet </title>
 </head>
 
-<body>
-  <div id="container">
-    <div class="left-col">
-      <div class="overlay"></div>
-<div class="intrude-less">
-	<header id="header" class="inner">
-		<a href="/" class="profilepic">
-			
-			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
-			
-		</a>
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
 
-		<hgroup>
-		  <h1 class="header-author"><a href="/">jfo</a></h1>
-		</hgroup>
+  
 
-		
-		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
-		
 
-		<nav class="header-menu">
-			<ul>
-			
-				<li><a href="/">主页</a></li>
-	        
-			</ul>
-		</nav>
-		<nav class="header-smart-menu">
-	        
-    		
-    			
-    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
-    			
-    			
-            
-		</nav>
-		<nav class="header-nav">
-			<div class="social">
-				
-					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
-		        
-					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
-		        
-			</div>
-		</nav>
-	</header>		
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">jfo planet</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Hope is the best gift that tomorrow gives.</p>
 </div>
 
-    </div>
-    <div class="mid-col">
-      <nav id="mobile-nav">
-  	<div class="overlay">
-  		<div class="slider-trigger"><i class="icon-list"></i></div>
-  		<h1 class="header-author js-mobile-header hide">jfo</h1>
-  	</div>
-	<div class="intrude-less">
-		<header id="header" class="inner">
-			<div class="profilepic">
-				
-					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
-				
-			</div>
-			<hgroup>
-			  <h1 class="header-author">jfo</h1>
-			</hgroup>
-			
-			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
-			
-			<nav class="header-menu">
-				<ul>
-				
-					<li><a href="/">主页</a></li>
-		        
-				</ul>
-			</nav>
-			<nav class="header-nav">
-				<div class="social">
-					
-						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
-			        
-						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
-			        
-				</div>
-			</nav>
-		</header>				
-	</div>
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
 </nav>
 
-      <div class="body-wrap">
-        <article id="post-The-Linux-Kernel-Module-Programming-Guide" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
     
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
+
   
-    <h1 class="article-title" itemprop="name">
-      The Linux Kernel Module Programming Guide
-    </h1>
   
 
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                The Linux Kernel Module Programming Guide
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2007-05-16T11:14:00+08:00" content="2007-05-16">
+              2007-05-16
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
       
         <p> <a target="_blank" href="http://kernel.lupaworld.com/newbie/lkmpg/#AEN150">http://kernel.lupaworld.com/newbie/lkmpg/#AEN150</a><br><br>＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝<br>.<br>|– Makefile<br>|– hello<br>|&nbsp;&nbsp;   |– Makefile<br>|&nbsp;&nbsp;   <code>-- hello-3.c&lt;br /&gt;</code>– winnt_mod<br>&nbsp;&nbsp;&nbsp;   |– Makefile<br>&nbsp;&nbsp;&nbsp;   <code>-- winnt_mod.c&lt;br /&gt;&lt;br /&gt;./Makefile:&lt;br /&gt;                                    # Don&#39;t set $(PWD) to</code>pwd<code>, will occur error!!!&lt;br /&gt;# PWD = &#39;</code>pwd<code>&#39;&lt;br /&gt;&lt;br /&gt;SUB_DIRS:= winnt_mod/  hello/&lt;br /&gt;MODULE&amp;nbsp;&amp;nbsp;&amp;nbsp;   := mod&lt;br /&gt;MKFILES := $(addprefix $(PWD)/, $(addsuffix Makefile, $(SUB_DIRS)))&lt;br /&gt;&lt;br /&gt;obj-m&amp;nbsp;&amp;nbsp;&amp;nbsp;   := $(MODULE).o&lt;br /&gt;include $(MKFILES)&lt;br /&gt;&lt;br /&gt;all:&lt;br /&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;   make -C /lib/modules/</code>uname -r<code>/build M=</code>pwd<code>modules &lt;br /&gt;&lt;br /&gt;clean:&lt;br /&gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;   make -C /lib/modules/</code>uname -r<code>/build M=</code>pwd<code>clean&lt;br /&gt; &lt;br /&gt;winnt_mod/Makefile:&lt;br /&gt;                        WINNT_MOD_OBJS += winnt_mod.o&lt;br /&gt; &lt;br /&gt;            $(MODULE)-objs += $(addprefix winnt_mod/, $(WINNT_MOD_OBJS))&lt;br /&gt; &lt;br /&gt;hello/Makefile:&lt;br /&gt;                        HELLO_OBJS += hello-3.o&lt;br /&gt; &lt;br /&gt;            $(MODULE)-objs += $(addprefix hello/, $(HELLO_OBJS))&lt;br /&gt; &lt;br /&gt; &lt;br /&gt;winnt_mod/winnt_mod.c:&lt;br /&gt;                        #include &amp;lt;linux/module.h&amp;gt;&lt;br /&gt;            #include &amp;lt;linux/kernel.h&amp;gt;&lt;br /&gt;            #include &amp;lt;linux/init.h&amp;gt;&lt;br /&gt;            #include &amp;lt;linux/kthread.h&amp;gt;&lt;br /&gt;            #include &amp;lt;linux/workqueue.h&amp;gt;&lt;br /&gt; &lt;br /&gt;            MODULE_LICENSE(&amp;quot;GPL&amp;quot;);&lt;br /&gt;            MODULE_AUTHOR(&amp;quot;jfo&amp;quot;);&lt;br /&gt; &lt;br /&gt;            static struct workqueue_struct *WINNT_wq;&lt;br /&gt;            static struct task_struct *WINNT_task = NULL;&lt;br /&gt; &lt;br /&gt;            static void func(void *msg)&lt;br /&gt;            {&lt;br /&gt;            &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;   printk(&amp;quot;jfo-kernel: %s&amp;quot;, (char*)msg);&lt;br /&gt;            }&lt;br /&gt; &lt;br /&gt;            static int WINNT_proxy(void *parm)&lt;br /&gt;            {&lt;br /&gt;            &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;   DECLARE_WORK(work, func, &amp;quot;queued work func called.n&amp;quot;);&lt;br /&gt; &lt;br /&gt;            &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;   parm = parm;&lt;br /&gt;            &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;   printk(&amp;quot;jfo-kernel: WINNT_proxy is running.n&amp;quot;);&lt;br /&gt; &lt;br /&gt;            &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;   queue_delayed_work(WINNT_wq, &amp;amp;work, HZ * 3);&lt;br /&gt; &lt;br /&gt; &lt;br /&gt;            &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;   while(!kthread_should_stop()) {&lt;br /&gt;            &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;   set_current_state(TASK_INTERRUPTIBLE);&lt;br /&gt;            &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;   schedule();&lt;br /&gt;            &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;   }&lt;br /&gt; &lt;br /&gt;            &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;   printk(&amp;quot;jfo-kernel: WINNT_proxy returned.n&amp;quot;);&lt;br /&gt;            &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;   return 0;&lt;br /&gt;            }&lt;br /&gt; &lt;br /&gt;            static int __init WINNT_init(void)&lt;br /&gt;            {&lt;br /&gt;            &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;   struct task_struct *p;&lt;br /&gt; &lt;br /&gt;            &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;   /* create WINNT_wq and WINNT workqueue thread */&lt;br /&gt;            &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;   WINNT_wq = create_singlethread_workqueue(&amp;quot;WINNT_workqueue&amp;quot;);&lt;br /&gt;            &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;   BUG_ON(!WINNT_wq);&lt;br /&gt; &lt;br /&gt;            &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;   /* create WINNT_proxy thread */&lt;br /&gt;            &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;   p = kthread_create(WINNT_proxy, NULL, &amp;quot;WINNT_proxy&amp;quot;);&lt;br /&gt;            &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;   if(IS_ERR(p)) {&lt;br /&gt;            &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;   printk(&amp;quot;jfo-kernel: WINNT_proxy created failed.n&amp;quot;);&lt;br /&gt;            &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;   return -1;&lt;br /&gt;            &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;   }&lt;br /&gt;            &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;   WINNT_task = p;&lt;br /&gt;            &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;   wake_up_process(p);&lt;br /&gt; &lt;br /&gt;            &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;   printk(KERN_INFO &amp;quot;jfo-kernel: WINNT module loaded.n&amp;quot;);&lt;br /&gt;            &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;   return 0;&lt;br /&gt;            }&lt;br /&gt; &lt;br /&gt;            static void __exit WINNT_exit(void)&lt;br /&gt;            {&lt;br /&gt;            &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;   if(WINNT_task)&lt;br /&gt;            &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;   kthread_stop(WINNT_task);&lt;br /&gt;            // &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;  cancel_rearming_delayed_workqueue(WINNT_wq, work);&lt;br /&gt;            &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;   destroy_workqueue(WINNT_wq);&lt;br /&gt; &lt;br /&gt;            &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;   printk(KERN_INFO &amp;quot;jfo-kernel: WINNT module unloaded.n&amp;quot;);&lt;br /&gt;            }&lt;br /&gt; &lt;br /&gt;            module_init(WINNT_init);&lt;br /&gt;            module_exit(WINNT_exit);&lt;br /&gt; &lt;br /&gt; &lt;br /&gt;&lt;br /&gt;＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;Chapter 2. Hello World&lt;a name=&quot;AEN150&quot;&gt;2.1. Hello, World (part 1): 最简单的内核模块&lt;/a&gt;&lt;p&gt;当第一个洞穴程序员在第一台洞穴计算机的墙上上凿写第一个程序时，  这是一个在羚羊皮上输出</code>Hello, world’的字符串。罗马的编程书籍上是以  <code>Salut, Mundi&#39;这样的程序开始的。 我不明白人们为什么要破坏这个传统，  但我认为还是不明白为好。我们将从编写一系列的</code>Hello, world’模块开始，  一步步展示编写内核模块的基础的方方面面。</p><p>这可能是一个最简单的模块了。先别急着编译它。我们将在下章模块编译的章节介绍相关内容。</p><a name="AEN157"></a><p><strong>Example 2-1. hello-1.c</strong></p>                                    /<em>  <br> </em>  hello-1.c - The simplest kernel module.<br> <em>/<br>#include &lt;linux/module.h&gt; /</em> Needed by all modules <em>/<br>#include &lt;linux/kernel.h&gt; /</em> Needed for KERN_ALERT <em>/<br><br>int init_module(void)<br>{<br> printk(KERN_INFO &quot;Hello world 1.n&quot;);<br><br> /</em> <br>  <em> A non 0 return means init_module failed; module can’t be loaded. <br>  </em>/<br> return 0;<br>}<br><br>void cleanup_module(void)<br>{<br> printk(KERN_INFO &quot;Goodbye world 1.n&quot;);<br>}                        <p>一个内核模块应该至少包含两个函数。一个&ldquo;开始&rdquo;(初始化)的函数被称为<code>init_module()</code>  还有一个&ldquo;结束&rdquo; (干一些收尾清理的工作)的函数被称为<code>cleanup_module()</code>  ，当内核模块被rmmod卸载时被执行。实际上，从内核版本2.3.13开始这种情况有些改变。  你可以为你的开始和结束函数起任意的名字。 你将在以后学习如何实现这一点<a href="http://kernel.lupaworld.com/newbie/lkmpg/#HELLO2" target="_blank" rel="external">Section 2.3</a>。  实际上，这个新方法时推荐的实现方法。但是，许多人仍然使<code>init_module()</code>和  <code>cleanup_module()</code>作为他们的开始和结束函数。</p><p>一般，<code>init_module()</code>要么向内核注册它可以处理的事物，要么用自己的代码  替代某个内核函数(代码通常这样做然后再去调用原先的函数代码)。函数  <code>cleanup_module()</code>应该撤消任何<code>init_module()</code>做的事，从而  内核模块可以被安全的卸载。</p><p>最后，任一个内核模块需要包含<tt>linux/module.h</tt>。 我们仅仅需要包含  <tt>linux/kernel.h</tt>当需要使用  <code>printk()</code>记录级别的宏扩展时<var>KERN_ALERT</var>，相关内容将在<a href="http://kernel.lupaworld.com/newbie/lkmpg/#INTRODUCINGPRINTK" target="_blank" rel="external">Section 2.1.1</a>中介绍。</p><hr><a name="INTRODUCINGPRINTK">2.1.1. 介绍<code>printk()</code></a><p>不管你可能怎么想，<code>printk()</code>并不是设计用来同用户交互的，虽然我们在    hello-1就是出于这样的目的使用它！它实际上是为内核提供日志功能，    记录内核信息或用来给出警告。因此，每个<code>printk()</code>    声明都会带一个优先级，就像你看到的<var>&lt;1&gt;</var>和<var>KERN_ALERT</var>    那样。内核总共定义了八个优先级的宏， 所以你不必使用晦涩的数字代码，并且你可以从文件    <tt>linux/kernel.h</tt>查看这些宏和它们的意义。如果你    不指明优先级，默认的优先级<var>DEFAULT_MESSAGE_LOGLEVEL</var>将被采用。</p><p>阅读一下这些优先级的宏。头文件同时也描述了每个优先级的意义。在实际中，    使用宏而不要使用数字，就像<var>&lt;4&gt;</var>。总是使用宏，就像    <var>KERN_WARNING</var>。</p><p>当优先级低于<var>int console_loglevel</var>，信息将直接打印在你的终端上。如果同时    <strong>syslogd</strong>和klogd都在运行，信息也同时添加在文件    <tt>/var/log/messages</tt>，而不管是否显示在控制台上与否。我们使用像    <var>KERN_ALERT</var>这样的高优先级，来确保<code>printk()</code>将信息输出到    控制台而不是只是添加到日志文件中。 当你编写真正的实用的模块时，你应该针对可能遇到的情况使用合    适的优先级。</p><hr><a name="AEN210">2.2. 编译内核模块</a><p>内核模块在用gcc编译时需要使用特定的参数。另外，一些宏同样需要定义。 这是因为在编译成可执行文件和内核模块时，  内核头文件起的作用是不同的。 以往的内核版本需要我们去在Makefile中手动设置这些设定。尽管这些Makefile是按目录分层次  安排的，但是这其中有许多多余的重复并导致代码树大而难以维护。   幸运的是，一种称为kbuild的新方法被引入，现在外部的可加载内核模块的编译的方法已经同内核编译统一起来。想了解更多的编  译非内核代码树中的模块(就像我们将要编写的)请参考帮助文件<tt>linux/Documentation/kbuild/modules.txt</tt>。  </p><p>现在让我们看一个编译名为<tt>hello-1.c</tt>的模块的简单的Makefile：</p><a name="AEN218"></a><p><strong>Example 2-2. 一个基本内核模块的Makefile</strong></p>                                    obj-m += hello-1.o<br><br>all:<br>       make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules<br> <br>clean:<br>       make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean<br> <p>现在你可以通过执行命令<strong> make</strong>编译模块。  你应该得到同下面类似的屏幕输出：</p>                                    hostname:~/lkmpg-examples/02-HelloWorld# make<br>make -C /lib/modules/2.6.11/build M=/root/lkmpg-examples/02-HelloWorld modules<br>make[1]: Entering directory <code>/usr/src/linux-2.6.11&#39;&lt;br /&gt;  CC [M] /root/lkmpg-examples/02-HelloWorld/hello-1.o&lt;br /&gt; Building modules, stage 2.&lt;br /&gt;  MODPOST&lt;br /&gt;  CC      /root/lkmpg-examples/02-HelloWorld/hello-1.mod.o&lt;br /&gt;  LD [M] /root/lkmpg-examples/02-HelloWorld/hello-1.ko&lt;br /&gt;make[1]: Leaving directory</code>/usr/src/linux-2.6.11’<br>hostname:~/lkmpg-examples/02-HelloWorld#<br> <p>请注意2.6的内核现在引入一种新的内核模块命名规范：内核模块现在使用<tt>.ko</tt>的文件后缀(代替   以往的<tt>.o</tt>后缀)，这样内核模块就可以同常规的目标文件区别开。这样做的理由是它们包含一个附加的.modinfo段，  那里存放着关于模块的附加信息。我们将马上看到这些信息的好处。  </p><p>使用<strong>modinfo hello-<em>.ko</em></strong>来看看它是什么样的信息。</p>                                    hostname:~/lkmpg-examples/02-HelloWorld# modinfo hello-1.ko<br>filename:       hello-1.ko<br>vermagic:       2.6.11 preempt PENTIUMII 4KSTACKS gcc-3.3<br>depends:<br> <p>到目前为止，没什么惊人的。一旦我们对后面的一个例子，hello-5.ko，使用modinfo，那将会改变。                                    hostname:~/lkmpg-examples/02-HelloWorld# modinfo hello-5.ko<br>filename:       hello-5.ko<br>license:        GPL<br>author:         Peter Jay Salzman<br>vermagic:       2.6.11 preempt PENTIUMII 4KSTACKS gcc-3.3<br>depends:<br>parm:           myintArray:An array of integers (array of int)<br>parm:           mystring:A character string (charp)<br>parm:           mylong:A long integer (long)<br>parm:           myint:An integer (int)<br>parm:           myshort:A short integer (short)<br>hostname:~/lkmpg-examples/02-HelloWorld#<br> </p><p>这里有很多有用的信息去看。报告错误的作者信息，许可证信息，甚至对它接受参数的简短描述。</p><p>更详细的文档请参考  <tt>linux/Documentation/kbuild/makefiles.txt</tt>。在研究Makefile之前请确认你已经参考了这些文档。它很可能会节省你很多工作。 </p><p>现在是使用<strong>insmod ./hello-1.ko</strong>命令加载该模块的时候了(忽略任何你看到的关于内核污染的输出  显示，我们将在以后介绍相关内容)。</p><p> 所有已经被加载的内核模块都罗列在文件<tt>/proc/modules</tt>中。cat一下这个文件看一下你的模块是否真的  成为内核的一部分了。如果是，祝贺你！你现在已经是内核模块的作者了。当你的新鲜劲过去后，使用命令  <strong>rmmod hello-1</strong>.卸载模块。再看一下<tt>/var/log/messages</tt>文件的内容是否有相关的日志内容。  </p><p>这儿是另一个练习。看到了在声明  <code>init_module()</code>上的注释吗? 改变返回值非零，重新编译再加载，发生了什么？</p><hr><a name="HELLO2">2.3. Hello World (part 2)</a><p>在内核Linux 2.4中，你可以为你的模块的&ldquo;开始&rdquo;和&ldquo;结束&rdquo;函数起任意的名字。它们不再必须使用  <code>init_module()</code>和<code>cleanup_module()</code>的名字。这可以通过宏  <code>module_init()</code>和<code>module_exit()</code>实现。这些宏在头文件<tt>linux/init.h</tt>定义。唯一需要注意的地方是函数必须在宏的使用前定义，否则会有编译  错误。下面就是一个例子。</p><a name="AEN252"></a><p><strong>Example 2-3. hello-2.c</strong></p>                                    /  <br> <em>  hello-2.c - Demonstrating the module_init() and module_exit() macros.<br> </em>  This is preferred over using init_module() and cleanup_module().<br> <em>/<br>#include &lt;linux/module.h&gt; /</em> Needed by all modules <em>/<br>#include &lt;linux/kernel.h&gt; /</em> Needed for KERN_ALERT <em>/<br>#include &lt;linux/init.h&gt;  /</em> Needed for the macros <em>/<br><br>static int <strong>init hello_2_init(void)<br>{<br> printk(KERN_INFO &quot;Hello, world 2n&quot;);<br> return 0;<br>}<br><br>static void </strong>exit hello_2_exit(void)<br>{<br> printk(KERN_INFO &quot;Goodbye, world 2n&quot;);<br>}<br><br>module_init(hello_2_init);<br>module_exit(hello_2_exit);                        <p>现在我们已经写过两个真正的模块了。添加编译另一个模块的选项十分简单，如下：</p><a name="AEN257"></a><p><strong>Example 2-4. 两个内核模块使用的Makefile</strong></p>                                    obj-m += hello-1.o<br>obj-m += hello-2.o<br>all:<br>       make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules<br>clean:<br>       make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean<br> <p>现在让我们来研究一下<tt>linux/drivers/char/Makefile</tt>这个实际中的例子。就如同你看到的，  一些被编译进内核 (obj-y)，但是这些obj-m哪里去了呢？对于熟悉shell脚本的人这不难理解。这些在Makefile中随处可见  的obj-$(CONFIG_FOO)的指令将会在CONFIG_FOO被设置后扩展为你熟悉的obj-y或obj-m。这其实就是你在使用  <strong>make menuconfig</strong>编译内核时生成的<tt>linux/.config</tt>中设置的东西。  </p><hr><a name="AEN265">2.4. Hello World (part 3): 关于<var><strong>init</strong></var>和<var>exit</var>宏</a><p>这里展示了内核2.2以后引入的一个新特性。注意在负责&ldquo;初始化&rdquo;和&ldquo;清理收尾&rdquo;的函数定义处的变化。宏  <code><strong>init</strong></code>的使用会在初始化完成后丢弃该函数并收回所占内存，如果该模块被编译进内核，而不是动态加载。  </p><p>也有一个宏<code>initdata</code>同<code><strong>init</strong></code> 类似，只不过对变量有效。</p><p>宏<code>exit</code>将忽略&ldquo;清理收尾&rdquo;的函数如果该模块被编译进内核。同宏  <code>__exit</code>一样，对动态加载模块是无效的。这很容易理解。编译进内核的模块  是没有清理收尾工作的, 而动态加载的却需要自己完成这些工作。</p><p>这些宏在头文件<tt>linux/init.h</tt>定义，用来释放内核占用的内存。  当你在启动时看到这样的<var>Freeing unused kernel memory: 236k freed</var>内核输出，上面的  那些正是内核所释放的。</p><a name="AEN295"></a><p><strong>Example 2-5. hello-3.c</strong></p>                                    /</em>  <br> <em>  hello-3.c - Illustrating the <strong>init, </strong>initdata and __exit macros.<br> </em>/<br>#include &lt;linux/module.h&gt; /<em> Needed by all modules </em>/<br>#include &lt;linux/kernel.h&gt; /<em> Needed for KERN_ALERT </em>/<br>#include &lt;linux/init.h&gt;  /<em> Needed for the macros </em>/<br><br>static int hello3_data <strong>initdata = 3;<br><br>static int </strong>init hello_3_init(void)<br>{<br> printk(KERN_INFO &quot;Hello, world %dn&quot;, hello3_data);<br> return 0;<br>}<br><br>static void <strong>exit hello_3_exit(void)<br>{<br> printk(KERN_INFO &quot;Goodbye, world 3n&quot;);<br>}<br><br>module_init(hello_3_init);<br>module_exit(hello_3_exit);                        <hr><a name="AEN299">2.5. Hello World (part 4): 内核模块许可证和内核模块文档说明</a><p>如果你在使用2.4或更新的内核，当你加载你的模块时，你也许注意到了这些输出信息：</p>                                    # insmod xxxxxx.o<br>Warning: loading xxxxxx.o will taint the kernel: no license<br>  See <a href="http://www.tux.org/lkml/#export-tainted" target="_blank" rel="external">http://www.tux.org/lkml/#export-tainted</a> for information about tainted modules<br>Hello, world 3<br>Module xxxxxx loaded, with warnings<br> <p>在2.4或更新的内核中，一种识别代码是否在GPL许可下发布的机制被引入，  因此人们可以在使用非公开的源代码产品时得到警告。这通过在下一章展示的宏  <code>MODULE_LICENSE()</code>当你设置在GPL证书下发布你的代码时，  你可以取消这些警告。这种证书机制在头文件<tt>linux/module.h</tt>  实现，同时还有一些相关文档信息。                                    /<em><br> </em> The following license idents are currently accepted as indicating free<br> <em> software modules<br> </em><br> <em> &quot;GPL&quot;    [GNU Public License v2 or later]<br> </em> &quot;GPL v2&quot;   [GNU Public License v2]<br> <em> &quot;GPL and additional rights&quot; [GNU Public License v2 rights and more]<br> </em> &quot;Dual BSD/GPL&quot;   [GNU Public License v2<br> <em>      or BSD license choice]<br> </em> &quot;Dual MPL/GPL&quot;   [GNU Public License v2<br> <em>      or Mozilla license choice]<br> </em><br> <em> The following other idents are available<br> </em><br> <em> &quot;Proprietary&quot;   [Non free products]<br> </em><br> <em> There are dual licensed components, but when running with Linux it is the<br> </em> GPL that is relevant so this is a non issue. Similarly LGPL linked with GPL<br> <em> is a GPL combined work.<br> </em><br> <em> This exists for several reasons<br> </em> 1. So modinfo can show license info for users wanting to vet their setup <br> <em> is free<br> </em> 2. So the community can ignore bug reports including proprietary modules<br> <em> 3. So vendors can do likewise based on their own policies<br> </em>/                        </p><p>类似的，宏<code>MODULE_DESCRIPTION()</code>用来描述模块的用途。  宏<code>MODULE_AUTHOR()</code>用来声明模块的作者。宏<code>MODULE_SUPPORTED_DEVICE()</code>  声明模块支持的设备。</p><p>这些宏都在头文件<tt>linux/module.h</tt>定义，  并且内核本身并不使用这些宏。它们只是用来提供识别信息，可用工具程序像objdump查看。  作为一个练习，使用grep从目录<tt>linux/drivers</tt>看一看这些模块的作者是如何  为他们的模块提供识别信息和档案的。</p><p>我推荐在/usr/src/linux-2.6.x/目录下使用类似<strong>grep -inr MODULE_AUTHOR <em></em></strong>的命令。不熟悉命令行工具的人可能喜欢网上那样的方法，  搜索提供LXR做索引的内核源代码树的网站（或在自己的本地机器上安装它）。</p><p>使用像emacs或vi那样传统的Unix编辑器的用户将会发现tag文件很有用。它们能够在/usr/src/linux-2.6.x/  下用<strong>make tags</strong>或<strong>make TAGS</strong>生成。  一旦你在内核目录树中得到了这种tag文件，你就能把鼠标放到某个函数调用上使用一些组合键直接跳  到函数的定义处。</p><a name="AEN330"></a><p><strong>Example 2-6. hello-4.c</strong></p>                                    /  <br> <em>  hello-4.c - Demonstrates module documentation.<br> </em>/<br>#include &lt;linux/module.h&gt;<br>#include &lt;linux/kernel.h&gt;<br>#include &lt;linux/init.h&gt;<br>#define DRIVER_AUTHOR &quot;Peter Jay Salzman &lt;p@dirac.org&gt;&quot;<br>#define DRIVER_DESC   &quot;A sample driver&quot;<br><br>static int </strong>init init_hello_4(void)<br>{<br> printk(KERN_INFO &quot;Hello, world 4n&quot;);<br> return 0;<br>}<br><br>static void <strong>exit cleanup_hello_4(void)<br>{<br> printk(KERN_INFO &quot;Goodbye, world 4n&quot;);<br>}<br><br>module_init(init_hello_4);<br>module_exit(cleanup_hello_4);<br><br>/<em>  <br> </em>  You can use strings, like this:<br> <em>/<br><br>/</em> <br> <em> Get rid of taint message by declaring code as GPL. <br> </em>/<br>MODULE_LICENSE(&quot;GPL&quot;);<br><br>/<em><br> </em> Or with defines, like this:<br> <em>/<br>MODULE_AUTHOR(DRIVER_AUTHOR); /</em> Who wrote this module? <em>/<br>MODULE_DESCRIPTION(DRIVER_DESC); /</em> What does this module do <em>/<br><br>/</em>  <br> <em>  This module uses /dev/testdevice.  The MODULE_SUPPORTED_DEVICE macro might<br> </em>  be used in the future to help automatic configuration of modules, but is <br> <em>  currently unused other than for documentation purposes.<br> </em>/<br>MODULE_SUPPORTED_DEVICE(&quot;testdevice&quot;);                        <hr><a name="AEN334">2.6. 从命令行传递参数给内核模块</a><p>模块也可以从命令行获取参数。但不是通过以前你习惯的<var>argc</var>/<var>argv</var>。</p><p>要传递参数给模块，首先将获取参数值的变量声明为全局变量。然后使用宏<code>MODULE_PARM()</code>(在头文件<tt>linux/module.h</tt>)。运行时，insmod将给变量赋予命令行的参数，如同  <strong>./insmod mymodule.ko myvariable=5</strong>。为使代码清晰，变量的声明和宏都应该放在  模块代码的开始部分。以下的代码范例也许将比我公认差劲的解说更好。</p><p>宏<code>module_param()</code>需要三个参数，变量的名字，其类型和在sysfs中关联文件的权限。  整数型既可为通常的signed也可为unsigned。   如果你想使用整数数组或者字符串，请看module_param_array()和module_param_string()。</p>                                    int myint = 3;<br>module_param(myint, int, 0);<br> <p>数组同样被支持。但是情况和2.4时代有点不一样了。为了追踪参数的个数，你需要传递一个指向数目变量的指针作为第三个参数。  在你自己，你也可以忽略数目并传递NULL。我们把两种可能性都列出来：</p>                                    int myintarray[2];<br>module_param_array(myintarray, int, NULL, 0); /<em> not interested in count </em>/<br>int myshortarray[4];<br>int count;<br>module_parm_array(myshortarray, short, &amp; count, 0); /<em> put count into &quot;count&quot; variable </em>/<br> <p>将初始值设为缺省使用的IO端口或IO寻址是一个不错的作法。如果这些变量有缺省值，则可以进行自动设备检测，  否则保持当前设置的值。我们将在后续章节解释清楚相关内容。在这里我只是演示如何向一个模块传递参数。</p><p>最后，还有这样一个宏，<code>MODULE_PARM_DESC()</code>被用来注解该模块可以接收的参数。该宏  两个参数：变量名和一个格式自由的对该变量的描述。</p><a name="AEN360"></a><p><strong>Example 2-7. hello-5.c</strong></p>                                    /<em><br> </em>  hello-5.c - Demonstrates command line argument passing to a module.<br> <em>/<br>#include &lt;linux/module.h&gt;<br>#include &lt;linux/moduleparam.h&gt;<br>#include &lt;linux/kernel.h&gt;<br>#include &lt;linux/init.h&gt;<br>#include &lt;linux/stat.h&gt;<br><br>MODULE_LICENSE(&quot;GPL&quot;);<br>MODULE_AUTHOR(&quot;Peter Jay Salzman&quot;);<br><br>static short int myshort = 1;<br>static int myint = 420;<br>static long int mylong = 9999;<br>static char </em>mystring = &quot;blah&quot;;<br>static int myintArray[2] = { -1, -1 };<br>static int arr_argc = 0;<br><br>/<em> <br> </em> module_param(foo, int, 0000)<br> <em> The first param is the parameters name<br> </em> The second param is it’s data type<br> <em> The final argument is the permissions bits, <br> </em> for exposing parameters in sysfs (if non-zero) at a later stage.<br> <em>/<br><br>module_param(myshort, short, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);<br>MODULE_PARM_DESC(myshort, &quot;A short integer&quot;);<br>module_param(myint, int, S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);<br>MODULE_PARM_DESC(myint, &quot;An integer&quot;);<br>module_param(mylong, long, S_IRUSR);<br>MODULE_PARM_DESC(mylong, &quot;A long integer&quot;);<br>module_param(mystring, charp, 0000);<br>MODULE_PARM_DESC(mystring, &quot;A character string&quot;);<br><br>/</em><br> <em> module_param_array(name, type, num, perm);<br> </em> The first param is the parameter’s (in this case the array’s) name<br> <em> The second param is the data type of the elements of the array<br> </em> The third argument is a pointer to the variable that will store the number<br> <em> of elements of the array initialized by the user at module loading time<br> </em> The fourth argument is the permission bits<br> */<br>module_param_array(myintArray, int, &amp;arr_argc, 0000);<br>MODULE_PARM_DESC(myintArray, &quot;An array of integers&quot;);<br><br>static int </strong>init hello_5_init(void)<br>{<br> int i;<br> printk(KERN_INFO &quot;Hello, world 5n=============n&quot;);<br> printk(KERN_INFO &quot;myshort is a short integer: %hdn&quot;, myshort);<br> printk(KERN_INFO &quot;myint is an integer: %dn&quot;, myint);<br> printk(KERN_INFO &quot;mylong is a long integer: %ldn&quot;, mylong);<br> printk(KERN_INFO &quot;mystring is a string: %sn&quot;, mystring);<br> for (i = 0; i &lt; (sizeof myintArray / sizeof (int)); i++)<br> {<br>  printk(KERN_INFO &quot;myintArray[%d] = %dn&quot;, i, myintArray[i]);<br> }<br> printk(KERN_INFO &quot;got %d arguments for myintArray.n&quot;, arr_argc);<br> return 0;<br>}<br><br>static void __exit hello_5_exit(void)<br>{<br> printk(KERN_INFO &quot;Goodbye, world 5n&quot;);<br>}<br><br>module_init(hello_5_init);<br>module_exit(hello_5_exit);                        <p>我建议用下面的方法实验你的模块：</p>                                    satan# insmod hello-5.ko mystring=&quot;bebop&quot; mybyte=255 myintArray=-1<br>mybyte is an 8 bit integer: 255<br>myshort is a short integer: 1<br>myint is an integer: 20<br>mylong is a long integer: 9999<br>mystring is a string: bebop<br>myintArray is -1 and 420<br>satan# rmmod hello-5<br>Goodbye, world 5<br>satan# insmod hello-5.ko mystring=&quot;supercalifragilisticexpialidocious&quot; <br>&gt; mybyte=256 myintArray=-1,-1<br>mybyte is an 8 bit integer: 0<br>myshort is a short integer: 1<br>myint is an integer: 20<br>mylong is a long integer: 9999<br>mystring is a string: supercalifragilisticexpialidocious<br>myintArray is -1 and -1<br>satan# rmmod hello-5<br>Goodbye, world 5<br>satan# insmod hello-5.ko mylong=hello<br>hello-5.o: invalid argument syntax for mylong: ‘h’                        <hr><a name="AEN366">2.7. 由多个文件构成的内核模块</a><p>有时将模块的源代码分为几个文件是一个明智的选择。</p><p>这里是这样的一个模块范例。</p><a name="AEN403"></a><p><strong>Example 2-8. start.c</strong></p>                                    /<em><br> </em>  start.c - Illustration of multi filed modules<br> <em>/<br><br>#include &lt;linux/kernel.h&gt; /</em> We’re doing kernel work <em>/<br>#include &lt;linux/module.h&gt; /</em> Specifically, a module <em>/<br><br>int init_module(void)<br>{<br> printk(KERN_INFO &quot;Hello, world - this is the kernel speakingn&quot;);<br> return 0;<br>}                        <p>另一个文件：</p><a name="AEN411"></a><p><strong>Example 2-9. stop.c</strong></p>                                    /</em><br> <em>  stop.c - Illustration of multi filed modules<br> </em>/<br><br>#include &lt;linux/kernel.h&gt; /<em> We’re doing kernel work </em>/<br>#include &lt;linux/module.h&gt; /<em> Specifically, a module  </em>/<br><br>void cleanup_module()<br>{<br> printk(KERN_INFO &quot;Short is the life of a kernel modulen&quot;);<br>}                        <p>最后是该模块的Makefile：</p><a name="AEN416"></a><p><strong>Example 2-10. Makefile</strong></p>                                    obj-m += hello-1.o<br>obj-m += hello-2.o<br>obj-m += hello-3.o<br>obj-m += hello-4.o<br>obj-m += hello-5.o<br>obj-m += startstop.o<br>startstop-objs := start.o stop.o<br><br>all:<br>       make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules<br> <br>clean:<br>       make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean<br> <p>这是目前为止所有例子的完整的Makefile。前五行没有什么特别之处，但是最后一个例子需要两行。  首先，我们为联合的目标文件构造一个名字，其次，我们告诉<strong>make</strong>什么目标文件是模块的一部分。</p><a name="AEN420">2.8. 为已编译的内核编译模块</a><p> 很显然，我们强烈推荐你编译一个新的内核，这样你就可以打开内核中一些有用的排错功能，像强制卸载模块(<var>MODULE_FORCE_UNLOAD</var>)：  当该选项被打开时，你可以<strong>rmmod -f module</strong>强制内核卸载一个模块，即使内核认为这是不安全的。该选项可以为你节省不少开发时间。  </p><p> 但是，你仍然有许多使用一个正在运行中的已编译的内核的理由。例如，你没有编译和安装新内核的权限，或者你不希望重启你的机器来运行新内核。  如果你可以毫无阻碍的编译和使用一个新的内核，你可以跳过剩下的内容，权当是一个脚注。  </p><p> 如果你仅仅是安装了一个新的内核代码树并用它来编译你的模块，当你加载你的模块时，你很可能会得到下面的错误提示：  </p>                                    insmod: error inserting ‘poet_atkm.ko’: -1 Invalid module format<br> <p> 一些不那么神秘的信息被纪录在文件<tt>/var/log/messages</tt>中；  </p>                                    Jun  4 22:07:54 localhost kernel: poet_atkm: version magic ‘2.6.5-1.358custom 686 <br>REGPARM 4KSTACKS gcc-3.3’ should be ‘2.6.5-1.358 686 REGPARM 4KSTACKS gcc-3.3’<br> <p> 换句话说，内核拒绝加载你的模块因为记载版本号的字符串不符(更确切的说是版本印戳)。版本印戳作为一个静态的字符串存在于内核模块中，以  <var>vermagic:</var>。   版本信息是在连接阶段从文件<tt>init/vermagic.o</tt>中获得的。  查看版本印戳和其它在模块中的一些字符信息，可以使用下面的命令  <strong>modinfo module.ko</strong>：  </p>                                    [root@pcsenonsrv 02-HelloWorld]# modinfo hello-4.ko <br>license:        GPL<br>author:         Peter Jay Salzman &lt;p@dirac.org&gt;<br>description:    A sample driver<br>vermagic:       2.6.5-1.358 686 REGPARM 4KSTACKS gcc-3.3<br>depends:        <br> <p>   我们可以借助选项<strong>–force-vermagic</strong>解决该问题，但这种方法有潜在的危险，所以在成熟的模块中也是不可接受的。  解决方法是我们构建一个同我们预先编译好的内核完全相同的编译环境。如何具体实现将是该章后面的内容。  </p><p> 首先，准备同你目前的内核版本完全一致的内核代码树。然后，找到你的当前内核的编译配置文件。通常它可以在路径  <tt>/boot</tt>下找到，使用像<tt>config-2.6.x</tt>的文件名。你可以直接将它拷贝到内核代码树的路径下：   <strong> cp /boot/config-<code>uname -r</code> /usr/src/linux-<code>uname -r</code>/.config</strong>。 </p><p> 让我们再次注意一下先前的错误信息：仔细看的话你会发现，即使使用完全相同的配置文件，版本印戳还是有细小的差异的，但这足以导致  模块加载的失败。这其中的差异就是在模块中出现却不在内核中出现的<var>custom</var>字符串，是由某些发行版提供的修改过的  makefile导致的。检查<tt>/usr/src/linux/Makefile</tt>，确保下面这些特定的版本信息同你使用的内核完全一致：</p>                                    VERSION = 2<br>PATCHLEVEL = 6<br>SUBLEVEL = 5<br>EXTRAVERSION = -1.358custom<br>…<br> <p> 像上面的情况你就需要将<var>EXTRAVERSION</var>一项改为<var>-1.358</var>。我们的建议是将原始的makefile备份在  <tt>/lib/modules/2.6.5-1.358/build</tt>下。  一个简单的命令<strong>cp /lib/modules/<code>uname -r</code>/build/Makefile /usr/src/linux-<code>uname -r</code></strong>即可。  另外，如果你已经在运行一个由上面的错误的<tt>Makefile</tt>编译的内核，你应该重新执行   <strong>make</strong>，或直接对应<tt>/lib/modules/2.6.x/build/include/linux/version.h</tt>从文件  <tt>/usr/src/linux-2.6.x/include/linux/version.h</tt>修改<var>UTS_RELEASE</var>，或用前者覆盖后者的。  </p><p> 现在，请执行<strong>make</strong>来更新设置和版本相关的头文件，目标文件：  </p>                                    [root@pcsenonsrv linux-2.6.x]# make<br>CHK     include/linux/version.h<br>UPD     include/linux/version.h<br>SYMLINK include/asm -&gt; include/asm-i386<br>SPLIT   include/linux/autoconf.h -&gt; include/config/*<br>HOSTCC  scripts/basic/fixdep<br>HOSTCC  scripts/basic/split-include<br>HOSTCC  scripts/basic/docproc<br>HOSTCC  scripts/conmakehash<br>HOSTCC  scripts/kallsyms<br>CC      scripts/empty.o<br>…<br> <p> 如果你不是确实想编译一个内核，你可以在<var>SPLIT</var>后通过按下<strong>CTRL-C</strong>中止编译过程。因为此时你需要的文件  已经就绪了。现在你可以返回你的模块目录然后编译加载它：此时模块将完全针对你的当前内核编译，加载时也不会由任何错误提示。  </p> <p></p>
 
       
     </div>
-    <div class="article-info article-info-index">
+
+    <div>
       
-      <a href="/2007/05/16/The-Linux-Kernel-Module-Programming-Guide/" class="archive-article-date">
-  	<time datetime="2007-05-16T03:14:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-05-16</time>
-</a>
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2007/05/15/绕过Copy-On-Write机制安装全局Hook/" rel="next" title="绕过Copy-On-Write机制安装全局Hook">
+                <i class="fa fa-chevron-left"></i> 绕过Copy-On-Write机制安装全局Hook
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2007/05/16/学习Linux-2-6-16内核TCP-IP协议栈/" rel="prev" title="学习Linux 2.6.16内核TCP/IP协议栈">
+                学习Linux 2.6.16内核TCP/IP协议栈 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
       
       
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/Linux/">Linux</a>
-	</div>
+    </footer>
+  </article>
 
 
-      <div class="clearfix"></div>
+
+    <div class="post-spread">
+      
     </div>
   </div>
-</article>
 
-  
-<nav id="article-nav">
-  
-    <a href="/2007/05/16/学习Linux-2-6-16内核TCP-IP协议栈/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
         
-          学习Linux 2.6.16内核TCP/IP协议栈
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/wp-content/uploads/penguin.gif"
+               alt="jfo" />
+          <p class="site-author-name" itemprop="name">jfo</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">596</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/jfojfo" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/jfojfo" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.pickbox.me" title="收藏夹" target="_blank">收藏夹</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://note.pickbox.me" title="网络剪贴板" target="_blank">网络剪贴板</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://iguangba.pickbox.me" title="爱逛吧" target="_blank">爱逛吧</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
         
       </div>
-    </a>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
   
-  
-    <a href="/2007/05/15/绕过Copy-On-Write机制安装全局Hook/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">绕过Copy-On-Write机制安装全局Hook</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-
-
-<div class="share_jia">
-	<!-- JiaThis Button BEGIN -->
-	<div class="jiathis_style">
-		<span class="jiathis_txt">Share to: &nbsp; </span>
-		<a class="jiathis_button_facebook"></a> 
-	    <a class="jiathis_button_twitter"></a>
-	    <a class="jiathis_button_plus"></a> 
-	    <a class="jiathis_button_tsina"></a>
-		<a class="jiathis_button_cqq"></a>
-		<a class="jiathis_button_douban"></a>
-		<a class="jiathis_button_weixin"></a>
-		<a class="jiathis_button_tumblr"></a>
-    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
-	</div>
-	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
-	<!-- JiaThis Button END -->
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jfo</span>
 </div>
 
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
 
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
 
+        
 
-
-
-
-
-
+        
       </div>
-      <footer id="footer">
-  <div class="outer">
-    <div id="footer-info">
-    	<div class="footer-left">
-    		&copy; 2016 jfo
-    	</div>
-      	<div class="footer-right">
-      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
-      	</div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
     </div>
   </div>
-</footer>
-    </div>
-    <script>
-	var yiliaConfig = {
-		fancybox: true,
-		mathjax: false,
-		animate: true,
-		isHome: false,
-		isPost: true,
-		isArchive: false,
-		isTag: false,
-		isCategory: false,
-		open_in_new: false,
-		root: "/",
-		innerArchive: true
-	}
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
 
-<script src="/./main.js"></script>
 
 
-    
-<div class="tools-col">
-  <ul class="btn-wrap">
-    
-      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
-    
-    
-      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
-    
-    
-      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
-    
-    
-      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
-    
-  </ul>
-  <div class="tools-wrap">
-    
-    	<section class="tools-section tools-section-all chose">
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-tag">
-    			<div class="widget tagcloud" id="js-tagcloud">
-    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
-    			</div>
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-friends">
-  		
-  			<div class="friends-wrap" id="js-friends">
-  			
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
-  	        
-  	        </div>
-  		
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-me">
-  	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
-  	  	
-    	</section>
-    
-  </div>
+
+
+
   
-</div>
 
-    <!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
 
-    <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
 
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
 
-        <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
 
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
 
-            <div class="pswp__top-bar">
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
 
-                <!--  Controls are self-explanatory. Order can be changed. -->
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
 
-                <div class="pswp__counter"></div>
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
 
-                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+  
 
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
 
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
 
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
-                </div>
-            </div>
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
 
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div> 
-            </div>
 
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
 
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
+  
+  
 
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
 
-        </div>
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
 
-    </div>
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
 
-</div>
-  </div>
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
 </body>
 </html>

@@ -1,12 +1,90 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
+<!doctype html>
+
+
+
   
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>Xen | jfo planet</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Contents: About Xen Quick Start System Requirements Conventions Installing the Xen Software Enabling Xen Creating A Guest System  Building a Fedora Guest System  Graphical Mode Installation via VNC">
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="jfo, blog" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="Contents: About Xen Quick Start System Requirements Conventions Installing the Xen Software Enabling Xen Creating A Guest System  Building a Fedora Guest System  Graphical Mode Installation via VNC">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Xen">
 <meta property="og:url" content="http://blog.pickbox.me/2006/12/20/Xen/index.html">
@@ -29,366 +107,546 @@
 <meta name="twitter:title" content="Xen">
 <meta name="twitter:description" content="Contents: About Xen Quick Start System Requirements Conventions Installing the Xen Software Enabling Xen Creating A Guest System  Building a Fedora Guest System  Graphical Mode Installation via VNC">
 <meta name="twitter:image" content="http://fedoraproject.org/wikidata/kindofblue/img/moin-www.png">
-  
-    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="//favicon.ico">
-  
-  <script src="/style.js"></script>
-  
 
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://blog.pickbox.me/2006/12/20/Xen/"/>
+
+
+  <title> Xen | jfo planet </title>
 </head>
 
-<body>
-  <div id="container">
-    <div class="left-col">
-      <div class="overlay"></div>
-<div class="intrude-less">
-	<header id="header" class="inner">
-		<a href="/" class="profilepic">
-			
-			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
-			
-		</a>
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
 
-		<hgroup>
-		  <h1 class="header-author"><a href="/">jfo</a></h1>
-		</hgroup>
+  
 
-		
-		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
-		
 
-		<nav class="header-menu">
-			<ul>
-			
-				<li><a href="/">主页</a></li>
-	        
-			</ul>
-		</nav>
-		<nav class="header-smart-menu">
-	        
-    		
-    			
-    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
-    			
-    			
-            
-		</nav>
-		<nav class="header-nav">
-			<div class="social">
-				
-					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
-		        
-					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
-		        
-			</div>
-		</nav>
-	</header>		
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">jfo planet</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Hope is the best gift that tomorrow gives.</p>
 </div>
 
-    </div>
-    <div class="mid-col">
-      <nav id="mobile-nav">
-  	<div class="overlay">
-  		<div class="slider-trigger"><i class="icon-list"></i></div>
-  		<h1 class="header-author js-mobile-header hide">jfo</h1>
-  	</div>
-	<div class="intrude-less">
-		<header id="header" class="inner">
-			<div class="profilepic">
-				
-					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
-				
-			</div>
-			<hgroup>
-			  <h1 class="header-author">jfo</h1>
-			</hgroup>
-			
-			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
-			
-			<nav class="header-menu">
-				<ul>
-				
-					<li><a href="/">主页</a></li>
-		        
-				</ul>
-			</nav>
-			<nav class="header-nav">
-				<div class="social">
-					
-						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
-			        
-						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
-			        
-				</div>
-			</nav>
-		</header>				
-	</div>
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
 </nav>
 
-      <div class="body-wrap">
-        <article id="post-Xen" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
     
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
+
   
-    <h1 class="article-title" itemprop="name">
-      Xen
-    </h1>
   
 
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Xen
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2006-12-20T15:49:00+08:00" content="2006-12-20">
+              2006-12-20
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux-App/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux App</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
       
         <p> </p><p><strong>Contents:</strong></p><ol> <li><a href="http://fedoraproject.org/wiki/FedoraXenQuickstartFC5#head-c2e380b1891ea9b5ad6ae74c3da16aae402f678c" target="_blank" rel="external">About Xen</a></li> <li><a href="http://fedoraproject.org/wiki/FedoraXenQuickstartFC5#head-8f30d1c9dd2870e82077ec8a3bd395e91c7ed4f0" target="_blank" rel="external">Quick Start</a></li> <li><a href="http://fedoraproject.org/wiki/FedoraXenQuickstartFC5#head-88a9bc51813ab1a28d30d8c6606d709d25db40d7" target="_blank" rel="external">System Requirements</a></li> <li><a href="http://fedoraproject.org/wiki/FedoraXenQuickstartFC5#head-b4375a31f90c223ec05cbdb89be530b77f93e7e1" target="_blank" rel="external">Conventions</a></li> <li><a href="http://fedoraproject.org/wiki/FedoraXenQuickstartFC5#head-61bb05b28fcee61f150ed5206df689a50741b9b7" target="_blank" rel="external">Installing the Xen Software</a></li> <li><a href="http://fedoraproject.org/wiki/FedoraXenQuickstartFC5#head-1fb9fb08d8caf55a529686c4772556d8cfd54d29" target="_blank" rel="external">Enabling Xen</a></li> <li><a href="http://fedoraproject.org/wiki/FedoraXenQuickstartFC5#head-51f62872ad12e009d630c64a56c3507d2a336c53" target="_blank" rel="external">Creating A Guest System</a> <ol> <li><a href="http://fedoraproject.org/wiki/FedoraXenQuickstartFC5#head-2b1a8982b989e3dc1e1a71b6c592099c1ed874c5" target="_blank" rel="external">Building a Fedora Guest System</a> <ol> <li><a href="http://fedoraproject.org/wiki/FedoraXenQuickstartFC5#head-4b06eebfd9ee7d882cc9888d5dab3fbbbd0144b4" target="_blank" rel="external">Graphical Mode Installation via VNC</a></li> </ol> </li> </ol> </li> <li><a href="http://fedoraproject.org/wiki/FedoraXenQuickstartFC5#head-4ee5719b32b170df9f00cfa804a324e0360be656" target="_blank" rel="external">After Installation</a></li> <li><a href="http://fedoraproject.org/wiki/FedoraXenQuickstartFC5#head-95c4431f2e78b53eaab6bb7c3dd3e656bf5975db" target="_blank" rel="external">Automatically Loading Domains On Startup</a></li> <li><a href="http://fedoraproject.org/wiki/FedoraXenQuickstartFC5#head-4cb7dfdf86fdd745929d19efe3a1dbcc577d3007" target="_blank" rel="external">Troubleshooting</a> <ol> <li><a href="http://fedoraproject.org/wiki/FedoraXenQuickstartFC5#head-254c160282e5807792c9c50010f969d3d4c1ac8d" target="_blank" rel="external">Serial Console</a></li> <li><a href="http://fedoraproject.org/wiki/FedoraXenQuickstartFC5#head-1898c4d2e381f0407801069a6dcd61647d1c643c" target="_blank" rel="external">Accessing data on a guest disk image</a></li> <li><a href="http://fedoraproject.org/wiki/FedoraXenQuickstartFC5#head-e6fe55bf1ede75cc2952b93e5c9a937e3c5efb9c" target="_blank" rel="external">Hints</a></li> <li><a href="http://fedoraproject.org/wiki/FedoraXenQuickstartFC5#head-bb06dde0043d315645ae5fdcf7b954ded0f0ebe8" target="_blank" rel="external">Installation of guest FC5 freezes</a></li> </ol> </li> <li><a href="http://fedoraproject.org/wiki/FedoraXenQuickstartFC5#head-cdfc9e05690d2b036b31cd2c71e057c038d9d2f4" target="_blank" rel="external">Getting Help</a></li> <li><a href="http://fedoraproject.org/wiki/FedoraXenQuickstartFC5#head-b513e201cc453dbb2d2c5a8062ab3ee5e70dd0fb" target="_blank" rel="external">Footnotes</a></li></ol>About Xen<p>Xen is an open source virtual machine system.  More information on Xen itself can be found at <a href="http://wiki.xensource.com/xenwiki/" target="_blank" rel="external"><img width="11" height="11" src="http://fedoraproject.org/wikidata/kindofblue/img/moin-www.png" alt="[WWW]"> http://wiki.xensource.com/xenwiki/</a> and the Fedora <a href="http://fedoraproject.org/wiki/Tools/Xen" target="_blank" rel="external"> Xen</a> page.</p><p>Fedora is following the 3.0.x Xen line. Xen 3.0.0 was released in December of 2005 and is incompatible with guests using the previous Xen 2.0.x releases.</p>Quick Start<p>Setting up Xen and guests should be significantly more straight-forward with Fedora Core 5 than it previously was with Fedora Core 4. Here’s a run-through of what is required to configure a system as a Xen host as well as setting up Xen guests.</p>System Requirements<ul> <li> <p>Your system must use GRUB, the default boot loader for Fedora<sup><a href="http://fedoraproject.org/wiki/FedoraXenQuickstartFC5#fndef-5a7dbf8ecda9b54bdbda63305d0519b240bdf662-0" target="_blank" rel="external">1</a></sup></p> </li> <li> <p>Sufficient storage space for the guest operating systems. A minimal command-line Fedora system requires around 600MB of storage, a standard desktop Fedora system requires around 3GB.</p> </li> <li> <p>Generally speaking, you will want to have 256 megs of RAM per guest that you wish to install. This is largely due to memory requirements for the installation and will hopefully be less by the time FC5 is released.</p> </li> <li> <p>Support is present for both x86 and x86_64 systems</p> </li></ul>Conventions<p>Commands which require root privileges are prefixed with the character ‘#’. To become root, issue the command ‘su’ as a normal user and supply the root password. Alternatively, use another system such as ‘sudo’ if you have it setup.</p>Installing the Xen Software<p>When doing a fresh install of Fedora Core 5, you can specify that Xen should be installed by adding ‘xen0’ to your kernel command line. This will ensure that the Xen kernel and userspace support packages are installed.</p><p>If you already have a Fedora Core 5 system installed, you can install the Xen kernel by running the following command:</p><ul> <li>    # yum install kernel-xen0    </li></ul><p>This installs the required packages and their dependencies.  ‘kernel-xen0’ contains the Xen-enabled host system kernel (<tt>domain 0</tt>) as well as the hypervisor. Also, the ‘xen’ package will be installed, which contains the user-space tools for interacting with the hypervisor.</p><p>Once this is done, you should have an entry set up in the file <tt>/boot/grub/grub.conf</tt> for booting the <tt>xen0</tt> kernel. The <tt>xen0</tt> kernel is <strong>not</strong> set as the default boot option.</p><p>To set GRUB to boot with <tt>xen0</tt> by default, edit <tt>/boot/grub/grub.conf</tt> and set the default to the xen0 kernel:<sup><a href="http://fedoraproject.org/wiki/FedoraXenQuickstartFC5#fndef-ae1d60e9de2d3310eed00e0b05d89b820bb2b30e-1" target="_blank" rel="external">2</a></sup></p><ul> <li>    default=0    <ul> <li> <p><img width="15" height="15" src="http://fedoraproject.org/wikidata/kindofblue/img/alert.png" alt="/!"> If the graphical boot screen or X-Windows fails on the next bootup, you may need to disable the graphical boot (<tt>rhgb</tt>) and switch to using runlevel 3 (command-line only mode).</p> </li> </ul> </li></ul><p>This is an example <tt>/boot/grub/grub.conf</tt>, with the <tt>3</tt> option to start the host system on runlevel 3:</p><ul> <li>    default=0<br>timeout=5<br>splashimage=(hd0,0)/grub/splash.xpm.gz<br>hiddenmenu<br>title Fedora Core (2.6.15-1.29_FC5hypervisor)<br>        root (hd0,0)<br>        kernel /xen.gz-2.6.15-1.29_FC5<br>        module /vmlinuz-2.6.15-1.29_FC5xen0 ro root=/dev/VolGroup01/LogVol00 3<br>        module /initrd-2.6.15-1.29_FC5xen0.img    </li></ul><p>The Xen facilities in Fedora Core uses VNC to provide a graphical interface that may be accessed from remote systems, as well as the host. Install the <tt>vnc</tt> package on those systems that will be used to manage Xen:</p><ul> <li>    # yum install vnc    </li></ul><p>This provides the <tt>vncviewer</tt> client.</p>Enabling Xen<p>Once you’ve rebooted with the <tt>xen-hypervisor</tt> GRUB option, you should be running with a Xen-enabled kernel <sup><a href="http://fedoraproject.org/wiki/FedoraXenQuickstartFC5#fndef-1abea3ac1e03414f68897d71bbd715d800d43e76-2" target="_blank" rel="external">3</a></sup>.  Also, the Xen service should already be running.   To check that Xen is running successfully, enter the following command:</p><ul> <li>    # /usr/sbin/xm list    </li></ul><p>You should see Domain-0 (the Xen-enabled host) running.</p><ul> <li> <p><img width="15" height="15" src="http://fedoraproject.org/wikidata/kindofblue/img/alert.png" alt="/!"> Note that for the default setup, networking for guest OS’s is bridged. This means that they will get an IP address on the same network as your host, thus, if you have a DHCP server providing addresses, you will need to ensure that it is configured to give addresses to your guests. You can change to another networking type by editing <tt>/etc/xen/xend-config.sxp</tt></p> </li></ul>Creating A Guest System<p>These instructions set up a simple Fedora installation as a Xen guest system.</p>Building a Fedora Guest System<p>With Fedora Core 5, installation of Xen guests using anaconda is supported, although with a few known bugs. The xen package includes a script for starting guest installs. You can run it with</p><ul> <li>    # /usr/sbin/xenguest-install.py    </li></ul><p>You will then be prompted to answer a few questions regarding the virtual machine you are trying to create. This information can all be passed as command line options; run with an argument of <tt>–help</tt> for more details.  In particular, kickstart options can be passed with <tt>-x ks=options</tt>.</p><ol> <li> <p>What is the name of your virtual machine? This is the label used for display in the various xm commands as well as being used as the name of the domain config file in <tt>/etc/xen</tt></p> </li> <li> <p>How much RAM should be allocated (in megabytes)? This is the amount of RAM to be allocated for the guest instance in megabytes (eg, 256). Note that installation with less than 256 megabytes is not recommended (or likely to work with test2).</p> </li> <li> <p>What would you like to use as the disk (path)? The local path and file name of the file to serve as the disk image for the guest (eg, /home/joe/xenbox1). This will be exported as a full disk to your guest.</p> </li> <li> <p>How large would you like the disk to be (in gigabytes)? The size of the virtual disk for your guest if the file specified above does not already exist. The amount to specify depends on what you intend to install. 4.0 gigabytes is a reasonable guess for a &quot;default&quot; install</p> </li> <li> <p>What is the install location? This is the path to a Fedora Core 5 installation tree in the format used by anaconda. NFS, FTP, and HTTP locations are all supported. Examples include:</p> <ul> <li> <p>nfs:my.nfs.server.com:/path/to/test2/tree/</p> </li> <li> <p><a href="http://my.http.server.com/path/to/tree/" target="_blank" rel="external"><img width="11" height="11" src="http://fedoraproject.org/wikidata/kindofblue/img/moin-www.png" alt="[WWW]"> http://my.http.server.com/path/to/tree/</a></p> </li> <li> <p></p> </li> </ul> </li></ol><p>If you get an error at this point saying ‘The privileged domain did not balloon!’, you may need to resize one or more of your existing VMs’ memory limits in order to free up RAM for the new guest VM. For instance, to resize dom0 to use only 256 megs of RAM, you could run:</p><ul> <li>    xm mem-set 0 256    </li></ul><p>Once you’ve shrunk your existing domains, you should be able to re-try the xenguest-instally.py script.</p><p>After this, the install kernel and initrd will be grabbed from your install tree and the installer will start.</p><ul> <li> <p>Once the questions are answered, you should be prompted with the standard anaconda text screen to choose the installation language and then keyboard.</p> </li> <li> <p>Configure TCP/IP as you normally would for a system.</p> </li> <li> <p>You are now about to install the guest. You can proceed with either a text mode or graphical mode via VNC.</p> </li></ul>Graphical Mode Installation via VNC<ul> <li> <p>Select Start VNC</p> </li> <li> <p>Now provide a password for a secure VNC connection or No Password for an open connection</p> </li> <li> <p>The VNC server information will be presented. Connect with your choice of VNC client (either running on the local machine or another system).</p> </li> <li> <p>VNC will display a standard Fedora graphical installation screen. Proceed with the installation of your xen guest.</p> </li> <li> <p>Notes</p> <ul> <li> <p>The xvda device is the file identified during the install-script.py process. It appears to the guest as an entire disk, not just as a partition; you can partition it or carve it up with LVM just like a normal disk. The first time you use it, you will need to partition and format it during the install process.</p> </li> </ul> </li></ul>After Installation<p>Once the installer exits, you’ll want to power your guest OS on with the following command.</p><ul> <li>    # /usr/sbin/xm create -c foo    <p> </p> </li></ul><p>foo is the name you gave for your guest. The -c will attach a xen console to your vm. A variety of other commands are available via xm including</p><ul> <li>    # /usr/sbin/xm help    </li></ul><p>for a list of commands that can be run</p><ul> <li>    # /usr/sbin/xm top    </li></ul><p>for a display showing what your virtual machines are doing similar to that provided by top.</p><ul> <li>    # /usr/sbin/xm shutdown foo    </li></ul><p>to nicely shut down a guest OS where foo  is the name of your guest.</p><ul> <li>    # /usr/sbin/xm save foo /root/foo.restore    </li></ul><p>to save the state of the guest ‘foo’ to the file <tt>/root/foo.restore</tt></p><ul> <li>    # /usr/sbin/xm restore /root/foo.restore    </li></ul><p>to restore the above saved guest.</p>Automatically Loading Domains On Startup<p>If you want your domains to automatically start when rebooting the system make sure that you enable the <tt>xendomains</tt> service, and place the Xen configuration file for the domains in the <tt>/etc/xen/auto/</tt> directory.</p><p>To enable the <tt>xendomains</tt> service:</p><ul> <li>    # /sbin/chkconfig –level 345 xendomains on<br># /sbin/service xendomains start    </li></ul><p>Note that the /etc/init.d/xendomains script is broken with respect to its use of the LSB init functions. This is arguably due to a bug in Fedora’s LSB support, and has been filed in Fedora’s bugzilla as <a href="https://bugzilla.redhat.com/bugzilla/show_bug.cgi?id=171052" target="_blank" rel="external"><img width="11" height="11" src="http://fedoraproject.org/wikidata/kindofblue/img/moin-www.png" alt="[WWW]"> bug 171052</a> and <a href="https://bugzilla.redhat.com/bugzilla/show_bug.cgi?id=171056" target="_blank" rel="external"><img width="11" height="11" src="http://fedoraproject.org/wikidata/kindofblue/img/moin-www.png" alt="[WWW]"> bug 171056</a>.  The latter bug includes a modified version of the /etc/init.d/xendomains script as an attachment which you can use instead.</p>Troubleshooting<p>If you’re running into issues with your Xen installation there are two log files on the host system to help you out. The file <tt>/var/log/xend.log</tt> holds the same information as you receive when running ‘<tt>xm log</tt>‘, and contains basic information. Unfortunately these log messages are often very short and contain little useful information. The following is the output of trying to create a domain running the kernel for NetBSD/xen.</p><ul> <li>    [2005-06-27 02:23:02 xend] ERROR (SrvBase:163) op=create: Error creating domain:(0, ‘Error’)<br>Traceback (most recent call last):<br>  File &quot;/usr/lib/python2.4/site-packages/xen/xend/server/SrvBase.py&quot;, line 107, in _perform<br>    val = op_method(op, req)<br>  File &quot;/usr/lib/python2.4/site-packages/xen/xend/server/SrvDomainDir.py&quot;, line 71, in op_create<br>    raise XendError(&quot;Error creating domain: &quot; + str(ex))<br>XendError: Error creating domain: (0, ‘Error’)    </li></ul><p>The second file, <tt>/var/log/xend-debug.log</tt> usually contains much more detailed information. Trying to start the NetBSD/xen kernel will result in the following log output:</p><ul> <li>    ERROR: Will only load images built for Xen v3.0<br>ERROR: Actually saw: ‘GUEST_OS=netbsd,GUEST_VER=2.0,XEN_VER=2.0,LOADER=generic,BSD_SYMTAB’<br>ERROR: Error constructing guest OS    </li></ul><p>If you are reporting errors or need help with your Xen setup you should always include both the <tt>xend.log</tt> and <tt>xend-debug.log</tt> messages that you receive.</p>Serial Console<p>For more difficult problems, serial console can be very helpful. If the Xen kernel itself has died and the hypervisor has generated an error, there is no way to record the error persistently on the local host. Serial console lets you capture it on a remote host.</p><p>You need to set up the Xen host for serial console output, and set up a remote host to capture it. For the console output, you need to set appropriate options in /etc/grub.conf, for example:</p><ul> <li>    title Fedora Core (2.6.16-1.2080_FC5xen0)<br>        root (hd0,2)<br>        kernel /xen.gz-2.6.16-1.2080_FC5 com1=38400,8n1 sync_console<br>        module /vmlinuz-2.6.16-1.2080_FC5xen0 ro root=LABEL=/ rhgb quiet console=ttyS0 console=tty pnpacpi=off<br>        module /initrd-2.6.16-1.2080_FC5xen0.img    </li></ul><p>for a 38400-bps serial console on com1 (ie. /dev/ttyS0 on Linux.) The &quot;sync_console&quot; works around a problem that can cause hangs with asynchronous hypervisor console output, and the &quot;pnpacpi=off&quot; works around a problem that breaks input on serial console. &quot;console=ttyS0 console=tty&quot; means that kernel errors get logged both on the normal VGA console and on serial console. Once that is done, you can install and set up ttywatch (from fedora-extras) to capture the information on a remote host connected by a standard null-modem cable.</p>Accessing data on a guest disk image<p>There are two tools which can help greatly in accessing data within a guest disk image: <em>lomount</em> and <em>kpartx</em>. Remember never to do this while the guest is up and running, as you could corrupt the filesystem if you try to access it from the guest and dom0 at the same time!</p><p><em> <strong>lomount</strong></em></p><ul> <li>    # lomount -t ext3 -diskimage /xen/images/fc5-file.img -partition 1 /mnt/boot    </li></ul><p>lomount only works with small disk images and cannot deal with LVM volumes, so for more complex cases, kpartx (from the <em>device-mapper-multipath</em> RPM) is preferred:</p><p> <strong>kpartx</strong></p><ul> <li>    # yum install device-mapper-multipath<br># kpartx -av /dev/xen/guest1<br>add map guest1p1 : 0 208782 linear /dev/xen/guest1 63<br>add map guest1p2 : 0 16563015 linear /dev/xen/guest1 208845    </li></ul><p>Note that this only works for block devices, not for images installed on regular files. To use file images, you’ll need to set up a loopback device for the file first:</p><ul> <li>    # losetup -f<br>/dev/loop0<br># losetup /dev/loop0 /xen/images/fc5-file.img<br># kpartx -av /dev/loop0<br>add map loop0p1 : 0 208782 linear /dev/loop0 63<br>add map loop0p2 : 0 12370050 linear /dev/loop0 208845    </li></ul><p>In this case we have added an image formatted as a default Fedora install, so it has two partitions: one /boot, and one LVM volume containing everything else. They are accessible under /dev/mapper:</p><ul> <li>    # ls -l /dev/mapper/ | grep guest1<br>brw-rw—- 1 root disk 253,  6 Jun  6 10:32 xen-guest1<br>brw-rw—- 1 root disk 253, 14 Jun  6 11:13 guest1p1<br>brw-rw—- 1 root disk 253, 15 Jun  6 11:13 guest1p2<br># mount /dev/mapper/guest1p1 /mnt/boot/    </li></ul><p>To access LVM volumes on the second partition, we’ll need to rescan LVM with &quot;vgscan&quot; and activate the volume group on that partition (named &quot;<a href="http://fedoraproject.org/wiki/VolGroup00" target="_blank" rel="external">VolGroup00</a>&quot; by default) with &quot;vgchange -ay&quot;:</p><ul> <li>    # kpartx -a /dev/xen/guest1<br># vgscan<br>  Reading all physical volumes.  This may take a while…<br>  Found volume group &quot;VolGroup00&quot; using metadata type lvm2<br># vgchange -ay VolGroup00<br>  2 logical volume(s) in volume group &quot;VolGroup00&quot; now active<br># lvs<br>  LV        VG         Attr   LSize   Origin Snap%  Move Log Copy%<br>  LogVol00  VolGroup00 -wi-a-   5.06G<br>  LogVol01  VolGroup00 -wi-a- 800.00M<br># mount /dev/VolGroup00/LogVol00 /mnt/<br>…<br># umount /mnt<br># vgchange -an VolGroup00<br># kpartx -d /dev/xen/guest1    <p><img width="15" height="15" src="http://fedoraproject.org/wikidata/kindofblue/img/alert.png" alt="/!"> Note: <strong>always</strong> remember to deactivate the logical volumes with &quot;vgchange -an&quot;, remove the partitions with &quot;kpartx -d&quot;, and (if appropriate) delete the loop device with &quot;losetup -d&quot; after you are finished. There are two reasons: first of all, the default volume group name for a FC install is always the same, so if you end up activating two disk images at the same time you’ll end up with two separate LVM volume groups with the same name. LVM will cope as best it can, but you won’t be able to distinguish between these two groups on the command line.</p> <p>And secondly, if you don’t deactivate it, then if the guest is started up again, you might end up with the LVM being active in both the guest and the dom0 at the same time, and this may lead to VG or filesystem corruption.</p> </li></ul>Hints<p>Q: I am trying to start the xend service and nothing happens, then when I do a `xm list1 I get the following:</p><ul> <li>    Error: Error connecting to xend: Connection refused.  Is xend running?    </li></ul><p>Alternatively, I run <tt>xend start</tt> manually and get the following error:</p><ul> <li>    ERROR: Could not obtain handle on privileged command interface (2 = No such file or directory)<br>Traceback (most recent call last):<br>  File &quot;/usr/sbin/xend&quot;, line 33, in ?<br>    from xen.xend.server import SrvDaemon<br>  File &quot;/usr/lib/python2.4/site-packages/xen/xend/server/SrvDaemon.py&quot;, line 21, in ?<br>    import relocate<br>  File &quot;/usr/lib/python2.4/site-packages/xen/xend/server/relocate.py&quot;, line 26, in ?<br>    from xen.xend import XendDomain<br>  File &quot;/usr/lib/python2.4/site-packages/xen/xend/XendDomain.py&quot;, line 33, in ?<br>    import XendDomainInfo<br>  File &quot;/usr/lib/python2.4/site-packages/xen/xend/XendDomainInfo.py&quot;, line 37, in ?<br>    import image<br>  File &quot;/usr/lib/python2.4/site-packages/xen/xend/image.py&quot;, line 30, in ?<br>    xc = xen.lowlevel.xc.xc()<br>RuntimeError: (2, ‘No such file or directory’)    </li></ul><p>A: You have rebooted your host into a kernel that is not a xen-hypervisor kernel.  Yes I did this myself in testing <img width="15" height="15" src="http://fedoraproject.org/wikidata/kindofblue/img/smile.png" alt=":)"></p><p>You either need to select the xen-hypervisor kernel at boot time or set the xen-hypervisor kernel as default in your grub.conf file.</p>Installation of guest FC5 freezes<p>If your installation of FC5 appears to start normally, but after a long wait it seems to go nowhere, you may need to update your installation tree’s <tt>images/xen/vmlinuz</tt> and <tt>images/xen/initrd.img</tt>.</p><p>In this example, the most current kernel is 2.6.16-1.2133 and the original kernel version in the FC5 install tree <tt>images/xen</tt> directory is 2.6.15-1.2054. You may have to adjust these accordingly. Make sure your ‘xen0’ kernel matches your ‘xenU’ kernel version. This worked for the i686 architecture, there is no reason why it shouldn’t work for x86_64 as well just by replacing i686 with x86_64 in the example commands. I’ll get arround to testing this soon.</p><p>Install the package ‘kernel-xenU’:</p><ul> <li>    #yum install kernel-xenU    </li></ul><p>If necessary, update your ‘xen0’ kernel:</p><ul> <li>    #yum update kernel-xen0    </li></ul><p>Before starting the guest installation, reboot to your updated xen0 kernel.</p><p>Go to the top level of the FC5 installation tree and change directory to <tt>images/xen</tt>:</p><ul> <li>    #cd images/xen    </li></ul><p>Move (do not delete) the old <tt>vmlinuz</tt> and <tt>initrd.img</tt> out of the way:</p><ul> <li>    #mkdir old<br>#mv initrd.img old<br>#mv vmlinuz old    </li></ul><p>Updating <tt>vmlinuz</tt>:</p><p>Simply copy the new <tt>vmlinuz</tt> from <tt>/boot</tt>:</p><ul> <li>    #cp /boot/vmlinuz-2.6.16-1.2133_FC5xenU vmlinuz    </li></ul><p>Updating <tt>initrd.img</tt>:</p><p>Generate modules.dep for the new ‘xenU’ kernel:</p><ul> <li>    #depmod -a 2.6.16-1.2133_FC5xenU    </li></ul><p>Make a temporary working directory and change to it:</p><ul> <li>    #mkdir tmp<br>#cd tmp    </li></ul><p>Extract the contetns of the old <tt>initrd.img</tt>:</p><ul> <li>    #gzip -cd ../old/initrd.img|cpio -imd –quiet    </li></ul><p>Go to the <tt>modules</tt> directory:</p><ul> <li>    #cd modules    </li></ul><p>Copy the new versions of <tt>modules.alias</tt> and <tt>modules.dep</tt>:</p><ul> <li>    #rm -f modules.alias modules.dep<br>#find /lib/modules/2.6.16-1.2133_FC5xenU/ -name modules.alias -exec cp {} . ;<br>#find /lib/modules/2.6.16-1.2133_FC5xenU/ -name modules.dep -exec cp {} . ;    </li></ul><p>Extract the contents of <tt>modules.cgz</tt>:</p><ul> <li>    #gzip -cd modules.cgz | cpio -imd –quiet    </li></ul><p>Create a directory tree for the new modules:</p><ul> <li>    #mkdir -p 2.6.16-1.2133_FC5xenU/i686/    </li></ul><p>Find the same modules from the new kerenl and copy them in directory created in previous step:</p><ul> <li>    #for i in 2.6.15-1.2054_FC5xenU/i686/* ; do<br>#find /lib/modules/2.6.16-1.2133_FC5xenU/ -name $(basename $i) -exec cp {} 2.6.16-1.2133_FC5xenU/i686/ ;<br>#done    </li></ul><p>Remove the old <tt>modules.cgz</tt>:</p><ul> <li>    #rm -f modules.cgz    </li></ul><p>Repakage modules.cgz with the new modules:</p><ul> <li>    #find 2.6.16-1.2133_FC5xenU | cpio –quiet -o -H crc | gzip -9 -n &gt; modules.cgz    </li></ul><p>Remove the temporary modules directories:</p><ul> <li>    #rm -fr 2.6.16-1.2133_FC5xenU 2.6.15-1.2054_FC5xenU    </li></ul><p>Back to the top level of the extracted <tt>old/initrd.img</tt>:</p><ul> <li>    #cd ..    </li></ul><p>Repackage ‘initrd.img’:</p><ul> <li>    #find . | cpio –quiet -c -o | gzip -9 -n &gt; ../initrd.img    </li></ul><p>Back to <tt>images/xen</tt>:</p><ul> <li>    #cd ..    </li></ul><p>Cleanup by removing the <tt>tmp</tt> directory created above:</p><ul> <li>    #rm -fr tmp    </li></ul><p>You can now follow the guest installation procedure described above with the updated <tt>vmlinuz</tt> and <tt>initrd.img</tt> in your FC5 installation tree.</p>Getting Help<p>If the Troubleshooting section above does not help you to solve your problem, check the <a href="https://bugzilla.redhat.com/" target="_blank" rel="external"><img width="11" height="11" src="http://fedoraproject.org/wikidata/kindofblue/img/moin-www.png" alt="[WWW]"> Red Hat Bugzilla</a> for existing bug reports on Xen in FC5. The product is &quot;Fedora Core&quot;, and the component is &quot;kernel&quot; for bugs related to the xen0 kernel and &quot;xen&quot; for bugs related to the tools. These reports contain useful advice from fellow xen testers and often describe work-arounds.</p><p>For general Xen issues and useful information check the Xen project <a href="http://www.cl.cam.ac.uk/Research/SRG/netos/xen/documentation.html" target="_blank" rel="external"><img width="11" height="11" src="http://fedoraproject.org/wikidata/kindofblue/img/moin-www.png" alt="[WWW]"> documentation</a>, and  <a href="http://lists.xensource.com/" target="_blank" rel="external"><img width="11" height="11" src="http://fedoraproject.org/wikidata/kindofblue/img/moin-www.png" alt="[WWW]"> mailing list archives</a>.</p><p>Finally, discussion on Fedora Xen support issues occur on the <a href="http://www.redhat.com/mailman/listinfo/fedora-xen" target="_blank" rel="external"><img width="11" height="11" src="http://fedoraproject.org/wikidata/kindofblue/img/moin-www.png" alt="[WWW]"> Fedora Xen mailing list</a></p>Footnotes<ul> <li><a href="http://fedoraproject.org/wiki/FedoraXenQuickstartFC5#fnref-5a7dbf8ecda9b54bdbda63305d0519b240bdf662-0" target="_blank" rel="external">1</a>This is required because you actually boot the Xen hypervisor and it then starts the Linux kernel. It does this using the MultiBoot standard.</li> <li><a href="http://fedoraproject.org/wiki/FedoraXenQuickstartFC5#fnref-ae1d60e9de2d3310eed00e0b05d89b820bb2b30e-1" target="_blank" rel="external">2</a> <p>Note that you can change so that future kernel-xen0 packages are the default kernel by editing <tt>/etc/sysconfig/kernel</tt></p> </li> <li><a href="http://fedoraproject.org/wiki/FedoraXenQuickstartFC5#fnref-1abea3ac1e03414f68897d71bbd715d800d43e76-2" target="_blank" rel="external">3</a> <p>To check that you are running a <tt>xen0</tt> kernel use ‘<tt>uname -r</tt>‘ - the name of the kernel should contain <tt>xen0</tt></p> </li></ul> <p></p>
 
       
     </div>
-    <div class="article-info article-info-index">
+
+    <div>
       
-      <a href="/2006/12/20/Xen/" class="archive-article-date">
-  	<time datetime="2006-12-20T07:49:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2006-12-20</time>
-</a>
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2006/12/20/用ALSA驱动声卡流程详解/" rel="next" title="用ALSA驱动声卡流程详解">
+                <i class="fa fa-chevron-left"></i> 用ALSA驱动声卡流程详解
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2006/12/21/chroot-problems/" rel="prev" title="chroot problems">
+                chroot problems <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
       
       
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/Linux-App/">Linux App</a>
-	</div>
+    </footer>
+  </article>
 
 
-      <div class="clearfix"></div>
+
+    <div class="post-spread">
+      
     </div>
   </div>
-</article>
 
-  
-<nav id="article-nav">
-  
-    <a href="/2006/12/21/chroot-problems/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
         
-          chroot problems
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/wp-content/uploads/penguin.gif"
+               alt="jfo" />
+          <p class="site-author-name" itemprop="name">jfo</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">596</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/jfojfo" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/jfojfo" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.pickbox.me" title="收藏夹" target="_blank">收藏夹</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://note.pickbox.me" title="网络剪贴板" target="_blank">网络剪贴板</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://iguangba.pickbox.me" title="爱逛吧" target="_blank">爱逛吧</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
         
       </div>
-    </a>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
   
-  
-    <a href="/2006/12/20/用ALSA驱动声卡流程详解/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">用ALSA驱动声卡流程详解</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-
-
-<div class="share_jia">
-	<!-- JiaThis Button BEGIN -->
-	<div class="jiathis_style">
-		<span class="jiathis_txt">Share to: &nbsp; </span>
-		<a class="jiathis_button_facebook"></a> 
-	    <a class="jiathis_button_twitter"></a>
-	    <a class="jiathis_button_plus"></a> 
-	    <a class="jiathis_button_tsina"></a>
-		<a class="jiathis_button_cqq"></a>
-		<a class="jiathis_button_douban"></a>
-		<a class="jiathis_button_weixin"></a>
-		<a class="jiathis_button_tumblr"></a>
-    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
-	</div>
-	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
-	<!-- JiaThis Button END -->
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jfo</span>
 </div>
 
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
 
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
 
+        
 
-
-
-
-
-
+        
       </div>
-      <footer id="footer">
-  <div class="outer">
-    <div id="footer-info">
-    	<div class="footer-left">
-    		&copy; 2016 jfo
-    	</div>
-      	<div class="footer-right">
-      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
-      	</div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
     </div>
   </div>
-</footer>
-    </div>
-    <script>
-	var yiliaConfig = {
-		fancybox: true,
-		mathjax: false,
-		animate: true,
-		isHome: false,
-		isPost: true,
-		isArchive: false,
-		isTag: false,
-		isCategory: false,
-		open_in_new: false,
-		root: "/",
-		innerArchive: true
-	}
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
 
-<script src="/./main.js"></script>
 
 
-    
-<div class="tools-col">
-  <ul class="btn-wrap">
-    
-      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
-    
-    
-      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
-    
-    
-      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
-    
-    
-      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
-    
-  </ul>
-  <div class="tools-wrap">
-    
-    	<section class="tools-section tools-section-all chose">
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-tag">
-    			<div class="widget tagcloud" id="js-tagcloud">
-    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
-    			</div>
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-friends">
-  		
-  			<div class="friends-wrap" id="js-friends">
-  			
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
-  	        
-  	        </div>
-  		
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-me">
-  	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
-  	  	
-    	</section>
-    
-  </div>
+
+
+
   
-</div>
 
-    <!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
 
-    <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
 
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
 
-        <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
 
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
 
-            <div class="pswp__top-bar">
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
 
-                <!--  Controls are self-explanatory. Order can be changed. -->
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
 
-                <div class="pswp__counter"></div>
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
 
-                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+  
 
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
 
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
 
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
-                </div>
-            </div>
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
 
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div> 
-            </div>
 
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
 
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
+  
+  
 
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
 
-        </div>
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
 
-    </div>
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
 
-</div>
-  </div>
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
 </body>
 </html>

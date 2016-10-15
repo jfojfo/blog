@@ -1,12 +1,90 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
+<!doctype html>
+
+
+
   
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>【zz】Linux2.6内核epoll介绍 | jfo planet</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="http://blog.csdn.net/rstevens/archive/2007/10/30/1858067.aspxhttp://hi.baidu.com/jmlover/blog/item/24c28b131e6b48d7f7039ee6.htmlhttp://hi.baidu.com/jmlover/blog/item/e64df724f12926348744f91b.html名词解释">
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="jfo, blog" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="http://blog.csdn.net/rstevens/archive/2007/10/30/1858067.aspxhttp://hi.baidu.com/jmlover/blog/item/24c28b131e6b48d7f7039ee6.htmlhttp://hi.baidu.com/jmlover/blog/item/e64df724f12926348744f91b.html名词解释">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【zz】Linux2.6内核epoll介绍">
 <meta property="og:url" content="http://blog.pickbox.me/2008/11/05/【zz】Linux2-6内核epoll介绍/index.html">
@@ -16,366 +94,546 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【zz】Linux2.6内核epoll介绍">
 <meta name="twitter:description" content="http://blog.csdn.net/rstevens/archive/2007/10/30/1858067.aspxhttp://hi.baidu.com/jmlover/blog/item/24c28b131e6b48d7f7039ee6.htmlhttp://hi.baidu.com/jmlover/blog/item/e64df724f12926348744f91b.html名词解释">
-  
-    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="//favicon.ico">
-  
-  <script src="/style.js"></script>
-  
 
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://blog.pickbox.me/2008/11/05/【zz】Linux2-6内核epoll介绍/"/>
+
+
+  <title> 【zz】Linux2.6内核epoll介绍 | jfo planet </title>
 </head>
 
-<body>
-  <div id="container">
-    <div class="left-col">
-      <div class="overlay"></div>
-<div class="intrude-less">
-	<header id="header" class="inner">
-		<a href="/" class="profilepic">
-			
-			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
-			
-		</a>
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
 
-		<hgroup>
-		  <h1 class="header-author"><a href="/">jfo</a></h1>
-		</hgroup>
+  
 
-		
-		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
-		
 
-		<nav class="header-menu">
-			<ul>
-			
-				<li><a href="/">主页</a></li>
-	        
-			</ul>
-		</nav>
-		<nav class="header-smart-menu">
-	        
-    		
-    			
-    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
-    			
-    			
-            
-		</nav>
-		<nav class="header-nav">
-			<div class="social">
-				
-					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
-		        
-					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
-		        
-			</div>
-		</nav>
-	</header>		
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">jfo planet</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Hope is the best gift that tomorrow gives.</p>
 </div>
 
-    </div>
-    <div class="mid-col">
-      <nav id="mobile-nav">
-  	<div class="overlay">
-  		<div class="slider-trigger"><i class="icon-list"></i></div>
-  		<h1 class="header-author js-mobile-header hide">jfo</h1>
-  	</div>
-	<div class="intrude-less">
-		<header id="header" class="inner">
-			<div class="profilepic">
-				
-					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
-				
-			</div>
-			<hgroup>
-			  <h1 class="header-author">jfo</h1>
-			</hgroup>
-			
-			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
-			
-			<nav class="header-menu">
-				<ul>
-				
-					<li><a href="/">主页</a></li>
-		        
-				</ul>
-			</nav>
-			<nav class="header-nav">
-				<div class="social">
-					
-						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
-			        
-						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
-			        
-				</div>
-			</nav>
-		</header>				
-	</div>
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
 </nav>
 
-      <div class="body-wrap">
-        <article id="post-【zz】Linux2-6内核epoll介绍" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
     
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
+
   
-    <h1 class="article-title" itemprop="name">
-      【zz】Linux2.6内核epoll介绍
-    </h1>
   
 
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                【zz】Linux2.6内核epoll介绍
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2008-11-05T16:35:00+08:00" content="2008-11-05">
+              2008-11-05
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
       
         <p> <a href="http://blog.csdn.net/rstevens/archive/2007/10/30/1858067.aspx" target="_blank"><br>http://blog.csdn.net/rstevens/archive/2007/10/30/1858067.aspx</a><br><br><br><a href="http://hi.baidu.com/jmlover/blog/item/24c28b131e6b48d7f7039ee6.html" target="_blank">http://hi.baidu.com/jmlover/blog/item/24c28b131e6b48d7f7039ee6.html</a><br><a href="http://hi.baidu.com/jmlover/blog/item/e64df724f12926348744f91b.html" target="_blank">http://hi.baidu.com/jmlover/blog/item/e64df724f12926348744f91b.html</a><br><br><br><br>名词解释：man epoll之后，得到如下结果： <br><br>NAME <br>epoll - I/O event notification facility <br><br>SYNOPSIS <br>#include &lt;sys/epoll.h&gt; <br><br>DEscrīptION <br>epoll is a variant of poll(2) that can be used either as Edge or Level <br>Triggered interface and scales well to large numbers of watched fds. <br>Three system calls are provided to set up and control an epoll set: <br>epoll_create(2), epoll_ctl(2), epoll_wait(2). <br><br>An epoll set is connected to a file descrīptor created by epoll_create(2).&#160;&#160; Interest for certain file descrīptors is then registered via <br>epoll_ctl(2). Finally, the actual wait is started by epoll_wait(2). <br><br>其实，一切的解释都是多余的，按照我目前的了解，EPOLL模型似乎只有一种格式，所以大家只要参考我下面的代码，就能够对EPOLL有所了解了，代码的解释都已经在注释中： <br><br>while (TRUE) <br>{ <br>int nfds = epoll_wait (m_epoll_fd, m_events, MAX_EVENTS, EPOLL_TIME_OUT);//等待EPOLL事件的发生，相当于监听，至于相关的端口，需要在初始化EPOLL的时候绑定。 <br>if (nfds &lt;= 0) <br>continue; <br>m_bOnTimeChecking = FALSE; <br>G_CurTime = time(NULL); <br>for (int i=0; i&lt;nfds; i++) <br>{ <br>try <br>{ <br>if (m_events[i].data.fd == m_listen_http_fd)//如果新监测到一个HTTP用户连接到绑定的HTTP端口，建立新的连接。由于我们新采用了SOCKET连接，所以基本没用。 <br>{ <br>OnAcceptHttpEpoll (); <br>} <br>else if (m_events[i].data.fd == m_listen_sock_fd)//如果新监测到一个SOCKET用户连接到了绑定的SOCKET端口，建立新的连接。 <br>{ <br>OnAcceptSockEpoll (); <br>} <br>else if (m_events[i].events &amp; EPOLLIN)//如果是已经连接的用户，并且收到数据，那么进行读入。 <br>{ <br>OnReadEpoll (i); <br>} <br><br>OnWriteEpoll (i);//查看当前的活动连接是否有需要写出的数据。 <br>} <br>catch (int) <br>{ <br>PRINTF (&quot;CATCH捕获错误n&quot;); <br>continue; <br>} <br>} <br>m_bOnTimeChecking = TRUE; <br>OnTimer ();//进行一些定时的操作，主要就是删除一些断线用户等。 <br>} <br><br>其实EPOLL的精华，按照我目前的理解，也就是上述的几段短短的代码，看来时代真的不同了，以前如何接受大量用户连接的问题，现在却被如此轻松的搞定，真是让人不得不感叹。 <br><br>今天搞了一天的epoll，想做一个高并发的代理程序。刚开始真是郁闷,一直搞不通，网上也有几篇介绍epoll的文章。但都不深入，没有将一些注意的地方讲明。以至于走了很多弯路，现将自己的一些理解共享给大家,以少走弯路。 <br><br>epoll用到的所有函数都是在头文件sys/epoll.h中声明，有什么地方不明白或函数忘记了可以去看一下。 <br>epoll和select相比，最大不同在于: <br><br>1epoll返回时已经明确的知道哪个sokcet fd发生了事件，不用再一个个比对。这样就提高了效率。 <br>2select的FD_SETSIZE是有限止的，而epoll是没有限止的只与系统资源有关。 <br><br>1、epoll_create函数 <br>函数声明：int epoll_create(int size) <br>该 函数生成一个epoll专用的文件描述符。它其实是在内核申请一空间，用来存放你想关注的socket fd上是否发生以及发生了什么事件。size就是你在这个epoll fd上能关注的最大socket fd数。随你定好了。只要你有空间。可参见上面与select之不同2. <br><br>22、epoll_ctl函数 <br>函数声明：int epoll_ctl(int epfd, int op, int fd, struct epoll_event <em>event) <br>该函数用于控制某个epoll文件描述符上的事件，可以注册事件，修改事件，删除事件。 <br>参数： <br>epfd：由 epoll_create 生成的epoll专用的文件描述符； <br>op：要进行的操作例如注册事件，可能的取值EPOLL_CTL_ADD 注册、EPOLL_CTL_MOD 修 改、EPOLL_CTL_DEL 删除 <br><br>fd：关联的文件描述符； <br>event：指向epoll_event的指针； <br>如果调用成功返回0,不成功返回-1 <br><br>用到的数据结构 <br>typedef union epoll_data { <br>void </em>ptr; <br>int fd; <br><strong>uint32_t u32; <br></strong>uint64_t u64; <br>} epoll_data_t; <br><br>struct epoll_event { <br>__uint32_t events; /<em> Epoll events </em>/ <br>epoll_data_t data; /<em> User data variable </em>/ <br>}; <br><br><br>如： <br>struct epoll_event ev; <br>//设置与要处理的事件相关的文件描述符 <br>ev.data.fd=listenfd; <br>//设置要处理的事件类型 <br>ev.events=EPOLLIN|EPOLLET; <br>//注册epoll事件 <br>epoll_ctl(epfd,EPOLL_CTL_ADD,listenfd,&amp;ev); <br><br><br>常用的事件类型: <br>EPOLLIN ：表示对应的文件描述符可以读； <br>EPOLLOUT：表示对应的文件描述符可以写； <br>EPOLLPRI：表示对应的文件描述符有紧急的数据可读 <br>EPOLLERR：表示对应的文件描述符发生错误； <br>EPOLLHUP：表示对应的文件描述符被挂断； <br>EPOLLET：表示对应的文件描述符有事件发生； <br><br><br>3、epoll_wait函数 <br>函数声明:int epoll_wait(int epfd,struct epoll_event <em> events,int maxevents,int timeout) <br>该函数用于轮询I/O事件的发生； <br>参数： <br>epfd:由epoll_create 生成的epoll专用的文件描述符； <br>epoll_event:用于回传代处理事件的数组； <br>maxevents:每次能处理的事件数； <br>timeout:等待I/O事件发生的超时值(单位我也不太清楚)；-1相当于阻塞，0相当于非阻塞。一般用-1即可 <br>返回发生事件数。 <br><br><br>用法如下： <br><br>/</em>build the epoll enent for recall <em>/ <br>struct epoll_event ev_read[20]; <br>int nfds = 0; //return the events count <br>nfds=epoll_wait(epoll_fd,ev_read,20, -1); <br>for(i=0; i <br>{ <br>if(ev_read[i].data.fd == sock)// the listener port hava data <br>…… <br><br>epoll_wait运行的原理是 <br>等侍注册在epfd上的socket fd的事件的发生，如果发生则将发生的sokct fd和事件类型放入到events数组中。 <br>并 且将注册在epfd上的socket fd的事件类型给清空，所以如果下一个循环你还要关注这个socket fd的话，则需要用epoll_ctl(epfd,EPOLL_CTL_MOD,listenfd,&amp;ev)来重新设置socket fd的事件类型。这时不用EPOLL_CTL_ADD,因为socket fd并未清空，只是事件类型清空。这一步非常重要。 <br>俺最开始就是没有加这个，白搞了一个上午。 <br><br>4单个epoll并不能解决所有问题，特别是你的每个操作都比较费时的时候，因为epoll是串行处理的。 <br>所以你还是有必要建立线程池来发挥更大的效能。<br><br>////////////////////////////////////////////////////////////////////////////// <br>man中给出了epoll的用法，example程序如下： <br>for(;;) { <br>nfds = epoll_wait(kdpfd, events, maxevents, -1); <br><br>for(n = 0; n &lt; nfds; ++n) { <br>if(events[n].data.fd == listener) { <br>client = accept(listener, (struct sockaddr </em>) &amp;local, <br>&amp;addrlen); <br>if(client &lt; 0){ <br>perror(&quot;accept&quot;); <br>continue; <br>} <br>setnonblocking(client); <br>ev.events = EPOLLIN | EPOLLET; <br>ev.data.fd = client; <br>if (epoll_ctl(kdpfd, EPOLL_CTL_ADD, client, &amp;ev) &lt; 0) { <br>fprintf(stderr, &quot;epoll set insertion error: fd=%dn&quot;, <br>client); <br>return -1; <br>} <br>} <br>else <br>do_use_fd(events[n].data.fd); <br>} <br>} <br>此时使用的是ET模式，即，边沿触发，类似于电平触发，epoll中的边沿触发的意思是只对新到的数据进行通知，而内核缓冲区中如果是旧数据则不进行通知，所以在do_use_fd函数中应该使用如下循环，才能将内核缓冲区中的数据读完。 <br>while (1) { <br>len = recv(<strong><em>*</em></strong>); <br>if (len == -1) { <br>if(errno == EAGAIN) <br>break; <br>perror(&quot;recv&quot;); <br>break; <br>} <br>do something with the recved data…….. <br>} <br><br>在上面例子中没有说明对于listen socket fd该如何处理，有的时候会使用两个线程，一个用来监听accept另一个用来监听epoll_wait，如果是这样使用的话，则listen socket fd使用默认的阻塞方式就行了，而如果epoll_wait和accept处于一个线程中，即，全部由epoll_wait进行监听，则，需将 listen socket fd也设置成非阻塞的，这样，对accept也应该使用while包起来（类似于上面的recv），因为，epoll_wait返回时只是说有连接到来 了，并没有说有几个连接，而且在ET模式下epoll_wait不会再因为上一次的连接还没读完而返回，这种情况确实存在，我因为这个问题而耗费了一天多 的时间，这里需要说明的是，每调用一次accept将从内核中的已连接队列中的队头读取一个连接，因为在并发访问的环境下，有可能有多个连接“同时”到 达，而epoll_wait只返回了一次。<br><br>唯一有点麻烦是epoll有2种工作方式:LT和ET。 <br><br>LT(level triggered)是缺省的工作方式，并且同时支持block和no-block socket.在这种做法中，内核告诉你一个文件描述符是否就绪了，然后你可以对这个就绪的fd进行IO操作。如果你不作任何操作，内核还是会继续通知你 的，所以，这种模式编程出错误可能性要小一点。传统的select/poll都是这种模型的代表． <br><br>ET (edge-triggered)是高速工作方式，只支持no-block socket。在这种模式下，当描述符从未就绪变为就绪时，内核通过epoll告诉你。然后它会假设你知道文件描述符已经就绪，并且不会再为那个文件描述 符发送更多的就绪通知，直到你做了某些操作导致那个文件描述符不再为就绪状态了(比如，你在发送，接收或者接收请求，或者发送接收的数据少于一定量时导致 了一个EWOULDBLOCK 错误）。但是请注意，如果一直不对这个fd作IO操作(从而导致它再次变成未就绪)，内核不会发送更多的通知(only once),不过在TCP协议中，ET模式的加速效用仍需要更多的benchmark确认。 <br><br><br><hr><br>问题关键：<br>当epoll_wait返回之后，数据处理与新数据到达之间是并行关系。<br>例如：当一个socket fd有数据可读时，recv(fd)的同时，该fd可能又有新的数据到达，而这些新的数据在老数据读完前不会导致fd的状态改变，对epoll没有影响。<br>在ET模式下，必须一直调用recv()直到返回-1，产生一次fd的状态改变后，新数据才能使epoll继续有效。<br>对于accept()，情况也一样，epoll_wait()返回之后，如果又有新的连接进来，对epoll没有任何影响，epoll不会在下一次wait时返回，<br>必须while(accept(listener))，直到listener 产生状态改变后，新连接才能使epoll继续有效。<br><br><br>man epoll中有如下介绍：<br><br>Level-Triggered and Edge-Triggered<br>The epoll event distribution interface is able to&#160; behave&#160; both&#160; as&#160; edge-triggered<br>(ET)&#160; and&#160; level-triggered&#160; (LT).&#160; The difference between the two mechanisms can be<br>described as follows.&#160; Suppose that this scenario happens:<br><br>1. The file descriptor that represents the read side&#160; of&#160; a&#160; pipe&#160; (rfd)&#160; is&#160; added<br>inside the epoll device.<br><br>2. A pipe writer writes 2 kB of data on the write side of the pipe.<br><br>3. A call to epoll_wait(2) is done that will return rfd as a ready file descriptor.<br><br>4. The pipe reader reads 1 kB of data from rfd.<br><br>5. A call to epoll_wait(2) is done.<br><br>If the rfd file descriptor has been added to the epoll interface using the&#160; EPOLLET<br>(edge-triggered)&#160; flag, the call to epoll_wait(2) done in step 5 will probably hang<br>despite the available data still present in the file input&#160; buffer;&#160; meanwhile&#160; the<br>remote&#160; peer&#160; might be expecting a response based on the data it already sent.&#160; The<br>reason for this is that edge-triggered mode only delivers events when changes occur<br>on&#160; the&#160; monitored&#160; file descriptor.&#160; So, in step 5 the caller might end up waiting<br>for some data that is already present inside the input buffer.&#160; In the above&#160; exam‐<br>ple, an event on rfd will be generated because of the write done in 2 and the event<br>is consumed in 3.&#160; Since the read operation done in 4 does not&#160; consume&#160; the&#160; whole<br>buffer data, the call to epoll_wait(2) done in step 5 might block indefinitely.<br><br>An&#160; application that employs the EPOLLET flag should use non-blocking file descrip‐<br>tors to avoid having a blocking read or write starve a task that is handling multi‐<br>ple&#160; file&#160; descriptors.&#160; The suggested way to use epoll as an edge-triggered (EPOL‐<br>LET) interface is as follows:<br><br>i&#160;&#160; with non-blocking file descriptors; and<br><br>ii&#160; by waiting for an event only after read(2) or write(2) return EAGAIN.<br><br>By contrast, when used as a level-triggered interface (the default, when EPOLLET is<br>not specified), epoll is simply a faster poll(2), and can be used wherever the lat‐<br>ter is used since it shares the same semantics.<br><br>Since even with the edge-triggered epoll multiple&#160; events&#160; can&#160; be&#160; generated&#160; upon<br>receipt&#160; of multiple chunks of data, the caller has the option to specify the EPOL‐<br>LONESHOT flag, to tell epoll to disable the associated file&#160; descriptor&#160; after&#160; the<br>receipt&#160; of&#160; an event with epoll_wait(2).&#160; When the EPOLLONESHOT flag is specified,<br>it is the caller’s responsibility to rearm the file descriptor&#160; using&#160; epoll_ctl(2)<br>with EPOLL_CTL_MOD.<br><br>“即使使用ET模式的epoll，在收到多个chunk的数据的时候仍然会产生多个事件”<br>不知道这里是指在老数据读完后收到新数据产生event，还是老数据读完之前收到新的chunk data也会产生event？<br><br>关于<a href="http://blog.csdn.net/jia162/archive/2007/12/10/1926576.aspx" target="_blank">recv()</a>：<br>要是你提供的接收Buffer过小，TCP将返回实际接收的长度，余下的还可以收，而UDP不同的是，余下的数据被丢弃并 返回 WSAEMSGSIZE错误。要是你提供的Buffer佷大，那么TCP可能收到的就是多个发包，你必须分离它们。<br>还有就是当Buffer太小，而 一次收不完Socket内部的数据，那么Socket接收事件(OnReceive)，可能不会再触发，使用事件方式进行接收时，密切注意这点。这些特性就是体现了流和数据包的区别。<br><br> <br> <del>end</del> </p>
 
       
     </div>
-    <div class="article-info article-info-index">
+
+    <div>
       
-      <a href="/2008/11/05/【zz】Linux2-6内核epoll介绍/" class="archive-article-date">
-  	<time datetime="2008-11-05T08:35:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-11-05</time>
-</a>
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2008/11/02/Arch/" rel="next" title="Arch">
+                <i class="fa fa-chevron-left"></i> Arch
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2008/11/08/【zz】小故事/" rel="prev" title="【zz】小故事">
+                【zz】小故事 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
       
       
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/Linux/">Linux</a>
-	</div>
+    </footer>
+  </article>
 
 
-      <div class="clearfix"></div>
+
+    <div class="post-spread">
+      
     </div>
   </div>
-</article>
 
-  
-<nav id="article-nav">
-  
-    <a href="/2008/11/08/【zz】小故事/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
         
-          【zz】小故事
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/wp-content/uploads/penguin.gif"
+               alt="jfo" />
+          <p class="site-author-name" itemprop="name">jfo</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">596</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/jfojfo" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/jfojfo" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.pickbox.me" title="收藏夹" target="_blank">收藏夹</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://note.pickbox.me" title="网络剪贴板" target="_blank">网络剪贴板</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://iguangba.pickbox.me" title="爱逛吧" target="_blank">爱逛吧</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
         
       </div>
-    </a>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
   
-  
-    <a href="/2008/11/02/Arch/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Arch</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-
-
-<div class="share_jia">
-	<!-- JiaThis Button BEGIN -->
-	<div class="jiathis_style">
-		<span class="jiathis_txt">Share to: &nbsp; </span>
-		<a class="jiathis_button_facebook"></a> 
-	    <a class="jiathis_button_twitter"></a>
-	    <a class="jiathis_button_plus"></a> 
-	    <a class="jiathis_button_tsina"></a>
-		<a class="jiathis_button_cqq"></a>
-		<a class="jiathis_button_douban"></a>
-		<a class="jiathis_button_weixin"></a>
-		<a class="jiathis_button_tumblr"></a>
-    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
-	</div>
-	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
-	<!-- JiaThis Button END -->
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jfo</span>
 </div>
 
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
 
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
 
+        
 
-
-
-
-
-
+        
       </div>
-      <footer id="footer">
-  <div class="outer">
-    <div id="footer-info">
-    	<div class="footer-left">
-    		&copy; 2016 jfo
-    	</div>
-      	<div class="footer-right">
-      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
-      	</div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
     </div>
   </div>
-</footer>
-    </div>
-    <script>
-	var yiliaConfig = {
-		fancybox: true,
-		mathjax: false,
-		animate: true,
-		isHome: false,
-		isPost: true,
-		isArchive: false,
-		isTag: false,
-		isCategory: false,
-		open_in_new: false,
-		root: "/",
-		innerArchive: true
-	}
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
 
-<script src="/./main.js"></script>
 
 
-    
-<div class="tools-col">
-  <ul class="btn-wrap">
-    
-      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
-    
-    
-      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
-    
-    
-      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
-    
-    
-      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
-    
-  </ul>
-  <div class="tools-wrap">
-    
-    	<section class="tools-section tools-section-all chose">
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-tag">
-    			<div class="widget tagcloud" id="js-tagcloud">
-    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
-    			</div>
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-friends">
-  		
-  			<div class="friends-wrap" id="js-friends">
-  			
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
-  	        
-  	        </div>
-  		
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-me">
-  	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
-  	  	
-    	</section>
-    
-  </div>
+
+
+
   
-</div>
 
-    <!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
 
-    <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
 
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
 
-        <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
 
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
 
-            <div class="pswp__top-bar">
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
 
-                <!--  Controls are self-explanatory. Order can be changed. -->
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
 
-                <div class="pswp__counter"></div>
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
 
-                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+  
 
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
 
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
 
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
-                </div>
-            </div>
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
 
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div> 
-            </div>
 
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
 
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
+  
+  
 
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
 
-        </div>
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
 
-    </div>
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
 
-</div>
-  </div>
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
 </body>
 </html>

@@ -1,12 +1,90 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
+<!doctype html>
+
+
+
   
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>【★】动态规划例题 | jfo planet</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="ref：http://topcoder.5d6d.com/thread-75-1-1.htmlUSACO2.2 Subset Sums题目如下：对于从1到N的连续整集合合，能划分成两个子集合，且保证每个集合的数字和是相等的。举个例子，如果N=3，对于{1，2，3}能划分成两个子集合，他们每个的所有数字和是相等的：and {1,2} 这是唯一一种分发（交换集合位置被认为是同一种划分方案，因此不会增">
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="jfo, blog" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="ref：http://topcoder.5d6d.com/thread-75-1-1.htmlUSACO2.2 Subset Sums题目如下：对于从1到N的连续整集合合，能划分成两个子集合，且保证每个集合的数字和是相等的。举个例子，如果N=3，对于{1，2，3}能划分成两个子集合，他们每个的所有数字和是相等的：and {1,2} 这是唯一一种分发（交换集合位置被认为是同一种划分方案，因此不会增">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【★】动态规划例题">
 <meta property="og:url" content="http://blog.pickbox.me/2010/12/04/【★】动态规划例题/index.html">
@@ -16,366 +94,546 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【★】动态规划例题">
 <meta name="twitter:description" content="ref：http://topcoder.5d6d.com/thread-75-1-1.htmlUSACO2.2 Subset Sums题目如下：对于从1到N的连续整集合合，能划分成两个子集合，且保证每个集合的数字和是相等的。举个例子，如果N=3，对于{1，2，3}能划分成两个子集合，他们每个的所有数字和是相等的：and {1,2} 这是唯一一种分发（交换集合位置被认为是同一种划分方案，因此不会增">
-  
-    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="//favicon.ico">
-  
-  <script src="/style.js"></script>
-  
 
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://blog.pickbox.me/2010/12/04/【★】动态规划例题/"/>
+
+
+  <title> 【★】动态规划例题 | jfo planet </title>
 </head>
 
-<body>
-  <div id="container">
-    <div class="left-col">
-      <div class="overlay"></div>
-<div class="intrude-less">
-	<header id="header" class="inner">
-		<a href="/" class="profilepic">
-			
-			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
-			
-		</a>
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
 
-		<hgroup>
-		  <h1 class="header-author"><a href="/">jfo</a></h1>
-		</hgroup>
+  
 
-		
-		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
-		
 
-		<nav class="header-menu">
-			<ul>
-			
-				<li><a href="/">主页</a></li>
-	        
-			</ul>
-		</nav>
-		<nav class="header-smart-menu">
-	        
-    		
-    			
-    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
-    			
-    			
-            
-		</nav>
-		<nav class="header-nav">
-			<div class="social">
-				
-					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
-		        
-					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
-		        
-			</div>
-		</nav>
-	</header>		
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">jfo planet</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Hope is the best gift that tomorrow gives.</p>
 </div>
 
-    </div>
-    <div class="mid-col">
-      <nav id="mobile-nav">
-  	<div class="overlay">
-  		<div class="slider-trigger"><i class="icon-list"></i></div>
-  		<h1 class="header-author js-mobile-header hide">jfo</h1>
-  	</div>
-	<div class="intrude-less">
-		<header id="header" class="inner">
-			<div class="profilepic">
-				
-					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
-				
-			</div>
-			<hgroup>
-			  <h1 class="header-author">jfo</h1>
-			</hgroup>
-			
-			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
-			
-			<nav class="header-menu">
-				<ul>
-				
-					<li><a href="/">主页</a></li>
-		        
-				</ul>
-			</nav>
-			<nav class="header-nav">
-				<div class="social">
-					
-						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
-			        
-						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
-			        
-				</div>
-			</nav>
-		</header>				
-	</div>
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
 </nav>
 
-      <div class="body-wrap">
-        <article id="post-【★】动态规划例题" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
     
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
+
   
-    <h1 class="article-title" itemprop="name">
-      【★】动态规划例题
-    </h1>
   
 
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                【★】动态规划例题
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2010-12-04T23:15:00+08:00" content="2010-12-04">
+              2010-12-04
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/c-c-algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">c/c++/algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
       
         <p> </p><p>ref：<a target="_blank" href="http://topcoder.5d6d.com/thread-75-1-1.html">http://topcoder.5d6d.com/thread-75-1-1.html</a></p><br><br><ol><li>USACO<br></li><li>2.2 Subset Sums<br></li><li>题目如下：<br></li><li>对于从1到N的连续整集合合，能划分成两个子集合，且保证每个集合的数字和是相等的。<br></li><li>举个例子，如果N=3，对于{1，2，3}能划分成两个子集合，他们每个的所有数字和是相等的：<br></li><li>and {1,2} <br></li><li>这是唯一一种分发（交换集合位置被认为是同一种划分方案，因此不会增加划分方案总数）<br></li><li>如果N=7，有四种方法能划分集合{1，2，3，4，5，6，7}，每一种分发的子集合各数字和是相等的: <br></li><li>{1,6,7} and {2,3,4,5} {注 1+6+7=2+3+4+5} <br></li><li>{2,5,7} and {1,3,4,6} <br></li><li>{3,4,7} and {1,2,5,6} <br></li><li>{1,2,4,7} and {3,5,6} <br></li><li>给出N，你的程序应该输出划分方案总数，如果不存在这样的划分方案，则输出0。程序不能预存结果直接输出。<br></li><li>PROGRAM NAME: subset<br></li><li>INPUT FORMAT<br></li><li><br></li><li>输入文件只有一行，且只有一个整数N<br></li><li>SAMPLE INPUT (file subset.in)<br></li><li>7<br></li><li>OUTPUT FORMAT<br></li><li>输出划分方案总数，如果不存在则输出0。<br></li><li>SAMPLE OUTPUT (file subset.out)<br></li><li>4 </li></ol><p> </p><ol><li>参考程序如下：<br></li><li><br></li><li>#include &lt;fstream&gt;<br></li><li>using namespace std;<br></li><li>const unsigned int MAX_SUM = 1024;<br></li><li>int n;<br></li><li>unsigned long long int dyn[MAX_SUM];<br></li><li>ifstream fin (&quot;subset.in&quot;);<br></li><li>ofstream fout (&quot;subset.out&quot;);<br></li><li>int main() {<br></li><li>    fin &gt;&gt; n;<br></li><li>    fin.close();<br></li><li>    int s = n<em>(n+1);<br></em></li><li>    if (s % 4) {<br></li><li>  &nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;             fout &lt;&lt; 0 &lt;&lt; endl;<br></li><li>  &nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;             fout.close ();<br></li><li>  &nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;             return ;<br></li><li>    }<br></li><li>    s /= 4;<br></li><li>    int i, j;<br></li><li>    dyn [0] = 1;<br></li><li>    for (i = 1; i &lt;= n; i++)<br></li><li>  &nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;             for (j = s; j &gt;= i; j–) <br></li><li>  &nbsp;&nbsp;              &nbsp;&nbsp;              &nbsp;&nbsp;               dyn[j] += dyn[j-i];&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              //前i个数中能拼凑出和为j的种数：dyn[ j ] = dyn[ j - i ] + dyn[ j ]<br></li><li>    fout &lt;&lt; (dyn[s]/2) &lt;&lt; endl;<br></li><li>    fout.close();<br></li><li>    return 0;<br></li><li>}<br></li></ol><p> </p><p>－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－</p><p> </p><ol><li>USACO 2.3<br></li><li>Longest Prefix<br></li><li>题目如下：<br></li><li>在生物学中，一些生物的结构是用包含其要素的大写字母序列来表示的。生物学家对于把长的序列分解成较短的（称之为元素的）序列很感兴趣。 <br></li><li>如果一个集合 P 中的元素可以通过串联（允许重复；串联，相当于 Pascal 中的 “+” 运算符）组成一个序列 S，那么我们认为序列 S 可以分解为 P 中的元素。并不是所有的元素都必须出现。举个例子，序列 ABABACABAAB可以分解为下面集合中的元素： <br></li><li>    {A, AB, BA, CA, BBC}<br></li><li>序列 S 的前面 K 个字符称作 S 中长度为 K 的前缀。设计一个程序，输入一个元素集合以及一个大写字母序列，计算这个序列最长的前缀的长度。 <br></li><li>PROGRAM NAME: prefix<br></li><li>INPUT FORMAT<br></li><li>输入数据的开头包括 1..200 个元素（长度为 1..10）组成的集合，用连续的以空格分开的字符串表示。字母全部是大写，数据可能不止一行。元素集合结束的标志是一个只包含一个 “.”的行。集合中的元素没有重复。接着是大写字母序列 S ，长度为 1..200,000 ，用一行或者多行的字符串来表示，每行不超过 76个字符。换行符并不是序列 S 的一部分。<br></li><li>SAMPLE INPUT (file prefix.in) <br></li><li>A AB BA CA BBC<br></li><li>.<br></li><li>ABABACABAABC<br></li><li>OUTPUT FORMAT<br></li><li>只有一行，输出一个整数，表示 S 能够分解成 P 中元素的最长前缀的长度。<br></li><li>SAMPLE OUTPUT (file prefix.out)<br></li><li>11<br></li></ol><p> </p><p>动规的基本思路：定义f[i]，表示到目标字符串的第i个位置，是否还有连续的前缀。有，则把当前的i+length(si[k])记录下来；没有，则继续循环。Si[k]记录集合中的待选字符串。</p><p></p><ol><li>示例程序如下：<br></li><li><br></li><li>#include &lt;stdio.h&gt;<br></li><li>/ maximum number of primitives <em>/<br></em></li><li>#define MAXP 200<br></li><li>/ maximum length of a primitive <em>/<br></em></li><li>#define MAXL 10<br></li><li>char prim[MAXP+1][MAXL+1]; / primitives <em>/<br></em></li><li>int nump;  &nbsp;&nbsp;             &nbsp;&nbsp;             &nbsp;&nbsp;             &nbsp;&nbsp;             &nbsp;&nbsp;              / number of primitives <em>/<br></em></li><li>int start[200001];  &nbsp;&nbsp;             &nbsp;&nbsp;              / is this prefix of the sequence expressible? <em>/<br></em></li><li>char data[200000];  &nbsp;&nbsp;             &nbsp;&nbsp;              / the sequence <em>/<br></em></li><li>int ndata;  &nbsp;&nbsp;             &nbsp;&nbsp;             &nbsp;&nbsp;             &nbsp;&nbsp;             &nbsp;&nbsp;&nbsp;            / length of the sequence <em>/<br></em></li><li>int main(int argc, char **argv)<br></li><li>{<br></li><li>&nbsp;&nbsp;            FILE fout, <em>fin;<br></em></li><li>&nbsp;&nbsp;            int best;<br></li><li>&nbsp;&nbsp;            int lv, lv2, lv3;<br></li><li>&nbsp;&nbsp;            if ((fin = fopen(&quot;prim.in&quot;, &quot;r&quot;)) == NULL)<br></li><li>   {<br></li><li>    perror (&quot;fopen fin&quot;);<br></li><li>  &nbsp;&nbsp;              exit(1);<br></li><li>   }<br></li><li>&nbsp;&nbsp;            if ((fout = fopen(&quot;prim.out&quot;, &quot;w&quot;)) == NULL)<br></li><li>   {<br></li><li>    perror (&quot;fopen fout&quot;);<br></li><li>    exit(1);<br></li><li>   }<br></li><li>&nbsp;&nbsp;            / read in primitives <em>/<br></em></li><li>&nbsp;&nbsp;            while (1)<br></li><li>   {<br></li><li>    fscanf (fin, &quot;%s&quot;, prim[nump]);<br></li><li>    if (prim[nump][0] != ‘.’) nump++;<br></li><li>    else break;<br></li><li>   }<br></li><li>&nbsp;&nbsp;            / read in string, one line at a time <em>/<br></em></li><li>&nbsp;&nbsp;            ndata = 0;<br></li><li>&nbsp;&nbsp;            while (fscanf (fin, &quot;%s&quot;, data+ndata) == 1)<br></li><li>    ndata += strlen(data+ndata);<br></li><li>&nbsp;&nbsp;            start[0] = 1;<br></li><li>&nbsp;&nbsp;            best = 0;<br></li><li>&nbsp;&nbsp;            for (lv = 0; lv &lt; ndata; lv++)<br></li><li>    if (start[lv]) <br></li><li>  &nbsp;&nbsp;&nbsp;            { / for each expressible prefix <em>/<br></em></li><li>  &nbsp;&nbsp;              best = lv; / we found a longer expressible prefix! <em>/<br></em></li><li>  &nbsp;&nbsp;              / for each primitive, determine the the sequence starting at<br></li><li>  &nbsp;&nbsp;             &nbsp;&nbsp;              this location matches it <em>/<br></em></li><li>  &nbsp;&nbsp;              for (lv2 = 0; lv2 &lt; nump; lv2++)<br></li><li>  &nbsp;&nbsp;               {<br></li><li>  &nbsp;&nbsp;             &nbsp;&nbsp;&nbsp;            for (lv3 = 0; lv + lv3 &lt; ndata &amp;&nbsp;&nbsp;            prim[lv2][lv3] &amp;&amp;<br></li><li>  &nbsp;&nbsp;&nbsp;            prim[lv2][lv3] == data[lv+lv3]; lv3++)<br></li><li>  &nbsp;&nbsp;             &nbsp;&nbsp;               ;<br></li><li>if (!prim[lv2][lv3])   / it matched! <em>/<br></em></li><li>   start[lv + lv3] = 1; / so the expanded prefix is also expressive <em>/<br></em></li><li>  &nbsp;&nbsp;               }<br></li><li>  &nbsp;&nbsp;&nbsp;            } <br></li><li>&nbsp;&nbsp;            / see if the entire sequence is expressible <em>/<br></em></li><li>&nbsp;&nbsp;            if (start[ndata]) best = ndata; <br></li><li>&nbsp;&nbsp;            fprintf (fout, &quot;%in&quot;, best);<br></li><li>&nbsp;&nbsp;            return 0;<br></li><li>}<br></li><li><br></li></ol><p> </p><p> </p><p>－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－</p><ol><li>USACO 3.1<br></li><li>Score Inflation<br></li><li>题目如下：<br></li><li>我们试着设计我们的竞赛以便人们能尽可能的多得分,这需要你的帮助。<br></li><li>我们可以从几个种类中选取竞赛的题目,这里的一个&quot;种类&quot;是指一个竞赛题目的集合,解决集合中的题目需要相同多的时间并且能得到相同的分数。<br></li><li>你的任务是写一个程序来告诉USACO的职员,应该从每一个种类中选取多少题目,使得解决题目的总耗时在竞赛规定的时间里并且总分最大。<br></li><li>输入包括竞赛的时间,M(1 &lt;= M &lt;= 10,000)和N,&quot;种类&quot;的数目1 &lt;= N &lt;= 10,000。<br></li><li>后面的每一行将包括两个整数来描述一个&quot;种类&quot;:<br></li><li>第一个整数说明解决这种题目能得的分数(1 &lt;= points &lt;= 10000),第二整数说明解决这种题目所需的时间(1 &lt;= minutes &lt;= 10000)。<br></li><li>你的程序应该确定我们应该从每个&quot;种类&quot;中选多少道题目使得能在竞赛的时间中得到最大的分数。<br></li><li>来自任意的&quot;种类&quot;的题目数目可能任何非负数(0或更多)。<br></li><li>计算可能得到的最大分数。<br></li><li>PROGRAM NAME: inflate<br></li><li>INPUT FORMAT<br></li><li>第 1 行: M, N–竞赛的时间和题目&quot;种类&quot;的数目。&nbsp;&nbsp;<br></li><li>第 2-N+1 行:&nbsp;&nbsp;         两个整数:每个&quot;种类&quot;题目的分数和耗时。 <br></li><li>SAMPLE INPUT (file inflate.in) <br></li><li>300 4<br></li><li>100 60<br></li><li>250 120<br></li><li>120 100<br></li><li>35 20<br></li><li>OUTPUT FORMAT<br></li><li>单独的一行包括那个在给定的限制里可能得到的最大的分数。<br></li><li>SAMPLE OUTPUT (file inflate.out)<br></li><li>605<br></li><li>{从第2个&quot;种类&quot;中选两题，第4个&quot;种类&quot;中选三题}<br></li></ol><p> </p><ol><li><br></li><li>示例程序如下：<br></li><li><br></li><li>#include &lt;fstream.h&gt;<br></li><li>ifstream fin(&quot;inflate.in&quot;);<br></li><li>ofstream fout(&quot;inflate.out&quot;);<br></li><li>const short maxm = 10010;<br></li><li>long best[maxm], m, n;<br></li><li>void<br></li><li>main()<br></li><li>{<br></li><li>    short i, j, len, pts;<br></li><li>    fin &gt;&gt; m &gt;&gt; n;<br></li><li>    for (j = 0; j &lt;= m; j++)<br></li><li>  &nbsp;&nbsp;          &nbsp;&nbsp;&nbsp;         best[j] = 0;<br></li><li>    for (i = 0; i &lt; n; i++) {<br></li><li>  &nbsp;&nbsp;          &nbsp;&nbsp;&nbsp;         fin &gt;&gt; pts &gt;&gt; len;<br></li><li>  &nbsp;&nbsp;          &nbsp;&nbsp;&nbsp;         for (j = len; j &lt;= m; j++)<br></li><li>  &nbsp;&nbsp;          &nbsp;&nbsp;          &nbsp;&nbsp;           if (best[j-len] + pts &gt; best[j])<br></li><li>  &nbsp;&nbsp;          &nbsp;&nbsp;          &nbsp;&nbsp;          &nbsp;&nbsp;            best[j] = best[j-len] + pts;<br></li><li>    }<br></li><li>    fout &lt;&lt; best[m] &lt;&lt; endl; // 由于数组元素不减，末元素最大<br></li><li>}<br></li><li><br></li></ol><p> </p><p> </p><p> </p><p> </p><p> </p><br>－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－<p><br>A Game<br><br>有如下一个双人游戏:N(2 &lt;= N &lt;= 100)个正整数的序列放在一个游戏平台上，两人轮流从序列的两端取数，取数后该数字被去掉并累加到本玩家的得分中，当数取尽时，游戏结束。以最终得分多者为胜。 <br><br>编一个执行最优策略的程序，最优策略就是使自己能得到在当前情况下最大的可能的总分的策略。你的程序要始终为第二位玩家执行最优策略。<br><br>PROGRAM NAME: game1<br>INPUT FORMAT<br>第一行:&nbsp;&nbsp;        正整数N, 表示序列中正整数的个数。&nbsp;&nbsp;<br>第二行至末尾:   用空格分隔的N个正整数（大小为1-200）。 <br><br>SAMPLE INPUT (file game1.in) <br>6 <br>4 7 2 9<br>5 2<br><br>OUTPUT FORMAT<br><br>只有一行，用空格分隔的两个整数: 依次为玩家一和玩家二最终的得分。 <br><br>SAMPLE OUTPUT (file game1.out)<br>18 11</p><p></p><p> </p><p><strong></strong></p><p><strong>设得到一个子序列Qi,Qi+1,Qi+2,…,Qj-2,Qj-1,Qj;<br>由于后一个人按最佳策略取数,所以他必将取一个最大值f(i+1,j)或f(i,j-1),那么此时取数的人以后取得的数将是sum(i+1,j)-f(i+1,j)或是sum(i,j-1)-f(i,j-1),此时取数的人按最佳策略取数,他会取Qi或者Qj使得sum(i+1,j)-f(i+1,j)+Qi和sum(i,j-1)-f(i,j-1)+Qj二者能有较大值.这样从游戏的结束向游戏的开始推,可以得到总的最优解.</strong></p><p><br><strong></strong></p><p><strong>for i←n-1 downto 1 do<br>  for j←i+1 to n do<br>&nbsp;&nbsp;&nbsp;         begin<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;         sum(i,j)←sum(i,j-1)+Qj<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;         f[i,j]←max{sum(i+1,j)+Qi-f(i+1,j),sum(i,j-1)+Qj-f(i,j-1)}<br>&nbsp;&nbsp;&nbsp;         end;</strong></p><p></p><p><strong></strong></p>－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－<br><p> </p><ol><li>USACO 3.4<br></li><li>Raucous Rockers<br></li><li>题目如下：<br></li><li>你刚刚得到了流行的“破锣摇滚”乐队录制的尚未发表的N(1 &lt;= N &lt;=20)首歌的版权。你打算从中精选一些歌曲，发行M(1 &lt;= M &lt;= 20)张CD。每一张CD最多可以容纳T(1 &lt;= T&lt;= 20)分钟的音乐，一首歌不能分装在两张CD中。 <br></li><li>不巧你是一位古典音乐迷，不懂如何判定这些歌的艺术价值。于是你决定根据以下标准进行选择： <br></li><li>歌曲必须按照创作的时间顺序在CD盘上出现。 <br></li><li>选中的歌曲数目尽可能地多。 <br></li><li>PROGRAM NAME: rockers<br></li><li>INPUT FORMAT<br></li><li>第一行：&nbsp;&nbsp;     三个整数：N, T, M.&nbsp;&nbsp;<br></li><li>第二行：&nbsp;&nbsp;     N个整数，分别表示每首歌的长度，按创作时间顺序排列。&nbsp;&nbsp;<br></li><li>SAMPLE INPUT (file rockers.in)<br></li><li>4 5 2<br></li><li>4 3 4 2<br></li><li>OUTPUT FORMAT<br></li><li>一个整数，表示可以装进M张CD盘的乐曲的最大数目。 <br></li><li>SAMPLE OUTPUT (file rockers.out)<br></li><li>3<br></li></ol><p> </p><p>分析 动态规划</p><p>f[i, j, k]：前i首歌 前j个光盘 在当前时间限制为k时最多能放多少首歌。<br>当k&gt;=a[i]时f[i,j,k]=max(f[i-1,j,k-a[i]] + 1, f[i-1,j,k])；当k&lt;a[i]时f[i,j,k]=max(f[i,j-1,t], f[i-1,j,k])<br>i表示的是第i首歌，j表示的是第j个光盘，k表示的是要用的时间，<br>a[i]是第i首歌的时间，t表示的是光盘的最大空间。<br>其实他就是一个01背包类的问题，只不过我们要考虑一下当前的这个光盘是否可以放，然后在考虑放与不放。</p><p> </p><p> </p>#include&lt;stdlib.h&gt;<br>#include&lt;stdio.h&gt;<br>int main()<br>{<br>&nbsp;&nbsp;&nbsp;      int i1,i2,n,t,m,i,a[22],f[50][50][50]={0};<br>&nbsp;&nbsp;&nbsp;      FILE in;<br>&nbsp;&nbsp;&nbsp;      in=fopen(&quot;input12.txt&quot;,&quot;r&quot;);<br>&nbsp;&nbsp;&nbsp;      fscanf(in,&quot;%d%d%d&quot;,&amp;n,&amp;t,&amp;m);<br>&nbsp;&nbsp;&nbsp;      for(i=1;i&lt;=n;i++)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      fscanf(in,&quot;%d&quot;,&amp;a[i]);<br>&nbsp;&nbsp;&nbsp;      for(i=1;i&lt;=n;i++)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      for(i1=1;i1&lt;=m;i1++)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      for(i2=0;i2&lt;=t;i2++)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      if(i2&gt;=a[i])<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      f[i][i1][i2]=f[i-1][i1][i2];<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      if(f[i][i1][i2]&lt;f[i-1][i1][i2-a[i]]+1)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      f[i][i1][i2]=f[i-1][i1][i2-a[i]]+1;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      else<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      f[i][i1][i2]=f[i][i1-1][t];<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      if(f[i][i1][i2]&lt;f[i-1][i1][i2])<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      f[i][i1][i2]=f[i-1][i1][i2];<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      printf(&quot;%d&quot;,f[n][m][t]);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      system(&quot;pause&quot;);<br>}<p> </p><p>－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－</p><br><p> </p><p> </p><p> </p><p> </p><p> </p><p> </p><p> </p><br><br><br><br><br><br><br><br> <p></p>
 
       
     </div>
-    <div class="article-info article-info-index">
+
+    <div>
       
-      <a href="/2010/12/04/【★】动态规划例题/" class="archive-article-date">
-  	<time datetime="2010-12-04T15:15:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2010-12-04</time>
-</a>
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2010/12/02/【转】上机题-基因串/" rel="next" title="【转】上机题 基因串">
+                <i class="fa fa-chevron-left"></i> 【转】上机题 基因串
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2010/12/05/笑话十则/" rel="prev" title="笑话十则">
+                笑话十则 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
       
       
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a>
-	</div>
+    </footer>
+  </article>
 
 
-      <div class="clearfix"></div>
+
+    <div class="post-spread">
+      
     </div>
   </div>
-</article>
 
-  
-<nav id="article-nav">
-  
-    <a href="/2010/12/05/笑话十则/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
         
-          笑话十则
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/wp-content/uploads/penguin.gif"
+               alt="jfo" />
+          <p class="site-author-name" itemprop="name">jfo</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">596</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/jfojfo" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/jfojfo" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.pickbox.me" title="收藏夹" target="_blank">收藏夹</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://note.pickbox.me" title="网络剪贴板" target="_blank">网络剪贴板</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://iguangba.pickbox.me" title="爱逛吧" target="_blank">爱逛吧</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
         
       </div>
-    </a>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
   
-  
-    <a href="/2010/12/02/【转】上机题-基因串/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">【转】上机题 基因串</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-
-
-<div class="share_jia">
-	<!-- JiaThis Button BEGIN -->
-	<div class="jiathis_style">
-		<span class="jiathis_txt">Share to: &nbsp; </span>
-		<a class="jiathis_button_facebook"></a> 
-	    <a class="jiathis_button_twitter"></a>
-	    <a class="jiathis_button_plus"></a> 
-	    <a class="jiathis_button_tsina"></a>
-		<a class="jiathis_button_cqq"></a>
-		<a class="jiathis_button_douban"></a>
-		<a class="jiathis_button_weixin"></a>
-		<a class="jiathis_button_tumblr"></a>
-    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
-	</div>
-	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
-	<!-- JiaThis Button END -->
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jfo</span>
 </div>
 
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
 
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
 
+        
 
-
-
-
-
-
+        
       </div>
-      <footer id="footer">
-  <div class="outer">
-    <div id="footer-info">
-    	<div class="footer-left">
-    		&copy; 2016 jfo
-    	</div>
-      	<div class="footer-right">
-      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
-      	</div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
     </div>
   </div>
-</footer>
-    </div>
-    <script>
-	var yiliaConfig = {
-		fancybox: true,
-		mathjax: false,
-		animate: true,
-		isHome: false,
-		isPost: true,
-		isArchive: false,
-		isTag: false,
-		isCategory: false,
-		open_in_new: false,
-		root: "/",
-		innerArchive: true
-	}
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
 
-<script src="/./main.js"></script>
 
 
-    
-<div class="tools-col">
-  <ul class="btn-wrap">
-    
-      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
-    
-    
-      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
-    
-    
-      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
-    
-    
-      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
-    
-  </ul>
-  <div class="tools-wrap">
-    
-    	<section class="tools-section tools-section-all chose">
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-tag">
-    			<div class="widget tagcloud" id="js-tagcloud">
-    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
-    			</div>
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-friends">
-  		
-  			<div class="friends-wrap" id="js-friends">
-  			
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
-  	        
-  	        </div>
-  		
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-me">
-  	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
-  	  	
-    	</section>
-    
-  </div>
+
+
+
   
-</div>
 
-    <!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
 
-    <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
 
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
 
-        <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
 
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
 
-            <div class="pswp__top-bar">
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
 
-                <!--  Controls are self-explanatory. Order can be changed. -->
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
 
-                <div class="pswp__counter"></div>
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
 
-                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+  
 
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
 
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
 
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
-                </div>
-            </div>
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
 
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div> 
-            </div>
 
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
 
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
+  
+  
 
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
 
-        </div>
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
 
-    </div>
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
 
-</div>
-  </div>
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
 </body>
 </html>

@@ -1,12 +1,90 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
+<!doctype html>
+
+
+
   
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>【zz】linux-2.6.25.4 PREEMPT_RT简介 | jfo planet</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="http://www.linuxforum.net/forum/showflat.php?Cat=&amp;amp;Board=linuxK&amp;amp;Number=700000&amp;amp;page=&amp;amp;view=&amp;amp;sb=&amp;amp;o=&amp;amp;vc=1link: hylpro.cublog.cn 1. 2.6.25.4-rt 下载内核和rt-linux 补丁 http://www.kerne">
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="jfo, blog" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="http://www.linuxforum.net/forum/showflat.php?Cat=&amp;amp;Board=linuxK&amp;amp;Number=700000&amp;amp;page=&amp;amp;view=&amp;amp;sb=&amp;amp;o=&amp;amp;vc=1link: hylpro.cublog.cn 1. 2.6.25.4-rt 下载内核和rt-linux 补丁 http://www.kerne">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【zz】linux-2.6.25.4 PREEMPT_RT简介">
 <meta property="og:url" content="http://blog.pickbox.me/2008/10/27/【zz】linux-2-6-25-4-PREEMPT-RT简介/index.html">
@@ -16,366 +94,546 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【zz】linux-2.6.25.4 PREEMPT_RT简介">
 <meta name="twitter:description" content="http://www.linuxforum.net/forum/showflat.php?Cat=&amp;amp;Board=linuxK&amp;amp;Number=700000&amp;amp;page=&amp;amp;view=&amp;amp;sb=&amp;amp;o=&amp;amp;vc=1link: hylpro.cublog.cn 1. 2.6.25.4-rt 下载内核和rt-linux 补丁 http://www.kerne">
-  
-    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="//favicon.ico">
-  
-  <script src="/style.js"></script>
-  
 
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://blog.pickbox.me/2008/10/27/【zz】linux-2-6-25-4-PREEMPT-RT简介/"/>
+
+
+  <title> 【zz】linux-2.6.25.4 PREEMPT_RT简介 | jfo planet </title>
 </head>
 
-<body>
-  <div id="container">
-    <div class="left-col">
-      <div class="overlay"></div>
-<div class="intrude-less">
-	<header id="header" class="inner">
-		<a href="/" class="profilepic">
-			
-			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
-			
-		</a>
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
 
-		<hgroup>
-		  <h1 class="header-author"><a href="/">jfo</a></h1>
-		</hgroup>
+  
 
-		
-		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
-		
 
-		<nav class="header-menu">
-			<ul>
-			
-				<li><a href="/">主页</a></li>
-	        
-			</ul>
-		</nav>
-		<nav class="header-smart-menu">
-	        
-    		
-    			
-    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
-    			
-    			
-            
-		</nav>
-		<nav class="header-nav">
-			<div class="social">
-				
-					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
-		        
-					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
-		        
-			</div>
-		</nav>
-	</header>		
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">jfo planet</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Hope is the best gift that tomorrow gives.</p>
 </div>
 
-    </div>
-    <div class="mid-col">
-      <nav id="mobile-nav">
-  	<div class="overlay">
-  		<div class="slider-trigger"><i class="icon-list"></i></div>
-  		<h1 class="header-author js-mobile-header hide">jfo</h1>
-  	</div>
-	<div class="intrude-less">
-		<header id="header" class="inner">
-			<div class="profilepic">
-				
-					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
-				
-			</div>
-			<hgroup>
-			  <h1 class="header-author">jfo</h1>
-			</hgroup>
-			
-			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
-			
-			<nav class="header-menu">
-				<ul>
-				
-					<li><a href="/">主页</a></li>
-		        
-				</ul>
-			</nav>
-			<nav class="header-nav">
-				<div class="social">
-					
-						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
-			        
-						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
-			        
-				</div>
-			</nav>
-		</header>				
-	</div>
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
 </nav>
 
-      <div class="body-wrap">
-        <article id="post-【zz】linux-2-6-25-4-PREEMPT-RT简介" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
     
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
+
   
-    <h1 class="article-title" itemprop="name">
-      【zz】linux-2.6.25.4 PREEMPT_RT简介
-    </h1>
   
 
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                【zz】linux-2.6.25.4 PREEMPT_RT简介
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2008-10-27T00:33:00+08:00" content="2008-10-27">
+              2008-10-27
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
       
         <p> <br><a href="http://www.linuxforum.net/forum/showflat.php?Cat=&amp;Board=linuxK&amp;Number=700000&amp;page=&amp;view=&amp;sb=&amp;o=&amp;vc=1" target="_blank">http://www.linuxforum.net/forum/showflat.php?Cat=&amp;Board=linuxK&amp;Number=700000&amp;page=&amp;view=&amp;sb=&amp;o=&amp;vc=1</a><br></p><p>link: hylpro.cublog.cn <br><br>1. 2.6.25.4-rt <br><br>下载内核和rt-linux 补丁 <br><a href="http://www.kernel.org/pub/linux/kernel/projects/rt/patch-2.6.25.4-rt6.bz2" target="_blank">http://www.kernel.org/pub/linux/kernel/projects/rt/patch-2.6.25.4-rt6.bz2</a> <br><a href="http://www.cn.kernel.org/pub/linux/kernel/v2.6/linux-2.6.25.4.tar.bz2" target="_blank">http://www.cn.kernel.org/pub/linux/kernel/v2.6/linux-2.6.25.4.tar.bz2</a> <br><br>在解压缩后的内核目录,用下面命令把补丁打上: <br>patch -p1 -i patch-2.6.25.4-rt6  <br>其主要修改的文件是: rcu/rtmutex/sched/lockdep/trace/arch/driver… <br><br><br>2. preempt_rt 实现简介 <br><br>Ingo Molnar 带领一干人等,维护rt linux patch. 打完补丁后除了raw_spinlock 不容许抢占外,几乎所有内核代码都容许被抢占.主要途径 <br>就是吧内核的大部分spinlock替换成支持PI的rt-mutexes,并把中断和软中断改造成内核线程.PI: priority inheritance, <br><br><br>a)Preemptible critical sections <br>普通的spinlocks,rwlock_t, 以及RCU read 操作容许抢占.以spin lock为例,打过补丁后spinlock分成两种:spinlock_t和 <br>raw_spinlock_t. raw_spinlock_t就是原来的spinlock, spinlock_t则被替换成rt_mutex. <br>以下面的spin_lock为例 <br>#define spin_lock(lock) PICK_SPIN_OP(<strong>spin_lock, _spin_lock, lock) <br>#define spin_lock_irq(lock) PICK_SPIN_OP(</strong>spin_lock_irq, _spin_lock_irq, lock) <br>#define spin_lock_bh(lock) PICK_SPIN_OP(<strong>spin_lock_bh, _spin_lock_bh, lock) <br><br>PICK_SPIN_OP 根据lock的类型选择对应的函数, 如果是raw_spinlock_t就选用前一个函数, 否则用后一个.  <br><br>下面是spinlock_t选用的函数: <br><br>#ifdef CONFIG_PREEMPT_RT <br># define _spin_lock(l)            rt_spin_lock(l) <br># define _spin_lock_nested(l, s)    rt_spin_lock_nested(l, s) <br># define _spin_lock_bh(l)        rt_spin_lock(l) <br># define _spin_lock_irq(l)        rt_spin_lock(l) <br><br>通过上面的代码片断,可以看到, spin_lock_irq/bh 都使用了同一个函数:rt_spin_lock, 深入进去, _spin_lock_irq就根本没有关中断. <br><br>void </strong>lockfunc rt_spin_lock(spinlock_t <em>lock) <br>{ <br>spin_acquire(&amp;lock-&gt;dep_map, 0, 0, _RET<em>IP</em>); <br>LOCK_CONTENDED_RT(lock, rt_mutex_trylock, __rt_spin_lock); <br>} <br>而raw_spinlock_t则对应于原来的实现. <br><br><br>spin_lock成为可抢占代码后, 某些关键路径如果不能容许使用这种spinlock: 如preemption已经被禁止,或者irq是disable的时候(这些情况下再使用可以被抢占的代码显然不合适: 进程已经明确要求经禁抢占了,还(有可能)强行调度当前进程显然比较操蛋.) <br><br><br>万一这种情况无可避免,就使用raw_spinlock_t来代替spinlock_t即可.(上面分析了,使用raw格式的spin, 保持其原有含义). 不过这种情况实属例外,一般除了底层的scheduler,RCU,体系相关代码用不着如此. <br><br><br><br>另一个问题是,spinlock_t所保护的代码现在可以抢占了,有可能迁徙到其他cpu去执行,这样per cpu的变量就要注意了:在spinlock_t保护下的per-cpu变量需要明确的禁止抢占,或者使用 DEFINE_PER_CPU_LOCKED()来定义per cpu var,通过get_cpu_var_locked来操作per cpu变量(呵呵,per cpu现在也锁上了). <br><br><br>Ingo Molnar 指出, 如下情况, blah函数会发现当前任务状态变成了running, 这是因为sched函数会唤醒进程的时候把进程状态重新置为running. <br><br>spin_lock(&amp;mylock1); <br>current-&gt;state = TASK_UNINTERRUPTIBLE; <br>spin_lock(&amp;mylock2); //</em></p><br>blah(); <br>spin_unlock(&amp;mylock2); <br>spin_unlock(&amp;mylock1); <br><br>解决的办法是, 在sping lock 加锁睡眠的时候保存任务状态(rt_spin_lock_slowlock),然后由于rtmutex而被唤醒的进程任务状态被置为mutex running(wakeup_next_waiter-&gt;wake_up_process_mutex),而slowlock过程根据被唤醒后的 任务的状态决定是恢复保存的状态还是设置成TASK_RUNNING(见rt_spin_lock_slowlock). <br><br><br><br>b)Preemptible interrupt handlers <br><br>在PREEMPT_RT环境下,大部分中断运行在 process context环境, 是进程化了的中断. 可以指定中断处理函数的 SA_NODELAY属性从而使得中断处理函数依然处于interrupt context, 但是实际上只有fpu_irq(浮点), irq0(per cpu的timer中断), irq2, lpptest(中断延迟测定)指定这个属性. 只有per cpu timer属于经常性使用的. software timer (add_timer() and friends) 不运行在hardware interrupt context上而是运行于process context,是可抢占的. <br><br>指定SA_NODELAY 会增加很多延迟,要小心对待,不然很容易oops, deadlock. <br><br>per-CPU timer interrupt (e.g., scheduler_tick()) 运行于hardware-interrupt context,和process-context code 互斥需要用raw spinlocks (raw_spinlock_t or raw_rwlock_t), 进程端必须用_irq 类型的spin lock.和NO_DELAY硬件中断共享的per-CPU 变量在进程端也要关中断进行保护. <br><br><br>C) Preemptible &quot;interrupt disable&quot; code sequences <br><br>这个奇怪的提法是因为PREEMPT_RT的逻辑:针对spinlcok_t的spin_lock_irq并不关中断,在RT环境下,大部分中断作为一个进程来运行.和中断处理打交道的进程需要考虑到中断处理函数可能运行在另外一个cpu上. <br><br>spin_lock_irqsave() 和其他相关原语也不必要disable preemption:如果中断处理抢占了一个持有spinlock_t进的程,当这个中断处理函数试图获取这个锁的时候也会马上block,临界区依然得到保护. <br><br>local_irq_save也有禁止抢占的作用, 所以用spinlcok_t代替local_irq_save() 可以减少调度的延迟但是会降低SMP的效率. <br><br>在RT环境下和SA_NODELAY类型的中断处理函数打交道需要使用raw_spin_lock/raw_xxxx ,但是需要注意raw类型的应该仅仅用在scheduler, architecture-dependent code,  RCU 就可以了. <br><br><br>(似乎早期RT patches local_irq_save也不关中断(??),仅仅关闭抢占而已, 新内核lock_irq_save == raw_lock_irq_save,就是多了hard irq trace的功能, 另外加了local_irq_save_rt/nort这些宏) <br><br>D) Priority inheritance for in-kernel spinlocks and semaphores <br>优先级继承适合于Rt kenrel下消除优先级翻转.对于spin_lock锁, 优先级翻转较为容易处理. <br><br><br>但是对于 writer-2-readers 的优先级继承就很有问题: 比如一个rw lock被多个readers read_lock, 然后每个reader都block 到一个rw lock,并且他们试图write_lock这个锁, 然而这个锁被许多reader read_lock住…. 这是个级数增长的过程, 几乎无解. RT kernel 简化这个问题,同一时间只容许一个任务read_hold一个reader-writer lock, 或者semaphore. <br><br><br><br>另外一个特殊情况是,semaphores 有时做PI反而坏事,比如sem被用于event,而不是锁, 因为你补知道谁将give 锁(sem用做事件时和lock相反:先block上, 这样没办法去PI, 我们只能在block on时才boost. 所以,这种情况下使用compat_semaphore,compat_rw_semaphore 这些变种. <br><br><br>E) Deferred operations <br><br>由于spin_lock() 可以sleep, 所以抢占禁止的时候不能调用这些函数,一些情况下这个由延迟处理来解决: <br><br> put_task_struct_delayed() 把put_task_struct()个函数放到一个队列中,直到可以调用spin_lock时才执行. <br><br><em> mmdrop_delayed() : 就是mmdrop() 的queue… <br><br></em> TIF_NEED_RESCHED_DELAYED : <br>这里顺带解释下TIF_NEED_RESCHED: 这个要从调度谈起. <br><br><br><br>Latency-reduction measures <br><br>There are a few changes in PREEMPT_RT whose primary purpose is to reduce scheduling or interrupt latency. <br><br>The first such change involves the x86 MMX/SSE hardware. This hardware is handled in the kernel with preemption disabled, and this sometimes means waiting until preceding MMX/SSE instructions complete. Some MMX/SSE instructions are no problem, but others take overly long amounts of time, so PREEMPT_RT refuses to use the slow ones. <br><br>The second change applies per-CPU variables to the slab allocator, as an alternative to the previous wanton disabling of interrupts. <br><br><br><br><br><br>参考资料: <br><br><a href="http://rt.wiki.kernel.org/index.php/CONFIG_PREEMPT_RT_Patch" target="_blank">http://rt.wiki.kernel.org/index.php/CONFIG_PREEMPT_RT_Patch</a>  简介 <br><a href="http://lwn.net/Articles/146861/" target="_blank">http://lwn.net/Articles/146861/</a>  A realtime preemption overview by Paul McKenney <br><a href="http://www.ibm.com/developerworks/cn/linux/l-real-time-linux/" target="_blank">http://www.ibm.com/developerworks/cn/linux/l-real-time-linux/</a>  实时linux的几种类型      <br><br><br><br><br><del>end</del> <p></p>
 
       
     </div>
-    <div class="article-info article-info-index">
+
+    <div>
       
-      <a href="/2008/10/27/【zz】linux-2-6-25-4-PREEMPT-RT简介/" class="archive-article-date">
-  	<time datetime="2008-10-26T16:33:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-10-27</time>
-</a>
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2008/10/25/Linux-RCU-Read-Copy-Update/" rel="next" title="Linux RCU (Read-Copy Update)">
+                <i class="fa fa-chevron-left"></i> Linux RCU (Read-Copy Update)
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2008/10/27/【zz】2-4-18和2-6-25-4-rt在任务调度上的不同/" rel="prev" title="【zz】2.4.18和2.6.25.4-rt在任务调度上的不同">
+                【zz】2.4.18和2.6.25.4-rt在任务调度上的不同 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
       
       
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/Linux/">Linux</a>
-	</div>
+    </footer>
+  </article>
 
 
-      <div class="clearfix"></div>
+
+    <div class="post-spread">
+      
     </div>
   </div>
-</article>
 
-  
-<nav id="article-nav">
-  
-    <a href="/2008/10/27/【zz】2-4-18和2-6-25-4-rt在任务调度上的不同/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
         
-          【zz】2.4.18和2.6.25.4-rt在任务调度上的不同
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/wp-content/uploads/penguin.gif"
+               alt="jfo" />
+          <p class="site-author-name" itemprop="name">jfo</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">596</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/jfojfo" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/jfojfo" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.pickbox.me" title="收藏夹" target="_blank">收藏夹</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://note.pickbox.me" title="网络剪贴板" target="_blank">网络剪贴板</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://iguangba.pickbox.me" title="爱逛吧" target="_blank">爱逛吧</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
         
       </div>
-    </a>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
   
-  
-    <a href="/2008/10/25/Linux-RCU-Read-Copy-Update/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Linux RCU (Read-Copy Update)</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-
-
-<div class="share_jia">
-	<!-- JiaThis Button BEGIN -->
-	<div class="jiathis_style">
-		<span class="jiathis_txt">Share to: &nbsp; </span>
-		<a class="jiathis_button_facebook"></a> 
-	    <a class="jiathis_button_twitter"></a>
-	    <a class="jiathis_button_plus"></a> 
-	    <a class="jiathis_button_tsina"></a>
-		<a class="jiathis_button_cqq"></a>
-		<a class="jiathis_button_douban"></a>
-		<a class="jiathis_button_weixin"></a>
-		<a class="jiathis_button_tumblr"></a>
-    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
-	</div>
-	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
-	<!-- JiaThis Button END -->
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jfo</span>
 </div>
 
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
 
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
 
+        
 
-
-
-
-
-
+        
       </div>
-      <footer id="footer">
-  <div class="outer">
-    <div id="footer-info">
-    	<div class="footer-left">
-    		&copy; 2016 jfo
-    	</div>
-      	<div class="footer-right">
-      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
-      	</div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
     </div>
   </div>
-</footer>
-    </div>
-    <script>
-	var yiliaConfig = {
-		fancybox: true,
-		mathjax: false,
-		animate: true,
-		isHome: false,
-		isPost: true,
-		isArchive: false,
-		isTag: false,
-		isCategory: false,
-		open_in_new: false,
-		root: "/",
-		innerArchive: true
-	}
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
 
-<script src="/./main.js"></script>
 
 
-    
-<div class="tools-col">
-  <ul class="btn-wrap">
-    
-      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
-    
-    
-      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
-    
-    
-      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
-    
-    
-      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
-    
-  </ul>
-  <div class="tools-wrap">
-    
-    	<section class="tools-section tools-section-all chose">
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-tag">
-    			<div class="widget tagcloud" id="js-tagcloud">
-    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
-    			</div>
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-friends">
-  		
-  			<div class="friends-wrap" id="js-friends">
-  			
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
-  	        
-  	        </div>
-  		
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-me">
-  	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
-  	  	
-    	</section>
-    
-  </div>
+
+
+
   
-</div>
 
-    <!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
 
-    <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
 
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
 
-        <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
 
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
 
-            <div class="pswp__top-bar">
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
 
-                <!--  Controls are self-explanatory. Order can be changed. -->
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
 
-                <div class="pswp__counter"></div>
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
 
-                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+  
 
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
 
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
 
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
-                </div>
-            </div>
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
 
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div> 
-            </div>
 
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
 
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
+  
+  
 
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
 
-        </div>
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
 
-    </div>
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
 
-</div>
-  </div>
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
 </body>
 </html>

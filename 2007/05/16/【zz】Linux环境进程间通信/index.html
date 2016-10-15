@@ -1,12 +1,90 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
+<!doctype html>
+
+
+
   
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>【zz】Linux环境进程间通信 | jfo planet</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Linux环境进程间通信（三）郑彦兴 ()国防科大计算机学院 2003 年  1 月  17 日本系列文章中的前两部分，我们探讨管道及信号两种通信机制，本文将深入第三部分，介绍系统 V 消息队列及其相应 API。消息队列（也叫做报文队列） 能够克服早期unix通信机制的一些缺点。作为早期unix通信机制之一的信号能够传送的信息量有限，后来虽然POSIX 1003.1b在信号的实时性方面作了拓广，">
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="jfo, blog" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="Linux环境进程间通信（三）郑彦兴 ()国防科大计算机学院 2003 年  1 月  17 日本系列文章中的前两部分，我们探讨管道及信号两种通信机制，本文将深入第三部分，介绍系统 V 消息队列及其相应 API。消息队列（也叫做报文队列） 能够克服早期unix通信机制的一些缺点。作为早期unix通信机制之一的信号能够传送的信息量有限，后来虽然POSIX 1003.1b在信号的实时性方面作了拓广，">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【zz】Linux环境进程间通信">
 <meta property="og:url" content="http://blog.pickbox.me/2007/05/16/【zz】Linux环境进程间通信/index.html">
@@ -37,366 +115,546 @@
 <meta name="twitter:title" content="【zz】Linux环境进程间通信">
 <meta name="twitter:description" content="Linux环境进程间通信（三）郑彦兴 ()国防科大计算机学院 2003 年  1 月  17 日本系列文章中的前两部分，我们探讨管道及信号两种通信机制，本文将深入第三部分，介绍系统 V 消息队列及其相应 API。消息队列（也叫做报文队列） 能够克服早期unix通信机制的一些缺点。作为早期unix通信机制之一的信号能够传送的信息量有限，后来虽然POSIX 1003.1b在信号的实时性方面作了拓广，">
 <meta name="twitter:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_fig1.gif">
-  
-    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="//favicon.ico">
-  
-  <script src="/style.js"></script>
-  
 
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://blog.pickbox.me/2007/05/16/【zz】Linux环境进程间通信/"/>
+
+
+  <title> 【zz】Linux环境进程间通信 | jfo planet </title>
 </head>
 
-<body>
-  <div id="container">
-    <div class="left-col">
-      <div class="overlay"></div>
-<div class="intrude-less">
-	<header id="header" class="inner">
-		<a href="/" class="profilepic">
-			
-			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
-			
-		</a>
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
 
-		<hgroup>
-		  <h1 class="header-author"><a href="/">jfo</a></h1>
-		</hgroup>
+  
 
-		
-		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
-		
 
-		<nav class="header-menu">
-			<ul>
-			
-				<li><a href="/">主页</a></li>
-	        
-			</ul>
-		</nav>
-		<nav class="header-smart-menu">
-	        
-    		
-    			
-    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
-    			
-    			
-            
-		</nav>
-		<nav class="header-nav">
-			<div class="social">
-				
-					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
-		        
-					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
-		        
-			</div>
-		</nav>
-	</header>		
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">jfo planet</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Hope is the best gift that tomorrow gives.</p>
 </div>
 
-    </div>
-    <div class="mid-col">
-      <nav id="mobile-nav">
-  	<div class="overlay">
-  		<div class="slider-trigger"><i class="icon-list"></i></div>
-  		<h1 class="header-author js-mobile-header hide">jfo</h1>
-  	</div>
-	<div class="intrude-less">
-		<header id="header" class="inner">
-			<div class="profilepic">
-				
-					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
-				
-			</div>
-			<hgroup>
-			  <h1 class="header-author">jfo</h1>
-			</hgroup>
-			
-			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
-			
-			<nav class="header-menu">
-				<ul>
-				
-					<li><a href="/">主页</a></li>
-		        
-				</ul>
-			</nav>
-			<nav class="header-nav">
-				<div class="social">
-					
-						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
-			        
-						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
-			        
-				</div>
-			</nav>
-		</header>				
-	</div>
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
 </nav>
 
-      <div class="body-wrap">
-        <article id="post-【zz】Linux环境进程间通信" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
     
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
+
   
-    <h1 class="article-title" itemprop="name">
-      【zz】Linux环境进程间通信
-    </h1>
   
 
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                【zz】Linux环境进程间通信
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2007-05-16T23:33:00+08:00" content="2007-05-16">
+              2007-05-16
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
       
         <p> Linux环境进程间通信（三）</p><p><a href="http://www.ibm.com/developerworks/cn/linux/l-ipc/part3/#author" target="_blank" rel="external">郑彦兴</a> ()国防科大计算机学院</p><p> </p><p>2003 年  1 月  17 日</p><blockquote>本系列文章中的前两部分，我们探讨管道及信号两种通信机制，本文将深入第三部分，介绍系统 V 消息队列及其相应 API。</blockquote><p>消息队列（也叫做报文队列） 能够克服早期unix通信机制的一些缺点。作为早期unix通信机制之一的信号能够传送的信息量有限，后来虽然POSIX 1003.1b在信号的实时性方面作了拓广，使得信号在传递信息量方面有了相当程度的改进，但是信号这种通信方式更像&quot;即时&quot;的通信方式，它要求接受信号 的进程在某个时间范围内对信号做出反应，因此该信号最多在接受信号进程的生命周期内才有意义，信号所传递的信息是接近于随进程持续的概念（process -persistent），见 <a href="http://www.ibm.com/developerworks/cn/linux/l-ipc/part3/#listing1" target="_blank" rel="external">附录 1</a>；管道及有名管道及有名管道则是典型的随进程持续IPC，并且，只能传送无格式的字节流无疑会给应用程序开发带来不便，另外，它的缓冲区大小也受到限制。</p><p>消息队列就是一个消息的链表。可以把消息看作一个记录，具有特定的格式以及特定的优先级。对消息队列有写权限的进程可以向中按照一定的规则添加新消息；对消息队列有读权限的进程则可以从消息队列中读走消息。消息队列是随内核持续的（参见         <a href="http://www.ibm.com/developerworks/cn/linux/l-ipc/part3/#listing1" target="_blank" rel="external">附录 1</a>）。</p><p>目前主要有两种类型的消息队列：POSIX消息队列以及系统V消息队列，系统V消息队列目前被大量使用。考虑到程序的可移植性，新开发的应用程序应尽量使用POSIX消息队列。</p><p>在 本系列专题的序（深刻理解Linux进程间通信（IPC））中，提到对于消息队列、信号灯、以及共享内存区来说，有两个实现版本：POSIX的以及系统V 的。Linux内核（内核2.4.18）支持POSIX信号灯、POSIX共享内存区以及POSIX消息队列，但对于主流Linux发行版本之一 redhad8.0（内核2.4.18），还没有提供对POSIX进程间通信API的支持，不过应该只是时间上的事。</p><p>因此，本文将主要介绍系统V消息队列及其相应API。         <strong>在没有声明的情况下，以下讨论中指的都是系统V消息队列。</strong></p><p><a name="N1005A">一、消息队列基本概念</a></p><ol> <li>系统V消息队列是随内核持续的，只有在内核重起或者显示删除一个消息队列时，该消息队列才会真正被删除。因此系统中记录消息队列的数据结构（struct ipc_ids msg_ids）位于内核中，系统中的所有消息队列都可以在结构msg_ids中找到访问入口。</li> <li>消息队列就是一个消息的链表。每个消息队列都有一个队列头，用结构struct msg_queue来描述（参见           <a href="http://www.ibm.com/developerworks/cn/linux/l-ipc/part3/#listing2" target="_blank" rel="external">附录 2</a>）。队列头中包含了该消息队列的大量信息，包括消息队列键值、用户ID、组ID、消息队列中消息数目等等，甚至记录了最近对消息队列读写进程的ID。读者可以访问这些信息，也可以设置其中的某些信息。</li> <li>下图说明了内核与消息队列是怎样建立起联系的：           <br>    其中：struct ipc_ids msg_ids是内核中记录消息队列的全局数据结构；struct msg_queue是每个消息队列的队列头。                        <br> <br> <img width="529" height="219" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_fig1.gif"></li></ol><p>从 上图可以看出，全局数据结构 struct ipc_ids msg_ids 可以访问到每个消息队列头的第一个成员：struct kern_ipc_perm；而每个struct kern_ipc_perm能够与具体的消息队列对应起来是因为在该结构中，有一个key_t类型成员key，而key则唯一确定一个消息队列。 kern_ipc_perm结构如下：</p>                                    struct kern_ipc_perm{   //内核中记录消息队列的全局数据结构msg_ids能够访问到该结构；<br>            key_t   key;    //该键值则唯一对应一个消息队列<br>            uid_t   uid;<br>            gid_t   gid;<br>uid_t   cuid;<br>gid_t   cgid;<br>mode_t  mode;<br>unsigned long seq;<br>}                        <br><br> <img width="100%" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif"><br> <img width="8" height="6" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <img width="100%" height="4" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"><br> <img width="16" height="16" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif"> <a href="http://www.ibm.com/developerworks/cn/linux/l-ipc/part3/#main" target="_blank" rel="external"><strong>回页首</strong></a> <br><br><p><a name="N1008A">二、操作消息队列</a></p><p><a name="N10090">对消息队列的操作无非有下面三种类型：</a></p><p>1、 打开或创建消息队列         <br>消息队列的内核持续性要求每个消息队列都在系统范围内对应唯一的键值，所以，要获得一个消息队列的描述字，只需提供该消息队列的键值即可；</p><p>注：消息队列描述字是由在系统范围内唯一的键值生成的，而键值可以看作对应系统内的一条路经。</p><p>2、 读写操作</p><p>消息读写操作非常简单，对开发人员来说，每个消息都类似如下的数据结构：</p>                                    struct msgbuf{<br>long mtype;<br>char mtext[1];<br>};                        <br><p>mtype成员代表消息类型，从消息队列中读取消息 的一个重要依据就是消息的类型；mtext是消息内容，当然长度不一定为1。因此，对于发送消息来说，首先预置一个msgbuf缓冲区并写入消息类型和内 容，调用相应的发送函数即可；对读取消息来说，首先分配这样一个msgbuf缓冲区，然后把消息读入该缓冲区即可。</p><p>3、 获得或设置消息队列属性：</p><p>消息队列的信息基本上都保存在消息队列头中，因此，可以分配一个类似于消息队列头的结构(struct msqid_ds，见         <a href="http://www.ibm.com/developerworks/cn/linux/l-ipc/part3/#listing2" target="_blank" rel="external">附录 2</a>)，来返回消息队列的属性；同样可以设置该数据结构。</p><br><br><br><img width="507" height="219" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_fig2.gif"> <br><br><p><a name="N100CA">消息队列API</a></p><p><strong>1、文件名到键值</strong></p>                                    #include &lt;sys/types.h&gt;<br>#include &lt;sys/ipc.h&gt;<br>key_t ftok (char<em>pathname, char proj)；                        <br><br><p>它返回与路径pathname相对应的一个键值。该函数不直接对消息队列操作，但在调用ipc(MSGGET,…)或msgget()来获得消息队列描述字前，往往要调用该函数。典型的调用代码是：</p>                                    key=ftok(path_ptr, ‘a’);<br>    ipc_id=ipc(MSGGET, (int)key, flags,0,NULL,0);<br>    …                        <br><br><p><strong>2、linux为操作系统V进程间通信的三种方式（消息队列、信号灯、共享内存区）提供了一个统一的用户界面：</strong> <br><code>                 int ipc(unsigned int            call, int            first, int            second, int            third, void </code></p></em>           ptr, long            fifth);         <p></p><p>第 一个参数指明对IPC对象的操作方式，对消息队列而言共有四种操作：MSGSND、MSGRCV、MSGGET以及MSGCTL，分别代表向消息队列发送 消息、从消息队列读取消息、打开或创建消息队列、控制消息队列；first参数代表唯一的IPC对象；下面将介绍四种操作。</p><ul> <li><strong>int ipc</strong>(           <strong>MSGGET, int</strong>first,           <strong>int</strong>second,           <strong>int</strong>third,           <strong>void</strong><em>ptr,           <strong>long</strong>fifth);           <br>    与该操作对应的系统V调用为：int msgget( (key_t)first，second)。</em></li> <li><strong>int ipc</strong>(           <strong>MSGCTL, int</strong>first,           <strong>int</strong>second,           <strong>int</strong>third,           <strong>void</strong>ptr,           <strong>long</strong>fifth)           <br>    与该操作对应的系统V调用为：int msgctl( first，second, (struct msqid_ds<em>) ptr)。</em></li> <li><strong>int ipc</strong>(           <strong>MSGSND, int</strong>first,           <strong>int</strong>second,           <strong>int</strong>third,           <strong>void</strong>ptr,           <strong>long</strong>fifth);           <br>    与该操作对应的系统V调用为：int msgsnd( first, (struct msgbuf<em>)ptr, second, third)。</em></li> <li><strong>int ipc</strong>(           <strong>MSGRCV, int</strong>first,           <strong>int</strong>second,           <strong>int</strong>third,           <strong>void</strong>ptr,           <strong>long</strong>fifth);           <br>    与该操作对应的系统V调用为：int msgrcv( first，(struct msgbuf<em>)ptr, second, fifth,third)，</em></li></ul><br><p>注：本人不主张采用系统调用ipc()，而更倾向于采用系统V或者POSIX进程间通信API。原因如下：</p><ul> <li>虽然该系统调用提供了统一的用户界面，但正是由于这个特性，它的参数几乎不能给出特定的实际意义（如以first、second来命名参数），在一定程度上造成开发不便。</li> <li>正如ipc手册所说的：ipc()是linux所特有的，编写程序时应注意程序的移植性问题；</li> <li>该系统调用的实现不过是把系统V IPC函数进行了封装，没有任何效率上的优势；</li> <li>系统V在IPC方面的API数量不多，形式也较简洁。</li></ul><br><p><strong>3.系统V消息队列API</strong> <br>系统V消息队列API共有四个，使用时需要包括几个头文件：</p>                                    #include &lt;sys/types.h&gt;<br>#include &lt;sys/ipc.h&gt;<br>#include &lt;sys/msg.h&gt;                        <br><br><p><strong>1）int msgget(key_t key, int msgflg)</strong></p><p>参数key是一个键值，由ftok获得；msgflg参数是一些标志位。该调用返回与健值key相对应的消息队列描述字。</p><p>在以下两种情况下，该调用将创建一个新的消息队列：</p><ul> <li>如果没有消息队列与健值key相对应，并且msgflg中包含了IPC_CREAT标志位；</li> <li>key参数为IPC_PRIVATE；</li></ul><br><p>参数msgflg可以为以下：IPC_CREAT、IPC_EXCL、IPC_NOWAIT或三者的或结果。</p><p><strong>调用返回：</strong>成功返回消息队列描述字，否则返回-1。</p><p>注：参数key设置成常数IPC_PRIVATE并不意味着其他进程不能访问该消息队列，只意味着即将创建新的消息队列。</p><p><strong>2）int msgrcv(int msqid, struct msgbuf msgp, int msgsz, long msgtyp, int msgflg);</strong> <br>该系统调用从msgid代表的消息队列中读取一个消息，并把消息存储在msgp指向的msgbuf结构中。</p><p>msqid为消息队列描述字；消息返回后存储在msgp指向的地址，msgsz指定msgbuf的mtext成员的长度（即消息内容的长度），msgtyp为请求读取的消息类型；读消息标志msgflg可以为以下几个常值的或：</p><ul> <li>IPC_NOWAIT 如果没有满足条件的消息，调用立即返回，此时，errno=ENOMSG</li> <li>IPC_EXCEPT 与msgtyp&gt;0配合使用，返回队列中第一个类型不为msgtyp的消息</li> <li>IPC_NOERROR 如果队列中满足条件的消息内容大于所请求的msgsz字节，则把该消息截断，截断部分将丢失。</li></ul><br><p>msgrcv手册中详细给出了消息类型取不同值时(&gt;0; &lt;0; =0)，调用将返回消息队列中的哪个消息。</p><p>msgrcv()解除阻塞的条件有三个：</p><ol> <li>消息队列中有了满足条件的消息；</li> <li>msqid代表的消息队列被删除；</li> <li>调用msgrcv（）的进程被信号中断；</li></ol><br><p><strong>调用返回：</strong>成功返回读出消息的实际字节数，否则返回-1。</p><p><strong>3）int msgsnd(int msqid, struct msgbuf <em>msgp, int msgsz, int msgflg);</em></strong> <br>向msgid代表的消息队列发送一个消息，即将发送的消息存储在msgp指向的msgbuf结构中，消息的大小由msgze指定。</p><p>对发送消息来说，有意义的msgflg标志为IPC_NOWAIT，指明在消息队列没有足够空间容纳要发送的消息时，msgsnd是否等待。造成msgsnd()等待的条件有两种：</p><ul> <li>当前消息的大小与当前消息队列中的字节数之和超过了消息队列的总容量；</li> <li>当前消息队列的消息数（单位&quot;个&quot;）不小于消息队列的总容量（单位&quot;字节数&quot;），此时，虽然消息队列中的消息数目很多，但基本上都只有一个字节。</li></ul><br>msgsnd()解除阻塞的条件有三个：<ol> <li>不满足上述两个条件，即消息队列中有容纳该消息的空间；</li> <li>msqid代表的消息队列被删除；</li> <li>调用msgsnd（）的进程被信号中断；</li></ol><br><p><strong>调用返回：</strong>成功返回0，否则返回-1。</p><p><strong>4）int msgctl(int msqid, int cmd, struct msqid_ds buf);</strong> <br>该系统调用对由msqid标识的消息队列执行cmd操作，共有三种cmd操作：IPC_STAT、IPC_SET 、IPC_RMID。</p><ol> <li>IPC_STAT：该命令用来获取消息队列信息，返回的信息存贮在buf指向的msqid结构中；</li> <li>IPC_SET：该命令用来设置消息队列的属性，要设置的属性存储在buf指向的msqid结构中；可设置属性包括：msg_perm.uid、msg_perm.gid、msg_perm.mode以及msg_qbytes，同时，也影响msg_ctime成员。</li> <li>IPC_RMID：删除msqid标识的消息队列；</li></ol><br><p><strong>调用返回：</strong>成功返回0，否则返回-1。</p><br> <img width="100%" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif"><br> <img width="8" height="6" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <img width="100%" height="4" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"><br> <img width="16" height="16" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif"> <a href="http://www.ibm.com/developerworks/cn/linux/l-ipc/part3/#main" target="_blank" rel="external"><strong>回页首</strong></a> <br><br><p><a name="N10228">三、消息队列的限制</a></p><p>每个消息队列的容量（所能容纳的字节数）都有限制，该值因系统不同而不同。在后面的应用实例中，输出了redhat 8.0的限制，结果参见         <a href="http://www.ibm.com/developerworks/cn/linux/l-ipc/part3/#listing3" target="_blank" rel="external">附录 3</a>。</p><p>另一个限制是每个消息队列所能容纳的最大消息数：在redhad 8.0中，该限制是受消息队列容量制约的：消息个数要小于消息队列的容量（字节数）。</p><p>注：上述两个限制是针对每个消息队列而言的，系统对消息队列的限制还有系统范围内的最大消息队列个数，以及整个系统范围内的最大消息数。一般来说，实际开发过程中不会超过这个限制。</p><br> <img width="100%" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif"><br> <img width="8" height="6" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <img width="100%" height="4" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"><br> <img width="16" height="16" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif"> <a href="http://www.ibm.com/developerworks/cn/linux/l-ipc/part3/#main" target="_blank" rel="external"><strong>回页首</strong></a> <br><br><p><a name="N1023B">四、消息队列应用实例</a></p><p>消息队列应用相对较简单，下面实例基本上覆盖了对消息队列的所有操作，同时，程序输出结果有助于加深对前面所讲的某些规则及消息队列限制的理解。</p>                                    #include &lt;sys/types.h&gt;<br>#include &lt;sys/msg.h&gt;<br>#include &lt;unistd.h&gt;<br>void msg_stat(int,struct msqid_ds );<br>main()<br>{<br>int gflags,sflags,rflags;<br>key_t key;<br>int msgid;<br>int reval;<br>struct msgsbuf{<br>        int mtype;<br>        char mtext[1];<br>    }msg_sbuf;<br>struct msgmbuf<br>    {<br>    int mtype;<br>    char mtext[10];<br>    }msg_rbuf;<br>struct msqid_ds msg_ginfo,msg_sinfo;<br>char<em> msgpath=&quot;/unix/msgqueue&quot;;<br>key=ftok(msgpath,’a’);<br>gflags=IPC_CREAT|IPC_EXCL;<br>msgid=msgget(key,gflags|00666);<br>if(msgid==-1)<br>{<br>    printf(&quot;msg create errorn&quot;);<br>    return;<br>}<br>//创建一个消息队列后，输出消息队列缺省属性<br>msg_stat(msgid,msg_ginfo);<br>sflags=IPC_NOWAIT;<br>msg_sbuf.mtype=10;<br>msg_sbuf.mtext[0]=’a’;<br>reval=msgsnd(msgid,&amp;msg_sbuf,sizeof(msg_sbuf.mtext),sflags);<br>if(reval==-1)<br>{<br>    printf(&quot;message send errorn&quot;);<br>}<br>//发送一个消息后，输出消息队列属性<br>msg_stat(msgid,msg_ginfo);<br>rflags=IPC_NOWAIT|MSG_NOERROR;<br>reval=msgrcv(msgid,&amp;msg_rbuf,4,10,rflags);<br>if(reval==-1)<br>    printf(&quot;read msg errorn&quot;);<br>else<br>    printf(&quot;read from msg queue %d bytesn&quot;,reval);<br>//从消息队列中读出消息后，输出消息队列属性<br>msg_stat(msgid,msg_ginfo);<br>msg_sinfo.msg_perm.uid=8;//just a try<br>msg_sinfo.msg_perm.gid=8;//<br>msg_sinfo.msg_qbytes=16388;<br>//此处验证超级用户可以更改消息队列的缺省msg_qbytes<br>//注意这里设置的值大于缺省值<br>reval=msgctl(msgid,IPC_SET,&amp;msg_sinfo);<br>if(reval==-1)<br>{<br>    printf(&quot;msg set info errorn&quot;);<br>    return;<br>}<br>msg_stat(msgid,msg_ginfo);<br>//验证设置消息队列属性<br>reval=msgctl(msgid,IPC_RMID,NULL);//删除消息队列<br>if(reval==-1)<br>{<br>    printf(&quot;unlink msg queue errorn&quot;);<br>    return;<br>}<br>}<br>void msg_stat(int msgid,struct msqid_ds msg_info)<br>{<br>int reval;<br>sleep(1);//只是为了后面输出时间的方便<br>reval=msgctl(msgid,IPC_STAT,&amp;msg_info);<br>if(reval==-1)<br>{<br>    printf(&quot;get msg info errorn&quot;);<br>    return;<br>}<br>printf(&quot;n&quot;);<br>printf(&quot;current number of bytes on queue is %dn&quot;,msg_info.msg_cbytes);<br>printf(&quot;number of messages in queue is %dn&quot;,msg_info.msg_qnum);<br>printf(&quot;max number of bytes on queue is %dn&quot;,msg_info.msg_qbytes);<br>//每个消息队列的容量（字节数）都有限制MSGMNB，值的大小因系统而异。在创建新的消息队列时，//msg_qbytes的缺省值就是MSGMNB<br>printf(&quot;pid of last msgsnd is %dn&quot;,msg_info.msg_lspid);<br>printf(&quot;pid of last msgrcv is %dn&quot;,msg_info.msg_lrpid);<br>printf(&quot;last msgsnd time is %s&quot;, ctime(&amp;(msg_info.msg_stime)));<br>printf(&quot;last msgrcv time is %s&quot;, ctime(&amp;(msg_info.msg_rtime)));<br>printf(&quot;last change time is %s&quot;, ctime(&amp;(msg_info.msg_ctime)));<br>printf(&quot;msg uid is %dn&quot;,msg_info.msg_perm.uid);<br>printf(&quot;msg gid is %dn&quot;,msg_info.msg_perm.gid);<br>}                        <br>程序输出结果见       <a href="http://www.ibm.com/developerworks/cn/linux/l-ipc/part3/#listing3" target="_blank" rel="external">附录 3</a>。       <br><br> <img width="100%" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif"><br> <img width="8" height="6" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <img width="100%" height="4" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"><br> <img width="16" height="16" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif"> <a href="http://www.ibm.com/developerworks/cn/linux/l-ipc/part3/#main" target="_blank" rel="external"><strong>回页首</strong></a> <br><br><p><a name="N1024E">小结：</a></p><p>消 息队列与管道以及有名管道相比，具有更大的灵活性，首先，它提供有格式字节流，有利于减少开发人员的工作量；其次，消息具有类型，在实际应用中，可作为优 先级使用。这两点是管道以及有名管道所不能比的。同样，消息队列可以在几个进程间复用，而不管这几个进程是否具有亲缘关系，这一点与有名管道很相似；但消 息队列是随内核持续的，与有名管道（随进程持续）相比，生命力更强，应用空间更大。</p><p><strong> <a name="listing1">附录 1</a>：         </strong>在参考文献[1]中，给出了IPC随进程持续、随内核持续以及随文件系统持续的定义：</p><ol> <li>随进程持续：IPC一直存在到打开IPC对象的最后一个进程关闭该对象为止。如管道和有名管道；</li> <li>随内核持续：IPC一直持续到内核重新自举或者显示删除该对象为止。如消息队列、信号灯以及共享内存等；</li> <li>随文件系统持续：IPC一直持续到显示删除该对象为止。</li></ol><br><p><strong> <a name="listing2">附录 2</a>：         </strong> <br>结构msg_queue用来描述消息队列头，存在于系统空间：</p>                                    struct msg_queue {<br>    struct kern_ipc_perm q_perm;<br>    time_t q_stime;         /</em> last msgsnd time <em>/<br>    time_t q_rtime;         /</em> last msgrcv time <em>/<br>    time_t q_ctime;         /</em> last change time <em>/<br>    unsigned long q_cbytes;     /</em> current number of bytes on queue <em>/<br>    unsigned long q_qnum;       /</em> number of messages in queue <em>/<br>    unsigned long q_qbytes;     /</em> max number of bytes on queue <em>/<br>    pid_t q_lspid;          /</em> pid of last msgsnd <em>/<br>    pid_t q_lrpid;          /</em> last receive pid <em>/<br>    struct list_head q_messages;<br>    struct list_head q_receivers;<br>    struct list_head q_senders;<br>};                        <br><br><p>结构msqid_ds用来设置或返回消息队列的信息，存在于用户空间；</p>                                    struct msqid_ds {<br>    struct ipc_perm msg_perm;<br>    struct msg </em>msg_first;      /<em> first message on queue,unused  </em>/<br>    struct msg <em>msg_last;       /</em> last message in queue,unused <em>/<br>    __kernel_time_t msg_stime;  /</em> last msgsnd time <em>/<br>    __kernel_time_t msg_rtime;  /</em> last msgrcv time <em>/<br>    __kernel_time_t msg_ctime;  /</em> last change time <em>/<br>    unsigned long  msg_lcbytes; /</em> Reuse junk fields for 32 bit <em>/<br>    unsigned long  msg_lqbytes; /</em> ditto <em>/<br>    unsigned short msg_cbytes;  /</em> current number of bytes on queue <em>/<br>    unsigned short msg_qnum;    /</em> number of messages in queue <em>/<br>    unsigned short msg_qbytes;  /</em> max number of bytes on queue <em>/<br>    __kernel_ipc_pid_t msg_lspid;   /</em> pid of last msgsnd <em>/<br>    __kernel_ipc_pid_t msg_lrpid;   /</em> last receive pid */<br>};                        <br>//可以看出上述两个结构很相似。       <br><p><strong> <a name="listing3">附录 3</a>：         </strong>消息队列实例输出结果：</p>                                    current number of bytes on queue is 0<br>number of messages in queue is 0<br>max number of bytes on queue is 16384<br>pid of last msgsnd is 0<br>pid of last msgrcv is 0<br>last msgsnd time is Thu Jan  1 08:00:00 1970<br>last msgrcv time is Thu Jan  1 08:00:00 1970<br>last change time is Sun Dec 29 18:28:20 2002<br>msg uid is 0<br>msg gid is 0<br>//上面刚刚创建一个新消息队列时的输出<br>current number of bytes on queue is 1<br>number of messages in queue is 1<br>max number of bytes on queue is 16384<br>pid of last msgsnd is 2510<br>pid of last msgrcv is 0<br>last msgsnd time is Sun Dec 29 18:28:21 2002<br>last msgrcv time is Thu Jan  1 08:00:00 1970<br>last change time is Sun Dec 29 18:28:20 2002<br>msg uid is 0<br>msg gid is 0<br>read from msg queue 1 bytes<br>//实际读出的字节数<br>current number of bytes on queue is 0<br>number of messages in queue is 0<br>max number of bytes on queue is 16384   //每个消息队列最大容量（字节数）<br>pid of last msgsnd is 2510<br>pid of last msgrcv is 2510<br>last msgsnd time is Sun Dec 29 18:28:21 2002<br>last msgrcv time is Sun Dec 29 18:28:22 2002<br>last change time is Sun Dec 29 18:28:20 2002<br>msg uid is 0<br>msg gid is 0<br>current number of bytes on queue is 0<br>number of messages in queue is 0<br>max number of bytes on queue is 16388   //可看出超级用户可修改消息队列最大容量<br>pid of last msgsnd is 2510<br>pid of last msgrcv is 2510  //对操作消息队列进程的跟踪<br>last msgsnd time is Sun Dec 29 18:28:21 2002<br>last msgrcv time is Sun Dec 29 18:28:22 2002<br>last change time is Sun Dec 29 18:28:23 2002    //msgctl()调用对msg_ctime有影响<br>msg uid is 8<br>msg gid is 8                        <br><br><br><p><a name="resources">参考资料 </a></p><ul> <li>UNIX网络编程第二卷：进程间通信，作者：W.Richard Stevens，译者：杨继张，清华大学出版社。对POSIX以及系统V消息队列都有阐述，对Linux环境下的程序开发有极大的启发意义。</li> <li>linux内核源代码情景分析（上），毛德操、胡希明著，浙江大学出版社，给出了系统V消息队列相关的源代码分析。</li> <li><a href="http://www.fanqiang.com/a4/b2/20010508/113315.html" target="_blank">http://www.fanqiang.com/a4/b2/20010508/113315.html</a>，主要阐述linux下对文件的操作，详细介绍了对文件的存取权限位，对IPC对象的存取权限同样具有很好的借鉴意义。</li> <li>msgget、msgsnd、msgrcv、msgctl手册</li></ul><br><br><p><a name="author">关于作者</a></p> <img width="100%" height="5" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <img width="4" height="5" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <p>郑彦兴，男，现攻读国防科大计算机学院网络方向博士学位。您可以通过电子邮件         和他联系。</p> <p></p>
 
       
     </div>
-    <div class="article-info article-info-index">
+
+    <div>
       
-      <a href="/2007/05/16/【zz】Linux环境进程间通信/" class="archive-article-date">
-  	<time datetime="2007-05-16T15:33:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-05-16</time>
-</a>
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2007/05/16/【zz】Linux下C语言编程/" rel="next" title="【zz】Linux下C语言编程">
+                <i class="fa fa-chevron-left"></i> 【zz】Linux下C语言编程
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2007/05/18/QT-download-link/" rel="prev" title="QT download link">
+                QT download link <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
       
       
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/Linux/">Linux</a>
-	</div>
+    </footer>
+  </article>
 
 
-      <div class="clearfix"></div>
+
+    <div class="post-spread">
+      
     </div>
   </div>
-</article>
 
-  
-<nav id="article-nav">
-  
-    <a href="/2007/05/18/QT-download-link/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
         
-          QT download link
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/wp-content/uploads/penguin.gif"
+               alt="jfo" />
+          <p class="site-author-name" itemprop="name">jfo</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">596</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/jfojfo" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/jfojfo" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.pickbox.me" title="收藏夹" target="_blank">收藏夹</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://note.pickbox.me" title="网络剪贴板" target="_blank">网络剪贴板</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://iguangba.pickbox.me" title="爱逛吧" target="_blank">爱逛吧</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
         
       </div>
-    </a>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
   
-  
-    <a href="/2007/05/16/【zz】Linux下C语言编程/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">【zz】Linux下C语言编程</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-
-
-<div class="share_jia">
-	<!-- JiaThis Button BEGIN -->
-	<div class="jiathis_style">
-		<span class="jiathis_txt">Share to: &nbsp; </span>
-		<a class="jiathis_button_facebook"></a> 
-	    <a class="jiathis_button_twitter"></a>
-	    <a class="jiathis_button_plus"></a> 
-	    <a class="jiathis_button_tsina"></a>
-		<a class="jiathis_button_cqq"></a>
-		<a class="jiathis_button_douban"></a>
-		<a class="jiathis_button_weixin"></a>
-		<a class="jiathis_button_tumblr"></a>
-    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
-	</div>
-	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
-	<!-- JiaThis Button END -->
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jfo</span>
 </div>
 
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
 
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
 
+        
 
-
-
-
-
-
+        
       </div>
-      <footer id="footer">
-  <div class="outer">
-    <div id="footer-info">
-    	<div class="footer-left">
-    		&copy; 2016 jfo
-    	</div>
-      	<div class="footer-right">
-      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
-      	</div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
     </div>
   </div>
-</footer>
-    </div>
-    <script>
-	var yiliaConfig = {
-		fancybox: true,
-		mathjax: false,
-		animate: true,
-		isHome: false,
-		isPost: true,
-		isArchive: false,
-		isTag: false,
-		isCategory: false,
-		open_in_new: false,
-		root: "/",
-		innerArchive: true
-	}
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
 
-<script src="/./main.js"></script>
 
 
-    
-<div class="tools-col">
-  <ul class="btn-wrap">
-    
-      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
-    
-    
-      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
-    
-    
-      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
-    
-    
-      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
-    
-  </ul>
-  <div class="tools-wrap">
-    
-    	<section class="tools-section tools-section-all chose">
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-tag">
-    			<div class="widget tagcloud" id="js-tagcloud">
-    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
-    			</div>
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-friends">
-  		
-  			<div class="friends-wrap" id="js-friends">
-  			
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
-  	        
-  	        </div>
-  		
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-me">
-  	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
-  	  	
-    	</section>
-    
-  </div>
+
+
+
   
-</div>
 
-    <!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
 
-    <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
 
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
 
-        <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
 
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
 
-            <div class="pswp__top-bar">
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
 
-                <!--  Controls are self-explanatory. Order can be changed. -->
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
 
-                <div class="pswp__counter"></div>
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
 
-                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+  
 
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
 
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
 
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
-                </div>
-            </div>
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
 
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div> 
-            </div>
 
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
 
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
+  
+  
 
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
 
-        </div>
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
 
-    </div>
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
 
-</div>
-  </div>
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
 </body>
 </html>

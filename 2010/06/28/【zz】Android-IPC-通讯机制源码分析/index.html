@@ -1,12 +1,90 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
+<!doctype html>
+
+
+
   
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>【zz】Android IPC 通讯机制源码分析 | jfo planet</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Android IPC 通讯机制源码分析Android IPC 通讯机制源码分析 —-Albertchen Binder通信简介： Linux系统中进程间通信的方式有:socket, named pipe,message queque, signal,share memory。Java系统中的进程间通信方式有socket, named pipe等，android应用程序理所当然可以应用JAVA的">
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="jfo, blog" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="Android IPC 通讯机制源码分析Android IPC 通讯机制源码分析 —-Albertchen Binder通信简介： Linux系统中进程间通信的方式有:socket, named pipe,message queque, signal,share memory。Java系统中的进程间通信方式有socket, named pipe等，android应用程序理所当然可以应用JAVA的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="【zz】Android IPC 通讯机制源码分析">
 <meta property="og:url" content="http://blog.pickbox.me/2010/06/28/【zz】Android-IPC-通讯机制源码分析/index.html">
@@ -16,366 +94,546 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【zz】Android IPC 通讯机制源码分析">
 <meta name="twitter:description" content="Android IPC 通讯机制源码分析Android IPC 通讯机制源码分析 —-Albertchen Binder通信简介： Linux系统中进程间通信的方式有:socket, named pipe,message queque, signal,share memory。Java系统中的进程间通信方式有socket, named pipe等，android应用程序理所当然可以应用JAVA的">
-  
-    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="//favicon.ico">
-  
-  <script src="/style.js"></script>
-  
 
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://blog.pickbox.me/2010/06/28/【zz】Android-IPC-通讯机制源码分析/"/>
+
+
+  <title> 【zz】Android IPC 通讯机制源码分析 | jfo planet </title>
 </head>
 
-<body>
-  <div id="container">
-    <div class="left-col">
-      <div class="overlay"></div>
-<div class="intrude-less">
-	<header id="header" class="inner">
-		<a href="/" class="profilepic">
-			
-			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
-			
-		</a>
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
 
-		<hgroup>
-		  <h1 class="header-author"><a href="/">jfo</a></h1>
-		</hgroup>
+  
 
-		
-		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
-		
 
-		<nav class="header-menu">
-			<ul>
-			
-				<li><a href="/">主页</a></li>
-	        
-			</ul>
-		</nav>
-		<nav class="header-smart-menu">
-	        
-    		
-    			
-    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
-    			
-    			
-            
-		</nav>
-		<nav class="header-nav">
-			<div class="social">
-				
-					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
-		        
-					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
-		        
-			</div>
-		</nav>
-	</header>		
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">jfo planet</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Hope is the best gift that tomorrow gives.</p>
 </div>
 
-    </div>
-    <div class="mid-col">
-      <nav id="mobile-nav">
-  	<div class="overlay">
-  		<div class="slider-trigger"><i class="icon-list"></i></div>
-  		<h1 class="header-author js-mobile-header hide">jfo</h1>
-  	</div>
-	<div class="intrude-less">
-		<header id="header" class="inner">
-			<div class="profilepic">
-				
-					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
-				
-			</div>
-			<hgroup>
-			  <h1 class="header-author">jfo</h1>
-			</hgroup>
-			
-			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
-			
-			<nav class="header-menu">
-				<ul>
-				
-					<li><a href="/">主页</a></li>
-		        
-				</ul>
-			</nav>
-			<nav class="header-nav">
-				<div class="social">
-					
-						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
-			        
-						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
-			        
-				</div>
-			</nav>
-		</header>				
-	</div>
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
 </nav>
 
-      <div class="body-wrap">
-        <article id="post-【zz】Android-IPC-通讯机制源码分析" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
     
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
+
   
-    <h1 class="article-title" itemprop="name">
-      【zz】Android IPC 通讯机制源码分析
-    </h1>
   
 
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                【zz】Android IPC 通讯机制源码分析
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2010-06-28T21:21:00+08:00" content="2010-06-28">
+              2010-06-28
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
       
         <p> <a href="http://weiyuhu.javaeye.com/blog/540836" target="_blank" rel="external">Android IPC 通讯机制源码分析</a><br>Android IPC 通讯机制源码分析 <br>—-Albertchen <br><br>Binder通信简介： <br>Linux系统中进程间通信的方式有:socket, named pipe,message queque, signal,share memory。Java系统中的进程间通信方式有socket, named pipe等，android应用程序理所当然可以应用JAVA的IPC机制实现进程间的通信，但我查看android的源码，在同一终端上的应用软件的通 信几乎看不到这些IPC通信方式，取而代之的是Binder通信。Google为什么要采用这种方式呢，这取决于Binder通信方式的高效率。 Binder通信是通过linux的binder driver来实现的，Binder通信操作类似线程迁移(thread migration)，两个进程间IPC看起来就象是一个进程进入另一个进程执行代码然后带着执行的结果返回。Binder的用户空间为每一个进程维护着 一个可用的线程池，线程池用于处理到来的IPC以及执行进程本地消息，Binder通信是同步而不是异步。 <br>Android中的Binder通信是基于Service与Client的，所有需要IBinder通信的进程都必须创建一个IBinder接口，系统中 有一个进程管理所有的system service,Android不允许用户添加非授权的System service,当然现在源码开发了，我们可以修改一些代码来实现添加底层system Service的目的。对用户程序来说，我们也要创建server,或者Service用于进程间通信，这里有一个 ActivityManagerService管理JAVA应用层所有的service创建与连接(connect),disconnect,所有的 Activity也是通过这个service来启动，加载的。ActivityManagerService也是加载在Systems Servcie中的。 <br>Android虚拟机启动之前系统会先启动service Manager进程，service Manager打开binder驱动，并通知binder kernel驱动程序这个进程将作为System Service Manager，然后该进程将进入一个循环，等待处理来自其他进程的数据。用户创建一个System service后，通过defaultServiceManager得到一个远程ServiceManager的接口，通过这个接口我们可以调用 addService函数将System service添加到Service Manager进程中，然后client可以通过getService获取到需要连接的目的Service的IBinder对象，这个IBinder是 Service的BBinder在binder kernel的一个参考，所以service IBinder 在binder kernel中不会存在相同的两个IBinder对象，每一个Client进程同样需要打开Binder驱动程序。对用户程序而言，我们获得这个对象就可 以通过binder kernel访问service对象中的方法。Client与Service在不同的进程中，通过这种方式实现了类似线程间的迁移的通信方式，对用户程序 而言当调用Service返回的IBinder接口后，访问Service中的方法就如同调用自己的函数。 <br>下图为client与Service建立连接的示意图 <br><br><br>首先从ServiceManager注册过程来逐步分析上述过程是如何实现的。 <br><br>ServiceMananger进程注册过程源码分析： <br>Service Manager Process（Service_manager.c）: <br>Service_manager为其他进程的Service提供管理，这个服务程序必须在Android Runtime起来之前运行，否则Android JAVA Vm ActivityManagerService无法注册。 <br>int main(int argc, char <strong>argv) <br>{ <br>struct binder_state <em>bs; <br>void </em>svcmgr = BINDER_SERVICE_MANAGER; <br><br>bs = binder_open(128<em>1024); //打开/dev/binder 驱动 <br><br>if (binder_become_context_manager(bs)) {//注册为service manager in binder kernel <br>LOGE(&quot;cannot become context manager (%s)n&quot;, strerror(errno)); <br>return -1; <br>} <br>svcmgr_handle = svcmgr; <br>binder_loop(bs, svcmgr_handler); <br>return 0; <br>} <br>首先打开binder的驱动程序然后通过binder_become_context_manager函数调用ioctl告诉Binder Kernel驱动程序这是一个服务管理进程，然后调用binder_loop等待来自其他进程的数据。BINDER_SERVICE_MANAGER是服 务管理进程的句柄，它的定义是： <br>/</em> the one magic object <em>/ <br>#define BINDER_SERVICE_MANAGER ((void</em>) 0) <br>如果客户端进程获取Service时所使用的句柄与此不符，Service Manager将不接受Client的请求。客户端如何设置这个句柄在下面会介绍。 <br><br>CameraSerivce服务的注册(Main_mediaservice.c） <br>int main(int argc, char</strong> argv) <br>{ <br>sp&lt;ProcessState&gt; proc(ProcessState::self()); <br>sp&lt;IServiceManager&gt; sm = defaultServiceManager(); <br>LOGI(&quot;ServiceManager: %p&quot;, sm.get()); <br>AudioFlinger::instantiate();&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; //Audio 服务 <br>MediaPlayerService::instantiate();&#160;&#160;&#160;&#160;&#160;&#160; //mediaPlayer服务 <br>CameraService::instantiate();&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; //Camera 服务 <br>ProcessState::self()-&gt;startThreadPool(); //为进程开启缓冲池 <br>IPCThreadState::self()-&gt;joinThreadPool(); //将进程加入到缓冲池 <br>} <br><br>CameraService.cpp <br>void CameraService::instantiate() { <br>defaultServiceManager()-&gt;addService( <br>String16(&quot;media.camera&quot;), new CameraService()); <br>} <br>创建CameraService服务对象并添加到ServiceManager进程中。 <br><br><br>client获取remote IServiceManager IBinder接口： <br>sp&lt;IServiceManager&gt; defaultServiceManager() <br>{ <br>if (gDefaultServiceManager != NULL) return gDefaultServiceManager; <br><br>{ <br>AutoMutex _l(gDefaultServiceManagerLock); <br>if (gDefaultServiceManager == NULL) { <br>gDefaultServiceManager = interface_cast&lt;IServiceManager&gt;( <br>ProcessState::self()-&gt;getContextObject(NULL)); <br>} <br>} <br>return gDefaultServiceManager; <br>} <br>任何一个进程在第一次调用defaultServiceManager的时候gDefaultServiceManager值为Null，所以该 进程会通过ProcessState::self得到ProcessState实例。ProcessState将打开Binder驱动。 <br>ProcessState.cpp <br>sp&lt;ProcessState&gt; ProcessState::self() <br>{ <br>if (gProcess != NULL) return gProcess; <br><br>AutoMutex _l(gProcessMutex); <br>if (gProcess == NULL) gProcess = new ProcessState; <br>return gProcess; <br>} <br><br>ProcessState::ProcessState() <br>: mDriverFD(open_driver()) //打开/dev/binder驱动 <br>……………………… <br>{ <br>} <br><br>sp&lt;IBinder&gt; ProcessState::getContextObject(const sp&lt;IBinder&gt;&amp; caller) <br>{ <br>if (supportsProcesses()) { <br>return getStrongProxyForHandle(0); <br>} else { <br>return getContextObject(String16(&quot;default&quot;), caller); <br>} <br>} <br>Android是支持Binder驱动的所以程序会调用getStrongProxyForHandle。这里handle为0，正好与Service_manager中的BINDER_SERVICE_MANAGER一致。 <br>sp&lt;IBinder&gt; ProcessState::getStrongProxyForHandle(int32_t handle) <br>{ <br>sp&lt;IBinder&gt; result; <br>AutoMutex _l(mLock); <br>handle_entry<em> e = lookupHandleLocked(handle); <br><br>if (e != NULL) { <br>// We need to create a new BpBinder if there isn’t currently one, OR we <br>// are unable to acquire a weak reference on this current one. See comment <br>// in getWeakProxyForHandle() for more info about this. <br>IBinder</em> b = e-&gt;binder; //第一次调用该函数b为Null <br>if (b == NULL || !e-&gt;refs-&gt;attemptIncWeak(this)) { <br>b = new BpBinder(handle); <br>e-&gt;binder = b; <br>if (b) e-&gt;refs = b-&gt;getWeakRefs(); <br>result = b; <br>} else { <br>// This little bit of nastyness is to allow us to add a primary <br>// reference to the remote proxy when this team doesn’t have one <br>// but another team is sending the handle to us. <br>result.force_set(b); <br>e-&gt;refs-&gt;decWeak(this); <br>} <br>} <br>return result; <br>} <br>第一次调用的时候b为Null所以会为b生成一BpBinder对象： <br>BpBinder::BpBinder(int32_t handle) <br>: mHandle(handle) <br>, mAlive(1) <br>, mObitsSent(0) <br>, mObituaries(NULL) <br>{ <br>LOGV(&quot;Creating BpBinder %p handle %dn&quot;, this, mHandle); <br><br>extendObjectLifetime(OBJECT_LIFETIME_WEAK); <br>IPCThreadState::self()-&gt;incWeakHandle(handle); <br>} <br><br>void IPCThreadState::incWeakHandle(int32_t handle) <br>{ <br>LOG_REMOTEREFS(&quot;IPCThreadState::incWeakHandle(%d)n&quot;, handle); <br>mOut.writeInt32(BC_INCREFS); <br>mOut.writeInt32(handle); <br>} <br>getContextObject返回了一个BpBinder对象。 <br>interface_cast&lt;IServiceManager&gt;( <br>ProcessState::self()-&gt;getContextObject(NULL)); <br><br>template&lt;typename INTERFACE&gt; <br>inline sp&lt;INTERFACE&gt; interface_cast(const sp&lt;IBinder&gt;&amp; obj) <br>{ <br>return INTERFACE::asInterface(obj); <br>} <br>将这个宏扩展后最终得到的是： <br>sp&lt;IServiceManager&gt; IServiceManager::asInterface(const sp&lt;IBinder&gt;&amp; obj)&#160;&#160;&#160;  <br>{&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;  <br>sp&lt;IServiceManager&gt; intr;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;  <br>if (obj != NULL) {&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;  <br>intr = static_cast&lt;IServiceManager<em>&gt;(&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;  <br>obj-&gt;queryLocalInterface(&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;  <br>IServiceManager::descriptor).get());&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;  <br>if (intr == NULL) {&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;  <br>intr = new BpServiceManager(obj);&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;  <br>}&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;  <br>}&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;  <br>return intr; <br>} <br>返回一个BpServiceManager对象,这里obj就是前面我们创建的BpBInder对象。 <br><br>client获取Service的远程IBinder接口 <br>以CameraService为例(camera.cpp): <br>const sp&lt;ICameraService&gt;&amp; Camera::getCameraService() <br>{ <br>Mutex::Autolock _l(mLock); <br>if (mCameraService.get() == 0) { <br>sp&lt;IServiceManager&gt; sm = defaultServiceManager(); <br>sp&lt;IBinder&gt; binder; <br>do { <br>binder = sm-&gt;getService(String16(&quot;media.camera&quot;)); <br>if (binder != 0) <br>break; <br>LOGW(&quot;CameraService not published, waiting…&quot;); <br>usleep(500000); // 0.5 s <br>} while(true); <br>if (mDeathNotifier == NULL) { <br>mDeathNotifier = new DeathNotifier(); <br>} <br>binder-&gt;linkToDeath(mDeathNotifier); <br>mCameraService = interface_cast&lt;ICameraService&gt;(binder); <br>} <br>LOGE_IF(mCameraService==0, &quot;no CameraService!?&quot;); <br>return mCameraService; <br>} <br>由前面的分析可知sm是BpCameraService对象： <br>virtual sp&lt;IBinder&gt; getService(const String16&amp; name) const <br>{ <br>unsigned n; <br>for (n = 0; n &lt; 5; n++){ <br>sp&lt;IBinder&gt; svc = checkService(name); <br>if (svc != NULL) return svc; <br>LOGI(&quot;Waiting for sevice %s…n&quot;, String8(name).string()); <br>sleep(1); <br>} <br>return NULL; <br>} <br>virtual sp&lt;IBinder&gt; checkService( const String16&amp; name) const <br>{ <br>Parcel data, reply; <br>data.writeInterfaceToken(IServiceManager::getInterfaceDescriptor()); <br>data.writeString16(name); <br>remote()-&gt;transact(CHECK_SERVICE_TRANSACTION, data, &amp;reply); <br>return reply.readStrongBinder(); <br>} <br>这里的remote就是我们前面得到BpBinder对象。所以checkService将调用BpBinder中的transact函数： <br>status_t BpBinder::transact( <br>uint32_t code, const Parcel&amp; data, Parcel</em> reply, uint32_t flags) <br>{ <br>// Once a binder has died, it will never come back to life. <br>if (mAlive) { <br>status_t status = IPCThreadState::self()-&gt;transact( <br>mHandle, code, data, reply, flags); <br>if (status == DEAD_OBJECT) mAlive = 0; <br>return status; <br>} <br>return DEAD_OBJECT; <br>} <br>mHandle为0，BpBinder继续往下调用IPCThreadState:transact函数将数据发给与mHandle相关联的Service Manager Process。 <br>status_t IPCThreadState::transact(int32_t handle, <br>uint32_t code, const Parcel&amp; data, <br>Parcel<em> reply, uint32_t flags) <br>{ <br>…………………………………………………… <br>if (err == NO_ERROR) { <br>LOG_ONEWAY(&quot;&gt;&gt;&gt;&gt; SEND from pid %d uid %d %s&quot;, getpid(), getuid(), <br>(flags &amp; TF_ONE_WAY) == 0 ? &quot;READ REPLY&quot; : &quot;ONE WAY&quot;); <br>err = writeTransactionData(BC_TRANSACTION, flags, handle, code, data, NULL); <br>} <br><br>if (err != NO_ERROR) { <br>if (reply) reply-&gt;setError(err); <br>return (mLastError = err); <br>} <br><br>if ((flags &amp; TF_ONE_WAY) == 0) { <br>if (reply) { <br>err = waitForResponse(reply); <br>} else { <br>Parcel fakeReply; <br>err = waitForResponse(&amp;fakeReply); <br>} <br>………………………… <br><br>return err; <br>} <br><br>通过writeTransactionData构造要发送的数据 <br>status_t IPCThreadState::writeTransactionData(int32_t cmd, uint32_t binderFlags, <br>int32_t handle, uint32_t code, const Parcel&amp; data, status_t</em> statusBuffer) <br>{ <br>binder_transaction_data tr; <br><br>tr.target.handle = handle; //这个handle将传递到service_manager <br>tr.code = code; <br>tr.flags = bindrFlags; <br>。。。。。。。。。。。。。。 <br>} <br>waitForResponse将调用talkWithDriver与对Binder kernel进行读写操作。当Binder kernel接收到数据后，service_mananger线程的ThreadPool就会启动，service_manager查找到 CameraService服务后调用binder_send_reply，将返回的数据写入Binder kernel,Binder kernel。 <br>status_t IPCThreadState::waitForResponse(Parcel <em>reply, status_t </em>acquireResult) <br>{ <br>int32_t cmd; <br>int32_t err; <br><br>while (1) { <br>if ((err=talkWithDriver()) &lt; NO_ERROR) break; <br><br>……………………………………….&#160;&#160;&#160;  <br>} <br>status_t IPCThreadState::talkWithDriver(bool doReceive) <br>{ <br>…………………………………….. <br>#if defined(HAVE_ANDROID_OS) <br>if (ioctl(mProcess-&gt;mDriverFD, BINDER_WRITE_READ, &amp;bwr) &gt;= 0) <br>err = NO_ERROR; <br>else <br>err = -errno; <br>#else <br>err = INVALID_OPERATION; <br>#endif <br>…………………………………………… <br>} <br>通过上面的ioctl系统函数中BINDER_WRITE_READ对binder kernel进行读写。 </p>
 
       
     </div>
-    <div class="article-info article-info-index">
+
+    <div>
       
-      <a href="/2010/06/28/【zz】Android-IPC-通讯机制源码分析/" class="archive-article-date">
-  	<time datetime="2010-06-28T13:21:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2010-06-28</time>
-</a>
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2010/06/25/HashSet-ArrayList-HashMap的线程同步控制方法/" rel="next" title="HashSet-ArrayList-HashMap的线程同步控制方法">
+                <i class="fa fa-chevron-left"></i> HashSet-ArrayList-HashMap的线程同步控制方法
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2010/06/29/【zz】解读google-C-code-style谈对C-的理解/" rel="prev" title="【zz】解读google C++ code style谈对C++的理解">
+                【zz】解读google C++ code style谈对C++的理解 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
       
       
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/Android/">Android</a>
-	</div>
+    </footer>
+  </article>
 
 
-      <div class="clearfix"></div>
+
+    <div class="post-spread">
+      
     </div>
   </div>
-</article>
 
-  
-<nav id="article-nav">
-  
-    <a href="/2010/06/29/【zz】解读google-C-code-style谈对C-的理解/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
         
-          【zz】解读google C++ code style谈对C++的理解
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/wp-content/uploads/penguin.gif"
+               alt="jfo" />
+          <p class="site-author-name" itemprop="name">jfo</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">596</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/jfojfo" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/jfojfo" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.pickbox.me" title="收藏夹" target="_blank">收藏夹</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://note.pickbox.me" title="网络剪贴板" target="_blank">网络剪贴板</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://iguangba.pickbox.me" title="爱逛吧" target="_blank">爱逛吧</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
         
       </div>
-    </a>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
   
-  
-    <a href="/2010/06/25/HashSet-ArrayList-HashMap的线程同步控制方法/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">HashSet-ArrayList-HashMap的线程同步控制方法</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-
-
-<div class="share_jia">
-	<!-- JiaThis Button BEGIN -->
-	<div class="jiathis_style">
-		<span class="jiathis_txt">Share to: &nbsp; </span>
-		<a class="jiathis_button_facebook"></a> 
-	    <a class="jiathis_button_twitter"></a>
-	    <a class="jiathis_button_plus"></a> 
-	    <a class="jiathis_button_tsina"></a>
-		<a class="jiathis_button_cqq"></a>
-		<a class="jiathis_button_douban"></a>
-		<a class="jiathis_button_weixin"></a>
-		<a class="jiathis_button_tumblr"></a>
-    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
-	</div>
-	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
-	<!-- JiaThis Button END -->
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jfo</span>
 </div>
 
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
 
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
 
+        
 
-
-
-
-
-
+        
       </div>
-      <footer id="footer">
-  <div class="outer">
-    <div id="footer-info">
-    	<div class="footer-left">
-    		&copy; 2016 jfo
-    	</div>
-      	<div class="footer-right">
-      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
-      	</div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
     </div>
   </div>
-</footer>
-    </div>
-    <script>
-	var yiliaConfig = {
-		fancybox: true,
-		mathjax: false,
-		animate: true,
-		isHome: false,
-		isPost: true,
-		isArchive: false,
-		isTag: false,
-		isCategory: false,
-		open_in_new: false,
-		root: "/",
-		innerArchive: true
-	}
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
 
-<script src="/./main.js"></script>
 
 
-    
-<div class="tools-col">
-  <ul class="btn-wrap">
-    
-      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
-    
-    
-      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
-    
-    
-      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
-    
-    
-      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
-    
-  </ul>
-  <div class="tools-wrap">
-    
-    	<section class="tools-section tools-section-all chose">
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-tag">
-    			<div class="widget tagcloud" id="js-tagcloud">
-    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
-    			</div>
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-friends">
-  		
-  			<div class="friends-wrap" id="js-friends">
-  			
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
-  	        
-  	        </div>
-  		
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-me">
-  	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
-  	  	
-    	</section>
-    
-  </div>
+
+
+
   
-</div>
 
-    <!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
 
-    <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
 
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
 
-        <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
 
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
 
-            <div class="pswp__top-bar">
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
 
-                <!--  Controls are self-explanatory. Order can be changed. -->
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
 
-                <div class="pswp__counter"></div>
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
 
-                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+  
 
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
 
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
 
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
-                </div>
-            </div>
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
 
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div> 
-            </div>
 
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
 
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
+  
+  
 
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
 
-        </div>
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
 
-    </div>
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
 
-</div>
-  </div>
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
 </body>
 </html>

@@ -1,12 +1,90 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
+<!doctype html>
+
+
+
   
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>mojo | jfo planet</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="source code forGeneric&amp;lt;Programming&amp;gt;: Move Constructors  by Andrei Alexandrescu////////////////////////////////////////////////////////////////////////////////// MOJO: MOving Joint Objects// Cop">
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="jfo, blog" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="source code forGeneric&amp;lt;Programming&amp;gt;: Move Constructors  by Andrei Alexandrescu////////////////////////////////////////////////////////////////////////////////// MOJO: MOving Joint Objects// Cop">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mojo">
 <meta property="og:url" content="http://blog.pickbox.me/2007/12/18/mojo/index.html">
@@ -16,366 +94,546 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mojo">
 <meta name="twitter:description" content="source code forGeneric&amp;lt;Programming&amp;gt;: Move Constructors  by Andrei Alexandrescu////////////////////////////////////////////////////////////////////////////////// MOJO: MOving Joint Objects// Cop">
-  
-    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="//favicon.ico">
-  
-  <script src="/style.js"></script>
-  
 
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://blog.pickbox.me/2007/12/18/mojo/"/>
+
+
+  <title> mojo | jfo planet </title>
 </head>
 
-<body>
-  <div id="container">
-    <div class="left-col">
-      <div class="overlay"></div>
-<div class="intrude-less">
-	<header id="header" class="inner">
-		<a href="/" class="profilepic">
-			
-			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
-			
-		</a>
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
 
-		<hgroup>
-		  <h1 class="header-author"><a href="/">jfo</a></h1>
-		</hgroup>
+  
 
-		
-		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
-		
 
-		<nav class="header-menu">
-			<ul>
-			
-				<li><a href="/">主页</a></li>
-	        
-			</ul>
-		</nav>
-		<nav class="header-smart-menu">
-	        
-    		
-    			
-    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
-    			
-    			
-            
-		</nav>
-		<nav class="header-nav">
-			<div class="social">
-				
-					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
-		        
-					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
-		        
-			</div>
-		</nav>
-	</header>		
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">jfo planet</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Hope is the best gift that tomorrow gives.</p>
 </div>
 
-    </div>
-    <div class="mid-col">
-      <nav id="mobile-nav">
-  	<div class="overlay">
-  		<div class="slider-trigger"><i class="icon-list"></i></div>
-  		<h1 class="header-author js-mobile-header hide">jfo</h1>
-  	</div>
-	<div class="intrude-less">
-		<header id="header" class="inner">
-			<div class="profilepic">
-				
-					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
-				
-			</div>
-			<hgroup>
-			  <h1 class="header-author">jfo</h1>
-			</hgroup>
-			
-			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
-			
-			<nav class="header-menu">
-				<ul>
-				
-					<li><a href="/">主页</a></li>
-		        
-				</ul>
-			</nav>
-			<nav class="header-nav">
-				<div class="social">
-					
-						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
-			        
-						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
-			        
-				</div>
-			</nav>
-		</header>				
-	</div>
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
 </nav>
 
-      <div class="body-wrap">
-        <article id="post-mojo" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
     
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
+
   
-    <h1 class="article-title" itemprop="name">
-      mojo
-    </h1>
   
 
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                mojo
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2007-12-18T20:45:00+08:00" content="2007-12-18">
+              2007-12-18
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/c-c-template-gp-boost/" itemprop="url" rel="index">
+                    <span itemprop="name">c++/c++ template/gp/boost</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
       
         <p> source code for<br><a target="_blank" href="http://www.ddj.com/cpp/184403855">Generic&lt;Programming&gt;</a>: Move Constructors  by Andrei Alexandrescu<br><br>////////////////////////////////////////////////////////////////////////////////<br>// MOJO: MOving Joint Objects<br>// Copyright (c) 2002 by Andrei Alexandrescu<br>//<br>// Created by Andrei Alexandrescu<br>//<br>// Permission to use, copy, modify, distribute and sell this software for any <br>//&nbsp;&nbsp;&nbsp;&nbsp;   purpose is hereby granted without fee, provided that the above copyright <br>//&nbsp;&nbsp;&nbsp;&nbsp;   notice appear in all copies and that both that copyright notice and this <br>//&nbsp;&nbsp;&nbsp;&nbsp;   permission notice appear in supporting documentation.<br>// The author makes no representations about the suitability of this software <br>//&nbsp;&nbsp;&nbsp;&nbsp;   for any purpose. It is provided &quot;as is&quot; <br>//&nbsp;&nbsp;&nbsp;&nbsp;   without express or implied warranty.<br>////////////////////////////////////////////////////////////////////////////////<br><br>#ifndef MOJO<em>H</em><br>#define MOJO<em>H</em><br><br>#include &lt;cassert&gt;<br>#include &lt;iterator&gt;<br>#include &quot;TypeManip.h&quot;<br><br>namespace mojo<br>{<br>&nbsp;&nbsp;&nbsp;   template &lt;class T&gt;<br>&nbsp;&nbsp;&nbsp;   class constant // type sugar for constants<br>&nbsp;&nbsp;&nbsp;   {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   const T<em> data<em>;<br>&nbsp;&nbsp;&nbsp;   public:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   explicit constant(const T&amp; obj) : data</em>(&amp;obj)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   const T&amp; get() const<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   return </em>data_;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   }<br>&nbsp;&nbsp;&nbsp;   };<br><br>&nbsp;&nbsp;&nbsp;   template &lt;class T&gt;<br>&nbsp;&nbsp;&nbsp;   class temporary : private constant&lt;T&gt; // type sugar for temporaries<br>&nbsp;&nbsp;&nbsp;   {<br>&nbsp;&nbsp;&nbsp;   public:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   explicit temporary(T&amp; obj) : constant&lt;T&gt;(obj)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   }<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   T&amp; get() const<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   return const_cast&lt;T&amp;&gt;(constant&lt;T&gt;::get());<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   }<br>&nbsp;&nbsp;&nbsp;   };<br><br>&nbsp;&nbsp;&nbsp;   template &lt;class T&gt; <br>&nbsp;&nbsp;&nbsp;   class fnresult : public T<br>&nbsp;&nbsp;&nbsp;   {<br>&nbsp;&nbsp;&nbsp;   public:<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   // The cast below is valid given that nobody ever really creates a <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   // const fnresult object<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   fnresult(const fnresult&amp; rhs) <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   : T(temporary&lt;T&gt;(const_cast&lt;fnresult&amp;&gt;(rhs)))<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   }<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   explicit fnresult(T&amp; rhs) : T(temporary&lt;T&gt;(rhs))<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   }<br>&nbsp;&nbsp;&nbsp;   };<br><br>&nbsp;&nbsp;&nbsp;   template &lt;class T&gt; struct enabled<br>&nbsp;&nbsp;&nbsp;   {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   operator temporary&lt;T&gt;()<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   return temporary&lt;T&gt;(static_cast&lt;T&amp;&gt;(<em>this));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   operator constant&lt;T&gt;() const<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   return constant&lt;T&gt;(static_cast&lt;const T&amp;&gt;(</em>this));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   operator fnresult&lt;T&gt;()<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   return fnresult&lt;T&gt;(static_cast&lt;T&amp;&gt;(<em>this));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   }<br><br>&nbsp;&nbsp;&nbsp;   protected:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   enabled() {} // intended to be derived from<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   ~enabled() {} // intended to be derived from<br>&nbsp;&nbsp;&nbsp;   };<br><br>&nbsp;&nbsp;&nbsp;   template &lt;class T&gt;<br>&nbsp;&nbsp;&nbsp;   struct traits<br>&nbsp;&nbsp;&nbsp;   {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   enum { enabled = Loki::SuperSubclassStrict&lt; enabled&lt;T&gt;, T &gt;::value };<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   typedef typename <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   Loki::Select&lt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   enabled,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   temporary&lt;T&gt;, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   T&amp;&gt;::Result<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   temporary;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   typedef typename <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   Loki::Select&lt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   enabled,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   fnresult&lt;T&gt;, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   T&gt;::Result<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   fnresult;<br>&nbsp;&nbsp;&nbsp;   };<br><br>&nbsp;&nbsp;&nbsp;   template &lt;class T&gt;<br>&nbsp;&nbsp;&nbsp;   inline typename traits&lt;T&gt;::temporary as_temporary(T&amp; src)<br>&nbsp;&nbsp;&nbsp;   {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   typedef typename traits&lt;T&gt;::temporary temp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   return temp(src);<br>&nbsp;&nbsp;&nbsp;   }<br><br>&nbsp;&nbsp;&nbsp;   template &lt;class Iter1, class Iter2&gt;<br>&nbsp;&nbsp;&nbsp;   Iter2 move(Iter1 begin, Iter1 end, Iter2 dest)<br>&nbsp;&nbsp;&nbsp;   {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   for (; begin != end; ++begin, ++dest)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   </em>dest = as_temporary(<em>begin);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   return dest;<br>&nbsp;&nbsp;&nbsp;   }<br><br>&nbsp;&nbsp;&nbsp;   template &lt;class Iter1, class Iter2&gt;<br>&nbsp;&nbsp;&nbsp;   Iter2 uninitialized_move(Iter1 begin, Iter1 end, Iter2 dest)<br>&nbsp;&nbsp;&nbsp;   {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   typedef typename std::iterator_traits&lt;Iter2&gt;::value_type T;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   for (; begin != end; ++begin, ++dest)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   new(</em>dest) T(as_temporary(<em>begin));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   return dest;<br>&nbsp;&nbsp;&nbsp;   }<br>}<br><br>#endif // MOJO<em>H</em><br><br><strong>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br><br></strong>#include &quot;mojo.h&quot;<br>#include &lt;iostream&gt;<br>#include &lt;cassert&gt;<br>using namespace std;<br><br>class Y : public mojo::enabled&lt;Y&gt; <br>{<br>public:<br>&nbsp;&nbsp;&nbsp;   Y() // default constructor<br>&nbsp;&nbsp;&nbsp;   {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   cout &lt;&lt; &quot;CREATING default-constructed object at &quot; &lt;&lt; this <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   &lt;&lt; ‘n’;<br>&nbsp;&nbsp;&nbsp;   }<br>&nbsp;&nbsp;&nbsp;   <br>&nbsp;&nbsp;&nbsp;   Y(const Y&amp; rhs) // source is a const value<br>&nbsp;&nbsp;&nbsp;   {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   cout &lt;&lt; &quot;COPYING const value at &quot; &lt;&lt; &amp;rhs <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   &lt;&lt; &quot; into object at &quot; &lt;&lt; this &lt;&lt; ‘n’;<br>&nbsp;&nbsp;&nbsp;   }<br>&nbsp;&nbsp;&nbsp;   <br>&nbsp;&nbsp;&nbsp;   Y(mojo::fnresult&lt;Y&gt; src) // source is a fnresult<br>&nbsp;&nbsp;&nbsp;   {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   Y&amp; rhs = src;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   cout &lt;&lt; &quot;MOVING mojo::fnresult&lt;Y&gt; at &quot; &lt;&lt; &amp;rhs <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   &lt;&lt; &quot; into object at &quot; &lt;&lt; this &lt;&lt; ‘n’;<br>&nbsp;&nbsp;&nbsp;   }<br><br>&nbsp;&nbsp;&nbsp;   Y(mojo::temporary&lt;Y&gt; src) // source is a temporary<br>&nbsp;&nbsp;&nbsp;   {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   Y&amp; rhs = src.get();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   cout &lt;&lt; &quot;MOVING mojo::temporary&lt;Y&gt; at &quot; &lt;&lt; &amp;rhs <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   &lt;&lt; &quot; into object at &quot; &lt;&lt; this &lt;&lt; ‘n’;<br>&nbsp;&nbsp;&nbsp;   }<br><br>&nbsp;&nbsp;&nbsp;   ~Y()<br>&nbsp;&nbsp;&nbsp;   {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   //cout &lt;&lt; &quot;DESTROYING object at &quot; &lt;&lt; this &lt;&lt; ‘n’;<br>&nbsp;&nbsp;&nbsp;   }<br>};<br><br>const Y MakeConstY()<br>{<br>&nbsp;&nbsp;&nbsp;   return Y();<br>}<br><br>mojo::fnresult&lt;Y&gt; MakeY()<br>{<br>&nbsp;&nbsp;&nbsp;   //if (cout) return Y();<br>&nbsp;&nbsp;&nbsp;   Y x;<br>&nbsp;&nbsp;&nbsp;   return x;<br>}<br><br>void TakeConstY(const Y&amp;)<br>{<br>}<br><br>void TakeY(Y&amp;)<br>{<br>}<br><br>void Discriminate(mojo::temporary&lt;Y&gt;) {}<br>void Discriminate(mojo::constant&lt;Y&gt;) {}<br>void Discriminate(Y&amp; obj) { Discriminate(mojo::constant&lt;Y&gt;(obj)); }<br><br><br>////////////////////////////////////////////////////////////////////////////////<br><br>////////////////////////////////////////////////////////////////////////////////<br><br>////////////////////////////////////////////////////////////////////////////////<br><br>int main()<br>{<br>&nbsp;&nbsp;&nbsp;   Y nonConstLValue;<br>&nbsp;&nbsp;&nbsp;   const Y constLValue;<br>&nbsp;&nbsp;&nbsp;   <br>&nbsp;&nbsp;&nbsp;   //Y y1(constLValue);<br>&nbsp;&nbsp;&nbsp;   //Y y2(nonConstLValue);<br>&nbsp;&nbsp;&nbsp;   //Y y3(MakeConstY());<br>&nbsp;&nbsp;&nbsp;   Y y4(MakeY());<br><br>&nbsp;&nbsp;&nbsp;   TakeConstY(Y());<br><br>&nbsp;&nbsp;&nbsp;   Discriminate(Y()); // calls Discriminate(mojo::temporary&lt;Y&gt;)<br>&nbsp;&nbsp;&nbsp;   Discriminate(MakeY()); // calls Discriminate(mojo::temporary&lt;Y&gt;)<br>&nbsp;&nbsp;&nbsp;   Discriminate(constLValue); // calls Discriminate(mojo::constant&lt;Y&gt;)<br>&nbsp;&nbsp;&nbsp;   Discriminate(nonConstLValue); // calls Discriminate(Y&amp;)<br>&nbsp;&nbsp;&nbsp;   //TakeConstY(MakeY());<br><br>&nbsp;&nbsp;&nbsp;   //TakeY(Y());<br>&nbsp;&nbsp;&nbsp;   //TakeY(MakeY());<br>}<br><br><strong>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br></strong><br>////////////////////////////////////////////////////////////////////////////////<br>// The Loki Library<br>// Copyright (c) 2001 by Andrei Alexandrescu<br>// This code accompanies the book:<br>// Alexandrescu, Andrei. &quot;Modern C++ Design: Generic Programming and Design <br>//&nbsp;&nbsp;&nbsp;&nbsp;   Patterns Applied&quot;. Copyright (c) 2001. Addison-Wesley.<br>// Permission to use, copy, modify, distribute and sell this software for any <br>//&nbsp;&nbsp;&nbsp;&nbsp;   purpose is hereby granted without fee, provided that the above copyright <br>//&nbsp;&nbsp;&nbsp;&nbsp;   notice appear in all copies and that both that copyright notice and this <br>//&nbsp;&nbsp;&nbsp;&nbsp;   permission notice appear in supporting documentation.<br>// The author or Addison-Welsey Longman make no representations about the <br>//&nbsp;&nbsp;&nbsp;&nbsp;   suitability of this software for any purpose. It is provided &quot;as is&quot; <br>//&nbsp;&nbsp;&nbsp;&nbsp;   without express or implied warranty.<br>////////////////////////////////////////////////////////////////////////////////<br><br>// Last update: November 22, 2001<br><br>#ifndef TYPEMANIP<em>INC</em><br>#define TYPEMANIP<em>INC</em><br><br>namespace Loki<br>{<br>////////////////////////////////////////////////////////////////////////////////<br>// class template Int2Type<br>// Converts each integral constant into a unique type<br>// Invocation: Int2Type&lt;v&gt; where v is a compile-time constant integral<br>// Defines ‘value’, an enum that evaluates to v<br>////////////////////////////////////////////////////////////////////////////////<br><br>&nbsp;&nbsp;&nbsp;   template &lt;int v&gt;<br>&nbsp;&nbsp;&nbsp;   struct Int2Type<br>&nbsp;&nbsp;&nbsp;   {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   enum { value = v };<br>&nbsp;&nbsp;&nbsp;   };<br>&nbsp;&nbsp;&nbsp;   <br>////////////////////////////////////////////////////////////////////////////////<br>// class template Type2Type<br>// Converts each type into a unique, insipid type<br>// Invocation Type2Type&lt;T&gt; where T is a type<br>// Defines the type OriginalType which maps back to T<br>////////////////////////////////////////////////////////////////////////////////<br><br>&nbsp;&nbsp;&nbsp;   template &lt;typename T&gt;<br>&nbsp;&nbsp;&nbsp;   struct Type2Type<br>&nbsp;&nbsp;&nbsp;   {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   typedef T OriginalType;<br>&nbsp;&nbsp;&nbsp;   };<br>&nbsp;&nbsp;&nbsp;   <br>////////////////////////////////////////////////////////////////////////////////<br>// class template Select<br>// Selects one of two types based upon a boolean constant<br>// Invocation: Select&lt;flag, T, U&gt;::Result<br>// where:<br>// flag is a compile-time boolean constant<br>// T and U are types<br>// Result evaluates to T if flag is true, and to U otherwise.<br>////////////////////////////////////////////////////////////////////////////////<br><br>&nbsp;&nbsp;&nbsp;   template &lt;bool flag, typename T, typename U&gt;<br>&nbsp;&nbsp;&nbsp;   struct Select<br>&nbsp;&nbsp;&nbsp;   {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   typedef T Result;<br>&nbsp;&nbsp;&nbsp;   };<br>&nbsp;&nbsp;&nbsp;   template &lt;typename T, typename U&gt;<br>&nbsp;&nbsp;&nbsp;   struct Select&lt;false, T, U&gt;<br>&nbsp;&nbsp;&nbsp;   {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   typedef U Result;<br>&nbsp;&nbsp;&nbsp;   };<br>&nbsp;&nbsp;&nbsp;   <br>////////////////////////////////////////////////////////////////////////////////<br>// Helper types Small and Big - guarantee that sizeof(Small) &lt; sizeof(Big)<br>////////////////////////////////////////////////////////////////////////////////<br><br>&nbsp;&nbsp;&nbsp;   namespace Private<br>&nbsp;&nbsp;&nbsp;   {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   template &lt;class T, class U&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   struct ConversionHelper<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   typedef char Small;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   struct Big { char dummy[2]; };<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   static Big&nbsp;&nbsp;   Test(…);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   static Small Test(U);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   static T MakeT();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   };<br>&nbsp;&nbsp;&nbsp;   }<br><br>////////////////////////////////////////////////////////////////////////////////<br>// class template Conversion<br>// Figures out the conversion relationships between two types<br>// Invocations (T and U are types):<br>// a) Conversion&lt;T, U&gt;::exists<br>// returns (at compile time) true if there is an implicit conversion from T<br>// to U (example: Derived to Base)<br>// b) Conversion&lt;T, U&gt;::exists2Way<br>// returns (at compile time) true if there are both conversions from T<br>// to U and from U to T (example: int to char and back)<br>// c) Conversion&lt;T, U&gt;::sameType<br>// returns (at compile time) true if T and U represent the same type<br>//<br>// Caveat: might not work if T and U are in a private inheritance hierarchy.<br>////////////////////////////////////////////////////////////////////////////////<br><br>&nbsp;&nbsp;&nbsp;   template &lt;class T, class U&gt;<br>&nbsp;&nbsp;&nbsp;   struct Conversion<br>&nbsp;&nbsp;&nbsp;   {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   typedef Private::ConversionHelper&lt;T, U&gt; H;<br>#if defined(<strong>MWERKS</strong>) &amp;&amp; <strong>MWERKS</strong> &lt; 0x3000<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   enum { exists = false };<br>#else<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   enum { exists = sizeof(typename H::Small) == sizeof((H::Test(H::MakeT()))) };<br>#endif<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   enum { exists2Way = exists &amp;&amp; Conversion&lt;U, T&gt;::exists };<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   enum { sameType = false };<br>&nbsp;&nbsp;&nbsp;   };<br>&nbsp;&nbsp;&nbsp;   <br>&nbsp;&nbsp;&nbsp;   template &lt;class T&gt;<br>&nbsp;&nbsp;&nbsp;   struct Conversion&lt;T, T&gt;&nbsp;&nbsp;&nbsp;   <br>&nbsp;&nbsp;&nbsp;   {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   enum { exists = 1, exists2Way = 1, sameType = 1 };<br>&nbsp;&nbsp;&nbsp;   };<br>&nbsp;&nbsp;&nbsp;   <br>&nbsp;&nbsp;&nbsp;   template &lt;class T&gt;<br>&nbsp;&nbsp;&nbsp;   struct Conversion&lt;void, T&gt;&nbsp;&nbsp;&nbsp;   <br>&nbsp;&nbsp;&nbsp;   {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   enum { exists = 0, exists2Way = 0, sameType = 0 };<br>&nbsp;&nbsp;&nbsp;   };<br>&nbsp;&nbsp;&nbsp;   <br>&nbsp;&nbsp;&nbsp;   template &lt;class T&gt;<br>&nbsp;&nbsp;&nbsp;   struct Conversion&lt;T, void&gt;&nbsp;&nbsp;&nbsp;   <br>&nbsp;&nbsp;&nbsp;   {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   enum { exists = 1, exists2Way = 0, sameType = 0 };<br>&nbsp;&nbsp;&nbsp;   };<br>&nbsp;&nbsp;&nbsp;   <br>&nbsp;&nbsp;&nbsp;   template &lt;&gt;<br>&nbsp;&nbsp;&nbsp;   struct Conversion&lt;void, void&gt;&nbsp;&nbsp;&nbsp;   <br>&nbsp;&nbsp;&nbsp;   {<br>&nbsp;&nbsp;&nbsp;   public:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   enum { exists = 1, exists2Way = 1, sameType = 1 };<br>&nbsp;&nbsp;&nbsp;   };<br><br>////////////////////////////////////////////////////////////////////////////////<br>// class template SuperSubclass<br>// Invocation: SuperSubclass&lt;B, D&gt;::value where B and D are types. <br>// Returns true if B is a public base of D, or if B and D are aliases of the <br>// same type.<br>//<br>// Caveat: might not work if T and U are in a private inheritance hierarchy.<br>////////////////////////////////////////////////////////////////////////////////<br><br>template &lt;class T, class U&gt;<br>struct SuperSubclass<br>{<br>enum { value = (::Loki::Conversion&lt;const volatile U</em>, const volatile T<em>&gt;::exists &amp;&amp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   !::Loki::Conversion&lt;const volatile T</em>, const volatile void<em>&gt;::sameType) };<br>};<br><br>////////////////////////////////////////////////////////////////////////////////<br>// class template SuperSubclassStrict<br>// Invocation: SuperSubclassStrict&lt;B, D&gt;::value where B and D are types. <br>// Returns true if B is a public base of D.<br>//<br>// Caveat: might not work if T and U are in a private inheritance hierarchy.<br>////////////////////////////////////////////////////////////////////////////////<br><br>template&lt;class T,class U&gt;<br>struct SuperSubclassStrict<br>{<br>enum { value = (::Loki::Conversion&lt;const volatile U</em>, const volatile T<em>&gt;::exists &amp;&amp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   !::Loki::Conversion&lt;const volatile T</em>, const volatile void<em>&gt;::sameType &amp;&amp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   !::Loki::Conversion&lt;const volatile T</em>, const volatile U<em>&gt;::sameType) };<br>};<br><br>}&nbsp;&nbsp;   // namespace Loki<br><br>////////////////////////////////////////////////////////////////////////////////<br>// macro SUPERSUBCLASS<br>// Invocation: SUPERSUBCLASS(B, D) where B and D are types. <br>// Returns true if B is a public base of D, or if B and D are aliases of the <br>// same type.<br>//<br>// Caveat: might not work if T and U are in a private inheritance hierarchy.<br>// Deprecated: Use SuperSubclass class template instead.<br>////////////////////////////////////////////////////////////////////////////////<br><br>#define SUPERSUBCLASS(T, U) <br>&nbsp;&nbsp;&nbsp;   ::Loki::SuperSubclass&lt;T,U&gt;::value<br><br>////////////////////////////////////////////////////////////////////////////////<br>// macro SUPERSUBCLASS_STRICT<br>// Invocation: SUPERSUBCLASS(B, D) where B and D are types. <br>// Returns true if B is a public base of D.<br>//<br>// Caveat: might not work if T and U are in a private inheritance hierarchy.<br>// Deprecated: Use SuperSubclassStrict class template instead.<br>////////////////////////////////////////////////////////////////////////////////<br><br>#define SUPERSUBCLASS_STRICT(T, U) <br>&nbsp;&nbsp;&nbsp;   ::Loki::SuperSubclassStrict&lt;T,U&gt;::value<br><br>////////////////////////////////////////////////////////////////////////////////<br>// Change log:<br>// June 20, 2001: ported by Nick Thurn to gcc 2.95.3. Kudos, Nick!!!<br>// November 22, 2001: minor change to support porting to boost<br>// November 22, 2001: fixed bug in Conversion&lt;void, T&gt;<br>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   (credit due to Brad Town)<br>// November 23, 2001: (well it’s 12:01 am) fixed bug in SUPERSUBCLASS - added<br>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   the volatile qualifier to be 100% politically correct<br>// September 16, 2002: Changed &quot;const volatile&quot; to &quot;const volatile </em>&quot;, to enable<br>//&nbsp;&nbsp;&nbsp;&nbsp;   conversion to succeed. Done earlier by MKH.<br>//&nbsp;&nbsp;&nbsp;&nbsp;   Added SuperSubclass and SuperSubclassStrict templates. The corresponding<br>//&nbsp;&nbsp;&nbsp;&nbsp;   macros are deprecated.<br>//&nbsp;&nbsp;&nbsp;&nbsp;   Added extra parenthesis in sizeof in Conversion, to disambiguate function<br>//&nbsp;&nbsp;&nbsp;&nbsp;   call from function declaration. T.S.<br>////////////////////////////////////////////////////////////////////////////////<br><br>#endif // TYPEMANIP<em>INC</em><br> </p>
 
       
     </div>
-    <div class="article-info article-info-index">
+
+    <div>
       
-      <a href="/2007/12/18/mojo/" class="archive-article-date">
-  	<time datetime="2007-12-18T12:45:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-12-18</time>
-</a>
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2007/12/17/关于重载决议：boost-is-base-and-derived和Move-Constructors中的手法/" rel="next" title="关于重载决议：boost::is_base_and_derived和Move Constructors中的手法">
+                <i class="fa fa-chevron-left"></i> 关于重载决议：boost::is_base_and_derived和Move Constructors中的手法
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2007/12/21/questions-about-SFINAE/" rel="prev" title="questions about SFINAE">
+                questions about SFINAE <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
       
       
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a>
-	</div>
+    </footer>
+  </article>
 
 
-      <div class="clearfix"></div>
+
+    <div class="post-spread">
+      
     </div>
   </div>
-</article>
 
-  
-<nav id="article-nav">
-  
-    <a href="/2007/12/21/questions-about-SFINAE/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
         
-          questions about SFINAE
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/wp-content/uploads/penguin.gif"
+               alt="jfo" />
+          <p class="site-author-name" itemprop="name">jfo</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">596</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/jfojfo" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/jfojfo" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.pickbox.me" title="收藏夹" target="_blank">收藏夹</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://note.pickbox.me" title="网络剪贴板" target="_blank">网络剪贴板</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://iguangba.pickbox.me" title="爱逛吧" target="_blank">爱逛吧</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
         
       </div>
-    </a>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
   
-  
-    <a href="/2007/12/17/关于重载决议：boost-is-base-and-derived和Move-Constructors中的手法/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">关于重载决议：boost::is_base_and_derived和Move Constructors中的手法</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-
-
-<div class="share_jia">
-	<!-- JiaThis Button BEGIN -->
-	<div class="jiathis_style">
-		<span class="jiathis_txt">Share to: &nbsp; </span>
-		<a class="jiathis_button_facebook"></a> 
-	    <a class="jiathis_button_twitter"></a>
-	    <a class="jiathis_button_plus"></a> 
-	    <a class="jiathis_button_tsina"></a>
-		<a class="jiathis_button_cqq"></a>
-		<a class="jiathis_button_douban"></a>
-		<a class="jiathis_button_weixin"></a>
-		<a class="jiathis_button_tumblr"></a>
-    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
-	</div>
-	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
-	<!-- JiaThis Button END -->
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jfo</span>
 </div>
 
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
 
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
 
+        
 
-
-
-
-
-
+        
       </div>
-      <footer id="footer">
-  <div class="outer">
-    <div id="footer-info">
-    	<div class="footer-left">
-    		&copy; 2016 jfo
-    	</div>
-      	<div class="footer-right">
-      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
-      	</div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
     </div>
   </div>
-</footer>
-    </div>
-    <script>
-	var yiliaConfig = {
-		fancybox: true,
-		mathjax: false,
-		animate: true,
-		isHome: false,
-		isPost: true,
-		isArchive: false,
-		isTag: false,
-		isCategory: false,
-		open_in_new: false,
-		root: "/",
-		innerArchive: true
-	}
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
 
-<script src="/./main.js"></script>
 
 
-    
-<div class="tools-col">
-  <ul class="btn-wrap">
-    
-      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
-    
-    
-      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
-    
-    
-      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
-    
-    
-      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
-    
-  </ul>
-  <div class="tools-wrap">
-    
-    	<section class="tools-section tools-section-all chose">
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-tag">
-    			<div class="widget tagcloud" id="js-tagcloud">
-    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
-    			</div>
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-friends">
-  		
-  			<div class="friends-wrap" id="js-friends">
-  			
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
-  	        
-  	        </div>
-  		
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-me">
-  	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
-  	  	
-    	</section>
-    
-  </div>
+
+
+
   
-</div>
 
-    <!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
 
-    <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
 
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
 
-        <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
 
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
 
-            <div class="pswp__top-bar">
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
 
-                <!--  Controls are self-explanatory. Order can be changed. -->
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
 
-                <div class="pswp__counter"></div>
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
 
-                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+  
 
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
 
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
 
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
-                </div>
-            </div>
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
 
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div> 
-            </div>
 
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
 
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
+  
+  
 
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
 
-        </div>
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
 
-    </div>
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
 
-</div>
-  </div>
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
 </body>
 </html>

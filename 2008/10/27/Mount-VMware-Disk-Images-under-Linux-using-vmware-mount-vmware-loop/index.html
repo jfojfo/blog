@@ -1,12 +1,90 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
+<!doctype html>
+
+
+
   
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>Mount VMware Disk Images under Linux, using vmware-mount/vmware-loop | jfo planet</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="my1.下载Linux版的vmware，我们需要用到tar包里的bin/vmware-loop和bin/vmware-mount.pljfo@jfo-laptop:~$ tar xvf VMware.Workstation.v5.5.1.19175.Linux.tar.gz  ./vmware-distrib/bin2.假设Windows下的虚拟机位于&amp;quot;/host/Virtual OS">
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="jfo, blog" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="my1.下载Linux版的vmware，我们需要用到tar包里的bin/vmware-loop和bin/vmware-mount.pljfo@jfo-laptop:~$ tar xvf VMware.Workstation.v5.5.1.19175.Linux.tar.gz  ./vmware-distrib/bin2.假设Windows下的虚拟机位于&amp;quot;/host/Virtual OS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Mount VMware Disk Images under Linux, using vmware-mount/vmware-loop">
 <meta property="og:url" content="http://blog.pickbox.me/2008/10/27/Mount-VMware-Disk-Images-under-Linux-using-vmware-mount-vmware-loop/index.html">
@@ -16,366 +94,546 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mount VMware Disk Images under Linux, using vmware-mount/vmware-loop">
 <meta name="twitter:description" content="my1.下载Linux版的vmware，我们需要用到tar包里的bin/vmware-loop和bin/vmware-mount.pljfo@jfo-laptop:~$ tar xvf VMware.Workstation.v5.5.1.19175.Linux.tar.gz  ./vmware-distrib/bin2.假设Windows下的虚拟机位于&amp;quot;/host/Virtual OS">
-  
-    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="//favicon.ico">
-  
-  <script src="/style.js"></script>
-  
 
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://blog.pickbox.me/2008/10/27/Mount-VMware-Disk-Images-under-Linux-using-vmware-mount-vmware-loop/"/>
+
+
+  <title> Mount VMware Disk Images under Linux, using vmware-mount/vmware-loop | jfo planet </title>
 </head>
 
-<body>
-  <div id="container">
-    <div class="left-col">
-      <div class="overlay"></div>
-<div class="intrude-less">
-	<header id="header" class="inner">
-		<a href="/" class="profilepic">
-			
-			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
-			
-		</a>
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
 
-		<hgroup>
-		  <h1 class="header-author"><a href="/">jfo</a></h1>
-		</hgroup>
+  
 
-		
-		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
-		
 
-		<nav class="header-menu">
-			<ul>
-			
-				<li><a href="/">主页</a></li>
-	        
-			</ul>
-		</nav>
-		<nav class="header-smart-menu">
-	        
-    		
-    			
-    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
-    			
-    			
-            
-		</nav>
-		<nav class="header-nav">
-			<div class="social">
-				
-					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
-		        
-					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
-		        
-			</div>
-		</nav>
-	</header>		
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">jfo planet</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Hope is the best gift that tomorrow gives.</p>
 </div>
 
-    </div>
-    <div class="mid-col">
-      <nav id="mobile-nav">
-  	<div class="overlay">
-  		<div class="slider-trigger"><i class="icon-list"></i></div>
-  		<h1 class="header-author js-mobile-header hide">jfo</h1>
-  	</div>
-	<div class="intrude-less">
-		<header id="header" class="inner">
-			<div class="profilepic">
-				
-					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
-				
-			</div>
-			<hgroup>
-			  <h1 class="header-author">jfo</h1>
-			</hgroup>
-			
-			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
-			
-			<nav class="header-menu">
-				<ul>
-				
-					<li><a href="/">主页</a></li>
-		        
-				</ul>
-			</nav>
-			<nav class="header-nav">
-				<div class="social">
-					
-						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
-			        
-						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
-			        
-				</div>
-			</nav>
-		</header>				
-	</div>
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
 </nav>
 
-      <div class="body-wrap">
-        <article id="post-Mount-VMware-Disk-Images-under-Linux-using-vmware-mount-vmware-loop" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
     
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
+
   
-    <h1 class="article-title" itemprop="name">
-      Mount VMware Disk Images under Linux, using vmware-mount/vmware-loop
-    </h1>
   
 
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Mount VMware Disk Images under Linux, using vmware-mount/vmware-loop
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2008-10-27T19:29:00+08:00" content="2008-10-27">
+              2008-10-27
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux-App/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux App</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
       
         <p> <del>my</del><br><br>1.下载Linux版的vmware，我们需要用到tar包里的bin/vmware-loop和bin/vmware-mount.pl<br>jfo@jfo-laptop:~$ tar xvf VMware.Workstation.v5.5.1.19175.Linux.tar.gz  ./vmware-distrib/bin<br><br><br>2.假设Windows下的虚拟机位于&quot;/host/Virtual OS/Redhat9/&quot;目录下，其Disk文件为Red Hat Linux.vmdk（Windows下和Linux下Disk文件通用），虚拟机配置文件为Red Hat Linux.vmx，需要建立一个指向这个配置文件的连接：<br>jfo@jfo-laptop:~$ sudo ln -sv &quot;/host/Virtual OS/Redhat9/Red Hat Linux.vmx&quot; /etc/vmware/config<br><br><br>3.添加一行内容：<br>jfo@jfo-laptop:~$ echo ‘loop.fullpath=&quot;/home/jfo/vmware-distrib/bin/vmware-loop&quot;’ &gt;&gt; /etc/vmware/config<br><br><br>4.运行vmware-mount.pl<br><br>jfo@jfo-laptop:~/vmware-distrib/bin$ ./vmware-loop -p &quot;/host/Virtual OS/Redhat9/Red Hat Linux.vmdk&quot;<br><br>——————————————————————-<br>Virtual Hard Disk to Network Block Device mapper<br>Version: Releasebuild-19175<br>Copyright 1998-2003 VMware, Inc.  All rights reserved.<br>——————————————————————-<br><br>Nr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Start&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Size Type Id Sytem&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <br>– ———- ———- —- – ————————<br> 1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  63&nbsp;&nbsp;&nbsp;&nbsp;  208782 BIOS 83 Linux<br> 2&nbsp;&nbsp;&nbsp;&nbsp;  208845&nbsp;&nbsp;  15518790 BIOS 83 Linux<br> 3&nbsp;&nbsp;  15727635&nbsp;&nbsp;&nbsp;  1044225 BIOS 82 Linux swap<br><br>jfo@jfo-laptop:~$ sudo ~/vmware-distrib/bin/vmware-mount.pl &quot;/host/Virtual OS/Redhat9/Red Hat Linux.vmdk&quot; 2 ~/test/<br><br>vmware-mount.pl脚本实际上在/dev/目录下创建Network Block Device：<br>/dev/nb0: block special (43/0)<br>/dev/nbd0:  block special (43/0)<br>/dev/nbd1:  block special (43/1)<br><br><br>5.现在~/test/目录下就是VMware Disk Images的内容了<br><br><br>6.直接使用vmware-loop<br>vmware-mount.pl只是对vmware-loop做了一个wrap，当然也可以直接用vmware-loop<br>jfo@jfo-laptop:~$ sudo ~/vmware-distrib/bin/vmware-loop &quot;/host/Virtual OS/Redhat9/Red Hat Linux.vmdk&quot; 2 /dev/nbd3<br>jfo@jfo-laptop:~$ sudo mount /dev/nbd3 ~/test<br><br><br><br><del>my</del><br><br><a href="http://www.vmware.com/support/reference/linux/loopback_linux.html#what" target="_blank">http://www.vmware.com/support/reference/linux/loopback_linux.html#what</a><br><a href="http://legroom.net/2007/08/05/how-mount-vmware-disk-images-under-linux" target="_blank">http://legroom.net/2007/08/05/how-mount-vmware-disk-images-under-linux</a><br><br>Accessing    Virtual Hard Disks Outside of VMware Workstation for Linux       <ol> <li><a href="http://www.vmware.com/support/reference/linux/loopback_linux.html#overview" target="_blank" rel="external">Overview</a></li> <li><a href="http://www.vmware.com/support/reference/linux/loopback_linux.html#what" target="_blank" rel="external">What is <tt>vmware-mount.pl</tt>?</a></li> <li><a href="http://www.vmware.com/support/reference/linux/loopback_linux.html#reqs" target="_blank" rel="external">Requirements to run <tt>vmware-mount</tt></a></li> <li><a href="http://www.vmware.com/support/reference/linux/loopback_linux.html#howto" target="_blank" rel="external">How to use <tt>vmware-mount</tt></a></li> <li><a href="http://www.vmware.com/support/reference/linux/loopback_linux.html#note" target="_blank" rel="external">Notes for advanced users</a></li> <li><a href="http://www.vmware.com/support/reference/linux/loopback_linux.html#trouble" target="_blank" rel="external">Troubleshooting</a></li> <li><a href="http://www.vmware.com/download/downloadaddons.html" target="_blank" rel="external">Download    </a></li> <li><a href="http://www.vmware.com/support/reference/linux/loopback_linux.html#problems" target="_blank" rel="external">Known Problems</a></li></ol></p><p><br><a name="overview"></a> <strong>Overview</strong></p><p>The easiest way to read or write files on a hard disk of a virtual machine    is to start VMware Workstation, boot the virtual machine, then use a floppy disk drive    or the network file system protocols (NFS, SMB/CIFS, etc.) to exchange data    via your physical machine.</p><p>Sometimes, the amount of data you want to transfer is too large for a    floppy, you don’t have the appropriate driver to run the network inside the    virtual machine, or you cannot run a virtual machine because your license    has expired  For these reasons, you need a way to access the hard    disk of the virtual machine directly from the host operating system,    without having to run VMware Workstation.</p><p>When the hard disk of the virtual machine is a raw device or a raw disk    (see <a href="http://www.vmware.com/support/reference/linux/osonpartition_linux.html" target="_blank" rel="external">Installing    an Operating System onto a Raw Partition from a Virtual Machine</a> or <a href="http://www.vmware.com/support/reference/linux/rawdevices_linux.html" target="_blank" rel="external">Configuring    Dual/Multiboot Systems to Run With VMware Workstation</a>), the problem is already    solved: you can access the partition the same way you would access any other    partition by first mounting it to a directory, then browsing the directory.</p><p>But when the hard disk of the virtual machine is a virtual disk (which    is just a file when seen from your host operating system), you need the    help of a program called <tt>vmware-mount.pl</tt>.  This document describes    how to use this program.</p><p><a name="what"></a> <strong>What is <tt>vmware-mount</tt>?</strong></p><p><tt>vmware-mount</tt> is a program that runs on the host operating system.    It makes a virtual disk file appear as a hard disk to the operating system.</p><p><a name="reqs"></a> <strong>Requirements to run <tt>vmware-mount</tt></strong></p><p><tt>vmware-mount</tt> requires a Linux kernel version 2.1.101 or higher    (including the stable 2.2.x series) because this version introduced the    concept of network block devices, which is heavily used by    <tt>vmware-mount</tt>.  <tt>vmware-mount</tt> is available as an add-on to    VMware Workstation for Linux for both evaluation users and licensed customers. To    install <tt>vmware-mount</tt>:</p><ol> <li><a href="http://www.vmware.com/download/downloadaddons.html" target="_blank" rel="external">Download the file</a></li> <li>Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <tt>su [ROOT PASSWORD]</tt></li> <li>Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <tt>tar zxvf    vmware-mount-addonXXX.tar.gz</tt></li> <li>Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <tt>cd vmware-mount-addonXXX</tt></li> <li>Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <tt>./addon-install.pl</tt></li></ol><p><a name="howto"></a> <strong>How to Use <tt>vmware-mount.pl</tt></strong></p><p>Say, for example, that your virtual hard disk file is    <tt>~/vmware/vhd.dsk</tt>. Follow these steps:</p><ol> <li>Become root:<br>    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    <tt>su</tt> <p> </p> </li> <li>Determine the partition of the virtual hard disk to export: Issue the    following command to print the partition table of the virtual hard disk:<br> <tt>       &nbsp;&nbsp;    vmware-mount.pl -p ~/vmware/vhd.dsk</tt><br> <p> </p>    ——————————————–<br>  VMware Workstation for Linux - Virtual Hard Disk Mounter<br>      Copyright (C) 1999 VMware, Inc.<br>  ——————————————–<br> <br>  Nr Start    Size      Id Sytem<br>  – ——– ——— – ——————-<br>  1  63       4092417   C  Win95 FAT32 (LBA)    <p>Now, find the partition number (first column) you want to export. Let’s    say it is 1.</p> <p> </p> </li> <li>Mount the disk partition on a directory. Let’s say you want to mount    your partition on the directory <tt>/mnt/vhd</tt>. Issue the following    command:<br> <tt>       &nbsp;&nbsp;    vmware-mount.pl ~/vmware/vhd.dsk 1 /mnt/vhd</tt><br> <p> </p>    ——————————————–<br>  VMware Workstation for Linux - Virtual Hard Disk Mounter<br>     Copyright (C) 1999 VMware, Inc.<br>  ——————————————–<br> <br>  Network Block Device driver detected.<br> <br>  Trying to map the partition to the /dev/nb0 Network<br>  Block Device..  Success.<br> <br>  You can now browse your Virtual Hard Disk partition<br>  in /mnt/vhd  Hit Control-C in this terminal when done.    <p>You can now browse <tt>/mnt/vhd</tt> as usual. It works as if a physical    device were mounted on the directory  When you are finished, simply kill    <tt>vmware-mount.pl</tt> by typing Ctrl-C in its terminal.</p> </li></ol><p><a name="note"></a> <strong>Notes for Advanced Users</strong></p><p>By using the <tt>vmware-loop</tt> binary directly, you can map the partition    of a virtual hard disk to any network block device (which you can then    mount). This mapping can be done in read-only mode if you use the <tt>-r</tt>    command line option of <tt>vmware-loop</tt>.</p><p>Currently, a virtual hard disk can not be accessed in read/write mode by more    than one application (VMware Workstation or vmware-mount for example) at a time.</p><p><a name="trouble"></a> <strong>Troubleshooting</strong></p><p><strong><tt>vmware-mount</tt> claims that my Linux kernel is too old</strong></p><p>See the Requirements section.  You need to upgrade to a newer kernel.  To    do so, the easiest way is to upgrade your Linux distribution (installing    the package corresponding to the most recent kernel). If you are    able, you can also grab the latest kernel sources and compile your own    kernel.  Take a kernel version 2.1.101 or higher and set the    CONFIG_BLK_DEV_NBD option (which you can find under Block devices &gt;    Network block device support) to &quot;y&quot; or &quot;m&quot;  If you    don’t want to mess with kmod (the kernel module loader formerly known as    kerneld), we recommend to use &quot;y&quot;.</p><p>Once you have rebooted your new kernel, rerun <tt>vmware-mount.pl</tt>.</p><p><strong><tt>vmware-mount</tt> keeps saying that it cannot open my virtual hard    disk because it is locked by other VMs. What does that mean?</strong></p><p>See the Notes for Advanced Users section. <tt>vmware-mount.pl</tt> has    detected that several applications (VMware Workstation or <tt>vmware-mount.pl</tt>)    are trying to access your virtual disk at the same time.  First, be sure    that this is not true  If you are certain that two processes (including    processes running on some remote machine) are not trying to simultaneously    access your virtual hard disk, then it is probably a stale lock that    hasn’t been cleaned up as it should have been. You can remove it safely.</p><p>If you experience further problems, please <a href="http://www.vmware.com/fileincident" target="_blank" rel="external">file a report</a>.   Be sure to select the &quot;vmware-mount&quot; category, and to include the    output of your session with your report.</p><p><br><a name="problems"></a> <strong>Known Problems</strong></p><p>Under severe load, your host operating system may hang (lock solid) if   you are <strong>writing</strong> to a virtual disk using <tt>vmware-mount.pl</tt>.    VMware is aware of the problem and is working on a solution.</p><p>To avoid this problem, either use the read-only mode (see    <a href="http://www.vmware.com/support/reference/linux/loopback_linux.html#note" target="_blank" rel="external">Notes for Advanced Users</a>) or try to limit the    throughput of data you write to your virtual disk.</p><br><br><br><br><br><del>end</del> <p></p>
 
       
     </div>
-    <div class="article-info article-info-index">
+
+    <div>
       
-      <a href="/2008/10/27/Mount-VMware-Disk-Images-under-Linux-using-vmware-mount-vmware-loop/" class="archive-article-date">
-  	<time datetime="2008-10-27T11:29:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-10-27</time>
-</a>
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2008/10/27/【zz】2-4-18和2-6-25-4-rt在任务调度上的不同/" rel="next" title="【zz】2.4.18和2.6.25.4-rt在任务调度上的不同">
+                <i class="fa fa-chevron-left"></i> 【zz】2.4.18和2.6.25.4-rt在任务调度上的不同
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2008/10/28/使用Pidgin登录校内通/" rel="prev" title="使用Pidgin登录校内通">
+                使用Pidgin登录校内通 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
       
       
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/Linux-App/">Linux App</a>
-	</div>
+    </footer>
+  </article>
 
 
-      <div class="clearfix"></div>
+
+    <div class="post-spread">
+      
     </div>
   </div>
-</article>
 
-  
-<nav id="article-nav">
-  
-    <a href="/2008/10/28/使用Pidgin登录校内通/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
         
-          使用Pidgin登录校内通
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/wp-content/uploads/penguin.gif"
+               alt="jfo" />
+          <p class="site-author-name" itemprop="name">jfo</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">596</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/jfojfo" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/jfojfo" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.pickbox.me" title="收藏夹" target="_blank">收藏夹</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://note.pickbox.me" title="网络剪贴板" target="_blank">网络剪贴板</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://iguangba.pickbox.me" title="爱逛吧" target="_blank">爱逛吧</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
         
       </div>
-    </a>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
   
-  
-    <a href="/2008/10/27/【zz】2-4-18和2-6-25-4-rt在任务调度上的不同/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">【zz】2.4.18和2.6.25.4-rt在任务调度上的不同</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-
-
-<div class="share_jia">
-	<!-- JiaThis Button BEGIN -->
-	<div class="jiathis_style">
-		<span class="jiathis_txt">Share to: &nbsp; </span>
-		<a class="jiathis_button_facebook"></a> 
-	    <a class="jiathis_button_twitter"></a>
-	    <a class="jiathis_button_plus"></a> 
-	    <a class="jiathis_button_tsina"></a>
-		<a class="jiathis_button_cqq"></a>
-		<a class="jiathis_button_douban"></a>
-		<a class="jiathis_button_weixin"></a>
-		<a class="jiathis_button_tumblr"></a>
-    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
-	</div>
-	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
-	<!-- JiaThis Button END -->
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jfo</span>
 </div>
 
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
 
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
 
+        
 
-
-
-
-
-
+        
       </div>
-      <footer id="footer">
-  <div class="outer">
-    <div id="footer-info">
-    	<div class="footer-left">
-    		&copy; 2016 jfo
-    	</div>
-      	<div class="footer-right">
-      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
-      	</div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
     </div>
   </div>
-</footer>
-    </div>
-    <script>
-	var yiliaConfig = {
-		fancybox: true,
-		mathjax: false,
-		animate: true,
-		isHome: false,
-		isPost: true,
-		isArchive: false,
-		isTag: false,
-		isCategory: false,
-		open_in_new: false,
-		root: "/",
-		innerArchive: true
-	}
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
 
-<script src="/./main.js"></script>
 
 
-    
-<div class="tools-col">
-  <ul class="btn-wrap">
-    
-      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
-    
-    
-      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
-    
-    
-      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
-    
-    
-      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
-    
-  </ul>
-  <div class="tools-wrap">
-    
-    	<section class="tools-section tools-section-all chose">
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-tag">
-    			<div class="widget tagcloud" id="js-tagcloud">
-    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
-    			</div>
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-friends">
-  		
-  			<div class="friends-wrap" id="js-friends">
-  			
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
-  	        
-  	        </div>
-  		
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-me">
-  	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
-  	  	
-    	</section>
-    
-  </div>
+
+
+
   
-</div>
 
-    <!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
 
-    <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
 
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
 
-        <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
 
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
 
-            <div class="pswp__top-bar">
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
 
-                <!--  Controls are self-explanatory. Order can be changed. -->
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
 
-                <div class="pswp__counter"></div>
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
 
-                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+  
 
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
 
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
 
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
-                </div>
-            </div>
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
 
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div> 
-            </div>
 
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
 
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
+  
+  
 
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
 
-        </div>
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
 
-    </div>
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
 
-</div>
-  </div>
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
 </body>
 </html>

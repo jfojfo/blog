@@ -1,12 +1,90 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
+<!doctype html>
+
+
+
   
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>Linux Kernel Thread 的讨论 | jfo planet</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="kernel thread Gearheads Written by Sreekrishnan Venkateswaran &amp;nbsp;&amp;nbsp;   Thursday, 15 September 2005 Threads are programming abstractions used in concurrent processing. A kernel thread is a way t">
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="jfo, blog" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="kernel thread Gearheads Written by Sreekrishnan Venkateswaran &amp;nbsp;&amp;nbsp;   Thursday, 15 September 2005 Threads are programming abstractions used in concurrent processing. A kernel thread is a way t">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Linux Kernel Thread 的讨论">
 <meta property="og:url" content="http://blog.pickbox.me/2007/05/14/Linux-Kernel-Thread-的讨论/index.html">
@@ -16,366 +94,546 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux Kernel Thread 的讨论">
 <meta name="twitter:description" content="kernel thread Gearheads Written by Sreekrishnan Venkateswaran &amp;nbsp;&amp;nbsp;   Thursday, 15 September 2005 Threads are programming abstractions used in concurrent processing. A kernel thread is a way t">
-  
-    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="//favicon.ico">
-  
-  <script src="/style.js"></script>
-  
 
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://blog.pickbox.me/2007/05/14/Linux-Kernel-Thread-的讨论/"/>
+
+
+  <title> Linux Kernel Thread 的讨论 | jfo planet </title>
 </head>
 
-<body>
-  <div id="container">
-    <div class="left-col">
-      <div class="overlay"></div>
-<div class="intrude-less">
-	<header id="header" class="inner">
-		<a href="/" class="profilepic">
-			
-			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
-			
-		</a>
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
 
-		<hgroup>
-		  <h1 class="header-author"><a href="/">jfo</a></h1>
-		</hgroup>
+  
 
-		
-		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
-		
 
-		<nav class="header-menu">
-			<ul>
-			
-				<li><a href="/">主页</a></li>
-	        
-			</ul>
-		</nav>
-		<nav class="header-smart-menu">
-	        
-    		
-    			
-    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
-    			
-    			
-            
-		</nav>
-		<nav class="header-nav">
-			<div class="social">
-				
-					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
-		        
-					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
-		        
-			</div>
-		</nav>
-	</header>		
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">jfo planet</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Hope is the best gift that tomorrow gives.</p>
 </div>
 
-    </div>
-    <div class="mid-col">
-      <nav id="mobile-nav">
-  	<div class="overlay">
-  		<div class="slider-trigger"><i class="icon-list"></i></div>
-  		<h1 class="header-author js-mobile-header hide">jfo</h1>
-  	</div>
-	<div class="intrude-less">
-		<header id="header" class="inner">
-			<div class="profilepic">
-				
-					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
-				
-			</div>
-			<hgroup>
-			  <h1 class="header-author">jfo</h1>
-			</hgroup>
-			
-			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
-			
-			<nav class="header-menu">
-				<ul>
-				
-					<li><a href="/">主页</a></li>
-		        
-				</ul>
-			</nav>
-			<nav class="header-nav">
-				<div class="social">
-					
-						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
-			        
-						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
-			        
-				</div>
-			</nav>
-		</header>				
-	</div>
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
 </nav>
 
-      <div class="body-wrap">
-        <article id="post-Linux-Kernel-Thread-的讨论" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
     
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
+
   
-    <h1 class="article-title" itemprop="name">
-      Linux Kernel Thread 的讨论
-    </h1>
   
 
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Linux Kernel Thread 的讨论
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2007-05-14T11:45:00+08:00" content="2007-05-14">
+              2007-05-14
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
       
         <p> <strong>kernel thread</strong><br></p><p> </p><p>Gearheads Written by Sreekrishnan Venkateswaran &nbsp;&nbsp;   Thursday, 15 September 2005</p><p> </p><p>Threads are programming abstractions used in concurrent processing. A kernel thread is a way to implement background tasks inside the kernel. A background task can be busy handling asynchronous events or can be asleep, waiting for an event to occur. Kernel threads are similar to user processes, except that they live in kernel space and have access to kernel functions and data structures. Like user processes, kernel threads appear to monopolize the processor because of preemptive scheduling.</p><p>In this month&rsquo;s &ldquo;Gearheads,&rdquo; let&rsquo;s discuss kernel threads and develop an example that also demonstrates such as process states, wait queues, and user-mode helpers.</p><p>Built-in Kernel Threads</p><p>To see the kernel threads (also called kernel processes) running on your system, run the command ps &ndash;ef. You should see something similar to Figure One.</p><p>FIGURE ONE: A typical list of Linux kernel threads</p><p>$ ps  &ndash;ef <br><br>UID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   PID  PPID  C STIME TTY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   TIME CMD<br>root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   1&nbsp;&nbsp;&nbsp;&nbsp;   0  0 22:36 ?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   00:00:00 init [3]<br>root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   2&nbsp;&nbsp;&nbsp;&nbsp;   1  0 22:36 ?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   00:00:00 [ksoftirqd/0]<br>root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   3&nbsp;&nbsp;&nbsp;&nbsp;   1  0 22:36 ?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   00:00:00 [events/0]<br>root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   38&nbsp;&nbsp;&nbsp;&nbsp;   3  0 22:36 ?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   00:00:00 [pdflush]<br>root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   39&nbsp;&nbsp;&nbsp;&nbsp;   3  0 22:36 ?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   00:00:00 [pdflush]<br>root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   29&nbsp;&nbsp;&nbsp;&nbsp;   1  0 22:36 ?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   00:00:00 [khubd]<br>root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   695&nbsp;&nbsp;&nbsp;&nbsp;   1  0 22:36 ?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   00:00:00 [kjournald]<br>&hellip;<br>root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   3914&nbsp;&nbsp;&nbsp;&nbsp;   1  0 22:37 ?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   00:00:00 [nfsd]<br>root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   3915&nbsp;&nbsp;&nbsp;&nbsp;   1  0 22:37 ?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   00:00:00 [nfsd]<br>&hellip;<br>root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   4015  3364  0 22:55 tty3&nbsp;&nbsp;&nbsp;&nbsp;   00:00:00 -bash<br>root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   4066  4015  0 22:59 tty3&nbsp;&nbsp;&nbsp;&nbsp;   00:00:00 ps -ef</p><p>The output of ps &ndash;ef is a list of user and kernel processes running on your system. Kernel process names are surrounded by square brackets ([]).</p><p>The [ksoftirqd/0] kernel thread is an aid to implement soft IRQs. Soft IRQs are raised by interrupt handlers to request &ldquo;bottom half&rdquo; processing of portions of the interrupt handler whose execution can be deferred. The idea is to minimize the code inside interrupt handlersm which results in reduced interrupt-off times in the system, thus resulting in lower latencies. ksoftirqd ensures that a high load of soft IRQs neither starves the soft IRQs nor overwhelms the system. (On Symmetric Multi-Processing (SMP) machines, where multiple thread instances can run on different processors in parallel, one instance of ksoftirqd is created per processor to improve throughput. On SMP machines, the kernel processes are named ksoftirqd/ n, where n is the processor number.)</p><p>The events/n threads (where n is the processor number) help implement work queues, which are another way of deferring work in the kernel. If a part of the kernel wants to defer execution of work, it can either create its own work queue or make use of the default events/ n worker thread.</p><p>The pdflush kernel thread flushes dirty pages from the page cache. The page cache buffers accesses to the disk. To improve performance, actual writes to the disk are delayed until the pdflush daemon writes out dirtied data to disk. This is done if the available free memory dips below a threshold or if the page has remained dirty for a sufficiently long time. In the 2.4.<em> kernels, these two tasks were respectively performed by separate kernel threads, bdflush and kupdated.</em></p><p>You may have noticed that there are two instances of pdflush in the ps output. A new instance is created if the kernel senses that existing instances are becoming intolerably busy servicing disk queues. Launching new instances of pdflush improves throughput, especially if your system has multiple disks and many of them are busy.</p><p>The khubd thread, part of the Linux USB core, monitors the machine&rsquo;s USB hub and configures USB devices when they are hot-plugged into the system. kjournald is the generic kernel journaling thread, which is used by file systems like ext3. The Linux Network File System (NFS) server is implemented using a set of kernel threads named nfsd.</p><p>Creating a Kernel Thread</p><p>To illustrate kernel threads, let&rsquo;s implement a simple example. Assume that you&rsquo;d like the kernel to asynchronously invoke a user-mode program to send you a page or an email alert whenever it senses that the health of certain kernel data structures is unsatisfactory &mdash; for instance, free space in network receive buffers has dipped below a low watermark.</p><p>This is a candidate for a kernel thread because:</p><p>It&rsquo;s a background task, since it has to wait for asynchronous events.</p><p><em>It needs access to kernel data structures, since the actual detection of events must be done by other parts of the kernel.</em></p><p>It has to invoke a user-mode helper program, which is a time consuming operation.</p><p> </p><p>The kernel thread relinquishes the processor till it gets woken up by parts of the kernel that are responsible for monitoring the data structures of interest. It then invokes the user-mode helper program and passes on the appropriate identity code to the program&rsquo;s environment. The user-mode program is registered with the kernel via the /proc file system.</p><p>Listing One creates the kernel thread.</p><p>Listing One: Creating a Linux kernel thread</p><p>ret = kernel_thread (mykthread, NULL, <br>CLONE_FS | CLONE_FILES | CLONE_SIGHAND | SIGCHLD);</p><p>The thread can be created in an appropriate place, for example, in init/main.c. The flags specify the resources to be shared between the parent and child threads: CLONE_FILES specifies that open files are to be shared, while CLONE_SIGHAND requests that signal handlers be shared.</p><p>Listing Two is the actual kernel thread. daemonize() creates the thread without attached user resources, while reparent_to_init() changes the parent of the calling thread to the init task.</p><p>Each Linux thread has a single parent. If a parent process dies without waiting for its child to exit, the child becomes a zombie process and wastes resources. Re-parenting the child to the init task avoids this. In the 2.6 kernel, the daemonize() function itself internally invokes reparent_to_init.</p><p>Since daemonize() blocks all signals by default, you have to call allow_signal() to enable delivery if your thread desires to handle a particular signal. There are no signal handlers inside the kernel, so use signal_pending() to check for signals and perform the appropriate action. For debugging purposes, the code in Listing Two requests delivery of SIGKILL and dies if it&rsquo;s received.</p><p>Listing Two: Implementing the Kernel Thread</p><p>static DECLARE_WAIT_QUEUE_HEAD (myevent_waitqueue);<br>rwlock_t myevent_lock;<br><br>static int mykthread (void <em>unused)<br>{<br>unsigned int event_id = 0; <br><br>DECLARE_WAITQUEUE (wait, current);<br><br>/</em> The stuff required to become a kernel thread <br><em> without attached user resources </em>/<br>daemonize (&quot;mykthread&quot;);<br>reparent_to_init (); /<em> In 2.4 kernels </em>/<br><br>/<em> Request delivery of SIGKILL </em>/<br>allow_signal (SIGKILL);<br><br>/<em> The thread will sleep on this wait queue till it is <br></em> woken up by parts of the kernel in charge of sensing<br><em> the health of data structures of interest </em>/<br>add_wait_queue (&amp;myevent_waitqueue, &amp;wait);<br><br>for (;;) {<br><br>/<em> Relinquish the processor till the event occurs </em>/<br>set_current_state (TASK_INTERRUPTIBLE);<br>schedule ();<br><br>/<em> Die if I receive SIGKILL </em>/<br>if (signal_pending (current)) break;<br><br>/<em> Control gets here when the thread is woken up </em>/<br><br>read_lock (&amp;myevent_lock); /<em> Critical section starts </em>/<br><br>if (myevent_id) { /<em> Guard against spurious wakeups </em>/<br>event_id = myevent_id;<br>read_unlock (&amp;myevent_lock); /<em> Critical section ends </em>/<br><br>/<em> Invoke the registered user-mode helper and<br></em> pass the identity code in its environment <em>/<br>run_umode_handler (event_id); /</em> See Listing Five <em>/<br>} else {<br>read_unlock (&amp;myevent_lock); <br>} <br>}<br><br>set_current_state (TASK_RUNNING);<br>remove_wait_queue (&amp;myevent_waitqueue, &amp;wait);<br>return 0;<br>}</em></p><p>If you compile this as part of the kernel, you can see the newly created thread, mykthread, in the ps output, as shown in Figure Two.</p><p> </p><p>FIGURE TWO: The new thread, mykthread, is a child of init</p><p>$ ps &ndash;ef<br><br>UID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   PID  PPID  C STIME TTY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   TIME CMD<br>root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   1&nbsp;&nbsp;&nbsp;&nbsp;   0  0 21:56 ?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   00:00:00 init [3]<br>root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   2&nbsp;&nbsp;&nbsp;&nbsp;   1  0 22:36 ?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   00:00:00 [ksoftirqd/0]<br>&hellip;<br>root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   111&nbsp;&nbsp;   1  0 21:56 ?&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;00:00:00 [mykthread]<br>&hellip;</p><p> </p><p>Before delving further into the thread implementation, let&rsquo;s look at a code snippet that detects the event and awakens mykthread. Refer to Listing Three.</p><p>Listing Three: Waking up the kernel thread</p><p>/ Executed by parts of the kernel that own the <br>data structures whose health you want to monitor <em>/<br><br>/</em> … <em>/<br><br>if (my_key_datastructure looks troubled) {<br>write_lock (&amp;myevent_lock); <br>/</em> Fill in the identity of the data structure <em>/<br>myevent_id = datastructure_id;<br>write_unlock (&amp;myevent_lock);<br><br>/</em> Wake up mykthread <em>/<br>wake_up_interruptible (&amp;myevent_waitqueue); <br>}<br><br>/</em> … <em>/</em></p><p> </p><p>The kernel accomplishes useful work using a combination of process contexts and interrupt contexts. Process contexts aren&rsquo;t tied to any interrupt context and vice versa. Listing Two executes in a process context, while Listing Three can run from both process and interrupt contexts.</p><p>Process and interrupt contexts communicate via kernel data structures. In the example, myevent_id and myevent_waitqueue are used for this communication. myevent_id contains the identity of the data structure that&rsquo;s in trouble. Access to myevent_id is serialized using spin locks.</p><p>(Kernel threads are preemptible only if CONFIG_PREEMPT is turned on during compile time. If CONFIG_PREEMPT is off or if you are running a 2.4 kernel without the preemption patch, your thread will freeze the system if it doesn&rsquo;t go to sleep. If you comment out schedule() in Listing Two and disable CONFIG_PREEMPT in your kernel configuration, your system will lock up, too.)</p><p>Process States and Wait Queues</p><p>Let&rsquo;s take a closer look at the code snippet that puts mykthread to sleep while waiting for events. The snippet is shown in Listing Four.</p><p> </p><p>LISTING FOUR: How to put a thread to sleep</p><p>add_wait_queue (&amp;myevent_waitqueue, &amp;wait); <br>for (;;) {<br>/ .. <em>/<br>set_current_state (TASK_INTERRUPTIBLE);<br>schedule ();<br>/</em> Point A <em>/<br><br>/</em> .. <em>/<br>}<br><br>set_current_state (TASK_RUNNING);<br>remove_wait_queue (&amp;myevent_waitqueue, &amp;wait);</em></p><p>Wait queues hold threads that need to wait for an event or a system resource. A thread in a wait queue sleeps until it&rsquo;s woken by another thread or an interrupt handler that&rsquo;s responsible for detecting the event. Queuing and de-queuing are done using the add_wait_queue() and remove_wait_queue() functions, while waking up queued tasks is accomplished via the wake_up_interruptible() routine.</p><p>In the above code snippet, set_current_state() is used to set the run state of the kernel thread. A kernel thread (or a normal process) can be in either of the following states: running, interruptible, uninterruptible, zombie, stopped, traced, or dead. These states are defined in include/linux/sched.h.</p><p>A process in the running state (TASK_RUNNING) is in the scheduler run queue and is a candidate for CPU time according to the scheduling algorithm.</p><p><em>A task in the interruptible state (TASK_INTERRUPTIBLE) is waiting for an event to occur and isn&rsquo;t in the scheduler run queue. When the task gets woken up or if a signal is delivered to it, it re-enters the run queue.</em></p><p>The uninterruptible state (TASK_UNINTERRUPTIBLE) is similar to the interruptible state except that receipt of a signal won&rsquo;t put the task back into the run queue.</p><p><em>A task in the zombie state (EXIT_ZOMBIE) has terminated, but its parent did not wait for the task to complete.</em></p><p>A stopped task (TASK_STOPPED) has stopped execution due to receipt of certain signals.</p><p>mykthread sleeps on a wait queue (myevent_waitqueue) and changes its state to TASK_INTERRUPTIBLE, signaling that it desires to opt out of the scheduler run queue. The call to schedule() asks the scheduler to choose and run a new task from its run queue.</p><p> </p><p>When another part of the kernel awakens mykthread using wake_up_interruptible() as shown in Listing Three, the thread is put back into the scheduler run queue. The process state also gets changed to TASK_RUNNING, so there&rsquo;s no race condition even if the wake up occurs between the time the task state is set to TASK_INTERRUPTIBLE and the schedule() function is called. The thread also gets back into the run queue if a SIGKILL signal is delivered to it. When the scheduler subsequently picks mykthread from the run queue, execution resumes at Point A.</p><p>User-Mode Helpers</p><p>The kernel supports a mechanism for invoking user-mode programs to help perform certain functions. For example, if module auto-loading is enabled, the kernel dynamically loads necessary modules on demand using a user-mode module loader. The default loader is /sbin/modprobe, but you can change it by registering your own loader in /proc/sys/kernel/modprobe. Similarly, the kernel notifies user space about hot-plug events by invoking the program registered in /proc/sys/kernel/hotplug, which is by default /sbin/hotplug.</p><p>Listing Four contains the function used by mykthread to notify user space about detected events. The user-mode program to invoke can be registered via the sysctl interface in the /proc file system. To do this, make sure that CONFIG_SYSCTL is enabled in your kernel configuration and add an entry to the kern_table array in kernel/sysctl.c:</p><p>{KERN_MYEVENT_HANDLER, &quot;myevent_handler&quot;, <br>  &amp;myevent_handler, 256,<br>  0644, NULL, &amp;proc_dostring, <br>  &amp;sysctl_string}</p><p>This creates an entry /proc/sys/kernel/myevent_handler in the /proc file system. To register your user-mode helper, do the following:</p><p>$ echo /path/to/helper &gt; <br>  /proc/sys/kernel/myevent_handler</p><p>This makes /path/to/helper execute when the function in Listing Five runs.</p><p>Listing Five: Invoking User Mode Helpers</p><p>/<em> Called from Listing Two </em>/<br>static void run_umode_handler (int event_id)<br>{<br>int i = 0;<br>char <em>argv[2], </em>envp[4], <em>buffer = NULL;<br>int value;<br><br>argv[i++] = myevent_handler; /</em> Defined earlier in kernel/sysctl.c <em>/<br><br>/</em> Fill in the id corresponding to the data structure in trouble <em>/<br>if (!(buffer = kmalloc (32, GFP_KERNEL))) return;<br>sprintf (buffer, &quot;TROUBLED_DS=%d&quot;, event_id); <br><br>/</em> If no user-mode handlers are found, return <em>/ <br>if (!argv[0]) return;<br>argv[i] = 0;<br><br>/</em> Prepare the environment for /path/to/helper <em>/<br>i = 0;<br>envp[i++] = &quot;HOME=/&quot;;<br>envp[i++] = &quot;PATH=/sbin:/bin:/usr/sbin:/usr/bin&quot;;<br>envp[i++] = buffer;<br>envp[i] = 0;<br><br>/</em> Execute the user-mode program, /path/to/helper <em>/<br>value = call_usermodehelper (argv[0], argv, envp, 0);<br><br>/</em> Check return values <em>/<br>&hellip;<br><br>kfree (buffer);<br>}</em></p><p>The identity of the troubled kernel data structure is passed as an environment variable (TROUBLED_DS) to the user-mode helper. The helper can be a simple script like the following that sends you an email alert containing the information that it gleaned from its environment:</p><p>#!/bin/bash<br>echo Kernel datastructure $TROUBLED_DS  <br>  is in trouble | mail &ndash;s Alert root</p><p>call_usermodehelper() has to be executed from a process context and runs with root capabilities. It&rsquo;s implemented using a work queue in 2.6 kernels.</p><p> </p><p>Looking at the Sources</p><p>In the 2.6 source tree, the ksoftirqd, pdflush, and khubd kernel threads live in kernel/softirq.c, mm/pdflush.c, and drivers/usb/core/hub.c, respectively.</p><p>The daemonize() function can be found in kernel/exit.c in the 2.6 sources and in kernel/sched.c in the 2.4 sources. For the implementation of invoking user-mode helpers, look at kernel/kmod.c.</p><p>Sreekrishnan Venkateswaran has been working for IBM India since 1996. His recent Linux projects include putting Linux onto a wristwatch, a PDA, and a pacemaker programmer. You can reach Krishnan at .</p><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong> <p></p>
 
       
     </div>
-    <div class="article-info article-info-index">
+
+    <div>
       
-      <a href="/2007/05/14/Linux-Kernel-Thread-的讨论/" class="archive-article-date">
-  	<time datetime="2007-05-14T03:45:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-05-14</time>
-</a>
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2007/05/12/Rules-for-the-Good-Life/" rel="next" title="Rules for the Good Life">
+                <i class="fa fa-chevron-left"></i> Rules for the Good Life
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2007/05/15/网卡驱动－－内核数据包处理流程/" rel="prev" title="网卡驱动－－内核数据包处理流程">
+                网卡驱动－－内核数据包处理流程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
       
       
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/Linux/">Linux</a>
-	</div>
+    </footer>
+  </article>
 
 
-      <div class="clearfix"></div>
+
+    <div class="post-spread">
+      
     </div>
   </div>
-</article>
 
-  
-<nav id="article-nav">
-  
-    <a href="/2007/05/15/网卡驱动－－内核数据包处理流程/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
         
-          网卡驱动－－内核数据包处理流程
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/wp-content/uploads/penguin.gif"
+               alt="jfo" />
+          <p class="site-author-name" itemprop="name">jfo</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">596</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/jfojfo" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/jfojfo" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.pickbox.me" title="收藏夹" target="_blank">收藏夹</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://note.pickbox.me" title="网络剪贴板" target="_blank">网络剪贴板</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://iguangba.pickbox.me" title="爱逛吧" target="_blank">爱逛吧</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
         
       </div>
-    </a>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
   
-  
-    <a href="/2007/05/12/Rules-for-the-Good-Life/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Rules for the Good Life</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-
-
-<div class="share_jia">
-	<!-- JiaThis Button BEGIN -->
-	<div class="jiathis_style">
-		<span class="jiathis_txt">Share to: &nbsp; </span>
-		<a class="jiathis_button_facebook"></a> 
-	    <a class="jiathis_button_twitter"></a>
-	    <a class="jiathis_button_plus"></a> 
-	    <a class="jiathis_button_tsina"></a>
-		<a class="jiathis_button_cqq"></a>
-		<a class="jiathis_button_douban"></a>
-		<a class="jiathis_button_weixin"></a>
-		<a class="jiathis_button_tumblr"></a>
-    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
-	</div>
-	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
-	<!-- JiaThis Button END -->
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jfo</span>
 </div>
 
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
 
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
 
+        
 
-
-
-
-
-
+        
       </div>
-      <footer id="footer">
-  <div class="outer">
-    <div id="footer-info">
-    	<div class="footer-left">
-    		&copy; 2016 jfo
-    	</div>
-      	<div class="footer-right">
-      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
-      	</div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
     </div>
   </div>
-</footer>
-    </div>
-    <script>
-	var yiliaConfig = {
-		fancybox: true,
-		mathjax: false,
-		animate: true,
-		isHome: false,
-		isPost: true,
-		isArchive: false,
-		isTag: false,
-		isCategory: false,
-		open_in_new: false,
-		root: "/",
-		innerArchive: true
-	}
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
 
-<script src="/./main.js"></script>
 
 
-    
-<div class="tools-col">
-  <ul class="btn-wrap">
-    
-      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
-    
-    
-      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
-    
-    
-      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
-    
-    
-      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
-    
-  </ul>
-  <div class="tools-wrap">
-    
-    	<section class="tools-section tools-section-all chose">
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-tag">
-    			<div class="widget tagcloud" id="js-tagcloud">
-    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
-    			</div>
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-friends">
-  		
-  			<div class="friends-wrap" id="js-friends">
-  			
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
-  	        
-  	        </div>
-  		
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-me">
-  	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
-  	  	
-    	</section>
-    
-  </div>
+
+
+
   
-</div>
 
-    <!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
 
-    <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
 
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
 
-        <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
 
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
 
-            <div class="pswp__top-bar">
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
 
-                <!--  Controls are self-explanatory. Order can be changed. -->
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
 
-                <div class="pswp__counter"></div>
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
 
-                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+  
 
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
 
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
 
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
-                </div>
-            </div>
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
 
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div> 
-            </div>
 
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
 
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
+  
+  
 
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
 
-        </div>
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
 
-    </div>
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
 
-</div>
-  </div>
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
 </body>
 </html>

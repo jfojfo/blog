@@ -1,12 +1,90 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
+<!doctype html>
+
+
+
   
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>VIM教程 | jfo planet</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="VIM教程（3）2007-01-19  11:03&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;   各种 set 功能">
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="jfo, blog" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="VIM教程（3）2007-01-19  11:03&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;   各种 set 功能">
 <meta property="og:type" content="article">
 <meta property="og:title" content="VIM教程">
 <meta property="og:url" content="http://blog.pickbox.me/2007/05/11/VIM教程/index.html">
@@ -16,366 +94,546 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="VIM教程">
 <meta name="twitter:description" content="VIM教程（3）2007-01-19  11:03&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;   各种 set 功能">
-  
-    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="//favicon.ico">
-  
-  <script src="/style.js"></script>
-  
 
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://blog.pickbox.me/2007/05/11/VIM教程/"/>
+
+
+  <title> VIM教程 | jfo planet </title>
 </head>
 
-<body>
-  <div id="container">
-    <div class="left-col">
-      <div class="overlay"></div>
-<div class="intrude-less">
-	<header id="header" class="inner">
-		<a href="/" class="profilepic">
-			
-			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
-			
-		</a>
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
 
-		<hgroup>
-		  <h1 class="header-author"><a href="/">jfo</a></h1>
-		</hgroup>
+  
 
-		
-		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
-		
 
-		<nav class="header-menu">
-			<ul>
-			
-				<li><a href="/">主页</a></li>
-	        
-			</ul>
-		</nav>
-		<nav class="header-smart-menu">
-	        
-    		
-    			
-    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
-    			
-    			
-            
-		</nav>
-		<nav class="header-nav">
-			<div class="social">
-				
-					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
-		        
-					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
-		        
-			</div>
-		</nav>
-	</header>		
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">jfo planet</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Hope is the best gift that tomorrow gives.</p>
 </div>
 
-    </div>
-    <div class="mid-col">
-      <nav id="mobile-nav">
-  	<div class="overlay">
-  		<div class="slider-trigger"><i class="icon-list"></i></div>
-  		<h1 class="header-author js-mobile-header hide">jfo</h1>
-  	</div>
-	<div class="intrude-less">
-		<header id="header" class="inner">
-			<div class="profilepic">
-				
-					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
-				
-			</div>
-			<hgroup>
-			  <h1 class="header-author">jfo</h1>
-			</hgroup>
-			
-			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
-			
-			<nav class="header-menu">
-				<ul>
-				
-					<li><a href="/">主页</a></li>
-		        
-				</ul>
-			</nav>
-			<nav class="header-nav">
-				<div class="social">
-					
-						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
-			        
-						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
-			        
-				</div>
-			</nav>
-		</header>				
-	</div>
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
 </nav>
 
-      <div class="body-wrap">
-        <article id="post-VIM教程" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
     
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
+
   
-    <h1 class="article-title" itemprop="name">
-      VIM教程
-    </h1>
   
 
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                VIM教程
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2007-05-11T16:48:00+08:00" content="2007-05-11">
+              2007-05-11
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux-App/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux App</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
       
         <p> VIM教程（3）2007-01-19  11:03&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   各种 set 功能说明<br><br>autoindent(ai)<br>自动缩排，也就是说如果本行是从第五个字元开始写的，您按 Enter<br>后游标就会停在次行第五个字元处。预设是不打开的。<br><br>autowrite(aw)<br>档案一有更动就会自动存档。预设不打开。<br><br>background(bg)&nbsp;&nbsp;&nbsp;   &lt;vim 才有&gt;<br>可设成 dark 或 light，这是两种不同的 highlight 颜色设定，详见<br>$VIMRUNTIME/syntax/synload.vim。不过您要更动颜色的设定，最好<br>是设在 ~/.vimrc 或 ~/.gvimrc 中，原始档最好不要去动她。<br>&nbsp;&nbsp;&nbsp;&nbsp;   <em> ㄟㄟㄟ，你从没提过 $VIMRUNTIME 好不好！其实这是最近版本的 vim 为了<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   不至安装新版本时把旧版本的一些设定或 macro 档干掉，所以<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   $VIMRUNTIME 就是 $VIM/vimxx，xx 就是版本号码啦！例如您使用的是 vim<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   5.6 版，那么就是 $VIM/vim56。<br><br>backup(bk)<br>是否要 backup file。预设不打开。<br><br>writebackup(wb)&nbsp;&nbsp;&nbsp;   &lt;vim 才有&gt;<br>在写入档案前先备份一份，和 backup 的作用不尽相同，请<br>:h backup-table。预设是打开的，所以您如果不要 backup，那要关<br>掉的是这个项目，而不是 backup。但请先检查一下您编译时是不是<br>有编译进去，请 :ver。<br><br>backupdir(bdir)&nbsp;&nbsp;&nbsp;   &lt;vim 才有&gt;<br>设定存放 backup file 的目录。预设在所编辑的档案之所在目录。<br><br>binary(bin)&nbsp;&nbsp;&nbsp;   &lt;vim 才有&gt;<br>设在编辑二进位档状态，这是防止存二进位档时把 EOL 也写进二进位<br>档，那就会悔不当初，如果是图档将会无法再观看，如果是可执行档就<br>无法执行了！因此预设是 off。<br>&nbsp;&nbsp;&nbsp;&nbsp;   </em> elvis 会自动判断是否为二进位档，而且会分成左右两半，左半部会以 16<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   进位的方式显示，右半部则是以 ASCII 的方式来显示。<br><br>browsedir(bsdir)&nbsp;&nbsp;&nbsp;   &lt;vim 才有&gt;<br>浏览档案的目录，GUI 版本始有。预设是上一次浏览的目录。就是 GUI<br>版本功能表上的 [File] -&gt; [Open] 会打开的目录。<br><br>cindent(cin)&nbsp;&nbsp;&nbsp;   &lt;vim 才有&gt;<br>写 C 时很好用，indent 比一般敏感，专为 C 程式码而设。预设 off。<br>编辑 C/C++ code 时会自动打开。<br><br>cmdheight(ch)&nbsp;&nbsp;&nbsp;   &lt;vim 才有&gt;<br>状态列的行数，预设一行，建议设成两行。<br><br>compatible(cp)&nbsp;&nbsp;&nbsp;   &lt;vim 才有&gt;<br>设为和原始 vi 相容的状态，vim 的扩充功能会被抑制。预设 off。<br><br>confirm(cf)&nbsp;&nbsp;&nbsp;   &lt;vim 才有&gt;<br>各种确认动作。预设 off。<br><br>directory(dir)<br>swap 档存放的目录。前面单元已有说明。<br><br>fileformat(ff)&nbsp;&nbsp;   &lt;vim 才有&gt;<br>这是写入档案时置放 EOL(end of line) 的形式<br>dos 是以 0D 0A 来断行。<br>unix 是以 0A 来断行。<br>mac 是以 0D 来断行。<br>预设以各系统平台而定，在 Linux 当然是 unix 形式。<br><br>fileformats(ffs)&nbsp;&nbsp;&nbsp;   &lt;vim 才有&gt;<br>可指定多个，会依载入的档案形式来调整 ff。<br>例如 :set ffs=unix,dos ff=unix<br>则预设为 unix 格式，但如读入的是 dos 格式的档案，会自动调整<br>为 dos 格式，这样存档时就会以 dos 格式存档（状态列会显示）。<br>。此时如要改成 unix 格式，可 set ff=unix 然后存档就会转成<br>unix 格式，反之亦然。<br>&nbsp;&nbsp;&nbsp;&nbsp;   <em> 如果不这样设，也就是您不管 ff 或 ffs 都设成 unix，那读入 dos 格式<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   的档案时在每行尾会出现 ^M 这个字元（就是 0D 啦！）这时纵使 :set<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   ff=unix 也来不及了！只好 :%s/^M//g 来消去这个 ^M。ㄟ，还记得怎么替<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   换吗？就是把 ^M 换成没有啦！而且 ^M 怎么打出来的还记得吧！翻一翻前<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   面的单元吧！<br>&nbsp;&nbsp;&nbsp;&nbsp;   </em> Hey，你怎么知道是 0D 呀！好吧！告诉您一个密秘，您把游标移到 ^M 那<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   个位置，然后按 ga 在状态列就会显示 10，16，8 进位的值。其它的字元<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   也是可以如此显示。a 就是 ascii 的意思。但这是 vim 的扩充功能<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   ，elvis 没有。<br>&nbsp;&nbsp;&nbsp;&nbsp;   <em> elvis 纵使载入 dos 格式的档案，也是会自动把 ^M 隐藏起来。<br><br>ignorecase(ic)<br>寻找时不分大小写，这对中文会造成困扰。预设 off。<br><br>incsearch(is)&nbsp;&nbsp;&nbsp;   &lt;vim 才有&gt;<br>加强式寻找功能，在键入 patern 时会立即反应移动至目前键入之<br>patern 上。预设 off。<br><br>hlsearch(hls)&nbsp;&nbsp;&nbsp;   &lt;vim 才有&gt;<br>寻找时，符合字串会反白表示。预设 off。如果您是使用 vim 的<br>预设的 vimrc 档的话，会设在 F8 键来切换。<br><br>textwidth(tw)<br>是一种 word wrap 的功能，从左起算之固定每行的最大字元宽度。<br>超过此宽度就会自动折行，这可是真的折行，也就是说在折行处会插<br>入 EOL。预设是 0，也就是没有 word wrap 的功能。<br><br>wrapmargin(wm)<br>和 textwidth 作用相同，只是是从右视窗边向左算起要几个字元起<br>折行。预设是 0。textwidth 与 wrapmargin 的功能目前并不适用於<br>中文，打中文还是您自行按 Enter 吧！<br><br>wrap<br>这也是折行功能，可是只是萤幕效果的折行，实际上并没有插入 EOL。<br><br>wrapscan(ws)<br>这和折行没有关系，是指寻找时，找至档尾时，是否要从档首继续找。<br>预设是要。<br><br>paste&nbsp;&nbsp;&nbsp;   &lt;vim 才有&gt;<br>这是防止在做剪贴时位置会不正确，前面单元已有说明。<br><br>ruler(ru)&nbsp;&nbsp;&nbsp;   &lt;vim 才有&gt;<br>会在状态列显示游标所在处之行列状态，预设不打开，但建议打开。<br>最右边之代号的意义如下：<br>Top  档案第一行在萤幕可见范围。<br>Bot  档案最后一行在萤幕可见范围。<br>All  档案首尾皆在一个萤幕范围内。<br>如非以上三种情形，则会显示相对百分比位置。<br><br>statusline(stl)&nbsp;&nbsp;&nbsp;   &lt;vim 才有&gt;<br>状态列显示的格式，使用预设就可以了，如果您想骚包一下的话，那<br>就请您 :h stl。<br><br>shiftwidth(sw)<br>指由 &gt;&gt; 移动整行内容时，一次移动的字元宽度，一般是使用 Tab 的<br>值，但可由这个设定来改变。<br><br>tabstop(ts)<br>一个 Tab 键宽度。预设是 8 个字元宽度。最好不要随便改，以免您写<br>的东西由其它编辑器来阅读时造成困扰，为解决这个问题，vim 有一种<br>softtabstop 的机制，在下一节会详细说明。<br><br>showcmd(sc)<br>在状态列显示目前所执行的指令。<br><br>showmode(smd)<br>在状态列显示目前的模式，例如是 Insert mode 或是 Visual mode。<br>当然平常的 normal mode(commond mode)是不显示的。<br><br>viusalbell(vb)&nbsp;&nbsp;&nbsp;   &lt;vim 才有&gt;<br>以萤幕闪动代替 beep 声。<br><br>number(nu)<br>显示行号。注意，冒号命令也有 :nu 这是显示游标所在行的行号，您<br>嫌多打一个字的话，:# 也行。不过如果 ruler 打开的话，在状态列本<br>就会显示门前游标所在处的行列值。<br><br>list<br>这也可以算是一种模式，list mode。就是 Tab 的地方会以 ^I 显示，<br>而行尾之 EOL 会显示成 $。可以让您清楚的知道 Tab 在哪里，折行是<br>不是真的。<br><br>swapfile(swf)&nbsp;&nbsp;&nbsp;   &lt;vim 才有&gt;<br>是否需 swap 至磁碟。如果设为 noswf 的话，那将不会有 swapfile<br>产生，通通会载入在记忆体中。预设是要 swapfile。<br><br>fileencoding(fe)&nbsp;&nbsp;&nbsp;   &lt;vim 才有&gt;<br>首先先鼓掌一下，啪啪啪…，因为有支援 taiwan，也支援 XIM，也<br>就是说可以使用 xcin-2.5x 来作输入，当然您用 xcin-2.3x 配合<br>XA 也是可以啦！目前支援简繁中文、日文、韩文，unicode 尚未植<br>入。但前提是您要把 multi<em>byte 编译进去，这在一开始就讲过了。<br>预设是使用 ansi。set guifont 及 set guifontset 已在一开始讲<br>过，在此就不重复了。<br><br>history(hi)<br>记录冒号命令的历史纪录档，就是可以用上下方向键叫出来的那锅。<br>预设是 20 笔。<br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   关於 softtabstop(sts)<br><br>&nbsp;&nbsp;   几乎所有的 OS 及软体都设定 Tab 就是 8 个字元长，这已经是个公认值，您硬<br>&nbsp;&nbsp;   要去改变它的话恐怕带来许多不便，但实际上关於程式风格，许多人又认为 8<br>&nbsp;&nbsp;   个字元太长了，几个巢状回圈下来就需折行，反而不方便。因此 vim 体贴您，<br>&nbsp;&nbsp;   内建了 softtabstop 的功能，就是由 vim 来代您制造出一个假的 Tab，实际上<br>&nbsp;&nbsp;   是空白字元组成的 Tab。<br><br>&nbsp;&nbsp;   举个例子来说明比较清楚。<br>set softtabstop=4<br>set shiftwidth=4<br><br>&nbsp;&nbsp;   这样会由 4 个空白字元取代一个 Tab，您按 Tab 键 vim 就跳 4 格，需注意的<br>&nbsp;&nbsp;   是，如果您按了三次 Tab 键，那就是一个实际的 Tab 加上四个空白字元，可不<br>&nbsp;&nbsp;   是 12 个空白字元喔！是混合 Tab 及 space 的。<br><br>&nbsp;&nbsp;   问题来了！那我要按真正的 8 字元的 Tab 时怎么办？简单，还记得怎么按特殊<br>&nbsp;&nbsp;   字元吗？ Ctrl-v Tab 或 Ctrl-v I 就可以了，那就是如假包换的 8 字元长之<br>&nbsp;&nbsp;   Tab。当然，您按两次 Tab 不就得了！:-)<br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   关於折行<br><br>&nbsp;&nbsp;   前面已说过 set wrap 就可以造成萤幕折行，可是却会把一个英文单字折成两半<br>&nbsp;&nbsp;   ，实在很不雅观。好了，vim 再体贴您一次，set linebreak(lbr) 就会避免这<br>&nbsp;&nbsp;   种问题发生，会在空白或标点符号的地方来折行，但也仍属萤幕折行，并不会插<br>&nbsp;&nbsp;   入 EOL。这个功能目前在中文判断上还是会出槌！:-(<br><br>&nbsp;&nbsp;   [4]前单元 [5]次单元 [6]目　录<br><br>&nbsp;&nbsp;&nbsp;&nbsp;   <strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>__</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></em><br><br>&nbsp;&nbsp;   最后修订日期：2000.04.06<br>&nbsp;&nbsp;   [7]Edward Lee<br><br><br><br><br>&nbsp;&nbsp;   [1]前单元 [2]目　录<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   大家来学VIM（一个历久弥新的编辑器）[十]<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   规则表示式的运用<br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   在本系列文章一开始就说明了学 vi(m) 可以顺便学规则表示式（regular<br>&nbsp;&nbsp;   expression，以下简称 regexp），那为什么到现在才来讲呢？因为 regexp 说<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   简单也算不很难，但您要深入去使用的话，有时会马上看不出一个复杂的<br>&nbsp;&nbsp;   regexp 在说些什么的，就曾有人形容 regexp 为「有字天书」！而且在 vi(m)<br>&nbsp;&nbsp;&nbsp;   整体都还没一个概念就加入 regexp 的话，那后面的单元恐怕就没人看了！而<br>&nbsp;&nbsp;   regexp 各家有各家的 extensions，这也是大家视为畏途的原因之一，不过总是<br>&nbsp;&nbsp;   大同小异，只需注意一下就可以了。目前先不必管别家怎么说，就让 vim 暂时<br>&nbsp;&nbsp;   先成为我们的「标准」，以后碰到其它程式的 regexp 应该就可以触类旁通。以<br>&nbsp;&nbsp;   下我们尽量由实例去了解。当然，小小的一篇文章是没有办法详尽介绍，只能捡<br>&nbsp;&nbsp;   重点来说明了。如有疑问，可 :h pattern 或在 Un</em>x 系统中可 man 7 regex，<br>&nbsp;&nbsp;&nbsp;&nbsp;   甚至 man ed，man sed，man grep，man awk，man perlre 里面也是会说些<br>&nbsp;&nbsp;   regexp，但要注意和 vim 差异的地方！其中 perl 的 regexp 应该是最完整的<br>&nbsp;&nbsp;   了，如果您的系统没有 perl 那应该是「稀有动物」了！:-) ㄟㄟㄟ！vim 只是<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   一个编辑器，可不是独立的程式语言！<br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   基本的匹配<br><br><em>  指前所绑住的字元或字元集合，出现 0 次或 0 次以上。<br>+ 和 </em> 作用相同，但不包括出现 0 次。<br>= 指前所绑住的字元恰好出现 0 或 1 次。<br>| 这是多选，就是 or 的意思，被 | 隔开的 pattern，任一个符<br>&nbsp;&nbsp;   合的话就算符合。<br>&nbsp;&nbsp;&nbsp;&nbsp;   <em> +, =, | 会加上一个 ，是因原字元在 vi(m) 就具有特殊意义，在一般<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   的 regexp 中是 +，?，| 就可以了，只是提醒您一下，以免搞混了！<br>&nbsp;&nbsp;&nbsp;&nbsp;   </em> 记住 <em>　+ 是不可数的！用辞不是是精确，只是帮助您记忆啦！<br>&nbsp;&nbsp;&nbsp;&nbsp;   </em> 在 elvis 及 ed 中是使用 ? 来匹配出现 0 或 1 次，而不是 =，这里要<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   非常小心！<br><br>&nbsp;&nbsp;   [实例] dg<em><br>&nbsp;&nbsp;   指 </em> 前所绑住的字元 g 出现 0 次或 0 次以上。也就是说 d(出现 0 次)，dg<br>&nbsp;&nbsp;   ，dgggg，dgggggggg 都是符合这个 pattern。如果您下寻找指令 /dg<em>，那符合<br>&nbsp;&nbsp;   这个 pattern 的字串都会被找出来。如果用在代换就要非常小心了，像<br>&nbsp;&nbsp;   extended 中的 d 也是会被置换掉的。例如您下 :%s/dg</em>/test/g 的话，那<br>&nbsp;&nbsp;   extended 这个字会换成 extentestetest。<br><br>&nbsp;&nbsp;&nbsp;&nbsp;   <em> shell 中使用的通用字元为 pattern matching notation 和 regexp 不同<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   的。dg</em> 在 shell 中是解为以 dg 开头的任意字串，这就不包括 d 在内了<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   ，也就是说在 shell 中，<em> 是代表任一字元或字串。<br><br>&nbsp;&nbsp;   [实例] dg+<br>&nbsp;&nbsp;   dg, dgg, dgggggg 皆符合，但 d 则不符合。如果是 dg= 的话，就只有 d、dg<br>&nbsp;&nbsp;   这两个符合了。<br><br>&nbsp;&nbsp;   [实例] :%s/The|All/test/g<br>&nbsp;&nbsp;   全文中只要是 The 或 All 都会被替换成 test。注意，如果文中有 There 也是<br>&nbsp;&nbsp;   会被替换成 testre！要如何避免这种情形呢？下面会另述及限定使用法。<br><br>&nbsp;&nbsp;   [实例] /123-=4567<br>&nbsp;&nbsp;   这样会找出，123-4567 及 1234567。当然 123-456789 也是会被找出来。<br><br>[…]  字元集合，表示中括号中所有字元中的其中一个。<br>[^..]  这是上述 […] 的补集，表非中括号内字元的其中一个。<br>.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   除换行字元外的任一单一字元。指本身，非指前所绑之字元。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   就好像 shell 中的 ? 一样。如果要指定真正的英文句点，要<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   用  来 escape，就是说 . 这时的 . 是代表真正句点，而不<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   是 regexp 中的特殊意义。其他如 </em> 亦同。<br><br>&nbsp;&nbsp;   [实例]<br><br>&nbsp;&nbsp;   [Aa]<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   A 或 a 其中的一个。<br><br>&nbsp;&nbsp;   [12345]<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   12345 其中的一个数目字。可用 [1-5] 来表示。连续性的数目字或字元<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   可用 - 来隔开，写出头尾来代表就可以了。[0-9] 就表 0 到 9 的数目<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   字，[a-d] 就代表 abcd 四个英文字母<br><br>&nbsp;&nbsp;   [实例] W[0-9]<em>.cc<br>&nbsp;&nbsp;   这个例子是说以 W 开头，后接 0-9 其中一个或多个数目字或不接什么，然后是<br>&nbsp;&nbsp;   一个句点，最后是 cc。所以 W.cc，W1.cc，W2.cc，W345.cc，W8976543287.cc<br>&nbsp;&nbsp;   皆符合。如果要表示 W 及 .cc 间夹一个以上的数目字，要写成<br>&nbsp;&nbsp;   W[0-9][0-9]</em>.cc。<br><br>&nbsp;&nbsp;   [实例] .<em><br>&nbsp;&nbsp;   这代表任意字元或字串，或什么都没有，脑筋急转弯，对照前面的定义想一下。<br>&nbsp;&nbsp;   当然这是不包括换行字元的。<br><br>&nbsp;&nbsp;   [实例]<br>&nbsp;&nbsp;   [^M]　表除 M 以外的任意字元。<br>&nbsp;&nbsp;   [^Tt]　表 T 及 t 以外的任意字元。<br>&nbsp;&nbsp;   [^0-9]　表非数目字之字元。<br>&nbsp;&nbsp;   [^a-zA-Z]　表非英文字母之字元。<br><br>&nbsp;&nbsp;&nbsp;&nbsp;   </em> 注意，^ 要在中括号内，且在最开头的地方，否则另有含意。<br><br>^  匹配行首，指其后绑住的字串，出现在行首才符合。<br>$  匹配行尾，指其前绑住的字串，出现在行尾才符合。含换行字元。<br>&nbsp;&nbsp;&nbsp;&nbsp;   <em> 不是在行首的 ^ 指的是 ^ 这个字元。不是在行尾的 $ 是指 $ 本身这个字<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   元。<br><br>&nbsp;&nbsp;   [实例] /^What<br>&nbsp;&nbsp;   这样只有在行首的 What 才会被找出来。注意！ Whatever, What’s 也是会被找<br>&nbsp;&nbsp;   出来。如果是 /What$ 则是在行尾的 What 才会被找出来。<br><br>&nbsp;&nbsp;   [实例] ^$<br>&nbsp;&nbsp;   这是什么东东？行首也是行尾的行。ㄚ，就是空白行嘛！当然也不能说这个行是<br>&nbsp;&nbsp;   没有什么东东啦！空白行至少也是会有个换行字元。在后面会详述如何消除全文<br>&nbsp;&nbsp;   的空白行。<br><br>(…)  记忆 pattern，可由 1, 2…9 来叫出。<br><br>&nbsp;&nbsp;   [实例] :%s/([a-z])1/test/g<br>&nbsp;&nbsp;   这样 aa, bb, cc, dd, …, zz 都会被 test 替换掉。这和<br>&nbsp;&nbsp;   :%s/[a-z][a-z]/test/g 是不一样的意思，后者会把 aa, ab, ac… ba, bb,<br>&nbsp;&nbsp;   bc…zz 都换成 test。也就是说 (…) 由 1 叫出时会有对称性的配对出现<br>&nbsp;&nbsp;   。<br><br>&nbsp;&nbsp;   [实例] :%s/(.)(.)r21/test/g<br>&nbsp;&nbsp;   会将中间为 r，前有二个任一字元，后有两个具对称性的字元所组成的字串替换<br>&nbsp;&nbsp;   成 test。2 是呼叫第二组 (.)，而 1 是呼叫第一组 (.)。例如：12r21<br>&nbsp;&nbsp;   ，cfrfc，7grg7 等都会被替换成 test。<br><br>&lt;  匹配字（word）首。所谓 word 包括文数字及底线。<br>&gt;  匹配字尾。这就是前所提及的限定用法，被 &lt;，或 &gt; 括住的<br>&nbsp;&nbsp;&nbsp;   pattern 就会被限制住，使 regexp 不能再向右（左）扩充解释。<br>&nbsp;&nbsp;&nbsp;&nbsp;   </em> ed 及 perl 中可以 b 来表示这两个符号，perl 中只支援 b，ed 则 b<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   及 &lt;, &gt;皆支援。但在 perl 可多加个 ? 来限制 regexp 的扩充解译。<br>&nbsp;&nbsp;&nbsp;&nbsp;   <em> 功能上而言，这是和 ^ $ 一样的定位样式（anchor pattern）指所绑住的<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   字串必须是单字边界（word boundary），前或后或前后除了空白字元及标<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   点符号外不可再有其它字元。<br>&nbsp;&nbsp;&nbsp;&nbsp;   </em> 在 vim 中 b 是表示 &lt;BS&gt; 即 backspace 键。<br><br>&nbsp;&nbsp;   [实例] :%s/&lt;abbbc&gt;/test/g<br>&nbsp;&nbsp;   这样只有 abbbc 才会被替换成 test。如果没有这样限定，:%s/abbbc/test/g，<br>&nbsp;&nbsp;   那 deabbbcly 中的 &quot;abbbc&quot; 亦会被替换成 test。所以前面<br>&nbsp;&nbsp;   :%s/The|All/test/g 可换成 :%s/&lt;The&gt;|&lt;All&gt;/test/g 这样一来，There<br>&nbsp;&nbsp;   就不会被替换成 testre 了！<br><br>&nbsp;&nbsp;   [实例] :%s/&lt;abbbc/test/g<br>&nbsp;&nbsp;   这样的话，只要是以 abbbc 为首的字(word)，其中的 abbbc 的部份都会被<br>&nbsp;&nbsp;   test 所替换。注意！是指字首，而不是指行首。所以 abbbc，abbbcerd<br>&nbsp;&nbsp;   ，abbbckijuds 都符合。<br><br>{n,m}  指前所绑住的字元或字元集合最少出现 n 次，最多出现 m 次。<br>&nbsp;&nbsp;&nbsp;&nbsp;   <em> 这在一般的 regexp 表示成 {n,m}。vim 及 elvis 两种表示法皆支援<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   。perl 则直接使用 {}。以下会举四种不同的例子，请大家发挥一下想像力<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   。:-)<br><br>&nbsp;&nbsp;   [实例] {最小值，最大值}<br>&nbsp;&nbsp;   如 [0-9]{3,4} 匹配至少三位数，但不可多於四位数的数目字。如：<br>123<br>12<br>1<br>123456<br>1234567<br>12345678<br>1234<br>12345<br><br>&nbsp;&nbsp;   如果下 :%s/[0-9]{3,4}/test/g 的话，那 1，12 这两组不会被替换，因为不<br>&nbsp;&nbsp;   满 3 位数。而 12345，则会换成 test5。123456，则会换成 test56。12345678<br>&nbsp;&nbsp;   ，则会换成 testtest。1234567 也是会换成 testtest。123，1234 这两组则会<br>&nbsp;&nbsp;   被替换成 test。您可以亲自操作一次就知道怎么一回事了。操作时最后加 gc<br>&nbsp;&nbsp;   来 confirm，这样您会更了解实际替换的内容。ㄟ，别忘了 u 可以回复您的编<br>&nbsp;&nbsp;   辑动作。<br><br>&nbsp;&nbsp;   [实例] {数目字}<br>&nbsp;&nbsp;   xy{20}　表示 x 后接 20 个 y。<br>&nbsp;&nbsp;   e[x-z]{4}　表示 e 后接有四个字元，是 x,y,z 的其中一个的<br>&nbsp;&nbsp;   　　　　　 组合。如：exxxx, exyyz, ezzyz, exyzz 皆符合。<br><br>&nbsp;&nbsp;   [实例] {最小值，}<br>&nbsp;&nbsp;   xy{2,}　表 x 后接至少二个的 y。相当於 xyyy</em> 或 xyy+ 。<br><br>&nbsp;&nbsp;   [实例] {，最大值}<br>&nbsp;&nbsp;   xy{,4}　表 x 后接至多四个或更少的 y （可能没有）。<br>&nbsp;&nbsp;   　　　　 因此 x, xy, xyy ,xyyy, xyyyy 皆符合。<br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   中介字元（metacharacter, or character classes）<br><br>&nbsp;&nbsp;   主要是简化 regexp 的书写。<br>s  表空白字元，即 &lt;Space&gt; 或 &lt;Tab&gt;。<br>&nbsp;&nbsp;&nbsp;&nbsp;   <em> 不含换行字元，这是编辑器的特性使然。在 perl 的 s 是包含换行字元的<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   。而且 vim 及 elvis 皆不支援 n 这种换行中介字元。<br><br>S  表非空白字元。<br>d  表数目字（digits），即 [0-9]。<br>D  表非数目字，即 [^0-9]。<br>w  表一般字元（word character），包括底线。即 [0-9a-zA-Z<em>]。<br>W  表非一般字元，即 [^0-9a-zA-Z</em>]。<br>a  表英文字母（alphabetic character），即 [a-zA-Z]。<br>A  表非英文字母，即 [^a-zA-Z]。<br>l  表小写字母（lowercase character），即 [a-z]。<br>L  表非小写字母，即 [^a-z]。<br>u  表大写字母（uppercase），即 [A-Z]。<br>U  表非大写字母，即 [^A-Z]。<br>&nbsp;&nbsp;&nbsp;&nbsp;   </em> 原始 vi 不支援此种中介字元。<br>&nbsp;&nbsp;&nbsp;&nbsp;   <em> 使用中介字元的比对速度将会比使用字元集合 [] 的快。<br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   全域性的指令<br><br>:[range]g/pattern/[cmd]<br><br>&nbsp;&nbsp;   cmd 是 ed 可用的指令，预设是 p(print)，您可查一下 man ed，就可以知道有<br>&nbsp;&nbsp;   什么指令可用。这个小节里主要是说明 d(delete) 的功能。因为是要说明如何<br>&nbsp;&nbsp;   消除空白行。需注意的是，d 是行删除指令，凡含 pattern 的整行都会被删掉<br>&nbsp;&nbsp;   ，而且 range 不指定的话，预设是全篇文章，因为 g 就是代表 globe。<br>&nbsp;&nbsp;&nbsp;&nbsp;   </em> 在 vim 的 help 档里说的是 ex 指令，但 ex 实际上是和 vim 连结的，因<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   此这里特别指出 ed。但 ed 的指令少数可能会和 vim 的 ex 不同，这是因<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   为 ed 和 vim 并非同步在发展，作者也非同一人。<br><br>:g/^$/d<br><br>&nbsp;&nbsp;   这样就会删除全文的空白行。前面已提过 ^$ 代表的是空白行。但这里有个问题<br>&nbsp;&nbsp;   ，如果空白行里包含了其它空白字元（即 Space 或 Tab）的话。表面看起来是<br>&nbsp;&nbsp;   和一般空白行一模一样，但却暗藏玄机，用上面的方法就无法删除这种空白行了<br>&nbsp;&nbsp;   ！怎么办？来！看招！<br>:g/^[&lt;Space&gt;&lt;Tab&gt;]<em>$/d<br><br>&nbsp;&nbsp;   在 vim 或 elvis 里您可以如此照打，也就是 &lt;Space&gt; 代表空白字元，&lt;Tab&gt;<br>&nbsp;&nbsp;   代表按 Tab 键的结果。在原始 vi 则不行，得自行按出特殊字元出来，就是<br>&nbsp;&nbsp;   Ctrl-v Space 及 Ctrl-v Tab。或采更简单的打法：<br>:g/^s</em>$/d<br><br>&nbsp;&nbsp;   还记得中介中元吗？好用吧！少打了不少字。:-) 意思就是删除含 0 或 1 个以<br>&nbsp;&nbsp;   上空白字元的行。<br><br>&nbsp;&nbsp;   有些书中写成 :%s/^$//g 可以删除空白行，这是错误的，因为 :s 这 个指令只<br>&nbsp;&nbsp;   更动一行里的内容物，但不会做删除一行的动作。<br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   &amp; 替代变数<br><br>&nbsp;&nbsp;   代表置换时合於 patern 的字元或字串。<br><br>&nbsp;&nbsp;   [实例] :%s/uddddddddd&gt;/ID:&amp;/g<br>&nbsp;&nbsp;   这样全文中的身份证字号前就会加上 ID: 字样，也就是说 T123456789 会被换<br>&nbsp;&nbsp;   成 ID:T123456789。还记得吗？ d 就是 [0-9]，u 代表大写的英文字母。加<br>&nbsp;&nbsp;   个 &gt; 是防止 T12345678999 也被换掉。当然前面再加个 &lt; 更保险。ID: 字样<br>&nbsp;&nbsp;   您用中文也行！<br>&nbsp;&nbsp;   另一个好用的例子是电话号码前加上 TeL:，就请您自行练习了！<br><br>&nbsp;&nbsp;   [实例] 将档案 3 至 7 行的资料向右移 2 个空白<br>:3,7s/.<em>/  &amp;/<br><br>&nbsp;&nbsp;   但这样连空白行也是会插入空白字元，较高明的做法是：<br>:3,7s/.+/  &amp;/<br><br>&nbsp;&nbsp;   这样空白行就不会去动它了！想通了 .</em> 及 .+ 的意思了吗？往前翻一下 . <em><br>&nbsp;&nbsp;   + 的定义。<br><br>&nbsp;&nbsp;   [实例] 将档案 3 至 7 行的资料向左移 2 个空白<br>:3,7s/^  //<br><br>&nbsp;&nbsp;   就是删去行首的二个空白啦！<br><br>&nbsp;&nbsp;   [实例] 将全文的 Edward 这个单字，前后加上中括号<br>:%s/&lt;Edward&gt;/[&amp;]/g<br><br>&nbsp;&nbsp;   [实例] 将全文的 Edward 这个单字，改成大写的。<br>:%s/&lt;Edward&gt;/U&amp;/g<br><br>&nbsp;&nbsp;&nbsp;&nbsp;   </em> ㄟ！U 不是代表非大写字母吗？喔！您搞错位置了。U 在 pattern 的位<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   置的时候是指非大写字母的样式，即 [^A-Z]，但如果是在置换字串位置的<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   时候是指将其后的字串通通改成大写。与其相对的是 L，会将其后的字串<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   改为小写。详细请 :h sub-replace-special。<br><br>&nbsp;&nbsp;   [实例] 将全文每行最后加上 &lt;BR&gt; 这个 HTML tag。<br>:%s/.<em>/&amp;&lt;BR&gt;/g<br><br>&nbsp;&nbsp;   怎么样，是否已感觉到 regexp 威力无穷了呢？还是您已经快睡著了呢？:-) 不<br>&nbsp;&nbsp;   过也请您想想，如果是在没有 regexp 功能的编辑器里，范例中的一些动作您会<br>&nbsp;&nbsp;   怎么做呢？一个一个去改？<br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   greedy 陷阱<br><br>&nbsp;&nbsp;   regexp 会有贪心的倾向，什么意思呢？就是说在同一行内，如果有多个符合<br>&nbsp;&nbsp;   pattern 的情形，会找最长的那一个。<br>&nbsp;&nbsp;&nbsp;&nbsp;   </em> 注意！greedy 的特性是针对会反覆比对的 regexp 而言，例如：<em>, =,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   +, {} 等。前面所举的 .</em> 的例子，由於 greedy 的关系，在整篇文章中<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   做替换时，会被当成是每一行整行，因为 regexp 会去找每一行最长符合的<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   那一个。<br><br>&nbsp;&nbsp;   [实例] This is a test. Test for regexp.<br>&nbsp;&nbsp;   如果您下 :%s/[Tt].*t/program/g 原意是想把所有的 Test 或 test 换成<br>&nbsp;&nbsp;   program 的，结果由於 regexp 的贪心，整个 &quot;This is a test. Test&quot; 会换成<br>&nbsp;&nbsp;   program。结果原文就变成了 program for regexp. 因此在全文替换时要非常小<br>&nbsp;&nbsp;   心，避免使用弹性太大的 regexp。像此例，只要下<br>&nbsp;&nbsp;   :%s/&lt;[Tt]est&gt;/program/g 就可以了！<br><br><br>&nbsp;&nbsp;   最后提醒您，这可不是 regexp 的全部，碍於篇幅及在下功力的问题，当然是没<br>&nbsp;&nbsp;   办法全面详尽的向各位做介绍，在下只是将各位领进门，修行就得看各位了！如<br>&nbsp;&nbsp;   果还想更深入的研究 regexp，可参考： Mastering Regular<br>&nbsp;&nbsp;   Expressions(O’Reilly &amp; Associates) 一书。<br><br>&nbsp;&nbsp;   [3]前单元 [4]目　录 </p>
 
       
     </div>
-    <div class="article-info article-info-index">
+
+    <div>
       
-      <a href="/2007/05/11/VIM教程/" class="archive-article-date">
-  	<time datetime="2007-05-11T08:48:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-05-11</time>
-</a>
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2007/05/10/Words-Of-Truth/" rel="next" title="Words Of Truth">
+                <i class="fa fa-chevron-left"></i> Words Of Truth
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2007/05/12/Rules-for-the-Good-Life/" rel="prev" title="Rules for the Good Life">
+                Rules for the Good Life <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
       
       
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/Linux-App/">Linux App</a>
-	</div>
+    </footer>
+  </article>
 
 
-      <div class="clearfix"></div>
+
+    <div class="post-spread">
+      
     </div>
   </div>
-</article>
 
-  
-<nav id="article-nav">
-  
-    <a href="/2007/05/12/Rules-for-the-Good-Life/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
         
-          Rules for the Good Life
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/wp-content/uploads/penguin.gif"
+               alt="jfo" />
+          <p class="site-author-name" itemprop="name">jfo</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">596</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/jfojfo" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/jfojfo" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.pickbox.me" title="收藏夹" target="_blank">收藏夹</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://note.pickbox.me" title="网络剪贴板" target="_blank">网络剪贴板</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://iguangba.pickbox.me" title="爱逛吧" target="_blank">爱逛吧</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
         
       </div>
-    </a>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
   
-  
-    <a href="/2007/05/10/Words-Of-Truth/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Words Of Truth</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-
-
-<div class="share_jia">
-	<!-- JiaThis Button BEGIN -->
-	<div class="jiathis_style">
-		<span class="jiathis_txt">Share to: &nbsp; </span>
-		<a class="jiathis_button_facebook"></a> 
-	    <a class="jiathis_button_twitter"></a>
-	    <a class="jiathis_button_plus"></a> 
-	    <a class="jiathis_button_tsina"></a>
-		<a class="jiathis_button_cqq"></a>
-		<a class="jiathis_button_douban"></a>
-		<a class="jiathis_button_weixin"></a>
-		<a class="jiathis_button_tumblr"></a>
-    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
-	</div>
-	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
-	<!-- JiaThis Button END -->
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jfo</span>
 </div>
 
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
 
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
 
+        
 
-
-
-
-
-
+        
       </div>
-      <footer id="footer">
-  <div class="outer">
-    <div id="footer-info">
-    	<div class="footer-left">
-    		&copy; 2016 jfo
-    	</div>
-      	<div class="footer-right">
-      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
-      	</div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
     </div>
   </div>
-</footer>
-    </div>
-    <script>
-	var yiliaConfig = {
-		fancybox: true,
-		mathjax: false,
-		animate: true,
-		isHome: false,
-		isPost: true,
-		isArchive: false,
-		isTag: false,
-		isCategory: false,
-		open_in_new: false,
-		root: "/",
-		innerArchive: true
-	}
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
 
-<script src="/./main.js"></script>
 
 
-    
-<div class="tools-col">
-  <ul class="btn-wrap">
-    
-      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
-    
-    
-      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
-    
-    
-      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
-    
-    
-      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
-    
-  </ul>
-  <div class="tools-wrap">
-    
-    	<section class="tools-section tools-section-all chose">
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-tag">
-    			<div class="widget tagcloud" id="js-tagcloud">
-    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
-    			</div>
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-friends">
-  		
-  			<div class="friends-wrap" id="js-friends">
-  			
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
-  	        
-  	        </div>
-  		
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-me">
-  	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
-  	  	
-    	</section>
-    
-  </div>
+
+
+
   
-</div>
 
-    <!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
 
-    <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
 
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
 
-        <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
 
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
 
-            <div class="pswp__top-bar">
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
 
-                <!--  Controls are self-explanatory. Order can be changed. -->
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
 
-                <div class="pswp__counter"></div>
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
 
-                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+  
 
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
 
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
 
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
-                </div>
-            </div>
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
 
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div> 
-            </div>
 
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
 
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
+  
+  
 
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
 
-        </div>
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
 
-    </div>
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
 
-</div>
-  </div>
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
 </body>
 </html>

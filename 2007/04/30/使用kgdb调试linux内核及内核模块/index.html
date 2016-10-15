@@ -1,12 +1,90 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
+<!doctype html>
+
+
+
   
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>使用kgdb调试linux内核及内核模块 | jfo planet</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="作者tag:c/c++ gnu/linux程序设计 CSDN 推荐tag:模块 函数 断点 执行 文件 (转载)使用kgdb调试linux内核及内核模块使用kgdb调试linux内核及内核模块创建时间：2005-09-09文章属性：原创文章提交：xcspy (xcspy.com_at_gmail.com)作者：xcspy成员 ladybugE-mail：xcspy.com@gmail.com主页">
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="jfo, blog" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="作者tag:c/c++ gnu/linux程序设计 CSDN 推荐tag:模块 函数 断点 执行 文件 (转载)使用kgdb调试linux内核及内核模块使用kgdb调试linux内核及内核模块创建时间：2005-09-09文章属性：原创文章提交：xcspy (xcspy.com_at_gmail.com)作者：xcspy成员 ladybugE-mail：xcspy.com@gmail.com主页">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用kgdb调试linux内核及内核模块">
 <meta property="og:url" content="http://blog.pickbox.me/2007/04/30/使用kgdb调试linux内核及内核模块/index.html">
@@ -18,366 +96,546 @@
 <meta name="twitter:title" content="使用kgdb调试linux内核及内核模块">
 <meta name="twitter:description" content="作者tag:c/c++ gnu/linux程序设计 CSDN 推荐tag:模块 函数 断点 执行 文件 (转载)使用kgdb调试linux内核及内核模块使用kgdb调试linux内核及内核模块创建时间：2005-09-09文章属性：原创文章提交：xcspy (xcspy.com_at_gmail.com)作者：xcspy成员 ladybugE-mail：xcspy.com@gmail.com主页">
 <meta name="twitter:image" content="http://blog.csdn.net/images/authorship.gif">
-  
-    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="//favicon.ico">
-  
-  <script src="/style.js"></script>
-  
 
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://blog.pickbox.me/2007/04/30/使用kgdb调试linux内核及内核模块/"/>
+
+
+  <title> 使用kgdb调试linux内核及内核模块 | jfo planet </title>
 </head>
 
-<body>
-  <div id="container">
-    <div class="left-col">
-      <div class="overlay"></div>
-<div class="intrude-less">
-	<header id="header" class="inner">
-		<a href="/" class="profilepic">
-			
-			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
-			
-		</a>
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
 
-		<hgroup>
-		  <h1 class="header-author"><a href="/">jfo</a></h1>
-		</hgroup>
+  
 
-		
-		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
-		
 
-		<nav class="header-menu">
-			<ul>
-			
-				<li><a href="/">主页</a></li>
-	        
-			</ul>
-		</nav>
-		<nav class="header-smart-menu">
-	        
-    		
-    			
-    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
-    			
-    			
-            
-		</nav>
-		<nav class="header-nav">
-			<div class="social">
-				
-					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
-		        
-					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
-		        
-			</div>
-		</nav>
-	</header>		
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">jfo planet</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Hope is the best gift that tomorrow gives.</p>
 </div>
 
-    </div>
-    <div class="mid-col">
-      <nav id="mobile-nav">
-  	<div class="overlay">
-  		<div class="slider-trigger"><i class="icon-list"></i></div>
-  		<h1 class="header-author js-mobile-header hide">jfo</h1>
-  	</div>
-	<div class="intrude-less">
-		<header id="header" class="inner">
-			<div class="profilepic">
-				
-					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
-				
-			</div>
-			<hgroup>
-			  <h1 class="header-author">jfo</h1>
-			</hgroup>
-			
-			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
-			
-			<nav class="header-menu">
-				<ul>
-				
-					<li><a href="/">主页</a></li>
-		        
-				</ul>
-			</nav>
-			<nav class="header-nav">
-				<div class="social">
-					
-						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
-			        
-						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
-			        
-				</div>
-			</nav>
-		</header>				
-	</div>
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
 </nav>
 
-      <div class="body-wrap">
-        <article id="post-使用kgdb调试linux内核及内核模块" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
     
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
+
   
-    <h1 class="article-title" itemprop="name">
-      使用kgdb调试linux内核及内核模块
-    </h1>
   
 
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                使用kgdb调试linux内核及内核模块
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2007-04-30T12:15:00+08:00" content="2007-04-30">
+              2007-04-30
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux-Debug/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux Debug</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
       
         <p> 作者tag:<a href="http://tag.csdn.net/tag/c/c++/1.html" target="_blank">c/c++</a> <a href="http://tag.csdn.net/tag/gnu/linux%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1/1.html" target="_blank">gnu/linux程序设计</a> CSDN 推荐tag:<a href="http://tag.csdn.net/tag/%E6%A8%A1%E5%9D%97/1.html" target="_blank">模块</a> <a href="http://tag.csdn.net/tag/%E5%87%BD%E6%95%B0/1.html" target="_blank">函数</a> <a href="http://tag.csdn.net/tag/%E6%96%AD%E7%82%B9/1.html" target="_blank">断点</a> <a href="http://tag.csdn.net/tag/%E6%89%A7%E8%A1%8C/1.html" target="_blank">执行</a> <a href="http://tag.csdn.net/tag/%E6%96%87%E4%BB%B6/1.html" target="_blank">文件</a><a href="http://blog.csdn.net/Kendiv/archive/2005/09/12/478425.aspx" target="_blank" rel="external"><img width="15" height="13" src="http://blog.csdn.net/images/authorship.gif"> (转载)使用kgdb调试linux内核及内核模块</a>使用kgdb调试linux内核及内核模块<br>创建时间：2005-09-09<br>文章属性：原创<br>文章提交：<a href="https://www.xfocus.net/bbs/index.php?lang=cn&amp;act=Profile&amp;do=03&amp;MID=93234" target="_blank" rel="external">xcspy</a> (xcspy.com_at_gmail.com)<br><br>作者：xcspy成员 ladybug<br>E-mail：xcspy.com@gmail.com<br>主页：<a href="http://www.xcspy.com/" target="_blank">www.xcspy.com</a><br><br>1. 几种内核调试工具比较<br><br>kdb：只能在汇编代码级进行调试；<br>&nbsp;&nbsp;&nbsp;&nbsp;   优点是不需要两台机器进行调试。<br><br>gdb：在调试模块时缺少一些至关重要的功能，它可用来查看内核的运行情况，包括反汇编内核函数。<br><br>kgdb：能很方便的在源码级对内核进行调试，缺点是kgdb只能进行远程调试，它需要一根串口线及两台机器来调试内核(也可以是在同一台主机上用vmware软件运行两个操作系统来调试)<br><br>使用kdb和gdb调试内核的方法相对比较简单，这里只描述如何使用kgdb来调试内核。<br><br>2.软硬件准备<br><br>环境：<br>一台开发机developer(192.168.16.5 com1)，一台测试机target(192.168.16.30 com2)，都预装redhat 9；一根串口线<br><br>下载以下软件包：<br>linux内核2.4.23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   linux-2.4.23.tar.bz2<br>kgdb内核补丁1.9版&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   linux-2.4.23-kgdb-1.9.patch<br>可调试内核模块的gdb&nbsp;&nbsp;&nbsp;&nbsp;   gdbmod-1.9.bz2<br><br>3.ok,开始<br><br>3.1 测试串口线<br>物理连接好串口线后，使用一下命令进行测试，stty可以对串口参数进行设置<br><br>在developer上执行：<br>stty ispeed 115200 ospeed 115200 -F /dev/ttyS0<br>echo hello &gt; /dev/ttyS0<br>在target上执行：<br>stty ispeed 115200 ospeed 115200 -F /dev/ttyS1<br>cat /dev/ttyS1<br><br>串口线没问题的话在target的屏幕上显示hello<br><br>3.2 安装与配置<br><br>3.2.1 安装<br><br>下载linux-2.4.23.tar.bz2，linux-2.4.23-kgdb-1.9.patch，gdbmod-1.9.bz2到developer的/home/liangjian目录<br><br><em>在developer机器上<br><br>#cd /home/liangjian<br>#bunzip2 linux-2.4.23.tar.bz2<br>#tar -xvf linux-2.4.23.tar<br>#bunzip2 gdbmod-1.9.bz2<br>#cp gdbmod-1.9 /usr/local/bin<br>#cd linux-2.4.23<br>#patch -p1 &lt; ../linux-2.4.23-kgdb-1.9.patch<br>#make menuconfig<br><br>在Kernel hacking配置项中将以下三项编译进内核<br>KGDB: Remote (serial) kernel debugging with gdb<br>KGDB: Thread analysis<br>KGDB: Console messages through gdb<br><br>注意在编译内核的时候需要加上-g选项<br>#make dep;make bzImage<br><br>使用scp进行将相关文件拷贝到target上(当然也可以使用其它的网络工具)<br>#scp arch/i386/boot/bzImage root@192.168.16.30:/boot/vmlinuz-2.4.23-kgdb<br>#scp System.map root@192.168.16.30:/boot/System.map-2.4.23-kgdb<br>#scp arch/i386/kernel/gdbstart&nbsp;&nbsp;  root@192.168.16.30:/sbin<br>gdbstart为kgdb提供的一个工具，用于激活内核钩子，使内核处于调试状态<br><br>3.2.2 配置<br><br></em>在developer机器上<br><br>在内核源码目录下编辑一文件.gdbinit(该文件用以对gdb进行初始化)，内容如下：<br>#vi .gdbinit<br>define rmt<br>set remotebaud 115200<br>target remote /dev/ttyS0<br>end<br>#<br>以上在.gdbinit中定义了一个宏rmt，该宏主要是设置使用的串口号和速率<br><br><em>在target机器上<br><br>编辑/etc/grub.conf文件，加入以下行：<br>#vi /etc/grub.conf<br>title Red Hat Linux (2.4.23-kgdb)<br>&nbsp;&nbsp;&nbsp;&nbsp;  root (hd0,0)<br>&nbsp;&nbsp;&nbsp;&nbsp;  kernel /boot/vmlinuz-2.4.23-kgdb ro root=/dev/hda1<br>#<br><br>在root目录下建立一个脚本文件debugkernel，内容如下：<br>#vi debug<br>#!/bin/bash<br>gdbstart -s 115200 -t /dev/ttyS1 &lt;&lt;EOF<br><br>EOF<br>#chmod +x debugkernel<br>这个脚本主要是调用gdbstart程序设置target机上使用的串口及其速率，并使内核处于调试状态<br><br>3.3 开始调试<br><br>target上的内核或内核模块处于调试状态时，可以查看其变量、设置断点、查看堆栈等，并且是源码级的调试，和用gdb调试用户程序一样<br><br>3.3.1 内核启动后调试<br><br></em>在target机器上<br><br>重启系统，选择以 2.4.23-kgdb内核启动，启动完成后运行debugkenel，<br>这时内核将停止运行，在控制台屏幕上显示信息，并等待来自developer的<br>串口连接<br><br>#./debug<br>About to activate GDB stub in the kernel on /dev/ttyS1<br>Waiting for connection from remote gdb…<br><br><em>在developer机器上<br><br>#cd /home/liangjian/linux-2.4.23<br># gdb vmlinux<br>GNU gdb Red Hat Linux (5.3post-0.20021129.18rh)<br>Copyright 2003 Free Software Foundation, Inc.<br>GDB is free software, covered by the GNU General Public License, and you are<br>welcome to change it and/or distribute copies of it under certain conditions.<br>Type &quot;show copying&quot; to see the conditions.<br>There is absolutely no warranty for GDB.&nbsp;&nbsp;  Type &quot;show warranty&quot; for details.<br>This GDB was configured as &quot;i386-redhat-linux-gnu&quot;…<br><br>执行rmt宏<br>(gdb) rmt<br>breakpoint () at kgdbstub.c:1005<br>1005&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  atomic_set(&amp;kgdb_setting_breakpoint, 0);<br><br>这时target上的内核处于调试状态，可以查看其变量、设置断点、查看堆栈等，和用gdb调试用户程序一样<br><br>查看堆栈<br>(gdb) bt<br>#0&nbsp;&nbsp;  breakpoint () at kgdbstub.c:1005<br>#1&nbsp;&nbsp;  0xc0387f48 in init_task_union ()<br>#2&nbsp;&nbsp;  0xc01bc867 in gdb_interrupt (irq=3, dev_id=0x0, regs=0xc0387f98) at<br>gdbserial.c:158<br>#3&nbsp;&nbsp;  0xc010937b in handle_IRQ_event (irq=3, regs=0xc0387f98, action=0xce5a9860)<br>at irq.c:452<br>#4&nbsp;&nbsp;  0xc0109597 in do_IRQ (regs=<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  {ebx = -1072671776, ecx = -1, edx = -1070047232, esi = -1070047232, edi<br>= -1070047232, ebp = -1070039092, eax = 0, xds<br>= -1070071784, xes = -1070071784, orig_eax = -253, eip = -1072671729, xcs =<br>16, eflags = 582, esp = -1070039072, xss = -1072671582}) at irq.c:639<br>#5&nbsp;&nbsp;  0xc010c0e8 in call_do_IRQ ()<br><br>查看jiffies变量的值<br>(gdb) p jiffies<br>$1 = 76153<br><br>如果想让target上的内核继续运行，执行continue命令<br>(gdb) continue<br>Continuing.<br><br>3.3.2 内核在引导时调试<br><br>kgdb可以在内核引导时就对其进行调试，但并不是所有引导过程都是可调试的，如在kgdb 1.9版中，它在init/main.c的start_kernel()函数中插入以下代码：<br>start_kernel()<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;  ……<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  smp_init();<br>#ifdef CONFIG_KGDB<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  if (gdb_enter) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  gdb_hook();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   /</em> right at boot time <em>/<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  }<br>#endif<br>&nbsp;&nbsp;&nbsp;&nbsp;  ……<br>}<br><br>所以在smp_init()之前的初始化引导过程是不能调试的。<br><br>另外要想让target的内核在引导时就处于调试状态，需要修改其/etc/grub.conf文件为如下形式：<br>title Red Hat Linux (2.4.23-kgdb)<br>&nbsp;&nbsp;&nbsp;&nbsp;  root (hd0,0)<br>&nbsp;&nbsp;&nbsp;&nbsp;  kernel /boot/vmlinuz-2.4.23-kgdb ro root=/dev/hda1 gdb gdbttyS=1 gdbbaud=115200<br><br></em>在target机器上<br><br>引导2.4.23-kgdb内核，内核将在短暂的运行后暂停并进入调试状态，打印如下信息：<br>Waiting for connection from remote gdb…<br><br><em>在developer机器上<br><br>#cd /home/liangjian/linux-2.4.23<br># gdb vmlinux<br>GNU gdb Red Hat Linux (5.3post-0.20021129.18rh)<br>Copyright 2003 Free Software Foundation, Inc.<br>GDB is free software, covered by the GNU General Public License, and you are<br>welcome to change it and/or distribute copies of it under certain conditions.<br>Type &quot;show copying&quot; to see the conditions.<br>There is absolutely no warranty for GDB.&nbsp;&nbsp;  Type &quot;show warranty&quot; for details.<br>This GDB was configured as &quot;i386-redhat-linux-gnu&quot;…<br><br>执行rmt宏<br>(gdb) rmt<br>breakpoint () at kgdbstub.c:1005<br>1005&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  atomic_set(&amp;kgdb_setting_breakpoint, 0);<br><br>查看当前堆栈<br>(gdb) bt<br>#0&nbsp;&nbsp;  breakpoint () at kgdbstub.c:1005<br>#1&nbsp;&nbsp;  0xc0387fe0 in init_task_union ()<br>#2&nbsp;&nbsp;  0xc01bc984 in gdb_hook () at gdbserial.c:250<br>#3&nbsp;&nbsp;  0xc0388898 in start_kernel () at init/main.c:443<br><br>在do_basic_setup函数处设置断点，并让内核恢复运行<br>(gdb) b do_basic_setup<br>Breakpoint 1 at 0xc0388913: file current.h, line 9.<br>(gdb) continue<br>Continuing.<br>[New Thread 1]<br>[Switching to Thread 1]<br><br>Breakpoint 1, do_basic_setup () at current.h:9<br>9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <strong>asm</strong>(&quot;andl %%esp,%0; &quot;:&quot;=r&quot; (current) : &quot;0&quot; (~8191UL));<br><br>内核在do_basic_setup断点处停止运行后查看当前堆栈<br>(gdb) bt<br>#0&nbsp;&nbsp;  do_basic_setup () at current.h:9<br>(gdb)<br><br>3.3.3 内核模块调试调试<br><br>要想调试内核模块，需要相应的gdb支持，kgdb的主页上提供了一个工具gdbmod，它修正了gdb 6.0在解析模块地址时的错误，可以用来正确的调试内核模块<br><br></em>在developer机器上<br><br>写了个测试用的内核模块orig，如下：<br>void xcspy_func()<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;  printk(&quot;&lt;1&gt;xcspy_funcn&quot;);<br>&nbsp;&nbsp;&nbsp;&nbsp;  printk(&quot;&lt;1&gt;aaaaaaaaaaan&quot;);<br>}<br><br>int xcspy_init()<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;  printk(&quot;&lt;1&gt;xcspy_init_modulen&quot;);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;  return 0;<br>}<br><br>void xcspy_exit()<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;  printk(&quot;&lt;1&gt;xcspy_cleanup_modulen&quot;);<br>}<br><br>module_init(xcspy_init);<br>module_exit(xcspy_exit);<br><br>编译该模块：<br>#cd /home/liangjian/lkm<br>#gcc -D<strong>KERNEL</strong> -DMODULE -I/home/liangjian/linux-2.4.23/include -O -Wall -g -c -o orig.o orig.c<br>#scp orig.o root@192.168.16.30:/root<br><br>开始调试：<br># gdbmod vmlinux<br>GNU gdb 6.0<br>Copyright 2003 Free Software Foundation, Inc.<br>GDB is free software, covered by the GNU General Public License, and you are<br>welcome to change it and/or distribute copies of it under certain conditions.<br>Type &quot;show copying&quot; to see the conditions.<br>There is absolutely no warranty for GDB.&nbsp;&nbsp;  Type &quot;show warranty&quot; for details.<br>This GDB was configured as &quot;i686-pc-linux-gnu&quot;…<br><br>设置符号文件的搜索路径<br>(gdb) set solib-search-path /home/liangjian/lkm<br><br>执行rmt宏<br>(gdb) rmt<br>breakpoint () at kgdbstub.c:1005<br>1005&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  atomic_set(&amp;kgdb_setting_breakpoint, 0);<br><br>设置断点使得可以调试内核模块的init函数，查内核源码可知，内核是通过module.c文件的第566行(sys_init_module函数中)mod-&gt;init来调用模块的init函数的<br>(gdb) b module.c:566<br>Breakpoint 1 at 0xc011cd83: file module.c, line 566.<br>(gdb) c<br>Continuing.<br>[New Thread 1352]<br>[Switching to Thread 1352]<br><br>这时在target机器上执行insmod orig.o，developer则相应的在断点处被暂停，如下<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>Breakpoint 1, sys_init_module (name_user=0xc03401bc &quot; 01&quot;,<br>mod_user=0x80904d8) at module.c:566<br>566&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   if (mod-&gt;init &amp;&amp; (error = mod-&gt;init()) != 0) {<br><br>使用step命令进入模块的init函数<br>(gdb) step<br>xcspy_init () at orig.c:12<br>12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  printk(&quot;&lt;1&gt;xcspy_init_modulen&quot;);<br>(gdb) n<br>15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  }<br>(gdb)<br><br>说明：<br>调 试内核模块的非init函数相对比较简单，只要先在target上执行insmod orig.o，这时由于模块的符号被加载，可以直接在developer的gdb中对想调试的模块函数设置断点，如bt xcspy_func，后面当xcspy_func被调用时就进入了调试状态。<br>如果想调试内核模块的init函数，由于在执行insmod之前模 块的符号还没有被加载，不能直接对模块的init函数设置断点，所以相对来说要困难一些。可以采用两种变通的方法：1,采用上面介绍的在内核调用模块的 init函数被调用之前的某处插入断点，如bt sys_init_module()或bt module.c:566；2,在developer上让内核处于运行状态，在target上先执行一遍insmod orig.o，这时orig.o的符号已经被加载到内存中，可以直接在developer的gdb中对模块的init函数设置断点，如bt xcspy_init，然后在target上rmmod orig.o，当下次在target上重新加载orig.o时就进入了调试状态，developer在xcspy_init处被暂停。<br><br><br><br><br><br><br>附：参考<br><a href="http://kgdb.linsyssoft.com/" target="_blank">http://kgdb.linsyssoft.com/</a> </p>
 
       
     </div>
-    <div class="article-info article-info-index">
+
+    <div>
       
-      <a href="/2007/04/30/使用kgdb调试linux内核及内核模块/" class="archive-article-date">
-  	<time datetime="2007-04-30T04:15:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-04-30</time>
-</a>
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2007/04/29/Windows-link/" rel="next" title="Windows link">
+                <i class="fa fa-chevron-left"></i> Windows link
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2007/05/03/给MM修电脑的三个步骤/" rel="prev" title="给MM修电脑的三个步骤">
+                给MM修电脑的三个步骤 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
       
       
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/Linux-Debug/">Linux Debug</a>
-	</div>
+    </footer>
+  </article>
 
 
-      <div class="clearfix"></div>
+
+    <div class="post-spread">
+      
     </div>
   </div>
-</article>
 
-  
-<nav id="article-nav">
-  
-    <a href="/2007/05/03/给MM修电脑的三个步骤/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
         
-          给MM修电脑的三个步骤
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/wp-content/uploads/penguin.gif"
+               alt="jfo" />
+          <p class="site-author-name" itemprop="name">jfo</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">596</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/jfojfo" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/jfojfo" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.pickbox.me" title="收藏夹" target="_blank">收藏夹</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://note.pickbox.me" title="网络剪贴板" target="_blank">网络剪贴板</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://iguangba.pickbox.me" title="爱逛吧" target="_blank">爱逛吧</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
         
       </div>
-    </a>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
   
-  
-    <a href="/2007/04/29/Windows-link/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Windows link</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-
-
-<div class="share_jia">
-	<!-- JiaThis Button BEGIN -->
-	<div class="jiathis_style">
-		<span class="jiathis_txt">Share to: &nbsp; </span>
-		<a class="jiathis_button_facebook"></a> 
-	    <a class="jiathis_button_twitter"></a>
-	    <a class="jiathis_button_plus"></a> 
-	    <a class="jiathis_button_tsina"></a>
-		<a class="jiathis_button_cqq"></a>
-		<a class="jiathis_button_douban"></a>
-		<a class="jiathis_button_weixin"></a>
-		<a class="jiathis_button_tumblr"></a>
-    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
-	</div>
-	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
-	<!-- JiaThis Button END -->
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jfo</span>
 </div>
 
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
 
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
 
+        
 
-
-
-
-
-
+        
       </div>
-      <footer id="footer">
-  <div class="outer">
-    <div id="footer-info">
-    	<div class="footer-left">
-    		&copy; 2016 jfo
-    	</div>
-      	<div class="footer-right">
-      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
-      	</div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
     </div>
   </div>
-</footer>
-    </div>
-    <script>
-	var yiliaConfig = {
-		fancybox: true,
-		mathjax: false,
-		animate: true,
-		isHome: false,
-		isPost: true,
-		isArchive: false,
-		isTag: false,
-		isCategory: false,
-		open_in_new: false,
-		root: "/",
-		innerArchive: true
-	}
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
 
-<script src="/./main.js"></script>
 
 
-    
-<div class="tools-col">
-  <ul class="btn-wrap">
-    
-      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
-    
-    
-      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
-    
-    
-      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
-    
-    
-      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
-    
-  </ul>
-  <div class="tools-wrap">
-    
-    	<section class="tools-section tools-section-all chose">
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-tag">
-    			<div class="widget tagcloud" id="js-tagcloud">
-    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
-    			</div>
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-friends">
-  		
-  			<div class="friends-wrap" id="js-friends">
-  			
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
-  	        
-  	        </div>
-  		
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-me">
-  	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
-  	  	
-    	</section>
-    
-  </div>
+
+
+
   
-</div>
 
-    <!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
 
-    <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
 
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
 
-        <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
 
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
 
-            <div class="pswp__top-bar">
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
 
-                <!--  Controls are self-explanatory. Order can be changed. -->
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
 
-                <div class="pswp__counter"></div>
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
 
-                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+  
 
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
 
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
 
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
-                </div>
-            </div>
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
 
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div> 
-            </div>
 
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
 
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
+  
+  
 
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
 
-        </div>
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
 
-    </div>
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
 
-</div>
-  </div>
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
 </body>
 </html>

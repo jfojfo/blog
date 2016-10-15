@@ -1,12 +1,90 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
+<!doctype html>
+
+
+
   
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>编译内核操作流程 ──为新手指南 | jfo planet</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="编译内核操作流程 ──为新手指南作者：北南南北来自：LinuxSir.Org提要： 编译内核主要是通过内核实现某些功能，比如iptables 需要内支持；所有的硬件的支持也是通过内核实现的；本文只是简单的给初学者讲一下编译内核的流程；++++++++++++++++++++++++++++++++++++++++++++++++++++++++++正文++++++++++++++++++++++">
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="jfo, blog" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="编译内核操作流程 ──为新手指南作者：北南南北来自：LinuxSir.Org提要： 编译内核主要是通过内核实现某些功能，比如iptables 需要内支持；所有的硬件的支持也是通过内核实现的；本文只是简单的给初学者讲一下编译内核的流程；++++++++++++++++++++++++++++++++++++++++++++++++++++++++++正文++++++++++++++++++++++">
 <meta property="og:type" content="article">
 <meta property="og:title" content="编译内核操作流程 ──为新手指南">
 <meta property="og:url" content="http://blog.pickbox.me/2006/12/20/编译内核操作流程-──为新手指南/index.html">
@@ -16,366 +94,546 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="编译内核操作流程 ──为新手指南">
 <meta name="twitter:description" content="编译内核操作流程 ──为新手指南作者：北南南北来自：LinuxSir.Org提要： 编译内核主要是通过内核实现某些功能，比如iptables 需要内支持；所有的硬件的支持也是通过内核实现的；本文只是简单的给初学者讲一下编译内核的流程；++++++++++++++++++++++++++++++++++++++++++++++++++++++++++正文++++++++++++++++++++++">
-  
-    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="//favicon.ico">
-  
-  <script src="/style.js"></script>
-  
 
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://blog.pickbox.me/2006/12/20/编译内核操作流程-──为新手指南/"/>
+
+
+  <title> 编译内核操作流程 ──为新手指南 | jfo planet </title>
 </head>
 
-<body>
-  <div id="container">
-    <div class="left-col">
-      <div class="overlay"></div>
-<div class="intrude-less">
-	<header id="header" class="inner">
-		<a href="/" class="profilepic">
-			
-			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
-			
-		</a>
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
 
-		<hgroup>
-		  <h1 class="header-author"><a href="/">jfo</a></h1>
-		</hgroup>
+  
 
-		
-		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
-		
 
-		<nav class="header-menu">
-			<ul>
-			
-				<li><a href="/">主页</a></li>
-	        
-			</ul>
-		</nav>
-		<nav class="header-smart-menu">
-	        
-    		
-    			
-    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
-    			
-    			
-            
-		</nav>
-		<nav class="header-nav">
-			<div class="social">
-				
-					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
-		        
-					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
-		        
-			</div>
-		</nav>
-	</header>		
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">jfo planet</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Hope is the best gift that tomorrow gives.</p>
 </div>
 
-    </div>
-    <div class="mid-col">
-      <nav id="mobile-nav">
-  	<div class="overlay">
-  		<div class="slider-trigger"><i class="icon-list"></i></div>
-  		<h1 class="header-author js-mobile-header hide">jfo</h1>
-  	</div>
-	<div class="intrude-less">
-		<header id="header" class="inner">
-			<div class="profilepic">
-				
-					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
-				
-			</div>
-			<hgroup>
-			  <h1 class="header-author">jfo</h1>
-			</hgroup>
-			
-			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
-			
-			<nav class="header-menu">
-				<ul>
-				
-					<li><a href="/">主页</a></li>
-		        
-				</ul>
-			</nav>
-			<nav class="header-nav">
-				<div class="social">
-					
-						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
-			        
-						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
-			        
-				</div>
-			</nav>
-		</header>				
-	</div>
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
 </nav>
 
-      <div class="body-wrap">
-        <article id="post-编译内核操作流程-──为新手指南" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
     
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
+
   
-    <h1 class="article-title" itemprop="name">
-      编译内核操作流程 ──为新手指南
-    </h1>
   
 
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                编译内核操作流程 ──为新手指南
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2006-12-20T14:26:00+08:00" content="2006-12-20">
+              2006-12-20
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
       
         <p> 编译内核操作流程 ──为新手指南</p><p><strong>作者：</strong>北南南北<br><strong>来自：</strong>LinuxSir.Org<br><strong>提要：</strong> 编译内核主要是通过内核实现某些功能，比如iptables 需要内支持；所有的硬件的支持也是通过内核实现的；本文只是简单的给初学者讲一下编译内核的流程；</p><p><strong><br>++++++++++++++++++++++++++++++++++++++++++++++++++++++++++<br>正文<br>++++++++++++++++++++++++++++++++++++++++++++++++++++++++++<br></strong></p><p><strong><br>一、为什么要编译内核；<br></strong></p><p>有时我们为了实现某些功能，比如对iptables的防火墙有些需要内核支持；还有实现一些硬件的支持等，这时我们需要重编内核；</p><p><strong><br>二、内核源码版本的选择；<br></strong></p><p>如果发行版本提供内核源码，最好还是用发行版本提供的；比如Fedora 4.0 提供了很多版本的内核源码；我们安装好后，他自带的配置文件大多能满足我们的需要，对于新手来说，根据自带的内核的配置文件.config ，我们也能学到一点如何配置内核。也没有什么难的，熟能生巧罢了；</p><p>如果从 kernel.org 下载最新稳定版本的内核也是可以的；</p><p><strong><br>三、内核源码安装或解压；<br></strong></p><p>对于Fedora Core 4.0 来说，内核源码是放在 /usr/src/kernels 目录中；如果通过在线升级内核，也是放在这个目录中；如果您的系统中的 /usr/src/kernels/ 中没有内容，说明您没有安装内核的源码包 kernel-devel 软件包；</p><p>您可以通过软件包管理器来补装 ，请参考 <a href="http://fedora.linuxsir.org/main/?q=node/63" target="_blank" rel="external"> 《Fedora / Redhat 软件包管理指南》</a></p><p>如果您用Fedora Core 4.0 ，我建议您在保留老内核的基础上，在线下载最新版本的内核 kerenl-devel 和对应版本的 kernel 或者从 kernel.org 下载，有时可能新的kerenl 已经解决了您所面对的问题，这时就没有必要编译内核了；</p><p>如果您是通过在线安装的内核源码包 ，比如通过 apt+synaptic 或者yum 安装的，内核源码会被放到/usr/src/kernel 下的目录中，您要进入相对应的目录进行编译；</p><p>在线更新软件包，请参考 <a href="http://fedora.linuxsir.org/main/?q=node/63" target="_blank" rel="external"> 《Fedora / Redhat 软件包管理指南》</a>，推荐 apt+synaptic 工具；</p><p>如果您是是下载kernel 和kernel-devel 的rpm 包，可以通过来安装；</p><code>[root@localhost beinan]# rpm -ivh kernel<em>.rpm</em></code><p>如果您是从kernel.org 下载的类似 linux-2.6.13.tar.bz2 或者 linux-2.6.13.tar.gz的，您要把下载下来的文件移到 /usr/src 目录中解压； 然后进入解压的目录中进行配置和编译；</p><code>[root@localhost beinan]# mv linux-2.6.13.tar.bz2<br>[root@localhost beinan]# cd /usr/src/<br>[root@localhost src]# tar jxvf linux-2.6.12.3.tar.bz2</code><p><strong>提示：</strong>本文以linux-2.6.12.3为例，其实通过发行版的升级版的 kernel-devel 和从kernel.org 下载下来的差不多，大同小异；不同的是通过在线升级的rpm格式的内核源码包，有配置文件.config 可以参考；安装到的目的地是/usr/src/kernel 对FC 4.0来说；如果您要高编译和配置内核，</p><p><strong><br>四、内核的配置；<br></strong></p><p><strong><br>1、进入目录执行 make mrproper ，对于从 kernel.org 下载而来的tar.bz格式的源码包；<br></strong></p><code>[root@localhost src]# cd linux-2.6.12.3/<br>[root@localhost linux-2.6.12.3]#<br>[root@localhost src]# cd linux-2.6.12.3/<br>[root@localhost linux-2.6.12.3]# make mrproper<br>[root@localhost linux-2.6.12.3]# make menuconfig</code><p>对于Fedora Core 4.0 ，如果您是通过在线安装的 kernel和kernel-devel 新版本的包，比如是2.6.12-1.1398_FC4-i686，你可以直进入 /usr/src/kernel/相应的目录中直接执行 make menuconfig ；利用发行版本提供的 .config 来配置，这样方便点。不要make mrproper ，否则.config 就没有了；这也是为什么要用发行版本提供的内核源码升级包的原因；</p><p>其它配置和安装大同小异；模仿总可以吧；</p><p><strong><br>2.简要的配置内核；<br></strong></p><p>进入配置内核的配置模式后，我们可能一无所知，看下面；</p><p>内核配置有两种方法，一种是直接置入内核  ；另一种是编成模块 M ；两种方法各有优点；直接编入内核的，比如设备的启动，不再需要加载模块的这一过程了；而编译成模块，则需要加载设备的内核支持的模块；但直接把所有的东 西都编入内核也不是可行的，内核体积会变大，系统负载也会过重。我们编内核时最好把极为重要的编入内核；其它的如果您不明白的，最好用默认。</p><p><strong><br>1）移动键盘上下左右键，按Enter 进入一个目录。把指针移动到Exit就退出当前目录到上级目录；</strong></p><p><strong>2）针对自己机器存在的问题进行修改，比如大内存的支持；<br></strong><br>选择自己机器的CPU；</p><p>移动键盘到 Processor type and features —&gt; ，然后按ENTER进入；<br>找到   Processor family (Pentium-Pro)  —&gt; 按ENTER进入；</p><p>进入后我们发现有好多CPU的型号可选；一般的情况下要根据<br>bash-3.00# cat /proc/cpuinfo 输出的信息来选，比如我们的是Celeron （P4）一代的，应该选如下的，当然默认的 486也是可以正常运行的，既然我们重编一次内核，就得选中对应型号的，也许性能有所提高呢；</p><code>Processor family (Pentium-4/Celeron(P4-based)/Pentium-4 M/Xeon)</code><br>对大内存支持；如果内存是1G或者1G以上，但小于4G的，就要选4G支持；如果超过4G的，要选64G的支持；<code>High Memory Support (4GB) —&gt;<br>(X) 4GB<br>( ) 64GB</code><p>还有比如声卡等硬件，需要我们一步一步的查看；如果有不明之处，就要按 [shift]+？的组合键来查看说明。一般的情况下，2.6.x的内核会根据机器的情况自动配出一个文件，只需要我们来查看一下，把重要的地方改改就行了；</p><p>再举个例子：比如我现在所用的声卡是intel ac97的，我应该怎么配置呢？</p><p>首先要知道自己的声卡的芯片组，我们要通过lspci -v 来查看；</p><code>[root@localhost beinan]#lspci -v</code><br>只查看声卡的，应该用如下的方法：<br><code>[root@localhost beinan]# lspci -v |grep audio<br>00:1f.5 Multimedia audio controller: Intel Corp. 82801DB (ICH4) AC’97 Audio Controller (rev 03)</code><p>通过上面的输出，我们知道这台机器用的是intel AC97声卡；所以我们要特别注意AC97的配置；</p><code>找到 Device Drivers —&gt; Sound —&gt;<br>&lt;M&gt; Sound card support 声卡的支持，这个是一定要选中的吧；<br>&lt;M&gt; Advanced Linux Sound Architecture 对声卡支持的ALSA驱动的支持；<br>下面有OSS驱动，只是一部份。如果想用OSS的驱动更全的，可以去买；其它的就看如下的选吧；<br>&lt;M&gt; Sequencer support<br>&lt;M&gt; Sequencer dummy client<br>&lt;M&gt; OSS Mixer API<br>&lt;M&gt; OSS PCM (digital audio) API[<em>] OSS Sequencer API<br>&lt;M&gt; RTC Timer support[</em>] Verbose printk<br>[ ] Debug</code><p>大多是默认的就好，如果您不知道是做什么用的，或者怎么用；</p><p>然后我们再向下看有</p><code>Generic devices —&gt; 进入里面<br>&lt;M&gt; Dummy (/dev/null) soundcard<br>&lt;M&gt; Virtual MIDI soundcard<br>&lt;M&gt; MOTU MidiTimePiece AV multiport MIDI<br>&lt;M&gt; UART16550 serial MIDI driver<br>&lt;M&gt; Generic MPU-401 UART driver<br>ISA devices —&gt; 如果您用ISA声卡就在这里面选；<br>PCI devices —&gt; 如果您用PCI声卡，就在这里面选，集成声卡也在这里；<br>USB devices —&gt; 这是USB声卡内核支持选项；我有一个这样的声卡，但没有试过；<br>PCMCIA devices —&gt; 这是PCMCIA声卡的选项，我还没有看过这样的声卡呢；如果您有，就在这里面动动手吧。</code><br>因为我用的是Intel 集成的声卡，所以要在PCI中选择，我们在 中可以看到有两个与INTEL有关的；<br><code>&lt;M&gt; Intel/SiS/nVidia/AMD/ALi AC97 Controller 这个才是Intel AC97声卡的；<br>&lt; &gt; Intel/SiS/nVidia/AMD MC97 Modem (EXPERIMENTAL) 这个是机器集成的INTEL猫的蜂鸣器的；</code><br>因为我发现如果把猫的蜂鸣器的驱动也选上，可能造成两个冲突。所以只能选上面的那个；<p>我们再回到 Open Sound System —&gt; 中看看，与我用的声卡是不是有关的？</p><code>&lt;M&gt; Open Sound System (DEPRECATED)<br>&lt;M&gt; Intel ICH (i8xx) audio support<br>&lt;M&gt; OSS sound modules<br>&lt;M&gt; Loopback MIDI device support<br>&lt;M&gt; Microsoft Sound System support</code><br>我们也可以看到Open Sound System中也有好多的声卡驱动，大家根据前面的lspci -v 来选择吧。<p><strong><br>3）对于操作系统所采用的文件系统的支持要编入内核，最好不要编成模块；（重要）<br></strong></p><p>比如我的Fedora core 4.0 所采用的文件系统用的是ext3 ，所以我要把它直接编入内核；好处是不受模块丢失或者损坏而不能启动系统；而有时您把系统所采用的文件系统编译成模块，出现VFS错误，也有这方面的事， 可能是您没有把ext3加入到相应的加载模块的配置文件中，所以我们为了减少麻烦，把风险降到最低，还是要直接置入内模的好；</p><code>File systems —&gt;<br>&lt;<em>&gt; Ext3 journalling file system support<br>[</em>] Ext3 extended attributes<br>[<em>] Ext3 POSIX Access Control Lists<br>[</em>] Ext3 Security Labels</code><br>如果您还有其它的硬盘分区要读取，比如是reiserfs、ext2、fat、fat32、ntfs等，这样的可以编成模块来支持；<p>再举一例：如果您的的操作系统用的是reiserfs的文件系统，当然就要把reiserfs的直接编入内核，其它的可以编成模块来支持了；</p><p><strong><br>4）对于硬盘及RAID的支持，要直接编入内核；<br></strong><br>比如ATA、SATA、SCSI及RAID的支持直接内核支持；有时编完内核后，启动时不能识别硬盘和RAID，大多事情出在这里；Slackware中 在这方面有的是模块支持，我们可以把它由模块M改成内核*来支持； 如果您不明白，就按默认进行；SATA的硬盘的支持除了选中SATA的支持、IDE设备的支持以外，还要选中SCSI的支持；<br><strong><br>5）对于咱们所没有的设备，可以在内核中不选，熟能生巧罢了；<br></strong><br>比如我没有ISDN设备 ，所以就把ISDN去掉；</p><code>ISDN subsystem —&gt;<br>&lt; &gt; Linux telephony support</code><p>如果您没有1394的设备 ，当然可以把1394的支持也去掉；等等。。。。。。。</p><p>如果您有USB的设备，要把USB方面好好看看；比如大家常用的移动硬盘；USB猫等，还有扫描仪等；</p><p>内核配置就说这么多吧，太多了，我也说不清楚，水平有限啊；</p><p>配置好后先要保存</p><p>Save Configuration to an Alternate File</p><p>出来一个</p><p>Enter a filename to which this configuration ，should be saved as an alternate. Leave blank to abort.<br>.config</p><p>按回车就行了，这样就保存住了；</p><p>然后退出 Exit  ，这时也会出现保存 ；</p><p>如果你想把.config保存起来，可以再复制一份到安全一点的目录，以备后用；<br><strong><br>五、编译内核；<br></strong></p><code>[root@localhost linux-2.6.12.3]# make<br>[root@localhost linux-2.6.12.3]# make modules_install</code><p>这样就编译好了，并把模块也安装在了 /lib/modules目录中了，请看：</p><code>[root@localhost linux-2.6.12.3]# ls /lib/modules/<br>2.6.11-1.1369_FC4   2.6.12.3</code><p><strong><br>六、安装内核及配置grub或lilo ；<br></strong><br><strong><br>1、复制bzImage等相关文件，并创建initrd文件；<br></strong></p><code>[root@localhost linux-2.6.12.3]# cp arch/i386/boot/bzImage /boot/vmlinuz-2.6.12.3<br>[root@localhost linux-2.6.12.3]# cp System.map /boot/System.map-2.6.12.3<br>[root@localhost linux-2.6.12.3]# cd /boot<br>[root@localhost linux-2.6.12.3]# /sbin/mkinitrd initrd-2.6.12.3.img   2.6.12.3</code><p>我们把 编译出来的bzImage，拷入到/boot目录，拷贝成 vmlinuz-2.6.12.3；<br>并且用 mkinitrd 来创建imitrd-xxx.img 文件，其中xxx为内核的版本号，是通过 查看 /lib/modules来版本来对应的，我们是编译出来的是 2.6.12.3，所以就运行上面的命令创建，创建的出来的是initrd-2.6.12.3.img ；不创建这个文件，有时是启动不起来的，比如提示VFS错误等；</p><p><strong><br>2、查看系统引导管理器grub或者lilo的配置文件。<br></strong></p><p>如果想要让新内核能让系统引导管理器grub和lilo的菜单上能看得到，必须改 grub.conf或者lilo.conf，但我们必须保留老内核的在grub和lilo的启动菜单，毕竟我们编内核不能百分百的成功，对不对？？安全第一吧；</p><p>我只说grub的，我没有lilo，也不会用。所以咱们还是GRUB吧，FC 4 系统引导管理器是 GRUB，所以我们谈谈GRUB的设置；</p><p>查看 /etc/grub.conf；</p><p>比如我的grub.conf的内容是这样的；</p><code># grub.conf generated by anaconda<br>#<br># Note that you do not have to rerun grub after making changes to this file<br># NOTICE:  You do not have a /boot partition.  This means that<br>#          all kernel and initrd paths are relative to /, eg.<br>#          root (hd0,7)<br>#          kernel /boot/vmlinuz-version ro root=/dev/hda8<br>#          initrd /boot/initrd-version.img<br>#boot=/dev/hda<br>default=0<br>timeout=5<br>#splashimage=(hd0,7)/boot/grub/splash.xpm.gz<br>#hiddenmenu<br>title Fedora Core (2.6.11-1.1369_FC4)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; root (hd0,7)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; kernel /boot/vmlinuz-2.6.11-1.1369_FC4 ro root=LABEL=/ rhgb quiet<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; initrd /boot/initrd-2.6.11-1.1369_FC4.img<br>title WinXP<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rootnoverify (hd0,0)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; chainloader +1</code><p>我们要把老内核的启动保留下来，以防不测，我们只加入新的内核的启动；所以我加上这样一段；</p><code>title Fedora Core (2.6.12.3)<br>root (hd0,7)<br>kernel /boot/vmlinuz-2.6.12.3 ro root=LABEL=/ rhgb quiet<br>initrd /boot/initrd-2.6.12.3.img</code><p>咱们再来看一下改过后的配置文件；</p><code># grub.conf generated by anaconda<br>#<br># Note that you do not have to rerun grub after making changes to this file<br># NOTICE:  You do not have a /boot partition.  This means that<br>#          all kernel and initrd paths are relative to /, eg.<br>#          root (hd0,7)<br>#          kernel /boot/vmlinuz-version ro root=/dev/hda8<br>#          initrd /boot/initrd-version.img<br>#boot=/dev/hda<br>default=0<br>timeout=5<br>#splashimage=(hd0,7)/boot/grub/splash.xpm.gz<br>#hiddenmenu<br>title Fedora Core (2.6.12.3)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; root (hd0,7)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; kernel /boot/vmlinuz-2.6.12.3 ro root=LABEL=/ rhgb quiet<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; initrd /boot/initrd-2.6.12.3.img <br>title Fedora Core (2.6.11-1.1369_FC4)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; root (hd0,7)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; kernel /boot/vmlinuz-2.6.11-1.1369_FC4 ro root=LABEL=/ rhgb quiet<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; initrd /boot/initrd-2.6.11-1.1369_FC4.img<br>title WinXP<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rootnoverify (hd0,0)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; chainloader +1</code><p>然后重新启动机器，如果出现VFS错误，可能就是我写重要的那个地方出了错误；</p><p><strong>注意：</strong>如果重新启用内核后，原来安装的显示卡驱动，比如 NVIDIA和ATI的驱动还要重新安装；</p><p><strong>后记：</strong></p><p>为写声卡及其其它硬件设备的安装教程做准备，重写此文档；并更正一些错误；</p><p><strong>附录：</strong></p><p>1、<a href="http://fedora.linuxsir.org/main/?q=node/88" target="_blank" rel="external">《内核管理概述》</a><br>2、<a href="http://fedora.linuxsir.org/main/?q=node/63" target="_blank" rel="external"> 《Fedora / Redhat 软件包管理指南》</a><br>3、<a href="http://kernel.org/" target="_blank">内核主站：http://kernel.org</a></p>By beinan at 2005/09/03 - 16:46 | <a href="http://fedora.linuxsir.org/main/?q=taxonomy/term/18" target="_blank" rel="external">Fedora</a> | <a href="http://fedora.linuxsir.org/main/?q=taxonomy/term/17" target="_blank" rel="external">Redhat</a> | <a href="http://fedora.linuxsir.org/main/?q=taxonomy/term/2" target="_blank" rel="external">基础入门</a> | <a href="http://fedora.linuxsir.org/main/?q=comment/reply/66#comment" title="共享你有关本文的思想和意见." target="_blank" rel="external">参与评论</a> | 13549 阅读<br> <p></p>
 
       
     </div>
-    <div class="article-info article-info-index">
+
+    <div>
       
-      <a href="/2006/12/20/编译内核操作流程-──为新手指南/" class="archive-article-date">
-  	<time datetime="2006-12-20T06:26:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2006-12-20</time>
-</a>
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2006/12/19/lxr-Linux-Cross-Reference/" rel="next" title="lxr: Linux Cross-Reference">
+                <i class="fa fa-chevron-left"></i> lxr: Linux Cross-Reference
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2006/12/20/Linux-module-init-tools模块管理概述/" rel="prev" title="Linux module-init-tools模块管理概述">
+                Linux module-init-tools模块管理概述 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
       
       
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/Linux/">Linux</a>
-	</div>
+    </footer>
+  </article>
 
 
-      <div class="clearfix"></div>
+
+    <div class="post-spread">
+      
     </div>
   </div>
-</article>
 
-  
-<nav id="article-nav">
-  
-    <a href="/2006/12/20/Linux-module-init-tools模块管理概述/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
         
-          Linux module-init-tools模块管理概述
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/wp-content/uploads/penguin.gif"
+               alt="jfo" />
+          <p class="site-author-name" itemprop="name">jfo</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">596</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/jfojfo" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/jfojfo" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.pickbox.me" title="收藏夹" target="_blank">收藏夹</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://note.pickbox.me" title="网络剪贴板" target="_blank">网络剪贴板</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://iguangba.pickbox.me" title="爱逛吧" target="_blank">爱逛吧</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
         
       </div>
-    </a>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
   
-  
-    <a href="/2006/12/19/lxr-Linux-Cross-Reference/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">lxr: Linux Cross-Reference</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-
-
-<div class="share_jia">
-	<!-- JiaThis Button BEGIN -->
-	<div class="jiathis_style">
-		<span class="jiathis_txt">Share to: &nbsp; </span>
-		<a class="jiathis_button_facebook"></a> 
-	    <a class="jiathis_button_twitter"></a>
-	    <a class="jiathis_button_plus"></a> 
-	    <a class="jiathis_button_tsina"></a>
-		<a class="jiathis_button_cqq"></a>
-		<a class="jiathis_button_douban"></a>
-		<a class="jiathis_button_weixin"></a>
-		<a class="jiathis_button_tumblr"></a>
-    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
-	</div>
-	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
-	<!-- JiaThis Button END -->
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jfo</span>
 </div>
 
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
 
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
 
+        
 
-
-
-
-
-
+        
       </div>
-      <footer id="footer">
-  <div class="outer">
-    <div id="footer-info">
-    	<div class="footer-left">
-    		&copy; 2016 jfo
-    	</div>
-      	<div class="footer-right">
-      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
-      	</div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
     </div>
   </div>
-</footer>
-    </div>
-    <script>
-	var yiliaConfig = {
-		fancybox: true,
-		mathjax: false,
-		animate: true,
-		isHome: false,
-		isPost: true,
-		isArchive: false,
-		isTag: false,
-		isCategory: false,
-		open_in_new: false,
-		root: "/",
-		innerArchive: true
-	}
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
 
-<script src="/./main.js"></script>
 
 
-    
-<div class="tools-col">
-  <ul class="btn-wrap">
-    
-      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
-    
-    
-      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
-    
-    
-      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
-    
-    
-      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
-    
-  </ul>
-  <div class="tools-wrap">
-    
-    	<section class="tools-section tools-section-all chose">
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-tag">
-    			<div class="widget tagcloud" id="js-tagcloud">
-    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
-    			</div>
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-friends">
-  		
-  			<div class="friends-wrap" id="js-friends">
-  			
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
-  	        
-  	        </div>
-  		
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-me">
-  	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
-  	  	
-    	</section>
-    
-  </div>
+
+
+
   
-</div>
 
-    <!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
 
-    <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
 
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
 
-        <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
 
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
 
-            <div class="pswp__top-bar">
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
 
-                <!--  Controls are self-explanatory. Order can be changed. -->
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
 
-                <div class="pswp__counter"></div>
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
 
-                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+  
 
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
 
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
 
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
-                </div>
-            </div>
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
 
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div> 
-            </div>
 
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
 
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
+  
+  
 
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
 
-        </div>
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
 
-    </div>
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
 
-</div>
-  </div>
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
 </body>
 </html>

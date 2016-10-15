@@ -1,12 +1,90 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
+<!doctype html>
+
+
+
   
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <title>L4Ka：Create disk image(fd,hd) | jfo planet</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="http://l4ka.org/projects/pistachio/ia32/gettingstarted.phpEnvironment Redhat9Linux redhat9 2.4.20-8gcc version 3.2.2 20030222 (Red Hat Linux 3.2.2-5)In fact, this version gcc won’t compile the kernel">
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="jfo, blog" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="http://l4ka.org/projects/pistachio/ia32/gettingstarted.phpEnvironment Redhat9Linux redhat9 2.4.20-8gcc version 3.2.2 20030222 (Red Hat Linux 3.2.2-5)In fact, this version gcc won’t compile the kernel">
 <meta property="og:type" content="article">
 <meta property="og:title" content="L4Ka：Create disk image(fd,hd)">
 <meta property="og:url" content="http://blog.pickbox.me/2008/03/19/L4Ka：Create-disk-image-fd-hd/index.html">
@@ -16,366 +94,546 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="L4Ka：Create disk image(fd,hd)">
 <meta name="twitter:description" content="http://l4ka.org/projects/pistachio/ia32/gettingstarted.phpEnvironment Redhat9Linux redhat9 2.4.20-8gcc version 3.2.2 20030222 (Red Hat Linux 3.2.2-5)In fact, this version gcc won’t compile the kernel">
-  
-    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="//favicon.ico">
-  
-  <script src="/style.js"></script>
-  
 
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://blog.pickbox.me/2008/03/19/L4Ka：Create-disk-image-fd-hd/"/>
+
+
+  <title> L4Ka：Create disk image(fd,hd) | jfo planet </title>
 </head>
 
-<body>
-  <div id="container">
-    <div class="left-col">
-      <div class="overlay"></div>
-<div class="intrude-less">
-	<header id="header" class="inner">
-		<a href="/" class="profilepic">
-			
-			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
-			
-		</a>
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
 
-		<hgroup>
-		  <h1 class="header-author"><a href="/">jfo</a></h1>
-		</hgroup>
+  
 
-		
-		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
-		
 
-		<nav class="header-menu">
-			<ul>
-			
-				<li><a href="/">主页</a></li>
-	        
-			</ul>
-		</nav>
-		<nav class="header-smart-menu">
-	        
-    		
-    			
-    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
-    			
-    			
-            
-    			
-    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
-    			
-    			
-            
-		</nav>
-		<nav class="header-nav">
-			<div class="social">
-				
-					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
-		        
-					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
-		        
-			</div>
-		</nav>
-	</header>		
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">jfo planet</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Hope is the best gift that tomorrow gives.</p>
 </div>
 
-    </div>
-    <div class="mid-col">
-      <nav id="mobile-nav">
-  	<div class="overlay">
-  		<div class="slider-trigger"><i class="icon-list"></i></div>
-  		<h1 class="header-author js-mobile-header hide">jfo</h1>
-  	</div>
-	<div class="intrude-less">
-		<header id="header" class="inner">
-			<div class="profilepic">
-				
-					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
-				
-			</div>
-			<hgroup>
-			  <h1 class="header-author">jfo</h1>
-			</hgroup>
-			
-			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
-			
-			<nav class="header-menu">
-				<ul>
-				
-					<li><a href="/">主页</a></li>
-		        
-				</ul>
-			</nav>
-			<nav class="header-nav">
-				<div class="social">
-					
-						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
-			        
-						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
-			        
-				</div>
-			</nav>
-		</header>				
-	</div>
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
 </nav>
 
-      <div class="body-wrap">
-        <article id="post-L4Ka：Create-disk-image-fd-hd" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
     
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
+
   
-    <h1 class="article-title" itemprop="name">
-      L4Ka：Create disk image(fd,hd)
-    </h1>
   
 
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                L4Ka：Create disk image(fd,hd)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2008-03-19T14:51:00+08:00" content="2008-03-19">
+              2008-03-19
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/l4ka-pistachio-iguana/" itemprop="url" rel="index">
+                    <span itemprop="name">l4ka::pistachio/iguana</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
       
         <p> <a target="_blank" href="http://l4ka.org/projects/pistachio/ia32/gettingstarted.php">http://l4ka.org/projects/pistachio/ia32/gettingstarted.php</a><br><br>Environment Redhat9<br>Linux redhat9 2.4.20-8<br>gcc version 3.2.2 20030222 (Red Hat Linux 3.2.2-5)<br><br>In fact, this version gcc won’t compile the kernel correctly. I compile the kernel &amp; user program <br>(<strong>grabmem kickstart  l4test  pingpong  sigma0  x86-kernel</strong>)<br>in a remote mechine, which has the following environment:<br>Linux 2.6.23-ARCH<br>gcc version 4.2.2<br><br><br>1. Create a floopy disk image<br>a. create a directory &quot;fdsource&quot; in current directory, and copy the following files.<br><strong>[jfo@redhat9 build]$ find fdsource<br>fdsource<br>fdsource/boot<br>fdsource/boot/grub<br>fdsource/boot/grub/stage1<br>fdsource/boot/grub/stage2<br>fdsource/boot/grub/e2fs_stage1_5<br>fdsource/boot/grub/menu.lst<br>fdsource/boot/grabmem<br>fdsource/boot/kickstart<br>fdsource/boot/l4test<br>fdsource/boot/pingpong<br>fdsource/boot/sigma0<br>fdsource/boot/x86-kernel</strong><br><br>note that the grub files stage1, stage2 &amp; e2fs_stage1_5 is copied from grub-0.97, which is built myself.<br><br>b. edit grub conf file &quot;menu.lst&quot;<br><strong>[jfo@redhat9 build]$ cat fdsource/boot/grub/menu.lst<br>root (fd0,0)<br>default=0<br>timeout=3<br>serial –port=0x3f8 –speed=115200<br>terminal –timeout=0 serial<br>title L4Ka::Pistachio<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   kernel /boot/kickstart<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   module /boot/x86-kernel<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   module /boot/sigma0<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   module /boot/pingpong</strong><br><br>note: please change the name of this configuration file to &quot;menu.lst&quot;, &quot;grub.conf&quot; just won’t work!!!<br><br>c. use the following script to generate a floppy disk image<br><strong>[jfo@redhat9 build]$ cat gen_fd_img.sh<br>#!/bin/sh<br># generate floppy disk image<br><br>FD=a.img<br>GRUB=/opt/grub/sbin/grub&nbsp;&nbsp;    &nbsp;&nbsp;    # install grub-0.9.7 in this directory<br>rm $FD<br>dd if=/dev/zero of=$FD bs=512 count=2880<br>mke2fs $FD<br>echo &quot;######################################&quot;<br>echo -e &quot;tmke2fs successfull!&quot;<br>echo &quot;######################################&quot;<br>echo <br><br>TMPDIR=<strong>_tmp<br>rm -rf $TMPDIR<br>mkdir $TMPDIR<br>sudo mount $FD $TMPDIR -o loop<br>sudo chmod 777 $TMPDIR<br>cp -a fdsource/<em> $TMPDIR<br>sudo umount $TMPDIR<br>rmdir $TMPDIR<br><br>cat &lt;&lt;EOF | $GRUB –batch –device-map=/dev/null<br>device (fd0) $FD<br>root (fd0)<br>setup (fd0)<br>quit<br>EOF<br></em></strong><br>d. run you floppy image<br><strong>[jfo@redhat9 build]$ $QEMU/qemu -nographic -fda a.img</strong><br><br>of course you can also run it using bochs<br><br>2. Create a hard disk image<br>a. prepare a hd image<br>the hard disk image’s geometry is:<br>cylinders=16, heads=16, spt=63, total 16128 sectors, 8257536 bytes ~= 8M<br><strong>[jfo@redhat9 build]$ dd if=/dev/zero of=c.img bs=512 count=16128</strong><br><br>In fact you can also use bochs’s tool bximage.exe to create a hd image, just set the image size to 8M, <br>and it will produce exactly the same result.<br>Both c.img will contain all `0’s, which can be verified in ultraEdit or od.<br><br>b. make partiton<br>bochs-2.3.6 contains a linux image &quot;dlxlinux&quot;<br>edit its configuration file bochsrc.bxrc, add the following line&quot;<br><strong>ata0-slave: type=disk, path=&quot;c.img&quot;, mode=flat, cylinders=16, heads=16, spt=63<br><br></strong>run dlxlinux, <br><strong>dlx:~# fdisk -l<br><br>Disk /dev/hda: 4 heads, 17 sectors, 306 cylinders<br>Units = cylinders of 68  512 bytes<br><br>&nbsp;&nbsp;   Device Boot  Begin&nbsp;&nbsp;   Start&nbsp;&nbsp;&nbsp;&nbsp;   End  Blocks&nbsp;&nbsp;   Id  System<br>/dev/hda1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   1&nbsp;&nbsp;&nbsp;&nbsp;   306&nbsp;&nbsp;   10395+  83  Linux native<br><br>Disk /dev/hdb: 16 heads, 63 sectors, 16 cylinders&nbsp;&nbsp;    &nbsp;&nbsp;    &nbsp;&nbsp;    &nbsp;&nbsp;    </strong><em>// this is recognized because we configured it in bochsrc.bxrc</em><strong><br>Units = cylinders of 1008 <em> 512 bytes<br><br>&nbsp;&nbsp;   Device Boot  Begin&nbsp;&nbsp;   Start&nbsp;&nbsp;&nbsp;&nbsp;   End  Blocks&nbsp;&nbsp;   Id  System</em></strong><br><br>there will be a new device /dev/hdb.<br>now it’s time to create patitions on /dev/hdb using fdisk<br><strong>dlx:~# fdisk /dev/hdb<br>Warning: invalid flag 0000 of partition table 4 will be corrected by w(rite)<br><br>Command (m for help): p<br><br>Disk /dev/hdb: 16 heads, 63 sectors, 16 cylinders<br>Units = cylinders of 1008  512 bytes<br><br>&nbsp;&nbsp;   Device Boot  Begin&nbsp;&nbsp;   Start&nbsp;&nbsp;&nbsp;&nbsp;   End  Blocks&nbsp;&nbsp;   Id  System<br><br>Command (m for help): n<br>Command action<br>&nbsp;&nbsp;   e&nbsp;&nbsp;   extended<br>&nbsp;&nbsp;   p&nbsp;&nbsp;   primary partition (1-4)<br>p<br>Partition number (1-4): 1<br>First cylinder (1-16): 1<br>Last cylinder or +size or +sizeM or +sizeK (1-16): 16<br><br>Command (m for help): p<br><br>Disk /dev/hdb: 16 heads, 63 sectors, 16 cylinders<br>Units = cylinders of 1008 <em> 512 bytes<br><br>&nbsp;&nbsp;   Device Boot  Begin&nbsp;&nbsp;   Start&nbsp;&nbsp;&nbsp;&nbsp;   End  Blocks&nbsp;&nbsp;   Id  System<br>/dev/hdb1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   16&nbsp;&nbsp;&nbsp;   8032+  83  Linux native<br><br>Command (m for help): w<br>The partition table has been altered!<br><br>Calling ioctl() to re-read partition table.<br>(Reboot to ensure the partition table has been updated.)<br>hdb: hdb1<br>Syncing disks.<br><br>WARNING: If you have created or modified any DOS 6.x<br>partitions, please see the fdisk manual page for additional<br>information.<br>dlx:~#<br></em></strong><br>Ok, you have made the partition table. Now you can mke2fs /dev/hdb1 under dlxlinux<br><strong>dlx:~# mke2fs /dev/hdb1<br><br></strong>go back to linux and verify c.img<br><br><strong>[jfo@redhat9 build]$ fdisk c.img<br>You must set cylinders.<br>You can do this from the extra functions menu.<br><br>Command (m for help): p<br><br>Disk c.img: 0 MB, 0 bytes<br>16 heads, 63 sectors/track, 0 cylinders&nbsp;&nbsp;    &nbsp;&nbsp;    &nbsp;&nbsp;    &nbsp;&nbsp;   // </strong><em>this is a little bit of error, since c.img is a regular file, not a block divece</em><strong><br>Units = cylinders of 1008  512 = 516096 bytes<br><br>Device Boot&nbsp;&nbsp;&nbsp;   Start&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   End&nbsp;&nbsp;&nbsp;   Blocks&nbsp;&nbsp;   Id  System<br>c.img1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   8032+  83  Linux<br><br>Command (m for help): q</strong><br><br><br>c. like fdsource, prepare for hdsource<br><strong>[jfo@redhat9 build]$ find hdsource/<br>hdsource/<br>hdsource/boot<br>hdsource/boot/grub<br>hdsource/boot/grub/stage1<br>hdsource/boot/grub/stage2<br>hdsource/boot/grub/e2fs_stage1_5<br>hdsource/boot/grub/menu.lst<br>hdsource/boot/grabmem<br>hdsource/boot/kickstart<br>hdsource/boot/l4test<br>hdsource/boot/pingpong<br>hdsource/boot/sigma0<br>hdsource/boot/x86-kernel</strong><br><br><strong>[jfo@redhat9 build]$ cat hdsource/boot/grub/menu.lst<br>root (hd0,0)<br>default=0<br>timeout=3<br>serial –port=0x3f8 –speed=115200<br>terminal –timeout=0 serial<br>title L4Ka::Pistachio<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   kernel /boot/kickstart<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   module /boot/x86-kernel<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   module /boot/sigma0<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   module /boot/pingpong<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   module /boot/l4test<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   module /boot/grabmem</strong><br><br>d. generate hd disk image using script &quot;gen_hd_img.sh&quot;<br><strong>#!/bin/sh<br># gen_hd<em>img.sh<br><br>HD=c.img<br>GRUB=/opt/grub/sbin/grub<br>#rm $HD<br>#dd if=/dev/zero of=$HD bs=512 count=32256<br>#mke2fs $HD<br>#echo &quot;######################################&quot;<br>#echo -e &quot;tmke2fs successfull!&quot;<br>#echo &quot;######################################&quot;<br>#echo <br><br>TMPDIR=</em></strong>tmp<br>rm -rf $TMPDIR<br>mkdir $TMPDIR<br>sudo losetup /dev/loop0 $HD -o 32256<br>sudo mount /dev/loop0 $TMPDIR<br>sudo chmod 777 $TMPDIR<br>sudo rm -rf $TMPDIR/<em><br>cp -a hdsource/</em> $TMPDIR<br>sudo umount $TMPDIR<br>rmdir $TMPDIR<br>sudo losetup -d /dev/loop0<br><br>cat &lt;&lt;EOF | $GRUB –batch –device-map=/dev/null<br>device (hd0) $HD<br>root (hd0,0)<br>setup (hd0)<br>quit<br>EOF<br></strong><br>There is an alternative way that is much easier, just run the following script: <br><strong>#!/bin/sh<br># gen_hd_img_fromscratch.sh<br><br>HD=c.img<br>GRUB=/opt/grub/sbin/grub<br>rm $HD<br>dd if=/dev/zero of=$HD bs=512 count=16128<br><br>cat &lt;&lt; EOF | fdisk -C16 -H16 $HD<br>n<br>p<br>1<br>1<br>16<br>w<br>EOF<br><br>sudo losetup /dev/loop0 $HD -o 32256<br>sudo mke2fs /dev/loop0<br>sudo losetup -d /dev/loop0<br>echo &quot;######################################&quot;<br>echo -e &quot;tmke2fs successfull!&quot;<br>echo &quot;######################################&quot;<br>echo <br><br>TMPDIR=___tmp<br>rm -rf $TMPDIR<br>mkdir $TMPDIR<br>sudo losetup /dev/loop0 $HD -o 32256<br>sudo mount /dev/loop0 $TMPDIR<br>sudo chmod 777 $TMPDIR<br>sudo rm -rf $TMPDIR/<em><br>cp -a hdsource/</em> $TMPDIR<br>sudo umount $TMPDIR<br>rmdir $TMPDIR<br>sudo losetup -d /dev/loop0<br><br>cat &lt;&lt;EOF | $GRUB –batch –device-map=/dev/null<br>device (hd0) $HD<br>root (hd0,0)<br>setup (hd0)<br>quit<br>EOF</strong><br><br><br>when the script runs to the command fdisk, do as follows:<br><strong>Device contains neither a valid DOS partition table, nor Sun, SGI or OSF disklab<br>el<br>Building a new DOS disklabel. Changes will remain in memory only,<br>until you decide to write them. After that, of course, the previous<br>content won’t be recoverable.<br><br>You must set cylinders.<br>You can do this from the extra functions menu.<br>Warning: invalid flag 0x0000 of partition table 4 will be corrected by w(rite)<br><br><br>Command (m for help): n<br>Command action<br>&nbsp;&nbsp;   e&nbsp;&nbsp;   extended<br>&nbsp;&nbsp;   p&nbsp;&nbsp;   primary partition (1-4)<br>p<br>Partition number (1-4): 1<br>First cylinder (1-16, default 1): 1<br>Last cylinder or +size or +sizeM or +sizeK (1-16, default 16): 16<br><br>Command (m for help): p<br><br>Disk c.img: 0 MB, 0 bytes<br>16 heads, 63 sectors/track, 16 cylinders<br>Units = cylinders of 1008 * 512 = 516096 bytes<br><br>Device Boot&nbsp;&nbsp;&nbsp;   Start&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   End&nbsp;&nbsp;&nbsp;   Blocks&nbsp;&nbsp;   Id  System<br>c.img1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   8032+  83  Linux<br><br>Command (m for help): w<br>The partition table has been altered!<br><br>Calling ioctl() to re-read partition table.<br><br>WARNING: Re-reading the partition table failed with error 25: Inappropriate ioct<br>l for device.<br>The kernel still uses the old table.<br>The new table will be used at the next reboot.<br>Syncing disks.</strong><br><br><br><strong>[jfo@redhat9 build]$ </strong>qemu -nographic -hda c.img<br><br> </p>
 
       
     </div>
-    <div class="article-info article-info-index">
+
+    <div>
       
-      <a href="/2008/03/19/L4Ka：Create-disk-image-fd-hd/" class="archive-article-date">
-  	<time datetime="2008-03-19T06:51:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-03-19</time>
-</a>
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2008/03/15/genemit/" rel="next" title="genemit">
+                <i class="fa fa-chevron-left"></i> genemit
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2008/03/20/Adding-custom-instructions-for-gcc-gas/" rel="prev" title="Adding custom instructions for gcc & gas">
+                Adding custom instructions for gcc & gas <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
       
       
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a>
-	</div>
+    </footer>
+  </article>
 
 
-      <div class="clearfix"></div>
+
+    <div class="post-spread">
+      
     </div>
   </div>
-</article>
 
-  
-<nav id="article-nav">
-  
-    <a href="/2008/03/20/Adding-custom-instructions-for-gcc-gas/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
         
-          Adding custom instructions for gcc &amp; gas
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/wp-content/uploads/penguin.gif"
+               alt="jfo" />
+          <p class="site-author-name" itemprop="name">jfo</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">596</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/jfojfo" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/jfojfo" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.pickbox.me" title="收藏夹" target="_blank">收藏夹</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://note.pickbox.me" title="网络剪贴板" target="_blank">网络剪贴板</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://iguangba.pickbox.me" title="爱逛吧" target="_blank">爱逛吧</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
         
       </div>
-    </a>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
   
-  
-    <a href="/2008/03/15/genemit/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">genemit</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-
-
-<div class="share_jia">
-	<!-- JiaThis Button BEGIN -->
-	<div class="jiathis_style">
-		<span class="jiathis_txt">Share to: &nbsp; </span>
-		<a class="jiathis_button_facebook"></a> 
-	    <a class="jiathis_button_twitter"></a>
-	    <a class="jiathis_button_plus"></a> 
-	    <a class="jiathis_button_tsina"></a>
-		<a class="jiathis_button_cqq"></a>
-		<a class="jiathis_button_douban"></a>
-		<a class="jiathis_button_weixin"></a>
-		<a class="jiathis_button_tumblr"></a>
-    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
-	</div>
-	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
-	<!-- JiaThis Button END -->
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jfo</span>
 </div>
 
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
 
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
 
+        
 
-
-
-
-
-
+        
       </div>
-      <footer id="footer">
-  <div class="outer">
-    <div id="footer-info">
-    	<div class="footer-left">
-    		&copy; 2016 jfo
-    	</div>
-      	<div class="footer-right">
-      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
-      	</div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
     </div>
   </div>
-</footer>
-    </div>
-    <script>
-	var yiliaConfig = {
-		fancybox: true,
-		mathjax: false,
-		animate: true,
-		isHome: false,
-		isPost: true,
-		isArchive: false,
-		isTag: false,
-		isCategory: false,
-		open_in_new: false,
-		root: "/",
-		innerArchive: true
-	}
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
 </script>
 
-<script src="/./main.js"></script>
 
 
-    
-<div class="tools-col">
-  <ul class="btn-wrap">
-    
-      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
-    
-    
-      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
-    
-    
-      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
-    
-    
-      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
-    
-  </ul>
-  <div class="tools-wrap">
-    
-    	<section class="tools-section tools-section-all chose">
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-tag">
-    			<div class="widget tagcloud" id="js-tagcloud">
-    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
-    			</div>
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-friends">
-  		
-  			<div class="friends-wrap" id="js-friends">
-  			
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
-  	        
-  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
-  	        
-  	        </div>
-  		
-    	</section>
-    
 
-    
-    	<section class="tools-section tools-section-me">
-  	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
-  	  	
-    	</section>
-    
-  </div>
+
+
+
   
-</div>
 
-    <!-- Root element of PhotoSwipe. Must have class pswp. -->
-<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
 
-    <!-- Background of PhotoSwipe. 
-         It's a separate element as animating opacity is faster than rgba(). -->
-    <div class="pswp__bg"></div>
 
-    <!-- Slides wrapper with overflow:hidden. -->
-    <div class="pswp__scroll-wrap">
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
 
-        <!-- Container that holds slides. 
-            PhotoSwipe keeps only 3 of them in the DOM to save memory.
-            Don't modify these 3 pswp__item elements, data is added later on. -->
-        <div class="pswp__container">
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-            <div class="pswp__item"></div>
-        </div>
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
 
-        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
-        <div class="pswp__ui pswp__ui--hidden">
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
 
-            <div class="pswp__top-bar">
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
 
-                <!--  Controls are self-explanatory. Order can be changed. -->
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
 
-                <div class="pswp__counter"></div>
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
 
-                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
 
-                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+  
 
-                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
 
-                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
 
-                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
-                <!-- element will get class pswp__preloader--active when preloader is running -->
-                <div class="pswp__preloader">
-                    <div class="pswp__preloader__icn">
-                      <div class="pswp__preloader__cut">
-                        <div class="pswp__preloader__donut"></div>
-                      </div>
-                    </div>
-                </div>
-            </div>
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
 
-            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                <div class="pswp__share-tooltip"></div> 
-            </div>
 
-            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
-            </button>
 
-            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
-            </button>
+  
+  
 
-            <div class="pswp__caption">
-                <div class="pswp__caption__center"></div>
-            </div>
 
-        </div>
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
 
-    </div>
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
 
-</div>
-  </div>
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+
+  
+
+  
+
+  
+
 </body>
 </html>
