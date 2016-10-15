@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>【zz】C++拷贝构造函数的几个细节 | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="C++拷贝构造函数的几个细节(转自：http://grantren.javaeye.com/blog/43289)拷贝构造函数是C++最基础的概念之一，大家自认为对拷贝构造函数了解么？请大家先回答一下三个问题:1. 以下函数哪个是拷贝构造函数,为什么? X::X(const X&amp;amp;); &amp;nbsp;&amp;nbsp; X::X(X); &amp;nbsp;&amp;nbsp; X::X(X&amp;amp;, int">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【zz】C++拷贝构造函数的几个细节">
+<meta property="og:url" content="http://blog.pickbox.me/2008/04/02/【zz】C-拷贝构造函数的几个细节/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="C++拷贝构造函数的几个细节(转自：http://grantren.javaeye.com/blog/43289)拷贝构造函数是C++最基础的概念之一，大家自认为对拷贝构造函数了解么？请大家先回答一下三个问题:1. 以下函数哪个是拷贝构造函数,为什么? X::X(const X&amp;amp;); &amp;nbsp;&amp;nbsp; X::X(X); &amp;nbsp;&amp;nbsp; X::X(X&amp;amp;, int">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【zz】C++拷贝构造函数的几个细节">
+<meta name="twitter:description" content="C++拷贝构造函数的几个细节(转自：http://grantren.javaeye.com/blog/43289)拷贝构造函数是C++最基础的概念之一，大家自认为对拷贝构造函数了解么？请大家先回答一下三个问题:1. 以下函数哪个是拷贝构造函数,为什么? X::X(const X&amp;amp;); &amp;nbsp;&amp;nbsp; X::X(X); &amp;nbsp;&amp;nbsp; X::X(X&amp;amp;, int">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-【zz】C-拷贝构造函数的几个细节" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      【zz】C++拷贝构造函数的几个细节
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> C++拷贝构造函数的几个细节(转自：<a href="http://grantren.javaeye.com/blog/43289" target="_blank">http://grantren.javaeye.com/blog/43289</a>)</p><p>拷贝构造函数是C++最基础的概念之一，大家自认为对拷贝构造函数了解么？请大家先回答一下三个问题:</p><p><strong>1.</strong> 以下函数哪个是拷贝构造函数,为什么?</p><ol> <li>X::X(const X&amp;); &nbsp;&nbsp;</li> <li>X::X(X); &nbsp;&nbsp;</li> <li>X::X(X&amp;, int a=1); &nbsp;&nbsp;</li> <li>X::X(X&amp;, int a=1, b=2);&nbsp;&nbsp;</li></ol><p> <strong>2.</strong> 一个类中可以存在多于一个的拷贝构造函数吗?</p><p><strong>3.</strong> 写出以下程序段的输出结果, 并说明为什么?<strong> </strong>如果你都能回答无误的话，那么你已经对拷贝构造函数有了相当的了解。</p><ol> <li>#include  &nbsp;&nbsp;</li> <li>#include  &nbsp;&nbsp;</li> <li>&nbsp;&nbsp;</li> <li>struct X { &nbsp;&nbsp;</li> <li>&nbsp;&nbsp;template&lt;typename T&gt; &nbsp;&nbsp;</li> <li>&nbsp;&nbsp; X( T&amp; ) { std::cout &lt;&lt; &quot;This is ctor.&quot; &lt;&lt; std::endl; } &nbsp;&nbsp;</li> <li>&nbsp;&nbsp;</li> <li>&nbsp;&nbsp;template&lt;typename T&gt; &nbsp;&nbsp;</li> <li>&nbsp;&nbsp;&nbsp;&nbsp; X&amp; operator=( T&amp; ) { std::cout &lt;&lt; &quot;This is ctor.&quot; &lt;&lt; std::endl; } &nbsp;&nbsp;</li> <li>}; &nbsp;&nbsp;</li> <li>&nbsp;&nbsp;</li> <li>void main() { &nbsp;&nbsp;</li> <li>&nbsp;&nbsp; X a(5); &nbsp;&nbsp;</li> <li>&nbsp;&nbsp; X b(10.5); &nbsp;&nbsp;</li> <li>&nbsp;&nbsp; X c = a; &nbsp;&nbsp;</li> <li>&nbsp;&nbsp;c = b; &nbsp;&nbsp;</li> <li>}&nbsp;&nbsp;</li></ol><p> </p><p><strong>解答如下：</strong></p><p><strong>1. </strong>对于一个类X,如果一个构造函数的第一个参数是下列之一:<br>a) X&amp;<br>b) const X&amp;<br>c) volatile X&amp;<br>d) const volatile X&amp;<br>且没有其他参数或其他参数都有默认值,那么这个函数是拷贝构造函数. </p><ol> <li><strong>X::X(const X&amp;);&nbsp;&nbsp;//是拷贝构造函数 &nbsp;&nbsp; </strong></li> <li><strong>X::X(X&amp;, int=1); //是拷贝构造函数&nbsp;&nbsp; </strong></li></ol><p> 2.类中可以存在超过一个拷贝构造函数, </p><ol> <li>class<strong> X {&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;</strong><strong> </strong></li> <li>public<strong>:&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp; </strong></li> <li><strong>&nbsp;&nbsp; X(const X&amp;);&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp; </strong></li> <li><strong>&nbsp;&nbsp; X(X&amp;);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// OK &nbsp;&nbsp; </strong></li> <li><strong>};&nbsp;&nbsp; </strong></li></ol><p>注意,如果一个类中只存在一个参数为X&amp;的拷贝构造函数,那么就不能使用const X或volatile X的对象实行拷贝初始化.</p><ol> <li>class<strong> X { &nbsp;&nbsp;</strong><strong> </strong></li> <li>public<strong>: &nbsp;&nbsp; </strong></li> <li><strong>&nbsp;&nbsp; X(); &nbsp;&nbsp; </strong></li> <li><strong>&nbsp;&nbsp; X(X&amp;); &nbsp;&nbsp; </strong></li> <li><strong>}; &nbsp;&nbsp; </strong></li> <li><strong>  &nbsp;&nbsp; </strong></li> <li>const<strong> X cx; &nbsp;&nbsp; </strong></li> <li><strong>X x = cx;&nbsp;&nbsp;&nbsp;&nbsp;// error &nbsp;&nbsp; </strong></li></ol><p>如果一个类中没有定义拷贝构造函数,那么编译器会自动产生一个默认的拷贝构造函数.<br>这个默认的参数可能为X::X(const X&amp;)或X::X(X&amp;),由编译器根据上下文决定选择哪一个.</p><p>默认拷贝构造函数的行为如下:<br> 默认的拷贝构造函数执行的顺序与其他用户定义的构造函数相同,执行先父类后子类的构造.<br> 拷贝构造函数对类中每一个数据成员执行成员拷贝(memberwise Copy)的动作.<br> a)如果数据成员为某一个类的实例,那么调用此类的拷贝构造函数.<br> b)如果数据成员是一个数组,对数组的每一个执行按位拷贝. <br> c)如果数据成员是一个数量,如int,double,那么调用系统内建的赋值运算符对其进行赋值.</p><p><strong> </strong></p><p><strong>3.</strong>  拷贝构造函数不能由成员函数模版生成. </p><ol> <li>struct<strong> X { &nbsp;&nbsp;</strong><strong> </strong></li> <li><strong>&nbsp;&nbsp;&nbsp;&nbsp;template&lt;typename T&gt; &nbsp;&nbsp; </strong></li> <li><strong>&nbsp;&nbsp;&nbsp;&nbsp; X( const T&amp; );&nbsp;&nbsp;&nbsp;&nbsp;// NOT copy ctor, T can’t be X &nbsp;&nbsp; </strong></li> <li><strong>&nbsp;&nbsp; </strong></li> <li><strong>&nbsp;&nbsp;&nbsp;&nbsp;template&lt;typename T&gt; &nbsp;&nbsp; </strong></li> <li><strong>&nbsp;&nbsp;&nbsp;&nbsp; operator=( const T&amp; );&nbsp;&nbsp;// NOT copy ass’t, T can’t be X &nbsp;&nbsp; </strong></li> <li><strong>}; &nbsp;&nbsp; </strong></li> <li><strong>&nbsp;&nbsp; </strong></li></ol><p>原因很简单, 成员函数模版并不改变语言的规则,而语言的规则说,如果程序需要一个拷贝构造函数而你没有声明它,那么编译器会为你自动生成一个. 所以成员函数模版并不会阻止编译器生成拷贝构造函数, 赋值运算符重载也遵循同样的规则.(参见Effective C++ 3edition, Item45)</p> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/04/02/【zz】C-拷贝构造函数的几个细节/" class="archive-article-date">
+  	<time datetime="2008-04-02T07:18:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-04-02</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2008/04/02/DLL转移（file-exe-local文件）/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          DLL转移（file.exe.local文件）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2008/04/01/3rd-签名Sign软件订做贴和Sign软件教程/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">3rd 签名Sign软件订做贴和Sign软件教程</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

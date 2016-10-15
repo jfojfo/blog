@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>IPC programming ：message queues | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="http://hi.baidu.com/j%5Ffo/blog/item/95f3f424c721aa328744f9b0.html/ Message queue control operation.  /int msgctl (int msqid, int cmd, struct msqid_ds __buf);/ Get messages queue.  /int msgget (key_t">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IPC programming ：message queues">
+<meta property="og:url" content="http://blog.pickbox.me/2008/03/05/IPC-programming-：message-queues/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="http://hi.baidu.com/j%5Ffo/blog/item/95f3f424c721aa328744f9b0.html/ Message queue control operation.  /int msgctl (int msqid, int cmd, struct msqid_ds __buf);/ Get messages queue.  /int msgget (key_t">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="IPC programming ：message queues">
+<meta name="twitter:description" content="http://hi.baidu.com/j%5Ffo/blog/item/95f3f424c721aa328744f9b0.html/ Message queue control operation.  /int msgctl (int msqid, int cmd, struct msqid_ds __buf);/ Get messages queue.  /int msgget (key_t">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-IPC-programming-：message-queues" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      IPC programming ：message queues
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <a href="http://hi.baidu.com/j%5Ffo/blog/item/95f3f424c721aa328744f9b0.html" target="_blank">http://hi.baidu.com/j%5Ffo/blog/item/95f3f424c721aa328744f9b0.html</a><br><br>/<em> Message queue control operation.  </em>/<br>int msgctl (int <strong>msqid, int </strong>cmd, struct msqid_ds <em>__buf);<br><br>/</em> Get messages queue.  <em>/<br>int msgget (key_t <strong>key, int </strong>msgflg);<br><br>/</em> Receive message from message queue.  <em>/<br>int msgrcv (int __msqid, void </em><strong>msgp, size_t </strong>msgsz, long int <strong>msgtyp, int </strong>msgflg);<br><br>/<em> Send message to message queue.  </em>/<br>int msgsnd (int <strong>msqid, </strong>const void <em><strong>msgp, size_t </strong>msgsz, int __msgflg);<br><br><br>ipcs<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   -t&nbsp;&nbsp;&nbsp;&nbsp;   time<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   -p&nbsp;&nbsp;&nbsp;&nbsp;   pid<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   -c&nbsp;&nbsp;&nbsp;&nbsp;   creator<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   -l&nbsp;&nbsp;&nbsp;&nbsp;   limits<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   -u&nbsp;&nbsp;&nbsp;&nbsp;   summary<br>&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;    -i&nbsp;&nbsp;    &nbsp;&nbsp;   id<br><br>ipcrm<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   -M shmkey<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   removes the shared memory segment created with shmkey after  the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   last detach is performed.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   -m shmid<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   removes  the shared memory segment identified by shmid after the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   last detach is performed.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   -Q msgkey<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   removes the message queue created with msgkey.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   -q msgid<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   removes the message queue identified by msgid.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   -S semkey<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   removes the semaphore created with semkey.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   -s semid<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   removes the semaphore identified by semid.<br><br><br> <hr><br><br>/</em><br><em> private-queue-hello-world.c - a &quot;hello world&quot; example in which a single<br></em> process creates a message queue and sends<br><em> itself a &quot;hello world&quot; message via this queue.<br></em>/<br>#include &lt;stdio.h&gt;<br>#include &lt;sys/types.h&gt;<br>#include &lt;sys/ipc.h&gt;<br>#include &lt;sys/msg.h&gt;<br>int main(int argc, char<em> argv[])<br>{<br>&nbsp;&nbsp;&nbsp;      /</em><br>&nbsp;&nbsp;&nbsp;      Creating A Message Queue - msgget()<br>&nbsp;&nbsp;&nbsp;      In order to use a message queue, it has to be created first. The msgget() system call is used to do just that. This system call accepts two parameters - a queue key, and flags. The key may be one of:<br>&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      1. IPC_PRIVATE (0) - used to create a private message queue.<br>&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      2. a positive integer - used to create (or access) a publicly-accessible message queue.<br>&nbsp;&nbsp;&nbsp;      The second parameter contains flags that control how the system call is to be processed. It may contain flags like IPC_CREAT or IPC_EXCL, which behave similar to O_CREAT and O_EXCL in the open() system call.<br>&nbsp;&nbsp;&nbsp;      <em>/<br>&nbsp;&nbsp;        /</em> create a private message queue, with access only to the owner. <em>/<br>&nbsp;&nbsp;        int queue_id = msgget(IPC_PRIVATE, 0600);<br><br>&nbsp;&nbsp;&nbsp;       /</em><br>&nbsp;&nbsp;&nbsp;       struct msgbuf {<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       long mtype; / <em> message type, a positive number (cannot be zero). </em> /<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       char mtext[1]; / <em> message body array. usually larger then one byte. </em> /<br>&nbsp;&nbsp;&nbsp;       };<br>&nbsp;&nbsp;&nbsp;       <em>/<br>&nbsp;&nbsp;&nbsp;       struct msgbuf</em> msg;<br>&nbsp;&nbsp;        struct msgbuf<em> recv_msg;<br>&nbsp;&nbsp;        int rc;<br>&nbsp;&nbsp;        if (queue_id == -1) {<br>&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;        perror(&quot;main: msgget&quot;);<br>&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;        exit(1);<br>&nbsp;&nbsp;        }<br>&nbsp;&nbsp;        printf(&quot;message queue created, queue id ‘%d’.n&quot;, queue_id);<br>&nbsp;&nbsp;        msg = (struct msgbuf</em>)malloc(sizeof(struct msgbuf)+strlen(&quot;hello world&quot;));<br><br>&nbsp;&nbsp;&nbsp;       /<em> set the message type. for example - set it to ‘1’. </em>/<br>&nbsp;&nbsp;        msg-&gt;mtype = 1;<br>&nbsp;&nbsp;        strcpy(msg-&gt;mtext, &quot;hello world&quot;);<br>&nbsp;&nbsp;&nbsp;       /<em><br>&nbsp;&nbsp;&nbsp;       Writing Messages Onto A Queue - msgsnd()<br>&nbsp;&nbsp;&nbsp;       Once we created the message queue, and a message structure, we can place it on the message queue, using the<br>&nbsp;&nbsp;&nbsp;       msgsnd() system call. This system call copies our message structure and places that as the last message on the queue.<br>&nbsp;&nbsp;&nbsp;       It takes the following parameters:<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       1. int msqid  - id of message queue, as returned from the msgget() call.<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       2. struct msgbuf</em> msg - a pointer to a properly initializes message structure, such as the one we prepared in<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       the previous section.<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       3. int msgsz - the size of the data part (mtext) of the message, in bytes.<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       4. int msgflg - flags specifying how to send the message. may be a logical &quot;or&quot; of the following:<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       IPC_NOWAIT - if the message cannot be sent immediately, without blocking the process, return ‘-1’, and<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       set errno to EAGAIN.<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       to set no flags, use the value ‘0’.<br>&nbsp;&nbsp;&nbsp;       <em>/<br>&nbsp;&nbsp;        rc = msgsnd(queue_id, msg, strlen(msg-&gt;mtext)+1, 0);<br>&nbsp;&nbsp;        if (rc == -1) {<br>&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;        perror(&quot;main: msgsnd&quot;);<br>&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;        exit(1);<br>&nbsp;&nbsp;        }<br>&nbsp;&nbsp;        free(msg);<br>&nbsp;&nbsp;        printf(&quot;message placed on the queue successfully.n&quot;);<br><br>&nbsp;&nbsp;&nbsp;       recv_msg = (struct msgbuf</em>)malloc(sizeof(struct msgbuf)+strlen(&quot;hello<br>&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;        world&quot;));<br><br>&nbsp;&nbsp;&nbsp;       /<em><br>&nbsp;&nbsp;&nbsp;       int msgtyp - Type of message we wish to read. may be one of:<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       1. 0 - The first message on the queue will be returned.<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       2. a positive integer - the first message on the queue whose type (mtype) equals this integer (unless a certain flag is set in msgflg, see below).<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       3. a negative integer - the first message on the queue whose type is less then or equal to the absolute value of this integer.<br>&nbsp;&nbsp;&nbsp;       </em>/<br>&nbsp;&nbsp;&nbsp;       /<em><br>&nbsp;&nbsp;&nbsp;       int msgflg - a logical ‘or’ combination of any of the following flags:<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       IPC_NOWAIT - if there is no message on the queue matching what we want to read, return ‘-1’, and set errno to ENOMSG.<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       MSG_EXCEPT - if the message type parameter is a positive integer, then return the first message whose type is NOT equal to the given integer.<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       MSG_NOERROR - If a message with a text part larger then ‘msgsz’ matches what we want to read, then truncate the text when copying the message to our msgbuf structure. If this flag is not set and the message text is too large, the system call returns ‘-1’, and errno is set to E2BIG.<br>&nbsp;&nbsp;&nbsp;       </em>/<br>&nbsp;&nbsp;&nbsp;       /<em> use ‘0’ in the message type parameter, and use no flags (0). </em>/<br>&nbsp;&nbsp;&nbsp;       rc = msgrcv(queue_id, recv_msg, strlen(&quot;hello world&quot;)+1, 0, 0);<br>&nbsp;&nbsp;        if (rc == -1) {<br>&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;        perror(&quot;main: msgrcv&quot;);<br>&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;        exit(1);<br>&nbsp;&nbsp;        }<br>&nbsp;&nbsp;        printf(&quot;msgrcv: received message: mtype ‘%d’; mtext ‘%s’n&quot;,<br>&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;        recv_msg-&gt;mtype, recv_msg-&gt;mtext);<br>&nbsp;&nbsp;        return 0;<br>}<br><br><br> <hr><br><br>/<em><br></em> queue_sender.c - a program that reads messages with one of 3 identifiers<br><em> to a message queue.<br></em>/<br>#include &lt;stdio.h&gt; /<em> standard I/O functions. </em>/<br>#include &lt;stdlib.h&gt; /<em> malloc(), free() etc. </em>/<br>#include &lt;sys/types.h&gt; /<em> various type definitions. </em>/<br>#include &lt;sys/ipc.h&gt; /<em> general SysV IPC structures </em>/<br>#include &lt;sys/msg.h&gt; /<em> message queue functions and structs. </em>/<br>#include &quot;queue_defs.h&quot; /<em> definitions shared by both programs </em>/<br>int main(int argc, char<em> argv[])<br>{<br>&nbsp;&nbsp;&nbsp;       int queue_id; /</em> ID of the created queue. <em>/<br>&nbsp;&nbsp;&nbsp;       struct msgbuf</em> msg; /<em> structure used for sent messages. </em>/<br>&nbsp;&nbsp;&nbsp;       /<em>struct msgbuf</em> recv_msg;<em>/<br>&nbsp;&nbsp;&nbsp;       int i; /</em> loop counter <em>/<br>&nbsp;&nbsp;&nbsp;       int rc; /</em> error code retuend by system calls. <em>/<br>&nbsp;&nbsp;&nbsp;       /</em> create a public message queue, with access only to the owning user. <em>/<br>&nbsp;&nbsp;&nbsp;       queue_id = msgget(QUEUE_ID, IPC_CREAT | IPC_EXCL | 0600);<br>&nbsp;&nbsp;&nbsp;       if (queue_id == -1) {<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       perror(&quot;main: msgget&quot;);<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       exit(1);<br>&nbsp;&nbsp;&nbsp;       }<br>&nbsp;&nbsp;&nbsp;       printf(&quot;message queue created, queue id ‘%d’.n&quot;, queue_id);<br>&nbsp;&nbsp;&nbsp;       msg = (struct msgbuf</em>)malloc(sizeof(struct msgbuf)+MAX_MSG_SIZE);<br>&nbsp;&nbsp;&nbsp;       /<em> form a loop of creating messages and sending them. </em>/<br>&nbsp;&nbsp;&nbsp;       for (i=1; i &lt;= NUM_MESSAGES; i++) {<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       msg-&gt;mtype = (i % 3) + 1; /<em> create message type between ‘1’ and ‘3’ </em>/<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       sprintf(msg-&gt;mtext, &quot;hello world - %d&quot;, i);<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;   rc = msgsnd(queue_id, msg, strlen(msg-&gt;mtext)+1, 0);<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       if (rc == -1) {<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       perror(&quot;main: msgsnd&quot;);<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       exit(1);<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       }<br>&nbsp;&nbsp;&nbsp;       }<br>&nbsp;&nbsp;&nbsp;       /<em> free allocated memory. </em>/<br>&nbsp;&nbsp;&nbsp;       free(msg);<br>&nbsp;&nbsp;&nbsp;       printf(&quot;generated %d messages, exiting.n&quot;, NUM<em>MESSAGES);<br>&nbsp;&nbsp;&nbsp;       return 0;<br>}<br><br><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>__</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></em><br><br>/<em><br></em> queue_reader.c - a program that reads messages with a given identifier<br><em> off of a message queue.<br></em>/<br>#include &lt;stdio.h&gt; /<em> standard I/O functions. </em>/<br>#include &lt;stdlib.h&gt; /<em> malloc(), free() etc. </em>/<br>#include &lt;unistd.h&gt; /<em> sleep(), etc. </em>/<br>#include &lt;sys/types.h&gt; /<em> various type definitions. </em>/<br>#include &lt;sys/ipc.h&gt; /<em> general SysV IPC structures </em>/<br>#include &lt;sys/msg.h&gt; /<em> message queue functions and structs. </em>/<br>#include &quot;queue_defs.h&quot; /<em> definitions shared by both programs </em>/<br>void main(int argc, char<em> argv[])<br>{<br>&nbsp;&nbsp;&nbsp;       int queue_id; /</em> ID of the created queue. <em>/<br>&nbsp;&nbsp;&nbsp;       struct msgbuf</em> msg; /<em> structure used for received messages. </em>/<br>&nbsp;&nbsp;&nbsp;       int rc; /<em> error code returned by system calls. </em>/<br>&nbsp;&nbsp;&nbsp;       int msg_type; /<em> type of messages we want to receive. </em>/<br>&nbsp;&nbsp;&nbsp;       /<em> read message type from command line </em>/<br>&nbsp;&nbsp;&nbsp;       if (argc != 2) {<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       fprintf(stderr, &quot;Usage: %s &lt;message type&gt;n&quot;, argv[0]);<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       fprintf(stderr, &quot; &lt;message type&gt; must be between 1 and 3.n&quot;);<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       exit(1);<br>&nbsp;&nbsp;&nbsp;       }<br>&nbsp;&nbsp;&nbsp;       msg_type = atoi(argv[1]);<br>&nbsp;&nbsp;&nbsp;       if (msg_type &lt; 1 || msg_type &gt; 3) {<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       fprintf(stderr, &quot;Usage: %s &lt;message type&gt;n&quot;, argv[0]);<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       fprintf(stderr, &quot; &lt;message type&gt; must be between 1 and 3.n&quot;);<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       exit(1);<br>&nbsp;&nbsp;&nbsp;       }<br>&nbsp;&nbsp;&nbsp;       /<em> access the public message queue that the sender program created. </em>/<br>&nbsp;&nbsp;&nbsp;       queue_id = msgget(QUEUE_ID, 0);<br>&nbsp;&nbsp;&nbsp;       if (queue_id == -1) {<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       perror(&quot;main: msgget&quot;);<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       exit(1);<br>&nbsp;&nbsp;&nbsp;       }<br>&nbsp;&nbsp;&nbsp;       printf(&quot;message queue opened, queue id ‘%d’.n&quot;, queue_id);<br>&nbsp;&nbsp;&nbsp;       msg = (struct msgbuf<em>)malloc(sizeof(struct msgbuf)+MAX_MSG_SIZE);<br>&nbsp;&nbsp;&nbsp;       /</em> form a loop of receiving messages and printing them out. <em>/<br>&nbsp;&nbsp;&nbsp;       while (1) {<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       rc = msgrcv(queue_id, msg, MAX_MSG_SIZE+1, msg_type, 0);<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       if (rc == -1) {<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       perror(&quot;main: msgrcv&quot;);<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       exit(1);<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       }<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       printf(&quot;Reader ‘%d’ read message: ‘%s’n&quot;, msg_type, msg-&gt;mtext);<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       /</em> slow down a little… <em>/<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       sleep(1);<br>&nbsp;&nbsp;&nbsp;       }<br>&nbsp;&nbsp;&nbsp;       /</em> NOT REACHED */<br>}<br> </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/03/05/IPC-programming-：message-queues/" class="archive-article-date">
+  	<time datetime="2008-03-05T14:41:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-03-05</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux/">Linux</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2008/03/08/笔记片段——段治文课/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          笔记片段——段治文课
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2008/03/04/GDB调试/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">GDB调试</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

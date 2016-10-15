@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Android InputEvent框架实现及传递过程（app端） | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="ActivityThread调用handleLaunchActivity &amp;gt; handleResumeActivity
+
+    r.window = r.activity.getWindow();
+    View decor = r.window.getDecorView();
+    decor.setVisibility(View.INVISIBLE);
+    ViewManage">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android InputEvent框架实现及传递过程（app端）">
+<meta property="og:url" content="http://blog.pickbox.me/2014/05/22/Android-InputEvent框架实现及传递过程（app端）/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="ActivityThread调用handleLaunchActivity &amp;gt; handleResumeActivity
+
+    r.window = r.activity.getWindow();
+    View decor = r.window.getDecorView();
+    decor.setVisibility(View.INVISIBLE);
+    ViewManage">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android InputEvent框架实现及传递过程（app端）">
+<meta name="twitter:description" content="ActivityThread调用handleLaunchActivity &amp;gt; handleResumeActivity
+
+    r.window = r.activity.getWindow();
+    View decor = r.window.getDecorView();
+    decor.setVisibility(View.INVISIBLE);
+    ViewManage">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-Android-InputEvent框架实现及传递过程（app端）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android InputEvent框架实现及传递过程（app端）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>ActivityThread调用handleLaunchActivity &gt; handleResumeActivity</p>
+<pre>
+    r.window = r.activity.getWindow();
+    View decor = r.window.getDecorView();
+    decor.setVisibility(View.INVISIBLE);
+    ViewManager wm = a.getWindowManager();
+    WindowManager.LayoutParams l = r.window.getAttributes();
+    a.mDecor = decor;
+    l.type = WindowManager.LayoutParams.TYPE_BASE_APPLICATION;
+    l.softInputMode |= forwardBit;
+    if (a.mVisibleFromClient) {
+        a.mWindowAdded = true;
+        wm.addView(decor, l);
+    }
+</pre>
+wm对应WindowManagerGlobal.java，在调用wm.addView时，
+会new一个ViewRootImpl，并调用ViewRootImpl的setView
+
+wm.addView()
+<pre>
+root = new ViewRootImpl(view.getContext(), display);
+...
+root.setView(view, wparams, panelParentView);
+</pre>
+
+<p>setView()会通过aidl调用WindowManagerService窗口管理服务</p>
+<pre>
+res = mWindowSession.addToDisplay(mWindow, mSeq, mWindowAttributes,
+        getHostVisibility(), mDisplay.getDisplayId(),
+        mAttachInfo.mContentInsets, mInputChannel);
+......
+if (mInputChannel != null) {
+    if (mInputQueueCallback != null) {
+        mInputQueue = new InputQueue();
+        mInputQueueCallback.onInputQueueCreated(mInputQueue);
+    }
+    mInputEventReceiver = new WindowInputEventReceiver(mInputChannel,
+            Looper.myLooper());
+}
+</pre>
+
+<p>mWindowSession.addToDisplay最终会调用到addWindow函数<br>它会在WindowManagerService服务端创建一个socket pair，封装到InputChannel中<br>并将读端Fd返回给app端，app端会将这个Fd挂到looper中去监听<br>frameworks/base/services/java/com/android/server/wm/WindowManagerService.java</p>
+<pre>
+    public int addWindow(Session session, IWindow client, int seq,
+            WindowManager.LayoutParams attrs, int viewVisibility, int displayId,
+            Rect outContentInsets, InputChannel outInputChannel) {
+            ......
+            if (outInputChannel != null &amp;&amp; (attrs.inputFeatures
+                    &amp; WindowManager.LayoutParams.INPUT_FEATURE_NO_INPUT_CHANNEL) == 0) {
+                String name = win.makeInputChannelName();
+                InputChannel[] inputChannels = InputChannel.openInputChannelPair(name);
+                win.setInputChannel(inputChannels[0]);
+                inputChannels[1].transferTo(outInputChannel);
+
+                mInputManager.registerInputChannel(win.mInputChannel, win.mInputWindowHandle);
+            }
+</pre>
+
+<p>frameworks/base/core/java/android/view/InputChannel.java</p>
+<pre>
+    public static InputChannel[] openInputChannelPair(String name) {
+        if (name == null) {
+            throw new IllegalArgumentException(&quot;name must not be null&quot;);
+        }
+
+        if (DEBUG) {
+            Slog.d(TAG, &quot;Opening input channel pair '&quot; + name + &quot;'&quot;);
+        }
+        return nativeOpenInputChannelPair(name);
+    }
+</pre>
+
+<p>frameworks/base/core/jni/android_view_InputChannel.cpp</p>
+<pre>
+static jobjectArray android_view_InputChannel_nativeOpenInputChannelPair(JNIEnv* env,
+        jclass clazz, jstring nameObj) {
+    const char* nameChars = env-&gt;GetStringUTFChars(nameObj, NULL);
+    String8 name(nameChars);
+    env-&gt;ReleaseStringUTFChars(nameObj, nameChars);
+
+    sp&lt;InputChannel&gt; serverChannel;
+    sp&lt;InputChannel&gt; clientChannel;
+    status_t result = InputChannel::openInputChannelPair(name, serverChannel, clientChannel);
+
+    if (result) {
+        String8 message;
+        message.appendFormat(&quot;Could not open input channel pair.  status=%d&quot;, result);
+        jniThrowRuntimeException(env, message.string());
+        return NULL;
+    }
+
+    jobjectArray channelPair = env-&gt;NewObjectArray(2, gInputChannelClassInfo.clazz, NULL);
+    if (env-&gt;ExceptionCheck()) {
+        return NULL;
+    }
+
+    jobject serverChannelObj = android_view_InputChannel_createInputChannel(env,
+            new NativeInputChannel(serverChannel));
+    if (env-&gt;ExceptionCheck()) {
+        return NULL;
+    }
+
+    jobject clientChannelObj = android_view_InputChannel_createInputChannel(env,
+            new NativeInputChannel(clientChannel));
+    if (env-&gt;ExceptionCheck()) {
+         return NULL;
+    }
+
+    env-&gt;SetObjectArrayElement(channelPair, 0, serverChannelObj);
+    env-&gt;SetObjectArrayElement(channelPair, 1, clientChannelObj);
+    return channelPair;
+}
+</pre>
+
+<p>在android 4.4中是通过socket pair实现全双工通信的<br>之前的版本实现方式是建立两个pipe和一个共享内存区，socket的方式更简洁方便<br>frameworks/native/libs/input/InputTransport.cpp</p>
+<pre>
+status_t InputChannel::openInputChannelPair(const String8&amp; name,
+        sp&lt;InputChannel&gt;&amp; outServerChannel, sp&lt;InputChannel&gt;&amp; outClientChannel) {
+    int sockets[2];
+    if (socketpair(AF_UNIX, SOCK_SEQPACKET, 0, sockets)) {
+        status_t result = -errno;
+        ALOGE(&quot;channel '%s' ~ Could not create socket pair.  errno=%d&quot;,
+                name.string(), errno);
+        outServerChannel.clear();
+        outClientChannel.clear();
+        return result;
+    }
+
+    int bufferSize = SOCKET_BUFFER_SIZE;
+    setsockopt(sockets[0], SOL_SOCKET, SO_SNDBUF, &amp;bufferSize, sizeof(bufferSize));
+    setsockopt(sockets[0], SOL_SOCKET, SO_RCVBUF, &amp;bufferSize, sizeof(bufferSize));
+    setsockopt(sockets[1], SOL_SOCKET, SO_SNDBUF, &amp;bufferSize, sizeof(bufferSize));
+    setsockopt(sockets[1], SOL_SOCKET, SO_RCVBUF, &amp;bufferSize, sizeof(bufferSize));
+
+    String8 serverChannelName = name;
+    serverChannelName.append(&quot; (server)&quot;);
+    outServerChannel = new InputChannel(serverChannelName, sockets[0]);
+
+    String8 clientChannelName = name;
+    clientChannelName.append(&quot; (client)&quot;);
+    outClientChannel = new InputChannel(clientChannelName, sockets[1]);
+    return OK;
+}
+</pre>
+
+<p>frameworks/base/core/java/android/view/InputChannel.java</p>
+<pre>
+    public void transferTo(InputChannel outParameter) {
+        if (outParameter == null) {
+            throw new IllegalArgumentException(&quot;outParameter must not be null&quot;);
+        }
+
+        nativeTransferTo(outParameter);
+    }
+</pre>
+
+<p>frameworks/base/core/jni/android_view_InputChannel.cpp</p>
+<pre>
+static void android_view_InputChannel_nativeTransferTo(JNIEnv* env, jobject obj,
+        jobject otherObj) {
+    if (android_view_InputChannel_getNativeInputChannel(env, otherObj) != NULL) {
+        jniThrowException(env, &quot;java/lang/IllegalStateException&quot;,
+                &quot;Other object already has a native input channel.&quot;);
+        return;
+    }
+
+    NativeInputChannel* nativeInputChannel =
+            android_view_InputChannel_getNativeInputChannel(env, obj);
+    android_view_InputChannel_setNativeInputChannel(env, otherObj, nativeInputChannel);
+    android_view_InputChannel_setNativeInputChannel(env, obj, NULL);
+}
+</pre>
+
+<p>&nbsp;<br>&nbsp;<br>接下来看看app端的InputEvent接受者WindowInputEventReceiver<br>new WindowInputEventReceiver时调用super构造函数：</p>
+<pre>
+public InputEventReceiver(InputChannel inputChannel, Looper looper) {
+    if (inputChannel == null) {
+        throw new IllegalArgumentException("inputChannel must not be null");
+    }
+    if (looper == null) {
+        throw new IllegalArgumentException("looper must not be null");
+    }
+
+    mInputChannel = inputChannel;
+    mMessageQueue = looper.getQueue();
+    mReceiverPtr = nativeInit(new WeakReference<inputeventreceiver>(this),
+            inputChannel, mMessageQueue);
+
+    mCloseGuard.open("dispose");
+}
+</inputeventreceiver></pre>
+
+<p>nativeInit调用到native层的nativeInit，参数中的InputChannel在<br>frameworks/native/include/input/InputTransport.h中定义<br>还定义了InputPublisher, InputConsumer，<br>它们的实现在frameworks/native/libs/input/InputTransport.cpp</p>
+<p>frameworks/base/core/jni/android_view_InputEventReceiver.cpp</p>
+<pre>
+static jint nativeInit(JNIEnv* env, jclass clazz, jobject receiverWeak,
+        jobject inputChannelObj, jobject messageQueueObj) {
+    sp<inputchannel> inputChannel = android_view_InputChannel_getInputChannel(env,
+            inputChannelObj);
+    if (inputChannel == NULL) {
+        jniThrowRuntimeException(env, "InputChannel is not initialized.");
+        return 0;
+    }
+
+    sp<messagequeue> messageQueue = android_os_MessageQueue_getMessageQueue(env, messageQueueObj);
+    if (messageQueue == NULL) {
+        jniThrowRuntimeException(env, "MessageQueue is not initialized.");
+        return 0;
+    }
+
+    sp<nativeinputeventreceiver> receiver = new NativeInputEventReceiver(env,
+            receiverWeak, inputChannel, messageQueue);
+    status_t status = receiver->initialize();
+    if (status) {
+        String8 message;
+        message.appendFormat("Failed to initialize input event receiver.  status=%d", status);
+        jniThrowRuntimeException(env, message.string());
+        return 0;
+    }
+
+    receiver->incStrong(gInputEventReceiverClassInfo.clazz); // retain a reference for the object
+    return reinterpret_cast<jint>(receiver.get());
+}
+</jint></nativeinputeventreceiver></messagequeue></inputchannel></pre>
+nativeInit()中取得native层的InputChannel和messageQueue，然后作为参数创建
+native层的NativeInputEventReceiver，NativeInputEventReceiver中创建了一个mInputConsumer
+接着调用initialize初始化，initialize会把InputChannel的fd挂到looper中去监听
+给looper设置的回调为this，会调用NativeInputEventReceiver::handleEvent
+
+<pre>
+NativeInputEventReceiver::NativeInputEventReceiver(JNIEnv* env,
+        jobject receiverWeak, const sp<inputchannel>& inputChannel,
+        const sp<messagequeue>& messageQueue) :
+    mReceiverWeakGlobal(env->NewGlobalRef(receiverWeak)),
+    mInputConsumer(inputChannel), mMessageQueue(messageQueue),
+    mBatchedInputEventPending(false), mFdEvents(0) {
+
+    }
+
+status_t NativeInputEventReceiver::initialize() {
+    setFdEvents(ALOOPER_EVENT_INPUT);
+    return OK;
+}
+
+void NativeInputEventReceiver::setFdEvents(int events) {
+    if (mFdEvents != events) {
+        mFdEvents = events;
+        int fd = mInputConsumer.getChannel()->getFd();
+        if (events) {
+            mMessageQueue->getLooper()->addFd(fd, 0, events, this, NULL);
+        } else {
+            mMessageQueue->getLooper()->removeFd(fd);
+        }
+    }
+}
+
+int NativeInputEventReceiver::handleEvent(int receiveFd, int events, void* data) {
+    if (events & (ALOOPER_EVENT_ERROR | ALOOPER_EVENT_HANGUP)) {
+        return 0; // remove the callback
+    }
+
+    if (events & ALOOPER_EVENT_INPUT) {
+        JNIEnv* env = AndroidRuntime::getJNIEnv();
+        status_t status = consumeEvents(env, false /*consumeBatches*/, -1, NULL);
+        mMessageQueue->raiseAndClearException(env, "handleReceiveCallback");
+        return status == OK || status == NO_MEMORY ? 1 : 0;
+    }
+
+    if (events & ALOOPER_EVENT_OUTPUT) {
+        ......
+    }
+    return 1;
+}
+</messagequeue></inputchannel></pre>
+
+<p>consumeEvents通过mInputConsumer.consume获得InputEvent，<br>然后调用Java层的InputEventReceiver的dispatchInputEvent</p>
+<pre>
+status_t NativeInputEventReceiver::consumeEvents(JNIEnv* env,
+        bool consumeBatches, nsecs_t frameTime, bool* outConsumedBatch) {
+    ......
+    InputEvent* inputEvent;
+    status_t status = mInputConsumer.consume(&mInputEventFactory,
+            consumeBatches, frameTime, &seq, &inputEvent);
+
+    ......
+    jobject inputEventObj;
+    switch (inputEvent->getType()) {
+        case AINPUT_EVENT_TYPE_KEY:
+            inputEventObj = android_view_KeyEvent_fromNative(env,
+                    static_cast<keyevent*>(inputEvent));
+            break;
+
+            ......
+            if (inputEventObj) {
+                env->CallVoidMethod(receiverObj.get(),
+                    gInputEventReceiverClassInfo.dispatchInputEvent, seq, inputEvent);
+            }
+
+</keyevent*></pre>
+
+<p>consume会先调用mChannel-&gt;receiveMessage取出InputMessage消息，<br>然后从该消息创建一个keyEvent（initializeKeyEvent）</p>
+<pre>
+status_t InputConsumer::consume(InputEventFactoryInterface* factory,
+    bool consumeBatches, nsecs_t frameTime, uint32_t* outSeq, InputEvent** outEvent) {
+    *outSeq = 0;
+    *outEvent = NULL;
+
+    while (!*outEvent) {
+    if (mMsgDeferred) {
+        // mMsg contains a valid input message from the previous call to consume
+        // that has not yet been processed.
+        mMsgDeferred = false;
+    } else {
+        // Receive a fresh message.
+        status_t result = mChannel->receiveMessage(&mMsg);
+        ......
+    }
+
+    switch (mMsg.header.type) {
+        case InputMessage::TYPE_KEY: {
+             KeyEvent* keyEvent = factory->createKeyEvent();
+             if (!keyEvent) return NO_MEMORY;
+
+             initializeKeyEvent(keyEvent, &mMsg);
+             *outSeq = mMsg.body.key.seq;
+             *outEvent = keyEvent;
+             break;
+         }
+
+        case AINPUT_EVENT_TYPE_MOTION: {
+           ....
+           }
+
+</pre>
+
+<p>&nbsp;<br>recv会从前面创建的mFd这个socket中去读数据</p>
+<pre>
+status_t InputChannel::receiveMessage(InputMessage* msg) {
+    ssize_t nRead;
+    do {
+        nRead = ::recv(mFd, msg, sizeof(InputMessage), MSG_DONTWAIT);
+    } while (nRead == -1 && errno == EINTR);
+    ......
+}
+</pre>
+
+<p>与receiveMessage对应的是publishKeyEvent：</p>
+<pre>
+status_t InputPublisher::publishKeyEvent(
+        uint32_t seq,
+        int32_t deviceId,
+        int32_t source,
+        int32_t action,
+        int32_t flags,
+        int32_t keyCode,
+        int32_t scanCode,
+        int32_t metaState,
+        int32_t repeatCount,
+        nsecs_t downTime,
+        nsecs_t eventTime) {
+    InputMessage msg;
+    msg.header.type = InputMessage::TYPE_KEY;
+    msg.body.key.seq = seq;
+    msg.body.key.deviceId = deviceId;
+    msg.body.key.source = source;
+    msg.body.key.action = action;
+    msg.body.key.flags = flags;
+    msg.body.key.keyCode = keyCode;
+    msg.body.key.scanCode = scanCode;
+    msg.body.key.metaState = metaState;
+    msg.body.key.repeatCount = repeatCount;
+    msg.body.key.downTime = downTime;
+    msg.body.key.eventTime = eventTime;
+    return mChannel->sendMessage(&msg);
+}
+
+status_t InputChannel::sendMessage(const InputMessage* msg) {
+    size_t msgLength = msg->size();
+    ssize_t nWrite;
+    do {
+        nWrite = ::send(mFd, msg, msgLength, MSG_DONTWAIT | MSG_NOSIGNAL);
+    } while (nWrite == -1 && errno == EINTR);
+    ....
+}
+</pre>
+
+
+
+<p>NativeInputEventReceiver::consumeEvents接着会调用dispatchInputEvent，<br>dispatchInputEvent调用到前面ViewRootImpl中的WindowInputEventReceiver的dispatchInputEvent，<br>进而调用onInputEvent：</p>
+<pre>
+@Override
+public void onInputEvent(InputEvent event) {
+    enqueueInputEvent(event, this, 0, true);
+}
+</pre>
+
+
+<p>通过加断点调试，可以看到WindowInputEventReceiver.dispatchInputEvent之后的调用堆栈列表</p>
+<p>【WindowInputEventReceiver.dispatchInputEvent调用堆栈】</p>
+<pre>
+InputMethodManager$ImeInputEventSender(InputEventSender).sendInputEvent(int, InputEvent) line: 131    
+InputMethodManager.sendInputEventOnMainLooperLocked(InputMethodManager$PendingEvent) line: 1658    
+InputMethodManager.dispatchInputEvent(InputEvent, Object, InputMethodManager$FinishedInputEventCallback, Handler) line: 1621    
+ViewRootImpl$ImeInputStage.onProcess(ViewRootImpl$QueuedInputEvent) line: 3698    
+ViewRootImpl$ImeInputStage(ViewRootImpl$InputStage).deliver(ViewRootImpl$QueuedInputEvent) line: 3399    
+ViewRootImpl$ViewPreImeInputStage(ViewRootImpl$InputStage).onDeliverToNext(ViewRootImpl$QueuedInputEvent) line: 3449    
+ViewRootImpl$ViewPreImeInputStage(ViewRootImpl$InputStage).forward(ViewRootImpl$QueuedInputEvent) line: 3418    
+ViewRootImpl$ViewPreImeInputStage(ViewRootImpl$InputStage).apply(ViewRootImpl$QueuedInputEvent, int) line: 3426    
+ViewRootImpl$ViewPreImeInputStage(ViewRootImpl$InputStage).deliver(ViewRootImpl$QueuedInputEvent) line: 3399    
+ViewRootImpl$NativePreImeInputStage(ViewRootImpl$InputStage).onDeliverToNext(ViewRootImpl$QueuedInputEvent) line: 3449    
+ViewRootImpl$NativePreImeInputStage(ViewRootImpl$InputStage).forward(ViewRootImpl$QueuedInputEvent) line: 3418    
+ViewRootImpl$NativePreImeInputStage(ViewRootImpl$AsyncInputStage).forward(ViewRootImpl$QueuedInputEvent) line: 3525    
+ViewRootImpl$NativePreImeInputStage(ViewRootImpl$InputStage).apply(ViewRootImpl$QueuedInputEvent, int) line: 3426    
+ViewRootImpl$NativePreImeInputStage(ViewRootImpl$AsyncInputStage).apply(ViewRootImpl$QueuedInputEvent, int) line: 3582    
+ViewRootImpl$NativePreImeInputStage(ViewRootImpl$InputStage).deliver(ViewRootImpl$QueuedInputEvent) line: 3399    
+ViewRootImpl.deliverInputEvent(ViewRootImpl$QueuedInputEvent) line: 5602    
+ViewRootImpl.doProcessInputEvents() line: 5582    
+ViewRootImpl.enqueueInputEvent(InputEvent, InputEventReceiver, int, boolean) line: 5553    
+ViewRootImpl$WindowInputEventReceiver.onInputEvent(InputEvent) line: 5682    
+ViewRootImpl$WindowInputEventReceiver(InputEventReceiver).dispatchInputEvent(int, InputEvent) line: 185    
+MessageQueue.nativePollOnce(int, int) line: not available [native method]    
+MessageQueue.next() line: 138    
+Looper.loop() line: 123    
+ActivityThread.main(String[]) line: 5017    
+Method.invokeNative(Object, Object[], Class, Class[], Class, int, boolean) line: not available [native method]    
+Method.invoke(Object, Object...) line: 515    
+ZygoteInit$MethodAndArgsCaller.run() line: 779    
+ZygoteInit.main(String[]) line: 595    
+NativeStart.main(String[]) line: not available [native method]    
+</pre>
+
+<p>ImeInputEventSender-&gt;sendInputEvent会给输入法发送input event，然后将该event defer起来<br>等输入法处理完后，输入法会再给ViewRootImpl的looper写数据<br>looper回调ImeInputEventSender的dispatchInputEventFinished<br>最终将input event分发到用户的activity中</p>
+<p>【ImeInputEventSender的dispatchInputEventFinished调用堆栈】</p>
+<pre>
+MainActivity.dispatchKeyEvent(KeyEvent) line: 23    
+PhoneWindow$DecorView.dispatchKeyEvent(KeyEvent) line: 1962    
+ViewRootImpl$ViewPostImeInputStage.processKeyEvent(ViewRootImpl$QueuedInputEvent) line: 3852    
+ViewRootImpl$ViewPostImeInputStage.onProcess(ViewRootImpl$QueuedInputEvent) line: 3826    
+ViewRootImpl$ViewPostImeInputStage(ViewRootImpl$InputStage).deliver(ViewRootImpl$QueuedInputEvent) line: 3399    
+ViewRootImpl$NativePostImeInputStage(ViewRootImpl$InputStage).onDeliverToNext(ViewRootImpl$QueuedInputEvent) line: 3449    
+ViewRootImpl$NativePostImeInputStage(ViewRootImpl$InputStage).forward(ViewRootImpl$QueuedInputEvent) line: 3418    
+ViewRootImpl$NativePostImeInputStage(ViewRootImpl$AsyncInputStage).forward(ViewRootImpl$QueuedInputEvent) line: 3525    
+ViewRootImpl$NativePostImeInputStage(ViewRootImpl$InputStage).apply(ViewRootImpl$QueuedInputEvent, int) line: 3426    
+ViewRootImpl$NativePostImeInputStage(ViewRootImpl$AsyncInputStage).apply(ViewRootImpl$QueuedInputEvent, int) line: 3582    
+ViewRootImpl$NativePostImeInputStage(ViewRootImpl$InputStage).deliver(ViewRootImpl$QueuedInputEvent) line: 3399    
+ViewRootImpl$EarlyPostImeInputStage(ViewRootImpl$InputStage).onDeliverToNext(ViewRootImpl$QueuedInputEvent) line: 3449    
+ViewRootImpl$EarlyPostImeInputStage(ViewRootImpl$InputStage).forward(ViewRootImpl$QueuedInputEvent) line: 3418    
+ViewRootImpl$EarlyPostImeInputStage(ViewRootImpl$InputStage).apply(ViewRootImpl$QueuedInputEvent, int) line: 3426    
+ViewRootImpl$EarlyPostImeInputStage(ViewRootImpl$InputStage).deliver(ViewRootImpl$QueuedInputEvent) line: 3399    
+ViewRootImpl$ImeInputStage(ViewRootImpl$InputStage).onDeliverToNext(ViewRootImpl$QueuedInputEvent) line: 3449    
+ViewRootImpl$ImeInputStage(ViewRootImpl$InputStage).forward(ViewRootImpl$QueuedInputEvent) line: 3418    
+ViewRootImpl$ImeInputStage(ViewRootImpl$AsyncInputStage).forward(ViewRootImpl$QueuedInputEvent) line: 3558    
+ViewRootImpl$ImeInputStage.onFinishedInputEvent(Object, boolean) line: 3718    
+InputMethodManager$PendingEvent.run() line: 2010    
+InputMethodManager.invokeFinishedInputEventCallback(InputMethodManager$PendingEvent, boolean) line: 1704    
+InputMethodManager.finishedInputEvent(int, boolean, boolean) line: 1695    
+InputMethodManager$ImeInputEventSender.onInputEventFinished(int, boolean) line: 1987    
+InputMethodManager$ImeInputEventSender(InputEventSender).dispatchInputEventFinished(int, boolean) line: 141    
+MessageQueue.nativePollOnce(int, int) line: not available [native method]    
+MessageQueue.next() line: 138    
+Looper.loop() line: 123    
+ActivityThread.main(String[]) line: 5017    
+Method.invokeNative(Object, Object[], Class, Class[], Class, int, boolean) line: not available [native method]    
+Method.invoke(Object, Object...) line: 515    
+ZygoteInit$MethodAndArgsCaller.run() line: 779    
+ZygoteInit.main(String[]) line: 595    
+NativeStart.main(String[]) line: not available [native method]    
+</pre>
+
+<p>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;</p>
+<p>下面看看详细过程</p>
+<p>ImeInputStage：onProcess-&gt;dispatchInputEvent-&gt;sendInputEventOnMainLooperLocked<br>通过ImeInputEventSender-&gt;sendInputEvent给输入法发送数据</p>
+<pre>
+int sendInputEventOnMainLooperLocked(PendingEvent p) {
+    if (mCurChannel != null) {
+        if (mCurSender == null) {
+            mCurSender = new ImeInputEventSender(mCurChannel, mH.getLooper());
+        }
+
+        final InputEvent event = p.mEvent;
+        final int seq = event.getSequenceNumber();
+        if (mCurSender.sendInputEvent(seq, event)) {
+            mPendingEvents.put(seq, p);
+            Trace.traceCounter(Trace.TRACE_TAG_INPUT, PENDING_EVENT_COUNTER,
+                    mPendingEvents.size());
+
+            Message msg = mH.obtainMessage(MSG_TIMEOUT_INPUT_EVENT, p);
+            msg.setAsynchronous(true);
+            mH.sendMessageDelayed(msg, INPUT_METHOD_NOT_RESPONDING_TIMEOUT);
+            return DISPATCH_IN_PROGRESS;
+        }
+
+        Log.w(TAG, "Unable to send input event to IME: "
+                + mCurId + " dropping: " + event);
+    }
+    return DISPATCH_NOT_HANDLED;
+}
+</pre>
+
+<p>ImeInputEventSender构造时传入的mCurChannel, mH.getLooper()都是InputMethodManager的成员<br>InputMethodManager在ViewRootImpl的构造函数中初始化：<br>mWindowSession = WindowManagerGlobal.getWindowSession();<br>InputMethodManager的mMainLooper就是activity的主UI Looper，</p>
+<p>mCurChannel是activity的onWindowFocusChanged调用之后设置的<br>ViewRootImpl的ViewRootHandler处理MSG_WINDOW_FOCUS_CHANGED时<br>imm.onWindowFocus &gt; startInputInner &gt; mService.windowGainedFocus返回输入法服务的channel</p>
+<pre>
+if (hasWindowFocus) {
+    if (imm != null && mLastWasImTarget && !isInLocalFocusMode()) {
+        imm.onWindowFocus(mView, mView.findFocus(),
+                mWindowAttributes.softInputMode,
+                !mHasHadWindowFocus, mWindowAttributes.flags);
+    }
+    // Clear the forward bit.  We can just do this directly, since
+    // the window manager doesn't care about it.
+    mWindowAttributes.softInputMode &=
+        ~WindowManager.LayoutParams.SOFT_INPUT_IS_FORWARD_NAVIGATION;
+    ((WindowManager.LayoutParams)mView.getLayoutParams())
+        .softInputMode &=
+        ~WindowManager.LayoutParams.SOFT_INPUT_IS_FORWARD_NAVIGATION;
+    mHasHadWindowFocus = true;
+}
+</pre>
+<pre>
+    res = mService.windowGainedFocus(mClient, windowGainingFocus,
+            controlFlags, softInputMode, windowFlags,
+            tba, servedContext);
+    ....
+    setInputChannelLocked(res.channel);
+</pre>
+
+<p>具体发送过程：<br>sendInputEvent-&gt;nativeSendKeyEvent<br>frameworks/base/core/jni/android_view_InputEventSender.cpp</p>
+<pre>
+static jboolean nativeSendKeyEvent(JNIEnv* env, jclass clazz, jint senderPtr,
+        jint seq, jobject eventObj) {
+    sp<nativeinputeventsender> sender =
+        reinterpret_cast<nativeinputeventsender*>(senderPtr);
+    KeyEvent event;
+    android_view_KeyEvent_toNative(env, eventObj, &event);
+    status_t status = sender->sendKeyEvent(seq, &event);
+    return !status;
+}
+</nativeinputeventsender*></nativeinputeventsender></pre>
+
+<p>sender-&gt;sendKeyEvent:</p>
+<pre>
+status_t NativeInputEventSender::sendKeyEvent(uint32_t seq, const KeyEvent* event) {
+#if DEBUG_DISPATCH_CYCLE
+    ALOGD(&quot;channel '%s' ~ Sending key event, seq=%u.&quot;, getInputChannelName(), seq);
+#endif
+
+    uint32_t publishedSeq = mNextPublishedSeq++;
+    status_t status = mInputPublisher.publishKeyEvent(publishedSeq,
+            event-&gt;getDeviceId(), event-&gt;getSource(), event-&gt;getAction(), event-&gt;getFlags(),
+            event-&gt;getKeyCode(), event-&gt;getScanCode(), event-&gt;getMetaState(),
+            event-&gt;getRepeatCount(), event-&gt;getDownTime(), event-&gt;getEventTime());
+    if (status) {
+        ALOGW(&quot;Failed to send key event on channel '%s'.  status=%d&quot;,
+                getInputChannelName(), status);
+        return status;
+    }
+    mPublishedSeqMap.add(publishedSeq, seq);
+    return OK;
+}
+</pre>
+mInputPublisher.publishKeyEvent对应前面提到的InputPublisher::publishKeyEvent
+
+回到前面ImeInputEventSender的构造：
+frameworks/base/core/java/android/view/InputEventSender.java
+<pre>
+public InputEventSender(InputChannel inputChannel, Looper looper) {
+    if (inputChannel == null) {
+        throw new IllegalArgumentException("inputChannel must not be null");
+    }
+    if (looper == null) {
+        throw new IllegalArgumentException("looper must not be null");
+    }
+
+    mInputChannel = inputChannel;
+    mMessageQueue = looper.getQueue();
+    mSenderPtr = nativeInit(new WeakReference<inputeventsender>(this),
+            inputChannel, mMessageQueue);
+
+    mCloseGuard.open("dispose");
+}
+</inputeventsender></pre>
+
+<p>nativeInit取得native层的inputChannel、messageQueue，<br>创建NativeInputEventSender并调用initialize初始化<br>frameworks/base/core/jni/android_view_InputEventSender.cpp</p>
+<pre>
+static jint nativeInit(JNIEnv* env, jclass clazz, jobject senderWeak,
+        jobject inputChannelObj, jobject messageQueueObj) {
+    sp<inputchannel> inputChannel = android_view_InputChannel_getInputChannel(env,
+            inputChannelObj);
+    if (inputChannel == NULL) {
+        jniThrowRuntimeException(env, "InputChannel is not initialized.");
+        return 0;
+    }
+
+    sp<messagequeue> messageQueue = android_os_MessageQueue_getMessageQueue(env, messageQueueObj);
+    if (messageQueue == NULL) {
+        jniThrowRuntimeException(env, "MessageQueue is not initialized.");
+        return 0;
+    }
+
+    sp<nativeinputeventsender> sender = new NativeInputEventSender(env,
+            senderWeak, inputChannel, messageQueue);
+    status_t status = sender->initialize();
+    if (status) {
+        String8 message;
+        message.appendFormat("Failed to initialize input event sender.  status=%d", status);
+        jniThrowRuntimeException(env, message.string());
+        return 0;
+    }
+
+    sender->incStrong(gInputEventSenderClassInfo.clazz); // retain a reference for the object
+    return reinterpret_cast<jint>(sender.get());
+}
+
+status_t NativeInputEventSender::initialize() {
+    int receiveFd = mInputPublisher.getChannel()->getFd();
+    mMessageQueue->getLooper()->addFd(receiveFd, 0, ALOOPER_EVENT_INPUT, this, NULL);
+    return OK;
+}
+</jint></nativeinputeventsender></messagequeue></inputchannel></pre>
+
+<p>initialize过程与NativeInputEventReceiver的initialize类似<br>都是将读端Fd挂到looper上去监听，回调为this，指向NativeInputEventSender</p>
+<pre>
+int NativeInputEventSender::handleEvent(int receiveFd, int events, void* data) {
+    if (events & (ALOOPER_EVENT_ERROR | ALOOPER_EVENT_HANGUP)) {
+        return 0; // remove the callback
+    }
+
+    if (!(events & ALOOPER_EVENT_INPUT)) {
+        ALOGW("channel '%s' ~ Received spurious callback for unhandled poll event.  "
+                "events=0x%x", getInputChannelName(), events);
+        return 1;
+    }
+
+    JNIEnv* env = AndroidRuntime::getJNIEnv();
+    status_t status = receiveFinishedSignals(env);
+    mMessageQueue->raiseAndClearException(env, "handleReceiveCallback");
+    return status == OK || status == NO_MEMORY ? 1 : 0;
+}
+</pre>
+
+<p>当输入法处理完event唤醒这里的looper时，handleEvent被调用</p>
+<p>receiveFinishedSignals：</p>
+<pre>
+status_t NativeInputEventSender::receiveFinishedSignals(JNIEnv* env) {
+    ScopedLocalRef<jobject> senderObj(env, NULL);
+    bool skipCallbacks = false;
+    for (;;) {
+        uint32_t publishedSeq;
+        bool handled;
+        status_t status = mInputPublisher.receiveFinishedSignal(&publishedSeq, &handled);
+        if (status) {
+            if (status == WOULD_BLOCK) {
+                return OK;
+            }
+            return status;
+        }
+
+        ssize_t index = mPublishedSeqMap.indexOfKey(publishedSeq);
+        if (index >= 0) {
+            uint32_t seq = mPublishedSeqMap.valueAt(index);
+            mPublishedSeqMap.removeItemsAt(index);
+
+            if (!skipCallbacks) {
+                if (!senderObj.get()) {
+                    senderObj.reset(jniGetReferent(env, mSenderWeakGlobal));
+                    if (!senderObj.get()) {
+                        ALOGW("channel '%s' ~ Sender object was finalized "
+                                "without being disposed.", getInputChannelName());
+                        return DEAD_OBJECT;
+                    }
+                }
+
+                env->CallVoidMethod(senderObj.get(),
+                        gInputEventSenderClassInfo.dispatchInputEventFinished,
+                        jint(seq), jboolean(handled));
+                if (env->ExceptionCheck()) {
+                    ALOGE("Exception dispatching finished signal.");
+                    skipCallbacks = true;
+                }
+            }
+        }
+    }
+}
+</jobject></pre>
+
+<p>mInputPublisher.receiveFinishedSignal与mInputConsumer.consume类似，<br>receiveFinishedSignal接收处理完成信号<br>调用java层的dispatchInputEventFinished进一步处理<br>这就回到了前面的【ImeInputEventSender的dispatchInputEventFinished调用堆栈】</p>
+<p>也就是应用自己的MainActivity.dispatchKeyEvent会被调用</p>
+<p>至此，app端的InputEvent传递过程分析完毕！</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/05/22/Android-InputEvent框架实现及传递过程（app端）/" class="archive-article-date">
+  	<time datetime="2014-05-22T13:09:27.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-05-22</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2014/06/10/动态实例化Interface/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          动态实例化Interface
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/05/22/NativeActivity的OnCreate过程及InputQueue相关分析/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">NativeActivity的OnCreate过程及InputQueue相关分析</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

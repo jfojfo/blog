@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Linux uhid分析之输入事件传递 | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="向/dev/uhid写输入数据时，uhid_char_write调用uhid_dev_input
+
+static int uhid_dev_input(struct uhid_device *uhid, struct uhid_event *ev)
+{
+    if (!uhid-&amp;gt;running)
+        return -EINVAL;
+
+    hid_input_report(">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux uhid分析之输入事件传递">
+<meta property="og:url" content="http://blog.pickbox.me/2014/09/09/Linux-uhid分析之输入事件传递/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="向/dev/uhid写输入数据时，uhid_char_write调用uhid_dev_input
+
+static int uhid_dev_input(struct uhid_device *uhid, struct uhid_event *ev)
+{
+    if (!uhid-&amp;gt;running)
+        return -EINVAL;
+
+    hid_input_report(">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/hid_device的report_description结构图.jpg">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux uhid分析之输入事件传递">
+<meta name="twitter:description" content="向/dev/uhid写输入数据时，uhid_char_write调用uhid_dev_input
+
+static int uhid_dev_input(struct uhid_device *uhid, struct uhid_event *ev)
+{
+    if (!uhid-&amp;gt;running)
+        return -EINVAL;
+
+    hid_input_report(">
+<meta name="twitter:image" content="http://img.pickbox.me/wp-content/uploads/hid_device的report_description结构图.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-Linux-uhid分析之输入事件传递" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux uhid分析之输入事件传递
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>向/dev/uhid写输入数据时，uhid_char_write调用uhid_dev_input</p>
+<pre>
+static int uhid_dev_input(struct uhid_device *uhid, struct uhid_event *ev)
+{
+    if (!uhid-&gt;running)
+        return -EINVAL;
+
+    hid_input_report(uhid-&gt;hid, HID_INPUT_REPORT, ev-&gt;u.input.data,
+             min_t(size_t, ev-&gt;u.input.size, UHID_DATA_MAX), 0);
+
+    return 0;
+}
+
+// 写入数据格式为
+struct uhid_event {
+    __u32 type;
+
+    union {
+        struct uhid_create_req create;
+        struct uhid_input_req input;
+        struct uhid_output_req output;
+        struct uhid_output_ev_req output_ev;
+        struct uhid_feature_req feature;
+        struct uhid_feature_answer_req feature_answer;
+    } u;
+} __attribute__((__packed__));
+
+struct uhid_input_req {
+    __u8 data[UHID_DATA_MAX];
+    __u16 size;
+} __attribute__((__packed__));
+</pre>
+
+<p>从uhid-example.c中可以看到<br>写入的数据size = 4，data[0]的bit0、bit1、bit2为button1、2、3的按下状态，data[1]为鼠标水平方向值，data[2]为垂直方向值，data[3]为滚轮值</p>
+<p>由于hid_device对应的hid_driver-&gt;raw_event为NULL（该hid_driver就是drivers/hid/usbhid/hid-core.c中注册的generic-usb driver），hid_input_report调用hid_report_raw_event</p>
+<pre>
+int hid_report_raw_event(struct hid_device *hid, int type, u8 *data, int size,
+        int interrupt)
+{
+    struct hid_report_enum *report_enum = hid-&gt;report_enum + type;
+    struct hid_report *report;
+    unsigned int a;
+    int rsize, csize = size;
+    u8 *cdata = data;
+    int ret = 0;
+
+    report = hid_get_report(report_enum, data);
+    if (!report)
+        goto out;
+
+    if (report_enum-&gt;numbered) {
+        cdata++;
+        csize--;
+    }
+
+    rsize = ((report-&gt;size - 1) &gt;&gt; 3) + 1;
+
+    if (rsize &gt; HID_MAX_BUFFER_SIZE)
+        rsize = HID_MAX_BUFFER_SIZE;
+
+    if (csize &lt; rsize) {
+        dbg_hid(&quot;report %d is too short, (%d &lt; %d)\n&quot;, report-&gt;id,
+                csize, rsize);
+        memset(cdata + csize, 0, rsize - csize);
+    }
+
+    if ((hid-&gt;claimed & HID_CLAIMED_HIDDEV) && hid-&gt;hiddev_report_event)
+        hid-&gt;hiddev_report_event(hid, report);
+    if (hid-&gt;claimed & HID_CLAIMED_HIDRAW) {
+        ret = hidraw_report_event(hid, data, size);
+        if (ret)
+            goto out;
+    }
+
+    for (a = 0; a &lt; report-&gt;maxfield; a++)
+        hid_input_field(hid, report-&gt;field[a], cdata, interrupt);
+
+    if (hid-&gt;claimed & HID_CLAIMED_INPUT)
+        hidinput_report_event(hid, report);
+out:
+    return ret;
+}
+</pre>
+
+<p>hid_report_raw_event会向hiddev和hidraw report（hid-&gt;hiddev_report_event、hidraw_report_event）</p>
+<p>然后通过一个for循环，遍历report的所有field，对每一个field通过hid_input_field -&gt; hid_process_event -&gt; hidinput_hid_event -&gt; input_event 的调用处理该field相关的输入数据，将输入事件注入到input子系统</p>
+<p>for循环结束后调用hidinput_report_event向input子系统发送sync事件</p>
+<pre>
+void hidinput_report_event(struct hid_device *hid, struct hid_report *report)
+{
+    struct hid_input *hidinput;
+
+    if (hid-&gt;quirks & HID_QUIRK_NO_INPUT_SYNC)
+        return;
+
+    list_for_each_entry(hidinput, &hid-&gt;inputs, list)
+        input_sync(hidinput-&gt;input);
+}
+</pre>
+
+<p>接下来在详细分析hid_input<em>field之前，先看一下uhid-example.c中的&lt;a href=”<a href="http://img.pickbox.me/wp-content/uploads/mouse.hid" target="_blank" rel="external">http://img.pickbox.me/wp-content/uploads/mouse.hid</a></em>.rar”&gt;HID Report Desciptor</p>
+<pre>
+USAGE_PAGE (Generic Desktop)        05 01
+USAGE (Mouse)                       09 02
+COLLECTION (Application)            A1 01 
+  USAGE (Pointer)                   09 01
+  COLLECTION (Physical)             A1 00 
+    USAGE_PAGE (Button)             05 09
+    USAGE_MINIMUM (Button 1)        19 01
+    USAGE_MAXIMUM (Button 3)        29 03
+    LOGICAL_MINIMUM (0)             15 00 
+    LOGICAL_MAXIMUM (1)             25 01 
+    REPORT_COUNT (3)                95 03 
+    REPORT_SIZE (1)                 75 01 
+    INPUT (Data,Var,Abs)            81 02 
+    REPORT_COUNT (1)                95 01 
+    REPORT_SIZE (5)                 75 05 
+    INPUT (Cnst,Ary,Abs)            81 01 
+    USAGE_PAGE (Generic Desktop)    05 01
+    USAGE (X)                       09 30
+    USAGE (Y)                       09 31
+    USAGE (Wheel)                   09 38
+    LOGICAL_MINIMUM (-128)          15 80 
+    LOGICAL_MAXIMUM (127)           25 7F 
+    REPORT_SIZE (8)                 75 08 
+    REPORT_COUNT (3)                95 03 
+    INPUT (Data,Var,Rel)            81 06 
+  END_COLLECTION                    C0
+END_COLLECTION                      C0
+</pre>
+
+<p>这里面只有一个Physical Collection输入，没有report id（如果有report id，那么在USAGE_PAGE (Button)这行前面应该有REPORT_ID (1)），对应linux的hid_report；这个Collection又包含有三个INPUT，对应着linux的3个field</p>
+<p>field[0]表述3个button（REPORT_COUNT=3），每个button用1个bit（REPORT_SIZE=1）表示按下状态；field[1]表述用5个constant bit占位；field[2]表述3个（REPORT_COUNT=3）Relative坐标，分别为X、Y、Wheel，每个坐标值占8bit（REPORT_SIZE=8）</p>
+<p>这3个field构成的数据刚好和通过uhid_input_req传递进来的数据的顺序一致，只需要按照report descriptor解析，就能知道每个数据代表的意义</p>
+<p>更多report descriptor介绍参考<a href="http://eleccelerator.com/tutorial-about-usb-hid-report-descriptors/" target="_blank">tutorial-about-usb-hid-report-descriptors</a>（<a href="http://img.pickbox.me/wp-content/uploads/tutorial-about-usb-hid-report-descriptors.pdf" target="_blank" rel="external">PDF</a>）</p>
+<p>report descriptor在linux内核数据结构的对应关系，可以看看下面这张图<br><a href="http://img.pickbox.me/wp-content/uploads/hid_device的report_description结构图.jpg" target="_blank" rel="external"><img src="http://img.pickbox.me/wp-content/uploads/hid_device的report_description结构图.jpg" alt="hid_device的report_description结构图" width="733" height="620" class="alignnone size-full wp-image-1032"></a></p>
+<p>回到hid_input_field</p>
+<pre>
+static void hid_input_field(struct hid_device *hid, struct hid_field *field,
+                __u8 *data, int interrupt)
+{
+    unsigned n;
+    unsigned count = field-&gt;report_count;
+    unsigned offset = field-&gt;report_offset;
+    unsigned size = field-&gt;report_size;
+    __s32 min = field-&gt;logical_minimum;
+    __s32 max = field-&gt;logical_maximum;
+    __s32 *value;
+
+    value = kmalloc(sizeof(__s32) * count, GFP_ATOMIC);
+    if (!value)
+        return;
+
+    // 取出
+    for (n = 0; n &lt; count; n++) {
+
+        value[n] = min &lt; 0 ?
+            snto32(extract(hid, data, offset + n * size, size),
+                   size) :
+            extract(hid, data, offset + n * size, size);
+
+        /* Ignore report if ErrorRollOver */
+        if (!(field-&gt;flags & HID_MAIN_ITEM_VARIABLE) &&
+            value[n] &gt;= min && value[n] &lt;= max &&
+            field-&gt;usage[value[n] - min].hid == HID_UP_KEYBOARD + 1)
+            goto exit;
+    }
+
+    for (n = 0; n &lt; count; n++) {
+
+        if (HID_MAIN_ITEM_VARIABLE & field-&gt;flags) {
+            hid_process_event(hid, field, &field-&gt;usage[n], value[n], interrupt);
+            continue;
+        }
+
+        if (field-&gt;value[n] &gt;= min && field-&gt;value[n] &lt;= max
+            && field-&gt;usage[field-&gt;value[n] - min].hid
+            && search(value, field-&gt;value[n], count))
+                hid_process_event(hid, field, &field-&gt;usage[field-&gt;value[n] - min], 0, interrupt);
+
+        if (value[n] &gt;= min && value[n] &lt;= max
+            && field-&gt;usage[value[n] - min].hid
+            && search(field-&gt;value, value[n], count))
+                hid_process_event(hid, field, &field-&gt;usage[value[n] - min], 1, interrupt);
+    }
+
+    memcpy(field-&gt;value, value, count * sizeof(__s32));
+exit:
+    kfree(value);
+}
+</pre>
+
+<p>hid_input_field对field中的REPORT_COUNT个输入数据通过extract取出，并存放在value数组，又依次调用hid_process_event处理</p>
+<pre>
+static void hid_process_event(struct hid_device *hid, struct hid_field *field,
+        struct hid_usage *usage, __s32 value, int interrupt)
+{
+    struct hid_driver *hdrv = hid-&gt;driver;
+    int ret;
+
+    hid_dump_input(hid, usage, value);
+
+    if (hdrv && hdrv-&gt;event && hid_match_usage(hid, usage)) {
+        ret = hdrv-&gt;event(hid, field, usage, value);
+        if (ret != 0) {
+            if (ret &lt; 0)
+                hid_err(hid, &quot;%s's event failed with %d\n&quot;,
+                        hdrv-&gt;name, ret);
+            return;
+        }
+    }
+
+    if (hid-&gt;claimed & HID_CLAIMED_INPUT)
+        hidinput_hid_event(hid, field, usage, value);
+    if (hid-&gt;claimed & HID_CLAIMED_HIDDEV && interrupt && hid-&gt;hiddev_hid_event)
+        hid-&gt;hiddev_hid_event(hid, field, usage, value);
+}
+</pre>
+
+<p>最终调用hidinput_hid_event进行处理，hidinput_hid_event处理各种case，但最后还是要调用input_event将输入事件注入到input子系统</p>
+<pre>
+void hidinput_hid_event(struct hid_device *hid, struct hid_field *field, struct hid_usage *usage, __s32 value)
+{
+    struct input_dev *input;
+    unsigned *quirks = &hid-&gt;quirks;
+
+    if (!field-&gt;hidinput)
+        return;
+
+    input = field-&gt;hidinput-&gt;input;
+
+    if (!usage-&gt;type)
+        return;
+
+    if (usage-&gt;hat_min &lt; usage-&gt;hat_max || usage-&gt;hat_dir) {
+        int hat_dir = usage-&gt;hat_dir;
+        if (!hat_dir)
+            hat_dir = (value - usage-&gt;hat_min) * 8 / (usage-&gt;hat_max - usage-&gt;hat_min + 1) + 1;
+        if (hat_dir &lt; 0 || hat_dir &gt; 8) hat_dir = 0;
+        input_event(input, usage-&gt;type, usage-&gt;code    , hid_hat_to_axis[hat_dir].x);
+        input_event(input, usage-&gt;type, usage-&gt;code + 1, hid_hat_to_axis[hat_dir].y);
+        return;
+    }
+
+    if (usage-&gt;hid == (HID_UP_DIGITIZER | 0x003c)) { /* Invert */
+        *quirks = value ? (*quirks | HID_QUIRK_INVERT) : (*quirks & ~HID_QUIRK_INVERT);
+        return;
+    }
+
+    if (usage-&gt;hid == (HID_UP_DIGITIZER | 0x0032)) { /* InRange */
+        if (value) {
+            input_event(input, usage-&gt;type, (*quirks & HID_QUIRK_INVERT) ? BTN_TOOL_RUBBER : usage-&gt;code, 1);
+            return;
+        }
+        input_event(input, usage-&gt;type, usage-&gt;code, 0);
+        input_event(input, usage-&gt;type, BTN_TOOL_RUBBER, 0);
+        return;
+    }
+
+    if (usage-&gt;hid == (HID_UP_DIGITIZER | 0x0030) && (*quirks & HID_QUIRK_NOTOUCH)) { /* Pressure */
+        int a = field-&gt;logical_minimum;
+        int b = field-&gt;logical_maximum;
+        input_event(input, EV_KEY, BTN_TOUCH, value &gt; a + ((b - a) &gt;&gt; 3));
+    }
+
+    if (usage-&gt;hid == (HID_UP_PID | 0x83UL)) { /* Simultaneous Effects Max */
+        dbg_hid(&quot;Maximum Effects - %d\n&quot;,value);
+        return;
+    }
+
+    if (usage-&gt;hid == (HID_UP_PID | 0x7fUL)) {
+        dbg_hid(&quot;PID Pool Report\n&quot;);
+        return;
+    }
+
+    if ((usage-&gt;type == EV_KEY) && (usage-&gt;code == 0)) /* Key 0 is &quot;unassigned&quot;, not KEY_UNKNOWN */
+        return;
+
+    if ((usage-&gt;type == EV_ABS) && (field-&gt;flags & HID_MAIN_ITEM_RELATIVE) &&
+            (usage-&gt;code == ABS_VOLUME)) {
+        int count = abs(value);
+        int direction = value &gt; 0 ? KEY_VOLUMEUP : KEY_VOLUMEDOWN;
+        int i;
+
+        for (i = 0; i &lt; count; i++) {
+            input_event(input, EV_KEY, direction, 1);
+            input_sync(input);
+            input_event(input, EV_KEY, direction, 0);
+            input_sync(input);
+        }
+        return;
+    }
+
+    /*
+     * Ignore out-of-range values as per HID specification,
+     * section 5.10 and 6.2.25
+     */
+    if ((field-&gt;flags & HID_MAIN_ITEM_VARIABLE) &&
+        (value &lt; field-&gt;logical_minimum ||
+         value &gt; field-&gt;logical_maximum)) {
+        dbg_hid(&quot;Ignoring out-of-range value %x\n&quot;, value);
+        return;
+    }
+
+    /* report the usage code as scancode if the key status has changed */
+    if (usage-&gt;type == EV_KEY && !!test_bit(usage-&gt;code, input-&gt;key) != value)
+        input_event(input, EV_MSC, MSC_SCAN, usage-&gt;hid);
+
+    input_event(input, usage-&gt;type, usage-&gt;code, value);
+
+    if ((field-&gt;flags & HID_MAIN_ITEM_RELATIVE) && (usage-&gt;type == EV_KEY))
+        input_event(input, usage-&gt;type, usage-&gt;code, 0);
+}
+</pre>
+
+<p>input_event的参数value就是前面extract出的值，也是我们在uhid-example中传入的button的1 bit按下状态和坐标或者8 bit数值，而usage-&gt;code对应button的keycode或者坐标的axis</p>
+<p></p><h4>usage的type和code是在哪里赋值的？</h4><br>它是在hidinput_connect时调用hidinput_configure_usage进行赋值的<p></p>
+<p>前一篇文章《Linux uhid分析之创建HID设备》中提到，hid_device_probe时会先调用hid_parse -&gt; hid_parse_report</p>
+<p>它在hid_parse_local时，将USAGE_PAGE &lt;&lt; 16 + USAGE的值保存到parser-&gt;local.usage数组；然后在hid_parse_main时调用 hid_add_field -&gt; hid_register_field 分配field-&gt;usage结构体，并将field-&gt;usage[i].hid设置为parser-&gt;local.usage[j]（也就是前面hid_parse_local保存的usage值）</p>
+<pre>
+static int hid_parser_local(struct hid_parser *parser, struct hid_item *item)
+{
+    ...
+    case HID_LOCAL_ITEM_TAG_USAGE:
+        if (item-&gt;size &lt;= 2)
+            data = (parser-&gt;global.usage_page &lt;&lt; 16) + data;
+
+        return hid_add_usage(parser, data);
+   ...
+}
+
+static int hid_parser_main(struct hid_parser *parser, struct hid_item *item)
+{
+    __u32 data;
+    int ret;
+
+    data = item_udata(item);
+
+    switch (item-&gt;tag) {
+    ...
+    case HID_MAIN_ITEM_TAG_INPUT:
+        ret = hid_add_field(parser, HID_INPUT_REPORT, data);
+        break;
+    ...
+    }
+
+    return ret;
+}
+
+static int hid_add_field(struct hid_parser *parser, unsigned report_type, unsigned flags)
+{
+    struct hid_report *report;
+    struct hid_field *field;
+    unsigned usages;
+    unsigned offset;
+    unsigned i;
+
+    report = hid_register_report(parser-&gt;device, report_type, parser-&gt;global.report_id);
+    ...
+
+    usages = max_t(unsigned, parser-&gt;local.usage_index,
+                 parser-&gt;global.report_count);
+
+    field = hid_register_field(report, usages, parser-&gt;global.report_count);
+    ...
+
+    for (i = 0; i &lt; usages; i++) {
+        unsigned j = i;
+        /* Duplicate the last usage we parsed if we have excess values */
+        if (i &gt;= parser-&gt;local.usage_index)
+            j = parser-&gt;local.usage_index - 1;
+        field-&gt;usage[i].hid = parser-&gt;local.usage[j];
+        field-&gt;usage[i].collection_index =
+            parser-&gt;local.collection_index[j];
+    }
+
+    field-&gt;maxusage = usages;
+    field-&gt;flags = flags;
+    ...
+    return 0;
+}
+</pre>
+
+<p>parse结束后，hid_device_probe 调用 hid_hw_start -&gt; hid_connect -&gt; hidinput_connect</p>
+<pre>
+int hidinput_connect(struct hid_device *hid, unsigned int force)
+{
+    struct hid_report *report;
+    struct hid_input *hidinput = NULL;
+    struct input_dev *input_dev;
+    int i, j, k;
+
+    INIT_LIST_HEAD(&hid-&gt;inputs);
+
+    if (!force) {
+        for (i = 0; i &lt; hid-&gt;maxcollection; i++) {
+            struct hid_collection *col = &hid-&gt;collection[i];
+            if (col-&gt;type == HID_COLLECTION_APPLICATION ||
+                    col-&gt;type == HID_COLLECTION_PHYSICAL)
+                if (IS_INPUT_APPLICATION(col-&gt;usage))
+                    break;
+        }
+
+        if (i == hid-&gt;maxcollection)
+            return -1;
+    }
+
+    report_features(hid);
+
+    for (k = HID_INPUT_REPORT; k &lt;= HID_OUTPUT_REPORT; k++) {
+        if (k == HID_OUTPUT_REPORT &&
+            hid-&gt;quirks & HID_QUIRK_SKIP_OUTPUT_REPORTS)
+            continue;
+
+        list_for_each_entry(report, &hid-&gt;report_enum[k].report_list, list) {
+
+            if (!report-&gt;maxfield)
+                continue;
+
+            if (!hidinput) {
+                hidinput = kzalloc(sizeof(*hidinput), GFP_KERNEL);
+                input_dev = input_allocate_device();
+                if (!hidinput || !input_dev) {
+                    kfree(hidinput);
+                    input_free_device(input_dev);
+                    hid_err(hid, &quot;Out of memory during hid input probe\n&quot;);
+                    goto out_unwind;
+                }
+
+                input_set_drvdata(input_dev, hid);
+                input_dev-&gt;event =
+                    hid-&gt;ll_driver-&gt;hidinput_input_event;
+                input_dev-&gt;open = hidinput_open;
+                input_dev-&gt;close = hidinput_close;
+                input_dev-&gt;setkeycode = hidinput_setkeycode;
+                input_dev-&gt;getkeycode = hidinput_getkeycode;
+
+                input_dev-&gt;name = hid-&gt;name;
+                input_dev-&gt;phys = hid-&gt;phys;
+                input_dev-&gt;uniq = hid-&gt;uniq;
+                input_dev-&gt;id.bustype = hid-&gt;bus;
+                input_dev-&gt;id.vendor  = hid-&gt;vendor;
+                input_dev-&gt;id.product = hid-&gt;product;
+                input_dev-&gt;id.version = hid-&gt;version;
+                input_dev-&gt;dev.parent = hid-&gt;dev.parent;
+                hidinput-&gt;input = input_dev;
+                list_add_tail(&hidinput-&gt;list, &hid-&gt;inputs);
+            }
+
+            for (i = 0; i &lt; report-&gt;maxfield; i++)
+                for (j = 0; j &lt; report-&gt;field[i]-&gt;maxusage; j++)
+                    hidinput_configure_usage(hidinput, report-&gt;field[i],
+                                 report-&gt;field[i]-&gt;usage + j);
+
+            if (hid-&gt;quirks & HID_QUIRK_MULTI_INPUT) {
+                /* This will leave hidinput NULL, so that it
+                 * allocates another one if we have more inputs on
+                 * the same interface. Some devices (e.g. Happ's
+                 * UGCI) cram a lot of unrelated inputs into the
+                 * same interface. */
+                hidinput-&gt;report = report;
+                if (hid-&gt;driver-&gt;input_register &&
+                        hid-&gt;driver-&gt;input_register(hid, hidinput))
+                    goto out_cleanup;
+                if (input_register_device(hidinput-&gt;input))
+                    goto out_cleanup;
+                hidinput = NULL;
+            }
+        }
+    }
+
+    if (hid-&gt;quirks & HID_QUIRK_MULTITOUCH) {
+        /* generic hid does not know how to handle multitouch devices */
+        if (hidinput)
+            goto out_cleanup;
+        goto out_unwind;
+    }
+
+    if (hidinput && hid-&gt;driver-&gt;input_register &&
+            hid-&gt;driver-&gt;input_register(hid, hidinput))
+        goto out_cleanup;
+
+    if (hidinput && input_register_device(hidinput-&gt;input))
+        goto out_cleanup;
+
+    return 0;
+
+out_cleanup:
+    list_del(&hidinput-&gt;list);
+    input_free_device(hidinput-&gt;input);
+    kfree(hidinput);
+out_unwind:
+    /* unwind the ones we already registered */
+    hidinput_disconnect(hid);
+
+    return -1;
+}
+</pre>
+hidinput_connect对hid_device->report_enum中的每一个report的每一个field，通过hidinput_configure_usage对usage进行配置
+<pre>
+static void hidinput_configure_usage(struct hid_input *hidinput, struct hid_field *field,
+                     struct hid_usage *usage)
+{
+    struct input_dev *input = hidinput-&gt;input;
+    struct hid_device *device = input_get_drvdata(input);
+    int max = 0, code;
+    unsigned long *bit = NULL;
+
+    field-&gt;hidinput = hidinput;
+
+    if (field-&gt;flags & HID_MAIN_ITEM_CONSTANT)
+        goto ignore;
+
+    /* Ignore if report count is out of bounds. */
+    if (field-&gt;report_count &lt; 1)
+        goto ignore;
+
+    /* only LED usages are supported in output fields */
+    if (field-&gt;report_type == HID_OUTPUT_REPORT &&
+            (usage-&gt;hid & HID_USAGE_PAGE) != HID_UP_LED) {
+        goto ignore;
+    }
+
+    if (device-&gt;driver-&gt;input_mapping) {
+        int ret = device-&gt;driver-&gt;input_mapping(device, hidinput, field,
+                usage, &bit, &max);
+        if (ret &gt; 0)
+            goto mapped;
+        if (ret &lt; 0)
+            goto ignore;
+    }
+
+    switch (usage-&gt;hid & HID_USAGE_PAGE) {
+    case HID_UP_UNDEFINED:
+        goto ignore;
+
+    case HID_UP_KEYBOARD:
+        set_bit(EV_REP, input-&gt;evbit);
+
+        if ((usage-&gt;hid & HID_USAGE) &lt; 256) {
+            if (!hid_keyboard[usage-&gt;hid & HID_USAGE]) goto ignore;
+            map_key_clear(hid_keyboard[usage-&gt;hid & HID_USAGE]);
+        } else
+            map_key(KEY_UNKNOWN);
+
+        break;
+
+    case HID_UP_BUTTON:
+        code = ((usage-&gt;hid - 1) & HID_USAGE);
+
+        switch (field-&gt;application) {
+        case HID_GD_MOUSE:
+        case HID_GD_POINTER:  code += BTN_MOUSE; break;
+        case HID_GD_JOYSTICK:
+                if (code &lt;= 0xf)
+                    code += BTN_JOYSTICK;
+                else
+                    code += BTN_TRIGGER_HAPPY;
+                break;
+        case HID_GD_GAMEPAD:  code += BTN_GAMEPAD; break;
+        default:
+            switch (field-&gt;physical) {
+            case HID_GD_MOUSE:
+            case HID_GD_POINTER:  code += BTN_MOUSE; break;
+            case HID_GD_JOYSTICK: code += BTN_JOYSTICK; break;
+            case HID_GD_GAMEPAD:  code += BTN_GAMEPAD; break;
+            default:              code += BTN_MISC;
+            }
+        }
+
+        map_key(code);
+        break;
+        ...
+    case HID_UP_GENDESK:
+        ...
+        switch (usage-&gt;hid) {
+        /* These usage IDs map directly to the usage codes. */
+        case HID_GD_X: case HID_GD_Y: case HID_GD_Z:
+        case HID_GD_RX: case HID_GD_RY: case HID_GD_RZ:
+        case HID_GD_SLIDER: case HID_GD_DIAL: case HID_GD_WHEEL:
+            if (field-&gt;flags & HID_MAIN_ITEM_RELATIVE)
+                map_rel(usage-&gt;hid & 0xf);
+            else
+                map_abs(usage-&gt;hid & 0xf);
+            break;
+
+        case HID_GD_HATSWITCH:
+            usage-&gt;hat_min = field-&gt;logical_minimum;
+            usage-&gt;hat_max = field-&gt;logical_maximum;
+            map_abs(ABS_HAT0X);
+            break;
+
+        case HID_GD_START:  map_key_clear(BTN_START);   break;
+        case HID_GD_SELECT: map_key_clear(BTN_SELECT);  break;
+
+        default: goto unknown;
+        }
+
+        break;
+        ...
+    default:
+    unknown:
+        if (field-&gt;report_size == 1) {
+            if (field-&gt;report-&gt;type == HID_OUTPUT_REPORT) {
+                map_led(LED_MISC);
+                break;
+            }
+            map_key(BTN_MISC);
+            break;
+        }
+        if (field-&gt;flags & HID_MAIN_ITEM_RELATIVE) {
+            map_rel(REL_MISC);
+            break;
+        }
+        map_abs(ABS_MISC);
+        break;
+    }
+
+mapped:
+    if (device-&gt;driver-&gt;input_mapped && device-&gt;driver-&gt;input_mapped(device,
+                hidinput, field, usage, &bit, &max) &lt; 0)
+        goto ignore;
+
+    set_bit(usage-&gt;type, input-&gt;evbit);
+
+    while (usage-&gt;code &lt;= max && test_and_set_bit(usage-&gt;code, bit))
+        usage-&gt;code = find_next_zero_bit(bit, max + 1, usage-&gt;code);
+
+    if (usage-&gt;code &gt; max)
+        goto ignore;
+
+    if (usage-&gt;type == EV_ABS) {
+
+        int a = field-&gt;logical_minimum;
+        int b = field-&gt;logical_maximum;
+
+        if ((device-&gt;quirks & HID_QUIRK_BADPAD) && (usage-&gt;code == ABS_X || usage-&gt;code == ABS_Y)) {
+            a = field-&gt;logical_minimum = 0;
+            b = field-&gt;logical_maximum = 255;
+        }
+
+        if (field-&gt;application == HID_GD_GAMEPAD || field-&gt;application == HID_GD_JOYSTICK)
+            input_set_abs_params(input, usage-&gt;code, a, b, (b - a) &gt;&gt; 8, (b - a) &gt;&gt; 4);
+        else    input_set_abs_params(input, usage-&gt;code, a, b, 0, 0);
+
+        input_abs_set_res(input, usage-&gt;code,
+                  hidinput_calc_abs_res(field, usage-&gt;code));
+
+        /* use a larger default input buffer for MT devices */
+        if (usage-&gt;code == ABS_MT_POSITION_X && input-&gt;hint_events_per_packet == 0)
+            input_set_events_per_packet(input, 60);
+    }
+
+    if (usage-&gt;type == EV_ABS &&
+        (usage-&gt;hat_min &lt; usage-&gt;hat_max || usage-&gt;hat_dir)) {
+        int i;
+        for (i = usage-&gt;code; i &lt; usage-&gt;code + 2 && i &lt;= max; i++) {
+            input_set_abs_params(input, i, -1, 1, 0, 0);
+            set_bit(i, input-&gt;absbit);
+        }
+        if (usage-&gt;hat_dir && !field-&gt;dpad)
+            field-&gt;dpad = usage-&gt;code;
+    }
+        ...
+ignore:
+    return;
+}
+</pre>
+
+<p>USAGE_PAGE为Button对应case HID_UP_BUTTON:<br>code = ((usage-&gt;hid - 1) &amp; HID_USAGE)计算出Button 1对应code=0，Button 2对应code=1，Button 3对应code=2；<br>然后code += BTN_MOUSE（0x110）计算出三个Button的值分别为0x110、0x111、0x112，对应linux/input.h的BTN_LEFT、BTN_RIGHT、BTN_MIDDLE<br>map_key(code)将usage-&gt;type设置为EV_KEY，usage-&gt;code分别设置为前面计算出的BTN_LEFT、BTN_RIGHT、BTN_MIDDLE</p>
+<p>USAGE_PAGE为Generic Desktop对应case HID_UP_GENDESK:<br>USAGE的X(0x30)对应HID_GD_X、Y(0x31)对应HID_GD_Y、Wheel(0x38)对应HID_GD_WHEEL<br>调用map_rel(usage-&gt;hid &amp; 0xf)指定usage-&gt;type为EV_REL，usage-&gt;code分别为REL_X: 0x0(0x30 &amp; 0xf)、REL_Y: 0x1(0x31 &amp; 0xf)、REL_WHEEL: 0x8(0x38 &amp; 0xf)</p>
+<pre>
+#define map_abs(c)    hid_map_usage(hidinput, usage, &bit, &max, EV_ABS, (c))
+#define map_rel(c)    hid_map_usage(hidinput, usage, &bit, &max, EV_REL, (c))
+#define map_key(c)    hid_map_usage(hidinput, usage, &bit, &max, EV_KEY, (c))
+#define map_led(c)    hid_map_usage(hidinput, usage, &bit, &max, EV_LED, (c))
+
+static inline void hid_map_usage(struct hid_input *hidinput,
+        struct hid_usage *usage, unsigned long **bit, int *max,
+        __u8 type, __u16 c)
+{
+    struct input_dev *input = hidinput-&gt;input;
+
+    usage-&gt;type = type;
+    usage-&gt;code = c;
+
+    switch (type) {
+    case EV_ABS:
+        *bit = input-&gt;absbit;
+        *max = ABS_MAX;
+        break;
+    case EV_REL:
+        *bit = input-&gt;relbit;
+        *max = REL_MAX;
+        break;
+    case EV_KEY:
+        *bit = input-&gt;keybit;
+        *max = KEY_MAX;
+        break;
+    case EV_LED:
+        *bit = input-&gt;ledbit;
+        *max = LED_MAX;
+        break;
+    }
+}
+</pre>
+
+
+
+<p>最后再贴一个logitech手柄的hid report descriptor</p>
+<pre>
+0x05, 0x01,         /*  Usage Page (Desktop),                   */
+0x09, 0x05,         /*  Usage (Gamepad),                        */
+0xA1, 0x01,         /*  Collection (Application),               */
+0xA1, 0x02,         /*      Collection (Logical),               */
+0x85, 0x01,         /*          Report ID (1),                  */
+0x75, 0x08,         /*          Report Size (8),                */
+0x95, 0x04,         /*          Report Count (4),               */
+0x15, 0x00,         /*          Logical Minimum (0),            */
+0x26, 0xFF, 0x00,   /*          Logical Maximum (255),          */
+0x35, 0x00,         /*          Physical Minimum (0),           */
+0x46, 0xFF, 0x00,   /*          Physical Maximum (255),         */
+0x09, 0x30,         /*          Usage (X),                      */
+0x09, 0x31,         /*          Usage (Y),                      */
+0x09, 0x32,         /*          Usage (Z),                      */
+0x09, 0x35,         /*          Usage (Rz),                     */
+0x81, 0x02,         /*          Input (Variable),               */
+0x75, 0x04,         /*          Report Size (4),                */
+0x95, 0x01,         /*          Report Count (1),               */
+0x25, 0x07,         /*          Logical Maximum (7),            */
+0x46, 0x3B, 0x01,   /*          Physical Maximum (315),         */
+0x66, 0x14, 0x00,   /*          Unit (Degrees),                 */
+0x09, 0x39,         /*          Usage (Hat Switch),             */
+0x81, 0x42,         /*          Input (Variable, Null State),   */
+0x66, 0x00, 0x00,   /*          Unit,                           */
+0x75, 0x01,         /*          Report Size (1),                */
+0x95, 0x0C,         /*          Report Count (12),              */
+0x25, 0x01,         /*          Logical Maximum (1),            */
+0x45, 0x01,         /*          Physical Maximum (1),           */
+0x05, 0x09,         /*          Usage Page (Button),            */
+0x19, 0x01,         /*          Usage Minimum (01h),            */
+0x29, 0x0C,         /*          Usage Maximum (0Ch),            */
+0x81, 0x02,         /*          Input (Variable),               */
+0x95, 0x01,         /*          Report Count (1),               */
+0x75, 0x08,         /*          Report Size (8),                */
+0x06, 0x00, 0xFF,   /*          Usage Page (FF00h),             */
+0x26, 0xFF, 0x00,   /*          Logical Maximum (255),          */
+0x46, 0xFF, 0x00,   /*          Physical Maximum (255),         */
+0x09, 0x00,         /*          Usage (00h),                    */
+0x81, 0x02,         /*          Input (Variable),               */
+0xC0,               /*      End Collection,                     */
+0xA1, 0x02,         /*      Collection (Logical),               */
+0x85, 0x02,         /*          Report ID (2),                  */
+0x95, 0x07,         /*          Report Count (7),               */
+0x75, 0x08,         /*          Report Size (8),                */
+0x26, 0xFF, 0x00,   /*          Logical Maximum (255),          */
+0x46, 0xFF, 0x00,   /*          Physical Maximum (255),         */
+0x06, 0x00, 0xFF,   /*          Usage Page (FF00h),             */
+0x09, 0x03,         /*          Usage (03h),                    */
+0x81, 0x02,         /*          Input (Variable),               */
+0xC0,               /*      End Collection,                     */
+0xA1, 0x02,         /*      Collection (Logical),               */
+0x85, 0x03,         /*          Report ID (3),                  */
+0x09, 0x04,         /*          Usage (04h),                    */
+0x91, 0x02,         /*          Output (Variable),              */
+0xC0,               /*      End Collection,                     */
+0xC0                /*  End Collection                          */
+</pre>
+
+<p>hid report descriptor查看工具：<br><a href="https://github.com/jfojfo/usbhid-dump" target="_blank">https://github.com/jfojfo/usbhid-dump</a><br><a href="https://github.com/jfojfo/hidrd" target="_blank">https://github.com/jfojfo/hidrd</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/09/09/Linux-uhid分析之输入事件传递/" class="archive-article-date">
+  	<time datetime="2014-09-09T15:45:43.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-09-09</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux/">Linux</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2014/10/30/Android之监听Usb设备插拔/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Android之监听Usb设备插拔
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/09/08/Linux-uhid分析之创建HID设备/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Linux uhid分析之创建HID设备</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

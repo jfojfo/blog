@@ -1,0 +1,1984 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="jfo planet">
+<meta property="og:url" content="http://blog.pickbox.me/page/4/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jfo planet">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        
+  
+    <article id="post-解决Linux下连接Cisco-VPN后局域网不能访问" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/08/06/解决Linux下连接Cisco-VPN后局域网不能访问/">解决Linux下连接Cisco VPN后局域网不能访问</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在Linux下使用Cisco Anyconnect客户端连接VPN后，局域网无法访问，无论如何设置路由，路由表始终无法改变<br>网上搜了一下，原因是Anyconnect客户端监听路由表，一旦改变，通过一个回调再改回去</p>
+<p>解决办法：Anyconnect监听路由表的回调代码位于一个so共享库，可以通过LD_PRELOAD阻止Anyconnect加载原来的监听回调</p>
+<p>创建hack.c</p>
+<pre>
+#include &lt;sys/socket.h&gt;
+#include &lt;linux/netlink.h&gt;
+
+int _ZN27CInterfaceRouteMonitorLinux20routeCallbackHandlerEv()
+{
+  int fd=50;          // max fd to try
+  char buf[8192];
+  struct sockaddr_nl sa;
+  socklen_t len = sizeof(sa);
+
+  while (fd) {
+     if (!getsockname(fd, (struct sockaddr *)&sa, &len)) {
+        if (sa.nl_family == AF_NETLINK) {
+           ssize_t n = recv(fd, buf, sizeof(buf), MSG_DONTWAIT);
+        }
+     }
+     fd--;
+  }
+  return 0;
+}
+</pre>
+
+<pre>
+$ gcc -o libhack.so -shared -fPIC hack.c
+$ sudo cp libhack.so  /opt/cisco/anyconnect/lib/
+</pre>
+
+<p>修改/etc/init.d/vpnagentd，启动vpnagentd的地方前面添加LD_PRELOAD=/opt/cisco/anyconnect/lib/libhack.so</p>
+<pre>
+LD_PRELOAD=/opt/cisco/anyconnect/lib/libhack.so /opt/cisco/anyconnect/bin/vpnagentd
+</pre>
+
+<p>重新启动vpnagentd</p>
+<pre>
+$ sudo /etc/init.d/vpnagentd start
+</pre>
+
+<p>最后修改一下iptables</p>
+<pre>
+$ sudo iptables-save | grep -v DROP | iptables-restore
+</pre>
+
+<p>再修改路由表就可以生效了</p>
+<pre>
+$ sudo route add -net 192.168.1.0 netmask 255.255.255.0 dev eth0
+$ sudo route -n
+</pre>
+
+<p>以上方法对于version 3.1.00495, 3.1.05152, 3.1.05170的Anyconnect客户端有效</p>
+<p>如果前面说的方法无效，可以试试用gdb调试，找出回调函数的名字</p>
+<pre>
+gdb -p $(pidof vpnagentd)
+b socket
+c
+bt
+</pre>
+
+
+<p>参考：<a href="http://superuser.com/questions/284709/how-to-allow-local-lan-access-while-connected-to-cisco-vpn" target="_blank">How to allow local LAN access while connected to Cisco VPN?</a><br>PDF：<a href="http://img.pickbox.me/wp-content/uploads/How-to-allow-local-LAN-access-while-connected-to-Cisco-VPN.pdf" target="_blank" rel="external">How to allow local LAN access while connected to Cisco VPN</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/08/06/解决Linux下连接Cisco-VPN后局域网不能访问/" class="archive-article-date">
+  	<time datetime="2014-08-06T02:34:21.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-08-06</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Network/">Network</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-使用make-kpkg生成linux-header" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/08/01/使用make-kpkg生成linux-header/">使用make-kpkg生成linux-header</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><pre>$ sudo apt-get install kernel-package</pre></p>
+<p>生成linux-headers<br>$ export ARCH=arm<br>$ export DEB_HOST_ARCH=armhf<br>$ export CONCURRENCY_LEVEL=4<br>$ make-kpkg –rootcmd fakeroot –arch arm –cross-compile arm-linux-gnueabihf- –revision 1.0 –append-to-version -sunxi kernel_headers</p>
+<p>生成linux-source<br>$ make-kpkg –rootcmd fakeroot –arch arm –cross-compile arm-linux-gnueabihf- –revision 1.0 –append-to-version -sunxi kernel_source<br>一定要指定export DEB_HOST_ARCH=armhf</p>
+<p>如果要生成内核image deb包，可以make-kpkg kernel_image，会自动build内核并生成kernel的deb</p>
+<p>产生的warning可以忽略</p>
+<p><pre>dpkg-architecture: warning: Specified GNU system type arm-linux-gnu does not match gcc system type x86_64-linux-gnu.</pre><br><del>通过以上方式生成的deb包，用于host(x86_64)系统上使用，比如其他人在x86_64的ubuntu上想build基于cubieboard2的一个驱动，那么就可以在自己的x86_64 ubuntu上下载前面的linux-headers deb包，然后编译驱动</del><br>注：网上有人说linux-headers缺少一些文件，可能会导致某些驱动无法编译通过（如xiaomi wifi使用的MT7601U芯片），可以安装linux-source deb包编译试一试</p>
+<p>如果解压linux-headers deb包，可以看到usr/src/scripts/basic/fixdep还是host(x86_64)平台上的可执行文件</p>
+<p><pre>$ file fixdep<br>fixdep: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), dynamically linked (uses shared libs), for GNU/Linux 2.6.24, BuildID[sha1]=0xcfc5aa7e84cb43b9fc05733bde02ba70083364c0, not stripped</pre><br>参考：<a href="https://romanrm.net/a10/cross-compile-kernel" target="_blank">Cross-compiling an Allwinner ARM Linux kernel on Debian amd64</a><br>PDF格式：<a href="http://img.pickbox.me/wp-content/uploads/Cross-compiling-an-Allwinner-ARM-Linux-kernel-on-Debian-amd64.pdf" target="_blank" rel="external">Cross-compiling an Allwinner ARM Linux kernel on Debian amd64</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/08/01/使用make-kpkg生成linux-header/" class="archive-article-date">
+  	<time datetime="2014-08-01T12:38:09.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-08-01</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-uEnv-txt的使用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/08/01/uEnv-txt的使用/">uEnv.txt的使用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="http://blog.pickbox.me/2014/07/31/cubieboard2-a20-sd%E5%8D%A1%E5%90%AF%E5%8A%A8%E5%8F%8A%E6%A0%B9%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%88%B6%E4%BD%9C/" target="_blank">Cubieboard2 A20制作SD启动卡</a>时使用了boot.cmd，然后生成boot.scr拷贝至sd卡第一个分区，这种方法有个坏处就是每次更改boot参数都需要重新生成一次boot.scr，比较麻烦，其实uBoot提供了uEnv.txt，可以直接在里面添加参数，启动时会先读取uEnv.txt，然后再执行boot.scr</p>
+<p>在<a href="http://blog.pickbox.me/2014/08/01/cubieboard2%E4%BD%BF%E7%94%A8%E5%B0%8F%E7%B1%B3wifi/" target="_blank">为Cubieboard添加小米wifi支持</a>时，就可以利用uEnv.txt添加一个额外参数coherent_pool=6M，而不用重新生成boot.scr</p>
+<p>boot.cmd内容如下：</p>
+<pre>$ cat boot.cmd
+setenv bootargs console=ttyS0,115200 noinitrd disp.screen0_output_mode=EDID:1280x1024p60 init=/sbin/init root=/dev/mmcblk0p2 rootfstype=ext4 rootwait panic=10 ${extraargs}
+fatload mmc 0 0x43000000 boot/script.bin
+fatload mmc 0 0x48000000 boot/uImage
+bootm 0x48000000</pre>
+特别注意<span style="color: #ff6600;">${extraargs}</span>不能省略，否则uEnv.txt中通过extraargs设置的参数就不起作用了
+
+uEnv.txt内容如下：
+<pre>$ cat uEnv.txt
+extraargs=coherent_pool=6M</pre>
+&nbsp;
+
+uBoot的WiKi中提到default environment如下：
+<pre>
+baudrate=115200
+scriptaddr=0x44000000
+bootscr=boot.scr
+bootenv=uEnv.txt
+loadbootscr=fatload mmc 0 ${scriptaddr} ${bootscr} || ext2load mmc 0 ${scriptaddr} ${bootscr} || ext2load mmc 0 ${scriptaddr} boot/${bootscr}
+loadbootenv=fatload mmc 0 ${scriptaddr} ${bootenv} || ext2load mmc 0 ${scriptaddr} ${bootenv} || ext2load mmc 0 ${scriptaddr} boot/${bootenv}
+boot_mmc=fatload mmc 0 0x43000000 script.bin && fatload mmc 0 0x48000000 ${kernel} && watchdog 0 && bootm 0x48000000
+bootcmd=&quot;if run loadbootenv; then \
+                echo Loaded environment from ${bootenv}; \
+                env import -t ${scriptaddr} ${filesize}; \
+        fi; \
+        if test -n ${uenvcmd}; then \
+                echo Running uenvcmd ...; \
+                run uenvcmd; \
+        fi; \
+        if run loadbootscr; then \
+                echo Jumping to ${bootscr}; \
+                source ${scriptaddr}; \
+        fi; \
+        run setargs boot_mmc;&quot;
+bootdelay=3
+console=ttyS0,115200
+kernel=uImage
+loglevel=8
+panicarg=panic=10
+root=/dev/mmcblk0p2
+setargs=setenv bootargs console=${console} root=${root} loglevel=${loglevel} ${panicarg} ${extraargs}
+stderr=serial
+stdin=serial
+stdout=serial
+</pre>
+
+<p>可以看到运行bootcmd时，通过run loadbootenv把uEnv.txt加载到scriptaddr处，然后env import加载uEnv.txt中定义的变量<br>如果uEnv.txt中定义了uenvcmd，它会被run<br>然后run loadbootscr加载boot.scr到scriptaddr处，并source执行该脚本，此时会执行我们在boot.cmd中设置的setenv bootargs<br>最后run setargs boot_mmc</p>
+<p>更多内容参考：<a href="https://github.com/linux-sunxi/u-boot-sunxi/wiki" target="_blank">uBoot WiKi</a></p>
+<p><hr><br>从u-boot的源代码看，u-boot-sunxi/include/configs/sunxi-common.h中定义了CONFIG_BOOTCOMMAND</p>
+<p><pre></pre></p>
+<p>#define CONFIG_BOOTCOMMAND \<br>        RUN_BOOT_RAM \<br>        “if run loadbootenv; then “ \<br>          “echo Loaded environment from ${bootenv};” \<br>          “env import -t ${scriptaddr} ${filesize};” \<br>        “fi;” \<br>        “if test -n \\”${uenvcmd}\\”; then “ \<br>          “echo Running uenvcmd …;” \<br>          “run uenvcmd;” \<br>        “fi;” \<br>        “if run loadbootscr; then “\<br>          “echo Jumping to ${bootscr};” \<br>          “source ${scriptaddr};” \<br>        “fi;” \<br>        “run autoboot;” \<br>        “”<br><br>u-boot-sunxi/include/env_default.h生成default config<br>sunxi的default config中bootcmd的最后一行应该是run autoboot，而不是前面所说的run setargs boot_mmc<br>这也是为什么如果boot.cmd中不添加extraargs，uEnv.txt就不生效</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/08/01/uEnv-txt的使用/" class="archive-article-date">
+  	<time datetime="2014-08-01T09:01:13.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-08-01</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Cubieboard2使用小米wifi" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/08/01/Cubieboard2使用小米wifi/">Cubieboard2使用小米wifi</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p></p><h2>下载MT7601U驱动和linux-sunxi源码</h2><p></p>
+<pre>$ git clone https://github.com/jfojfo/MT7601U.git</pre>
+该驱动源码已经加入了xiaomi wifi支持
+修改Makefile，在export LINUX_SRC CROSS_COMPILE之前添加：
+<pre># add following 2 lines
+LINUX_SRC=../linux-sunxi
+CROSS_COMPILE=arm-linux-gnueabihf-
+
+export OSABL RT28xx_DIR RT28xx_MODE LINUX_SRC CROSS_COMPILE CROSS_COMPILE_INCLUDE PLATFORM RELEASE CHIPSET MODULE RTMP_SRC_DIR LINUX_SRC_MODULE TARGET HAS_WOW_SUPPORT
+
+# The targets that may be used.
+PHONY += all build_tools test UCOS THREADX LINUX release prerelease clean uninstall install libwapi osabl</pre>
+下载linux-sunxi
+<pre>$ git clone https://github.com/jfojfo/linux-sunxi.git</pre>
+<h2>linux kernel环境准备</h2>
+产生.config文件、fixdep script工具
+<pre>$ cd linux-sunxi
+$ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- cubieboard2_defconfig
+HOSTCC scripts/basic/fixdep
+HOSTCC scripts/kconfig/conf.o
+HOSTCC scripts/kconfig/zconf.tab.o
+HOSTLD scripts/kconfig/conf
+drivers/net/wireless/bcmdhd/Kconfig:42:warning: defaults for choice values not supported
+#
+# configuration written to .config
+#</pre>
+
+<p>生成generated的头文件和version.h</p>
+<pre>$ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- prepare
+scripts/kconfig/conf --silentoldconfig Kconfig
+drivers/net/wireless/bcmdhd/Kconfig:42:warning: defaults for choice values not supported
+WRAP arch/arm/include/generated/asm/auxvec.h
+WRAP arch/arm/include/generated/asm/bitsperlong.h
+WRAP arch/arm/include/generated/asm/cputime.h
+WRAP arch/arm/include/generated/asm/emergency-restart.h
+WRAP arch/arm/include/generated/asm/errno.h
+WRAP arch/arm/include/generated/asm/ioctl.h
+WRAP arch/arm/include/generated/asm/irq_regs.h
+WRAP arch/arm/include/generated/asm/kdebug.h
+WRAP arch/arm/include/generated/asm/local.h
+WRAP arch/arm/include/generated/asm/local64.h
+WRAP arch/arm/include/generated/asm/percpu.h
+WRAP arch/arm/include/generated/asm/poll.h
+WRAP arch/arm/include/generated/asm/resource.h
+WRAP arch/arm/include/generated/asm/sections.h
+WRAP arch/arm/include/generated/asm/siginfo.h
+WRAP arch/arm/include/generated/asm/sizes.h
+CHK include/linux/version.h
+UPD include/linux/version.h
+CHK include/generated/utsrelease.h
+UPD include/generated/utsrelease.h
+Generating include/generated/mach-types.h
+CC kernel/bounds.s
+GEN include/generated/bounds.h
+CC arch/arm/kernel/asm-offsets.s
+GEN include/generated/asm-offsets.h
+CALL scripts/checksyscalls.sh</pre>
+
+<p>产生scripts工具，如genksyms</p>
+<pre>$ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- scripts
+HOSTCC scripts/genksyms/genksyms.o
+HOSTCC scripts/genksyms/lex.lex.o
+HOSTCC scripts/genksyms/parse.tab.o
+HOSTLD scripts/genksyms/genksyms
+CC scripts/mod/empty.o
+HOSTCC scripts/mod/mk_elfconfig
+MKELF scripts/mod/elfconfig.h
+HOSTCC scripts/mod/file2alias.o
+HOSTCC scripts/mod/modpost.o
+HOSTCC scripts/mod/sumversion.o
+HOSTLD scripts/mod/modpost
+HOSTCC scripts/selinux/genheaders/genheaders
+HOSTCC scripts/selinux/mdp/mdp
+HOSTCC scripts/kallsyms
+HOSTCC scripts/conmakehash
+HOSTCC scripts/bin2c</pre>
+
+
+<p>注：<br>前面的make prepare 和make scripts两步也可以用下面代替<br>make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- modules_prepare</p>
+<p></p><h2>编译驱动</h2><p></p>
+<pre>$ cd ../
+$ cd MT7601U
+$ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-</pre>
+产生驱动os/linux/mt7601Usta.ko
+将mt7601Usta.ko拷贝至cubieboard2的/lib/modules/3.4.91/kernel/net/wireless/目录，并运行depmod
+将RT2870STA.dat拷贝至/etc/etc/Wireless/RT2870STA/目录
+以后插入小米wifi就会自动加载驱动
+
+编译过程中会产生warning，Module.symvers is missing; modules will have no dependencies and modversions.
+需要build linux-sunxi的内核和驱动（参考：<a href="http://blog.pickbox.me/2014/07/31/cubieboard2-a20-sd%E5%8D%A1%E5%90%AF%E5%8A%A8%E5%8F%8A%E6%A0%B9%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E5%88%B6%E4%BD%9C/" target="_blank">Cubieboard2 A20 SD卡启动及根文件系统制作</a>）
+运行如下命令产生Module.symvers文件
+<pre>
+$ scripts/mod/modpost -o /home/yihect/linux-2.6.31/Module.symvers -S -c vmlinux.o
+</pre>
+
+<p></p><h2>配置DMA大小</h2><br>前面编译出来驱动，insmod时会发现出错，报DMA内存不足，cubieboard2中默认使用256k，需要修改成1M以上<p></p>
+<pre>
+--> RTMPAllocTxRxRingMemory
+ERROR: 256 KiB atomic DMA coherent pool is too small!
+Please increase it with coherent_pool= kernel parameter!
+</pre>
+修改boot.cmd，在setenv一行最后添加 coherent_pool=6M，重新烧写SD卡后启动就可以正常使用了
+<pre>
+setenv bootargs console=ttyS0,115200 noinitrd disp.screen0_output_mode=EDID:1280x1024p60 init=/sbin/init root=/dev/mmcblk0p2 rootfstype=ext4 rootwait panic=10 coherent_pool=6M
+fatload mmc 0 0x43000000 boot/script.bin
+fatload mmc 0 0x48000000 boot/uImage
+bootm 0x48000000
+</pre>
+<h2>在Cubieboard上配置wifi</h2>
+iwconfig是针对WEP的wifi，现在wifi大部分都是wpa2的，可以用wpa_cli来设置
+
+安装wireless-tools和wpasupplicant
+<pre>
+# apt-get install wpasupplicant wireless-tools
+# wpa_passphrase ESSID PASSWORD &gt; xxx.conf
+# wpa_supplicant -B -i ra0 -Dwext -c xxx.conf
+# iwconfig ra0
+# dhclient -v ra0
+</pre>
+
+<p>无线网卡就可以正常运行了</p>
+<p></p><h2>配置wifi自动启动</h2><p></p>
+<pre>
+# wpa_passphrase ESSID PASSWORD &gt; /etc/wpa_supplicant.conf
+
+在/etc/network/interfaces中添加如下内容：
+auto ra0
+iface ra0 inet dhcp
+wpa-conf /etc/wpa_supplicant.conf
+</pre>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/08/01/Cubieboard2使用小米wifi/" class="archive-article-date">
+  	<time datetime="2014-08-01T06:47:49.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-08-01</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Cubieboard2-A20-Building-your-own-android-4-2-2-firmware" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/07/31/Cubieboard2-A20-Building-your-own-android-4-2-2-firmware/">Cubieboard2 A20 Building your own android-4.2.2 firmware</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>系统环境Ubuntu-12.04 x86_64<br>源码下载地址：<a href="http://pan.baidu.com/s/1dDGPnXZ" target="_blank">http://pan.baidu.com/s/1dDGPnXZ</a></p>
+<p>编译步骤：</p>
+<pre>
+$ cd lichee/linux-3.4
+$ make clean
+$ cp arch/arm/configs/cubieboard2_config .config   //note：if you want to complie cubietruck, please copy cubietruck_config.
+$ cd ..
+$ ./build.sh -p sun7i_android
+$ cd ../android
+$ source build/envsetup.sh
+$ lunch   //note:select sugar-cubieboard2 or sugar-cubietruck
+$ extract-bsp
+$ make -j8
+</pre>
+
+<p>注意：需要unset NDK_ROOT，否则build过程可能<a href="https://groups.google.com/forum/#!topic/android-building/WKsqvpRstMI" title="Android 4.2.1 build problems: c++ STL issue with external/webrtc/src/modules/audio_processing" target="_blank">出错</a>：</p>
+<pre>
+In file included from external/webrtc/src/modules/audio_processing/audio_processing_impl.cc:11:0:
+external/webrtc/src/modules/audio_processing/audio_processing_impl.h:16:16: fatal error: list: No such file or directory
+compilation terminated.
+</pre>
+
+<p>编译完成后，运行pack生成image</p>
+<pre>
+$ pack
+</pre>
+
+<p>最后将生成的image用PhoenixCard（V310_20130618）烧写至SD卡，选择好「镜像文件」，「盘符」选择U盘，「烧写模式」选择卡启动，烧录即可</p>
+<p>如果烧写NAND，用PhoenixSuit_V1.08一键刷机刷入即可</p>
+<p>注：如果image烧写到SD卡，可以将NAND禁用掉，修改下面文件，将nand_used = 0，否则卡启动后NAND会被挂载，有些问题<br>lichee/tools/pack/chips/sun7i/configs/android/sugar-cubieboard2/sys_config.fex</p>
+<p>参考：《<a href="http://docs.cubieboard.org/tutorials/cb2/development/building_your_own_android_image" target="_blank">building_your_own_android_image</a>》</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/07/31/Cubieboard2-A20-Building-your-own-android-4-2-2-firmware/" class="archive-article-date">
+  	<time datetime="2014-07-31T12:29:44.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-07-31</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Cubieboard2-A20-SD卡启动及根文件系统制作" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/07/31/Cubieboard2-A20-SD卡启动及根文件系统制作/">Cubieboard2 A20 SD卡启动及根文件系统制作</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>系统环境Ubuntu-12.04 x86_64<br>安装arm-linux-gnueabihf-gcc编译环境</p>
+<p><pre>$ apt-get install arm-linux-gnueabihf-gcc<br>$ arm-linux-gnueabihf-gcc –version<br>arm-linux-gnueabihf-gcc (Ubuntu/Linaro 4.6.3-1ubuntu5) 4.6.3</pre></p>
+<p></p><h2>源码下载：</h2><p></p>
+<p><pre>$ git clone <a href="http://github.com/linux-sunxi/u-boot-sunxi.git" target="_blank" rel="external">http://github.com/linux-sunxi/u-boot-sunxi.git</a><br>$ git clone <a href="http://github.com/cubieboard/linux-sunxi" target="_blank" rel="external">http://github.com/cubieboard/linux-sunxi</a> -b cubie/sunxi-3.4.91<br>$ git clone <a href="http://github.com/linux-sunxi/sunxi-tools.git" target="_blank" rel="external">http://github.com/linux-sunxi/sunxi-tools.git</a><br>$ git clone <a href="http://github.com/linux-sunxi/sunxi-boards.git" target="_blank" rel="external">http://github.com/linux-sunxi/sunxi-boards.git</a></pre><br>其中linux内核去cubieboard的github下载（注：未使用文档中说的cubieboard2的github地址<a href="http://github.com/cubieboard/linux-sunxi），使用较新的cubie/sunxi-3.4.91分支" target="_blank" rel="external">http://github.com/cubieboard/linux-sunxi），使用较新的cubie/sunxi-3.4.91分支</a></p>
+<p></p><h2>编译uboot</h2><p></p>
+<p><pre>$ cd u-boot-sunxi<br>$ make distclean CROSS_COMPILE=arm-linux-gnueabihf-<br>$ make Cubieboard2 CROSS_COMPILE=arm-linux-gnueabihf-</pre><br>得到u-boot-sunxi-with-spl.bin</p>
+<p></p><h2>编译kernel</h2><p></p>
+<p><pre>$ cd linux-sunxi<br>$ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- cubieboard2_defconfig<br>$ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- menuconfig<br>$ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- -j4 uImage modules</pre><br>得到内核文件 arch/arm/boot/uImage</p>
+<p>$ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- modules_install INSTALL_MOD_PATH=<code>pwd</code>/out<br>将modules安装到out目录</p>
+<p></p><h2>生成 boot.scr和script.bin</h2><br>u-boot在启动的时候会在第一个分区（FAT/extX格式）寻找/boot.scr或者/boot/boot.scr文件，boot.scr中可以包含用<br>于载入script.bin，kernel，initrd（可选）以及设置内核启动参数的uboot命令。<br>参考 <a href="https://github.com/linux-sunxi/u-boot-sunxi/wiki#bootscr-support" target="_blank" rel="external">https://github.com/linux-sunxi/u-boot-sunxi/wiki#bootscr-support</a><p></p>
+<p><pre>$ cat boot.cmd<br>setenv bootargs console=ttyS0,115200 noinitrd disp.screen0_output_mode=EDID:1280x1024p60 init=/sbin/init root=/dev/mmcblk0p2 rootfstype=ext4 rootwait panic=10<br>fatload mmc 0 0x43000000 boot/script.bin<br>fatload mmc 0 0x48000000 boot/uImage<br>bootm 0x48000000</pre><br>详细解释：<br>1.上述第一行设置uboot的bootargs启动参数，格式为 参数=值，不同参数使用空格分开，其中<br>console=ttyS0,115200 含义为使用特定的串口ttyS0，波特率为 115200<br>noinitrd 含义为不使用ramdisk（内存磁盘）<br>init=/init 含义为内核启起来后，进入系统中运行的第一个脚本<br>root=/dev/mmcblk0p2 含义为指定rootfs的位置为TF卡第二个分区<br>rootfstype=ext4 含义为根文件系统类型<br>rootwait 含义为等待设备/dev/mmcblk0p2就绪后才尝试挂载rootfs<br>panic=10 传递内核参数，当遇到panic（内核严重错误）时等待10秒后重启<br>screen0_output_mode 设置合适的屏幕显示分辨率<br>更多的参数可以通过查看Linux内核源码目录下Documentation/kernel-parameters.txt文件了解</p>
+<p>2.第二行和第三行为将script.bin和内核uImage加载到指定内存地址。fatload是U-Boot中装载linux kernel 到内存的指令。<br>基本用法：fatload &lt;interface&gt; &lt;dev[:part]&gt; &lt;addr&gt; &lt;filename&gt; &lt;bytes&gt;<br>interface：所用到接口，如：MMC、USB<br>dev [:part]: 文件存放的设备 如：ide 0:1<br>addr: 装载到内存的开始地址。<br>filename: 装载的文件名称。<br>bytes: copy的字节数.</p>
+<p>3.第四行bootm 从指定的地址加载内核映像</p>
+<p>$ mkimage -C none -A arm -T script -d boot.cmd boot.scr<br>得到boot.scr<br>$ cd sunxi-tools<br>$ make<br>生成fex2bin、bin2fex工具</p>
+<p>$ cd sunxi-boards/sys_config/a20<br>找到[nand_para]，将nand_used设为0，（根据网友经验，sd卡启动后系统会写nand数据，导致nand上的android无法启动）<br>$ fex2bin cubieboard2.fex script.bin<br>得到script.bin</p>
+<p>&nbsp;</p>
+<p></p><h2>烧写uboot和kernel到TF卡</h2><br>A20 芯片上电启动的时候，会读取SD卡最前面的 1M 内容，从而得到 bootloader，所以我们需要把 u-boot 写到SD卡的前1M区间。<p></p>
+<p>SD卡布局：</p>
+<p><table border="1"></table></p>
+<p><thead align="center"></thead></p>
+<p><tr></tr></p>
+<p><th>起始</th></p>
+<p><th>大小</th></p>
+<p><th>用途</th><br><br></p>
+<p><tbody align="center"></tbody></p>
+<p><tr></tr></p>
+<p><td>0</td></p>
+<p><td>8KB</td></p>
+<p><td>存放分区表等内容</td><br></p>
+<p><tr></tr></p>
+<p><td>8KB</td></p>
+<p><td>24KB</td></p>
+<p><td>SPL Loader</td><br></p>
+<p><tr></tr></p>
+<p><td>32KB</td></p>
+<p><td>512KB</td></p>
+<p><td>u-boot</td><br></p>
+<p><tr></tr></p>
+<p><td>544KB</td></p>
+<p><td>128KB</td></p>
+<p><td>environment</td><br></p>
+<p><tr></tr></p>
+<p><td>672KB</td></p>
+<p><td>352KB</td></p>
+<p><td>保留</td><br></p>
+<p><tr></tr></p>
+<p><td>1024KB</td></p>
+<p><td>-</td></p>
+<p><td>剩余分区空间</td><br><br><br></p>
+<p><pre>$ sudo dd if=/dev/zero of=/dev/sdb bs=1M count=1   # 把SD卡前1M的区域填充为0，预留给 u-boot<br>$ sudo fdisk /dev/sdb</pre><br>使用fdisk将sd卡分成两个primary分区，分区1分配64M空间，分区2使用全部剩余空间，并将分区1标记为可引导分区</p>
+<p><pre>$ sudo mkfs.vfat /dev/sdb1<br>$ sudo mkfs.ext4 /dev/sdb2<br>$ sudo dd if=u-boot-sunxi-with-spl.bin of=/dev/sdb bs=1024 seek=8  #跳过分区表</pre></p>
+<p>$ sudo mount /dev/sdb1 mnt1<br>$ sudo mkdir mnt1/boot<br>$ sudo cp linux-sunxi/arch/arm/boot/uImage mnt1/boot/<br>$ sudo cp sunxi-boards/sys_config/a20/script.bin mnt1/boot/<br>$ sudo cp boot.scr mnt1/<br>$ sudo umount mnt1<br>在Mac下可以用diskutil（<span style="color: #ff0000;">下面方法不成功</span>）：</p>
+<p><pre>$ diskutil unmountDisk /dev/disk3<br>$ sudo dd if=/dev/zero of=/dev/disk3 bs=1m count=1<br>$ diskutil partitionDisk /dev/disk3 MBR FAT32 CUBIE1 64m FAT32 CUBIE2 0b<br>$ diskutil unmountDisk /dev/disk3<br>$ sudo fdisk -e /dev/disk3<br>fdisk: 1&gt; flag 1<br>Partition 2 marked active.<br>fdisk:<em>1&gt; setpid 2<br>Partition id (‘0’ to disable)  [0 - FF]: [B] (? for help) 83<br>fdisk:</em>1&gt; quit</pre></p>
+<p>$ sudo dd if=u-boot-sunxi-with-spl.bin of=/dev/disk3 bs=1024 seek=8<br>$ sudo dd if=image_20140731/mmcblk0p1.img of=/dev/disk3s1 bs=2m<br>$ sudo dd if=image_20140731/mmcblk0p2.img of=/dev/disk3s2 bs=2m</p>
+<p></p><h2>制作根文件系统</h2><p></p>
+<p><pre># feel free to change distro to raring/saucy/.. as appropriate for later Ubuntu version or wheezy for Debian<br>$ export distro=precise<br>mount /dev/sdb2 mnt2</pre></p>
+<h1 id="you-can-add-–variant-buildd-to-install-a-compiler-in-your-chroot-at-debootstrap-time-but-using-apt-is-probably-faster"><a href="#you-can-add-–variant-buildd-to-install-a-compiler-in-your-chroot-at-debootstrap-time-but-using-apt-is-probably-faster" class="headerlink" title="you can add –variant=buildd to install a compiler in your chroot at debootstrap time but using apt is probably faster"></a>you can add –variant=buildd to install a compiler in your chroot at debootstrap time but using apt is probably faster</h1><p>$ sudo debootstrap –arch=armhf –foreign $distro <code>pwd</code>/mnt2/<br>$ sudo cp /usr/bin/qemu-arm-static mnt2/usr/bin/<br>$ sudo chroot mnt2</p>
+<p>I have no name!# /debootstrap/debootstrap –second-stage</p>
+<h1 id="chroot-passwd"><a href="#chroot-passwd" class="headerlink" title="chroot . passwd"></a>chroot . passwd</h1><p></p><h3>配置apt sources.list</h3><p></p>
+<p><pre># cat /etc/apt/sources.list<br>deb <a href="http://ports.ubuntu.com/" target="_blank" rel="external">http://ports.ubuntu.com/</a> precise main universe<br>deb-src <a href="http://ports.ubuntu.com/" target="_blank" rel="external">http://ports.ubuntu.com/</a> precise main universe<br>deb <a href="http://ports.ubuntu.com/" target="_blank" rel="external">http://ports.ubuntu.com/</a> precise-security main universe<br>deb-src <a href="http://ports.ubuntu.com/" target="_blank" rel="external">http://ports.ubuntu.com/</a> precise-security main universe<br>deb <a href="http://ports.ubuntu.com/" target="_blank" rel="external">http://ports.ubuntu.com/</a> precise-updates main universe<br>deb-src <a href="http://ports.ubuntu.com/" target="_blank" rel="external">http://ports.ubuntu.com/</a> precise-updates main universe</pre></p>
+<p></p><h3>更新并安装程序</h3><p></p>
+<p><pre># apt-get update</pre></p>
+<h1 id="apt-get-install-vim-…"><a href="#apt-get-install-vim-…" class="headerlink" title="apt-get install vim …"></a>apt-get install vim …</h1><p></p><h3>配置网络</h3><p></p>
+<p><pre># cat /etc/network/interfaces<br>auto lo<br>iface lo inet loopback</pre></p>
+<p>auto eth0<br>iface eth0 inet dhcp</p>
+<p>#iface eth0 inet static</p>
+<p>#address 192.168.1.203</p>
+<p>#netmask 255.255.255.0</p>
+<p>#gateway 192.168.1.1</p>
+<p></p><h3>更改配置文件</h3><p></p>
+<p></p><h4>ubuntu系统须更改tty1.conf</h4><p></p>
+<p><pre># vi /etc/init/tty1.conf<br>exec /sbin/getty -8 38400 tty1 修改为: exec /sbin/getty -8 115200 ttyS0</pre></p>
+<p></p><h4>debain系统须更改这两个文件：inittab和fstab</h4><p></p>
+<p><pre># cd /etc/</pre></p>
+<h1 id="cat-lt-lt-EOT-gt-gt-inittab"><a href="#cat-lt-lt-EOT-gt-gt-inittab" class="headerlink" title="cat &lt;&lt;EOT &gt;&gt; inittab"></a>cat &lt;&lt;EOT &gt;&gt; inittab</h1><p>&gt; T0:2345:respawn:/sbin/getty -L ttyS0 115200 linux<br>&gt; EOT</p>
+<h1 id="cat-lt-lt-EOT-gt-gt-fstab"><a href="#cat-lt-lt-EOT-gt-gt-fstab" class="headerlink" title="cat &lt;&lt;EOT &gt;&gt; fstab"></a>cat &lt;&lt;EOT &gt;&gt; fstab</h1><p>&gt; proc /proc proc defaults 0 0<br>&gt; /dev/mmcblk0p1 /boot vfat defaults 0 2<br>&gt; /dev/mmcblk0p2 / ext4 defaults,noatime 0 1<br>&gt; EOT</p>
+<p></p><h3>清理</h3><p></p>
+<p><pre># rm /usr/bin/qemu-arm-static /etc/resolv.conf /etc/hostname</pre></p>
+<h1 id="touch-etc-resolv-conf"><a href="#touch-etc-resolv-conf" class="headerlink" title="touch /etc/resolv.conf"></a>touch /etc/resolv.conf</h1><h1 id="cat-lt-lt-EOF-gt-gt-etc-hostname"><a href="#cat-lt-lt-EOF-gt-gt-etc-hostname" class="headerlink" title="cat &lt;&lt;EOF &gt;&gt; /etc/hostname"></a>cat &lt;&lt;EOF &gt;&gt; /etc/hostname</h1><p>&gt; cubieboard<br>&gt; EOF</p>
+<p></p><h3>拷贝linux modules</h3><br>先运行exit退出前面的chroot<p></p>
+<p><pre>$ sudo cp linux-sunxi/out/lib/* mnt2/lib/<br>$ sudo umount mnt2</pre><br>至此根文件系统制作完毕</p>
+<p>将sd卡插入cubieboard上电启动，<a href="http://img.pickbox.me/wp-content/uploads/cubieboard2_boot_log.txt" target="_blank" rel="external">cubieboard2_boot_log</a><br>自己build的android image的启动log对比：<a href="http://img.pickbox.me/wp-content/uploads/cubieboard2_android_boot_log.txt" target="_blank" rel="external">cubieboard2_android_boot_log</a></p>
+<p></p><h2>参考文档</h2><br><a title="A10/A20 Bootloader加载过程分析" href="http://forum.lemaker.org/cn/viewthread.php?tid=62" target="_blank">A10/A20 Bootloader加载过程分析</a><br><a title="Bootable SD card" href="http://linux-sunxi.org/Bootable_SD_card" target="_blank">Bootable SD card</a><br><a href="http://forum.lemaker.org/cn/viewthread.php?action=printable&amp;tid=170" target="_blank">制作Banana Pi最小系统</a><br><a href="http://linux-sunxi.org/FirstSteps" target="_blank">Manual build howto</a><br><a href="http://forum.cubietech.com/forum.php?mod=viewthread&amp;tid=600" target="_blank">从头制作硬盘上的ubuntu 12/13</a><br><a href="http://docs.cubieboard.org/zh/tutorials/ct1/installation/install_lubuntu_desktop_server_to_sd_card" target="_blank">CT Lubuntu Desktop/Server SD Card Installation</a><p></p>
+<p>PDF格式下载</p>
+<p><a href="http://img.pickbox.me/wp-content/uploads/Cubieboard-A20-制作SD卡启动.pdf" target="_blank" rel="external">Cubieboard A20 制作SD卡启动</a><br><a href="http://img.pickbox.me/wp-content/uploads/Using-debootstrap-to-make-Ubuntu-based-distributions.pdf" target="_blank" rel="external">Using debootstrap to make Ubuntu based distributions</a><br><a href="http://img.pickbox.me/wp-content/uploads/从头制作硬盘上的ubuntu-12_13参考ubuntu根文件系统制作.pdf" target="_blank" rel="external">从头制作硬盘上的ubuntu 12_13(参考ubuntu根文件系统制作)</a><br><a href="http://img.pickbox.me/wp-content/uploads/CT-Lubuntu-Desktop_Server-SD-Card-Installation.pdf" target="_blank" rel="external">CT Lubuntu Desktop_Server SD Card Installation</a></p>
+<p></p><h2>Cubieboard2靓照</h2><br><a href="http://img.pickbox.me/wp-content/uploads/cubieboard-A20-正面.jpg" target="_blank" rel="external"><img class="alignnone size-full wp-image-938" alt="cubieboard A20 正面" src="http://img.pickbox.me/wp-content/uploads/cubieboard-A20-正面.jpg" width="4208" height="2368"></a> <a href="http://img.pickbox.me/wp-content/uploads/cubieboard-A20-反面.jpg" target="_blank" rel="external"><img class="alignnone size-full wp-image-939" alt="cubieboard A20 反面" src="http://img.pickbox.me/wp-content/uploads/cubieboard-A20-反面.jpg" width="4208" height="2368"></a><p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/07/31/Cubieboard2-A20-SD卡启动及根文件系统制作/" class="archive-article-date">
+  	<time datetime="2014-07-31T03:36:35.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-07-31</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Win7开启Wifi热点" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/07/28/Win7开启Wifi热点/">Win7开启Wifi热点</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>开启windows 7的隐藏功能：虚拟WiFi和SoftAP（即虚拟无线AP），让电脑变成无线路由器的方法</p>
+<p><span style="line-height: 1.5em;">netsh wlan set hostednetwork mode=allow ssid=myWiFi key=12345678</span></p>
+<p>打开“网络和共享中心”–“更改适配器设置”，可以看到多出一项“Microsoft Virtual WiFi Miniport Adapter”，重命名为“虚拟WiFi”，如果没有，可能需要更新无线网卡驱动</p>
+<p><span style="line-height: 1.5em;">设置Internet连接共享：在“网络连接”窗口中，右键单击已连接到Internet的网络连接，选择“属性”→“共享”，勾上“允许其他······连接(N)”并选择“虚拟WiFi”</span></p>
+<p>netsh wlan start hostednetwork</p>
+<p>这样其他设备就可以连接刚才建立起来的热点了</p>
+<p>&nbsp;</p>
+<p>参考：<a href="http://jingyan.baidu.com/article/5d368d1e3e499b3f61c05762.html" target="_blank">http://jingyan.baidu.com/article/5d368d1e3e499b3f61c05762.html</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/07/28/Win7开启Wifi热点/" class="archive-article-date">
+  	<time datetime="2014-07-28T13:06:36.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-07-28</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Network/">Network</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-USBIP-Share-USB-Device-On-Ubuntu-12-04" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/07/28/USBIP-Share-USB-Device-On-Ubuntu-12-04/">USBIP Share USB-Device On Ubuntu 12.04</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>文档下载：《<a href="http://img.pickbox.me/wp-content/uploads/USB_IP-Share-USB-Device-On-Ubuntu-12.pdf" target="_blank">USB_IP Share USB-Device On Ubuntu 12</a>》</p>
+<p>原文地址：<a href="http://jerry2yang.wordpress.com/2013/01/18/usbip-share-usb-device-on-ubuntu-12-04/" target="_blank">http://jerry2yang.wordpress.com/2013/01/18/usbip-share-usb-device-on-ubuntu-12-04/</a></p>
+<p>完全参照文档来做就可以了，注意修改config.h中的USBIP_VERSION为106，否则windows客户端报错：</p>
+<p>windows客户端下载地址：<a href="http://img.pickbox.me/wp-content/uploads/usbip_windows_v0.2.0.0_signed.zip" target="_blank" rel="external">usbip_windows_v0.2.0.0_signed</a></p>
+<p>&nbsp;</p>
+<hr>
+
+<p>Usage:</p>
+<p>To install the virtual usb bus driver on Windows XP:</p>
+<ol>
+<li>Uncompress the downloaded binary package to a directory.</li>
+<li>Double-click the ‘Add Hardware’ wizard in Control Panel.</li>
+<li>At the ‘Welcome to the Add Hardware Wizard’, click ‘Next’.</li>
+<li>Select ‘Yes, I have already connected the hardware’, then click Next.</li>
+<li>Select ‘Add a new hardware device’ from the list, then click Next.</li>
+<li>Select ‘Install the hardware that I manually select from a list(Advanced)’, and then click next.</li>
+<li>Select ‘System Devices’, then click Next.</li>
+<li>Click ‘Have Disk’, click ‘Browse’, choose the uncompressed directory, and click OK.</li>
+<li>Click on the ‘USB/IP Enumerator’, and then click Next.</li>
+<li>At ‘The wizard is ready to install your hardware’, click Next.</li>
+<li>Click Finish at ‘Completing the Add/Remove Hardware Wizard.’</li>
+</ol>
+<p>For Window 7 :</p>
+<ol>
+<li>(Only necessary for custom builds: For x64 allow unsigned drivers: Enter “bcdedit /set testsigning on” in an administrative cmd window)</li>
+<li>Uncompress the downloaded binary package to a directory.</li>
+<li>Start a the Device Manager</li>
+<li>Click Any hardware node</li>
+<li>Choose “Add Legacy Hardware” from the “Action” menu</li>
+<li>At the ‘Welcome to the Add Hardware Wizard’, click ‘Next’.</li>
+<li>Select ‘Install the hardware that I manually select from the list’</li>
+<li>click ‘Next’</li>
+<li>Click ‘Have Disk’, click ‘Browse’, choose the uncompressed directory, and click OK.</li>
+<li>Click on the ‘USB/IP Enumerator’, and then click Next.</li>
+<li>At ‘The wizard is ready to install your hardware’, click Next.</li>
+<li>Click Finish at ‘Completing the Add/Remove Hardware Wizard.’</li>
+</ol>
+<p>To use it:</p>
+<ol>
+<li><p>open a command prompt window, cd to the uncompressed directory.</p>
+</li>
+<li><p>run usbip -l 192.168.2.1 to list the exported devices from ip 192.168.2.1</p>
+</li>
+<li><p>run usbip -a 192.168.2.1 2-1 to imported the device.</p>
+</li>
+</ol>
+<p>(Of course, you should change 192.168.2.1 and 2-1 to something else)</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/07/28/USBIP-Share-USB-Device-On-Ubuntu-12-04/" class="archive-article-date">
+  	<time datetime="2014-07-28T12:40:29.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-07-28</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux-App/">Linux App</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-动态实例化Interface" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/06/10/动态实例化Interface/">动态实例化Interface</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Example：</p>
+<pre>
+package com.example;
+
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+
+
+public class Test {
+
+    public interface A {
+        void hello();
+    }
+
+    private static void test(A a) {
+        a.hello();
+    }
+
+    public static void main(String[] args) {
+        try {
+            Class&lt;?&gt; AIntf = Class.forName(&quot;com.example.Test$A&quot;);
+            Object proxy = Proxy.newProxyInstance(AIntf.getClassLoader(),
+                    new Class[] { AIntf }, new InvocationHandler() {
+
+                        @Override
+                        public Object invoke(Object proxy, Method method, 
+                                Object[] args) throws Throwable {
+                            System.out.println(&quot;Hello World!&quot;);
+                            return null;
+                        }
+                    });
+            test((A) proxy);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+}
+</pre>
+
+<p>Android-4.4中调用InputQueue的sendInputEvent注入Input事件：</p>
+<pre>
+Class&lt;?&gt; FinishedInputEventCallback = Class
+        .forName(&quot;android.view.InputQueue$FinishedInputEventCallback&quot;);
+Object proxy = Proxy.newProxyInstance(FinishedInputEventCallback.getClassLoader(),
+        new Class[] { FinishedInputEventCallback }, new InvocationHandler() {
+            @Override
+            public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                return null;
+            }
+        });
+call(mInputQueue, &quot;sendInputEvent&quot;, new Class[] { InputEvent.class, Object.class, boolean.class,
+        FinishedInputEventCallback }, new Object[] { event, null, false, proxy });
+
+
+private static Object call(Object obj, String method, Class&lt;?&gt;[] argsType, Object[] args) {
+    Object ret = null;
+
+    if (obj == null)
+        return ret;
+
+    try {
+        Class&lt;?&gt; c = obj.getClass();
+        Method m = c.getMethod(method, argsType);
+        m.setAccessible(true);
+        ret = m.invoke(obj, args);
+    } catch (SecurityException e) {
+        e.printStackTrace();
+    } catch (NoSuchMethodException e) {
+        e.printStackTrace();
+    } catch (IllegalArgumentException e) {
+        e.printStackTrace();
+    } catch (IllegalAccessException e) {
+        e.printStackTrace();
+    } catch (InvocationTargetException e) {
+        e.printStackTrace();
+    }
+
+    return ret;
+}
+
+</pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/06/10/动态实例化Interface/" class="archive-article-date">
+  	<time datetime="2014-06-10T11:11:59.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-06-10</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Java/">Java</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Android-InputEvent框架实现及传递过程（app端）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/05/22/Android-InputEvent框架实现及传递过程（app端）/">Android InputEvent框架实现及传递过程（app端）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>ActivityThread调用handleLaunchActivity &gt; handleResumeActivity</p>
+<pre>
+    r.window = r.activity.getWindow();
+    View decor = r.window.getDecorView();
+    decor.setVisibility(View.INVISIBLE);
+    ViewManager wm = a.getWindowManager();
+    WindowManager.LayoutParams l = r.window.getAttributes();
+    a.mDecor = decor;
+    l.type = WindowManager.LayoutParams.TYPE_BASE_APPLICATION;
+    l.softInputMode |= forwardBit;
+    if (a.mVisibleFromClient) {
+        a.mWindowAdded = true;
+        wm.addView(decor, l);
+    }
+</pre>
+wm对应WindowManagerGlobal.java，在调用wm.addView时，
+会new一个ViewRootImpl，并调用ViewRootImpl的setView
+
+wm.addView()
+<pre>
+root = new ViewRootImpl(view.getContext(), display);
+...
+root.setView(view, wparams, panelParentView);
+</pre>
+
+<p>setView()会通过aidl调用WindowManagerService窗口管理服务</p>
+<pre>
+res = mWindowSession.addToDisplay(mWindow, mSeq, mWindowAttributes,
+        getHostVisibility(), mDisplay.getDisplayId(),
+        mAttachInfo.mContentInsets, mInputChannel);
+......
+if (mInputChannel != null) {
+    if (mInputQueueCallback != null) {
+        mInputQueue = new InputQueue();
+        mInputQueueCallback.onInputQueueCreated(mInputQueue);
+    }
+    mInputEventReceiver = new WindowInputEventReceiver(mInputChannel,
+            Looper.myLooper());
+}
+</pre>
+
+<p>mWindowSession.addToDisplay最终会调用到addWindow函数<br>它会在WindowManagerService服务端创建一个socket pair，封装到InputChannel中<br>并将读端Fd返回给app端，app端会将这个Fd挂到looper中去监听<br>frameworks/base/services/java/com/android/server/wm/WindowManagerService.java</p>
+<pre>
+    public int addWindow(Session session, IWindow client, int seq,
+            WindowManager.LayoutParams attrs, int viewVisibility, int displayId,
+            Rect outContentInsets, InputChannel outInputChannel) {
+            ......
+            if (outInputChannel != null &amp;&amp; (attrs.inputFeatures
+                    &amp; WindowManager.LayoutParams.INPUT_FEATURE_NO_INPUT_CHANNEL) == 0) {
+                String name = win.makeInputChannelName();
+                InputChannel[] inputChannels = InputChannel.openInputChannelPair(name);
+                win.setInputChannel(inputChannels[0]);
+                inputChannels[1].transferTo(outInputChannel);
+
+                mInputManager.registerInputChannel(win.mInputChannel, win.mInputWindowHandle);
+            }
+</pre>
+
+<p>frameworks/base/core/java/android/view/InputChannel.java</p>
+<pre>
+    public static InputChannel[] openInputChannelPair(String name) {
+        if (name == null) {
+            throw new IllegalArgumentException(&quot;name must not be null&quot;);
+        }
+
+        if (DEBUG) {
+            Slog.d(TAG, &quot;Opening input channel pair '&quot; + name + &quot;'&quot;);
+        }
+        return nativeOpenInputChannelPair(name);
+    }
+</pre>
+
+<p>frameworks/base/core/jni/android_view_InputChannel.cpp</p>
+<pre>
+static jobjectArray android_view_InputChannel_nativeOpenInputChannelPair(JNIEnv* env,
+        jclass clazz, jstring nameObj) {
+    const char* nameChars = env-&gt;GetStringUTFChars(nameObj, NULL);
+    String8 name(nameChars);
+    env-&gt;ReleaseStringUTFChars(nameObj, nameChars);
+
+    sp&lt;InputChannel&gt; serverChannel;
+    sp&lt;InputChannel&gt; clientChannel;
+    status_t result = InputChannel::openInputChannelPair(name, serverChannel, clientChannel);
+
+    if (result) {
+        String8 message;
+        message.appendFormat(&quot;Could not open input channel pair.  status=%d&quot;, result);
+        jniThrowRuntimeException(env, message.string());
+        return NULL;
+    }
+
+    jobjectArray channelPair = env-&gt;NewObjectArray(2, gInputChannelClassInfo.clazz, NULL);
+    if (env-&gt;ExceptionCheck()) {
+        return NULL;
+    }
+
+    jobject serverChannelObj = android_view_InputChannel_createInputChannel(env,
+            new NativeInputChannel(serverChannel));
+    if (env-&gt;ExceptionCheck()) {
+        return NULL;
+    }
+
+    jobject clientChannelObj = android_view_InputChannel_createInputChannel(env,
+            new NativeInputChannel(clientChannel));
+    if (env-&gt;ExceptionCheck()) {
+         return NULL;
+    }
+
+    env-&gt;SetObjectArrayElement(channelPair, 0, serverChannelObj);
+    env-&gt;SetObjectArrayElement(channelPair, 1, clientChannelObj);
+    return channelPair;
+}
+</pre>
+
+<p>在android 4.4中是通过socket pair实现全双工通信的<br>之前的版本实现方式是建立两个pipe和一个共享内存区，socket的方式更简洁方便<br>frameworks/native/libs/input/InputTransport.cpp</p>
+<pre>
+status_t InputChannel::openInputChannelPair(const String8&amp; name,
+        sp&lt;InputChannel&gt;&amp; outServerChannel, sp&lt;InputChannel&gt;&amp; outClientChannel) {
+    int sockets[2];
+    if (socketpair(AF_UNIX, SOCK_SEQPACKET, 0, sockets)) {
+        status_t result = -errno;
+        ALOGE(&quot;channel '%s' ~ Could not create socket pair.  errno=%d&quot;,
+                name.string(), errno);
+        outServerChannel.clear();
+        outClientChannel.clear();
+        return result;
+    }
+
+    int bufferSize = SOCKET_BUFFER_SIZE;
+    setsockopt(sockets[0], SOL_SOCKET, SO_SNDBUF, &amp;bufferSize, sizeof(bufferSize));
+    setsockopt(sockets[0], SOL_SOCKET, SO_RCVBUF, &amp;bufferSize, sizeof(bufferSize));
+    setsockopt(sockets[1], SOL_SOCKET, SO_SNDBUF, &amp;bufferSize, sizeof(bufferSize));
+    setsockopt(sockets[1], SOL_SOCKET, SO_RCVBUF, &amp;bufferSize, sizeof(bufferSize));
+
+    String8 serverChannelName = name;
+    serverChannelName.append(&quot; (server)&quot;);
+    outServerChannel = new InputChannel(serverChannelName, sockets[0]);
+
+    String8 clientChannelName = name;
+    clientChannelName.append(&quot; (client)&quot;);
+    outClientChannel = new InputChannel(clientChannelName, sockets[1]);
+    return OK;
+}
+</pre>
+
+<p>frameworks/base/core/java/android/view/InputChannel.java</p>
+<pre>
+    public void transferTo(InputChannel outParameter) {
+        if (outParameter == null) {
+            throw new IllegalArgumentException(&quot;outParameter must not be null&quot;);
+        }
+
+        nativeTransferTo(outParameter);
+    }
+</pre>
+
+<p>frameworks/base/core/jni/android_view_InputChannel.cpp</p>
+<pre>
+static void android_view_InputChannel_nativeTransferTo(JNIEnv* env, jobject obj,
+        jobject otherObj) {
+    if (android_view_InputChannel_getNativeInputChannel(env, otherObj) != NULL) {
+        jniThrowException(env, &quot;java/lang/IllegalStateException&quot;,
+                &quot;Other object already has a native input channel.&quot;);
+        return;
+    }
+
+    NativeInputChannel* nativeInputChannel =
+            android_view_InputChannel_getNativeInputChannel(env, obj);
+    android_view_InputChannel_setNativeInputChannel(env, otherObj, nativeInputChannel);
+    android_view_InputChannel_setNativeInputChannel(env, obj, NULL);
+}
+</pre>
+
+<p>&nbsp;<br>&nbsp;<br>接下来看看app端的InputEvent接受者WindowInputEventReceiver<br>new WindowInputEventReceiver时调用super构造函数：</p>
+<pre>
+public InputEventReceiver(InputChannel inputChannel, Looper looper) {
+    if (inputChannel == null) {
+        throw new IllegalArgumentException("inputChannel must not be null");
+    }
+    if (looper == null) {
+        throw new IllegalArgumentException("looper must not be null");
+    }
+
+    mInputChannel = inputChannel;
+    mMessageQueue = looper.getQueue();
+    mReceiverPtr = nativeInit(new WeakReference<inputeventreceiver>(this),
+            inputChannel, mMessageQueue);
+
+    mCloseGuard.open("dispose");
+}
+</inputeventreceiver></pre>
+
+<p>nativeInit调用到native层的nativeInit，参数中的InputChannel在<br>frameworks/native/include/input/InputTransport.h中定义<br>还定义了InputPublisher, InputConsumer，<br>它们的实现在frameworks/native/libs/input/InputTransport.cpp</p>
+<p>frameworks/base/core/jni/android_view_InputEventReceiver.cpp</p>
+<pre>
+static jint nativeInit(JNIEnv* env, jclass clazz, jobject receiverWeak,
+        jobject inputChannelObj, jobject messageQueueObj) {
+    sp<inputchannel> inputChannel = android_view_InputChannel_getInputChannel(env,
+            inputChannelObj);
+    if (inputChannel == NULL) {
+        jniThrowRuntimeException(env, "InputChannel is not initialized.");
+        return 0;
+    }
+
+    sp<messagequeue> messageQueue = android_os_MessageQueue_getMessageQueue(env, messageQueueObj);
+    if (messageQueue == NULL) {
+        jniThrowRuntimeException(env, "MessageQueue is not initialized.");
+        return 0;
+    }
+
+    sp<nativeinputeventreceiver> receiver = new NativeInputEventReceiver(env,
+            receiverWeak, inputChannel, messageQueue);
+    status_t status = receiver->initialize();
+    if (status) {
+        String8 message;
+        message.appendFormat("Failed to initialize input event receiver.  status=%d", status);
+        jniThrowRuntimeException(env, message.string());
+        return 0;
+    }
+
+    receiver->incStrong(gInputEventReceiverClassInfo.clazz); // retain a reference for the object
+    return reinterpret_cast<jint>(receiver.get());
+}
+</jint></nativeinputeventreceiver></messagequeue></inputchannel></pre>
+nativeInit()中取得native层的InputChannel和messageQueue，然后作为参数创建
+native层的NativeInputEventReceiver，NativeInputEventReceiver中创建了一个mInputConsumer
+接着调用initialize初始化，initialize会把InputChannel的fd挂到looper中去监听
+给looper设置的回调为this，会调用NativeInputEventReceiver::handleEvent
+
+<pre>
+NativeInputEventReceiver::NativeInputEventReceiver(JNIEnv* env,
+        jobject receiverWeak, const sp<inputchannel>& inputChannel,
+        const sp<messagequeue>& messageQueue) :
+    mReceiverWeakGlobal(env->NewGlobalRef(receiverWeak)),
+    mInputConsumer(inputChannel), mMessageQueue(messageQueue),
+    mBatchedInputEventPending(false), mFdEvents(0) {
+
+    }
+
+status_t NativeInputEventReceiver::initialize() {
+    setFdEvents(ALOOPER_EVENT_INPUT);
+    return OK;
+}
+
+void NativeInputEventReceiver::setFdEvents(int events) {
+    if (mFdEvents != events) {
+        mFdEvents = events;
+        int fd = mInputConsumer.getChannel()->getFd();
+        if (events) {
+            mMessageQueue->getLooper()->addFd(fd, 0, events, this, NULL);
+        } else {
+            mMessageQueue->getLooper()->removeFd(fd);
+        }
+    }
+}
+
+int NativeInputEventReceiver::handleEvent(int receiveFd, int events, void* data) {
+    if (events & (ALOOPER_EVENT_ERROR | ALOOPER_EVENT_HANGUP)) {
+        return 0; // remove the callback
+    }
+
+    if (events & ALOOPER_EVENT_INPUT) {
+        JNIEnv* env = AndroidRuntime::getJNIEnv();
+        status_t status = consumeEvents(env, false /*consumeBatches*/, -1, NULL);
+        mMessageQueue->raiseAndClearException(env, "handleReceiveCallback");
+        return status == OK || status == NO_MEMORY ? 1 : 0;
+    }
+
+    if (events & ALOOPER_EVENT_OUTPUT) {
+        ......
+    }
+    return 1;
+}
+</messagequeue></inputchannel></pre>
+
+<p>consumeEvents通过mInputConsumer.consume获得InputEvent，<br>然后调用Java层的InputEventReceiver的dispatchInputEvent</p>
+<pre>
+status_t NativeInputEventReceiver::consumeEvents(JNIEnv* env,
+        bool consumeBatches, nsecs_t frameTime, bool* outConsumedBatch) {
+    ......
+    InputEvent* inputEvent;
+    status_t status = mInputConsumer.consume(&mInputEventFactory,
+            consumeBatches, frameTime, &seq, &inputEvent);
+
+    ......
+    jobject inputEventObj;
+    switch (inputEvent->getType()) {
+        case AINPUT_EVENT_TYPE_KEY:
+            inputEventObj = android_view_KeyEvent_fromNative(env,
+                    static_cast<keyevent*>(inputEvent));
+            break;
+
+            ......
+            if (inputEventObj) {
+                env->CallVoidMethod(receiverObj.get(),
+                    gInputEventReceiverClassInfo.dispatchInputEvent, seq, inputEvent);
+            }
+
+</keyevent*></pre>
+
+<p>consume会先调用mChannel-&gt;receiveMessage取出InputMessage消息，<br>然后从该消息创建一个keyEvent（initializeKeyEvent）</p>
+<pre>
+status_t InputConsumer::consume(InputEventFactoryInterface* factory,
+    bool consumeBatches, nsecs_t frameTime, uint32_t* outSeq, InputEvent** outEvent) {
+    *outSeq = 0;
+    *outEvent = NULL;
+
+    while (!*outEvent) {
+    if (mMsgDeferred) {
+        // mMsg contains a valid input message from the previous call to consume
+        // that has not yet been processed.
+        mMsgDeferred = false;
+    } else {
+        // Receive a fresh message.
+        status_t result = mChannel->receiveMessage(&mMsg);
+        ......
+    }
+
+    switch (mMsg.header.type) {
+        case InputMessage::TYPE_KEY: {
+             KeyEvent* keyEvent = factory->createKeyEvent();
+             if (!keyEvent) return NO_MEMORY;
+
+             initializeKeyEvent(keyEvent, &mMsg);
+             *outSeq = mMsg.body.key.seq;
+             *outEvent = keyEvent;
+             break;
+         }
+
+        case AINPUT_EVENT_TYPE_MOTION: {
+           ....
+           }
+
+</pre>
+
+<p>&nbsp;<br>recv会从前面创建的mFd这个socket中去读数据</p>
+<pre>
+status_t InputChannel::receiveMessage(InputMessage* msg) {
+    ssize_t nRead;
+    do {
+        nRead = ::recv(mFd, msg, sizeof(InputMessage), MSG_DONTWAIT);
+    } while (nRead == -1 && errno == EINTR);
+    ......
+}
+</pre>
+
+<p>与receiveMessage对应的是publishKeyEvent：</p>
+<pre>
+status_t InputPublisher::publishKeyEvent(
+        uint32_t seq,
+        int32_t deviceId,
+        int32_t source,
+        int32_t action,
+        int32_t flags,
+        int32_t keyCode,
+        int32_t scanCode,
+        int32_t metaState,
+        int32_t repeatCount,
+        nsecs_t downTime,
+        nsecs_t eventTime) {
+    InputMessage msg;
+    msg.header.type = InputMessage::TYPE_KEY;
+    msg.body.key.seq = seq;
+    msg.body.key.deviceId = deviceId;
+    msg.body.key.source = source;
+    msg.body.key.action = action;
+    msg.body.key.flags = flags;
+    msg.body.key.keyCode = keyCode;
+    msg.body.key.scanCode = scanCode;
+    msg.body.key.metaState = metaState;
+    msg.body.key.repeatCount = repeatCount;
+    msg.body.key.downTime = downTime;
+    msg.body.key.eventTime = eventTime;
+    return mChannel->sendMessage(&msg);
+}
+
+status_t InputChannel::sendMessage(const InputMessage* msg) {
+    size_t msgLength = msg->size();
+    ssize_t nWrite;
+    do {
+        nWrite = ::send(mFd, msg, msgLength, MSG_DONTWAIT | MSG_NOSIGNAL);
+    } while (nWrite == -1 && errno == EINTR);
+    ....
+}
+</pre>
+
+
+
+<p>NativeInputEventReceiver::consumeEvents接着会调用dispatchInputEvent，<br>dispatchInputEvent调用到前面ViewRootImpl中的WindowInputEventReceiver的dispatchInputEvent，<br>进而调用onInputEvent：</p>
+<pre>
+@Override
+public void onInputEvent(InputEvent event) {
+    enqueueInputEvent(event, this, 0, true);
+}
+</pre>
+
+
+<p>通过加断点调试，可以看到WindowInputEventReceiver.dispatchInputEvent之后的调用堆栈列表</p>
+<p>【WindowInputEventReceiver.dispatchInputEvent调用堆栈】</p>
+<pre>
+InputMethodManager$ImeInputEventSender(InputEventSender).sendInputEvent(int, InputEvent) line: 131    
+InputMethodManager.sendInputEventOnMainLooperLocked(InputMethodManager$PendingEvent) line: 1658    
+InputMethodManager.dispatchInputEvent(InputEvent, Object, InputMethodManager$FinishedInputEventCallback, Handler) line: 1621    
+ViewRootImpl$ImeInputStage.onProcess(ViewRootImpl$QueuedInputEvent) line: 3698    
+ViewRootImpl$ImeInputStage(ViewRootImpl$InputStage).deliver(ViewRootImpl$QueuedInputEvent) line: 3399    
+ViewRootImpl$ViewPreImeInputStage(ViewRootImpl$InputStage).onDeliverToNext(ViewRootImpl$QueuedInputEvent) line: 3449    
+ViewRootImpl$ViewPreImeInputStage(ViewRootImpl$InputStage).forward(ViewRootImpl$QueuedInputEvent) line: 3418    
+ViewRootImpl$ViewPreImeInputStage(ViewRootImpl$InputStage).apply(ViewRootImpl$QueuedInputEvent, int) line: 3426    
+ViewRootImpl$ViewPreImeInputStage(ViewRootImpl$InputStage).deliver(ViewRootImpl$QueuedInputEvent) line: 3399    
+ViewRootImpl$NativePreImeInputStage(ViewRootImpl$InputStage).onDeliverToNext(ViewRootImpl$QueuedInputEvent) line: 3449    
+ViewRootImpl$NativePreImeInputStage(ViewRootImpl$InputStage).forward(ViewRootImpl$QueuedInputEvent) line: 3418    
+ViewRootImpl$NativePreImeInputStage(ViewRootImpl$AsyncInputStage).forward(ViewRootImpl$QueuedInputEvent) line: 3525    
+ViewRootImpl$NativePreImeInputStage(ViewRootImpl$InputStage).apply(ViewRootImpl$QueuedInputEvent, int) line: 3426    
+ViewRootImpl$NativePreImeInputStage(ViewRootImpl$AsyncInputStage).apply(ViewRootImpl$QueuedInputEvent, int) line: 3582    
+ViewRootImpl$NativePreImeInputStage(ViewRootImpl$InputStage).deliver(ViewRootImpl$QueuedInputEvent) line: 3399    
+ViewRootImpl.deliverInputEvent(ViewRootImpl$QueuedInputEvent) line: 5602    
+ViewRootImpl.doProcessInputEvents() line: 5582    
+ViewRootImpl.enqueueInputEvent(InputEvent, InputEventReceiver, int, boolean) line: 5553    
+ViewRootImpl$WindowInputEventReceiver.onInputEvent(InputEvent) line: 5682    
+ViewRootImpl$WindowInputEventReceiver(InputEventReceiver).dispatchInputEvent(int, InputEvent) line: 185    
+MessageQueue.nativePollOnce(int, int) line: not available [native method]    
+MessageQueue.next() line: 138    
+Looper.loop() line: 123    
+ActivityThread.main(String[]) line: 5017    
+Method.invokeNative(Object, Object[], Class, Class[], Class, int, boolean) line: not available [native method]    
+Method.invoke(Object, Object...) line: 515    
+ZygoteInit$MethodAndArgsCaller.run() line: 779    
+ZygoteInit.main(String[]) line: 595    
+NativeStart.main(String[]) line: not available [native method]    
+</pre>
+
+<p>ImeInputEventSender-&gt;sendInputEvent会给输入法发送input event，然后将该event defer起来<br>等输入法处理完后，输入法会再给ViewRootImpl的looper写数据<br>looper回调ImeInputEventSender的dispatchInputEventFinished<br>最终将input event分发到用户的activity中</p>
+<p>【ImeInputEventSender的dispatchInputEventFinished调用堆栈】</p>
+<pre>
+MainActivity.dispatchKeyEvent(KeyEvent) line: 23    
+PhoneWindow$DecorView.dispatchKeyEvent(KeyEvent) line: 1962    
+ViewRootImpl$ViewPostImeInputStage.processKeyEvent(ViewRootImpl$QueuedInputEvent) line: 3852    
+ViewRootImpl$ViewPostImeInputStage.onProcess(ViewRootImpl$QueuedInputEvent) line: 3826    
+ViewRootImpl$ViewPostImeInputStage(ViewRootImpl$InputStage).deliver(ViewRootImpl$QueuedInputEvent) line: 3399    
+ViewRootImpl$NativePostImeInputStage(ViewRootImpl$InputStage).onDeliverToNext(ViewRootImpl$QueuedInputEvent) line: 3449    
+ViewRootImpl$NativePostImeInputStage(ViewRootImpl$InputStage).forward(ViewRootImpl$QueuedInputEvent) line: 3418    
+ViewRootImpl$NativePostImeInputStage(ViewRootImpl$AsyncInputStage).forward(ViewRootImpl$QueuedInputEvent) line: 3525    
+ViewRootImpl$NativePostImeInputStage(ViewRootImpl$InputStage).apply(ViewRootImpl$QueuedInputEvent, int) line: 3426    
+ViewRootImpl$NativePostImeInputStage(ViewRootImpl$AsyncInputStage).apply(ViewRootImpl$QueuedInputEvent, int) line: 3582    
+ViewRootImpl$NativePostImeInputStage(ViewRootImpl$InputStage).deliver(ViewRootImpl$QueuedInputEvent) line: 3399    
+ViewRootImpl$EarlyPostImeInputStage(ViewRootImpl$InputStage).onDeliverToNext(ViewRootImpl$QueuedInputEvent) line: 3449    
+ViewRootImpl$EarlyPostImeInputStage(ViewRootImpl$InputStage).forward(ViewRootImpl$QueuedInputEvent) line: 3418    
+ViewRootImpl$EarlyPostImeInputStage(ViewRootImpl$InputStage).apply(ViewRootImpl$QueuedInputEvent, int) line: 3426    
+ViewRootImpl$EarlyPostImeInputStage(ViewRootImpl$InputStage).deliver(ViewRootImpl$QueuedInputEvent) line: 3399    
+ViewRootImpl$ImeInputStage(ViewRootImpl$InputStage).onDeliverToNext(ViewRootImpl$QueuedInputEvent) line: 3449    
+ViewRootImpl$ImeInputStage(ViewRootImpl$InputStage).forward(ViewRootImpl$QueuedInputEvent) line: 3418    
+ViewRootImpl$ImeInputStage(ViewRootImpl$AsyncInputStage).forward(ViewRootImpl$QueuedInputEvent) line: 3558    
+ViewRootImpl$ImeInputStage.onFinishedInputEvent(Object, boolean) line: 3718    
+InputMethodManager$PendingEvent.run() line: 2010    
+InputMethodManager.invokeFinishedInputEventCallback(InputMethodManager$PendingEvent, boolean) line: 1704    
+InputMethodManager.finishedInputEvent(int, boolean, boolean) line: 1695    
+InputMethodManager$ImeInputEventSender.onInputEventFinished(int, boolean) line: 1987    
+InputMethodManager$ImeInputEventSender(InputEventSender).dispatchInputEventFinished(int, boolean) line: 141    
+MessageQueue.nativePollOnce(int, int) line: not available [native method]    
+MessageQueue.next() line: 138    
+Looper.loop() line: 123    
+ActivityThread.main(String[]) line: 5017    
+Method.invokeNative(Object, Object[], Class, Class[], Class, int, boolean) line: not available [native method]    
+Method.invoke(Object, Object...) line: 515    
+ZygoteInit$MethodAndArgsCaller.run() line: 779    
+ZygoteInit.main(String[]) line: 595    
+NativeStart.main(String[]) line: not available [native method]    
+</pre>
+
+<p>&nbsp;<br>&nbsp;<br>&nbsp;<br>&nbsp;</p>
+<p>下面看看详细过程</p>
+<p>ImeInputStage：onProcess-&gt;dispatchInputEvent-&gt;sendInputEventOnMainLooperLocked<br>通过ImeInputEventSender-&gt;sendInputEvent给输入法发送数据</p>
+<pre>
+int sendInputEventOnMainLooperLocked(PendingEvent p) {
+    if (mCurChannel != null) {
+        if (mCurSender == null) {
+            mCurSender = new ImeInputEventSender(mCurChannel, mH.getLooper());
+        }
+
+        final InputEvent event = p.mEvent;
+        final int seq = event.getSequenceNumber();
+        if (mCurSender.sendInputEvent(seq, event)) {
+            mPendingEvents.put(seq, p);
+            Trace.traceCounter(Trace.TRACE_TAG_INPUT, PENDING_EVENT_COUNTER,
+                    mPendingEvents.size());
+
+            Message msg = mH.obtainMessage(MSG_TIMEOUT_INPUT_EVENT, p);
+            msg.setAsynchronous(true);
+            mH.sendMessageDelayed(msg, INPUT_METHOD_NOT_RESPONDING_TIMEOUT);
+            return DISPATCH_IN_PROGRESS;
+        }
+
+        Log.w(TAG, "Unable to send input event to IME: "
+                + mCurId + " dropping: " + event);
+    }
+    return DISPATCH_NOT_HANDLED;
+}
+</pre>
+
+<p>ImeInputEventSender构造时传入的mCurChannel, mH.getLooper()都是InputMethodManager的成员<br>InputMethodManager在ViewRootImpl的构造函数中初始化：<br>mWindowSession = WindowManagerGlobal.getWindowSession();<br>InputMethodManager的mMainLooper就是activity的主UI Looper，</p>
+<p>mCurChannel是activity的onWindowFocusChanged调用之后设置的<br>ViewRootImpl的ViewRootHandler处理MSG_WINDOW_FOCUS_CHANGED时<br>imm.onWindowFocus &gt; startInputInner &gt; mService.windowGainedFocus返回输入法服务的channel</p>
+<pre>
+if (hasWindowFocus) {
+    if (imm != null && mLastWasImTarget && !isInLocalFocusMode()) {
+        imm.onWindowFocus(mView, mView.findFocus(),
+                mWindowAttributes.softInputMode,
+                !mHasHadWindowFocus, mWindowAttributes.flags);
+    }
+    // Clear the forward bit.  We can just do this directly, since
+    // the window manager doesn't care about it.
+    mWindowAttributes.softInputMode &=
+        ~WindowManager.LayoutParams.SOFT_INPUT_IS_FORWARD_NAVIGATION;
+    ((WindowManager.LayoutParams)mView.getLayoutParams())
+        .softInputMode &=
+        ~WindowManager.LayoutParams.SOFT_INPUT_IS_FORWARD_NAVIGATION;
+    mHasHadWindowFocus = true;
+}
+</pre>
+<pre>
+    res = mService.windowGainedFocus(mClient, windowGainingFocus,
+            controlFlags, softInputMode, windowFlags,
+            tba, servedContext);
+    ....
+    setInputChannelLocked(res.channel);
+</pre>
+
+<p>具体发送过程：<br>sendInputEvent-&gt;nativeSendKeyEvent<br>frameworks/base/core/jni/android_view_InputEventSender.cpp</p>
+<pre>
+static jboolean nativeSendKeyEvent(JNIEnv* env, jclass clazz, jint senderPtr,
+        jint seq, jobject eventObj) {
+    sp<nativeinputeventsender> sender =
+        reinterpret_cast<nativeinputeventsender*>(senderPtr);
+    KeyEvent event;
+    android_view_KeyEvent_toNative(env, eventObj, &event);
+    status_t status = sender->sendKeyEvent(seq, &event);
+    return !status;
+}
+</nativeinputeventsender*></nativeinputeventsender></pre>
+
+<p>sender-&gt;sendKeyEvent:</p>
+<pre>
+status_t NativeInputEventSender::sendKeyEvent(uint32_t seq, const KeyEvent* event) {
+#if DEBUG_DISPATCH_CYCLE
+    ALOGD(&quot;channel '%s' ~ Sending key event, seq=%u.&quot;, getInputChannelName(), seq);
+#endif
+
+    uint32_t publishedSeq = mNextPublishedSeq++;
+    status_t status = mInputPublisher.publishKeyEvent(publishedSeq,
+            event-&gt;getDeviceId(), event-&gt;getSource(), event-&gt;getAction(), event-&gt;getFlags(),
+            event-&gt;getKeyCode(), event-&gt;getScanCode(), event-&gt;getMetaState(),
+            event-&gt;getRepeatCount(), event-&gt;getDownTime(), event-&gt;getEventTime());
+    if (status) {
+        ALOGW(&quot;Failed to send key event on channel '%s'.  status=%d&quot;,
+                getInputChannelName(), status);
+        return status;
+    }
+    mPublishedSeqMap.add(publishedSeq, seq);
+    return OK;
+}
+</pre>
+mInputPublisher.publishKeyEvent对应前面提到的InputPublisher::publishKeyEvent
+
+回到前面ImeInputEventSender的构造：
+frameworks/base/core/java/android/view/InputEventSender.java
+<pre>
+public InputEventSender(InputChannel inputChannel, Looper looper) {
+    if (inputChannel == null) {
+        throw new IllegalArgumentException("inputChannel must not be null");
+    }
+    if (looper == null) {
+        throw new IllegalArgumentException("looper must not be null");
+    }
+
+    mInputChannel = inputChannel;
+    mMessageQueue = looper.getQueue();
+    mSenderPtr = nativeInit(new WeakReference<inputeventsender>(this),
+            inputChannel, mMessageQueue);
+
+    mCloseGuard.open("dispose");
+}
+</inputeventsender></pre>
+
+<p>nativeInit取得native层的inputChannel、messageQueue，<br>创建NativeInputEventSender并调用initialize初始化<br>frameworks/base/core/jni/android_view_InputEventSender.cpp</p>
+<pre>
+static jint nativeInit(JNIEnv* env, jclass clazz, jobject senderWeak,
+        jobject inputChannelObj, jobject messageQueueObj) {
+    sp<inputchannel> inputChannel = android_view_InputChannel_getInputChannel(env,
+            inputChannelObj);
+    if (inputChannel == NULL) {
+        jniThrowRuntimeException(env, "InputChannel is not initialized.");
+        return 0;
+    }
+
+    sp<messagequeue> messageQueue = android_os_MessageQueue_getMessageQueue(env, messageQueueObj);
+    if (messageQueue == NULL) {
+        jniThrowRuntimeException(env, "MessageQueue is not initialized.");
+        return 0;
+    }
+
+    sp<nativeinputeventsender> sender = new NativeInputEventSender(env,
+            senderWeak, inputChannel, messageQueue);
+    status_t status = sender->initialize();
+    if (status) {
+        String8 message;
+        message.appendFormat("Failed to initialize input event sender.  status=%d", status);
+        jniThrowRuntimeException(env, message.string());
+        return 0;
+    }
+
+    sender->incStrong(gInputEventSenderClassInfo.clazz); // retain a reference for the object
+    return reinterpret_cast<jint>(sender.get());
+}
+
+status_t NativeInputEventSender::initialize() {
+    int receiveFd = mInputPublisher.getChannel()->getFd();
+    mMessageQueue->getLooper()->addFd(receiveFd, 0, ALOOPER_EVENT_INPUT, this, NULL);
+    return OK;
+}
+</jint></nativeinputeventsender></messagequeue></inputchannel></pre>
+
+<p>initialize过程与NativeInputEventReceiver的initialize类似<br>都是将读端Fd挂到looper上去监听，回调为this，指向NativeInputEventSender</p>
+<pre>
+int NativeInputEventSender::handleEvent(int receiveFd, int events, void* data) {
+    if (events & (ALOOPER_EVENT_ERROR | ALOOPER_EVENT_HANGUP)) {
+        return 0; // remove the callback
+    }
+
+    if (!(events & ALOOPER_EVENT_INPUT)) {
+        ALOGW("channel '%s' ~ Received spurious callback for unhandled poll event.  "
+                "events=0x%x", getInputChannelName(), events);
+        return 1;
+    }
+
+    JNIEnv* env = AndroidRuntime::getJNIEnv();
+    status_t status = receiveFinishedSignals(env);
+    mMessageQueue->raiseAndClearException(env, "handleReceiveCallback");
+    return status == OK || status == NO_MEMORY ? 1 : 0;
+}
+</pre>
+
+<p>当输入法处理完event唤醒这里的looper时，handleEvent被调用</p>
+<p>receiveFinishedSignals：</p>
+<pre>
+status_t NativeInputEventSender::receiveFinishedSignals(JNIEnv* env) {
+    ScopedLocalRef<jobject> senderObj(env, NULL);
+    bool skipCallbacks = false;
+    for (;;) {
+        uint32_t publishedSeq;
+        bool handled;
+        status_t status = mInputPublisher.receiveFinishedSignal(&publishedSeq, &handled);
+        if (status) {
+            if (status == WOULD_BLOCK) {
+                return OK;
+            }
+            return status;
+        }
+
+        ssize_t index = mPublishedSeqMap.indexOfKey(publishedSeq);
+        if (index >= 0) {
+            uint32_t seq = mPublishedSeqMap.valueAt(index);
+            mPublishedSeqMap.removeItemsAt(index);
+
+            if (!skipCallbacks) {
+                if (!senderObj.get()) {
+                    senderObj.reset(jniGetReferent(env, mSenderWeakGlobal));
+                    if (!senderObj.get()) {
+                        ALOGW("channel '%s' ~ Sender object was finalized "
+                                "without being disposed.", getInputChannelName());
+                        return DEAD_OBJECT;
+                    }
+                }
+
+                env->CallVoidMethod(senderObj.get(),
+                        gInputEventSenderClassInfo.dispatchInputEventFinished,
+                        jint(seq), jboolean(handled));
+                if (env->ExceptionCheck()) {
+                    ALOGE("Exception dispatching finished signal.");
+                    skipCallbacks = true;
+                }
+            }
+        }
+    }
+}
+</jobject></pre>
+
+<p>mInputPublisher.receiveFinishedSignal与mInputConsumer.consume类似，<br>receiveFinishedSignal接收处理完成信号<br>调用java层的dispatchInputEventFinished进一步处理<br>这就回到了前面的【ImeInputEventSender的dispatchInputEventFinished调用堆栈】</p>
+<p>也就是应用自己的MainActivity.dispatchKeyEvent会被调用</p>
+<p>至此，app端的InputEvent传递过程分析完毕！</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/05/22/Android-InputEvent框架实现及传递过程（app端）/" class="archive-article-date">
+  	<time datetime="2014-05-22T13:09:27.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-05-22</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/60/">60</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
+    </nav>
+  
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: true,
+		isPost: false,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

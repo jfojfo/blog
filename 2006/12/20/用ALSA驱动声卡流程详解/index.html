@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>用ALSA驱动声卡流程详解 | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="作者：北南南北来自：LinuxSir.Org提要：目前大多数发行版都已经支持主流声卡，声卡的驱动无非是用ALSA；本文主要讲述声卡驱动的流程；目的是帮助遇到声卡的驱动问题的弟兄来弄清楚解决问题的流程；只要流程明白了，解决问题是没有太大的困难；一、什么是ALSA ；Advanced Linux Sound Architecture 的简称为 ALSA ，译成中文的意思是 Linux 高级声音体系（">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用ALSA驱动声卡流程详解">
+<meta property="og:url" content="http://blog.pickbox.me/2006/12/20/用ALSA驱动声卡流程详解/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="作者：北南南北来自：LinuxSir.Org提要：目前大多数发行版都已经支持主流声卡，声卡的驱动无非是用ALSA；本文主要讲述声卡驱动的流程；目的是帮助遇到声卡的驱动问题的弟兄来弄清楚解决问题的流程；只要流程明白了，解决问题是没有太大的困难；一、什么是ALSA ；Advanced Linux Sound Architecture 的简称为 ALSA ，译成中文的意思是 Linux 高级声音体系（">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/fedora_linuxsir_kernel000linuxsir.orgbest.jpg">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="用ALSA驱动声卡流程详解">
+<meta name="twitter:description" content="作者：北南南北来自：LinuxSir.Org提要：目前大多数发行版都已经支持主流声卡，声卡的驱动无非是用ALSA；本文主要讲述声卡驱动的流程；目的是帮助遇到声卡的驱动问题的弟兄来弄清楚解决问题的流程；只要流程明白了，解决问题是没有太大的困难；一、什么是ALSA ；Advanced Linux Sound Architecture 的简称为 ALSA ，译成中文的意思是 Linux 高级声音体系（">
+<meta name="twitter:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/fedora_linuxsir_kernel000linuxsir.orgbest.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-用ALSA驱动声卡流程详解" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      用ALSA驱动声卡流程详解
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> </p><p><strong>作者：</strong>北南南北<br><strong>来自：</strong>LinuxSir.Org<br><strong>提要：</strong>目前大多数发行版都已经支持主流声卡，声卡的驱动无非是用ALSA；本文主要讲述声卡驱动的流程；目的是帮助遇到声卡的驱动问题的弟兄来弄清楚解决问题的流程；只要流程明白了，解决问题是没有太大的困难；</p><p><strong><br>一、什么是ALSA ；<br></strong></p><p>Advanced Linux Sound Architecture 的简称为 ALSA ，译成中文的意思是 Linux 高级声音体系（这是我直译的，可能译的不对）；一谈到体系就有点范围就太大了，所以ALSA不仅仅是包括对声卡的支持和驱动；</p><p>ALSA具有如下特征：</p>1、对所有音频接口的高效支持，从普通用户的声卡到专业级别多路音频设备；<br>2、声卡驱动完全模块化设计；<br>3、SMP and thread-safe design.<br>4、开发库（alsa-lib） 为程序设计提供了简单、方便，并且拥有有高级的效果和功能；<br>5、支持旧版本的OSS API 结口，能为大多数的OSS应用程序提供兼容；<p>OSS是一个商业性的驱动，OSS有一个简装本的代码已经移入内核和ALSA，其中alsa-oss就是；OSS公司据说目前已经并不存在了；我们没有必要用OSS 公司提供的商业版本；用ALSA和OSS简装版足够；</p><p><strong><br>二、关于硬件驱动驱动的必备基础 ；<br></strong></p><p><strong><br>0、查看声卡是不是已经能发声了；<br></strong></p><p>如果能发声，我们没有必要折腾了；呵。。。。</p><code>[root@localhost ~]# cat /usr/share/sounds/phone.wav &gt; /dev/audio<br>[root@localhost ~]# cat /usr/share/sounds/phone.wav &gt; /dev/dsp</code><p>也就是说找一个wav文件，然后用 cat file.wav &gt; /dev/audio</p><p><strong><br>1、如何查看硬件芯片；<br></strong></p><p>在Linux操作系统中，所有的硬件都是以芯片组来区分的，品牌并不是最重要的；<strong>硬件最重要的标识是芯片组</strong>；所以您在讨论区求助的时候，只说硬件品牌，而不提供芯片组，大家是帮助不了您的，切记；</p><p>我们查看硬件的芯片组是的命令是 lspci -v  或者是dmesg，由于dmesg输出的信息不太多，不够直观；所以经常用的还是lspci -v ；也可以用lshal 获取；最方便的还是lspci -v；初学者还是用 lspci -v 更好一点；</p><code>[root@localhost beinan]# lspci -v</code><p>我们运行lspci -v 后，如果查看声卡芯片组，发会现有类似下面的一段；</p><code>[root@localhost beinan]# lspci -v <br> Multimedia audio controller: Intel Corporation 82801DB/DBL/DBM (ICH4/ICH4-L/ICH4-M)<br>AC’97 Audio Controller (rev 03)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 、<br> Subsystem: Hewlett-Packard Company: Unknown device 3080<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Flags: bus master, medium devsel, latency 0, IRQ 5<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; I/O ports at 1c00 [size=256]<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; I/O ports at 18c0 [size=64]<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Memory at e0100c00 (32-bit, non-prefetchable) [size=512]<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Memory at e0100800 (32-bit, non-prefetchable) [size=256]<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Capabilities: [50] Power Management version 2</code><p><strong><br>2、系统内核版本；<br></strong></p><code>[root@localhost beinan]# uname -r -m -p -i<br>2.6.11-1.1369_FC4 i686 i686 i386</code><p>上面的表示的是系统的内核版本，处理器架构等；</p><p><strong>提示：</strong>如果您自己编译内核，还要安装kernel-devel （或 kernel-source）， 这个是在系统光盘或者映像文件中有带；如果您想自己用 kernel.org 下载内核，自己编译，然后再来驱动声卡，也可以到 kernel.org 上下载最新的内核源码；</p><p>一般情况下，如果系统默认的内核不能驱动声卡，大多得更换内核，我们建议您先从发行版所提供的升级包来升级内核及源码；比如Fedora 的扩展项目软件包更新速度极快，我们能通过apt和yum进行kernel的升级；在启用新内核时，我们不建议您删除老内核；因为现在Fedora / Redhat 引入apt和yum 更新工具，系统的完整性极为重要；如果系统被破坏，用更新工具变得极为困难；</p><p>比如Fedora 的apt和yum升级源升级的内核也解决不了您的问题，我们可能需要自己通过 kernel.org 下载内核来编译；但也不能删除以前的内核包及源码包；一是为了安全，毕竟我们自己编译内核不是百分之百的成功；另外系统自带的内核及源码包被系统很多软件 依赖；apt和yum 每次更新软件包的时候都要检查系统的完整性；</p><p>对于有些发行版，可以直接从从 kernel.org 下载最新的内核；如果从系统提供的内核源码（kernel-devel或kernel-source）编译，可能解决不了您的问题；</p><p><strong><br>3、modprobe.conf的内容；<br></strong></p><p>在Fedora Core 4.0 中，内核模块的添加或定义别名是在 /etc/modprobe.conf 文件；在其它版本可能是 modules.conf ；如果您的系统中存在modprobe.conf ，我们就以这个文件为准；不同发行版有不同的定义文件，比如 slackware 是定义在/etc/modules.conf 中，但也要在 /etc/rc.d/rc.modules 打开相关驱动模块；</p><p>modprobe.conf 或者module.conf就是对系统已经加载的模块进行相应的配置，比如设置别名等；这些一般都是自通过工具自动生成的，我们也可以通过查看硬件的文档 和站点，也可以自己添加。为什么这样添加，而不是那样的呢？我也不懂了，因为人家文档那样说的，我不会开发，如果懂的开发的，可能会明白；请理解理解我；</p><p>比如我用的是855的主板，系统驱动用的是 snd-intel8x0，在/etc/modprobe.conf的配置是如下的内容； 下面这段内容是通过 alsaconf 配置工具自动生成的；</p><code>alias snd-card-0 snd-intel8x0<br>options snd-card-0 index=0<br>options snd-intel8x0 index=0<br>remove snd-intel8x0 { /usr/sbin/alsactl store 0 &gt;/dev/null 2&gt;&amp;1 || : ; }; /sbin/modprobe -r –ignore-remove snd-intel8x0</code><br><strong><br>4、lsmod 查看已经加载的内核模块；<br></strong><p>如果一个设备在内核的编译中是以模块方式加载的，主要是通过lsmod 来查看；</p><code>[root@localhost beinan]# lsmod</code><p>可能初学Linux的弟兄会问，内核的module存放在哪里，我们能不能自己来手工加载模块；内核的模块放在  /lib/modules/内核的版本/kernel/ ，比如在Fedora 4.0 中，我们可以看到如下的：</p><code>[root@localhost beinan]# ls /lib/modules/2.6.11-1.1369_FC4/kernel/<br>arch/    crypto/  drivers/ fs/      lib/     net/     sound/</code><br>其中，sound 就是声卡模块存放目录，大多数的硬件驱动放在 drivers目录，fs 是文件系统模块的目录；net是与网络有关的存放目录，比如一些网络协议支持的模块、防火墙支持的模块等；arch 是cpu方面 … …<p>如果我们想自己加载模块，就到这些目录中查看相应模块的信息，然后用 modprobe 来加载；</p><code>[root@localhost beinan]# modinfo snd-intel8x0</code><p>查看一个模块的信息，我们用 modinfo 来查看，所要查看的模块不要带 .ko 或者.o 之类的；比如查看到类似下面的信息；</p><p>description:    Intel 82801AA,82901AB,i810,i820,i830,i840,i845,MX440; SiS 7012; Ali 5455</p><p>通过这个我们足可以知道这是Intel 集成声卡，通过lspci -v 得到的声卡信息，感觉他们很相近；所以就能尝试用这个模块来驱动；</p><code>[root@localhost beinan]# modprobe snd-intel8x0</code><p>用 modprobe 加载了模块，然后我们通过 lsmod 就能看到了；对于声卡模块是这么加载的，其它设备的驱动模块也是如此；</p><p>注意：这些只是教您一点基础知识，遇到什么问题，知道怎么去查看解决；如果您在论坛求助的时候，是必须把 lsmod 输入内容以及 /etc/modprobe.conf 或 modules.conf 的内容帖出来。这样能节省很多时间，否则大家不会明白问题出在哪里；</p><p><strong><br>二、针对自己系统的声卡不发声，我是否有必要来升级内核解决；<br></strong></p><p>可能存在这样的情况，比如有时我在Mandriva Linux时，声卡是有声音的，但安装好Fedora 系统后却没有声音了；所以我们有必要弄清楚如下的几个问题；可能声卡已经驱动起来了，只是我们不太了解系统的原因所致；下面我们以Fedora 为例；</p><p><strong><br>1、声卡是不是被系统识别支持了；<br></strong></p><p>我们可以用Fedora 提供的配置工具 system-config-soundcard 来测试；</p><code>[beinan@localhost ~]# system-config-soundcard</code><p>通过测试，如果能听到声音，证明声卡已经驱动好了；如果听不到声音，但反应在也不迟钝，不是打开 system-config-soundcard ，按测试播放声音时会出现假死的情况；可能是声量没有打开；</p><p><strong><br>2、是否把声卡的音量打开了，比如PCM 和MASTER等；<br></strong></p><p>我们可以用下面几个工具；</p><code>[beinan@localhost ~]# gnome-volume-control<br>[beinan@localhost ~]# kmix<br>[beinan@localhost ~]# alsamixer<br>[beinan@localhost ~]# aumix</code><p>上面的四个工具，可以尝试一下，有时这几个工具存在BUG的事；所以我们还要引入一个工具 aumix ，目前已经被Fedora 删除了；我们自己安装上就行了；</p><p><strong>请参考：</strong> <a href="http://fedora.linuxsir.org/main/?q=node/65" target="_blank" rel="external">《声卡工具 aumix》</a></p><p><strong><br>3、我的声卡是测试时是有声音的，但我为什么不能播放CD和听mp3呢？<br></strong></p><p>自从Redhat 8.0以后，也就是说 Redhat 9.0 ，Fedora 1.0，Fedora 2.0，Fedora 3.0 ，Fedora 4.0的媒体播放软件不再对mp3提供支持；究其原因是版权方面的原因；但这不是意味着我们不能在Fedora 系统中让播放软件支持 mp3；我们可以安装mp3支持补丁或者下载全新的播放器；而这一切都离不开在线安装工具 apt或yum ；</p><p><strong>请参考：</strong><br><a href="http://fedora.linuxsir.org/main/?q=node/63" target="_blank" rel="external">《Fedora / Redhat 软件包管理指南》</a><br><a href="http://fedora.linuxsir.org/main/?q=node/27" target="_blank" rel="external">《Fedora 4.0 播放机支持mp3、wma的解决办法》</a></p><p>至于CD为什么不能播放的问题，在论坛上已经说过多次了；首先要保证CDROM的音频线和主板相连接；有的弟兄会问，Windows为什么就能直接 播放，我也没有把CDROM的音频线接在主板上；我答复您的是：咱们得转换观念，咱们是在用Linux，而不是Windows；</p><p><strong><br>3、查看声卡是否有模块冲突；<br></strong></p><p>比如Intel 主板集成了猫和声卡、网卡等，这时可能猫的蜂鸣器会被系统识别为声卡，所以要通过 lsmod 来查看，是否有 snd-intel8x0m；如果有则要处理一下；把在/lib/modules/内核的版本/kernel/sound/pci 中或 /lib/modules/内核的版本/kernel/drviers/sound/pci中的 snd-intel8x0m.ko改名为 snd-intel8x0m.koBAK ；</p><p>还有类似的主板，比如 VIA 主板集成了声卡和猫的， 如果声卡不发声，大多也与这有关，比如内核模块有snd-via82xx.ko 和snd-via82xx-modem.ko，可能系统会把 snd-via82xx-modem.ko模块当成是声卡的驱动。如果您出现这样的情况，也要改名；</p><p><strong><br>4、通过 alsaconf 来配置声卡；<br></strong></p><p>一般的情况下，系统在安装的时候，会自动把声卡配好；如果能识别的，就基本没有问题了；但如果出现识别了，但还是不发声；或者识别成猫的蜂鸣器；所 以我们除了要把前面所说的猫的蜂鸣器模块改名后，还要重新运行一下声卡配置工具 alsaconf ；可能我们还需要前面的一点知识，比如 modprobe 、lsmod等；有必要的时候还要启新启动机器；</p><p>如果我没有alsaconf 这个命令怎么办？</p><p> </p><code>[root@localhost beinan]# /usr/sbin/alsaconf</code><p>比如在Fedora Core 4.0 中，可能您不能发现这个命令；您采取的办法只能是重新编译 alsa-utils ；但也要保守编译；不能把alsa相关的包全都删除，只能是选择对应版本来编译；现在的Fedora 通过yum和apt升级，如果系统所依赖的包出被移除，比较重要的，alsa 就是其中的一个；会导致一些程序不能用；因为有版本对应关系；我们不能把系统整体的依赖关系打破；当然无关紧要的，比如这个软件包是依赖于其它包，而这个 包不为其它包提供依赖的包，这样的包是可以移除的；</p><p>自己编译alsa-utils 的办法是：</p><p>首先，确认系统alsa软件包的版本；</p><code>[root@localhost alsa]# rpm -qa |grep alsa<br>alsa-utils-1.0.9rf-2.FC4<br>alsa-lib-1.0.9rf-2.FC4<br>alsa-tools-1.0.9-1.fc4</code><p>我们要到 alsa-project.org 中下载 1.0.9的源码包；主要下载alsa-lib-1.0.9 和 alsa-utils-1.0.9a；不要卸载原来的RPM包；先安装 alsa-lib-1.0.9，然后再安装alsa-utils-1.0.9a ；编译方法无非是 tar zxvf file.tar.gz 或者 tar jxvf file.tar.bz2 ，然后是进入相应的解压目录 ./configure;make;make install ;</p><p>当然您要有安装开发工具、开发库等；如果不能进行源码包安装alsa等，所以我们要补装系统所缺少的软件；请参考 <a href="http://fedora.linuxsir.org/main/?q=node/63" target="_blank" rel="external">《Fedora / Redhat 软件包管理指南》</a></p><p>这样我们就有 alsaconf 工具可用了；这样编译 alsa也不会对系统造成破坏；</p><p><strong><br>+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++<br>中场休息：我已经精疲力尽，上面所提到的我都尝试了，但还是不能驱动声卡；我该怎么办？<br>+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++<br></strong><br>如果上面的的内容您都明白了，那我得为您祝贺，说明您对硬件的驱动方法已经有所了解了；虽然声卡的问题还是没有解决，但您把基本的必备知识掌握，解决声卡的发声还不是什么难事；</p><p>您看到这里已经是很疲惫，呵，我写到这里也有点累；但为了初学者在Linux能听到音乐，我还得接着努力，直到把您的问题解决为止；</p><p><strong><br>三、安装新版本的ALSA；<br></strong></p><p><strong><br>1、对ALSA软件包的说明；<br></strong><br>通过上面的一系列工程，可能您发现还不能解决您的问题，这时我们有必要升级ALSA；至于是否升级内核，我们还得等完成这步，看是否有必要；比如在 Fedora 4.0 中，我们通过 rpm -qa |grep alsa 查询时会发现没有 alsa-driver 这个包，这是怎么回事？</p><code>[root@localhost alsa]# rpm -qa |grep alsa<br>alsa-utils-1.0.9rf-2.FC4<br>alsa-lib-1.0.9rf-2.FC4</code><p>现就ALSA 相关的软件包做一说明（在alsa-project.org 上有列出）；</p><p><strong>alsa-lib</strong>  是alsa-driver 或者alsa其它包的时候，必须先安装这个包；<br><strong>alsa-driver</strong> 是音频设备的驱动；一般内核都集成在里面，大多是以模块的方式，安装在了 /lib/modules/内核的版本/kernel/sound 或 /lib/modules/内核的版本/kernel/drviers/sound/  中了；每个版本的内核都是如此；<strong>这也是我们没有在 Fedora Core 4.0 中没有发现 alsa-driver的原因</strong> ；如果我们自己编译升级 alsa，其中 alsa-driver 也是被安装在 /lib/modules/内核的版本/kernel/sound 中或 /lib/modules/内核的版本/kernel/drviers/sound 中 ；明白了吧；</p><p><strong>alsa-utils</strong> 这个包主要是一些声卡配置工具，比如 alsaconf 、 alsamixer等；<br><strong>alsa-oss </strong> 这个包和alsa-driver 一样，也没有以独立的包出现在 Fedora Core 4.0 中，原因和alsa-driver 一样，是集成在内核了，这个包极有必要的；如果我们升级ALSA的话，有些声卡用ALSA是驱动不起来的，是必须用alsa-oss才行；alsa- oss 包括了oss驱动库；alsa-oss，我们自己安装一般是默认放在了 /usr目录中；<br><strong>alsa-tools</strong> 这个是额外的工具包，不是必须的；是针对一些特别的声卡的工具或者解码器之类，您可以根据自己的声卡来安装；不安装也是可以的；</p><p>其它的包就不说了，到 alsa-project.org 上去看吧；比较重要的就是 alsa-lib 、alsa-driver、alsa-utils 、alsa-oss ；</p><p><strong><br>2、ALSA的编译安装的前期准备；<br></strong></p><p>编译安装ALSA，我们需要什么环境，就如同我们在Windows中打开一个file.doc文档一样，是需要先把Word安装上一样；Linux 也是如此，我们必須先把软件包编译所需要的工具安装上；另外还要安装kerenel-devel或者其它一些支持的库，如果您没有安装这些，编译无法进 行；这样开发工具都在系统安装盘中；如果您不知道如何安装，对于Fedora /Redhat 请参见 <a href="http://fedora.linuxsir.org/main/?q=node/63" target="_blank" rel="external">《Fedora / Redhat 软件包管理指南》</a></p><p>您也要在线升级内核及内核的源码包，以Fedora 4.0为例，必须保证kernel 和kernel-devel 包是同一个版本；可能您看到好多kernel的包，还有什么smp之类的；如果您只是单处理器的，就不要用smp的；看图作业（点击看大图，升级内核时， 请选择图中标记的颜色对应的内核和源码升级，也就是说版本要对应）</p><p><a href="http://img.pickbox.me/wp-content/uploads/pic/other_site/fedora_linuxsir_kernel000linuxsir.orgbest.jpg" target="_blank" rel="external"><img height="200" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/fedora_linuxsir_kernel000linuxsir.orgbest.jpg"></a></p><p><strong>重要：</strong>通过在线升级内核可能会解决您的声卡所存在的问题，要试着用前面所说的来尝试解决；您还可以通在在线升级alsa-lib ；alsa-tools ;alsa-utils 等包；</p><p>如果通过在线升级内核及alsa-lib;alsa-utils;alsa-tools 等能解决您的问题，请不必看以下的内容；</p><p>为什么说，通过在线长级内核能解决呢？因为通过内核的升级,内核包内置的alsa-driver 可能也得到了升级，如果打包的人升级了alsa-driver的话；如果是不能解决，说明alsa-driver 还是老版本；起重要作用的是alsa-driver ； 如果在线升级的过程中，alsa-lib没有新版本，肯定新内核中的alsa-driver 也没有更新，因为他们是配套的；明白了吧；</p><p><strong><br>判断是否有必要重编内核：<br></strong></p><code>[root@localhost beinan]# modinfo soundcore<br>filename:       /lib/modules/2.6.11-1.1369_FC4/kernel/soundBAK/soundcore.ko<br>description:    Core sound module<br>author:         Alan Cox<br>license:        GPL<br>alias:          char-major-14-*<br>vermagic:       2.6.11-1.1369_FC4 686 REGPARM 4KSTACKS gcc-4.0<br>depends:<br>srcversion:     E11490DC3F523551C4C2A6D</code><p>如果出现上面类似的信息，则不必编译内核；</p><p><strong>误区之一：</strong>看到论坛的好多弟兄，总认为只要在线升级了 alsa-lib 和alsa-utils 或 alsa-tools 就能解决声卡不发声的问题；其实不是这样的；因为起关健作用的是内核，而内核中的声卡驱动也是来自alsa-driver ；所以我们要尝试升级 alsa-driver 才能解决问题，只升级alsa-lib和alsa-utils 有何用？声卡的驱动并没有更新；有时升级alsa-lib 和alsa-utils 或许也能让声卡发声；只能说明是alsa-lib或alsa-utils存在了问题才导致声卡不发声；</p><p><strong>误区之二：</strong>也有弟兄认为驱动声卡是一定要重新从 kernel.org 下载内核，然后自己编译内核来解决声卡的问题；通过kernel.org 下载的内核，是能解决您的问题；但kernel.org 的内核集成声卡驱动也是来自于 alsa-project.org ；如果我们为了解决声卡驱动，没有在尝试用 alsa-driver 新版本的情况下，是没有必要重新编译内核的；</p><p><strong>正确观点：</strong>只要内核中的soundcore 是以模块的形式编译的，并且通过modinfo soundcore查看版本信息输出，我们就没有太大必要重编内核；因为系统几乎对所有的声卡及设备都有编译进去；所以我们先不要重编内核；除非做了升级 alsa-driver后，还是不能解决问题，这时才能重编译核；alsa-driver 是和内核配置文件相关联的；也就是说，alsa-driver 是根据内核的配置文件来进行判断，对哪些声卡应该支持等；如果内核的配置文件没有配置对您的声卡进行支持；这时才需要我们来配置内核；另外内核中对声卡的 支持的驱动也是来自于 alsa-driver ；</p><p><strong><br>3、尝试编译安装ALSA ；<br></strong></p><p>比如我下载了alsa 1.0.10rc1 版本，要下载配套的，比如 alsa-driver、alsa-lib、alsa-oss、alsa-utils 要下载同一系列的版本；我们先要安装alsa-lib；然后再安装其它的包；</p><p><strong>警告：</strong>在编译alsa所有包的时候，对于Fedora Core ，请不要卸载系统自带的alsa-lib 及alsa-utils 等；这样能欺骗系统，说明系统完整的；alsa是基础包之一，不是随便可以卸载的，因为有很多的包依赖这几个旧的包；比如xmms，如果您把alsa- lib系统自带的包卸掉了，xmms就不能用 alsa驱动，只能用oss驱动了，除非您在升级alsa-lib后重新编译xmms；另外最严重的后果，如果卸掉了这几个包，会破坏系统整体的依赖关 系，yum和apt升级系统将无关正常运行；</p><code>[root@localhost alsa]# tar jxvf alsa-lib-1.0.10rc1.tar.bz2<br>[root@localhost alsa]# cd alsa-lib-1.0.10rc1<br>[root@localhost alsa-lib-1.0.10rc1]# ./configure ;make ;make install<br>[root@localhost alsa]# tar jxvf alsa-utils-1.0.10rc1.tar.bz2<br>[root@localhost alsa]# cd alsa-utils-1.0.10rc1<br>[root@localhost alsa-utils-1.0.10rc1]# ./configure ;make ;make install<br>[root@localhost alsa]# tar jxvf alsa-driver-1.0.10rc1.tar.bz2<br>[root@localhost alsa]# cd alsa-driver-1.0.10rc1<br>[root@localhost alsa-driver-1.0.10rc1]# ./configure ;make ;make install<br>[root@localhost alsa]# tar zxvf alsa-oss-1.0.10rc1.tar.bz2<br>[root@localhost alsa]# cd alsa-oss-1.0.10rc1<br>[root@localhost alsa-oss-1.0.10rc1]# ./configure ;make;make install</code><p><strong>提示：</strong>其中alsa-driver 可以定义声卡来编译，这个对于老手还比较适用，如果您还不太会查看alsa的文档的话，就直接用通用的./configure;make;make install 来安装；这样所有的声卡都安装进去了；</p><p><strong><br>4、尝试通过用新的ALSA驱动来配置声卡 ；<br></strong></p><p>在这个时候，我们才用到前面讲的基础知识；呵。。。。。书到用时方恨少；不学习怎么也不行；<br><strong><br>1）通过alsaconf 来配置声卡；<br></strong><br>我们要通过alsaconf 来配置，看能否找到声卡；在运行alsaconf的时候，对于FC4请修改/etc/modprobe.conf  对其它的版本按前面的说，可能是 /etc/modules.conf ，把所有关于声卡的项目前面加#注掉，或者删除；</p><p>在选行alsaconf时，我们有必要运行一下如下的两个命令；目的是更新文件的索引数据库；</p><code>[root@localhost beinan]# rpm -rebuilddb 这个是针对RPM包的系统的；<br>[root@localhost beinan]# updatedb</code><br>然后再来运行alsaconf<br><code>[root@localhost beinan]# /usr/sbin/alsaconf</code><p>我们用过alsaconf后，要查看 /etc/modprobe.conf 或/etc/modules.conf ；还要lsmod ，看声卡模块有没有加载进来。如果没有加载进来，我们还要会用 modprobe 加载模块，前面有说，请回头看看；</p><p>如果运行 alsaconf 后，配置文件 /etc/modprobe.conf 并没有发生变化，没有发现声卡的配置内容；您要到 alsa-project.org 上查看相应的信息，只看关于 /etc/modprobe.conf 的内容就行；比如他在上面说的是modules.conf 的，您可以直接写到 modprobe.conf （如果是Fedora 的话），各个系统的配置文件都差不多，如果不是modprobe.conf就是modules.conf ；</p><p><strong>请参见：</strong><a href="http://www.alsa-project.org/alsa-doc/index.php?vendor=All#matrix" target="_blank">ALSA 声卡支持列表和文档</a></p><p>请根据文档所说的来加载模块和配置 modprobe.conf或 modules.conf ；<br><strong><br>2） 调节音量；<br></strong></p><p>我们可能已经把声卡驱动起来了，但没有声音，所要一定要打开音量；调节工具：kmix 、aumix 、alsamixer及system-config-soundcard等工具；<br><strong><br>3）值得注意是的，如果您播放mp3时，要注意以下系统；<br></strong><br>自从Redhat 8.0以后，也就是说 Redhat 9.0 ，Fedora 1.0，Fedora 2.0，Fedora 3.0 ，Fedora 4.0的媒体播放软件不再对mp3提供支持；究其原因是版权方面的原因；但这不是意味着我们不能在Fedora 系统中让播放软件支持 mp3；我们可以安装mp3支持补丁或者下载全新的播放器；而这一切都离不开在线安装工具 apt或yum ；</p><p><strong>请参考：</strong><br><a href="http://fedora.linuxsir.org/main/?q=node/63" target="_blank" rel="external">《Fedora / Redhat 软件包管理指南》</a><br><a href="http://fedora.linuxsir.org/main/?q=node/27" target="_blank" rel="external">《Fedora 4.0 播放机支持mp3、wma的解决办法》</a></p><p><strong>提示：</strong>测试。。。。能成功吗？ 不成功接着看下面。。。。。。:(</p><p><strong><br>+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++<br>下半场：前半场下来，您还是不能解决声卡，只能用最后一招；重新编译内核~<br>+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++<br></strong></p><p><strong><br>四、重新编译内核；<br></strong></p><p><strong><br>1、为什么要编译内核？<br></strong></p><p>因为您的声卡没有被当前所用的内核版本配置进去，所以我们要新编译内核；</p><p><strong><br>2、我不会编内核怎么办？；<br></strong></p><p>可能新手弟兄会说，我不会编内核怎么办？答曰：不会编内核，就得学习，谁也不是天生就会的；学习改变命运，不是吗？其实编译内核目前看来是极为简单 的事，只是我们第一次接触到Linux，太习惯Windows的点鼠标，不太习惯Linux的命令行操作罢了。只要努力，没有什么做不成的；你看北南这水 平都会写教程 。呵。。。坐在电脑前大侠如果认为北南写的这篇文章或许对你有所帮助的话，那您也能行；加油~~~~</p><p><strong><br>3、内核的选择；<br></strong></p><p>一般的情况下选择发行版所提供的内核升级包及源码包要好；您可以通过 apt+synaptic 来选择装，但不要把老内核删除，系统的完整性是很重要的；一般的情况下如果通过新内核的在线升级能解决问题的，我们也没有必要编译了；我们前面已经说过 了；如果不能用新的内核来驱动，我们可以在新的内核的基础上进行编译，当然我们必须要下载kernel-devel 或者 kernel-source 包；</p><p>为什么要选择系统提供的内核及源码升级包呢？</p><p>一是主要是为了方便，对于大多数的选项，我们按默认就好了，我们只是针对比较重要的地方改一改；比如对于Fedora Core 4.0 ，目前在线升级源有很多版本可下载使用；我们要把同一版本的内核包及源码包都要安装；<br>二是如果我们用新编的内核启动不了系统，可以用老内核来引导，这是为了系统的安全。对新手和老手都是适用的；</p><p>当然您也能从 kernel.org 上下载最新最稳定的内核；目前最新版本是 2.6.13 ；kernel.org 下载的内核包含的声卡驱动也是来自 alsa-driver ；</p><p><strong><br>4、编译内核参考文档；<br></strong></p><p><a href="http://fedora.linuxsir.org/main/?q=node/66" target="_blank" rel="external">《编译内核操作流程 ──为新手指南》</a></p><p>根据<a href="http://fedora.linuxsir.org/main/?q=node/66" target="_blank" rel="external">《编译内核操作流程 ──为新手指南》</a> 中所说的，有针对性的来解决问题；编译好内核后，用alsaconf 来配置声卡；或者重新编译 alsa-lib 、alsa-oss、alsa-utils 等；经过我的测试，一般的情况下重新编译过内核后，用 alsaconf 配置一下就能用了；</p><p><strong><br>后记：<br></strong><br>至此，关于声卡的问题就算解决流程就算完工了；如果您认为我的这篇文档写的还不够详细，或者不能解决您的问题；问题无非是两种，一是您的声卡没有被 ALSA所支持，请查相应的列表；二是如果ALSA已经支持了您的声卡，您看了我的文档还是不能解决您的问题（看与不看只是一个假设，就看我的文档值不值 得您一看了）；</p><p>对于第二种情况无非又是有两种原因，一是北南写的文档不行，您看不懂；二是您可能是真的初学者，可能需要更多的尝试和努力；</p><p>如果还是解决不了,或行您静下心仔细看一下本文档所提到的流程，或许能找到一点对您有所启示的内容；最好是… …</p><p>再解决不了怎么办呢，如果您和北南在同一个城市的话，把机器抱到我这里，我感觉差不多能解决吧；哈哈。。。。。。。。。</p><p><strong><br>附录：<br></strong></p><p>1、<a href="http://fedora.linuxsir.org/main/?q=node/66" target="_blank" rel="external">《编译内核操作流程 ──为新手指南》</a><br>2、<a href="http://fedora.linuxsir.org/main/?q=node/63" target="_blank" rel="external">《Fedora / Redhat 软件包管理指南》</a><br>3、<a href="http://fedora.linuxsir.org/main/?q=node/27" target="_blank" rel="external">《Fedora 4.0 播放机支持mp3、wma的解决办法》</a><br>4、<a href="http://www.alsa-project.org/alsa-doc/index.php?vendor=All#matrix" target="_blank">ALSA  声卡支持列表和文档</a><br>5、<a href="http://www.alsa-project.org/" target="_blank"> http://www.alsa-project.org</a><br>6、<a href="http://www.kernel.org/" target="_blank"> http://www.kernel.org </a></p>                        附件            大小                            <a href="http://img.pickbox.me/wp-content/uploads/pic/other_site/fedora_linuxsir_kernel000linuxsir.orgbest.jpg" target="_blank" rel="external">kernel000linuxsir.orgbest.jpg</a>            94.52 KB <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2006/12/20/用ALSA驱动声卡流程详解/" class="archive-article-date">
+  	<time datetime="2006-12-20T06:46:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2006-12-20</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux-App/">Linux App</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2006/12/20/Xen/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Xen
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2006/12/20/Linux-module-init-tools模块管理概述/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Linux module-init-tools模块管理概述</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

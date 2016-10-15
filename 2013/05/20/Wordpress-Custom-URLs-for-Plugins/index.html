@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Wordpress Custom URLs for Plugins | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Wordpress supports custom URL rewrites for search engine friendly URLs, but the fact is they can be a real pain in the ass for WP plugin authors. As is evidenced by the plethora of confused posts out">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Wordpress Custom URLs for Plugins">
+<meta property="og:url" content="http://blog.pickbox.me/2013/05/20/Wordpress-Custom-URLs-for-Plugins/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="Wordpress supports custom URL rewrites for search engine friendly URLs, but the fact is they can be a real pain in the ass for WP plugin authors. As is evidenced by the plethora of confused posts out">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Wordpress Custom URLs for Plugins">
+<meta name="twitter:description" content="Wordpress supports custom URL rewrites for search engine friendly URLs, but the fact is they can be a real pain in the ass for WP plugin authors. As is evidenced by the plethora of confused posts out">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-Wordpress-Custom-URLs-for-Plugins" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Wordpress Custom URLs for Plugins
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Wordpress supports custom URL rewrites for search engine friendly URLs, but the fact is they can be a real pain in the ass for WP plugin authors. As is evidenced by the plethora of confused posts out there desperately seeking help with <a href="http://codex.wordpress.org/Rewrite_API/add_rewrite_rule" target="_blank" rel="external">add_rewrite_rule()</a> and <a href="http://codex.wordpress.org/Rewrite_API/add_rewrite_tag" target="_blank" rel="external">add_rewrite_tag()</a>, slapping a few new rules and custom querystring variables in your plugin’s functions.php just doesn’t always cut it.</p>
+<p></p><h2>Custom URLs for Wordpress Plugins</h2><br>Take the following scenario: you have a custom plugin for displaying products on a Wordpress site, but there are thousands of products. Obviously you don’t want to use WP posts or pages to add every single product, so you probably have a unique interface for product management somewhere. Heck, maybe you’re even fetching the product info from a 3rd party source.<p></p>
+<p>WP purists will whine that if it <strong>can</strong> work with built-in Wordpress posts and pages, then it<strong>should</strong> work with posts and pages. I disagree. Many websites get started with WP and want to expand beyond the limitations of the WP platform - that shouldn’t require an intensive migration of design, categories, posts, and everything else they have created, assuming they are happy with the WP platform for their blogging and basic CMS needs. But anyway, that’s a conversation for a different time.</p>
+<p>That said - if your plugin doesn’t just piggyback the built-in posts and pages format, and you don’t want to create custom taxonomies that tie you in to the WP mechanisms, the solution might be to roll your own basic rules.</p>
+<p></p><h2>Setting up Custom URLs</h2><br>Since many plugins are developed that work outside the scope of Wordpress pages, plugin authors can use custom templates with <a href="http://codex.wordpress.org/Plugin_API/Action_Reference#Template_Actions" target="_blank" rel="external">template_redirect()</a>. This is an easy way to create a unique interface for your plugin that you can do pretty much anything with.<p></p>
+<p>But, let’s say you want to use a custom URL for your interface, and also need to access the URL variables from your custom template. For example, imagine you need an URL format like this:</p>
+<p><code><a href="http://mysite.com/items/big-yellow-raincoat/" target="_blank" rel="external">http://mysite.com/items/big-yellow-raincoat/</a></code></p>
+<p>Wouldn’t it be nice to call that URL, have the query string variables “items” and “big-yellow-raincoat” parsed out and automatically redirect to your custom template?</p>
+<p>Wordpress has a whole slew of functions for <a href="http://codex.wordpress.org/Rewrite_API" target="_blank" rel="external">custom URL rewriting</a>, but they all tend to work around the existing structure of Wordpress page and post types.</p>
+<p>After endless experimentation with <code>add_rewrite_rule()</code> and <code>add_rewrite_tag()</code>, as well as custom handling of <code>$wp-&gt;query_vars</code> and everything else in between, I have settled on a very simple implementation to essentially take control of the custom URLs and pass it along to a plugin interface.</p>
+<p></p><h2>Coding a Custom URL Handler</h2><br>First, the basic approach is to set up a custom function for parsing the current URL.<p></p>
+<p><div></div></p>
+<p><div id="highlighter_906601"></div></p>
+<p><pre>function my_url_handler()<br>{<br>    // Manually parse the URL request<br>    if(!empty($_SERVER[‘REQUEST_URI’]))<br>    {<br>        $urlvars = explode(‘/‘, $_SERVER[‘REQUEST_URI’]);<br>    }<br>}</pre><br><br><br>The above function <code>my_url_handler()</code> basically takes the current request URL from<code>$_SERVER[‘REQUEST_URI’]</code> and splits it up on the forward slashes. Then we can do WHATEVER WE WANT with it.</p>
+<p>So, after running this, the <code>$urlvars</code> array will contain the elements from our URL in the example above:</p>
+<p><div></div></p>
+<p><div id="highlighter_798184"></div></p>
+<p><pre>[0] =&gt; ‘items’,<br>[1] =&gt; ‘big-yellow-raincoat’</pre><br><br><br>Typically, the first element in the URL contains important information about our “view” (or the interface that will process the request). Then the second element will contain the data - in this case, a unique ID string.</p>
+<p>So, we can expand our function to check for these elements and then set our $_REQUEST variables explicitly, where they can then be accessed from the rest of our plugin just like they were passed by a browser.</p>
+<p><div></div></p>
+<p><div id="highlighter_499672"></div></p>
+<p><pre>function my_url_handler()<br>{<br>    // Manually parse the URL request<br>    if(!empty($_SERVER[‘REQUEST_URI’]))<br>    {<br>        $urlvars = explode(‘/‘, $_SERVER[‘REQUEST_URI’]);<br>    }</pre></p>
+<pre><code>// Check for querystring variables
+if((!empty($urlvars[1])) &amp;amp;&amp;amp; (!empty($urlvars[2])))
+{
+    $_REQUEST[&apos;myview&apos;] = $urlvars[1];
+
+    if($urlvars[1] == &apos;item&apos;)
+    {
+        // Set the $_REQUEST vars
+        $_REQUEST[&apos;myid&apos;] = $urlvars[2];
+
+        // Redirect to custom plugin template for &quot;item&quot; view
+        add_action(&apos;template_redirect&apos;, &apos;my_custom_item_template&apos;);
+    }
+
+    // ... handle multiple types of URL by checking $urlvars[1] here
+}
+</code></pre><p>}<br><br><br>There! Now our little function parses the URL, checks the first element to determine our view, then sets the view and URL data in the <a href="http://us3.php.net/manual/en/reserved.variables.request.php" target="_blank" rel="external">$_REQUEST array</a> ($_REQUEST is an associative array that contains all the HTTP request variables GET, POST and COOKIE). It then registers the template_redirect for our custom template for that view.</p>
+<p>The final step is just to add a hook to <code>parse_request</code> for the new function, generally add the end of your plugin’s functions.php file:</p>
+<p><div></div></p>
+<p><div id="highlighter_268778"></div></p>
+<p><pre>add_action(‘parse_request’, ‘my_url_handler’);</pre><br><br><br>Now, when your custom plugin template runs, you can just access the variables in $_REQUEST to get the unique ID, view, etc.</p>
+<p>The next steps are filtering the page titles to ensure that you don’t see “Page Not Found” in the browser title, and further testing to make sure that WP doesn’t spit any 404’s out because it couldn’t find your content. However, that’s a subject for another post.</p>
+<p>This method is simple, clean, and requires virtually no built-in WP methods. Wordpress purists may be seething in a fit of rage right now, and if that’s the case I invite them all to seriously improve Wordpress custom URL handling for plugin authors.</p>
+<p>refer:</p>
+<ul><br>    <li><a href="http://gabrielharper.com/blog/2012/09/wordpress-custom-urls-for-plugins/" target="_blank">wordpress-custom-urls-for-plugins</a></li><br>    <li><a href="http://www.rlmseo.com/blog/passing-get-query-string-parameters-in-wordpress-url/" target="_blank" rel="external">passing-get-query-string-parameters-in-wordpress-url</a></li><br>    <li><a href="http://www.mihaivalentin.com/wordpress-tutorial-load-the-template-you-want-with-template_redirect/" target="_blank" rel="external">wordpress-tutorial-load-the-template-you-want-with-template_redirect</a></li><br></ul>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/05/20/Wordpress-Custom-URLs-for-Plugins/" class="archive-article-date">
+  	<time datetime="2013-05-20T06:48:58.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-05-20</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/wordpress/">wordpress</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2013/05/21/记录一下从百度hi迁移博客过程/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          记录一下从百度hi迁移博客过程
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2013/05/06/Loading-JavaScript-without-blocking/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Loading JavaScript without blocking</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

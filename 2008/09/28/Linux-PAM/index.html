@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Linux-PAM | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="mypam_namespace.so模块应用，polyinstantiation（多实例化），提高安全性 通过配置pam，在用户登录时实际登录的是虚拟目录，类似chroot，用户的所有操作都限定在该虚拟目录中。修改/etc/security/namespace.conf，添加：$HOME&amp;nbsp;&amp;nbsp;&amp;nbsp;   $HOME/$USER.inst/inst-&amp;nbsp;&amp;nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux-PAM">
+<meta property="og:url" content="http://blog.pickbox.me/2008/09/28/Linux-PAM/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="mypam_namespace.so模块应用，polyinstantiation（多实例化），提高安全性 通过配置pam，在用户登录时实际登录的是虚拟目录，类似chroot，用户的所有操作都限定在该虚拟目录中。修改/etc/security/namespace.conf，添加：$HOME&amp;nbsp;&amp;nbsp;&amp;nbsp;   $HOME/$USER.inst/inst-&amp;nbsp;&amp;nbsp;">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux-PAM">
+<meta name="twitter:description" content="mypam_namespace.so模块应用，polyinstantiation（多实例化），提高安全性 通过配置pam，在用户登录时实际登录的是虚拟目录，类似chroot，用户的所有操作都限定在该虚拟目录中。修改/etc/security/namespace.conf，添加：$HOME&amp;nbsp;&amp;nbsp;&amp;nbsp;   $HOME/$USER.inst/inst-&amp;nbsp;&amp;nbsp;">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-Linux-PAM" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux-PAM
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <br><del>my</del><br><br>pam_namespace.so模块应用，polyinstantiation（多实例化），提高安全性<br> <br>通过配置pam，在用户登录时实际登录的是虚拟目录，类似chroot，用户的所有操作都限定在该虚拟目录中。<br><br>修改/etc/security/namespace.conf，添加：<br>$HOME&nbsp;&nbsp;&nbsp;   $HOME/$USER.inst/inst-&nbsp;&nbsp;&nbsp;   context<br># mkdir /home/test/test.inst<br># chown root:root /home/test/test.inst<br># chmod 000 /home/test/test.inst<br><br>在/etc/pam.d/login 和 /etc/pam.d/sshd 中添加：<br>session required pam_namespace.so<br><br>Ctrl+Alt+F1，以test用户登录<br>$ touch test_file<br>$ ls<br>test_file<br>$ pwd<br>/home/test<br><br>再以root用户来看：<br>root@jfo-laptop:/home/test# cd test.inst/inst-test/<br>root@jfo-laptop:/home/test/test.inst/inst-test# ls<br>test_file<br>root@jfo-laptop:/home/test/test.inst/inst-test# pwd<br>/home/test/test.inst/inst-test<br><br><br>for more info, refer:<br><a target="_blank" href="http://www.ibm.com/developerworks/cn/linux/l-polyinstantiation/index.html">使用多实例化提高安全性</a><br><a target="_blank" href="http://www.ibm.com/developerworks/cn/linux/l-polyinstantiation/index.html">http://www.ibm.com/developerworks/cn/linux/l-polyinstantiation/index.html</a><br><br><br><del>my</del><br><br><br>Linux的鉴别(Authentication)机制–PAM<br><a href="http://blog.csdn.net/absurd/archive/2007/04/23/1576621.aspx" target="_blank">http://blog.csdn.net/absurd/archive/2007/04/23/1576621.aspx</a><br><br>The Linux-PAM System Administrators’ Guide<br><a target="_blank" href="http://www.kernel.org/pub/linux/libs/pam/Linux-PAM-html/Linux-PAM_SAG.html">http://www.kernel.org/pub/linux/libs/pam/Linux-PAM-html/Linux-PAM_SAG.html</a><br></p><p><em>Linux-PAM</em> (Pluggable Authentication Modules for Linux) is a suite of shared libraries that enable the local system administrator to choose how applications authenticate users.</p><p>In other words, without (rewriting and) recompiling a PAM-aware application, it is possible to switch between the authentication mechanism(s) it uses. Indeed, one may entirely upgrade the local authentication system without touching the applications themselves.</p><p>Historically an application that has required a given user to be authenticated, has had to be compiled to use a specific authentication mechanism. For example, in the case of traditional UN*X systems, the identity of the user is verified by the user entering a correct password. This password, after being prefixed by a two character <code>salt&#39;&#39;, is encrypted (with crypt(3)). The user is then authenticated if this encrypted password is identical to the second field of the user&#39;s entry in the system password database (the &lt;code&gt;/etc/passwd&lt;/code&gt; file). On such systems, most if not all forms of privileges are granted based on this single authentication scheme. Privilege comes in the form of a personal user-identifier (UID) and membership of various groups. Services and applications are available based on the personal and group identity of the user. Traditionally, group membership has been assigned based on entries in the &lt;code&gt;/etc/group&lt;/code&gt; file.&lt;/p&gt;&lt;p&gt;It is the purpose of the &lt;em&gt;Linux-PAM&lt;/em&gt; project to separate the development of privilege granting software from the development of secure and appropriate authentication schemes. This is accomplished by providing a library of functions that an application may use to request that a user be authenticated. This PAM library is configured locally with a system file, &lt;code&gt;/etc/pam.conf&lt;/code&gt; (or a series of configuration       files located in &lt;code&gt;/etc/pam.d/&lt;/code&gt;) to authenticate a user request via the locally available authentication modules. The modules themselves will usually be located in the directory &lt;code&gt;/lib/security&lt;/code&gt; or       &lt;code&gt;/lib64/security&lt;/code&gt; and take the form of dynamically       loadable object files (see dlopen(3)).&lt;/p&gt;&lt;br /&gt;&lt;br /&gt;&lt;br /&gt;Overview&lt;br /&gt;&lt;p&gt;For the uninitiated, we begin by considering an example.  We take an       application that grants some service to users;       &lt;strong&gt;login&lt;/strong&gt; is one such program.       &lt;strong&gt;Login&lt;/strong&gt; does two things, it first establishes that the requesting user is whom they claim to be and second provides them with the requested service: in the case of &lt;strong&gt;login&lt;/strong&gt; the service is a command shell       (bash, tcsh, zsh, etc.) running with the identity of the user.&lt;/p&gt;&lt;p&gt;Traditionally, the former step is achieved by the       &lt;strong&gt;login&lt;/strong&gt; application prompting the user for a password and then verifying that it agrees with that located on the system; hence verifying that as far as the system is concerned the user is who they claim to be. This is the task that is delegated to &lt;em&gt;Linux-PAM&lt;/em&gt;.&lt;/p&gt;&lt;p&gt;From the perspective of the application programmer (in this case       the person that wrote the &lt;strong&gt;login&lt;/strong&gt; application),       &lt;em&gt;Linux-PAM&lt;/em&gt; takes care of this       authentication task -- verifying the identity of the user.&lt;/p&gt;&lt;p&gt;The flexibility of &lt;em&gt;Linux-PAM&lt;/em&gt; is       that &lt;em&gt;you&lt;/em&gt;, the system administrator, have the freedom to stipulate which authentication scheme is to be used. You have the freedom to set the scheme for any/all PAM-aware applications on your Linux system. That is, you can authenticate from anything as naive as &lt;em&gt;simple trust&lt;/em&gt; (&lt;strong&gt;pam_permit&lt;/strong&gt;)       to something as paranoid as a combination of a retinal scan, a       voice print and a one-time password!&lt;/p&gt;&lt;p&gt;To illustrate the flexibility you face, consider the following situation: a system administrator (parent) wishes to improve the mathematical ability of her users (children). She can configure their favorite</code>Shoot ‘em up game’’ (PAM-aware of course) to authenticate them with a request for the product of a couple of random numbers less than 12. It is clear that if the game is any good they will soon learn their <em>multiplication tables</em>. As they mature, the       authentication can be upgraded to include (long) division!</p><p><em>Linux-PAM</em> deals with four       separate types of (management) task. These are:       <em>authentication management</em>;       <em>account management</em>;       <em>session management</em>; and       <em>password management</em>. The association of the preferred management scheme with the behavior of an application is made with entries in the relevant <em>Linux-PAM</em> configuration file.       The management functions are performed by <em>modules</em>       specified in the configuration file. The syntax for this       file is discussed in the section       <a href="http://www.kernel.org/pub/linux/libs/pam/Linux-PAM-html/sag-configuration.html" title="Chapter 4. The Linux-PAM configuration file" target="_blank" rel="external">below</a>.</p><p>Here is a figure that describes the overall organization of       <em>Linux-PAM</em>:</p>+—————-+<br>  | application: X |<br>  +—————-+       /  +———-+     +================+<br>  | authentication-[—-&gt;—-] Linux-   |–&lt;–| PAM config file|<br>  |       +        [—-&lt;–/–]   PAM    |     |================|<br>  |[conversation()][–+      |          |     | X auth .. a.so |<br>  +—————-+  |    /  +-n–n—–+     | X auth .. b.so |<br>  |                |  |       <strong>|  |           |           ___</strong>/<br>  |  service user  |  A      |     |           |<em>__</em>,—–’<br>  |                |  |      V     A<br>  +—————-+  +——|—–|———+ —–+——+<br>                         +—u—–u—-+    |      |      |<br>                         |   auth….   |–[ a ]–[ b ]–[ c ]<br>                         +————–+<br>                         |   acct….   |–[ b ]–[ d ]<br>                         +————–+<br>                         |   password   |–[ b ]–[ c ]<br>                         +————–+<br>                         |   session    |–[ e ]–[ c ]<br>                         +————–+<p>By way of explanation, the left of the figure represents the application; application X. Such an application interfaces with the <em>Linux-PAM</em> library and knows none of       the specifics of its configured authentication method. The       <em>Linux-PAM</em> library (in the center) consults the contents of the PAM configuration file and loads the modules that are appropriate for application-X. These modules fall into one of four management groups (lower-center) and are stacked in the order they appear in the configuration file. These modules, when called by <em>Linux-PAM</em>, perform the various authentication tasks for the application. Textual information, required from/or offered to the user, can be exchanged through the use of the application-supplied <em>conversation</em>       function.</p><p>If a program is going to use PAM, then it has to have PAM functions explicitly coded into the program. If you have access to the source code you can add the appropriate PAM functions. If you do not have accessto the source code, and the binary does not have the PAM functions included, then it is not possible to use PAM.</p><br><br><br><br><br><br><br><br><del>end</del> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/09/28/Linux-PAM/" class="archive-article-date">
+  	<time datetime="2008-09-28T12:46:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-09-28</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux-App/">Linux App</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2008/09/28/Linux-command-cont/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Linux command (cont.)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2008/09/27/C-各大有名GUI库/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">C++各大有名GUI库</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

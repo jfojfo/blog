@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>KMP算法（子串包含问题） | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="问题：给你两个字符串A和B，问B是否为A的子串（A是否包含B）。比如，字符串A=&amp;quot;abcdgo&amp;quot;，字符串B=&amp;quot;dgo&amp;quot;，我们就说B是A的子串。假如，A=&amp;quot;abababaababacb&amp;quot;，B=&amp;quot;ababacb&amp;quot;，我们来看看KMP是怎么工作的。我们用两个下标i和j分别表示A和B的当前比较位置，其中A[i-j+1..i]与">
+<meta property="og:type" content="article">
+<meta property="og:title" content="KMP算法（子串包含问题）">
+<meta property="og:url" content="http://blog.pickbox.me/2009/09/09/KMP算法（子串包含问题）/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="问题：给你两个字符串A和B，问B是否为A的子串（A是否包含B）。比如，字符串A=&amp;quot;abcdgo&amp;quot;，字符串B=&amp;quot;dgo&amp;quot;，我们就说B是A的子串。假如，A=&amp;quot;abababaababacb&amp;quot;，B=&amp;quot;ababacb&amp;quot;，我们来看看KMP是怎么工作的。我们用两个下标i和j分别表示A和B的当前比较位置，其中A[i-j+1..i]与">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="KMP算法（子串包含问题）">
+<meta name="twitter:description" content="问题：给你两个字符串A和B，问B是否为A的子串（A是否包含B）。比如，字符串A=&amp;quot;abcdgo&amp;quot;，字符串B=&amp;quot;dgo&amp;quot;，我们就说B是A的子串。假如，A=&amp;quot;abababaababacb&amp;quot;，B=&amp;quot;ababacb&amp;quot;，我们来看看KMP是怎么工作的。我们用两个下标i和j分别表示A和B的当前比较位置，其中A[i-j+1..i]与">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-KMP算法（子串包含问题）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      KMP算法（子串包含问题）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <br>问题：给你两个字符串A和B，问B是否为A的子串（A是否包含B）。比如，字符串A=&quot;abcdgo&quot;，字符串B=&quot;dgo&quot;，我们就说B是A的子串。<br><br>假如，A=&quot;abababaababacb&quot;，B=&quot;ababacb&quot;，我们来看看KMP是怎么工作的。<br>我们用两个下标i和j分别表示A和B的当前比较位置，其中A[i-j+1..i]与B[0..j-1]完全匹配。也就是说，i不断增加，随着i的增加j相应地变化，且j满足以A[i-1]结尾的长度为j的字符串正好匹配B串的前 j个字符（j当然越大越好），现在需要检验A[i]和B[j]的关系。<br>当A[i]=B[j]时，i和j各加一；什么时候j=m（B的长度）了，我们就说B是A的子串，并且可以根据这时的i值算出匹配的位置。<br>当A[i+1]&lt;&gt;B[j+1]，KMP的策略是调整j的位置 （减小j值为j’+1）使得A[i-j’..i]与B[0..j’]；然后继续检查A[i]和新的B[j]是否相等。<br><br>我们看一看当 i = j = 5时的情况：<br><br>&#160;  i = 0 1 2 3 4 5 6 7 8 9 ……<br>A = a b a b a b a a b a b …<br>B = a b a b a c b<br>j =&#160;&#160; 0 1 2 3 4 5 6<br><br>此时，A[5]&lt;&gt;B[5]。我们要把j改成比它小的值j’。j’可能是多少呢？仔细想一下，我们发现，j’必须要使得B[0..j-1]中的头j’个字母和末j’个字母完全相等（这样j变成了j’后才能继续保持i和j的性质）。这个j’当然要越大越好。在这里，B [0..4]=&quot;ababa&quot;，头3个字母和末3个字母都是&quot;aba&quot;。当j变为为3后，继续前面比较过程。A[5]恰好和B[3]相等。<br><br>&#160;  i = 0 1 2 3 4 5 6 7 8 9 ……<br>A = a b a b a b a a b a b …<br>B =&#160;&#160;&#160;&#160;&#160; &#160;  a b a b a c b<br>j =&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; 0 1 2 3 4 5 6<br><br>从上面的这个例子，我们可以看到，新的j可以取多少与i无关，只与B串有关。我们完全可以预处理出这样一个数组P[j]，表示当B[j]不匹配时，新的j最大是多少。P[j]应该是所有满足B[0..P[j]-1]=B[j-P[j]..j-1]的最大值。<br>再后来，A[6]=B[4]，i和j又各增加1，这时，又出现了A[7]&lt;&gt;B[5]的情况：<br><br>&#160;  i = 0 1 2 3 4 5 6 7 8 9 ……<br>A = a b a b a b a a b a b …<br>B =&#160;&#160;&#160;&#160; &#160;   a b a b a c b<br>j =&#160;&#160; &#160; &#160; &#160;    0 1 2 3 4 5 6 7<br><br>由于P[5]=3，因此新的j=3：<br><br>&#160; i = 0 1 2 3 4 5 6 7 8 9 ……<br>A = a b a b a b a a b a b …<br>B =&#160;&#160;&#160;&#160;&#160;&#160;&#160; &#160; &#160; &#160;  a b a b a c b<br>j =&#160;&#160;&#160;&#160;&#160;&#160; &#160; &#160; &#160; &#160;&#160;  0 1 2 3 4 5 6 7<br><br>这时，新的j=3仍然不能满足A[i]=B[j]，此时我们再次减小j值，将j再次更新为P[3] = 1：<br><br>&#160; i = 0 1 2 3 4 5 6 7 8 9 ……<br>A = a b a b a b a a b a b …<br>B =&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &#160; &#160; &#160; &#160;&#160;&#160; a b a b a c b<br>j =&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; &#160; &#160; &#160; &#160; &#160;&#160;&#160; 0 1 2 3 4 5 6 7<br><br>这时，新的j=1仍然不能满足A[i]=B[j]，此时我们再次减小j值，将j再次更新为P[1] = 0：<br><br>&#160; i = 0 1 2 3 4 5 6 7 8 9 ……<br>A = a b a b a b a a b a b …<br>B =&#160;&#160;&#160;&#160;&#160;&#160; &#160; &#160; &#160; &#160; &#160; &#160;&#160;&#160;&#160;&#160;&#160;  a b a b a c b<br>j =&#160;&#160;&#160;&#160;&#160;&#160; &#160; &#160; &#160; &#160; &#160; &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;  0 1 2 3 4 5 6 7<br><br>终于，A[7]=B[0]，事实上，有可能j到了0仍然不能满足A[i]=B[j]（比如A[7]=&quot;d&quot;时）。因此，当j=0时，需要增加i值，保持j不变，直到出现A[i]=B[j]为止。<br><br>ref：<a href="http://hi.baidu.com/jzyznoi/blog/item/5080fcd3beae19dea9ec9ab9.html" target="_blank">http://hi.baidu.com/jzyznoi/blog/item/5080fcd3beae19dea9ec9ab9.html</a><br><br><br><br>程序代码<br></p><p>// author: jfo()</p><p>////////////////////////////////////////////////////////////////////////////<br>#include &lt;iostream&gt;<br>#include &lt;string&gt;<br>#include &lt;vector&gt;<br>using namespace std;<br><br>static vector&lt;int&gt; next;<br>void pre(const string&amp; s)<br>{<br>    int i, j;<br>    int len = s.length();<br>    next.clear();<br>    next.push_back(0);<br>    next.push_back(0);<br>    for(i = 2; i &lt;= len; i++) {<br>        for(j = i - 1; i &gt; 0; j–) {<br>            // j is the length of sub string<br>            if(s.substr(0, j) == s.substr(i - j, j)) {<br>                next.push_back(j);<br>                break;<br>            }<br>        }<br>        if(!j)<br>            next.push_back(0);<br>    }<br>}<br><br>// 如果s1不包含s2，返回-1；否则返回s2在s1中第一次出现的下标<br>int KMP(const string&amp; s1, const string&amp; s2)<br>{<br>    if(s2.length() &gt; s1.length())<br>        return -1;<br>    pre(s2);<br>    int N = s1.length();<br>    int M = s2.length();<br>    int i = 0, j = 0;<br>    while(i &lt; N &amp;&amp; j &lt; M) {<br>        if(s1[i] == s2[j])<br>            i++, j++;<br>        else<br>            !j ? i++ : j = next[j];<br>    }<br>    return j == M ? i - M : -1;<br>}<br><br>int main()<br>{<br>    string s1 = &quot;abcabde&quot;;<br>    string s2 = &quot;abd&quot;;<br><br>    cout &lt;&lt; (int)s1.find(s2) &lt;&lt; endl;<br>    cout &lt;&lt; KMP(s1, s2) &lt;&lt; endl;<br><br>    return 0;<br>}</p> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2009/09/09/KMP算法（子串包含问题）/" class="archive-article-date">
+  	<time datetime="2009-09-09T06:31:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2009-09-09</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2009/09/13/AC自动机算法详解/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          AC自动机算法详解
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2009/09/08/【★】最长递增子序列/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">【★】最长递增子序列</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

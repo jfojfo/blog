@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>动态编译Java源文件（介绍） | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="http://www.iteye.com/topic/608485&amp;nbsp;通过JavaCompiler进行编译都是在当前目录下生成.class文件，而使用编译选项可以改变这个默认目录。编译选项是一个元素为String类型的Iterable集合。如我们可以使用如下代码在D盘根目录下生成.class文件。&amp;nbsp;Iterable options = Arrays.asList(&amp;quot;-">
+<meta property="og:type" content="article">
+<meta property="og:title" content="动态编译Java源文件（介绍）">
+<meta property="og:url" content="http://blog.pickbox.me/2011/05/13/动态编译Java源文件（介绍）/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="http://www.iteye.com/topic/608485&amp;nbsp;通过JavaCompiler进行编译都是在当前目录下生成.class文件，而使用编译选项可以改变这个默认目录。编译选项是一个元素为String类型的Iterable集合。如我们可以使用如下代码在D盘根目录下生成.class文件。&amp;nbsp;Iterable options = Arrays.asList(&amp;quot;-">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_netbei_20091229083405929.png">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="动态编译Java源文件（介绍）">
+<meta name="twitter:description" content="http://www.iteye.com/topic/608485&amp;nbsp;通过JavaCompiler进行编译都是在当前目录下生成.class文件，而使用编译选项可以改变这个默认目录。编译选项是一个元素为String类型的Iterable集合。如我们可以使用如下代码在D盘根目录下生成.class文件。&amp;nbsp;Iterable options = Arrays.asList(&amp;quot;-">
+<meta name="twitter:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_netbei_20091229083405929.png">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-动态编译Java源文件（介绍）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      动态编译Java源文件（介绍）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+         <p><a target="_blank" href="http://www.iteye.com/topic/608485">http://www.iteye.com/topic/608485</a></p><p>&nbsp;</p><p>通过JavaCompiler进行编译都是在当前目录下生成.class文件，而使用编译选项可以改变这个默认目录。编译选项是一个元素为String类型的Iterable集合。如我们可以使用如下代码在D盘根目录下生成.class文件。</p><p>&nbsp;Iterable options = Arrays.asList(&quot;-d&quot;, &quot;d:\&quot;);</p><p>JavaCompiler.CompilationTask task = compiler.getTask(null, fileManager,</p><p>diagnostics, options, null, compilationUnits);</p><p>&nbsp;</p><p>&nbsp;</p><p>006 年底，Sun 公司发布了 Java StandardEdition 6（Java SE 6）的最终正式版，代号 Mustang（野马）。跟 Tiger（Java SE 5）相比，Mustang在性能方面有了不错的提升。与 Tiger 在 API 库方面的大幅度加强相比，虽然 Mustang 在 API库方面的新特性显得不太多，但是也提供了许多实用和方便的功能：在脚本，WebService，XML，编译器 API，数据库，JMX，网络和Instrumentation 方面都有不错的新特性和功能加强。 本系列 文章主要介绍 Java SE 6 在 API库方面的部分新特性，通过一些例子和讲解，帮助开发者在编程实践当中更好的运用 Java SE 6，提高开发效率。</p><p>本文是其中的第四篇，介绍了 JDK 6中为在运行时操纵编译器所增加的编译器 API（JSR 199）。您将了解到，利用此 API 开发人员可以在运行时调用 Java编译器，还可以编译非文本形式的 Java 源代码，最后还能够采集编译器的诊断信息。本文将展开描述这些功能，并使用这些功能构造一个简单的应用—— 在内存中，直接为一个类生成测试用例。</p><p>新 API 功能简介</p><p>JDK 6 提供了在运行时调用编译器的 API，后面我们将假设把此 API 应用在 JSP 技术中。在传统的 JSP 技术中，服务器处理 JSP 通常需要进行下面 6 个步骤：</p><p>分析 JSP 代码；&nbsp;<br>生成 Java 代码；&nbsp;<br>将 Java 代码写入存储器；&nbsp;<br>启动另外一个进程并运行编译器编译 Java 代码；&nbsp;<br>将类文件写入存储器；&nbsp;<br>服务器读入类文件并运行；&nbsp;<br>但如果采用运行时编译，可以同时简化步骤 4 和 5，节约新进程的开销和写入存储器的输出开销，提高系统效率。实际上，在 JDK 5 中，Sun也提供了调用编译器的编程接口。然而不同的是，老版本的编程接口并不是标准 API 的一部分，而是作为 Sun的专有实现提供的，而新版则带来了标准化的优点。</p><p>新 API 的第二个新特性是可以编译抽象文件，理论上是任何形式的对象 —— 只要该对象实现了特定的接口。有了这个特性，上述例子中的步骤 3 也可以省略。整个 JSP 的编译运行在一个进程中完成，同时消除额外的输入输出操作。</p><p>第三个新特性是可以收集编译时的诊断信息。作为对前两个新特性的补充，它可以使开发人员轻松的输出必要的编译错误或者是警告信息，从而省去了很多重定向的麻烦。</p><p>运行时编译 Java 文件</p><p>在 JDK 6 中，类库通过 javax.tools包提供了程序运行时调用编译器的 API。从这个包的名字 tools 可以看出，这个开发包提供的功能并不仅仅限于编译器。工具还包括javah、jar、pack200 等，它们都是 JDK 提供的命令行工具。这个开发包希望通过实现一个统一的接口，可以在运行时调用这些工具。在JDK 6 中，编译器被给予了特别的重视。针对编译器，JDK 设计了两个接口，分别是 JavaCompiler和JavaCompiler.CompilationTask。</p><p>下面给出一个例子，展示如何在运行时调用编译器。</p><p>指定编译文件名称（该文件必须在 CLASSPATH 中可以找到）：String fullQuanlifiedFileName = &quot;compile&quot; + java.io.File.separator +&quot;Target.java&quot;;&nbsp;<br>获得编译器对象： JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();&nbsp;<br>通过调用 ToolProvider 的 getSystemJavaCompiler 方法，JDK提供了将当前平台的编译器映射到内存中的一个对象。这样使用者可以在运行时操纵编译器。JavaCompiler是一个接口，它继承了javax.tools.Tool 接口。因此，第三方实现的编译器，只要符合规范就能通过统一的接口调用。同时，tools开发包希望对所有的工具提供统一的运行时调用接口。相信将来，ToolProvider 类将会为更多地工具提供 getSystemXXXTool方法。tools 开发包实际为多种不同工具、不同实现的共存提供了框架。</p><p>编译文件：int result = compiler.run(null, null, null, fileToCompile);&nbsp;<br>获得编译器对象之后，可以调用 Tool.run 方法对源文件进行编译。Run 方法的前三个参数，分别可以用来重定向标准输入、标准输出和标准错误输出，null 值表示使用默认值。清单 1 给出了一个完整的例子：</p><p>清单 1. 程序运行时编译文件<br>01 package compile;<br>02 import java.util.Date;<br>03 public class Target {<br>04&nbsp;&nbsp; public void doSomething(){<br>05&nbsp;&nbsp;&nbsp;&nbsp; Date date = new Date(10, 3, 3);&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // 这个构造函数被标记为deprecated, 编译时会<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // 向错误输出输出信息。<br>06&nbsp;&nbsp;&nbsp;&nbsp; System.out.println(&quot;Doing…&quot;);<br>07&nbsp;&nbsp; }<br>08 }</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>09 package compile;<br>10 import javax.tools.<em>;<br>11 import java.io.FileOutputStream;<br>12 public class Compiler {<br>13&nbsp;&nbsp; public static void main(String[] args) throws Exception{<br>14&nbsp;&nbsp;&nbsp;&nbsp; String fullQuanlifiedFileName = &quot;compile&quot; + java.io.File.separator +<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;Target.java&quot;;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>15&nbsp;&nbsp;&nbsp;&nbsp; JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();</em></p><p>16&nbsp;&nbsp;&nbsp;&nbsp; FileOutputStream err = new FileOutputStream(&quot;err.txt&quot;);</p><p>17&nbsp;&nbsp;&nbsp;&nbsp; int compilationResult = compiler.run(null, null, err, fullQuanlifiedFileName);</p><p>18&nbsp;&nbsp;&nbsp;&nbsp; if(compilationResult == 0){<br>19&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println(&quot;Done&quot;);<br>20&nbsp;&nbsp;&nbsp;&nbsp; } else {<br>21&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println(&quot;Fail&quot;);<br>22&nbsp;&nbsp;&nbsp;&nbsp; }<br>23&nbsp;&nbsp; }<br>24 }<br>&nbsp;&nbsp;&nbsp;<br>首先运行 &lt;JDK60_INSTALLATION_DIR&gt;binjavac Compiler.java，然后运行&lt;JDK60_INSTALLATION_DIR&gt;jdk1.6.0binjavacompile.Compiler。屏幕上将输出 Done ，并会在当前目录生成一个 err.txt 文件，文件内容如下：</p><p>Note: compile/Target.java uses or overrides a deprecated API.<br>Note: Recompile with -Xlint:deprecation for details.<br>&nbsp;仔细观察 run 方法，可以发现最后一个参数是 String…arguments，是一个变长的字符串数组。它的实际作用是接受传递给javac 的参数。假设要编译 Target.java 文件，并显示编译过程中的详细信息。命令行为：javac Target.java-verbose。相应的可以将 17 句改为：</p><p>int compilationResult = compiler.run(null, null, err, “-verbose”，fullQuanlifiedFileName);<br>编译非文本形式的文件</p><p>JDK 6 的编译器 API的另外一个强大之处在于，它可以编译的源文件的形式并不局限于文本文件。JavaCompiler类依靠文件管理服务可以编译多种形式的源文件。比如直接由内存中的字符串构造的文件，或者是从数据库中取出的文件。这种服务是由JavaFileManager 类提供的。通常的编译过程分为以下几个步骤：</p><p>解析 javac 的参数；&nbsp;<br>在 source path 和/或 CLASSPATH 中查找源文件或者 jar 包；&nbsp;<br>处理输入，输出文件；&nbsp;<br>在这个过程中，JavaFileManager类可以起到创建输出文件，读入并缓存输出文件的作用。由于它可以读入并缓存输入文件，这就使得读入各种形式的输入文件成为可能。JDK提供的命令行工具，处理机制也大致相似，在未来的版本中，其它的工具处理各种形式的源文件也成为可能。为此，新的 JDK 定义了javax.tools.FileObject 和 javax.tools.JavaFileObject接口。任何类，只要实现了这个接口，就可以被 JavaFileManager 识别。</p><p>如果要使用 JavaFileManager，就必须构造 CompilationTask。JDK 6 提供了 JavaCompiler.CompilationTask 类来封装一个编译操作。这个类可以通过：</p><p>JavaCompiler.getTask (<br>&nbsp;&nbsp;&nbsp; Writer out,&nbsp;<br>&nbsp;&nbsp;&nbsp; JavaFileManager fileManager,<br>&nbsp;&nbsp;&nbsp; DiagnosticListener&lt;? super JavaFileObject&gt; diagnosticListener,<br>&nbsp;&nbsp;&nbsp; Iterable&lt;String&gt; options,<br>&nbsp;&nbsp;&nbsp; Iterable&lt;String&gt; classes,<br>&nbsp;&nbsp;&nbsp; Iterable&lt;? extends JavaFileObject&gt; compilationUnits<br>)<br>&nbsp;方法得到。关于每个参数的含义，请参见 JDK 文档。传递不同的参数，会得到不同的CompilationTask。通过构造这个类，一个编译过程可以被分成多步。进一步，CompilationTask提供了setProcessors(Iterable&lt;? extends Processor&gt;processors)方法，用户可以制定处理 annotation 的处理器。图 1 展示了通过 CompilationTask 进行编译的过程：</p><p>图 1. 使用 CompilationTask 进行编译<br><img src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_netbei_20091229083405929.png"><br>&nbsp;下面的例子通过构造 CompilationTask 分多步编译一组 Java 源文件。</p><p>清单 2. 构造 CompilationTask 进行编译<br>01 package math;</p><p>02 public class Calculator {<br>03&nbsp;&nbsp;&nbsp;&nbsp; public int multiply(int multiplicand, int multiplier) {<br>04&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return multiplicand  multiplier;<br>05&nbsp;&nbsp;&nbsp;&nbsp; }<br>06 }</p><p>07 package compile;<br>08 import javax.tools.<em>;<br>09 import java.io.FileOutputStream;<br>10 import java.util.Arrays;<br>11 public class Compiler {<br>12&nbsp;&nbsp; public static void main(String[] args) throws Exception{<br>13&nbsp;&nbsp;&nbsp;&nbsp; String fullQuanlifiedFileName = &quot;math&quot; + java.io.File.separator +&quot;Calculator.java&quot;;<br>14&nbsp;&nbsp;&nbsp;&nbsp; JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();<br>15&nbsp;&nbsp;&nbsp;&nbsp; StandardJavaFileManager fileManager&nbsp; =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; compiler.getStandardFileManager(null, null, null);</em></p><p>16&nbsp;&nbsp;&nbsp;&nbsp; Iterable&lt;? extends JavaFileObject&gt; files =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fileManager.getJavaFileObjectsFromStrings(<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Arrays.asList(fullQuanlifiedFileName));<br>17&nbsp;&nbsp;&nbsp;&nbsp; JavaCompiler.CompilationTask task = compiler.getTask(<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; null, fileManager, null, null, null, files);</p><p>18&nbsp;&nbsp;&nbsp;&nbsp; Boolean result = task.call();<br>19&nbsp;&nbsp;&nbsp;&nbsp; if( result == true ) {<br>20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println(&quot;Succeeded&quot;);<br>21&nbsp;&nbsp;&nbsp;&nbsp; }<br>22&nbsp;&nbsp; }<br>23 }<br>&nbsp;&nbsp;&nbsp;<br>以上是第一步，通过构造一个 CompilationTask 编译了一个 Java 文件。14-17 行实现了主要逻辑。第 14行，首先取得一个编译器对象。由于仅仅需要编译普通文件，因此第 15 行中通过编译器对象取得了一个标准文件管理器。16行，将需要编译的文件构造成了一个 Iterable 对象。最后将文件管理器和 Iterable 对象传递给 JavaCompiler 的getTask 方法，取得了 JavaCompiler.CompilationTask 对象。</p><p>接下来第二步，开发者希望生成 Calculator 的一个测试类，而不是手工编写。使用 compiler API，可以将内存中的一段字符串，编译成一个 CLASS 文件。</p><p>清单 3. 定制 JavaFileObject 对象<br>01 package math;<br>02 import java.net.URI;<br>03 public class StringObject extends SimpleJavaFileObject{<br>04&nbsp;&nbsp;&nbsp;&nbsp; private String contents = null;<br>05&nbsp;&nbsp;&nbsp;&nbsp; public StringObject(String className, String contents) throws Exception{<br>06&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; super(new URI(className), Kind.SOURCE);<br>07&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; this.contents = contents;<br>08&nbsp;&nbsp;&nbsp;&nbsp; }</p><p>09&nbsp;&nbsp;&nbsp;&nbsp; public CharSequence getCharContent(boolean ignoreEncodingErrors)&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; throws IOException {<br>10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return contents;<br>11&nbsp;&nbsp;&nbsp;&nbsp; }<br>12 }<br>&nbsp;</p><p>SimpleJavaFileObject 是JavaFileObject 的子类，它提供了默认的实现。继承 SimpleJavaObject 之后，只需要实现getCharContent 方法。如 清单 3 中的 9-11 行所示。接下来，在内存中构造Calculator 的测试类CalculatorTest，并将代表该类的字符串放置到 StringObject 中，传递给 JavaCompiler 的 getTask方法。清单 4 展现了这些步骤。</p><p>清单 4. 编译非文本形式的源文件<br>01 package math;<br>02 import javax.tools.;<br>03 import java.io.FileOutputStream;<br>04 import java.util.Arrays;<br>05 public class AdvancedCompiler {<br>06&nbsp;&nbsp; public static void main(String[] args) throws Exception{</p><p>07&nbsp;&nbsp;&nbsp;&nbsp; // Steps used to compile Calculator<br>08&nbsp;&nbsp;&nbsp;&nbsp; // Steps used to compile StringObject</p><p>09&nbsp;&nbsp;&nbsp;&nbsp; // construct CalculatorTest in memory<br>10&nbsp;&nbsp;&nbsp;&nbsp; JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();<br>11&nbsp;&nbsp;&nbsp;&nbsp; StandardJavaFileManager fileManager&nbsp; =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; compiler.getStandardFileManager(null, null, null);<br>12&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; JavaFileObject file = constructTestor();<br>13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Iterable&lt;? extends JavaFileObject&gt; files = Arrays.asList(file);<br>14&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; JavaCompiler.CompilationTask task = compiler.getTask (<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; null, fileManager, null, null, null, files);</p><p>15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Boolean result = task.call();<br>16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if( result == true ) {<br>17&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println(&quot;Succeeded&quot;);<br>18&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>19&nbsp;&nbsp; }</p><p>20&nbsp;&nbsp; private static SimpleJavaFileObject constructTestor() {<br>21&nbsp;&nbsp;&nbsp;&nbsp; StringBuilder contents = new StringBuilder(<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;package math;&quot; +<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;class CalculatorTest { &quot; +<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &quot;&nbsp; public void testMultiply() { &quot; +<br>&nbsp;&nbsp;&nbsp;&nbsp; &quot;&nbsp;&nbsp;&nbsp; Calculator c = new Calculator(); &quot; +<br>&nbsp;&nbsp;&nbsp;&nbsp; &quot;&nbsp;&nbsp;&nbsp; System.out.println(c.multiply(2, 4)); &quot; +<br>&nbsp;&nbsp;&nbsp;&nbsp; &quot;&nbsp; } &quot; +<br>&nbsp;&nbsp;&nbsp;&nbsp; &quot;&nbsp; public static void main(String[] args) { &quot; +<br>&nbsp;&nbsp;&nbsp;&nbsp; &quot;&nbsp;&nbsp;&nbsp; CalculatorTest ct = new CalculatorTest(); &quot; +<br>&nbsp;&nbsp;&nbsp;&nbsp; &quot;&nbsp;&nbsp;&nbsp; ct.testMultiply(); &quot; +<br>&nbsp;&nbsp;&nbsp;&nbsp; &quot;&nbsp; } &quot; +<br>&nbsp;&nbsp;&nbsp;&nbsp; &quot;} &quot;);<br>22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; StringObject so = null;<br>23&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; try {<br>24&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; so = new StringObject(&quot;math.CalculatorTest&quot;, contents.toString());<br>25&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } catch(Exception exception) {<br>26&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exception.printStackTrace();<br>27&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>28&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return so;<br>29&nbsp;&nbsp;&nbsp; }<br>30 }<br>&nbsp;实现逻辑和 清单 2 相似。不同的是在 20-30 行，程序在内存中构造了 CalculatorTest 类，并且通过 StringObject 的构造函数，将内存中的字符串，转换成了 JavaFileObject 对象。</p><p>采集编译器的诊断信息</p><p>第三个新增加的功能，是收集编译过程中的诊断信息。诊断信息，通常指错误、警告或是编译过程中的详尽输出。JDK 6 通过 Listener 机制，获取这些信息。如果要注册一个DiagnosticListener，必须使用 CompilationTask 来进行编译，因为 Tool 的 run 方法没有办法注册Listener。步骤很简单，先构造一个 Listener，然后传递给 JavaFileManager 的构造函数。清单 5 对 清单 2进行了改动，展示了如何注册一个 DiagnosticListener。</p><p>清单 5. 注册一个 DiagnosticListener 收集编译信息<br>01 package math;</p><p>02 public class Calculator {<br>03&nbsp;&nbsp; public int multiply(int multiplicand, int multiplier) {<br>04&nbsp;&nbsp;&nbsp;&nbsp; return multiplicand <em> multiplier&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // deliberately omit semicolon, ADiagnosticListener&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // will take effect<br>05&nbsp;&nbsp; }<br>06 }</em></p><p>07 package compile;<br>08 import javax.tools.;<br>09 import java.io.FileOutputStream;<br>10 import java.util.Arrays;<br>11 public class CompilerWithListener {<br>12&nbsp;&nbsp; public static void main(String[] args) throws Exception{<br>13&nbsp;&nbsp;&nbsp;&nbsp; String fullQuanlifiedFileName = &quot;math&quot; +&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; java.io.File.separator +&quot;Calculator.java&quot;;<br>14&nbsp;&nbsp;&nbsp;&nbsp; JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();<br>15&nbsp;&nbsp;&nbsp;&nbsp; StandardJavaFileManager fileManager&nbsp; =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; compiler.getStandardFileManager(null, null, null);</p><p>16&nbsp;&nbsp;&nbsp;&nbsp; Iterable&lt;? extends JavaFileObject&gt; files =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fileManager.getJavaFileObjectsFromStrings(<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Arrays.asList(fullQuanlifiedFileName));<br>17&nbsp;&nbsp;&nbsp; DiagnosticCollector&lt;JavaFileObject&gt; collector =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; new DiagnosticCollector&lt;JavaFileObject&gt;();&nbsp;<br>18&nbsp;&nbsp;&nbsp; JavaCompiler.CompilationTask task =&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; compiler.getTask(null, fileManager, collector, null, null, files);</p><p>19&nbsp;&nbsp;&nbsp;&nbsp; Boolean result = task.call();<br>20&nbsp;&nbsp;&nbsp;&nbsp; List&lt;Diagnostic&lt;? extends JavaFileObject&gt;&gt; diagnostics =&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; collector.getDiagnostics();<br>21&nbsp;&nbsp;&nbsp;&nbsp; for(Diagnostic&lt;? extends JavaFileObject&gt; d : diagnostics){<br>22&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println(&quot;Line Number-&gt;&quot; + d.getLineNumber());<br>23&nbsp;&nbsp;&nbsp;&nbsp; System.out.println(&quot;Message-&gt;&quot;+&nbsp;<br>&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; d.getMessage(Locale.ENGLISH));<br>24&nbsp;&nbsp;&nbsp;&nbsp; System.out.println(&quot;Source&quot; + d.getCode());<br>25&nbsp;&nbsp;&nbsp;&nbsp; System.out.println(&quot; &quot;);<br>26&nbsp;&nbsp;&nbsp;&nbsp; }</p><p>27&nbsp;&nbsp;&nbsp;&nbsp; if( result == true ) {<br>28&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println(&quot;Succeeded&quot;);<br>29&nbsp;&nbsp;&nbsp;&nbsp; }<br>30&nbsp;&nbsp; }<br>31 }<br>&nbsp;在17 行，构造了一个 DiagnosticCollector 对象，这个对象由 JDK 提供，它实现了 DiagnosticListener接口。18 行将它注册到 CompilationTask 中去。一个编译过程可能有多个诊断信息。每一个诊断信息，被抽象为一个Diagnostic。20-26 行，将所有的诊断信息逐个输出。编译并运行 Compiler，得到以下输出：</p><p>清单 6. DiagnosticCollector 收集的编译信息<br>Line Number-&gt;5<br>Message-&gt;math/Calculator.java:5: ‘;’ expected<br>Source-&gt;compiler.err.expected<br>&nbsp;<br>实际上，也可以由用户自己定制。清单 7 给出了一个定制的 Listener。</p><p>清单 7. 自定义的 DiagnosticListener<br>01 class ADiagnosticListener implements DiagnosticListener&lt;JavaFileObject&gt;{<br>02 &nbsp; public void report(Diagnostic&lt;? extends JavaFileObject&gt; diagnostic) {<br>03&nbsp;&nbsp;&nbsp; System.out.println(&quot;Line Number-&gt;&quot; + diagnostic.getLineNumber());<br>04&nbsp;&nbsp;&nbsp; System.out.println(&quot;Message-&gt;&quot;+ diagnostic.getMessage(Locale.ENGLISH));<br>05&nbsp;&nbsp;&nbsp; System.out.println(&quot;Source&quot; + diagnostic.getCode());<br>06&nbsp;&nbsp;&nbsp; System.out.println(&quot; &quot;);<br>07&nbsp; }<br>08 }<br>&nbsp;总结</p><p>JDK 6的编译器新特性，使得开发者可以更自如的控制编译的过程，这给了工具开发者更加灵活的自由度。通过 API的调用完成编译操作的特性，使得开发者可以更方便、高效地将编译变为软件系统运行时的服务。而编译更广泛形式的源代码，则为整合更多的数据源及功能提供了强大的支持。相信随着 JDK 的不断完善，更多的工具将具有 API 支持，我们拭目以待。</p><p>&nbsp;</p> 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2011/05/13/动态编译Java源文件（介绍）/" class="archive-article-date">
+  	<time datetime="2011-05-13T15:08:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2011-05-13</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Java/">Java</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2011/05/14/Android换肤/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Android换肤
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2011/05/13/动态编译Java源文件（code）/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">动态编译Java源文件（code）</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

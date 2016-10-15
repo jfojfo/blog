@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>【zz】debian基本系统构建（build Linux system from scratch based on deb packages） | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="my1.mkdir -p /opt/root_filesystem/var/cache/apt/archive/partial2.从/var/lib/dpkg/status文件中获取essential,required,important软件包列表3.将所有软件包以及它们所依赖包拷贝到/opt/root_filesystem/var/cache/apt/archive/4.将所有essentia">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【zz】debian基本系统构建（build Linux system from scratch based on deb packages）">
+<meta property="og:url" content="http://blog.pickbox.me/2008/10/06/【zz】debian基本系统构建（build-Linux-system-from-scratch-based-on-deb-packages）/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="my1.mkdir -p /opt/root_filesystem/var/cache/apt/archive/partial2.从/var/lib/dpkg/status文件中获取essential,required,important软件包列表3.将所有软件包以及它们所依赖包拷贝到/opt/root_filesystem/var/cache/apt/archive/4.将所有essentia">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【zz】debian基本系统构建（build Linux system from scratch based on deb packages）">
+<meta name="twitter:description" content="my1.mkdir -p /opt/root_filesystem/var/cache/apt/archive/partial2.从/var/lib/dpkg/status文件中获取essential,required,important软件包列表3.将所有软件包以及它们所依赖包拷贝到/opt/root_filesystem/var/cache/apt/archive/4.将所有essentia">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-【zz】debian基本系统构建（build-Linux-system-from-scratch-based-on-deb-packages）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      【zz】debian基本系统构建（build Linux system from scratch based on deb packages）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <br><del>my</del><br><br>1.mkdir -p /opt/root_filesystem/var/cache/apt/archive/partial<br><br>2.从/var/lib/dpkg/status文件中获取essential,required,important软件包列表<br><br>3.将所有软件包以及它们所依赖包拷贝到/opt/root_filesystem/var/cache/apt/archive/<br><br>4.将所有essential,required包用 dpkg -x pkg.deb /opt/root_filesystem/ 解压<br><br>5.root@jfo-laptop:/# chroot /opt/root_filesystem/ /bin/bash　<br>root@jfo-laptop:/# export LC_ALL=C<br>root@jfo-laptop:/# touch /var/lib/dpkg/{status,available,diversions}<br><br>6.开始用dpkg安装essential,required包　<br>对所有essential,required包运行 dpkg –force-depends –unpack pkg.deb　<br>–force-depends 告诉 dpkg 忽略依赖关系　<br>　root@jfo-laptop:/# dpkg –configure -a –force-configure-any –force-depends　<br>  　–force-depends 在这里可以解决包相互依赖的问题，例如 debconf与debconf-i18n 就相互依赖，用  dpkg单独对其中任何一个进行–configure都会失败，因此需要加上–force-depends　　<br>-a 或 –pending 表示重新配置所有　<br>–force-configure-any : Configure also any unpacked but unconfigured packages on which the current package depends.　<br><br>7.安装配置apt<br>　root@jfo-laptop:/# dpkg -i apt<em>.deb　<br>为方便后继安装，可以将ubunut DVD光盘作为源<br>  　root@jfo-laptop:/# mount -o loop ubuntu-8.04.1-dvd-i386.iso /mnt/　<br>   　root@jfo-laptop:/# echo &quot;deb file:/mnt/ hardy main restricted&quot; &gt; /etc/apt/sources.list　<br>下面一步解决cdrom作为源时的authentication warning问题　<br>  　root@jfo-laptop:/# echo ‘APT::Authentication::TrustCDROM &quot;true&quot;;’ &gt; /etc/apt/apt.conf.d/00trustcdrom　　<br>　root@jfo-laptop:/# apt-get update　<br>　root@jfo-laptop:/# apt-key update　<br><br>8.用apt-get安装important包，自动解决依赖关系　<br>  　root@jfo-laptop:/# apt-get -y install pkg　<br>安装ubuntu最小化环境：<br>root@jfo-laptop:/# apt-get -y install ubuntu-minimal ubuntu-standard ubuntu-restricted-extras 　<br><br> 9.安装xorg、gdm或kde，以及其他软件包；或者安装ubuntu-desktop，桌面相关包全部自动安装<br>  　root@jfo-laptop:/# apt-get -y install language-pack-{en,zh}　<br>　root@jfo-laptop:/# apt-get -y install xorg gdm gnome-session gnome-terminal gnome-panel ubuntu-gdm-themes metacity　<br>metacity是gnome的默认窗口管理器，不装这个窗口显示没有标题栏，并且窗口位于桌面左上角，遮住系统菜单<br><br>10.退出chroot，配置系统文件 　<br>　root@jfo-laptop:/# touch /opt/root_filesystem/etc/{fstab,mtab}　 <br>　root@jfo-laptop:/# cp /etc/hostname /opt/root_filesystem/etc/　<br>　root@jfo-laptop:/# cp /etc/hosts /opt/root_filesystem/etc/　<br><br>这样，一个根文件系统就制作完成了，消耗磁盘空间600M多！<br><br><del>my</del><br><br><br><br><a target="_blank" href="http://comcat.blog.openrays.org/blog-htm-do-showone-tid-214.html">http://comcat.blog.openrays.org/blog-htm-do-showone-tid-214.html</a><br><br>0. 缘起<br><br>基本系统，是一个最小化的debian系统，可以在其上使用debian的apt-get 机制，进一<br>步的安装你所需要的软件包。多用于开发测试用，比如在现有系统下交叉编译一个64位<br>的系统为了不影响当前系统的环境，可以在某个工作目录下安装一个基本系统，然后在<br>这个子系统里构建交叉编译环境。<br><br>安装程序也用到。在将目标磁盘分区完后，安装程序会将要安装整个系统的分区挂载在<br>某个目录下然后调用debootstrap 脚本在该目录下安装一个基本系统，完了进入这个基<br>本系统，使用 apt-get 进一步的安装 X-Windows、Gnome、KDE 等。<br><br><br><br>1. deb 包格式<br><br>deb 包实际上是一个二进制归档文件（使用 ar 创建），一般包含3个文件：<br>debian-binary, control.tar.gz, data.tar.gz<br><br><br>其中： <br><br>debian-binary 是deb包格式的版本号，我的系统里 $cat debian-binary 显示 2.0<br><br>control.tar.gz 包含deb包的控制信息和一些辅助脚本<br><br>如一个典型的control.tar.gz 解开为：<br><br>control.tar.gz<br>|<br><code>|--- control     控制信息文件，就是源码目录中的debian/control&lt;br /&gt;|--- md5sum      软件包中所有文件的 md5 值，文本文件&lt;br /&gt;|--- conffiles   软件包的配置文件列表，在升级包的过程中不会被覆盖(可有可无)&lt;br /&gt;|--- preinst     辅助脚本，在包解压前执行 (可有可无)&lt;br /&gt;|--- postinst    辅助脚本，在包解压后执行 (可有可无)&lt;br /&gt;|--- prerm       辅助脚本，在包删除之前执行 (可有可无)&lt;br /&gt;</code>— postrm      辅助脚本，在包删除之后执行 (可有可无) <br><br><br>data.tar.gz 即是真实的安装数据所在，一个真实的data.tar.gz解开后的目录树为：<br><br>data.tar.gz<br>|<br>|– etc<br>|   <code>-- rarfiles.lst&lt;br /&gt;</code>– usr<br>|– bin<br>|   <code>-- rar&lt;br /&gt;|-- lib&lt;br /&gt;|</code>– default.sfx<br><code>-- share&lt;br /&gt;|-- doc&lt;br /&gt;|</code>– rar<br>|       |– changelog.Debian.gz<br>|       |– copyright<br>|       |– order.htm<br>|       |– rar.txt.gz<br>|       |– rar_faq.txt.gz<br>|       |– readme.txt<br>|       |– technote.txt.gz<br>|       <code>-- whatsnew.txt&lt;br /&gt;|-- lintian&lt;br /&gt;|</code>– overrides<br>|       <code>-- rar&lt;br /&gt;</code>– man<br><code>-- man1&lt;br /&gt;</code>– rar.1.gz<br><br><br>可以通过如下命令解包： ar x rar_3.20-2_i386.deb <br><br>以下命令查看包的内容： ar t rar_3.20-2_mipsel.deb<br><br><br>明白了这一层，我们就可以自己提供 debian-binary，control.tar.gz，data.tar.gz<br>随心所欲地制作deb 包 ^-^<br><br><br>如下命令制作deb包： ar r rar.deb debian-binary control.tar.gz data.tar.gz<br><br>dpkg -c rar.deb 就会显示包的内容了， 注意 debian-binary 要放在第一位，<br><br>否则 dpkg 会报： 文件&ldquo;rar.deb&rdquo;不是 debian 的二进制包文件 <br><br><br>亦可直接解包获取我们所需的数据文件，绕开 dpkg 的控制，如： <br><br>ar -p ./rar.deb data.tar.gz | zcat | tar -xf -<br><br><br><br><br>2. 基本系统软件包的下载<br><br>debian 对核心的基本系统包进行了分类，一类用Essential: yes; Priority: required 标识，<br>一类用Priority: important 标识。 加上一些额外常用的包，可以形成两个列表：<br><br>required = &quot;base-files base-passwd bash bsdutils coreutils libacl1 libattr1 debianutils diff dpkg dselect libblkid1 e2fsprogs e2fslibs libcomerr2 libss2 libuuid1 findutils grep gzip hostname libcap1 libdb1-compat libdb3 libncurses5 libnewt0.51 libpam-modules libpam-runtime libpam0g login makedev mawk mount ncurses-base ncurses-bin passwd perl-base procps sed slang1a-utf8 initscripts sysvinit sysv-rc tar util-linux libgcc1 gcc-3.3-base libstdc++5 zlib1g libc6&quot;<br><br>base = &quot;adduser apt apt-utils libdb4.2 base-config aptitude libsigc++-1.2-5c102 bsdmainutils console-common console-tools libconsole console-data cpio cron dhcp-client ed libgnutls11 libgcrypt11 libgpg-error0 libncursesw5 libopencdk8 libtasn1-2 fdutils gettext-base groff-base ifupdown info klogd libssl0.9.7 liblzo1 liblockfile1 libpcre3 libwrap0 logrotate man-db libgdbm3 manpages nano net-tools netbase netkit-inetd iputils-ping nvi ppp pppconfig pppoe pppoeconf libpcap0.7 sysklogd tasksel libtextwrap1 tcpd telnet wget libpopt0 modutils whiptail &quot;<br><br>有了基本软件包的列表，就可以使用 apt 的机制来下载这些包到指定的目录。<br><br>假定我们的工作目录在$TARGET_DIR，下面建立工作目录：<br><br>mkdir -p &quot;$TARGET_DIR/var/lib/dpkg&quot;<br>mkdir -p &quot;$TARGET_DIR/var/lib/apt/lists/partial&quot;<br>mkdir -p &quot;$TARGET_DIR/var/cache/apt/archives/partial&quot;<br>: &gt;&quot;$TARGET_DIR/var/cache/apt/archives/lock&quot;<br>: &gt;&quot;$TARGET_DIR/var/lib/dpkg/status&quot;<br>: &gt;&quot;$TARGET_DIR/var/lib/dpkg/status&quot;<br>: &gt;&quot;$TARGET_DIR/var/lib/dpkg/lock&quot;<br>: &gt;&quot;$TARGET_DIR/var/lib/dpkg/available&quot;<br>: &gt;&quot;$TARGET_DIR/var/lib/apt/lists/lock&quot;<br>mkdir -p &quot;$TARGET_DIR/etc/apt&quot;<br>cp /etc/apt/sources.list $TARGET_DIR/etc/apt/<br><br><br>下面解析包依赖关系，使用 apt-get -d install 下载之：<br><br>all_debs=&quot;$required $base&quot;<br><br>options=&quot; -q <br>-o Dir::State::status=$TARGET_DIR/var/lib/dpkg/status    <br>-o Dir::State=$TARGET_DIR/var/lib/apt      <br>-o Dir::Cache=$TARGET_DIR/var/cache/apt    <br>-o Dir::Etc=$TARGET_DIR/etc/apt    <br>-o APT::Cache::AllVersions=0 &quot;<br><br># 更新源索引于 $TARGET_DIR/var/lib/apt/list/ 下<br>apt-get $options update -f&gt;/dev/null 2&gt;&amp;1     <br><br># 解析依赖关系，并扩展所有基本系统软件包列表<br>apt-get install -s $all_debs $options         <br>expand_list=$(apt-get install -s $all_debs $options | awk ‘{if ($0 ~ /^Inst/) print $2}’)  <br><br># 下载软件包于 $TARGET_DIR/var/cache/apt/archives/ 下<br>for f in $expand_list;do<br>apt-get install -d -y –force-yes $f $options <br>done<br><br>有关这里所用的 apt-get 的高级选项，参见我的另一篇 blog 文章：《深入 APT 系统》<br><br>注意： 传给apt-get 的options，其中的 $TARGET_DIR 必须为绝对路径。<br><br><br><br>3. 强制解压核心包<br><br>核心包即上面 required 列表所示的包，由于目标目录目前仅有一些 dpkg 所必须的工作目录及刚<br>下载的基本系统软件包，并无一些基本程序、基本文件的实体，这些通过强制解压所有核心包于目<br>标目录来是实现：<br><br>ar -p ./$pkg_full_path data.tar.gz | zcat | tar -xf -<br><br><br>然后向 dpkg 的控制信息文件写入 dpkg 自己的控制信息：<br><br><br># 获取 dpkg 的版本号<br>ver=&quot;$(<br>ar -p &quot;$TARGET<em>DIR/var/cache/apt/archives/dpkg</em></em>.deb&quot; control.tar.gz | zcat |<br>tar -O -xf - control ./control 2&gt;/dev/null |<br>sed -ne ‘s/^Version: <em>//Ip’ | head -n 1<br>)&quot;<br><br>mkdir -p &quot;$TARGET_DIR/var/lib/dpkg/info&quot;<br><br>echo <br>&quot;Package: dpkg<br>Version: $ver<br>Status: install ok installed&quot; &gt;&gt; &quot;$TARGET_DIR/var/lib/dpkg/status&quot;<br><br>touch &quot;$TARGET_DIR/var/lib/dpkg/info/${pkg}.list&quot;<br><br><br>告诉 dpkg 自己已经安装了 ^-^<br><br><br><br>4. 使用dpkg 安装基本系统软件包<br><br>要保证我们的基本系统能使用apt-get 安装后序的开发包，则所有的基本系统包还是要纳入 <br>dpkg 的管理机制的。故而所有包都要重新用 dpkg 安装。<br><br><br>经第3步强制解压后，目标目录已经有了最基本的文件，可以chroot 过去，使用dpkg 依序安装了：<br><br>ln -s mawk $TARGET_DIR/usr/bin/awk<br><br>pkg_path=var/cache/apt/archives        # 所有基本系统deb包所在目录<br><br>chroot $TARGET_DIR                                   # 将当前进程的根目录设为目标目录<br><br>dpkg –force-depends –install $pkg<em>path/base-files</em></em>.deb <br>dpkg –force-depends –install $pkg<em>path/base-passwd</em><em>.deb<br>dpkg –force-depends –install $pkg<em>path/dpkg</em></em>.deb<br><br>if [ ! -e &quot;$TARGET_DIR/etc/localtime&quot; ]; then         <br>ln -sf /usr/share/zoneinfo/UTC &quot;$TARGET_DIR/etc/localtime&quot;              # 设置子系统时区<br>fi<br><br>dpkg –force-depends –install $pkg<em>path/libc6</em><em>.deb<br>dpkg –force-depends –install $pkg<em>path/perl-base</em></em>.deb<br><br>rm $TARGET_DIR/usr/bin/awk<br><br>dpkg –force-depends –install $pkg<em>path/mawk</em><em>.deb<br>dpkg –force-depends –install $pkg<em>path/debconf</em></em>.deb<br><br><br>收拾了最基本的，就可以批量处理了，使用如下命令安装 required 列表的所有软件包：<br><br>dpkg –force-depends –unpack $pkg<em>path/pkgname</em><em>.deb<br><br>–force-depends 告诉 dpkg 忽略依赖关系<br>–unpack: 解压软件包，但不配置之。 –install 的话包括 –unpack 和 –configure<br><br><br># 设置 dselect 使用 apt  <br>echo &quot;apt apt&quot; &gt; &quot;$TARGET_DIR/var/lib/dpkg/cmethopt&quot;<br>chmod 644 &quot;$TARGET_DIR/var/lib/dpkg/cmethopt&quot;<br><br># 配置刚刚忽略依赖关系 unpack 的所有软件包<br>dpkg –configure –pending –force-configure-any –force-depends <br><br>–configure：　重新配置一个 unpack 的软件包，加 -a 或 –pending 则重新配置所有<br>–force-configure-any: Configure also any unpacked but unconfigured packages on which the current package depends. <br><br><br>搞定了 required 列表的，现在来收拾 base 列表的软件包:<br><br>dpkg –force-auto-select –force-overwrite –force-confold –skip-same-version<br>–unpack $pkg<em>path/pkgname</em></em>.deb<br><br>–force-overwrite：如有新的文件，则用新的<br>–force-confold：若原有配置文件被修改，则保留之。<br>–skip-same-version: 如果已经安装了相同版本号的包，就不再安装<br><br><br># 配置刚刚忽略依赖关系 unpack 的所有软件包，-a 等价于 –pending<br>dpkg  –force-confold –skip-same-version  –configure -a<br><br><br><br>至此基本系统就安装在目标目录了，chroot $TARGET_DIR　就可以这个子系统里想干嘛就干嘛了 ^-^<br><br><br><br><br><br><br><br><br><br><br><del>end</del> </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/10/06/【zz】debian基本系统构建（build-Linux-system-from-scratch-based-on-deb-packages）/" class="archive-article-date">
+  	<time datetime="2008-10-06T00:53:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-10-06</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux-App/">Linux App</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2008/10/11/glibc中的vfork/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          glibc中的vfork
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2008/10/05/【zz】History（历史）命令用法-15-例/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">【zz】History（历史）命令用法 15 例</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

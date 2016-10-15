@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>【zz】为什么不能往Android的Application对象里存储数据 | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在一个App里面总有一些数据需要在多个地方用到。这些数据可能是一个 session token，一次费时计算的结果等。通常为了避免activity之间传递对象的开销 ，这些数据一般都会保存到持久化存储里面。
+有人建议将这些数据保存到 Application 对象里面，这样这些数据对所有应用内的activities可用。这种方法简单，优雅而且……完全扯淡。
+假设把你的数据都保存到Applicatio">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【zz】为什么不能往Android的Application对象里存储数据">
+<meta property="og:url" content="http://blog.pickbox.me/2015/03/13/【zz】为什么不能往Android的Application对象里存储数据/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="在一个App里面总有一些数据需要在多个地方用到。这些数据可能是一个 session token，一次费时计算的结果等。通常为了避免activity之间传递对象的开销 ，这些数据一般都会保存到持久化存储里面。
+有人建议将这些数据保存到 Application 对象里面，这样这些数据对所有应用内的activities可用。这种方法简单，优雅而且……完全扯淡。
+假设把你的数据都保存到Applicatio">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【zz】为什么不能往Android的Application对象里存储数据">
+<meta name="twitter:description" content="在一个App里面总有一些数据需要在多个地方用到。这些数据可能是一个 session token，一次费时计算的结果等。通常为了避免activity之间传递对象的开销 ，这些数据一般都会保存到持久化存储里面。
+有人建议将这些数据保存到 Application 对象里面，这样这些数据对所有应用内的activities可用。这种方法简单，优雅而且……完全扯淡。
+假设把你的数据都保存到Applicatio">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-【zz】为什么不能往Android的Application对象里存储数据" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      【zz】为什么不能往Android的Application对象里存储数据
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在一个App里面总有一些数据需要在多个地方用到。这些数据可能是一个 session token，一次费时计算的结果等。通常为了避免activity之间传递对象的开销 ，这些数据一般都会<a href="http://developer.android.com/guide/topics/data/data-storage.html" target="_blank">保存到持久化存储里面</a>。</p>
+<p>有人建议将这些数据保存到 <a href="https://developer.android.com/reference/android/app/Application.html" target="_blank">Application</a> 对象里面，这样这些数据对所有应用内的activities可用。这种方法简单，优雅而且……完全扯淡。</p>
+<p>假设把你的数据都保存到Application对象里面去了，那么你的应用最后会以一个NullPointerException 异常crash掉。</p>
+<p></p><h2>一个简单的测试案例</h2><p></p>
+<p></p><h4>代码</h4><br>Application 对象：<p></p>
+<p><pre>// access modifiers omitted for brevity<br>class MyApplication extends Application {</pre></p>
+<pre><code>String name;
+
+String getName() {
+    return name;
+}
+
+void setName(String name) {
+    this.name = name;
+}
+</code></pre><p>}<br>第一个activity，我们往application对象里面存储了用户姓名：</p>
+<p><pre>// access modifiers omitted for brevity<br>class WhatIsYourNameActivity extends Activity {</pre></p>
+<pre><code>void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.writing);
+
+    // Just assume that in the real app we would really ask it!
+    MyApplication app = (MyApplication) getApplication();
+    app.setName(&quot;Developer Phil&quot;);
+    startActivity(new Intent(this, GreetLoudlyActivity.class));
+
+}
+</code></pre><p>}<br>第二个activity，我们调用第一个activity设置并存在application里面的用户姓名：</p>
+<p><pre>// access modifiers omitted for brevity<br>class GreetLoudlyActivity extends Activity {</pre></p>
+<pre><code>TextView textview;
+
+void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+
+    setContentView(R.layout.reading);
+    textview = (TextView) findViewById(R.id.message);
+}
+
+void onResume() {
+    super.onResume();
+
+    MyApplication app = (MyApplication) getApplication();
+    textview.setText(&quot;HELLO &quot; + app.getName().toUpperCase());
+}
+</code></pre><p>}</p>
+<p></p><h4>测试场景</h4><p></p>
+<p><ol><br>    <li>用户启动app。</li><br>    <li>在 <em>WhatIsYourNameActivity</em>里面，要求用户输入姓名，并存储到 <em>MyApplication。</em></li><br>    <li>在 <em>GreetLoudlyActivity</em>里面，你从<em>MyApplication</em> 对象中获得用户姓名，并且显示。</li><br>    <li>用户按home键离开这个app。</li><br>    <li>几个小时后，Android系统为了回收内存kill掉了这个app。到目前为止，一切尚好。接下来就是crash的部分了…</li><br>    <li>用户重新打开这个App。</li><br>    <li>Android系统创建一个新的 <em>MyApplication</em> 实例并恢复 <em>GreetLoudlyActivity</em>。</li><br>    <li><em>GreetLoudlyActivity</em> 从新的 <em>MyApplication</em> 实例中获取用户姓名，可得到的为空，最后导致NullPointerException。</li><br></ol></p>
+<p></p><h2>为什么会Crash?</h2><br>在上面这个例子中，app会crash得原因是这个 Application 对象是全新的，所以这个name 变量里面的值为 null，当调用<em>String#toUpperCase()</em> 方法时就导致了NullPointerException。<p></p>
+<p>整个问题的核心在于：application 对象不会一直呆着内存里面，它会被kill掉。与大家普遍的看法不同之处在于，实际上app不会重新开始启动。Android系统会创建一个新的Application 对象，然后启动上次用户离开时的activity以造成这个app从来没有被kill掉得假象。</p>
+<p>你以为你的application可以保存数据，却没想到你的用户在没有打开activity A 之前就就直接打开了 activity B ，于是你就收到了一个 crash 的 surprise。</p>
+<p></p><h2>有哪些替代方法呢？</h2><br>这里没啥神奇的解决方法，你可以试试下面几种方法：<p></p>
+<p><ul><br>    <li>直接将数据通过intent传递给 Activity 。</li><br>    <li>使用<a href="http://developer.android.com/guide/topics/data/data-storage.html" target="_blank">官方推荐的几种方式</a>将数据持久化到磁盘上。</li><br>    <li>在使用数据的时候总是要对变量的值进行非空检查。</li><br></ul></p>
+<p></p><h2>如果模拟App被Kill掉</h2><br><em>更新: <a href="http://daniel-codes.blogspot.ca/" target="_blank">Daniel Lew</a>指出，kill app更简单的方式就是使用DDMS里面“停止进程” 。你在调试你的应用的时候可以使用这招。</em><p></p>
+<p>为了测试这个，你必须使用一个Android模拟器或者一台root过的Android手机。</p>
+<p><ol><br>    <li>使用home按钮退出app。</li><br>    <li>在终端里：</li></ol></p>
+<p><pre># find the process id<br>adb shell ps</pre></p>
+<h1 id="then-find-the-line-with-the-package-name-of-your-app"><a href="#then-find-the-line-with-the-package-name-of-your-app" class="headerlink" title="then find the line with the package name of your app"></a>then find the line with the package name of your app</h1><h1 id="Mac-Unix-save-some-time-by-using-grep"><a href="#Mac-Unix-save-some-time-by-using-grep" class="headerlink" title="Mac/Unix: save some time by using grep:"></a>Mac/Unix: save some time by using grep:</h1><p>adb shell ps | grep your.app.package</p>
+<h1 id="The-result-should-look-like"><a href="#The-result-should-look-like" class="headerlink" title="The result should look like:"></a>The result should look like:</h1><h1 id="USER-PID-PPID-VSIZE-RSS-WCHAN-PC-NAME"><a href="#USER-PID-PPID-VSIZE-RSS-WCHAN-PC-NAME" class="headerlink" title="USER      PID   PPID  VSIZE  RSS     WCHAN    PC         NAME"></a>USER      PID   PPID  VSIZE  RSS     WCHAN    PC         NAME</h1><h1 id="u0-a198-21997-160-827940-22064-ffffffff-00000000-S-your-app-package"><a href="#u0-a198-21997-160-827940-22064-ffffffff-00000000-S-your-app-package" class="headerlink" title="u0_a198   21997 160   827940 22064 ffffffff 00000000 S your.app.package"></a>u0_a198   21997 160   827940 22064 ffffffff 00000000 S your.app.package</h1><h1 id="Kill-the-app-by-PID"><a href="#Kill-the-app-by-PID" class="headerlink" title="Kill the app by PID"></a>Kill the app by PID</h1><p>adb shell kill -9 21997</p>
+<h1 id="the-app-is-now-killed"><a href="#the-app-is-now-killed" class="headerlink" title="the app is now killed"></a>the app is now killed</h1><p><br>    <li>长按home按钮回到之前的app。<br>你现在是处于一个新的application实例中了。</li><br></p>
+<p></p><h2>总结</h2><br>不要在application对象里面储存数据，这容易出错，导致你的app crash。<br>要么将你后面要用的数据保存到磁盘上面或者保存到intent得extra里面直接传递给activity 。<p></p>
+<p>这些结论不但对application对象有用，对你app里面的单例对象（singleton）或者公共静态变量（<span style="color: #ff0000;">public static</span>）同样适用。</p>
+<p>&nbsp;</p>
+<p></p><h2>原文链接</h2><br><a href="http://android.jobbole.com/80643/" target="_blank">为什么不能往Android的Application对象里存储数据</a><p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/03/13/【zz】为什么不能往Android的Application对象里存储数据/" class="archive-article-date">
+  	<time datetime="2015-03-13T09:03:22.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-03-13</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2015/03/19/【zz】Android-NDK开发Crash错误定位/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          【zz】Android NDK开发Crash错误定位
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/03/13/防止Handler导致的内存泄露/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">防止Handler导致的内存泄露</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

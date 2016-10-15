@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>android 启动流程 | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="SystemServer的启动frameworks/base/services/java/com/android/server/SystemServer.java: run()其中调用ActivityManagerService.installSystemProviders()，最终会调用到frameworks/base/packages/SettingsProvider/src/com/and">
+<meta property="og:type" content="article">
+<meta property="og:title" content="android 启动流程">
+<meta property="og:url" content="http://blog.pickbox.me/2010/08/20/android-启动流程/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="SystemServer的启动frameworks/base/services/java/com/android/server/SystemServer.java: run()其中调用ActivityManagerService.installSystemProviders()，最终会调用到frameworks/base/packages/SettingsProvider/src/com/and">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/c782b11b915b0b5a8618bfbb.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/53dbd31376f271415aaf53b2.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/9ba80ed71020649ea144dfbc.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/49d541a995e13dbf1f17a2f8.jpg">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="android 启动流程">
+<meta name="twitter:description" content="SystemServer的启动frameworks/base/services/java/com/android/server/SystemServer.java: run()其中调用ActivityManagerService.installSystemProviders()，最终会调用到frameworks/base/packages/SettingsProvider/src/com/and">
+<meta name="twitter:image" content="http://img.pickbox.me/wp-content/uploads/pic/c782b11b915b0b5a8618bfbb.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-android-启动流程" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      android 启动流程
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <br>SystemServer的启动<br>frameworks/base/services/java/com/android/server/SystemServer.java: run()<br>其中调用ActivityManagerService.installSystemProviders()，<br>最终会调用到frameworks/base/packages/SettingsProvider/src/com/android/providers/settings/下<br>的各个content providers的onCreate()函数，初始化数据库内容。。。<br><br><br><br><img class="blogimg" small="0" src="http://img.pickbox.me/wp-content/uploads/pic/c782b11b915b0b5a8618bfbb.jpg"><br><br><br>other ref：<a target="_blank" href="http://www.cnblogs.com/jacktu/archive/2010/07/02/1769939.html">http://www.cnblogs.com/jacktu/archive/2010/07/02/1769939.html</a><br><a target="_blank" href="http://blog.csdn.net/maxleng/archive/2010/04/20/5508372.aspx">Android 核心分析 之八——Android 启动过程详解</a><br></p><p>Android从Linux系统启动有4个步骤；</p><p>(1) init进程启动</p><p>(2) Native服务启动</p><p>(3) System Server，Android服务启动</p><p>(4) Home启动</p><p> </p><p>总体启动框架图如：</p><p><a href="http://hi.csdn.net/attachment/201005/14/0_1273850751070U.gif" target="_blank" rel="external"><img src="http://img.pickbox.me/wp-content/uploads/pic/53dbd31376f271415aaf53b2.jpg" small="0" class="blogimg"><br></a></p><p>&#160;</p>第一步：initial进程(systemcoreinit)<p> </p><p>&#160;&#160;&#160;&#160; init进程，它是一个由内核启动的用户级进程。内核自行启动（已经被载入内存，开始运行，并已初始化所有的设备驱动程序和数据结构等）之后，就通过启动一个用户级程序init的方式，完成引导进程。init始终是第一个进程.</p><p>Init.rc</p><p>Init.marvell.rc</p><p> <br></p><p><img src="http://img.pickbox.me/wp-content/uploads/pic/9ba80ed71020649ea144dfbc.jpg" small="0" class="blogimg"></p><p>Init进程一起来就根据init.rc和init.xxx.rc脚本文件建立了几个基本的服务：</p><ul> <li>&#160;servicemanamger </li> <li>&#160;zygote </li></ul><p> 。。。</p><p>最后Init并不退出，而是担当起property service的功能。</p><p> </p>1.1脚本文件<p>init@System/Core/Init</p><p>Init.c： parse_config_file(Init.rc)</p><p>&#160;   @parse_config_file(Init.marvel.rc)</p><p>解析脚本文件：Init.rc和Init.xxxx.rc(硬件平台相关)</p><p> </p><p>Init.rc是Android自己规定的初始化脚本(Android Init Language, System/Core/Init/readme.txt)</p><p>该脚本包含四个类型的声明：</p><ul> <li>Actions </li> <li>Commands </li> <li>Services </li> <li>Options. </li></ul>1.2 服务启动机制<p> </p><p>我们来看看Init是这样解析.rc文件开启服务的。</p><p>（1）打开.rc文件，解析文件内容@ systemcoreinitinit.c</p><p>将service信息放置到service_list中。@ systemcoreinit parser.c</p><p>（2）restart_service()@ systemcoreinitinit.c</p><p> service_start</p><p> execve(…).建立service进程。</p><p> </p>第二步 Zygote<p> Servicemanager和zygote进程就奠定了Android的基础。Zygote这个进程起来才会建立起真正的Android运行空间，初始化建立的Service都是Navtive service.在.rc脚本文件中zygote的描述：</p><p>service zygote /system/bin/app_process -Xzygote /system/bin –zygote –start-system-server</p><p>所以Zygote从main(…)@frameworksbasecmdsapp_processapp_main.cpp开始。</p><p>(1) main(…)@frameworksbasecmdsapp_processapp_main.cpp</p><ul> <li>建立Java Runtime </li> <li>runtime.start(&quot;com.android.internal.os.ZygoteInit&quot;, startSystemServer); </li></ul><p> </p><p>(2) runtime.start@frameworks/base/core/jni/AndroidRuntime.cpp</p><ul> <li>建立虚拟机：startVM(…) </li> <li>运行：com.android.internal.os.ZygoteInit：main函数。 </li></ul><p> </p><p>（3）main()@com.android.internal.os.ZygoteInit//正真的Zygote。</p><ul> <li>registerZygoteSocket();//登记Listen端口 </li> <li>startSystemServer(); </li> <li>进入Zygote服务框架。 </li></ul><p>经过这几个步骤，Zygote就建立好了，利用Socket通讯，接收ActivityManangerService的请求，Fork应用程序。</p><p> </p><p> </p>第三步 System Server<p> </p><p>上fork了一个进程:&#160;com.android.server.SystemServer.于是SystemServer@(SystemServer.java）就建立了。Android的所有服务循环框架都是建立SystemServer@(SystemServer.java）上。在SystemServer.java中看不到循环结构，只是可以看到建立了init2的实现函数，建立了一大堆服务，并AddService到service Manager。</p><p>main() @ com/android/server/SystemServer </p><p>{</p><p> init1();</p><p>}</p><p>Init1()是在Native空间实现的（com_andoird_server_systemServer.cpp）。我们一看这个函数就知道了，init1-&gt;system_init() @System_init.cpp</p><p> </p><p>在system_init()我们看到了循环闭合管理框架。</p><p>{</p><p> Call &quot;com/android/server/SystemServer&quot;, &quot;init2&quot;</p><p> ….. </p><p> ProcessState::self()-&gt;startThreadPool();</p><p>&#160;&#160;&#160;  IPCThreadState::self()-&gt;joinThreadPool();</p><p>}</p><p> <br></p><p>init2()@SystemServer.java中建立了Android中所有要用到的服务。</p><p>这个init2（）建立了一个线程，来New Service和AddService来建立服务</p><p> <br></p><p> </p>第三步 Home启动<p>后半段，我们可以看到系统在启动完所有的Android服务后，做了这样一些动作：</p><p>（1） 使用xxx.systemReady()通知各个服务，系统已经就绪。</p><p> (2)&#160; 特别对于ActivityManagerService.systemReady(回调)</p><p> Widget.wallpaper,imm(输入法)等ready通知。</p><p> </p><p>Home就是在ActivityManagerService.systemReady()通知的过程中建立的。下面是ActivityManagerService.systemReady()的伪代码：</p><p>systemReady()@ActivityManagerService.java</p><p> resumeTopActivityLocked()</p><p> startHomeActivityLocked();//如果是第一个则启动HomeActivity。</p> startActivityLocked（。。。）CATEGORY_HOME<br><br><br>—————————————————————<br><a href="http://www.cnblogs.com/adamzuocy/archive/2009/10/27/1590525.html" target="_blank" rel="external">android 启动流程</a><p>In this topic you will learn some information about Android process  management. First let’s take a look at the launched processes during  Android booting.</p><p><em>USER PID PPID VSIZE RSS WCHAN PC NAME </em></p><p><em>root 1 0 264 176 c00acc6c 0000c36c S /init </em></p><p><em>root 28 1 724 308 c0051354 afe0c4cc S /system/bin/sh </em></p><p><em>system 30 1 796 248 c026516c afe0b74c S /system/bin/servicemanager </em></p><p><em>root 31 1 1824 316 ffffffff afe0b50c S /system/bin/mountd </em></p><p><em>root 32 1 652 248 c02976e0 afe0c0bc S /system/bin/debuggerd </em></p><p><em>radio 33 1 5344 664 ffffffff afe0bdbc S /system/bin/rild </em></p><p><em>root 34 1 71028 18828 c00ad308 afe0b874 S zygote </em></p><p><em>media 37 1 16812 3456 ffffffff afe0b74c S /system/bin/mediaserver </em></p><p><em>root 39 1 788 288 c02f9ae4 afe0b50c S /system/bin/installd </em></p><p><em>system 86 34 187756 21836 ffffffff afe0b74c S system_server </em></p><p><em>radio 118 34 103476 13896 ffffffff afe0c824 S com.android.phone </em></p><p><em>app_4 124 34 117848 19248 ffffffff afe0c824 S android.process.acore </em></p><p><em>app_5 139 34 98672 11516 ffffffff afe0c824 S com.android.mms </em></p><p><em>app_3 151 34 92096 10976 ffffffff afe0c824 S com.android.alarmclock </em></p><p><em>app_6 161 34 94436 12616 ffffffff afe0c824 S com.android.calendar </em></p><p><em>app_9 173 34 93248 11728 ffffffff afe0c824 S android.process.media </em></p><p><em>app_15 182 34 91848 9764 ffffffff afe0c824 S com.android.voicedialer </em></p><p><em>app_16 190 34 94524 10812 ffffffff afe0c824 S android.process.im</em></p><p>They can be divided into three kinds.</p>Root Process<p>init is the first process after kernel booting. The major task it performs:</p><p>l Parser and execute init.rc and init.%hardware%.rc</p><p>l Automatically generate device node under /dev</p><p>l Start log and property service</p><p>l Monitor for device, property set and child process exit events</p>Native Application Process<p>According to init.rc, init will fork the following native application process.</p><p><strong>console</strong>: star a shell.</p><p><strong>servicemanager</strong>: start binder IPC service manager.</p><p><strong>mountd</strong>: mount all fs defined in /system/etc/mountd.conf if started, receive commands through local socket to mount any fs.</p><p><strong>debuggerd</strong>: start debug system.</p><p><strong>rild</strong>: start radio interface layer daemon.</p><p><strong>zygote</strong>: start Android Java VM Runtime and start system server. It’s the most important process.</p><p><strong>mediaserver</strong>: start AudioFlinger, MediaPlayerService and CameraService.</p><p><strong>installd</strong>: start install package daemon.</p>JAVA Application Process<p>Every JAVA application process is forked from zygote process.  system_server is a special JAVA process, which is directly forked from  zygote.. Other JAVA process is created from ActivityManagerService(run  in system_server process) like this.</p><p><em>int pid = Process.start(&quot;android.app.ActivityThread&quot;, </em></p><p><em>mSimpleProcessManagement ? app.processName : null, uid, uid, </em></p><p><em>gids, ((app.info.flags&amp;ApplicationInfo.FLAG_DEBUGGABLE) != 0), null);</em></p><p>While Process.java use UNIX domain socket to communicate with zygote. So the overall picture is shown as following.</p><p><a target="_blank" href="http://blufiles.storage.msn.com/y1pySHLglI8hr1QG90DfDA8rJPCI543BJ1x0D41pF_ZMLy-f3FxRn5p7mgGuy2WAnph50vRzK2gehM2DmT6KF7mPw?PARTNER=WRITER"><img src="http://img.pickbox.me/wp-content/uploads/pic/49d541a995e13dbf1f17a2f8.jpg" small="0" class="blogimg"><br></a></p>System Server<p>It’s the first JAVA application launched by zygote. It starts the  core Android services, e.g. ActivityManager, WindowManager,  PackageManager etc. It’s the Android core engine.</p>Persistent Application<p>During booting, ActivityManagerService.systemReady will start all persistent applications.</p><p><em>List apps = ActivityThread.getPackageManager(). </em></p><p><em>getPersistentApplications(PackageManager.GET_SHARED_LIBRARY_FILES); </em></p><p><em>if (apps != null) { </em></p><p><em>int N = apps.size(); </em></p><p><em>int i; </em></p><p><em>for (i=0; i&lt;N; i++) { </em></p><p><em>ApplicationInfo info </em></p><p><em>= (ApplicationInfo)apps.get(i); </em></p><p><em>if (info != null &amp;&amp; </em></p><p><em>!info.packageName.equals(&quot;android&quot;)) { </em></p><p><em>addAppLocked(info); </em></p><p><em>} </em></p><p><em>} </em></p><p><em>}</em></p><p>Currently only Phone application is registered as a persistent app in AndroidManifest.xml like this.</p><p><em>&lt;application android:name=&quot;PhoneApp&quot; </em></p><p><em>android:persistent=&quot;true&quot; </em></p><p><em>android:label=&quot;@string/dialerIconLabel&quot; </em></p><p><em>android:icon=&quot;@drawable/ic_launcher_phone&quot;&gt;</em></p><p>So during booting, only phone application is automatically launched. It’s the “com.android.phone” process.</p>The First Activity<p>The first activity is launched by senting Intent.CATEGORY_HOME intent from ActivityManagerService.</p><p><em>Intent intent = new Intent( </em></p><p><em>mTopAction, </em></p><p><em>mTopData != null ? Uri.parse(mTopData) : null); </em></p><p><em>intent.setComponent(mTopComponent); </em></p><p><em>if (mFactoryTest != SystemServer.FACTORY_TEST_LOW_LEVEL) { </em></p><p><em>intent.addCategory(Intent.CATEGORY_HOME); </em></p><p><em>} </em></p><p><em>ActivityInfo aInfo = </em></p><p><em>intent.resolveActivityInfo(mContext.getPackageManager(), </em></p><p><em>PackageManager.GET_SHARED_LIBRARY_FILES); </em></p><p><em>if (aInfo != null) { </em></p><p><em>intent.setComponent(new ComponentName( </em></p><p><em>aInfo.applicationInfo.packageName, aInfo.name)); </em></p><p><em>// Don’t do this if the home app is currently being </em></p><p><em>// instrumented. </em></p><p><em>ProcessRecord app = getProcessRecordLocked(aInfo.processName, </em></p><p><em>aInfo.applicationInfo.uid); </em></p><p><em>if (app == null || app.instrumentationClass == null) { </em></p><p><em>intent.setFlags(intent.getFlags() | Intent.FLAG_ACTIVITY_NEW_TASK); </em></p><p><em>startActivityLocked(null, intent, null, null, 0, aInfo, </em></p><p><em>null, null, 0, 0, 0, false); </em></p><p><em>} </em></p><p><em>}</em></p><p>It’s the “android.process.acore” process. (The process name is defined in AndroidManifest.xml)</p>Auto-launched Application After Booting<p>When activity idle is detected in ActivityManagerService, it will broadcast ACTION_BOOT_COMPLETED intent at the first time.</p><p><em>if (mFactoryTest != SystemServer.FACTORY_TEST_LOW_LEVEL) { </em></p><p><em>// Tell anyone interested that we are done booting! </em></p><p><em>synchronized (this) { </em></p><p><em>broadcastIntentLocked(null, null, </em></p><p><em>new Intent(Intent.ACTION_BOOT_COMPLETED, null), </em></p><p><em>null, null, 0, null, null, </em></p><p><em>android.Manifest.permission.RECEIVE_BOOT_COMPLETED, </em></p><p><em>false, false, MY_PID, Process.SYSTEM_UID); </em></p><p><em>} </em></p><p><em>}</em></p><p>Currently, MMS, AlarmClock, Calendar, MediaProvider, VoiceDialer and  IM have registered as a receiver for ACTION_BOOT_COMPLETED intent in  their AndroidManifest.xml. So they will be automatically launched. (This  explains the remained JAVA process.)</p><p>Email also registers as a receiver for ACTION_BOOT_COMPLETED intent  in its AndroidManifest.xml, but it defines android:enable=”false”. So it  won’t be launched.</p><p><em>&lt;receiver android:name=&quot;.service.BootReceiver&quot; </em></p><p><em>android:enabled=&quot;false&quot; </em></p><p><em>&gt; </em></p><p><em>&lt;intent-filter&gt; </em></p><p><em>&lt;action android:name=&quot;android.intent.action.BOOT_COMPLETED&quot; /&gt; </em></p><p><em>&lt;/intent-filter&gt; </em></p><p><em>&lt;intent-filter&gt; </em></p><p><em>&lt;action android:name=&quot;android.intent.action.DEVICE_STORAGE_LOW&quot; /&gt; </em></p><p><em>&lt;/intent-filter&gt; </em></p><p><em>&lt;intent-filter&gt; </em></p><p><em>&lt;action android:name=&quot;android.intent.action.DEVICE_STORAGE_OK&quot; /&gt; </em></p><p><em>&lt;/intent-filter&gt; </em></p><p><em>&lt;/receiver&gt; </em></p><p>DownloadProvider also registers as a receiver for  ACTION_BOOT_COMPLETED intent in its AndroidManifest.xml, but it defines  android:exported=”false”. So it won’t be launched.</p><p><em>&lt;receiver android:name=&quot;.DownloadReceiver&quot; android:exported=&quot;false&quot;&gt; </em></p><p><em>&lt;intent-filter&gt; </em></p><p><em>&lt;action android:name=&quot;android.intent.action.BOOT_COMPLETED&quot; /&gt; </em></p><p><em>&lt;action android:name=&quot;android.net.conn.CONNECTIVITY_CHANGE&quot; /&gt; </em></p><p><em>&lt;/intent-filter&gt; </em></p><p><em>&lt;/receiver&gt; </em></p>Behind the JAVA process<p>system_server is a special case. It calls ActivityThread.java’s  systemMain static function, which creates an instance of ActivityThread.  ActivityThread then creates an instance of ApplicationThread,  Application and ApplicationContext.</p><p>Every other JAVA process works in a different way. It’s controlled by  system_server while forked by zygote. When any JAVA process other than  system_server is forked from zygote, it automatically calls  ActivityThread.java’s main static function(See Process.java and the  following code snippet).</p><p><em>try { </em></p><p><em>ZygoteInit.invokeStaticMain(cloader, className, mainArgs); </em></p><p><em>} catch (RuntimeException ex) { </em></p><p><em>logAndPrintError (newStderr, &quot;Error starting. &quot;, ex); </em></p><p><em>} </em></p><p>The ActivityThread.java’s main function creates an instance of  ActivityThread. ActivityThread then creates an instance of  ApplicationThread. The ApplicationThread will work as an IBinder object  to interact with ActivityManagerService in system_server. The new  process does nothting at this time other than waiting IPC call from  system_server. The Application and ApplicationContext object won’t be  created at this time. Actually it’s deferred to when the process really  works, eg. start an activity, receive intent or start a service.</p><p>For example, when start an activity, ActivityManagerService know  which process the to-be-launched activity should run in, so it will RPC  call ApplicationThread’s scheduleLaunchActivity to launch a new activity  in that process. ApplicationThread then post a message to let  ActivityThread know it needs to start an activity. ActivityThread then  creates Application and ApplicationContext object. After that, it calls  Instrumentation, then Instrumentation finally calls JAVA dalvik VM to  really create an activity JAVA object.</p><p> </p><p> </p><p> </p> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2010/08/20/android-启动流程/" class="archive-article-date">
+  	<time datetime="2010-08-20T03:21:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2010-08-20</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2010/08/21/Activity启动流程-1/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Activity启动流程(1)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2010/08/11/How-to-Create-Android-Update-Zip-Package/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">How to Create Android Update Zip Package</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

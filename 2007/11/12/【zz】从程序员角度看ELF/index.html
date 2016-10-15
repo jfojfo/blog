@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>【zz】从程序员角度看ELF | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="my特殊说明（by jfo）对于static-linked或shared-linked的ELF可执行文件，他们的入口点都是 _start，然后由 _start 函数调用 _init 执行相关的 .init 节中的初始化代码！（just disassemble the code）这说明内核在加载image后，在控制转入_start之前，_init 没有被调用；对于需要动态链接的可执行文件，内核将控">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【zz】从程序员角度看ELF">
+<meta property="og:url" content="http://blog.pickbox.me/2007/11/12/【zz】从程序员角度看ELF/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="my特殊说明（by jfo）对于static-linked或shared-linked的ELF可执行文件，他们的入口点都是 _start，然后由 _start 函数调用 _init 执行相关的 .init 节中的初始化代码！（just disassemble the code）这说明内核在加载image后，在控制转入_start之前，_init 没有被调用；对于需要动态链接的可执行文件，内核将控">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_lslnet_icon_new.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_lslnet_icon_new.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_lslnet_icon_new.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_lslnet_icon_new.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_lslnet_icon_new.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_lslnet_icon_new.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_lslnet_icon_new.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_lslnet_icon_new.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_lslnet_icon_new.gif">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【zz】从程序员角度看ELF">
+<meta name="twitter:description" content="my特殊说明（by jfo）对于static-linked或shared-linked的ELF可执行文件，他们的入口点都是 _start，然后由 _start 函数调用 _init 执行相关的 .init 节中的初始化代码！（just disassemble the code）这说明内核在加载image后，在控制转入_start之前，_init 没有被调用；对于需要动态链接的可执行文件，内核将控">
+<meta name="twitter:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_lslnet_icon_new.gif">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-【zz】从程序员角度看ELF" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      【zz】从程序员角度看ELF
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <br><del>my</del><br><br>特殊说明（by jfo）<br>对于static-linked或shared-linked的ELF可执行文件，他们的入口点都是 _start，<br>然后由 _start 函数调用 _init 执行相关的 .init 节中的初始化代码！（just disassemble the code）<br>这说明内核在加载image后，在控制转入_start之前，_init 没有被调用；<br>对于需要动态链接的可执行文件，内核将控制权转移给interpreter，<br>interpreter 在完成链接工作后，将控制权转移给 _start ，也不会直接执行<br>.init 节中的代码！（这里针对ELF可执行文件，对于共享库的.init段，还是由interpreter来调用的！！！see 启动过程::共享库的初始化）<br>而dlopen 一个 .so 共享库后，_init 函数在返回前会被调用，.so 共享库<br>是没有 _start 的！<br><br>This is the example, which makes a shared .so file executable:<br><a target="_blank" href="http://hi.baidu.com/j%5Ffo/blog/item/1568184cf23d6dfad72afca3.html">http://hi.baidu.com/j%5Ffo/blog/item/1568184cf23d6dfad72afca3.html</a><br><br><br> 一个链接的example<br> ld -o test -e_start -dynamic-linker=/lib/ld-linux.so.2 crt1.o crti.o crtbegin.o test.o -L /usr/lib/gcc/i386-redhat-linux/4.0.0/ -ldl -lc&#160;&#160; crtend.o crtn.o<br><br>crt1.o中含有_start<br>1&#160;&#160;&#160;  0x080480c0 &lt;_start&gt;: &#160;&#160;&#160;  &#160;&#160;&#160;  /<em> entry point in .text </em>/<br>2 &#160;&#160;  &#160;&#160;  call <strong>libc_init_first &#160;&#160;&#160;  &#160;&#160;&#160;&#160;&#160;  /<em> startup code in .text </em>/<br>3 &#160;&#160;  &#160;&#160;  call _init&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;  &#160;&#160;&#160;  &#160;&#160;&#160;  &#160;&#160;&#160;  &#160;&#160;&#160;  &#160;&#160;&#160;  /<em> startup code in .init </em>/<br>4 &#160;&#160;  &#160;&#160;  call atexit&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;  /<em> startup code in .text </em>/<br>5 &#160;&#160;  &#160;&#160;  call main&#160;&#160;&#160;&#160;&#160;&#160;  &#160;&#160;&#160;  &#160;&#160;&#160;  &#160;&#160;&#160;  &#160;&#160;&#160;  &#160;&#160;&#160;&#160;  /<em> application main routine </em>/<br>6&#160;&#160;  &#160;&#160;&#160;  call _exit&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;  &#160;&#160;&#160;  &#160;&#160;&#160;  &#160;&#160;&#160;  &#160;&#160;&#160;  /<em> returns control to OS </em>/<br>7&#160;&#160;  /<em> control never reaches here </em>/<br><br> crti.o、test.o、crtn.o中的.init section中的代码共同组成了_init()函数，crti.o结尾代码会call 下一条指令，也就是说跳转到test.o中的.init section的代码继续执行，test.o中的.init代码不必ret，由crtn.o中的ret返回。<br><br>crtend.o的.init代码含有对</strong>do_global_ctors_aux()的调用，这说明C++构造函数是在前面所有.o文件（如 crti.o、crtbegin.o、test.o以及其他libc.a中的<em>.o）的.init代码执行之后才开始构造的，为什么放在最后，而不把对<strong>do_global_ctors_aux()的调用放在crtbegin.o中呢？那样可能更直观。<br>其实也可 以理解，因为构造函数位于较高层次，很可能依赖于很多其他元素，如libc.a中的函数，因此先调用这些元素的.init代码也合情合理，就像C++构造子类时要先构造其父类一样。<br><br>crtbegin.o的.fini代码含有对</strong>do_global_dtors_aux()的调用，这说明C++析构函数是在后面所有.o文件（如test.o、libc.a中的</em>.o、crtend.o、crtn.o）的.fini代码执行之前就开始析构了，同样也可以理解，应当先把位于较高层次的析构完成，再进行其他底层的析构代码，就像C++先析构子类再析构其其父类一样。<br><br>crtbegin.o的.init代码还有一个对frame_dummy的调用，这个函数主要作用是注册exception frame（<strong>register_frame_info_bases()函数），用于C++的异常处理机制（如回滚unwind），在</strong>do_global_dtors_aux()中析构对象后会unregister exception frame（<strong>deregister_frame_info_bases()函数）。<br><br><br><br>－－－－－－－－－－－－－－－－－－－－－－－<br>特殊参数<br>&quot;-Wl,-Bstatic&quot;参数，实际上是传给了连接器ld。指示它与静态库连接，如果系统中只有静态库当然就不需要这个参数了。 如果要和多个库相连接，而每个库的连接方式不一样，比如上面的程序既要和libhello进行静态连接，又要和libbye进行动态连接，其命令应为：<br>$gcc testlib.o -o testlib -Wl,-Bstatic -lhello -Wl,-Bdynamic -lbye <br><br><br>$gcc -shared -Wl,-soname,libhello.so.1 -o libhello.so.1.0 hello.o<br>When creating an ELF shared object, set the internal&#160; DT_SONAME&#160; field&#160; to&#160; the<br>specified&#160; name.&#160; When an executable is linked with a shared object which has a<br>DT_SONAME field, then when the&#160; executable&#160; is&#160; run&#160; the&#160; dynamic&#160; linker&#160; will<br>attempt&#160; to load the shared object specified by the DT_SONAME field rather than<br>the using the file name given to the linker.<br><br><br>－－－－－－－－－－－－－－－－－－－－－－－<br>启动过程 (linker and loader)<br><br><strong><em><u>启动动态链接器<br><br></u></em></strong>在操作系统运行程序时，它会像通常那样将文件的页映射进来，但注意在可执行程序<br>中存在一个INTERPRETER区段。这里特定的解释器是动态链接器，即ld.so，它自己也是ELF<br>共享库的格式。操作系统并非直接启动程序，而是将动态链接器映射到地址空间的一个合适<br>的位置，然后从ld.so处开始，并在栈中放入链接器所需要的辅助向量（auxiliary vector）<br>信息。向量包括：<br>AT_PHDR，AT_PHENT，和AT_PHNUM：程序头部在程序文件中的地址，头部中每个表项的<br>大小，和表项的个数。头部结构描述了被加载文件中的各个段。如果系统没有将程序映射到<br>内存中，就会有一个AT_EXECFD项作为替换，它包含被打开程序文件的文件描述符。<br>AT_ENTRY：程序的起始地址，当动态链接器完成了初始化工作之后，就会跳转到这个<br>地址去。<br>AT_BASE：动态链接器被加载到的地址。<br>此时，位于ld.so起始处的自举代码找到它自己的GOT，其中的第一项（GOT[0]）指向了ld.so文<br>件中的DYNAMIC段。通过dynamic段，链接器在它自己的数据段中找到自己的重定位项表和<br>重定位指针，然后解析例程需要加载的其它东西的代码引用（Linux ld.so将所有的基础例<br>程都命名为由字串<em>dt</em>起头，并使用专门代码在符号表中搜索以此字串开头的符号并解析它<br>们）。<br>链接器然后通过指向程序符号表和链接器自己的符号表的若干指针来初始化一个符号<br>表链。从概念上讲，程序文件和所有加载到进程中的库会共享一个符号表。但实际中链接器<br>并不是在运行时创建一个合并后的符号表，而是将个个文件中的符号表组成一个符号表链。<br>每个文件中都有一个散列表（一系列的散列头部，每个头部引领一个散列队列）以加速符号<br>查找的速度。链接器可以通过计算符号的散列值，然后访问相应的散列队列进行查找以加速<br>符号搜索的速度。<br><br><strong><u><em>库的查找</em></u></strong><br><br>链接器自身的初始化完成之后，它就会去寻找程序所需要的各个库。程序的程序头部<br>有一个指针，指向dynamic段（包含有动态链接相关信息）在文件中的位置。在这个段中包<br>含一个指针DT_STRTAB，指向文件的字串表，和一个偏移量表DT_NEEDED，其中每一个表项<br>包含了一个所需库的名称在字串表中的偏移量。<br>对于每一个库，链接器在以下位置搜索库：<br>● 是否dynamic段有一个称为DT_RPATH的表项，它是由分号分隔开的可以搜索库的目录列表。<br>它可以通过一个命令行参数或者在程序链接时常规（非动态）链接器的环境变量来添加。它经<br>常会被诸如数据库类这样需要加载一系列程序并可将库放在单一目录的子系统使用，<br>● 是否有一个环境符号LD_LIBRARY_PATH，它可以是由分号分隔开的可供链接器搜索库的目录<br>列表。这就可以让开发者创建一个新版本的库并将它放置在LD_LIBRARY_PATH的路径中，这<br>样既可以通过已存在的程序来测试新的库，或用来监测程序的行为。（因为安全原因，如果程<br>序设置了set-uid，那么这一步会被跳过）<br>● 链接器查看库缓冲文件/etc/ld.so.conf，其中包含了库文件名和路径的列表。如果要查找的<br>库名称存在于其中，则采用文件中相应的路径。大多数库都通过这种方法被找到（路径末尾的<br>文件名称并不需要和所搜索的库名称精确匹配，详细请参看下面的库版本章节）。<br>● 如果所有的都失败了，就查找缺省目录/usr/lib，如果在这个目录中仍没有找到，就打印错<br>误信息，并退出执行。<br>一旦找到包含该库的文件，动态链接器会打开该文件，读取ELF头部寻找程序头部，它<br>指向包括dynamic段在内的众多段。链接器为库的文本和数据段分配空间，并将它们映射进<br>来，对于BSS分配初始化为0的页。从库的dynamic段中，它将库的符号表加入到符号表链<br>中，如果该库还进一步需要其它尚未加载的库，则将那些新库置入将要加载的库链表中。<br>在该过程结束时，所有的库都被映射进来了，加载器拥有了一个由程序和所有映射进<br>来的库的符号表联合而成的逻辑上的全局符号表。<br><br><em><u><strong>共享库的初始化</strong></u></em><br><br>现在加载器再次查看每个库并处理库的重定位项，填充库的GOT，并进行库的数据段所<br>需的任何重定位。<br>在x86平台上，加载时的重定位包括：<br>R_386_GLOB_DAT：初始化一个GOT项，该项是在另一个库中定义的符号的地址。<br>R_386_32：对在另一个库中定义的符号的非GOT引用，通常是静态数据区中的指针。<br>R_386_RELATIVE：对可重定位数据的引用，典型的是指向字串（或其它局部定义静态数<br>据）的指针。<br>R_386_JMP_SLOT：用来初始化PLT的GOT项，稍后描述。<br>如果一个库具有.init区段，加载器会调用它来进行库特定的初始化工作，诸如C++的<br>静态构造函数。库中的.fini区段会在程序退出的时候被执行。它不会对主程序进行初始化，<br>因为主程序的初始化是有自己的启动代码完成的。当这个过程完成后，所有的库就都被完全<br>加载并可以被执行了，此时加载器调用程序的入口点开始执行程序。<br><br><u><em><strong>静态的初始化</strong></em></u><br><br>如果一个程序存在对定义在一个库中的全局变量的引用，由于程序的数据地址必须在<br>链接时被绑定，因此链接器不得不在程序中创建一个该变量的副本，如图4所示。这种方法<br>对于共享库中的代码没有问题，因为代码可以通过GOT中的指针（链接器会调整它）来引用<br>变量。但如果库初始化这个变量就会产生问题。为了解决问题，链接器在程序的重定位表<br>（仅仅包含类型为R_386_JMP_SLOT、R_386_GLOB_DAT、R_386_32和R_386_RELATIVE的表项）<br>中放入一个类型为R_386_COPY类型的表项，指向该变量在程序中的副本被定义的位置，并<br>告诉动态链接器从共享库中将该变量被初始化的数值复制过来。<br>—————————————————————————<br>图10-4：全局数据初始化<br>主程序中：<br>extern int token;<br>共享库中的例程：<br>int token = 42;<br>—————————————————————————<br>虽然这个特性对于特定类型的代码是关键的，但在实际中很少发生。这是一种橡皮膏<br>（译者注：权宜之计的意思），因为它只能用于单字的数据。好在初始化程序通常的对象是<br>指向过程或其它数据的指针，所以这个橡皮膏够用了。<br><br><u><strong><em>库的版本</em></strong></u><br><br>动态链接库通常都会结合主版本和次版本号来命名，例如libc.so.1.1。但是应用程序<br>只会和主版本号绑定，例如libc.so.1，次版本号是用于升级的兼容性的。<br>为了保持加载程序合理的速度，系统会设法维护一个缓冲文件，保存最近用过的每一<br>个库的全路径文件名，该文件会在一个新库被安装时有一个配置管理程序来更新。<br>为了支持这个设计，每一个动态链接的库都有一个在库创建时赋予的称为SONAME的“<br>真名”。例如，被称为libc.so.1.1的库的SONAME为libc.so.1（缺省的SONAME是库的名<br>称）。当链接器创建一个使用共享库的程序时，它会列出程序所使用库的SONAME而不是库<br>的真实名称。缓冲文件创建程序扫描包含共享库的所有目录，查找所有的共享库，提取每一<br>个的SONAME，对于具有相同SONAME的多个库，除版本最高的外其余的忽略。然后它将SONAM<br>E和全路径名称写入缓冲文件，这样在运行时动态链接器可以很快的找到每一个库的当前版<br>本。<br><br><br><del>my</del><br><br><br><br><a href="http://www.xfocus.net/articles/200109/260.html" target="_blank">http://www.xfocus.net/articles/200109/260.html</a><br><br>ELF: From The Programmer’s Perspective<br><a target="_blank" href="http://linux4u.jinr.ru/usoft/WWW/www_debian.org/Documentation/elf/elf.html">http://linux4u.jinr.ru/usoft/WWW/www_debian.org/Documentation/elf/elf.html</a><br><br><br><img width="29" height="18" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_lslnet_icon_new.gif"><strong>从程序员角度看ELF[z</strong><br><br>★3 .init和.fini sections<br><br>在ELF系统上，一个程序是由可执行文件或者还加上一些共享object文件组成。<br>为了执行这样的程序，系统使用那些文件创建进程的内存映象。进程映象<br>有一些段(segment),包含了可执行指令，数据，等等。为了使一个ELF文件<br>装载到内存，必须有一个program header(该program header是一个描述段<br>信息的结构数组和一些为程序运行准备的信息)。<br><br>一个段可能有多个section组成.这些section在程序员角度来看更显的重要。<br><br>每个可执行文件或者是共享object文件一般包含一个section table,该表<br>是描述ELF文件里sections的结构数组。这里有几个在ELF文档中定义的比较<br>特别的sections.以下这些是对程序特别有用的：<br><br>.fini<br>该section保存着进程终止代码指令。因此，当一个程序正常退出时，  &#160;&#160;          &#160;&#160;&#160;<br>系统安排执行这个section的中的代码。<br>.init    <br>该section保存着可执行指令，它构成了进程的初始化代码。<br>因此，当一个程序开始运行时，在main函数被调用之前(c语言称为<br>main)，系统安排执行这个section的中的代码。<br><br>.init和.fini sections的存在有着特别的目的。假如一个函数放到<br>.init section，在main函数执行前系统就会执行它。同理，假如一<br>个函数放到.fini section，在main函数返回后该函数就会执行。<br>该特性被C++编译器使用，完成全局的构造和析构函数功能。<br><br>当ELF可执行文件被执行，系统将在把控制权交给可执行文件前装载所以相关<br>的共享object文件。构造正确的.init和.fini sections,构造函数和析构函数<br>将以正确的次序被调用。 <br> <img width="29" height="18" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_lslnet_icon_new.gif"><strong>从程序员角度看ELF[z</strong><br> <br>            ★3.1 在c++中全局的构造函数和析构函数<br> <br>            在c++中全局的构造函数和析构函数必须非常小心的处理碰到的语言规范问题。<br>            构造函数必须在main函数之前被调用。析构函数必须在main函数返回之后<br>            被调用。例如，除了一般的两个辅助启动文件crti.o和crtn.o外，GNU C/C++<br>            编译器–gcc还提供两个辅助启动文件一个称为crtbegin.o，还有一个被称为<br>            crtend.o。结合.ctors和.dtors两个section，c++全局的构造函数和析构函数<br>            能以运行时最小的负载，正确的顺序执行。<br> <br> <br>            .ctors<br>            该section保存着程序的全局的构造函数的指针数组。<br> <br>            .dtors<br>            该section保存着程序的全局的析构函数的指针数组。    <br> <br>            ctrbegin.o<br>            有四个section:<br>            1 .ctors section<br>            local标号</strong>CTOR_LIST<strong>指向全局构造函数的指针数组头。在<br>            ctrbegin.o中的该数组只有一个dummy元素。<br> <br>            [译注：<br>            # objdump -s -j .ctors  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;&#160;<br>            /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/crtbegin.o<br> <br>            /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/crtbegin.o:<br>            file format elf32-i386<br>            Contents of section .ctors:<br>            0000 ffffffff  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;&#160;         ….<br>            这里说的dummy元素应该就是指的是ffffffff<br>            ]<br> <br>            2 .dtors section<br>            local标号</strong>DTOR_LIST<strong>指向全局析构函数的指针数组头。在<br>            ctrbegin.o中的该数组仅有也只有一个dummy元素。<br> <br>            3 .text section<br>            只包含了</strong>do_global_dtors_aux函数,该函数遍历<strong>DTOR_LIST</strong><br>            列表，调用列表中的每个析构函数。<br>            函数如下：<br>            [code]<br>            Disassembly of section .text:<br> <br>            00000000 &lt;<strong>do_global_dtors_aux&gt;;:<br>            0:   55  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            push   %ebp<br>            1:   89 e5  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            mov    %esp,%ebp<br>            3:   83 3d 04 00 00 00 00    cmpl   $0x0,0x4<br>            a:   75 38  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            jne    44 &lt;</strong>do_global_dtors_aux+0x44&gt;;<br>            c:   eb 0f  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            jmp    1d &lt;<strong>do_global_dtors_aux+0x1d&gt;;<br>            e:   89 f6  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            mov    %esi,%esi<br>            10:   8d 50 04  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            lea    0x4(%eax),%edx<br>            13:   89 15 00 00 00 00  &#160;&#160;            mov    %edx,0x0<br>            19:   8b 00  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            mov    (%eax),%eax<br>            1b:   ff d0  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            call   *%eax<br>            1d:   a1 00 00 00 00  &#160;&#160;          &#160;&#160;            mov    0x0,%eax<br>            22:   83 38 00  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            cmpl   $0x0,(%eax)<br>            25:   75 e9  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            jne    10 &lt;</strong>do_global_dtors_aux+0x10&gt;;<br>            27:   b8 00 00 00 00  &#160;&#160;          &#160;&#160;            mov    $0x0,%eax<br>            2c:   85 c0  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            test   %eax,%eax<br>            2e:   74 0a  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            je  &#160;&#160;&#160;         3a &lt;<strong>do_global_dtors_aux+0x3a&gt;;<br>            30:   68 00 00 00 00  &#160;&#160;          &#160;&#160;            push   $0x0<br>            35:   e8 fc ff ff ff  &#160;&#160;          &#160;&#160;            call   36 &lt;</strong>do_global_dtors_aux+0x36&gt;;<br>            3a:   c7 05 04 00 00 00 01    movl   $0x1,0x4<br>            41:   00 00 00<br>            44:   c9  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            leave<br>            45:   c3  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            ret<br>            46:   89 f6  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            mov    %esi,%esi<br>            [/code]            <br> <img width="29" height="18" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_lslnet_icon_new.gif"><strong>从程序员角度看ELF[z</strong><br> <br>            esi<br> <br> <br>            4 .fini section<br>            它只包含一个<strong>do_global_dtors_aux的函数调用。请记住，它仅是<br>            一个函数调用而不返回的，因为crtbegin.o的.fini section是这个<br>            函数体的一部分。<br>            函数如下：<br>            Disassembly of section .fini:<br> <br>            00000000 &lt;.fini&gt;;:<br>            0:   e8 fc ff ff ff  &#160;&#160;          &#160;&#160;            call   1 &lt;.fini+0x1&gt;;<br> <br> <br>            crtend.o<br>            也有四个section:<br> <br>            1 .ctors section<br>            local标号</strong>CTOR_END<strong>指向全局构造函数的指针数组尾部。<br> <br>            2 .dtors section<br>            local标号</strong>DTOR_END<strong>指向全局析构函数的指针数组尾部。<br> <br>            3 .text section<br>            只包含了</strong>do_global_ctors_aux函数,该函数遍历<strong>CTOR_LIST</strong><br>            列表，调用列表中的每个构造函数。<br>            函数如下：<br>            [code]<br>            00000000 &lt;<strong>do_global_ctors_aux&gt;;:<br>            0:   55  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            push   %ebp<br>            1:   89 e5  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            mov    %esp,%ebp<br>            3:   53  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            push   %ebx<br>            4:   bb fc ff ff ff  &#160;&#160;          &#160;&#160;            mov    $0xfffffffc,%ebx<br>            9:   83 3d fc ff ff ff ff    cmpl   $0xffffffff,0xfffffffc<br>            10:   74 0c  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            je  &#160;&#160;&#160;         1e &lt;</strong>do_global_ctors_aux+0x1e&gt;;<br>            12:   8b 03  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            mov    (%ebx),%eax<br>            14:   ff d0  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            call   <em>%eax<br>            16:   83 c3 fc  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            add    $0xfffffffc,%ebx<br>            19:   83 3b ff  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            cmpl   $0xffffffff,(%ebx)<br>            1c:   75 f4  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            jne    12 &lt;<strong>do_global_ctors_aux+0x12&gt;;<br>            1e:   8b 5d fc  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            mov    0xfffffffc(%ebp),%ebx<br>            21:   c9  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            leave<br>            22:   c3  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            ret<br>            23:   90  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            nop<br>            [/code]            <br> <img width="29" height="18" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_lslnet_icon_new.gif"><strong>从程序员角度看ELF[z</strong><br> <br>            nop<br> <br>            4 .init section<br>            它只包含一个</strong>do_global_ctors_aux的函数调用。请记住，它仅是<br>            一个函数调用而不返回的，因为crtend.o的.init section是这个函<br>            数体的一部分。<br>            函数如下：<br>            Disassembly of section .init:<br> <br>            00000000 &lt;.init&gt;;:<br>            0:   e8 fc ff ff ff  &#160;&#160;          &#160;&#160;            call   1 &lt;.init+0x1&gt;;            <br> <img width="29" height="18" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_lslnet_icon_new.gif"><strong>从程序员角度看ELF[z</strong><br> <br>            crti.o<br>            在.init section中仅是个_init的函数标号。<br>            在.fini section中的_fini函数标号。<br> <br>            crtn.o<br>            在.init和.fini section中仅是返回指令。<br> <br>            Disassembly of section .init:<br> <br>            00000000 &lt;.init&gt;;:<br>            0:   8b 5d fc  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            mov    0xfffffffc(%ebp),%ebx<br>            3:   c9  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            leave<br>            4:   c3  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            ret<br>            Disassembly of section .fini:<br> <br>            00000000 &lt;.fini&gt;;:<br>            0:   8b 5d fc  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            mov    0xfffffffc(%ebp),%ebx<br>            3:   c9  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            leave<br>            4:   c3  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            ret            <br><img width="29" height="18" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_lslnet_icon_new.gif"><strong>从程序员角度看ELF[z</strong><br><br>编译产生可重定位文件时，gcc把每个全局构造函数挂在<strong>CTOR_LIST上<br>（通过把指向构造函数的指针放到.ctors section中）。<br>它也把每个全局析构函挂在</strong>DTOR_LIST上（通过把指向析构函的指针<br>放到.dtors section中）。<br><br>连接时，gcc在所有重定位文件前处理crtbegin.o,在所有重定位文件后处理<br>crtend.o。另外，crti.o在crtbegin.o之前被处理，crtn.o在crtend.o之后<br>被处理。<br><br>当产生可执行文件时，连接器ld分别的连接所有可重定位文件的ctors 和<br>.dtors section到<strong>CTOR_LIST</strong>和<strong>DTOR_LIST</strong>列表中。.init section<br>由所有的可重定位文件中_init函数组成。.fini由_fini函数组成。<br><br>运行时，系统将在main函数之前执行_init函数，在main函数返回后执行<br>_fini函数。<br><br><img width="29" height="18" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_lslnet_icon_new.gif"><strong>从程序员角度看ELF</strong><br><br>★5.2 共享C++库 Shared C++ Library<br><br>在共享c++库中主要的困难是如何对待构造函数和析构函数。<br>在SunOS下，构造和使用一个共享的ELF C库是容易的，但是在SunOS下不能<br>构造共享的C++库，因为构造函数和析构函数有特别的需求。为止，在ELF<br>中的.init和.init section提供了完美的解决方法。<br><br>当构造共享C++库时，我们使用crtbegin.o和crtend.o这两个特殊的版本（crtbeginS.o和crtendS.o），<br>(它们已经是经过-fPIC的)。对于连接器(link editor)来说，构造共享<br>的C++库几乎是和一般的可执行文件一样的。全局的构造函数和析构函数<br>被.init和.fini section处理(在上面3.1节中已经讨论过)。<br><br>但一个共享库被映射到进程的地址空间时，动态连接器将在传控制权给程序<br>之前执行_init函数，并且将为_fini函数安排在共享库不再需要的时候被<br>执行。<br><br>连接选项-shared是告诉gcc以正确的顺序放置必要的辅助文件并且告诉它将<br>产生一个共享库。-v选项将显示什么文件什么选项被传到了连接器<br>(link editor).<br>[code]<br>[alert7@redhat62 dl]# gcc -v -shared -o libbar.so libbar.o<br>Reading specs from /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/specs<br>gcc version egcs-2.91.66 19990314/Linux (egcs-1.1.2 release)<br>/usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/collect2 -m elf_i386 <br>-shared -o libbar.so /usr/lib/crti.o /usr/lib/gcc-lib/i386-redhat<br>-linux/egcs-2.91.66/crtbeginS.o <br>-L/usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66 <br>-L/usr/i386-redhat-linux/lib libbar.o -lgcc -lc –version-script <br>/usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/libgcc.map <br>-lgcc /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/crtendS.o <br>/usr/lib/crtn.o<br>[/code]<br>crtbeginS.o和crtendS.o用-fPIC编译的两个特殊的版本。带上-shared<br>创建共享库是重要的，因为那些辅助的文件也提供其他服务。我们将在<br>5.3节中讨论。<br><br><img width="29" height="18" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_lslnet_icon_new.gif"><strong>从程序员角度看ELF</strong><br><br>★5.3 扩展的GCC特性<br><br>GCC有许多扩展的特性。有些对ELF特别的有用。其中一个就是<strong>attribute</strong>。<br>使用<strong>attribute</strong>可以使一个函数放到<strong>CTOR_LIST</strong>或者<strong>DTOR_LIST</strong>里。<br>例如：<br><br>[code]<br>]# cat miss.c<br><br>#include &lt;stdio.h&gt;;<br>#include &lt;stdlib.h&gt;;<br><br>static void foo(void) <strong>attribute</strong> ((constructor));<br>static void bar(void) <strong>attribute</strong> ((destructor));<br><br><br>int main(int argc, char </em>argv[])<br>{<br>printf(&quot;foo == %pn&quot;, foo);<br>printf(&quot;bar == %pn&quot;, bar);<br><br>exit(EXIT_SUCCESS);<br>}<br><br>void foo(void)<br>{<br>printf(&quot;hi dear njlily!n&quot;);<br>}<br><br>void bar(void)<br>{<br>printf(&quot;missing u! goodbye!n&quot;);<br>}<br><br>[alert7@redhat62 dl]# gcc -o miss miss.c<br>[alert7@redhat62 dl]# ./miss<br>hi dear njlily!<br>foo == 0x8048434<br>bar == 0x8048448<br>missing u! goodbye!<br><br>[/code] <br><img width="29" height="18" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_lslnet_icon_new.gif"><strong>从程序员角度看ELF[z</strong><br><br>我们来看看是否加到了.ctors和.dtors中。<br>[code]]# objdump -s -j .ctors miss<br><br>miss:  &#160;&#160;&#160;         file format elf32-i386<br><br>Contents of section .ctors:<br>8049504 ffffffff 34840408 00000000  &#160;&#160;          &#160;&#160;          &#160;&#160;&#160;         ….4…….<br><br>[alert7@redhat62 dl]# objdump -s -j .dtors miss<br><br>miss:  &#160;&#160;&#160;         file format elf32-i386<br><br>Contents of section .dtors:<br>8049510 ffffffff 48840408 00000000  &#160;&#160;          &#160;&#160;          &#160;&#160;&#160;         ….H…….<br><br>[/code]<br><br>已经把foo和bar地址分别放到了.ctors和.dors，显示34840408只是因为<br>x86上是LSB编码的，小端序。<br><br><strong>attribute</strong> ((constructor))促使函数foo在进入main之前会被自动调用。<br><strong>attribute</strong> ((destructor))促使函数bar在main返回或者exit调用之后<br>会被自动调用。foo和bar必须是不能带参数的而且必须是static void类型的<br>函数。在ELF下，这个特性在一般的可执行文件和共享库中都能很好的工作。 </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/11/12/【zz】从程序员角度看ELF/" class="archive-article-date">
+  	<time datetime="2007-11-12T14:12:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-11-12</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2007/11/12/ELF文件动态链接时-GOT，PLT-的变化过程/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          ELF文件动态链接时 GOT，PLT 的变化过程
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2007/11/11/【zz】使用-Kprobes-调试内核/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">【zz】使用 Kprobes 调试内核</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

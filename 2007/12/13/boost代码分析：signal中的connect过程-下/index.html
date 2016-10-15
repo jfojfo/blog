@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>boost代码分析：signal中的connect过程(下) | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="connect 过程中 slot 的连接&amp;nbsp;&amp;nbsp;&amp;nbsp;          template&amp;lt;&amp;nbsp;&amp;nbsp;&amp;nbsp;          &amp;nbsp;&amp;nbsp;&amp;nbsp;          typename R,&amp;nbsp;&amp;nbsp;&amp;nbsp;          &amp;nbsp;&amp;nbsp;&amp;nbsp;          typename T1, typ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="boost代码分析：signal中的connect过程(下)">
+<meta property="og:url" content="http://blog.pickbox.me/2007/12/13/boost代码分析：signal中的connect过程-下/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="connect 过程中 slot 的连接&amp;nbsp;&amp;nbsp;&amp;nbsp;          template&amp;lt;&amp;nbsp;&amp;nbsp;&amp;nbsp;          &amp;nbsp;&amp;nbsp;&amp;nbsp;          typename R,&amp;nbsp;&amp;nbsp;&amp;nbsp;          &amp;nbsp;&amp;nbsp;&amp;nbsp;          typename T1, typ">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="boost代码分析：signal中的connect过程(下)">
+<meta name="twitter:description" content="connect 过程中 slot 的连接&amp;nbsp;&amp;nbsp;&amp;nbsp;          template&amp;lt;&amp;nbsp;&amp;nbsp;&amp;nbsp;          &amp;nbsp;&amp;nbsp;&amp;nbsp;          typename R,&amp;nbsp;&amp;nbsp;&amp;nbsp;          &amp;nbsp;&amp;nbsp;&amp;nbsp;          typename T1, typ">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-boost代码分析：signal中的connect过程-下" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      boost代码分析：signal中的connect过程(下)
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> connect 过程中 slot 的连接<br><br>&nbsp;&nbsp;&nbsp;          template&lt;<br>&nbsp;&nbsp;&nbsp;          &nbsp;&nbsp;&nbsp;          typename R,<br>&nbsp;&nbsp;&nbsp;          &nbsp;&nbsp;&nbsp;          typename T1, typename T2<br>&nbsp;&nbsp;&nbsp;          &nbsp;&nbsp;&nbsp;          ,<br>&nbsp;&nbsp;&nbsp;          &nbsp;&nbsp;&nbsp;          typename Combiner,<br>&nbsp;&nbsp;&nbsp;          &nbsp;&nbsp;&nbsp;          typename Group,<br>&nbsp;&nbsp;&nbsp;          &nbsp;&nbsp;&nbsp;          typename GroupCompare,<br>&nbsp;&nbsp;&nbsp;          &nbsp;&nbsp;&nbsp;          typename SlotFunction<br>&nbsp;&nbsp;&nbsp;          &gt;<br>&nbsp;&nbsp;&nbsp;          signals::connection<br>&nbsp;&nbsp;&nbsp;          signal2&lt;<br>&nbsp;&nbsp;&nbsp;          R, T1, T2<br>&nbsp;&nbsp;&nbsp;          ,<br>&nbsp;&nbsp;&nbsp;          Combiner, Group, GroupCompare, SlotFunction<br>&nbsp;&nbsp;&nbsp;          &gt;::connect(const slot_type&amp; in_slot,<br>&nbsp;&nbsp;&nbsp;          signals::connect_position at)<br>&nbsp;&nbsp;&nbsp;          {<br>&nbsp;&nbsp;&nbsp;          &nbsp;&nbsp;&nbsp;          using boost::signals::detail::stored_group;<br><br><br><br>&nbsp;&nbsp;&nbsp;          &nbsp;&nbsp;&nbsp;          if (!in_slot.is_active()) {<br>&nbsp;&nbsp;&nbsp;          &nbsp;&nbsp;&nbsp;          &nbsp;&nbsp;&nbsp;          return signals::connection();<br>&nbsp;&nbsp;&nbsp;          &nbsp;&nbsp;&nbsp;          }<br><br>&nbsp;&nbsp;&nbsp;          &nbsp;&nbsp;&nbsp;          return impl-&gt;connect_slot(in_slot.get_slot_function(), stored_group(),<br>&nbsp;&nbsp;&nbsp;          &nbsp;&nbsp;&nbsp;          &nbsp;&nbsp;&nbsp;          in_slot.get_data(), at);<br>&nbsp;&nbsp;&nbsp;          }<br><br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        class signal_base_impl {<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        public:<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        friend class call_notification;<br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        typedef function2&lt;bool, stored_group, stored_group&gt; compare_type;<br><br><br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        class temporarily_set_clearing {<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        public:<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        temporarily_set_clearing(signal_base_impl<em> b) : base(b)<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        {<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        base-&gt;flags.clearing = true;<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        }<br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        ~temporarily_set_clearing()<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        {<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        base-&gt;flags.clearing = false;<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        }<br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        private:<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        signal_base_impl</em> base;<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        };<br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        friend class temporarily_set_clearing;<br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        signal_base_impl(const compare_type&amp;, const any&amp;);<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        ~signal_base_impl();<br><br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        void disconnect_all_slots();<br><br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        bool empty() const;<br><br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        std::size_t num_slots() const;<br><br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        void disconnect(const stored_group&amp;);<br><br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        static void slot_disconnected(void<em> obj, void</em> data);<br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        connection connect_slot(const any&amp; slot,<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        const stored_group&amp; name,<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        shared_ptr&lt;slot_base::data_t&gt; data,<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        connect_position at);<br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        private:<br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        void remove_disconnected_slots() const;<br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        public:<br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        mutable int call_depth;<br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        struct {<br><br><br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        mutable bool delayed_disconnect:1;<br><br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        bool clearing:1;<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        } flags;<br><br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        mutable named_slot<em>map slots</em>;<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        any combiner_;<br><br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        typedef named_slot_map::iterator iterator;<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        };<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       connection<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       signal_base_impl::<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; connect<em>slot(const any&amp; slot</em>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       const stored_group&amp; name,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       shared_ptr&lt;slot_base::data_t&gt; data,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       connect_position at)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       // Transfer the burden of ownership to a local, scoped<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       // connection.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       data-&gt;watch_bound_objects.set_controlling(false);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       scoped_connection safe_connection(data-&gt;watch_bound_objects);<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       // Allocate storage for an iterator that will hold the point of<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       // insertion of the slot into the list. This is used to later remove<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       // the slot when it is disconnected.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       std::auto_ptr&lt;iterator&gt; saved<em>iter(new iterator);<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       // Add the slot to the list.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       iterator pos =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       slots</em>.insert(name, data-&gt;watch_bound<em>objects, slot</em>, at);<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       // The assignment operation here absolutely must not throw, which<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       // intuitively makes sense (because any container’s insert method<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       // becomes impossible to use in an exception-safe manner without this<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       // assumption), but doesn’t appear to be mentioned in the standard.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       <em>saved_iter = pos;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       // Fill out the connection object appropriately. None of these<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       // operations can throw<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       data-&gt;watch_bound_objects.get_connection()-&gt;signal = this;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       data-&gt;watch_bound_objects.get_connection()-&gt;signal_data =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       saved_iter.release();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       data-&gt;watch_bound_objects.get_connection()-&gt;signal_disconnect =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       &amp;signal_base_impl::slot_disconnected;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       // Make the copy of the connection in the list disconnect when it is<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       // destroyed. The local, scoped connection is then released<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       // because ownership has been transferred.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       pos-&gt;first.set_controlling();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       return safe_connection.release();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       }<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  void signal_base_impl::slot_disconnected(void</em> obj, void<em> data)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  signal_base_impl</em> self = reinterpret_cast&lt;signal_base_impl<em>&gt;(obj);<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  // We won’t need the slot iterator after this<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  std::auto_ptr&lt;iterator&gt; slot(reinterpret_cast&lt;iterator</em>&gt;(data));<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  // If we’re flags.clearing, we don’t bother updating the list of slots<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  if (!self-&gt;flags.clearing) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  // If we’re in a call, note the fact that a slot has been deleted so<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  // we can come back later to remove the iterator<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  if (self-&gt;call_depth &gt; 0) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  self-&gt;flags.delayed<em>disconnect = true;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  else {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  // Just remove the slot now, it’s safe<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  self-&gt;slots</em>.erase(<em>slot);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  }<br><br><br>class BOOST_SIGNALS_DECL named_slot_map<br>{<br>public:<br>typedef named_slot_map_iterator iterator;<br><br>named_slot_map(const compare_type&amp; compare);<br><br>void clear();<br>iterator begin();<br>iterator end();<br>iterator insert(const stored_group&amp; name, const connection&amp; con,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      const any&amp; slot, connect_position at);<br>void disconnect(const stored_group&amp; name);<br>void erase(iterator pos);<br>void remove_disconnected_slots();<br><br>private:<br>typedef std::list&lt;connection_slot_pair&gt; group_list;<br>typedef std::map&lt;stored_group, group_list, compare_type&gt; slot_container_type;<br>typedef slot_container_type::iterator group_iterator;<br>typedef slot_container_type::const_iterator const_group_iterator;<br><br>bool empty(const_group_iterator group) const<br>{<br>&nbsp;&nbsp;&nbsp;      return (group-&gt;second.empty() &amp;&amp; group != groups.begin() &amp;&amp; group != back);<br>}<br>slot_container_type groups;<br>group_iterator back;<br>};<br><br>typedef std::list&lt;connection_slot_pair&gt; group_list;<br>typedef group_list::iterator slot_pair_iterator;<br>typedef std::map&lt;stored_group, group_list, compare_type&gt; slot_container_type;<br>typedef slot_container_type::iterator group_iterator;<br>typedef slot_container_type::const_iterator const_group_iterator;<br><br><br>#if BOOST_WORKAROUND(_MSC_VER, &lt;= 1400)<br>void named_slot_map_iterator::decrement() { assert(false); }<br>void named_slot_map_iterator::advance(difference_type) { assert(false); }<br>#endif<br><br>named_slot_map::named_slot_map(const compare_type&amp; compare) : groups(compare)<br>{<br>clear();<br>}<br><br>void named_slot_map::clear()<br>{<br>groups.clear();<br>groups[stored_group(stored_group::sk_front)];<br>groups[stored_group(stored_group::sk_back)];<br>back = groups.end();<br>–back;<br>}<br><br>named_slot_map::iterator named_slot_map::begin()<br>{<br>return named_slot_map::iterator(groups.begin(), groups.end());<br>}<br><br>named_slot_map::iterator named_slot_map::end()<br>{<br>return named_slot_map::iterator(groups.end(), groups.end());<br>}<br><br>named_slot_map::iterator<br>named_slot_map::insert(const stored_group&amp; name, const connection&amp; con,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     const any&amp; slot, connect_position at)<br>{<br>group_iterator group;<br>if (name.empty()) {<br>&nbsp;&nbsp;&nbsp;     switch (at) {<br>&nbsp;&nbsp;&nbsp;     case at_front: group = groups.begin(); break;<br>&nbsp;&nbsp;&nbsp;     case at_back: group = back; break;<br>&nbsp;&nbsp;&nbsp;     }<br>} else {<br>&nbsp;&nbsp;&nbsp;     group = groups.find(name);<br>&nbsp;&nbsp;&nbsp;     if (group == groups.end()) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     slot_container_type::value_type v(name, group_list());<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     group = groups.insert(v).first;<br>&nbsp;&nbsp;&nbsp;     }<br>}<br>iterator it;<br>it.group = group;<br>it.last_group = groups.end();<br><br>switch (at) {<br>case at_back:<br>&nbsp;&nbsp;&nbsp;     group-&gt;second.push_back(connection_slot<em>pair(con, slot));<br>&nbsp;&nbsp;&nbsp;     it.slot</em> = group-&gt;second.end();<br>&nbsp;&nbsp;&nbsp;     it.slot<em>assigned = true;<br>&nbsp;&nbsp;&nbsp;     –(it.slot</em>);<br>&nbsp;&nbsp;&nbsp;     break;<br><br>case at_front:<br>&nbsp;&nbsp;&nbsp;     group-&gt;second.push_front(connection_slot<em>pair(con, slot));<br>&nbsp;&nbsp;&nbsp;     it.slot</em> = group-&gt;second.begin();<br>&nbsp;&nbsp;&nbsp;     it.slot_assigned = true;<br>&nbsp;&nbsp;&nbsp;     break;<br>}<br>return it;<br>}<br><br>void named_slot_map::disconnect(const stored_group&amp; name)<br>{<br>group_iterator group = groups.find(name);<br>if (group != groups.end()) {<br>&nbsp;&nbsp;&nbsp;     slot_pair_iterator i = group-&gt;second.begin();<br>&nbsp;&nbsp;&nbsp;     while (i != group-&gt;second.end()) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     slot_pair_iterator next = i;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     ++next;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     i-&gt;first.disconnect();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     i = next;<br>&nbsp;&nbsp;&nbsp;     }<br>&nbsp;&nbsp;&nbsp;     groups.erase(group);<br>}<br>}<br><br>void named_slot<em>map::erase(iterator pos)<br>{<br>// Erase the slot<br>pos.slot</em>-&gt;first.disconnect();<br>pos.group-&gt;second.erase(pos.slot_);<br>}<br><br>void named_slot_map::remove_disconnected_slots()<br>{<br>// Remove any disconnected slots<br>group_iterator g = groups.begin();<br>while (g != groups.end()) {<br>&nbsp;&nbsp;&nbsp;     slot_pair_iterator s = g-&gt;second.begin();<br>&nbsp;&nbsp;&nbsp;     while (s != g-&gt;second.end()) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     if (s-&gt;first.connected()) ++s;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     else g-&gt;second.erase(s++);<br>&nbsp;&nbsp;&nbsp;     }<br><br>&nbsp;&nbsp;&nbsp;     // Clear out empty groups<br>&nbsp;&nbsp;&nbsp;     if (empty(g)) groups.erase(g++);<br>&nbsp;&nbsp;&nbsp;     else ++g;<br>}<br>}<br><br><br>class BOOST_SIGNALS_DECL named_slot_map_iterator :<br>public iterator_facade&lt;named_slot_map_iterator,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    connection_slot_pair,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    forward_traversal_tag&gt;<br>{<br>typedef std::list&lt;connection_slot_pair&gt; group_list;<br>typedef group_list::iterator slot_pair_iterator;<br>typedef std::map&lt;stored_group, group_list, compare_type&gt; slot_container_type;<br>typedef slot_container_type::iterator group_iterator;<br>typedef slot_container_type::const_iterator const_group_iterator;<br><br>typedef iterator_facade&lt;named_slot_map_iterator,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    connection_slot_pair,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    forward_traversal_tag&gt; inherited;<br>public:<br>named_slot_map_iterator() : slot_assigned(false) <br>{ }<br>named_slot_map_iterator(const named_slot_map_iterator&amp; other) <br>&nbsp;&nbsp;&nbsp;    : group(other.group), last_group(other.last_group),<br>&nbsp;&nbsp;&nbsp;    slot_assigned(other.slot_assigned)<br>{<br>&nbsp;&nbsp;&nbsp;    if (slot<em>assigned) slot</em> = other.slot_;<br>}<br>named_slot_map_iterator&amp; operator=(const named_slot_map_iterator&amp; other) <br>{<br>&nbsp;&nbsp;&nbsp;    slot_assigned = other.slot_assigned;<br>&nbsp;&nbsp;&nbsp;    group = other.group;<br>&nbsp;&nbsp;&nbsp;    last_group = other.last_group;<br>&nbsp;&nbsp;&nbsp;    if (slot<em>assigned) slot</em> = other.slot_;<br>&nbsp;&nbsp;&nbsp;    return </em>this;<br>}<br>   connection_slot<em>pair&amp; dereference() const <br>{<br>&nbsp;&nbsp;&nbsp;    return *slot</em>;<br>}<br>void increment() <br>{<br>&nbsp;&nbsp;&nbsp;    ++slot<em>;<br>&nbsp;&nbsp;&nbsp;    if (slot</em> == group-&gt;second.end()) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    ++group;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    init_next_group();<br>&nbsp;&nbsp;&nbsp;    }<br>}<br>   bool equal(const named_slot_map_iterator&amp; other) const {<br>&nbsp;&nbsp;&nbsp;    return (group == other.group<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    &amp;&amp; (group == last<em>group<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    || slot</em> == other.slot_));<br>}<br><br>#if BOOST_WORKAROUND(_MSC_VER, &lt;= 1400)<br>void decrement();<br>void advance(difference_type);<br>#endif<br><br>private:<br>named_slot_map_iterator(group_iterator group, group_iterator last) :<br>&nbsp;&nbsp;&nbsp;    group(group), last_group(last), slot_assigned(false)<br>{ init_next_group(); }<br>named_slot_map_iterator(group_iterator group, group_iterator last,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    slot_pair_iterator slot) :<br>&nbsp;&nbsp;&nbsp;    group(group), last<em>group(last), slot</em>(slot), slot_assigned(true)<br>{ }<br><br>void init_next_group()<br>{<br>&nbsp;&nbsp;&nbsp;    while (group != last_group &amp;&amp; group-&gt;second.empty()) ++group;<br>&nbsp;&nbsp;&nbsp;    if (group != last<em>group) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    slot</em> = group-&gt;second.begin();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    slot_assigned = true;<br>&nbsp;&nbsp;&nbsp;    }<br>}<br><br>group_iterator group;<br>group_iterator last_group;<br>slot_pair<em>iterator slot</em>;<br>bool slot_assigned;<br><br>friend class named_slot_map;<br>};<br><br><br> </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/12/13/boost代码分析：signal中的connect过程-下/" class="archive-article-date">
+  	<time datetime="2007-12-13T05:57:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-12-13</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2007/12/14/【zz】在C-中侦测内嵌类型的存在/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          【zz】在C++中侦测内嵌类型的存在
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2007/12/13/boost代码分析：signal中的connect过程-上/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">boost代码分析：signal中的connect过程(上)</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

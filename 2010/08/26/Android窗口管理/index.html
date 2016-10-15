@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Android窗口管理 | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在Activity在performLaunchActivity时，会使用Activity.attach（）建立一个PhoneWindow主窗口。这个主窗口的建立并不是一个重点。handleResumeActivity真正要启动一个Activity时候，将主窗口decorView加入到WindowManageronCreate()@UserActivity.java &amp;gt;setContent">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android窗口管理">
+<meta property="og:url" content="http://blog.pickbox.me/2010/08/26/Android窗口管理/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="在Activity在performLaunchActivity时，会使用Activity.attach（）建立一个PhoneWindow主窗口。这个主窗口的建立并不是一个重点。handleResumeActivity真正要启动一个Activity时候，将主窗口decorView加入到WindowManageronCreate()@UserActivity.java &amp;gt;setContent">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/af4a83cb6c5a39b953664f32.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/c74bb4fd05e75f5208244d32.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/acf6d21650a5245c962b4332.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/f7b4a918ccaa5b4334fa4132.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/69bbd607687b69897a894732.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/cb6ae4cd240811150eb34532.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/85199c516e32806043a75b32.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/f1230d2421265677c9955932.jpg">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android窗口管理">
+<meta name="twitter:description" content="在Activity在performLaunchActivity时，会使用Activity.attach（）建立一个PhoneWindow主窗口。这个主窗口的建立并不是一个重点。handleResumeActivity真正要启动一个Activity时候，将主窗口decorView加入到WindowManageronCreate()@UserActivity.java &amp;gt;setContent">
+<meta name="twitter:image" content="http://img.pickbox.me/wp-content/uploads/pic/af4a83cb6c5a39b953664f32.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-Android窗口管理" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android窗口管理
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <br></p><p> </p><p>在Activity在performLaunchActivity时，会使用Activity.attach（）建立一个PhoneWindow主窗口。</p><p>这个主窗口的建立并不是一个重点。handleResumeActivity真正要启动一个Activity时候，</p><p>将主窗口decorView加入到WindowManager<br>onCreate()@UserActivity.java &gt;<br>setContentView()@Activity.java &gt;<br>mWindow.setContentView() &gt;<br>setContentView()@PhoneWindow.java &gt;<br>installDecor():<br>    generateDecor() –&gt; DecorView:ViewGroup<br>    generateLayout() –&gt; screen_simple.xml:id:content (FrameLayout)<br>        decor.addView( screen_simple.xml )<br><br>handleLaunchActivity()@ActivityThread.java &gt;<br>handleResumeActivity()@ActivityThread.java &gt; …<br>addView(decor)@WindowManagerImpl.java &gt;<br>    root = new ViewRoot();<br>        getWindowSession() –&gt; sWindowSession –&gt; IWindowSession<br>        mWindow = new W() –&gt; IWindow<br>    root.setView(decor)<br>        sWindowSession.add(mWindow…) 将mWindow.asBinder()作为参数调用服务端<br>        decor.assignParent(root);<br><br>{ IWindow: Window Manager —IWindow–&gt; Client<br>API back to a client window that the Window Manager uses to inform it of interesting things happening. }<br>{ IWindowSession: Client —IWindowSession–&gt; Window Manager }</p><p> </p><p> </p><br><a href="http://www.cnblogs.com/jacktu/archive/2010/06/17/1759668.html" target="_blank" rel="external">Android 核心分析(13) —–Android GWES之Android窗口管理</a>Android  GWES之Android窗口管理 1基本构架原理 &#160;&#160;&#160;&#160;&#160;  Android的窗口管理是C/S模式的。Android中的Window是表示Top  Level等顶级窗口的概念。DecorView是Window的Top-Level  View，这个View我称之为主View，DecorView会缺省的attach到Activity的主窗口中。主View被加入到 WindowManager中，WM使用WindowState与这个主View对应。<br><br><img src="http://img.pickbox.me/wp-content/uploads/pic/af4a83cb6c5a39b953664f32.jpg"><br><br>Activity建立一个主窗口后，在将主窗口添加到WindowManager时，首先要建立WindowManager代理对象，并打开一个会话（实 现IWindowSession  AIDL接口），并维持该会话。Activity将通过该会话与WindowManager建立联系，这个Session是C/S体系的基 础，Client通过WindowSession将window加入到Window Manager中。<br>一个完整的窗口概念横跨了View，ViewRoot，WindowManager Service。Window，DecorView，View，IWindow ,ISession，WindowState之间的关系如下<br><br><img src="http://img.pickbox.me/wp-content/uploads/pic/c74bb4fd05e75f5208244d32.jpg"><br><br>Client端的Activity通过Session会话与WindowManager建立对话，而WindowManager则通过IWindow接口访问Client，将消息传递到Client端，通过消息分发渠道，将消息传递到处理函数OnXXX。<br>后面我们将通过Client，WM Service分别加以分析。<br>2  Client端 &#160;&#160;&#160;&#160;  我一致认为在Android中Window的概念并不是个很重要的概念。他的Window类，只是在PhoneWindow和MidWindow中使用。 而PhoneWindow只是做了一个具体跟手机功能相关的公用事件的处理，所以在Android中PhoneWindow并不是一个抽象的纯正概念，而 是一个跟手机系统相关的一个特别窗口概念，例如按键的默认动作处理，按键音的发出等等。<br>2.1 View 在Activity中真正重要的概念是View，以下是Google官方对View的定义：<br>This  class represents the basic building block for user interface  components. A View&#160; occupies a rectangular area on the screen and is  responsible for drawing and event handling. View is the base class for&#160;<em>widgets</em>,  which are&#160; used to create interactive UI components (buttons, text  fields, etc.). The {@link android.view.ViewGroup} subclass is the base  class&#160; for&#160;<em>layouts</em>, which&#160; are invisible containers that hold other Views (or other ViewGroups) and define their layout properties.<br>我对View不做翻译，翻译成视图好像不太佳，View在Android中，View比视图具有广的外延。View包含了用户交互，包含了显示，视图在中 文中仅仅表示了静态的显示。对于View的理解应该从最容易的理解开始。我们使用过编辑器，在Android中这个编辑器就是一个View，这个编辑器需 要显示文字，需要接收用户的键盘输入和鼠标选择，但是一个屏幕上有多个编辑器，如何管理，如何切换焦点编辑器，这些都是需要管理的。<br>客户端的组成：（Window，View，ViewRoot，WindowManager Proxy）<br><br><img src="http://img.pickbox.me/wp-content/uploads/pic/acf6d21650a5245c962b4332.jpg"><br><br>在Activity在performLaunchActivity时，会使用Activity.attach（）建立一个PhoneWindow主窗口。 这个主窗口的建立并不是一个重点。handleResumeActivity真正要启动一个Activity时候，将主窗口加入到 WindowManager，当然并不是将主窗口本身，而是将主窗口的DecorView加入到WindowManager中。<br>真正Window核心的抽象概念存在于View，ViewRoot，WindowManger中的WindowState。为了描述概念的方便性，我特别 提出主View这个概念，这个主View就是Top-Level View of the window.  主View与View想对，突出主View是attatch到主窗口上的。而一般的View则是存在于主View中的。主窗口这个概念，我讲的主窗口实际 上就是Android提到的Top Level Window。<br>我们所提到的概念：View，GroupView，DecorView，ViewRoot都是存在于Client端，只有WindowState这个概念存在于Window Manager Service端。<br>DecorView实际上是一个ViewGroup。在依存关系上来讲，对看个主窗口来讲，DecorView是Top-Level  View.View并不是关注的重点，重要的是我们如何需要知道分发路径是建立在什么关系上的。View的成员变量mParent用来管理View上级关 系的。而ViewGroup顾名思义就是一组View的管理，于是在ViewGroup构建了焦点管理和子View节点数组。这样通过View的 mParent和ViewGroup的mChildren构建了Android中View直接的关系网。<br><br><img src="http://img.pickbox.me/wp-content/uploads/pic/f7b4a918ccaa5b4334fa4132.jpg"><br><br>2.2  Focus Path &#160;&#160;&#160;&#160; 所谓的Foucs  Path就是我们的KeyEvent传递的路线。一般的我们的KeyEvent在主循环中主View通过View的焦点记录关系传递到焦点View上。例 如下图，View22是焦点，我们从最顶层的View通过mFcous的关系链找到最后所形成的路径就是Focus Path。<br><br><img src="http://img.pickbox.me/wp-content/uploads/pic/69bbd607687b69897a894732.jpg"><br><br>2.3  ViewRoot，Window Manager Proxy ViewRoot与Window  Manager的核心是IWindowSession和IWindow。ViewRoot通过IWindowSession添加窗口到Window  Manager。而IWindow这是Window Manager分发消息给Client ViewRoot的渠道。利用AIDL接口进行进程间通信。<br><br><img src="http://img.pickbox.me/wp-content/uploads/pic/cb6ae4cd240811150eb34532.jpg"><br><br><img src="http://img.pickbox.me/wp-content/uploads/pic/85199c516e32806043a75b32.jpg"><br><br>ViewRoot实际是一个Handler，ViewRoot建立主View与WindowsManger通讯的桥梁。ViewRoot在本质上一个Handler。我们知道Handler的基本功能就是处理回调，发送消息。<br>Activity在使用getSystemService获取WindowManagerImpl ，建立了一个WindowManagerImpl实例，即Window Manager服务的代理：<br>wm=(WindowManagerImpl)context.getSystemService(Context.WINDOW_SERVICE);并调用wm.addview添加窗口到WMService中。<br>这 个过程在客户端建立了什么样的管理框架，并如何这个会话？在Window Manager Proxy中建立了View，Layout  ,ViewRoot三者的对应关系表。构造一个ViewRoot就会打开一个session,并利用IWindowSession建立会话上下文。<br><br><img src="http://img.pickbox.me/wp-content/uploads/pic/f1230d2421265677c9955932.jpg"><br><br>4 Window Manager Service 本次对于Window Manager Service的研究仅限于FocusWindow,消息系统。其他的部分将在后面的专门章节讨论。&#160;&#160;&#160;<br>Window   Manager管理的窗口是应用程序的Top-level窗口，我这里参照Window的概念叫主窗口。主窗口为什么要放在在Service这边来管理 呢？为什么不放在Client那边？主窗口放置在一起管理是为了计算Z-order序列，根据应用程序的状态来显隐应用程序的窗口。我想Android设 计者在考虑设计窗口系统的时候，一定首先考虑：<br>窗口z-order序的管理<br>活动窗口的计算，及其变化通知<br>窗口归属（属于哪个应用）<br>输入法管理<br><br>Window Service大体上实现了如下的功能：，<br>（1）Z-ordered的维护函数<br>（2）输入法管理<br>（3）AddWindow/RemoveWindow<br>（4）Layerout<br>（5）Token管理，AppToken<br>（6）活动窗口管理（FocusWindow）<br>（7）活动应用管理（FocusAPP）<br>（8）转场动画<br>（9）系统消息收集线程<br>（11）系统消息分发线程<br>在服务端的窗口对象叫做WindowState。在Service维护了一个mWindow数组，这个mWindow就是Window的Z-order序数组。mWindowMap用于记录。<br>WindowState有一个叫做mClient成员变量来记录客户端IWindow实例，通过IWindow接口实例，Service可以访问客户端的信息，说以IWindow是Service连接View桥梁。<br>（1） FocusWindow活动窗口如何计算?<br>基本原理就是查找前景应用（FousActivity），并同Z-Order序中找出属于该FousActivity（AppToken）的主窗口，这个窗口就是计算出来的Focus Window。<br>（2）为什么要提出Token这个概念呢？<br>一个应用程序要管理自己的窗口，那么如何来标识该窗口是属于某个Activity，Andoid设计者提出了AppToken这个概念。AppToken在本质上的描述：通过Token找到属于该Token的allWindows。使用Token开始完成该应用程序的所有窗口的显示和隐藏。<br>（3）系统消息收集与处理<br>我们下面重点研究Ｓｅｒｖｉｃｅ中的系统消息收集模式及其分发模式。Ｓｅｒｖｉｃｅ使用ＫｅｙＱ作为专门的消息队列。<br>ＫeyEvent<br>TouchEvent<br>TrackballEvent<br><br>系统有两个线程：<br>KeyQ线程，通过Navite函数readEvent轮询设备,将读取的结果放置在KeyQ队列中。<br>系统dispatcher 等待在KeyQ消息队列上，一旦从消息队列中获取到消息，就通过分发函数通过mClient传递到Client端。 <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2010/08/26/Android窗口管理/" class="archive-article-date">
+  	<time datetime="2010-08-26T07:23:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2010-08-26</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2010/08/26/如何调试跟踪Android源代码/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          如何调试跟踪Android源代码
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2010/08/23/Android-Framework-分析/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android Framework 分析</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

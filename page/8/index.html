@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="jfo planet">
+<meta property="og:url" content="http://blog.pickbox.me/page/8/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jfo planet">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        
+  
+    <article id="post-3个解析url的php函数" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/06/08/3个解析url的php函数/">3个解析url的php函数</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><strong>pathinfo</strong></p>
+<p>&lt;?php<br>$test = pathinfo(“<a href="http://localhost/index.php" target="_blank" rel="external">http://localhost/index.php</a>“);<br>print_r($test);<br>?&gt;<br>结果如下<br>Array<br>(<br>[dirname] =&gt; <a href="http://localhost" target="_blank" rel="external">http://localhost</a> //url的路径<br>[basename] =&gt; index.php  //完整文件名<br>[extension] =&gt; php  //文件名后缀<br>[filename] =&gt; index //文件名<br>)</p>
+<p>&nbsp;</p>
+<p><strong>parse_url</strong></p>
+<p>&lt;?php<br>$test = parse_url(“<a href="http://localhost/index.php?name=tank&amp;sex=1#top" target="_blank" rel="external">http://localhost/index.php?name=tank&amp;sex=1#top</a>“);<br>print_r($test);<br>?&gt;<br>结果如下<br>Array<br>(<br>[scheme] =&gt; http //使用什么协议<br>[host] =&gt; localhost //主机名<br>[path] =&gt; /index.php //路径<br>[query] =&gt; name=tank&amp;sex=1 // 所传的参数<br>[fragment] =&gt; top //后面根的锚点<br>)</p>
+<p>Parse query string into an array:</p>
+<p>$str = ‘pg_id=1&amp;parent_id=2&amp;document=doc&amp;video’;<br>parse_str($str, $arr);<br>print_r($arr);</p>
+<p>===&gt;Array ( [pg_id] =&gt; 1 [parent_id] =&gt; 2 [document] =&gt; doc [video] =&gt; )</p>
+<p>或者 $_GET[“pg_id”]  ==&gt; 1</p>
+<p>$str = “first=value&amp;arr[]=foo+bar&amp;arr[]=baz”;<br>parse_str($str);<br>echo $first;  // value<br>echo $arr[0]; // foo bar<br>echo $arr[1]; // baz</p>
+<p>&nbsp;</p>
+<p><strong>basename</strong></p>
+<p>&lt;?php<br>$test = basename(“<a href="http://localhost/index.php?name=tank&amp;sex=1#top" target="_blank" rel="external">http://localhost/index.php?name=tank&amp;sex=1#top</a>“);<br>echo $test;<br>?&gt;<br>结果如下<br>index.php?name=tank&amp;sex=1#top</p>
+<p>&nbsp;</p>
+<p>原文参考：<a href="http://blog.51yip.com/php/1057.html" target="_blank">http://blog.51yip.com/php/1057.html</a></p>
+<p>&nbsp;</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/06/08/3个解析url的php函数/" class="archive-article-date">
+  	<time datetime="2013-06-08T12:31:28.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-06-08</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-神作——《打高考》" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/06/06/神作——《打高考》/">神作——《打高考》</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="http://v.youku.com/v_show/id_XNTUzMzM1MTA4.html" target="_blank" rel="external">http://v.youku.com/v_show/id_XNTUzMzM1MTA4.html</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/06/06/神作——《打高考》/" class="archive-article-date">
+  	<time datetime="2013-06-06T14:33:40.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-06-06</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Saying/">Saying</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-file-get-contents获取远程文件内容" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/06/06/file-get-contents获取远程文件内容/">file_get_contents获取远程文件内容</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在<a href="http://blog.pickbox.me/2013/06/06/auto-save-remote-images-wordpress-plugin-source-code/" target="_blank">auto-save-remote-images WordPress plugin source code</a>中使用了wp_remote_get + wp_remote_retrieve_body的方法获取remote file，使用file_get_contents(url)也可以直接获取。</p>
+<p>获取到内容后，再使用file_put_contents存储内容。</p>
+<p>&nbsp;</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/06/06/file-get-contents获取远程文件内容/" class="archive-article-date">
+  	<time datetime="2013-06-06T03:43:02.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-06-06</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/wordpress/">wordpress</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-auto-save-remote-images-Wordpress-plugin-source-code" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/06/06/auto-save-remote-images-Wordpress-plugin-source-code/">auto-save-remote-images Wordpress plugin source code</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>This plugin automatically downloads the first remote image from a post and sets it as the featured image</p>
+<pre>add_action('publish_post', 'fetch_images');
+
+function fetch_images( $post_ID )  
+{    
+    //Check to make sure function is not executed more than once on save
+    if ( defined('DOING_AUTOSAVE') &amp;&amp; DOING_AUTOSAVE ) 
+    return;
+
+    if ( !current_user_can('edit_post', $post_ID) ) 
+    return;
+
+    remove_action('publish_post', 'fetch_images');    
+
+    $post = get_post($post_ID);   
+
+    $first_image = '';
+
+    if(preg_match_all('/&lt;img.+src=[\'"]([^\'"]+)[\'"].*&gt;/i', $post-&gt;post_content, $matches)){
+        $first_image = $matches [1] [0];
+    }
+
+    if (strpos($first_image,$_SERVER['HTTP_HOST'])===false)
+    {
+
+        //Fetch and Store the Image    
+        $get = wp_remote_get( $first_image );
+        $type = wp_remote_retrieve_header( $get, 'content-type' );
+        $mirror = wp_upload_bits(rawurldecode(basename( $first_image )), '', wp_remote_retrieve_body( $get ) );
+
+        //Attachment options
+        $attachment = array(
+        'post_title'=&gt; basename( $first_image ),
+        'post_mime_type' =&gt; $type
+        );
+
+        // Add the image to your media library and set as featured image
+        $attach_id = wp_insert_attachment( $attachment, $mirror['file'], $post_ID );
+        $attach_data = wp_generate_attachment_metadata( $attach_id, $first_image );
+        wp_update_attachment_metadata( $attach_id, $attach_data );
+        set_post_thumbnail( $post_ID, $attach_id );
+
+        $updated = str_replace($first_image, $mirror['url'], $post-&gt;post_content);
+
+        //Replace the image in the post
+        wp_update_post(array('ID' =&gt; $post_ID, 'post_content' =&gt; $updated));
+
+        // re-hook this function
+        add_action('publish_post', 'fetch_images');        
+    }
+}</pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/06/06/auto-save-remote-images-Wordpress-plugin-source-code/" class="archive-article-date">
+  	<time datetime="2013-06-06T02:15:16.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-06-06</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/wordpress/">wordpress</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-wp-generate-attachment-metadata" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/06/06/wp-generate-attachment-metadata/">wp_generate_attachment_metadata</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p></p><h2>Example</h2><br>To generate attachment metadata for attachment with parent post ID 37:<p></p>
+<p><pre>&lt;?php<br>  $attach_id = wp_insert_attachment( $attachment, $filename, 37 );<br>  $attach_data = wp_generate_attachment_metadata( $attach_id, $filename );<br>  wp_update_attachment_metadata( $attach_id,  $attach_data );<br>?&gt;</pre><br>The function should be used in conjunction with <a title="Function Reference/wp update attachment metadata" href="https://codex.wordpress.org/Function_Reference/wp_update_attachment_metadata" target="_blank" rel="external">wp_update_attachment_metadata()</a>.</p>
+<p>See more <a href="https://codex.wordpress.org/Function_Reference/wp_generate_attachment_metadata" target="_blank">https://codex.wordpress.org/Function_Reference/wp_generate_attachment_metadata</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/06/06/wp-generate-attachment-metadata/" class="archive-article-date">
+  	<time datetime="2013-06-06T02:12:01.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-06-06</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/wordpress/">wordpress</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-android-dev笔记from-google-notes" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/06/05/android-dev笔记from-google-notes/">android-dev笔记from google notes</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <div><br><div><br><div>以前在Google notes里摘录的android-dev笔记，在google关闭notes后导出成本地文件了，现在上传到blog上吧。</div><br><div></div>
+
+<hr>
+
+<div></div><br><div><span style="font-size: large;">SPAN_EXCLUSIVE_EXCLUSIVE</span></div><br><span style="color: #ff0000;">.setMovementMethod</span>，此方法在需要响应用户事件时使用，如点击一个电话号码就跳转到拨号页面。如果不执行这个方法是不会响应事件的，即便文本看着已经是下划线蓝色字了。<br><span style="color: #ff0000;">.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE</span>，这是在 setSpan 时需要指定的 flag，它的意义我试了很久也没试出来，睡个觉，今天早上才突然有点想法，试之，果然。它是用来标识在 Span 范围内的文本前后输入新的字符时是否把它们也应用这个效果。分别有 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE(前后都不包括)、Spanned.SPAN_INCLUSIVE_EXCLUSIVE(前面包括，后面不包括)、Spanned.SPAN_EXCLUSIVE_INCLUSIVE(前面不包括，后面包括)、Spanned.SPAN_INCLUSIVE_INCLUSIVE(前后都包括)。看个截图就更明白了：<br><div><a href="http://hiphotos.baidu.com/j_fo/pic/item/e1a0eb24b7e4be774d088de0.jpg" target="_blank" rel="external">http://hiphotos.baidu.com/j_fo/pic/item/e1a0eb24b7e4be774d088de0.jpg</a></div><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDQJxDQoQ16vglrgm"></a><br><div><br><div><br><div><span style="color: #ff0000;"><b>ClickableSpan</b></span></div><br><div>       SpannableStringBuilder ssb = new SpannableStringBuilder(s);</div><br><div>       ClickableSpan clickSpan = new ClickableSpan() {</div><br><div>           @Override</div><br><div>           public void onClick(View widget) {</div><br><div>           }</div><br><div>       };</div><br><div>       ssb.setSpan(clickSpan, start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);</div><br><div></div><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDQmJDAoQp_iiiKAm"></a><br><div><br><div><br><br><span style="font-size: large;"><b>AlarmManager and Timer</b></span><br><div>1. The Alarm Manager holds a CPU wake lock as long as the alarm receiver’s onReceive() method is executing. This guarantees that the phone will not sleep until you have finished handling the broadcast.</div><br><div>2. If your alarm receiver called <code><a href="file:///E:/work/android-sdk-windows/docs/reference/android/content/Context.html#startService(android.content.Intent)" target="_blank" rel="external">Context.startService()</a></code>, it is possible that the phone will sleep before the requested service is launched. To prevent this, your BroadcastReceiver and Service will need to implement a separate wake lock policy to ensure that the phone continues running until the service becomes available.</div><br><div>3. If an alarm is delayed (by system sleep, for example, for non _WAKEUP alarm types), a skipped repeat will be delivered as soon as possible. For example, if you have set a recurring alarm for the top of every hour but the phone was asleep from 7:45 until 8:45, an alarm will be sent as soon as the phone awakens, then the next alarm will be sent at 9:00.</div><br><div><span style="color: #333333; font-family: 'times new roman', serif;"><b>Sample:</b></span></div><br><div><br><div><span style="font-family: 'times new roman', serif;">Intent intent = new Intent(AlarmActivity.this, AlarmReceiver.class);</span></div><br><div><span style="font-family: 'times new roman', serif;">PendingIntent pi = PendingIntent.getBroadcast(AlarmActivity.this, 0, intent, 0);</span></div><br><div><span style="font-family: 'times new roman', serif;">AlarmManager am = (AlarmManager) getSystemService(Activity.ALARM_SERVICE);</span></div><br>am.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), (10 <em> 1000), pi);<span style="color: #333333;"><br></span>4. Each timer has one thread on which tasks are executed sequentially.<br><br></em></div><br><div><span style="font-size: small;"><span style="color: #333333;">5</span>（1）schedule方法：下一次执行时间相对于<strong></strong> <strong>上一次</strong> <strong>实际执行完成的时间点</strong> <strong></strong><strong></strong></span><span style="font-size: small;">，因此执行时间会不断延后<br>（2）scheduleAtFixedRate方法：下一次执行时间相对于<strong>上一次开始的</strong> <strong>时间点</strong> ，因此执行时间不会延后，<strong>存在并发性 </strong></span></div><br><div><span style="font-family: Arial; font-size: small;"><span style="color: #ff0000;">6. 手机SleepTimer依然执行</span><br></span><br><div><span style="font-family: 'times new roman', serif; font-size: small;">Sample:</span></div><br></div><br><div><br><div><span style="color: #333333; font-family: 'times new roman', serif; font-size: small;">        TimerTask task = new SyncContactsTimerTask();</span></div><br><div><span style="font-family: 'times new roman', serif; font-size: small;">        delay = genDelay();<br></span></div><br><div><span style="color: #333333; font-family: 'times new roman', serif; font-size: small;">        mTimer.schedule(new BackupContactsTimerTask(), delay, TIMER_TASK_PERIOD);</span></div><br><div><span style="font-family: 'times new roman', serif; font-size: small;"> </span></div><br></div><br><div><br><div><span style="color: #333333; font-family: 'times new roman', serif; font-size: small;">    private final class BackupContactsTimerTask extends TimerTask {</span></div><br><div><span style="color: #333333; font-family: 'times new roman', serif; font-size: small;">        public void run() {</span></div><br><div><span style="color: #333333; font-family: 'times new roman', serif; font-size: small;">            if (DBG) {</span></div><br><div><span style="color: #333333; font-family: 'times new roman', serif; font-size: small;">                LogUtil.i(ContactBackupRestore.TAG, “BackupContactsTimerTask run() begin”);</span></div><br><div><span style="color: #333333; font-family: 'times new roman', serif; font-size: small;">            }</span></div><br><div><span style="color: #333333; font-family: 'times new roman', serif; font-size: small;">            if (ContactBackupRestore.getAutoSyncPref(ContactsService.this) != 0) {</span></div><br><div><span style="color: #333333; font-family: 'times new roman', serif; font-size: small;">                ContactBackupRestore.setIsAutoBackingUp(ContactsService.this, 1);</span></div><br><div><span style="color: #333333; font-family: 'times new roman', serif; font-size: small;">                backupContacts();</span></div><br><div><span style="color: #333333; font-family: 'times new roman', serif; font-size: small;">            }</span></div><br><div><span style="color: #333333; font-family: 'times new roman', serif; font-size: small;">        }</span></div><br><div><span style="color: #333333; font-family: 'times new roman', serif; font-size: small;">    }</span></div><br><div></div><br></div><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDQmJDAoQufbU0ZYm"></a><br><div><br><div><br><div><span style="font-size: large;"><b>Android 解屏幕锁与点亮屏幕(来电时效果)</b></span></div><br><div>PowerManager pm=(PowerManager) getSystemService(Context.POWER_SERVICE);</div><br><div>//获取电源管理器对象</div><br><div>PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.SCREEN_DIM_WAKE_LOCK, “bright”);</div><br><div>//获取PowerManager.WakeLock对象,后面的参数|表示同时传入两个值,最后的是LogCat里用的Tag</div><br><div>wl.acquire();</div><br><div>//点亮屏幕</div><br><div></div><br><div>KeyguardManager  km= (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);</div><br><div>//得到键盘锁管理器对象</div><br><div>KeyguardLock kl = km.newKeyguardLock(“unLock”);</div><br><div>//参数是LogCat里用的Tag</div><br><div>kl.disableKeyguard();</div><br><div>//解锁</div><br><div></div><br><div>/</div><br><div> <em> 这里写程序的其他代码</em></div><br><div> </div><br><div> <em>*/</em></div><br><div></div><br><div>kl.reenableKeyguard();</div><br><div>//重新启用自动加锁</div><br><div>wl.release();</div><br>//释放<br><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDRJqDQoQlNK5l5Em"></a><br><div><br><div><br><br><b>TextView实现多行滚动</b><br><div>&lt;TextView<br>android:id=”@+id/tvCWJ”<br>android:layout_width=”fill_parent”<br>android:layout_height=”wrap_content”<br>android:scrollbars=”vertical”   &lt;!–垂直滚动条 –&gt;<br>android:singleLine=”false”       &lt;!–实现多行 –&gt;<br>android:maxLines=”15”            &lt;!–最多不超过15行 –&gt;<br>android:textColor=”#FF0000”<br>/&gt;</div><br><div><br><br>&nbsp;<br><br>当然我们为了让TextView动起来，还需要用到TextView的setMovementMethod方法设置一个滚动实例，代码如下<br><br>TextView tvAndroid123 = (TextView)findViewById(R.id.tvCWJ);<br>tvAndroid123.setMovementMethod(ScrollingMovementMethod.getInstance());<br><br>// Android开发网提示相关的可以查看SDK中android.text.method分支了解更多<br><br></div><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDSQ7DAoQ5vTNiIAm"></a><br><div><br><div><br><h2>Android Canvas绘图抗锯齿解决方法</h2><br><div><br><br>对于Android来说Canvas一般大量用于自定义View和游戏开发中，对于图形的基础绘制类，提供的drawText、drawBitmap以及drawCircle都需要抗锯齿处理才能让人满意，下面Android123将他们分为两大种情况。<br><br>一、包含Paint参数情况时，对于drawText、drawBitmap这样的方法，一般最后一个参数为Paint对象，Paint对象一般用于设置笔刷颜色和大小，同时包含了抗锯齿的方法，比如说objPaint.setAntiAlias(true);  这个方法执行后即可有比较明显的改善。<br><br>二、部分方法没有Paint参数，比如说setDrawFilter这个方法，它的参数只有PaintFlagsDrawFilter对象，我们自己构造一个新的对象，比如说new PaintFlagsDrawFilter(0,Paint.ANTI_ALIAS_FLAG|Paint.FILTER_BITMAP_FLAG)这样就过滤器可以让文本和位图经过圆滑处理。<br><br></div><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDQqrDQoQlOOI1O8l"></a><br><div><br><div><br><h2>android.resource://这个Uri你知道吗</h2><br>如何访问平时APK文件Res目录下的内容呢? 如果直接访问Apk下的assets目录可以使用AssetManager类处理，而需要访问 res/raw这样的文件夹怎么办呢? 这里Android123可以告诉大家APK在安装时已经解压缩，部分资源存放在/data/data /package_name/这里， 比如我们想访问res/raw/android123.cwj文件，可以使用android.resource: //package_name/“ + R.raw.android123 这个Uri，其中package_name是你工程的包名。  完整的处理代码为 Uri uri = Uri.parse(“android.resource://com.android123.Sample/raw/android123.cwj”); 即可使用工程res/raw目录下的文件了。<br><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDQzdDAoQh97pkeUl"></a><br><div><br><div><br><br>void android.view.ViewGroup.setChildrenDrawnWithCacheEnabled(boolean enabled)<br><br>Tells the ViewGroup to draw its children using their drawing cache. This property is ignored when isAlwaysDrawnWithCacheEnabled() is true. A child’s drawing cache will be used only if it has been enabled. Subclasses should call this method to start and stop using the drawing cache when they perform performance sensitive operations, like scrolling or animating.<br><br>Parameters:<br>enabled true if children should be drawn with their cache, false otherwise<br>See Also:<br>setAlwaysDrawnWithCacheEnabled(boolean)<br>isChildrenDrawnWithCacheEnabled()<br><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDQY3DQoQj8HTqtcl"></a><br><div><br><div><br><br>StrictMode<br><pre> public void onCreate() {<br>     if (DEVELOPER_MODE) {<br>         StrictMode.setThreadPolicy(new <code><a href="http://androidappdocs.appspot.com/reference/android/os/StrictMode.ThreadPolicy.Builder.html" target="_blank" rel="external">StrictMode.ThreadPolicy.Builder</a></code>()<br>                 .detectDiskReads()<br>                 .detectDiskWrites()<br>                 .detectNetwork()   // or .detectAll() for all detectable problems<br>                 .penaltyLog()<br>                 .build());<br>         StrictMode.setVmPolicy(new <code><a href="http://androidappdocs.appspot.com/reference/android/os/StrictMode.VmPolicy.Builder.html" target="_blank" rel="external">StrictMode.VmPolicy.Builder</a></code>()<br>                 .detectLeakedSqlLiteObjects()<br>                 .penaltyLog()<br>                 .penaltyDeath()<br>                 .build());<br>     }<br>     super.onCreate();<br> }</pre><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDQ5sDQoQkNO7kc8l"></a><br><div><br><div><span style="font-size: large;">Toast makeText() 时的layout view：frameworks/base/core/res/res/layout/transient_notification.xml</span><br>android:shadowColor指定文本阴影的颜色，需要与shadowRadius一起使用。<br>android:shadowDx设置阴影横向坐标开始位置。<br>android:shadowDy设置阴影纵向坐标开始位置。<br>android:shadowRadius设置阴影的半径。设置为0.1就变成字体的颜色了，一般设置为3.0的效果比较好。</div><br><div>标签： android-dev</div><br></div><br><a name="NDRMjDQoQktnX-c4l"></a><br><div><br><div><span style="font-size: large;">触发媒体库进行扫描</span><br>sendBroadcast(new Intent(Intent.ACTION_MEDIA_MOUNTED, Uri.parse(“file://“+ Environment.getExternalStorageDirectory())));</div><br><div>标签： android-dev</div><br></div><br><a name="NDQKDDQoQ2Kv6p8Ql"></a><br><div><br><div><span style="font-size: large;">&lt;activity-alias&gt;<br></span>The alias presents the target activity as a independent entity. It can have its own set of intent filters, and they, rather than the intent filters on the target activity itself, determine which intents can activate the target through the alias and how the system treats the alias. For example, the intent filters on the alias may specify the “<code><code><a href="http://androidappdocs.appspot.com/reference/android/content/Intent.html#ACTION_MAIN" target="_blank" rel="external">android.intent.action.MAIN</a></code></code>“ and “<code><code><a href="http://androidappdocs.appspot.com/reference/android/content/Intent.html#CATEGORY_LAUNCHER" target="_blank" rel="external">android.intent.category.LAUNCHER</a></code></code>“ flags, causing it to be represented in the application launcher, even though none of the filters on the target activity itself set these flags.With the exception of <code>targetActivity</code>, <code>&lt;activity-alias&gt;</code> attributes are a subset of <code><a href="http://androidappdocs.appspot.com/guide/topics/manifest/activity-element.html" target="_blank" rel="external">&lt;activity&gt;</a></code> attributes. For attributes in the subset, none of the values set for the target carry over to the alias. However, for attributes not in the subset, the values set for the target activity also apply to the alias.<span style="font-size: large;"><span style="font-size: small;">see <a href="http://androidappdocs.appspot.com/guide/topics/manifest/activity-alias-element.html" target="_blank" rel="external">http://androidappdocs.appspot.com/guide/topics/manifest/activity-alias-element.html</a><br></span></span><br><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDQrSDAoQ_avDrsMl"></a><br><div><br><div><span style="font-size: large;">BOLD fonts</span><br>We trying to use a regular font and use the font engine to extrapolate<br>that to BOLD format.   I just tried with free font DejaVuSans.Typeface regFace = Typeface.createFromAsset(getContext().getAssets(), “fonts/DejaVuSans.ttf”);<br>Typeface boldFace = Typeface.create(regFace, Typeface.BOLD);Now when we set the type face to this boldFace in the paint object<br>using setTypeface(boldFace);<br><br>When we draw the text,  we are expecting bold fonts.  What we see is<br>regular fonts.  Is this not the right usage ?<br><br>If I use a bold font file it works.  But If I use regular font file,<br>the font is not extrapolated to bold.   Our platform has requirement<br>not use different font files for bold and regular fonts (space<br>limitations).<br><br><span style="font-size: large;">Solution:</span><br>set FAKE_BOLD_TEXT_FLAG to the paint object.<br><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDQp2DQoQ3eXZrsMl"></a><br><div><br><div><br><br><span style="font-size: large;"><a href="http://hi.baidu.com/j_fo/blog/item/c4b92ff581a7d835bc31099e.html" target="_blank" rel="external">如何在onCreate时获取View的width和height</a></span><br><br>有时我们会遇到这样的情况，在onCreate时就需要获取View的宽度和高度。但是在View显示之前，<br>不论是getWidth(),getHeight()，还是getMeasuredWidth(),getMeasuredHeight()，都会返回0。<br><br>实际上我们可以主动调用一次measure函数，但是要注意传入的参数：<br>view.measure(MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED),<br>MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));<br><br>之后调用view.getMeasuredWidth()即可获得宽度，注意此时调用view.getWidth()还是返回0。<br><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDQjwDAoQp5mNjcEl"></a><br><div><br><div><br><br>First, JavaScript running inside the WebView can call out to code in your Activity. You can use this to have your JavaScript trigger actions like starting a new activity, or it can be used to fetch data from a database or <code><a href="file:///D:/Dropbox/reference/android/content/ContentProvider.html" target="_blank" rel="external">ContentProvider</a></code>. The API for this is very simple: just call the <code><a href="file:///D:/Dropbox/reference/android/webkit/WebView.html#addJavascriptInterface(java.lang.Object,%20java.lang.String)" target="_blank" rel="external">addJavascriptInterface()</a></code> method on your WebView. You pass an object whose methods you want to expose to JavaScript and the name to use when making calls. You can see the exact syntax in <a title="WebViewDemo.java" href="http://code.google.com/p/apps-for-android/source/browse/trunk/Samples/WebViewDemo/src/com/google/android/webviewdemo/WebViewDemo.java" target="_blank" rel="external">WebViewDemo. java</a>. Here we are making our DemoJavascriptInterface object available to JavaScript where it will be called “window.demo”.<br><br>Second, your Activity can invoke JavaScript methods. All you have to do is call the <code><a href="file:///D:/Dropbox/reference/android/webkit/WebView.html#loadUrl(java.lang.String)" target="_blank" rel="external">loadUrl</a></code> method with the appropriate JavaScript call:<br><br><code>mWebView.loadUrl(“javascript:wave()”);</code><br><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDRBXDQoQ7MDIjb8l"></a><br><div><br><div><br><br>context.getResources().getConfiguration().locale.getCountry();<br><div>返回如”CN”或”TW”</div><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDSaaDAoQqOWS6b4l"></a><br><div><br><div><b><span style="font-size: large;">DateFormat</span></b><br>DateFormat df = DateFormat.getDateInstance();<br>String formatDate = df.format(new Date());</div><br><div>标签： android-dev</div><br></div><br><a name="NDQIQDAoQj5yvm7ol"></a><br><div><br><div><br><br>&nbsp;<br><h3><a title="Permanent Link to Android屏幕截图之View方法" href="http://www.son1c.net/android_develop/1656.html" rel="external" target="_blank">Android屏幕截图之View方法</a></h3><br>&nbsp;<br><br>了解Linux的网友可能知道直接读取/dev/graphics/fb0即可来实现framebuffer，当然了对于自己的View实现一些绘图或子类化的技术时可以不用系统级这样的方法，我们可以通过<br><div><br><br><code>view.setDrawingCacheEnabled(true); //其中View是你需要截图的的View</code><br><br><code>Bitmap bm = view.getDrawingCache(); </code><br><br></div><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDRJ1DQoQjN6qiLol"></a><br><div><br><div><br><h3><a title="Permanent Link to 根据packageName构造Context" href="http://www.son1c.net/android_develop/103.html" rel="external" target="_blank">根据packageName构造Context</a></h3><br><div><br><br>   通常情况下获取当前应用的context的方法是getApplicationContext，但是通过根据其他的packageName如何构造Context呢? Android平台的应用实例其实还可以通过其他方式构造。比如代码<br><br>try {<br><br>Context ctx= createPackageContext(“com.android123.Cwj”, 0);<br>//ctx已经是com.android123.cwj的实例<br><br>} catch (NameNotFoundException e) {<br>//可能由于pacakgeName不存在所以必须处理该异常<br><br>}<br><br>需要注意的是，createPackageContext方法的第二个参数可选为CONTEXT_INCLUDE_CODE   和 CONTEXT_IGNORE_SECURITY ，定义分别为4和2，上面为0。一般忽略安全错误问题可以通过CONTEXT_IGNORE_SECURITY 标记，同时可能还需要处理 SecurityException 异常。<br><br></div><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDQEnDAoQoNbu2rkl"></a><br><div><br><div><br><div>android.os.SystemProperties.get( TelephonyProperties.PROPERTY_ICC_OPERATOR_NUMERIC, “”)</div><br><div></div><br><div>PROPERTY_ICC_OPERATOR<em>NUMERIC:</em></div><br><div>The <span style="color: #ff0000;">MCC+MNC</span> (<span style="color: #ff0000;">mobile country code+mobile network code</span>) of the provider of the SIM. 5 or 6 decimal digits. Availablity: SIM state must be “READY”</div><br></div><br><div>标签： android-dev</div><br></div><br>&lt;a name=”NDQIQDAoQ1Y-hbkl”&gt;<br><div><br><div><br><div>setLocationProvider</div><br><div>public static final void <span style="color: #ff0000;">setLocationProviderEnabled</span> (ContentResolver cr, String provider, boolean enabled)</div><br><div>eg:</div><br><div>android.provider.Settings.Secure.setLocationProviderEnabled(getContentResolver(), LocationManager.GPS_PROVIDER, true);</div><br><div></div><br><div><br><div>android.provider.Settings.Secure.<span style="color: #ff0000;">isLocationProviderEnabled</span>(res,</div><br><div>                LocationManager.GPS_PROVIDER);</div><br></div><br><div></div><br><div>获取Settings.System的</div><br><div><br><div>Settings.System.getString(context.getContentResolver(),</div><br><div>                Settings.System.AIRPLANE_MODE_RADIOS);</div><br></div><br><div></div><br><div><br><div>Settings.System.putInt(mContext.getContentResolver(), Settings.System.AIRPLANE_MODE_ON,</div><br><div>                                enabling ? 1 : 0);</div><br></div><br><div></div><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDR2oDAoQybPH27Al"></a><br><div><br><div><br><h3><a title="Permanent Link to inent调用代码总结，不断完善中" href="http://www.son1c.net/android_develop/1405.html" rel="external" target="_blank">inent调用代码总结，不断完善中</a></h3><br>显示Web网页:<br><br>1. Uri uri = Uri.parse(“<a href="http://www.android123.com.cn/" target="_blank" rel="external">http://www.android123.com.cn</a>“);<br>2. Intent it = new Intent(Intent.ACTION_VIEW,uri);<br>3. startActivity(it);<br><br>显示Google地图:<br><br>1. Uri uri = Uri.parse(“geo:38.899533,-77.036476”);<br>2. Intent it = new Intent(Intent.Action_VIEW,uri);<br>3. startActivity(it);<br><br>Maps路径规划:<br><br>1. Uri uri = Uri.parse(“<a href="http://maps.google.com/maps?f=d&amp;saddr=startLat%20startLng&amp;daddr=endLat%20endLng&amp;hl=en" target="_blank" rel="external">http://maps.google.com/maps?f=d&amp;saddr=startLat%20startLng&amp;daddr=endLat%20endLng&amp;hl=en</a>“);<br>2. Intent it = new Intent(Intent.ACTION_VIEW,URI);<br>3. startActivity(it);<br><br>拨打电话:<br><br>1. Uri uri = Uri.parse(“tel:xxxxxx”);<br>2. Intent it = new Intent(Intent.ACTION_DIAL, uri);<br>3. startActivity(it);<br><br>1. Uri uri = Uri.parse(“tel.xxxxxx”);<br>2. Intent it =new Intent(Intent.ACTION_CALL,uri);<br><br>注意需要权限 &lt;uses-permission id=”android.permission.CALL_PHONE” /&gt;<br><br>发送SMS/MMS<br><br>1. Intent it = new Intent(Intent.ACTION_VIEW);<br>2. it.putExtra(“sms_body”, “android开发网欢迎您”);<br>3. it.setType(“vnd.android-dir/mms-sms”);<br>4. startActivity(it);<br><br>发送短信<br><br>1. Uri uri = Uri.parse(“smsto:10086”);<br>2. Intent it = new Intent(Intent.ACTION_SENDTO, uri);<br>3. it.putExtra(“sms_body”, “10086”); //正文为10086<br>4. startActivity(it);<br><br>发送彩信<br><br>1. Uri uri = Uri.parse(“content://media/external/images/media/10”); //该Uri根据实际情况修改，external代表外部存储即sdcard<br>2. Intent it = new Intent(Intent.ACTION_SEND);<br>3. it.putExtra(“sms_body”, “<a href="http://android123.com.cn/" target="_blank" rel="external">android123.com.cn</a>“);<br>4. it.putExtra(Intent.EXTRA_STREAM, uri);<br>5. it.setType(“image/png”);<br>6. startActivity(it);<br><br>发送Email<br><br>2. Uri uri = Uri.parse(“<a href="http://www.android123.com.cn/androidkaifa/mailto:android123@163.com" target="_blank" rel="external">http://www.android123.com.cn/androidkaifa/mailto:android123@163.com</a>“);<br>3. Intent it = new Intent(Intent.ACTION_SENDTO, uri);<br>4. startActivity(it);<br><br>1. Intent it = new Intent(Intent.ACTION_SEND);<br>2. it.putExtra(Intent.EXTRA_EMAIL, “<a href="http://www.android123.com.cn/androidkaifa/mailto:android123@163.com" target="_blank" rel="external">android123@163.com</a>“);<br>3. it.putExtra(Intent.EXTRA_TEXT, “android开发网测试”);<br>4. it.setType(“text/plain”);<br>5. startActivity(Intent.createChooser(it, “选择一个Email客户端”));<br><br>1. Intent it=new Intent(Intent.ACTION_SEND);<br>2. String[] tos={“<a href="http://www.android123.com.cn/androidkaifa/mailto:android123@163.com" target="_blank" rel="external">android123@163.com</a>“};     //发送到<br>3. String[] ccs={“<a href="http://www.android123.com.cn/androidkaifa/mailto:ophone123@163.com" target="_blank" rel="external">ophone123@163.com</a>“};    //抄送<br>4. it.putExtra(Intent.EXTRA_EMAIL, tos);<br>5. it.putExtra(Intent.EXTRA_CC, ccs);<br>6. it.putExtra(Intent.EXTRA_TEXT, “正文”);<br>7. it.putExtra(Intent.EXTRA_SUBJECT, “标题”);<br>8. it.setType(“message/rfc822”);    //编码类型<br>9. startActivity(Intent.createChooser(it, “选择一个Email客户端”));<br><br>Email添加附件<br><br>1. Intent it = new Intent(Intent.ACTION_SEND);<br>2. it.putExtra(Intent.EXTRA_SUBJECT, “正文”);<br>3. it.putExtra(Intent.EXTRA_STREAM, “<a href="http://www.android123.com.cn/androidkaifa/file:///sdcard/nobody.mp3" target="_blank" rel="external">http://www.android123.com.cn/androidkaifa/file:///sdcard/nobody.mp3</a>“); //附件为sd卡上的nobody MP3文件<br>4. sendIntent.setType(“audio/mp3”);<br>5. startActivity(Intent.createChooser(it, “选择一个Email客户端”));<br><br>播放多媒体<br><br>1.<br>2. Intent it = new Intent(Intent.ACTION_VIEW);<br>3. Uri uri = Uri.parse(“<a href="http://www.android123.com.cn/androidkaifa/file:///sdcard/nobody.mp3" target="_blank" rel="external">http://www.android123.com.cn/androidkaifa/file:///sdcard/nobody.mp3</a>“);<br>4. it.setDataAndType(uri, “audio/mp3”);<br>5. startActivity(it);<br><br>1. Uri uri = Uri.withAppendedPath(MediaStore.Audio.Media.INTERNAL_CONTENT_URI, “1”); //从系统内部的MediaProvider索引中调用播放<br>2. Intent it = new Intent(Intent.ACTION_VIEW, uri);<br>3. startActivity(it);<br><br>Uninstall卸载程序<br><br>1. Uri uri = Uri.fromParts(“package”, packageName, null); //packageName为包名，比如com.android123.apkInstaller<br>2. Intent it = new Intent(Intent.ACTION_DELETE, uri);<br>3. startActivity(it);<br><br>Installer安装APK<br><br>这里安装APK文件的方法参考 <a href="http://www.android123.com.cn/kaifafaq/487.html" target="_blank" rel="external">http://www.android123.com.cn/kaifafaq/487.html</a> 一文里面包含两种方法<br><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDQN8DAoQstjtx7Al"></a><br><div><br><div><b><span style="font-size: large;">播放一个声音文件</span></b><br>// Play sound here<br>final AudioManager audioManager = (AudioManager) mContext<br>.getSystemService(Context.AUDIO_SERVICE);<br>AsyncPlayer player = new AsyncPlayer(TAG);<br>player.setUsesWakeLock(mContext);<br>if (audioManager.getStreamVolume(AudioManager.STREAM_NOTIFICATION) != 0) {<br>player.play(mContext, Uri.parse(BATTERYLOW_SOUND), false,<br>AudioManager.STREAM_NOTIFICATION);<br>}<br>// End play sound</div><br><div>标签： android-dev</div><br></div><br><a name="NDQ5XDQoQi4Plx7Al"></a><br><div><br><div><span style="font-size: large;"><b>显示系统电量使用情况</b></span><br>final Intent intent = new Intent(Intent.ACTION_POWER_USAGE_SUMMARY);<br>intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK<br>| Intent.FLAG_ACTIVITY_MULTIPLE_TASK<br>| Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS<br>| Intent.FLAG_ACTIVITY_NO_HISTORY);<br>if (intent.resolveActivity(getPackageManager()) != null) {<br>startActivity(intent);<br>}</div><br><div>标签： android-dev</div><br></div><br><a name="NDRJ1DQoQsLCM1a8l"></a><br><div><br><div><a href="http://groups.google.com.ni/group/android-developers/browse_thread/thread/b61a126495cfcddc/2456dda3bb289019?lnk=gst&amp;q=Activity+inside+a+view#2456dda3bb289019" target="_blank" rel="external"><span style="font-size: large;">Activity inside a view</span></a><br>&gt; Does anyone has a simple example of to use LocalActivityManager or<br>&gt; something else to meet my requirements.void createInnerActivity(ViewGroup container, Class&lt;?&gt; activityClass)<br>{<br>if (container.getChildCount() != 0) {<br>container.removeViewAt(0);<br>}final Intent intent = new Intent(this, activityClass);<br>final Window window = getLocalActivityManager().startActivity(activityClass.toString(), intent);<br>container.addView(window.getDecorView(), new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,<br>ViewGroup.LayoutParams.FILL_PARENT));<br>}<br><br>Above should be a method of activity that extends ActivityGroup,<br>passed container will host newly created activity.<br><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDQzdDAoQzpTo7sQl"></a><br><div><br><div><span style="font-size: large;">stopService()</span><br>Note that if a stopped service still has ServiceConnection objects bound to it with the BIND_AUTO_CREATE set, it will not be destroyed until all of these bindings are removed.</div><br><div>标签： android-dev</div><br></div><br><a name="NDQVhDAoQiu7p6q0l"></a><br><div><br><div><br><h3>Broadcast receiver lifecycle</h3><br>A broadcast receiver has single callback method:<br><br><code>void onReceive(Context <i>curContext</i>, Intent <i>broadcastMsg</i>)</code><br><br>When a broadcast message arrives for the receiver, Android calls its <code><code><a href="http://androidappdocs.appspot.com/reference/android/content/BroadcastReceiver.html#onReceive%28android.content.Context,%20android.content.Intent%29" target="_blank" rel="external">onReceive()</a></code></code> method and passes it the Intent object containing the message. The broadcast receiver is considered to be active only while it is executing this method. When <code>onReceive()</code> returns, it is inactive.<br><br>A process with an active broadcast receiver is protected from being killed. But a process with only inactive components can be killed by the system at any time, when the memory it consumes is needed by other processes.<br><br>This presents a problem when the response to a broadcast message is time consuming and, therefore, something that should be done in a separate thread, away from the main thread where other components of the user interface run. If <code>onReceive()</code> spawns the thread and then returns, the entire process, including the new thread, is judged to be inactive (unless other application components are active in the process), putting it in jeopardy of being killed. The solution to this problem is for <code>onReceive()</code> to start a service and let the service do the job, so the system knows that there is still active work being done in the process.<br><br>The next section has more on the vulnerability of processes to being killed.<br><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDRNLDQoQ-8jOma0l"></a><br><div><br><div><br><br>I wanted a developed a shared library(.so) with C++ code. The C++ code uses Run time polymorphism using the polymorphism using the virtual keyword. When I’m trying to compile my code, I get lot of undefined references ike “ to undefined reference to `vtable for Test::TestClass.”<br><br>RTTI is turned off for the platform code because it is not used and noticeably increases the code size<br><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDQYaDAoQv_zX4awl"></a><br><div><br><div><br><h4>public void startBluetoothSco ()</h4><br><div>Since: <a href="http://developer.android.com/guide/appendix/api-levels.html#level8" target="_blank" rel="external">API Level 8</a></div><br><div><br><div><br><br>Start bluetooth SCO audio connection.<br><br>Requires Permission: <code><a href="http://developer.android.com/reference/android/Manifest.permission.html#MODIFY_AUDIO_SETTINGS" target="_blank" rel="external">MODIFY_AUDIO_SETTINGS</a></code>.<br><br>This method can be used by applications wanting to send and received audio to/from a bluetooth SCO headset while the phone is not in call.<br><br>As the SCO connection establishment can take several seconds, applications should not rely on the connection to be available when the method returns but instead register to receive the intent <code><a href="http://developer.android.com/reference/android/media/AudioManager.html#ACTION_SCO_AUDIO_STATE_CHANGED" target="_blank" rel="external">ACTION_SCO_AUDIO_STATE_CHANGED</a></code> and wait for the state to be <code><a href="http://developer.android.com/reference/android/media/AudioManager.html#SCO_AUDIO_STATE_CONNECTED" target="_blank" rel="external">SCO_AUDIO_STATE_CONNECTED</a></code>.<br><br>As the connection is not guaranteed to succeed, applications must wait for this intent with a timeout.<br><br>When finished with the SCO connection or if the establishment times out, the application must call <code><a href="http://developer.android.com/reference/android/media/AudioManager.html#stopBluetoothSco%28%29" target="_blank" rel="external">stopBluetoothSco()</a></code> to clear the request and turn down the bluetooth connection.<br><br>Even if a SCO connection is established, the following restrictions apply on audio output streams so that they can be routed to SCO headset: - the stream type must be <code><a href="http://developer.android.com/reference/android/media/AudioManager.html#STREAM_VOICE_CALL" target="_blank" rel="external">STREAM_VOICE_CALL</a></code> - the format must be mono - the sampling must be 16kHz or 8kHz<br><br>The following restrictions apply on input streams: - the format must be mono - the sampling must be 8kHz<br><br>Note that the phone application always has the priority on the usage of the SCO connection for telephony. If this method is called while the phone is in call it will be ignored. Similarly, if a call is received or sent while an application is using the SCO connection, the connection will be lost for the application and NOT returned automatically when the call ends.<br><br></div><br><div><br><h5>See Also</h5><br><ul><br>    <li><code><a href="http://developer.android.com/reference/android/media/AudioManager.html#stopBluetoothSco%28%29" target="_blank" rel="external">stopBluetoothSco()</a></code></li><br>    <li><code><a href="http://developer.android.com/reference/android/media/AudioManager.html#ACTION_SCO_AUDIO_STATE_CHANGED" target="_blank" rel="external">ACTION_SCO_AUDIO_STATE_CHANGED</a></code></li><br></ul><br></div><br></div><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDQ0mDQoQzNG63Kwl"></a><br><div><br><div><dl><dt><span style="font-size: large;">requestFocus</span><br><code></code></dt><dt><code>&lt;requestFocus&gt;</code></dt><dd>Any element representing a <code><a href="http://developer.android.com/reference/android/view/View.html" target="_blank" rel="external">View</a></code> object can include this empty element, which gives it’s parent initial focus on the screen. You can have only one of these elements per file.</dd></dl>eg:<br><pre>&lt;?xml version=”1.0” encoding=”utf-8”?&gt;<br>&lt;<a href="http://developer.android.com/guide/topics/resources/layout-resource.html#viewgroup-element" target="_blank" rel="external"><i>ViewGroup</i></a> xmlns:android=”<a href="http://schemas.android.com/apk/res/android" target="_blank" rel="external">http://schemas.android.com/apk/res/android</a>“<br>    android:id=”@[+][<i>package</i>:]id/<i>resource_name</i>“<br>    android:layout_height=[“<i>dimension</i>“ | “fill_parent” | “wrap_content”]<br>    android:layout_width=[“<i>dimension</i>“ | “fill_parent” | “wrap_content”]<br>    [<i>ViewGroup-specific attributes</i>] &gt;<br>    &lt;<a href="http://developer.android.com/guide/topics/resources/layout-resource.html#view-element" target="_blank" rel="external"><i>View</i></a><br>        android:id=”@[+][<i>package</i>:]id/<i>resource_name</i>“<br>        android:layout_height=[“<i>dimension</i>“ | “fill_parent” | “wrap_content”]<br>        android:layout_width=[“<i>dimension</i>“ | “fill_parent” | “wrap_content”]<br>        [<i>View-specific attributes</i>] &gt;<br>        &lt;requestFocus/&gt;<br>    &lt;/<i>View</i>&gt;<br>    &lt;<a href="http://developer.android.com/guide/topics/resources/layout-resource.html#viewgroup-element" target="_blank" rel="external"><i>ViewGroup</i></a> &gt;<br>        &lt;<a href="http://developer.android.com/guide/topics/resources/layout-resource.html#view-element" target="_blank" rel="external"><i>View</i></a> /&gt;<br>    &lt;/<i>ViewGroup</i>&gt;<br>    &lt;<a href="http://developer.android.com/guide/topics/resources/layout-resource.html#include-element" target="_blank" rel="external">include</a> layout=”@layout/<i>layout_resource</i>“/&gt;<br>&lt;/<i>ViewGroup</i>&gt;</pre><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDQOuDQoQ75bm5Ksl"></a><br><div><br><div><span style="font-size: large;">FLAG_DIM_BEHIND</span>：everything behind this window will be dimmed.<br>dimAmount：amount of dimming to apply. Range is from 1.0 for completely opaque to 0.0 for no dim.params.<br>eg:<br>Dialog d = new …;<br>WindowManager.LayoutParams params = d.getWindow().getAttributes();<br>TypedArray a = d.getWindow().getWindowStyle();<br>params.dimAmount = a.getFloat(android.R.styleable.Window_backgroundDimAmount, 0.5f);<span style="font-size: large;">FLAG_BLUR_BEHIND</span></div><br><div>标签： android-dev</div><br></div><br><a name="NDRG8DAoQl-SRwasl"></a><br><div><br><div><br><div>frameworks下的activity的Manifest文件：</div><br><div>位置：frameworks/base/core/res/AndroidManifest.xml</div><br><div>被定义的activity有：frameworks/base/core/java/com/android/internal/app/{ResolverActivity.java, ChooserActivity.java}等等</div><br>AndroidManifest.xml中还定义了其他一些东西：<br><div>protected-broadcast：Special broadcasts that only the system can send</div><br><div></div><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDQcZDAoQiZnku6sl"></a><br><div><br><div><span style="font-size: large;">一些有关Intent异常的处理方法（no activity matches）</span><br>public static boolean isIntentAvailable(Context context, String action) {<br>final PackageManager packageManager = context.getPackageManager();<br>final Intent intent = new Intent(action);<br>List list = packageManager.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);<br>return list.size() &gt; 0;<br>}</div><br><div>标签： android-dev</div><br></div><br><a name="NDRNLDQoQkIvRu6sl"></a><br><div><br><div><br><h5><a href="http://www.cnblogs.com/jacktu/archive/2009/09/10/1564397.html" target="_blank" rel="external">android 用HttpURLConnection读网络</a></h5><br>String getURL = “<a href="http://g.cn/" target="_blank" rel="external">http://g.cn/</a>“;<br><br>HttpClient httpclient = new DefaultHttpClient();<br>HttpGet httpget = new HttpGet(getURL);<br>InputStream is = null;<br>try {<br>HttpResponse response;<br>response = httpclient.execute(httpget);<br>is = response.getEntity().getContent();<br><br>StringBuffer versionString = new StringBuffer();<br>InputStreamReader reader = new InputStreamReader(is);<br><br>char buffer[] = new char[256];<br>int count;<br>while ((count = reader.read(buffer, 0, buffer.length)) &gt; 0) {<br>versionString.append(buffer, 0, count);<br>}<br><br>return versionString.toString();<br>} catch (ClientProtocolException e) {<br>e.printStackTrace();<br>} catch (IOException e) {<br>e.printStackTrace();<br>if (e instanceof SocketException<br>|| e instanceof SocketTimeoutException) {<br>throw new SocketException(e.getMessage());<br>}<br>} finally {<br>}<br><br>————————————————————————————————<br><br>网络上很多关于HttpURLConnection的例子，<br><br>void getInput(){<br>try<br>{<br>URL url = new URL(“<a href="http://www.google.cn/" target="_blank" rel="external">http://www.google.cn/</a>“);<br>HttpURLConnection conn = (HttpURLConnection) url.openConnection();<br>conn.setDoInput(true);<br>conn.setConnectTimeout(10000);<br>conn.setRequestMethod(“GET”);<br>conn.setRequestProperty(“accept”, “/<em>“);<br>String location = conn.getRequestProperty(“location”);<br>int resCode = conn.getResponseCode();<br>conn.connect();<br>InputStream stream = conn.getInputStream();<br>byte[]  data=new byte[102400];<br>int length=stream.read(data);<br>String str=new String(data,0,length);<br>conn.disconnect();<br>System.out.println(str);<br>stream.close();<br>}<br>catch(Exception ee)<br>{<br>System.out.print(“ee:”+ee.getMessage());<br>}<br>}<br><br>只是要注意的是配置一个权限，AndroidManifest.xml 中应该加入如下节点。<br>&lt;/activity&gt;<br>&lt;/application&gt;<br>&lt;uses-permission android:name=”android.permission.INTERNET”&gt;&lt;/uses-permission&gt;<br>&lt;/manifest&gt;<br>可 以把AndroidManifest.xml open with manifest editor 来编辑 在permissions中add uses-permission，然后再在name中选择android.permission.INTERNET，然后save就ok了。<br><br></em></div><br><div>标签： android-dev</div><br></div><br><a name="NDRXUDAoQu-DZ6qol"></a><br><div><br><div>设置屏幕不被锁屏：<br>getWindow();addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);</div><br><div>标签： android-dev</div><br></div><br><a name="NDRNLDQoQu47szKol"></a><br><div><br><div>获取density DPI：<br>context.getResources().getDisplayMetrics().densityDpi;</div><br><div>标签： android-dev</div><br></div><br><a name="NDQEnDAoQgvXh7Kkl"></a><br><div><br><div>调用android中的cmds:<br>try {<br>String command = “chmod 777 “ + destFile.getAbsolutePath();<br>Log.i(“cmd”, “command = “ + command);<br>Runtime runtime = Runtime.getRuntime();<br>Process proc = runtime.exec(command);<br>proc.waitFor();     // Causes the calling thread to wait for the native process associated with this object to finish executing.<br>proc.destroy();     // Terminates this process and closes any associated streams.<br>} catch (IOException e) {<br>Log.i(“cmd”, “chmod fail!!!!”);<br>e.printStackTrace();<br>}</div><br><div>标签： android-dev</div><br></div><br><a name="NDQVhDAoQq6OVq6kl"></a><br><div><br><div>让屏幕不自动锁：<br>getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);</div><br><div>标签： android-dev</div><br></div><br><a name="NDRNLDQoQqLiMq6kl"></a><br><div><br><div>改变屏幕亮度：<br>Window w = getWindow();<br>WindowManager.LayoutParams lp = w.getAttributes();<br>lp.screenBrightness = [brightness value];<br>w.setAttributes(lp);</div><br><div>标签： android-dev</div><br></div><br><a name="NDQbdDAoQgbD0sJ4l"></a><br><div><br><div><br><pre>&lt;?xml version=”1.0” encoding=”utf-8”?&gt;<br>&lt;searchable xmlns:android=”<a href="http://schemas.android.com/apk/res/android" target="_blank" rel="external">http://schemas.android.com/apk/res/android</a>“<br>    android:label=”@string/search_label”<br>    android:hint=”@string/search_hint”<br>    android:voiceSearchMode=”showVoiceSearchButton|launchRecognizer” &gt;<br>&lt;/searchable&gt;</pre><br><pre>&lt;activity android:name=”.MySearchableActivity”<br>              android:launchMode=”<b>singleTop</b>“ &gt;<br>    &lt;intent-filter&gt;<br>        &lt;action android:name=”android.intent.action.SEARCH” /&gt;<br>    &lt;/intent-filter&gt;<br>    &lt;meta-data android:name=”android.app.searchable”<br>                      android:resource=”@xml/searchable”/&gt;<br>&lt;/activity&gt;</pre><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDQbVDAoQtJ7_qJ4l"></a><br><div><br><div><br><pre><strong><span style="font-size: large;">Extending BackupAgent</span><br><br>Caution:</strong> If your application data is saved to a file, make sure<br>that you use synchronized statements while accessing the file so that your backup agent does not<br>read the file while an Activity in your application is also writing the file.<br><br><span style="font-size: large;"><b>Extending BackupAgentHelper</b></span><br><br>public class MyPrefsBackupAgent extends BackupAgentHelper {<br>    // The name of the SharedPreferences file<br>    static final String PREFS = “user_preferences”;<br><br>    // A key to uniquely identify the set of backup data<br>    static final String PREFS_BACKUP_KEY = “prefs”;<br><br>    // Allocate a helper and add it to the backup agent<br>    void onCreate() {<br>        SharedPreferencesBackupHelper helper = new SharedPreferencesBackupHelper(this, PREFS);<br>        addHelper(PREFS_BACKUP_KEY, helper);<br>    }<br>}</pre><br><strong>Note:</strong> <code><a href="http://androidappdocs.appspot.com/reference/android/content/SharedPreferences.html" target="_blank" rel="external">SharedPreferences</a></code> are threadsafe, so you can safely read and write the shared preferences file from your backup agent and other activities.<br><pre>public class MyFileBackupAgent extends BackupAgentHelper {<br>    // The name of the SharedPreferences file<br>    static final String TOP_SCORES = “scores”;<br>    static final String PLAYER_STATS = “stats”;<br><br>    // A key to uniquely identify the set of backup data<br>    static final String FILES_BACKUP_KEY = “myfiles”;<br><br>    // Allocate a helper and add it to the backup agent<br>    void onCreate() {<br>        FileBackupHelper helper = new FileBackupHelper(this, TOP_SCORES, PLAYER_STATS);<br>        addHelper(FILES_BACKUP_KEY, helper);<br>    }<br>}</pre><br><b>Note</b>: reading and writing to files on internal storage is <strong>not threadsafe</strong>.<br><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDRTmDAoQk5rkpZ4l"></a><br><div><br><div><br><h2>Using Shared Preferences</h2><br><pre>public class Calc extends Activity {<br>    public static final String PREFS_NAME = “MyPrefsFile”;<br><br>    @Override<br>    protected void onCreate(Bundle state){<br>       super.onCreate(state);<br>       . . .<br><br>       // Restore preferences<br>       SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);<br>       boolean silent = settings.getBoolean(“silentMode”, false);<br>       setSilent(silent);<br>    }<br><br>    @Override<br>    protected void onStop(){<br>       super.onStop();<br><br>      // We need an Editor object to make preference changes.<br>      // All objects are from android.context.Context<br>      SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);<br>      SharedPreferences.Editor editor = settings.edit();<br>      editor.putBoolean(“silentMode”, mSilentMode);<br><br>      // Commit the edits!<br>      editor.commit();<br>    }<br>}</pre><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDRhlDAoQ9ZHepZ4l"></a><br><div><br><div><br><h2>Using the Internal Storage</h2><br>You can save files directly on the device’s internal storage. By default, files saved to the internal storage are private to your application and other applications cannot access them (nor can the user). When the user uninstalls your application, these files are removed.<br><pre>String FILENAME = “hello_file”;<br>String string = “hello world!”;<br><br>FileOutputStream fos = openFileOutput(FILENAME, Context.MODE_PRIVATE);<br>fos.write(string.getBytes());<br>fos.close();</pre><br><code></code><b>Tip:</b> If you want to save a static file in your application at compile time, save the file in your project <code>res/raw/</code> directory. You can open it with<code><a href="http://androidappdocs.appspot.com/reference/android/content/res/Resources.html#openRawResource%28int%29" target="_blank" rel="external">openRawResource()</a></code>, passing the <code>R.raw.<i>&lt;filename&gt;</i></code> resource ID. This method returns an <code><a href="http://androidappdocs.appspot.com/reference/java/io/InputStream.html" target="_blank" rel="external">InputStream</a></code> that you can use to read the file (but you cannot write to the original file).<br><br><span style="font-size: large;"><b>Funtion references</b></span><br>————————————-<br><h4>public abstract <a href="http://androidappdocs.appspot.com/reference/java/io/File.html" target="_blank" rel="external">File</a> getFilesDir ()</h4><br><div><br><br>Returns the absolute path to the directory on the filesystem where files created with <code><a href="http://androidappdocs.appspot.com/reference/android/content/Context.html#openFileOutput%28java.lang.String,%20int%29" target="_blank" rel="external">openFileOutput(String, int)</a></code> are stored.<br><br>&nbsp;<br><h4>public abstract <a href="http://androidappdocs.appspot.com/reference/java/lang/String.html" target="_blank" rel="external">String[]</a> fileList ()</h4><br><div><br><br>Returns an array of strings naming the private files associated with this Context’s application package.<br><br></div><br></div><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDQKIDAoQhrjRpp4l"></a><br><div><br><div><br><h3><span style="font-size: large;">Checking</span><span style="font-size: large;"> External Storage availability</span></h3><br><pre>boolean mExternalStorageAvailable = false;<br>boolean mExternalStorageWriteable = false;<br>String state = Environment.getExternalStorageState();<br><br>if (Environment.MEDIA_MOUNTED.equals(state)) {<br>    // We can read and write the media<br>    mExternalStorageAvailable = mExternalStorageWriteable = true;<br>} else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {<br>    // We can only read the media<br>    mExternalStorageAvailable = true;<br>    mExternalStorageWriteable = false;<br>} else {<br>    // Something else is wrong. It may be one of many other states, but all we need<br>    //  to know is we can neither read nor write<br>    mExternalStorageAvailable = mExternalStorageWriteable = false;<br>}</pre><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDQQDDQoQjYrupp4l"></a><br><div><br><div><br><h4><span style="font-size: large;">public static <a href="http://androidappdocs.appspot.com/reference/java/io/File.html" target="_blank" rel="external">File</a> </span><span style="font-size: large;">getExternalStoragePublicDirectory (<a href="http://androidappdocs.appspot.com/reference/java/lang/String.html" target="_blank" rel="external">String</a> type)</span></h4><br><div>Since: <a href="http://androidappdocs.appspot.com/guide/appendix/api-levels.html#level8" target="_blank" rel="external">API Level 8</a></div><br><div><br><div><br><br>Get a top-level public external storage directory for placing files of a particular type. This is where the user will typically place and manage their own files, so you should be careful about what you put here to ensure you don’t erase their files or get in the way of their own organization.<br><br>Here is an example of typical code to manipulate a picture on the public external storage:<br><pre>void createExternalStoragePublicPicture() {<br>    // Create a path where we will place our picture in the user’s<br>    // public pictures directory.  Note that you should be careful about<br>    // what you place here, since the user often manages these files.  For<br>    // pictures and other media owned by the application, consider<br>    // Context.getExternalMediaDir().<br>    File path = Environment.getExternalStoragePublicDirectory(<br>            Environment.DIRECTORY_PICTURES);<br>    File file = new File(path, “DemoPicture.jpg”);<br><br>    try {<br>        // Make sure the Pictures directory exists.<br>        path.mkdirs();<br><br>        // Very simple code to copy a picture from the application’s<br>        // resource into the external file.  Note that this code does<br>        // no error checking, and assumes the picture is small (does not<br>        // try to copy it in chunks).  Note that if external storage is<br>        // not currently mounted this will silently fail.<br>        InputStream is = getResources().openRawResource(R.drawable.balloons);<br>        OutputStream os = new FileOutputStream(file);<br>        byte[] data = new byte[is.available()];<br>        is.read(data);<br>        os.write(data);<br>        is.close();<br>        os.close();<br><br>        // Tell the media scanner about the new file so that it is<br>        // immediately available to the user.<br>        MediaScannerConnection.scanFile(this,<br>                new String[] { file.toString() }, null,<br>                new MediaScannerConnection.OnScanCompletedListener() {<br>            public void onScanCompleted(String path, Uri uri) {<br>                Log.i(“ExternalStorage”, “Scanned “ + path + “:”);<br>                Log.i(“ExternalStorage”, “-&gt; uri=” + uri);<br>            }<br>        });<br>    } catch (IOException e) {<br>        // Unable to create file, likely because external storage is<br>        // not currently mounted.<br>        Log.w(“ExternalStorage”, “Error writing “ + file, e);<br>    }<br>}<br><br>void deleteExternalStoragePublicPicture() {<br>    // Create a path where we will place our picture in the user’s<br>    // public pictures directory and delete the file.  If external<br>    // storage is not currently mounted this will fail.<br>    File path = Environment.getExternalStoragePublicDirectory(<br>            Environment.DIRECTORY_PICTURES);<br>    File file = new File(path, “DemoPicture.jpg”);<br>    file.delete();<br>}<br><br>boolean hasExternalStoragePublicPicture() {<br>    // Create a path where we will place our picture in the user’s<br>    // public pictures directory and check if the file exists.  If<br>    // external storage is not currently mounted this will think the<br>    // picture doesn’t exist.<br>    File path = Environment.getExternalStoragePublicDirectory(<br>            Environment.DIRECTORY_PICTURES);<br>    File file = new File(path, “DemoPicture.jpg”);<br>    return file.exists();<br>}</pre><br></div><br><div><br><h5>Parameters</h5><br><table><br><tbody><br><tr><br><th>type</th><br><td>The type of storage directory to return. Should be one of <code><a href="http://androidappdocs.appspot.com/reference/android/os/Environment.html#DIRECTORY_MUSIC" target="_blank" rel="external">DIRECTORY_MUSIC</a></code>, <code><a href="http://androidappdocs.appspot.com/reference/android/os/Environment.html#DIRECTORY_PODCASTS" target="_blank" rel="external">DIRECTORY_PODCASTS</a></code>, <code><a href="http://androidappdocs.appspot.com/reference/android/os/Environment.html#DIRECTORY_RINGTONES" target="_blank" rel="external">DIRECTORY_RINGTONES</a></code>, <code><a href="http://androidappdocs.appspot.com/reference/android/os/Environment.html#DIRECTORY_ALARMS" target="_blank" rel="external">DIRECTORY_ALARMS</a></code>, <code><a href="http://androidappdocs.appspot.com/reference/android/os/Environment.html#DIRECTORY_NOTIFICATIONS" target="_blank" rel="external">DIRECTORY_NOTIFICATIONS</a></code>,<code><a href="http://androidappdocs.appspot.com/reference/android/os/Environment.html#DIRECTORY_PICTURES" target="_blank" rel="external">DIRECTORY_PICTURES</a></code>, <code><a href="http://androidappdocs.appspot.com/reference/android/os/Environment.html#DIRECTORY_MOVIES" target="_blank" rel="external">DIRECTORY_MOVIES</a></code>, <code><a href="http://androidappdocs.appspot.com/reference/android/os/Environment.html#DIRECTORY_DOWNLOADS" target="_blank" rel="external">DIRECTORY_DOWNLOADS</a></code>, or <code><a href="http://androidappdocs.appspot.com/reference/android/os/Environment.html#DIRECTORY_DCIM" target="_blank" rel="external">DIRECTORY_DCIM</a></code>. May not be null.</td><br></tr><br></tbody><br></table><br></div><br><div><br><h5>Returns</h5><br><ul><br>    <li>Returns the File path for the directory. Note that this directory may not yet exist, so you must make sure it exists before using it such as with<code><a href="http://androidappdocs.appspot.com/reference/java/io/File.html#mkdirs%28%29" target="_blank" rel="external">File.mkdirs()</a></code>.</li><br></ul><br></div><br></div><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDQObDQoQjrH1pp4l"></a><br><div><br><div><br><h4>public static <a href="http://androidappdocs.appspot.com/reference/java/io/File.html" target="_blank" rel="external">File</a> getExternalStorageDirectory ()</h4><br><div>Since: <a href="http://androidappdocs.appspot.com/guide/appendix/api-levels.html#level1" target="_blank" rel="external">API Level 1</a></div><br>Gets the Android external storage directory.<br><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDRTmDAoQqZ6Cp54l"></a><br><div><br><div><br><div><br><h4><span style="font-size: large;">public abstract <a href="http://androidappdocs.appspot.com/reference/java/io/File.html" target="_blank" rel="external">File</a> </span><span style="font-size: large;">getExternalFilesDir (<a href="http://androidappdocs.appspot.com/reference/java/lang/String.html" target="_blank" rel="external">String</a> type)</span></h4><br><div>Since: <a href="http://androidappdocs.appspot.com/guide/appendix/api-levels.html#level8" target="_blank" rel="external">API Level 8</a></div><br><div><br><div><br><br>Returns the absolute path to the directory on the external filesystem (that is somewhere on <code><a href="http://androidappdocs.appspot.com/reference/android/os/Environment.html#getExternalStorageDirectory%28%29" target="_blank" rel="external">Environment.getExternalStorageDirectory()</a></code>) where the application can place persistent files it owns. These files are private to the applications, and not typically visible to the user as media.<br><br>This is like <code><a href="http://androidappdocs.appspot.com/reference/android/content/Context.html#getFilesDir%28%29" target="_blank" rel="external">getFilesDir()</a></code> in that these files will be deleted when the application is uninstalled, however there are some important differences:<br><ul><br>    <li>External files are not always available: they will disappear if the user mounts the external storage on a computer or removes it. See the APIs on<code><a href="http://androidappdocs.appspot.com/reference/android/os/Environment.html" target="_blank" rel="external">Environment</a></code> for information in the storage state.</li><br>    <li>There is no security enforced with these files. All applications can read and write files placed here.</li><br></ul><br>Here is an example of typical code to manipulate a file in an application’s private storage:<br><pre>void createExternalStoragePrivateFile() {<br>    // Create a path where we will place our private file on external<br>    // storage.<br>    File file = new File(getExternalFilesDir(null), “DemoFile.jpg”);<br><br>    try {<br>        // Very simple code to copy a picture from the application’s<br>        // resource into the external file.  Note that this code does<br>        // no error checking, and assumes the picture is small (does not<br>        // try to copy it in chunks).  Note that if external storage is<br>        // not currently mounted this will silently fail.<br>        InputStream is = getResources().openRawResource(R.drawable.balloons);<br>        OutputStream os = new FileOutputStream(file);<br>        byte[] data = new byte[is.available()];<br>        is.read(data);<br>        os.write(data);<br>        is.close();<br>        os.close();<br>    } catch (IOException e) {<br>        // Unable to create file, likely because external storage is<br>        // not currently mounted.<br>        Log.w(“ExternalStorage”, “Error writing “ + file, e);<br>    }<br>}<br><br>void deleteExternalStoragePrivateFile() {<br>    // Get path for the file on external storage.  If external<br>    // storage is not currently mounted this will fail.<br>    File file = new File(getExternalFilesDir(null), “DemoFile.jpg”);<br>    if (file != null) {<br>        file.delete();<br>    }<br>}<br><br>boolean hasExternalStoragePrivateFile() {<br>    // Get path for the file on external storage.  If external<br>    // storage is not currently mounted this will fail.<br>    File file = new File(getExternalFilesDir(null), “DemoFile.jpg”);<br>    if (file != null) {<br>        return file.exists();<br>    }<br>    return false;<br>}</pre><br>If you supply a non-null <var>type</var> to this function, the returned file will be a path to a sub-directory of the given type. Though these files are not automatically scanned by the media scanner, you can explicitly add them to the media database with <code><a href="http://androidappdocs.appspot.com/reference/android/media/MediaScannerConnection.html#scanFile%28android.content.Context,%20java.lang.String%5B%5D,%20java.lang.String%5B%5D,%20android.media.MediaScannerConnection.OnScanCompletedListener%29" target="_blank" rel="external">MediaScannerConnection.scanFile</a></code>. Note that this is not the same as <code><a href="http://androidappdocs.appspot.com/reference/android/os/Environment.html#getExternalStoragePublicDirectory%28java.lang.String%29" target="_blank" rel="external">Environment.getExternalStoragePublicDirectory()</a></code>, which provides directories of media shared by all applications. The directories returned here are owned by the application, and their contents will be removed when the application is uninstalled. Unlike <code><a href="http://androidappdocs.appspot.com/reference/android/os/Environment.html#getExternalStoragePublicDirectory%28java.lang.String%29" target="_blank" rel="external">Environment.getExternalStoragePublicDirectory()</a></code>, the directory returned here will be automatically created for you.<br><br>Here is an example of typical code to manipulate a picture in an application’s private storage and add it to the media database:<br><pre>void createExternalStoragePrivatePicture() {<br>    // Create a path where we will place our picture in our own private<br>    // pictures directory.  Note that we don’t really need to place a<br>    // picture in DIRECTORY_PICTURES, since the media scanner will see<br>    // all media in these directories; this may be useful with other<br>    // media types such as DIRECTORY_MUSIC however to help it classify<br>    // your media for display to the user.<br>    File path = getExternalFilesDir(Environment.DIRECTORY_PICTURES);<br>    File file = new File(path, “DemoPicture.jpg”);<br><br>    try {<br>        // Very simple code to copy a picture from the application’s<br>        // resource into the external file.  Note that this code does<br>        // no error checking, and assumes the picture is small (does not<br>        // try to copy it in chunks).  Note that if external storage is<br>        // not currently mounted this will silently fail.<br>        InputStream is = getResources().openRawResource(R.drawable.balloons);<br>        OutputStream os = new FileOutputStream(file);<br>        byte[] data = new byte[is.available()];<br>        is.read(data);<br>        os.write(data);<br>        is.close();<br>        os.close();<br><br>        // Tell the media scanner about the new file so that it is<br>        // immediately available to the user.<br>        MediaScannerConnection.scanFile(this,<br>                new String[] { file.toString() }, null,<br>                new MediaScannerConnection.OnScanCompletedListener() {<br>            public void onScanCompleted(String path, Uri uri) {<br>                Log.i(“ExternalStorage”, “Scanned “ + path + “:”);<br>                Log.i(“ExternalStorage”, “-&gt; uri=” + uri);<br>            }<br>        });<br>    } catch (IOException e) {<br>        // Unable to create file, likely because external storage is<br>        // not currently mounted.<br>        Log.w(“ExternalStorage”, “Error writing “ + file, e);<br>    }<br>}<br><br>void deleteExternalStoragePrivatePicture() {<br>    // Create a path where we will place our picture in the user’s<br>    // public pictures directory and delete the file.  If external<br>    // storage is not currently mounted this will fail.<br>    File path = getExternalFilesDir(Environment.DIRECTORY_PICTURES);<br>    if (path != null) {<br>        File file = new File(path, “DemoPicture.jpg”);<br>        file.delete();<br>    }<br>}<br><br>boolean hasExternalStoragePrivatePicture() {<br>    // Create a path where we will place our picture in the user’s<br>    // public pictures directory and check if the file exists.  If<br>    // external storage is not currently mounted this will think the<br>    // picture doesn’t exist.<br>    File path = getExternalFilesDir(Environment.DIRECTORY_PICTURES);<br>    if (path != null) {<br>        File file = new File(path, “DemoPicture.jpg”);<br>        return file.exists();<br>    }<br>    return false;<br>}</pre><br></div><br><div><br><h5>Parameters</h5><br><table><br><tbody><br><tr><br><th>type</th><br><td>The type of files directory to return. May be null for the root of the files directory or one of the following Environment constants for a subdirectory: <code><a href="http://androidappdocs.appspot.com/reference/android/os/Environment.html#DIRECTORY_MUSIC" target="_blank" rel="external">DIRECTORY_MUSIC</a></code>, <code><a href="http://androidappdocs.appspot.com/reference/android/os/Environment.html#DIRECTORY_PODCASTS" target="_blank" rel="external">DIRECTORY_PODCASTS</a></code>, <code><a href="http://androidappdocs.appspot.com/reference/android/os/Environment.html#DIRECTORY_RINGTONES" target="_blank" rel="external">DIRECTORY_RINGTONES</a></code>, <code><a href="http://androidappdocs.appspot.com/reference/android/os/Environment.html#DIRECTORY_ALARMS" target="_blank" rel="external">DIRECTORY_ALARMS</a></code>, <code><a href="http://androidappdocs.appspot.com/reference/android/os/Environment.html#DIRECTORY_NOTIFICATIONS" target="_blank" rel="external">DIRECTORY_NOTIFICATIONS</a></code>, <code><a href="http://androidappdocs.appspot.com/reference/android/os/Environment.html#DIRECTORY_PICTURES" target="_blank" rel="external">DIRECTORY_PICTURES</a></code>, or <code><a href="http://androidappdocs.appspot.com/reference/android/os/Environment.html#DIRECTORY_MOVIES" target="_blank" rel="external">DIRECTORY_MOVIES</a></code>.</td><br></tr><br></tbody><br></table><br></div><br><div><br><h5>Returns</h5><br><ul><br>    <li>Returns the path of the directory holding application files on external storage. Returns null if external storage is not currently mounted so it could not ensure the path exists; you will need to call this method again when it is available.</li><br></ul><br></div><br><div><br><h5>See Also</h5><br><ul><br>    <li><code><a href="http://androidappdocs.appspot.com/reference/android/content/Context.html#getFilesDir%28%29" target="_blank" rel="external">getFilesDir()</a></code></li><br>    <li><code><a href="http://androidappdocs.appspot.com/reference/android/os/Environment.html#getExternalStoragePublicDirectory%28java.lang.String%29" target="_blank" rel="external">getExternalStoragePublicDirectory(String)</a></code></li><br></ul><br></div><br></div><br></div><br><h4>getExternalCacheDir () …    Since: <a href="http://androidappdocs.appspot.com/guide/appendix/api-levels.html#level8" target="_blank" rel="external">API Level 8</a></h4><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDQ9SDQoQ9qLOp54l"></a><br><div><br><div><br><div><br><h4>Hiding your files from the Media Scanner</h4><br>Include an empty file named <code>.nomedia</code> in your external files directory (note the dot prefix in the filename). This will prevent Android’s media scanner from reading your media files and including them in apps like Gallery or Music.<br><br></div><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDQbdDAoQ1Kz2pZ4l"></a><br><div><br><div><br><h3>Saving cache files</h3><br>If you’d like to cache some data, rather than store it persistently, you should use <code><a href="http://androidappdocs.appspot.com/reference/android/content/Context.html#getCacheDir%28%29" target="_blank" rel="external">getCacheDir()</a></code> to open a <code><a href="http://androidappdocs.appspot.com/reference/java/io/File.html" target="_blank" rel="external">File</a></code> that represents the internal directory where your application should save temporary cache files.<br><br>When the device is low on internal storage space, Android may delete these cache files to recover space. However, you should not rely on the system to clean up these files for you. You should always maintain the cache files yourself and stay within a reasonable limit of space consumed, such as 1MB. When the user uninstalls your application, these files are removed.<br><h4>public abstract <a href="http://androidappdocs.appspot.com/reference/java/io/File.html" target="_blank" rel="external">File</a> getCacheDir ()</h4><br>Returns the absolute path to the application specific cache directory on the filesystem.<br><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDSONDAoQwaqqupwl"></a><br><div><br><div><br><h5>Behind the JAVA process</h5><br>system_server is a special case. It calls ActivityThread.java’s systemMain static function, which creates an instance of ActivityThread. ActivityThread then creates an instance of ApplicationThread, Application and ApplicationContext.<br><br>Every other JAVA process works in a different way. It’s controlled by system_server while forked by zygote. When any JAVA process other than system_server is forked from zygote, it automatically calls ActivityThread.java’s main static function(See Process.java and the following code snippet).<br><br><em>try {</em><br><br><em>ZygoteInit.invokeStaticMain(cloader, className, mainArgs);</em><br><br><em>} catch (RuntimeException ex) {</em><br><br><em>logAndPrintError (newStderr, “Error starting. “, ex);</em><br><br><em>}</em><br><br>The ActivityThread.java’s main function creates an instance of ActivityThread. ActivityThread then creates an instance of ApplicationThread. The ApplicationThread will work as an IBinder object to interact with ActivityManagerService in system_server. The new process does nothting at this time other than waiting IPC call from system_server. The Application and ApplicationContext object won’t be created at this time. Actually it’s deferred to when the process really works, eg. start an activity, receive intent or start a service.<br><br>For example, when start an activity, ActivityManagerService know which process the to-be-launched activity should run in, so it will RPC call ApplicationThread’s scheduleLaunchActivity to launch a new activity in that process. ApplicationThread then post a message to let ActivityThread know it needs to start an activity. ActivityThread then creates Application and ApplicationContext object. After that, it calls Instrumentation, then Instrumentation finally calls JAVA dalvik VM to really create an activity JAVA object.<br><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDQn7DAoQzsKAi5gl"></a><br><div><br><div><br><div>save to bytearray</div><br><div></div><br><div>           Bitmap bitmap = Bitmap.createBitmap((int) cell.getWidth(), (int) cell.getHeight(),</div><br><div>                   Bitmap.Config.ARGB_8888);</div><br><div>           Canvas c = new Canvas(bitmap);</div><br><div>           cell.dispatchDraw(c);</div><br><div>           // bubbleTextview line 123</div><br><div>           int size = bitmap.getWidth()  bitmap.getHeight() <em> 4;</em></div><br><div>           ByteArrayOutputStream ostream = new ByteArrayOutputStream(size);</div><br><div>           bitmap.compress(Bitmap.CompressFormat.PNG, 100, ostream);</div><br><div>           bitmap.recycle();</div><br><div>           byte[] savedBitmap = ostream.toByteArray();</div><br><div></div><br><div>decode from bytearray</div><br><div></div><br><div>           mCacheBitmap = BitmapFactory.decodeByteArray(bitmapByte, 0, bitmapByte.length);</div><br><div></div><br><div>           if (mCacheBitmap != null) {</div><br><div>               mCacheBitmap.recycle();</div><br><div>               mCacheBitmap = null;</div><br><div>           }</div><br><div></div><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDRTmDAoQreTQipgl"></a><br><div><br><div><br><div><br><h1>Full Screen Dialog:</h1><br></div><br>dialog.getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);<br><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDQtjDQoQnd73socl"></a><br><div><br><div><b><span style="font-size: large;">query</span></b><br>resolver.query(uri, projection, selection, selectionArgs, sortOrder);<br>selection的where语句可以是：<br>MediaStore.Audio.Media._ID + “ IN ( 1, 2, 3, 4 ) “</div><br><div>标签： android-dev</div><br></div><br><a name="NDQXeDAoQ5KXs4YYl"></a><br><div><br><div><br><br>大家一定和我一样，有Bitmap exceeds VM budget的痛苦。借由明礼提供的工具，<wbr>找到一个在创建bitmap时，节省内存(<wbr>至少在我这边是节省了)的方法。<br><br>在ImageView类中，<wbr>尽量不要使用setImageBitmap或setImageR<wbr>esource或BitmapFactory.<wbr>decodeResource来设置一张大图，<wbr>因为这些函数在完成decode后，<wbr>最终都是通过java层的createBitmap来完成的，<wbr>需要消耗更多内存。<br><br>因此，改用先通过BitmapFactory.<wbr>decodeStream方法，创建出一个bitmap，<wbr>再将其设为ImageView的source，<wbr>decodeStream最大的秘密在于其直接调用 native code – nativeDecodeAsset()来完成decode，<wbr>无需再使用java层的createBitmap，<wbr>从而节省了java层的空间，请参考附件中的函数调用图。<br><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDSGPDAoQg6ngyIYl"></a><br><div><br><div><br><br><b><span style="font-size: large;">AsyncTask</span></b><br><ul><br>    <li>onPreExecute() 当任务执行之前开始调用此方法，可以在这里显示进度对话框。</li><br>    <li>doInBackground(Params…) 此方法在后台线程执行，完成任务的主要工作，通常需要较长的时间。在执行过程中可以调用publicProgress(Progress…)来更新任务的进度。</li><br>    <li>onProgressUpdate(Progress…) 此方法在主线程执行，用于显示任务执行的进度。</li><br>    <li>onPostExecute(Result) 此方法在主线程执行，任务执行的结果作为此方法的参数返回。</li><br></ul><br>举个简单的例子如下：<br>// 设置三种类型参数分别为String,Integer,String<br>class PageTask extends AsyncTask {<br>// 可变长的输入参数，与AsyncTask.exucute()对应<br>@Override<br>protected String doInBackground(String… params) {<br>try {<br>HttpClient client = new DefaultHttpClient();<br>// params[0]代表连接的url<br>HttpGet get = new HttpGet(params[0]);<br>HttpResponse response = client.execute(get);<br>HttpEntity entity = response.getEntity();<br>long length = entity.getContentLength();<br>InputStream is = entity.getContent();<br>String s = null;<br>if (is != null) {<br>ByteArrayOutputStream baos = new ByteArrayOutputStream();<br>byte[] buf = new byte[128];<br>int ch = -1;<br>int count = 0;<br>while ((ch = is.read(buf)) != -1) {<br>baos.write(buf, 0, ch);<br>count += ch;<br>if (length &gt; 0) {<br>// 如果知道响应的长度，调用publishProgress（）更新进度<br>publishProgress((int) ((count / (float) length)  100));<br>}<br>// 为了在模拟器中清楚地看到进度，让线程休眠100ms<br>Thread.sleep(100);<br>}<br>s = new String(baos.toByteArray()); }<br>// 返回结果<br>return s;<br>} catch (Exception e) {<br>e.printStackTrace();<br>}<br>return null;<br>}<br>@Override<br>protected void onCancelled() {<br>super.onCancelled();<br>}<br>@Override<br>protected void onPostExecute(String result) {<br>// 返回HTML页面的内容<br>message.setText(result);<br>}<br>@Override<br>protected void onPreExecute() {<br>// 任务启动，可以在这里显示一个对话框，这里简单处理<br>message.setText(R.string.task_started);<br>}<br>@Override<br>protected void onProgressUpdate(Integer… values) {<br>// 更新进度<br>message.setText(values[0]);<br>}<br>}<br>执行PageTask非常简单，只需要调用如下代码。<br>PageTask task = new PageTask();<br>task.execute(url.getText().toString());<br><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDRukDAoQ54uwvoYl"></a><br><div><br><div><br><pre><span style="font-size: large;"><b>Use the Custom Component</b></span><br><br>&lt;view<br>  class=”com.android.notepad.NoteEditor$MyEditText”<br>  id=”@+id/note”<br>  android:layout_width=”fill_parent”<br>  android:layout_height=”fill_parent”<br>  android:background=”@android:drawable/empty”<br>  android:padding=”10dip”<br>  android:scrollbars=”vertical”<br>  android:fadingEdge=”vertical” /&gt;</pre><br>——————————–   or (if not inner class) ———————————<br><pre>&lt;com.android.notepad.MyEditText<br>  id=”@+id/note”<br>  … /&gt;</pre><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDRqnDAoQzbSLvoYl"></a><br><div><br><div><br><br><b><span style="font-size: large;">UI Events</span></b><br><ul><br>    <li><code><code><a href="file:///home/jfo/work/android-sdk-linux_86/docs/reference/android/app/Activity.html#dispatchTouchEvent%28android.view.MotionEvent%29" target="_blank" rel="external">Activity.dispatchTouchEvent(MotionEvent)</a></code></code> - This allows your <code><a href="file:///home/jfo/work/android-sdk-linux_86/docs/reference/android/app/Activity.html" target="_blank" rel="external">Activity</a></code> to intercept all touch events before they are dispatched to the window.</li><br>    <li><code><code><a href="file:///home/jfo/work/android-sdk-linux_86/docs/reference/android/view/ViewGroup.html#onInterceptTouchEvent%28android.view.MotionEvent%29" target="_blank" rel="external">ViewGroup.onInterceptTouchEvent(MotionEvent)</a></code></code> - This allows a <code><a href="file:///home/jfo/work/android-sdk-linux_86/docs/reference/android/view/ViewGroup.html" target="_blank" rel="external">ViewGroup</a></code> to watch events as they are dispatched to child Views.</li><br>    <li><code><code><a href="file:///home/jfo/work/android-sdk-linux_86/docs/reference/android/view/ViewParent.html#requestDisallowInterceptTouchEvent%28boolean%29" target="_blank" rel="external">ViewParent.requestDisallowInterceptTouchEvent(boolean)</a></code></code> - Call this upon a parent View to indicate that it should not intercept touch events with<code><code><a href="file:///home/jfo/work/android-sdk-linux_86/docs/reference/android/view/ViewGroup.html#onInterceptTouchEvent%28android.view.MotionEvent%29" target="_blank" rel="external">onInterceptTouchEvent(MotionEvent)</a></code></code>.</li><br></ul><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDRpFDQoQpNKUkYYl"></a><br><div><br><div><br><h2>Displaying a Progress Bar</h2><br>An activity can display a progress bar to notify the user that something is happening. To display a progress bar in a screen, call<code><a href="file:///home/jfo/work/android-sdk-linux_86/docs/reference/android/app/Activity.html#requestWindowFeature%28int%29" target="_blank" rel="external">Activity.requestWindowFeature(Window.FEATURE_PROGRESS)</a></code>. To set the value of the progress bar, call <code><a href="file:///home/jfo/work/android-sdk-linux_86/docs/reference/android/view/Window.html#setFeatureInt%28int,%20int%29" target="_blank" rel="external">Activity.getWindow().setFeatureInt(Window.FEATURE_PROGRESS, <em>level</em>)</a></code>. Progress bar values are from 0 to 9,999, or set the value to 10,000 to make the progress bar invisible.<br><br>You can also use the <code><a href="file:///home/jfo/work/android-sdk-linux_86/docs/reference/android/app/ProgressDialog.html" target="_blank" rel="external">ProgressDialog</a></code> class, which enables a dialog box with an embedded progress bar to send a “I’m working on it” notification to the user.<br><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDRPVDAoQ9tiXjoYl"></a><br><div><br><div>我自己总结一下吧：<br>方法一：直接给activity要adapter<br>ListAdapter listAdapter = activity.getListAdapter();<br>获得的数据不是用户从界面更改后的，而是你最开始设置的初始数据<br>方法二：获取ListView listView = activity.getListView();<br>然后<br>for(int i=0;i&lt;listView.getChildCount();i++){<br>View view = listView.getChildAt(i);<br>。。。。<br>获取的数据仅仅是当前界面上的，不是全部<br>方法三：先获取ListView listView = activity.getListView();<br>然后获取：<br>ListAdapter listAdapter = listView.getAdapter();<br>for(int l=0;l&lt;listAdapter.getCount();l++){<br>View view = listAdapter.getView(l, null, null);<br>。。。。<br>这样就可以获取全部数据，并且是最新数据</div><br><div>标签： android-dev</div><br></div><br><a name="NDQtjDQoQ3N2B9oUl"></a><br><div><br><div>read the file：<br>If the table entry is a <code>content:</code> URI, do not open and read the file directly (for one thing, permissions problems can make this fail), call<code><code><a href="file:///E:/work/android-sdk-windows/docs/reference/android/content/ContentResolver.html#openInputStream%28android.net.Uri%29" target="_blank" rel="external">ContentResolver.openInputStream()</a></code></code> to get an <code><a href="file:///E:/work/android-sdk-windows/docs/reference/java/io/InputStream.html" target="_blank" rel="external">InputStream</a></code> object that you can use to read the data.</div><br><div>标签： android-dev</div><br></div><br><a name="NDRMZDAoQmrbv9YUl"></a><br><div><br><div><code><br>managedQuery()</code> causes the activity to manage the life cycle of the Cursor. A managed Cursor handles all of the niceties, such as unloading itself when the activity pauses, and requerying itself when the activity restarts. You can ask an Activity to begin managing an unmanaged Cursor object for you by calling<code><code><a href="file:///E:/work/android-sdk-windows/docs/reference/android/app/Activity.html#startManagingCursor%28android.database.Cursor%29" target="_blank" rel="external">Activity.startManagingCursor()</a></code></code>.</div><br><div>标签： android-dev</div><br></div><br><a name="NDRqnDAoQnu_H9YUl"></a><br><div><br><div><br><br>The Activity class also provides an API for managing internal persistent state associated with an activity. This can be used, for example, to remember the user’s preferred initial display in a calendar (day view or week view) or the user’s default home page in a web browser.<br><br>Activity persistent state is managed with the method <code><a href="file:///E:/work/android-sdk-windows/docs/reference/android/app/Activity.html#getPreferences%28int%29" target="_blank" rel="external">getPreferences(int)</a></code>, allowing you to retrieve and modify a set of name/value pairs associated with the activity. To use preferences that are shared across multiple application components (activities, receivers, services, providers), you can use the underlying <code><a href="file:///E:/work/android-sdk-windows/docs/reference/android/content/Context.html#getSharedPreferences%28java.lang.String,%20int%29" target="_blank" rel="external">Context.getSharedPreferences()</a></code> method to retrieve a preferences object stored under a specific name. (Note that it is not possible to share settings data across application packages – for that you will need a content provider.) 【Content providers store and retrieve data and make it accessible to all applications. They’re the only way to share data across applications; 】<br><br>Here is an excerpt from a calendar activity that stores the user’s preferred view mode in its persistent settings:<br><pre> public class CalendarActivity extends Activity {<br>     …<br><br>     static final int DAY_VIEW_MODE = 0;<br>     static final int WEEK_VIEW_MODE = 1;<br><br>     private SharedPreferences mPrefs;<br>     private int mCurViewMode;<br><br>     protected void onCreate(Bundle savedInstanceState) {<br>         super.onCreate(savedInstanceState);<br><br>         SharedPreferences mPrefs = getSharedPreferences();<br>         mCurViewMode = mPrefs.getInt(“view_mode” DAY_VIEW_MODE);<br>     }<br><br>     protected void onPause() {<br>         super.onPause();<br><br>         SharedPreferences.Editor ed = mPrefs.edit();<br>         ed.putInt(“view_mode”, mCurViewMode);<br>         ed.commit();<br>     }<br> }</pre><br><a name="Permissions"></a><br><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDRqnDAoQtMmt9YUl"></a><br><div><br><div><br><h3>Configuration Changes</h3><br>Unless you specify otherwise, a configuration change (such as a change in screen orientation, language, input devices, etc) will cause your current activity to be <em>destroyed</em>, going through the normal activity lifecycle process of <code><a href="file:///E:/work/android-sdk-windows/docs/reference/android/app/Activity.html#onPause%28%29" target="_blank" rel="external">onPause()</a></code>, <code><a href="file:///E:/work/android-sdk-windows/docs/reference/android/app/Activity.html#onStop%28%29" target="_blank" rel="external">onStop()</a></code>, and <code><a href="file:///E:/work/android-sdk-windows/docs/reference/android/app/Activity.html#onDestroy%28%29" target="_blank" rel="external">onDestroy()</a></code> as appropriate. If the activity had been in the foreground or visible to the user, once <code><a href="file:///E:/work/android-sdk-windows/docs/reference/android/app/Activity.html#onDestroy%28%29" target="_blank" rel="external">onDestroy()</a></code> is called in that instance then a new instance of the activity will be created, with whatever savedInstanceState the previous instance had generated from <code><a href="file:///E:/work/android-sdk-windows/docs/reference/android/app/Activity.html#onSaveInstanceState%28android.os.Bundle%29" target="_blank" rel="external">onSaveInstanceState(Bundle)</a></code>.<br><br>This is done because any application resource, including layout files, can change based on any configuration value. Thus the only safe way to handle a configuration change is to re-retrieve all resources, including layouts, drawables, and strings. Because activities must already know how to save their state and re-create themselves from that state, this is a convenient way to have an activity restart itself with a new configuration.<br>In some special cases, you may want to bypass restarting of your activity based on one or more types of configuration changes. This is done with the<code><a href="file:///E:/work/android-sdk-windows/docs/reference/android/R.attr.html#configChanges" target="_blank" rel="external">android:configChanges</a></code> attribute in its manifest. For any types of configuration changes you say that you handle there, you will receive a call to your current activity’s <code><a href="file:///E:/work/android-sdk-windows/docs/reference/android/app/Activity.html#onConfigurationChanged%28android.content.res.Configuration%29" target="_blank" rel="external">onConfigurationChanged(Configuration)</a></code> method instead of being restarted. If a configuration change involves any that you do not handle, however, the activity will still be restarted and <code><a href="file:///E:/work/android-sdk-windows/docs/reference/android/app/Activity.html#onConfigurationChanged%28android.content.res.Configuration%29" target="_blank" rel="external">onConfigurationChanged(Configuration)</a></code> will not be called.<br><br><a name="StartingActivities"></a><br><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDRmlDAoQo43b9IUl"></a><br><div><br><div><br><h3>Set the theme from the application(注意事项)</h3><br>If using the <code><a href="file:///E:/work/android-sdk-windows/docs/reference/android/view/ContextThemeWrapper.html#setTheme%28int%29" target="_blank" rel="external">setTheme()</a></code> method to load a theme for an Activity programmatically, you must be sure to set the theme <i>before</i> instantiating any Views in the context, for example, before calling <code>setContentView(View)</code> or <code>inflate(int, ViewGroup)</code>. This ensures that the system applies the same theme for all of your UI screens.<br><pre>If you are considering loading a theme programmatically for the main<br>screen of your application, note that the theme would not be applied<br>in any animations the system would use to start the activity, which<br>would take place before your application opens. In most cases, if<br>you want to apply a theme to your main screen, doing so in XML<br> is a better approach.</pre><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDQXeDAoQoJ659IUl"></a><br><div><br><div><span style="font-size: large;">(@) and (?)</span><br>(@): The at-symbol indicates that we’re referencing a resource previously defined elsewhere;<br>(?):The question-mark indicates that we’re referencing a resource value in the currently loaded theme.</div><br><div>标签： android-dev</div><br></div><br><a name="NDRqnDAoQ6rjs-oQl"></a><br><div><br><div>If a user later returns to an application that’s been killed, Android needs a way to re-launch it in the same state as it was last seen, to preserve the “all applications are running all of the time” experience. This is done by keeping track of the parts of the application the user is aware of (the Activities), and re-starting them with information about the last state they were seen in. This last state is generated each time the user leaves that part of the application, not when it is killed, so that the kernel can later freely kill it without depending on the application to respond correctly at that point.</div><br><div>标签： android-dev</div><br></div><br><a name="NDSJZDAoQ6MC_04Ql"></a><br><div><br><div><br><h2>Activities and Tasks</h2><br>To the user, it will seem as if the map viewer is part of the same application as your activity, even though it’s defined in another application and runs in that application’s process. Android maintains this user experience by keeping both activities in the same <i>task</i>. Simply put, a task is what the user experiences as an “application.” It’s a group of related activities, arranged in a stack.<br><br>Note that when a new instance of an Activity is created to handle a new intent, the user can always press the BACK key to return to the previous state (to the previous activity). But when an existing instance of an Activity handles a new intent, the user cannot press the BACK key to return to what that instance was doing before the new intent arrived.<br><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDRmlDAoQvOe504Ql"></a><br><div><br><div>a “<code>singleTask</code>“ activity may or may not have other activities above it in the stack. If it does, it is not in position to handle the intent, and the intent is dropped. (Even though the intent is dropped, its arrival would have caused the task to come to the foreground, where it would remain.)</div><br><div>标签： android-dev</div><br></div><br><a name="NDQRtDAoQh6ai0oQl"></a><br><div><br><div><br><h2>Activities and Tasks</h2><br>Atask is what the user experiences as an “application.” It’s a group of related activities, arranged in a stack. The root activity in the stack is the one that began the task — typically, it’s an activity the user selected in the application launcher. The activity at the top of the stack is one that’s currently running — the one that is the focus for user actions. When one activity starts another, the new activity is pushed on the stack; it becomes the running activity. The previous activity remains in the stack. When the user presses the BACK key, the current activity is popped from the stack, and the previous one resumes as the running activity.<br><br>The association of activities with tasks, and the behavior of an activity within a task, is controlled by the interaction between flags set in the Intent object that started the activity and attributes set in the activity’s <code><a href="file:///E:/work/android-sdk-windows/docs/guide/topics/manifest/activity-element.html" target="_blank" rel="external">&lt;activity&gt;</a></code> element in the manifest. Both requester and respondent have a say in what happens.<br><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDSGPDAoQoKCN0oQl"></a><br><div><br><div><span style="font-size: large;"><code>android.intent.action.MAIN</code> / <code>android.intent.category.LAUNCHER</code></span><br>the action “<code>android.intent.action.MAIN</code>“ and the category “<code>android.intent.category.LAUNCHER</code>“ — is a common one. It marks the activity as one that should be represented in the application launcher, the screen listing applications users can launch on the device. In other words, the activity is the entry point for the application, the initial one users would see when they choose the application in the launcher.</div><br><div>标签： android-dev</div><br></div><br><a name="NDQS7DAoQ0vj60YQl"></a><br><div><br><div><span style="font-size: large;">RegisterReceiver()</span><br>broadcast receivers can either be declared in the manifest, or they can be created dynamically in code (as <code><a href="file:///E:/work/android-sdk-windows/docs/reference/android/content/BroadcastReceiver.html" target="_blank" rel="external">BroadcastReceiver</a></code> objects) and registered with the system by calling <code><code><a href="file:///E:/work/android-sdk-windows/docs/reference/android/content/Context.html#registerReceiver%28android.content.BroadcastReceiver,%20android.content.IntentFilter%29" target="_blank" rel="external">Context.registerReceiver()</a></code></code>.For a broadcast receiver that’s created and registered in code, the intent filter is instantiated directly as an <code><a href="file:///E:/work/android-sdk-windows/docs/reference/android/content/IntentFilter.html" target="_blank" rel="external">IntentFilter</a></code> object. All other filters are set up in the manifest.</div><br><div>标签： android-dev</div><br></div><br><a name="NDRmlDAoQ1oPY0YQl"></a><br><div><br><div><br><h4>public void startActivityForResult (<a href="file:///E:/work/android-sdk-windows/docs/reference/android/content/Intent.html" target="_blank" rel="external">Intent</a> intent, int requestCode)</h4><br>Using a negative requestCode is the same as calling <code><a href="file:///E:/work/android-sdk-windows/docs/reference/android/app/Activity.html#startActivity%28android.content.Intent%29" target="_blank" rel="external">startActivity(Intent)</a></code> (the activity is not launched as a sub-activity).<br>Note that this method should only be used with Intent protocols that are defined to return a result. In other protocols (such as <code><a href="file:///E:/work/android-sdk-windows/docs/reference/android/content/Intent.html#ACTION_MAIN" target="_blank" rel="external">ACTION_MAIN</a></code> or <code><a href="file:///E:/work/android-sdk-windows/docs/reference/android/content/Intent.html#ACTION_VIEW" target="_blank" rel="external">ACTION_VIEW</a></code>), you may not get the result when you expect. For example, if the activity you are launching uses the singleTask launch mode, it will not run in your task and thus you will immediately receive a cancel result.<br>As a special case, if you call startActivityForResult() with a requestCode &gt;= 0 during the initial onCreate(Bundle savedInstanceState)/onResume() of your activity, then your window will not be displayed until a result is returned back from the started activity. This is to avoid visible flickering when redirecting to another activity.<br><br></div><br><div>标签： android-dev</div><br></div><br><a name="NDQ6YDAoQxaeCj-sk"></a><br><div><br><div><br><br>A Context is a handle to the system; it provides services like resolving resources, obtaining access to databases and preferences, and so on. The Activity class inherits from Context.<br><br></div><br><div>标签： android-dev</div><br><div></div><br><div></div><br><div>PDF下载地址：<a href="http://blog.pickbox.me/?attachment_id=594">http://blog.pickbox.me/?attachment_id=594</a></div><br></div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/06/05/android-dev笔记from-google-notes/" class="archive-article-date">
+  	<time datetime="2013-06-05T08:22:43.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-06-05</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-【zz】一位清华妈妈的教育方法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/06/03/【zz】一位清华妈妈的教育方法/">【zz】一位清华妈妈的教育方法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p align="left"><b>家庭作业几件事：</b></p><br><p align="left">1、放学后做作业：规定时间，到时间就不准他做了。他说家庭作业做不完，明天会被老师罚的，但我告诉他，什么时间做什么事，不能挪用。第二天他一大早起来做，我同样不准，让他哭着上学。这以后，一直到高中毕业，<b>都是以先完成作业为首任。</b></p><br><p align="left">2、老师布置家庭作业要求家长检查签字：<b>让小孩自己检查，检查好拿来我签个字就行。</b>签字时询问：你检查后都没错了吧，他确定说没错，你就签字。你明明看到有错的题，也不要给他指出来，让他明天的作业本有一个红叉。面对这一情况，你只要说一声昨天为什么没检查出来即可，不要太严厉，不要让小孩有担心你打他的时候，一切以讲理为主，这样他下次检查就会认真很多。</p><br><p align="left">在一年级家长就要和小孩好好谈心，让他明白学习是为自己人生打基础的阶段，<b>学习不是为家长学习，跟家长没关系，家长有家长的责任</b>；让小孩自己检查是尽量让他管理自己，<b>让他学会对自己的人生负责。</b>如家长签字后第二天小孩回家说，看嘛，有道题错了都没检查出来，家长就无言以对了。</p><br><p align="left">3、关于听写：<b>我解决的方式是请他用默写的方式来完成。</b>我说你能想到所学的所有生字而默写出来，那不是证明你很棒！他把语文书拿来放在我面前，我说把书拿走，妈妈相信你不会看。</p><br><p align="left">4、老师告状及罚作业（关于批评）：我儿子在小学一年级时也被罚过。我接他放学，等他做完被罚的作业，同时听老师数落儿子上课如何不认真、如何跟同学发生事情等等。回到家后仔细问情况，是同学不对的，就不批评他；是自己的问题，也都轻言细语给他讲怎么样注意及改正。有一点很重要，家长要用道理解除他有可能对老师产生的负面情绪。<b>打击小孩自信心的主要是家长和老师。如果小孩在学校挨骂了，当晚当妈妈的要把事情了解清楚，化解小孩的情绪，修补他的自信心。人的一生自信心很重要。</b></p><br><p align="left"><b>关于吃饭：</b></p><br><p align="left">1、吃饭少关系不大，不追着他，不吃就算了，一碗是基本量。不要求吃太饱，七分饱，够身体消耗能量就好。这样大脑皮层沟壑多，利于记忆等。</p><br><p align="left">2、尽量培养孩子少吃肉、多吃蔬菜水果（能坚持最好），不要让身体积累脂肪、影响大脑。一定要把零食取了，用水果代替，每天必须吃苹果和香蕉，这两样都跟智力有关并有安神作用。</p><br><p align="left">我一个医生朋友曾告诉我，千万不要强迫小孩子吃饭。小孩子是有几个生长发育期的，特别是青春期，饭量自然会增。如早早打开胃口，到发育期时他的饭量就过了，到青春期时你让他少吃点都不行。</p><br><p align="left"><b>早期教育真的很重要：</b></p><br><p align="left">1、我从小孩能说话开始，做什么事都会征求他的意见。做错什么事（包括打烂东西），让他讲事情前后经过，为什么会发生，我不会骂他、也不会打他；讲完后指出问题所在和改正方法，说以后注意点。</p><br><p align="left">2、注意力不集中，是否晚上睡眠不好？是否吃太饱？是否听不懂课？找出原因，针对原因找出解决问题的方法，不能一味骂小孩。</p><br><p align="left">3、要给他时间玩，动手本身也等于动脑。家长同小孩制定好课后到睡眠的时间表，<b>一切按作息表。</b></p><br><p align="left">4、曾看过一帖关于小孩子的教育，跟大家交流下：</p><br><p align="left">第一，进行早期教育，注重开发思维智力，不强迫他学什么。</p><br><p align="left">第二，善待一切生命，教他学会换位思考，已不悦不强加于人。</p><br><p align="left">第三，教他在做人做事时以水为榜样，遇事以柔克刚，遇困难绕道前行。</p><br><p align="left">5、培养孩子的心量：我告诉他，别人没有义务对你好。人心是不平的，如大地有高山、河谷、平原一般。别人对你好，你就该对他充满感激之心；没对你好，那是他的处事行为，也是正常的。万事万物没有绝对的公平。心量越大，所能获取的能量越大，不要求而自得更多。心量和慈悲心很重要，对孩子以后的人生和境遇差异有决定性的作用。</p><br><p align="left"><b>小孩子的教育从</b><b>0</b><b>岁开始：</b></p><br><p align="left">一、 孕前父母的作为：</p><br><p align="left">首先人的健康体质是弱碱性，父母双方要调理好身体，抽烟喝酒最好不要，饭食尽量偏疏菜水果，男方每天补充点维E，女方每天补充点叶酸。肉食类是酸性食品，尽量减量。将身体调整3个月后顺其自然要孩子，这样做是保证孩子有个健康体质，生下来后少生病，带起来轻松。</p><br><p align="left">二、怀孕后：</p><br><p align="left">1、在母体内的胎教很重要。每天抽点时间静静看书、听音乐，内心不急不躁，总之要心情放松。</p><br><p align="left">2、在吃的方面：不要吃肥肉、饼干等甜食，尽量不要让胎儿在母体内长得太大。在怀孕期间（5个月后）能碰上昙花开放，将昙花用来蒸蛋吃，多多益善。其余饮食的注意事项一般人都懂的。</p><br><p align="left">尽量不要买活物来吃，要吃三净肉：不是点杀、不是为你杀、没有看到杀。比如鱼是死一小时后它的蛋白质人体才容易吸收，并不是杀活鱼来吃才叫味鲜，那只是一种饮食习惯。尽量买现成的，不要让家里的厨房变为冤魂聚集的场所。这样做也是为了小孩能顺产，并身体健食。</p><br><p align="left">三、生下小孩后，对大脑发育的内容：</p><br><p align="left">1、母乳喂养很重要，是最好最安全的食品。保证孩子健康，又降低母亲在40多岁后患乳腺癌的机率。刚生下小孩子，有可能发生乳腺体不通的情况，一定要弄通。不能为了所谓的身材而不给小孩子喂奶。</p><br><p align="left">2、我是在小孩子20多天后开始的早期教育。在孩子醒时，我会让小孩的小手抚摸手边的各种物品。众所周知，小孩子从出生后到1岁大脑是飞速发育的；在1-3岁又是一个阶段，在这个人生最重要的阶段，是最需要妈妈们付出心力的时候。</p><br><p align="left">半岁以前就让他小手抚摸并讲解，这是什么物品、有什么用处，记着从0-3岁都不要跟小娃说“车车、饭饭“等，要直接说是汽车或吉普车、拖拉机或稀饭、馒头等，这样小孩会吸收大量词汇。</p><br><p align="left">小孩10来个月时睡眠时间不是很长，醒的时间多些，可以去找整套的“什万个为什么？各类百科知识全书，365夜等”有图和文字的书。手指图里的要件用图下的文字给小孩讲，刺激小孩大脑皮层发育。</p><br><p align="left">到一定时候，当你再拿这书给他讲时，他会伸手翻下一页，那说明他对这一页有印象，想要新鲜的了。如我们带小孩到大自然中（我是每周星期天都带小孩去公园，有山有水的环境），各类植物、枝叶、小草、小蚂蚁、小蜗牛等都是让小孩观察的最好道具。</p><br><p align="left">以上是说让小孩通过手接触世界，其余时间在大人无空闲时，就给小孩放讲故事的磁带或画面很美、又比较炫的动画片，对小孩的形象思维很好。与此同时，淘一点有字幕的如弟子规、国学方面浅显的东西，每天放给孩子看，这样他无形中会接触到很多词汇。如小时思维刺激得好，那他所看到的字、词慢慢就会搬家，无形中就会应用到其他地方。</p><br><p align="left">睡前听讲故事磁带，白天安排放有字幕的碟，讲百科知识图册（书店种类很多）、成语故事书。以上刺激孩子的左脑及形象思维，接下来就是针对孩子的右脑进行开发。右脑是左手的功能，每天抽一点空闲同小孩玩游戏，用左手抛小球、用左手接等，你心里大概给他规定个数，完成就做其他的了。</p><br><p align="left">另补充一个锻炼大脑的：画图画，我们不要求小孩画得很象实物。只要能用手去勾画线条就对大脑有作用。最怕不懂教育小孩的说小孩画的车怎么不象呢？此时你要纠正说那是宝宝画的变形汽车。在0-3岁的教育中，用鼓励不能用打击的方式，不是要求他把实物画得多相似，而是锻炼大脑皮层的沟纵。</p><br><p align="left">大脑开发到一定程度，小孩子的求知欲望就比较强烈，大人该做的是满足他，找各种书给他看。</p><br><p align="left"><b>关于分数：</b></p><br><p align="left">考试多少分不过多发表意见，我的原则是学习是他自己的事。<b>我只告诉他把卷子上错的题分析原因</b>，是不懂还是粗心，自我修正就好。也不会问他这分数在班上排第几名（一直到高中毕业都是如此）。</p><br><p align="left">数学总会写错很简单的题，大人小孩都会很后悔地说，“好可惜！如果细心点数学就是满分了”我也曾遇到这种情况，看到99分的卷子，就想怎样才能让他不粗心大意、不马大哈呢？大概在三年级时，机会是在别人的惨痛中到来，有个单位修住宅，修到一半时房子倒塌了。我带他到现场进行机会教育，从力学等方法讲，由于计算上的一点误差会造成基脚支撑房子有差异，计算少了的那个点会下沉；从建筑材料上来讲，水泥少个标号、钢筋小一点、砖瓦质量次一点，那整个房子就是危房了。为了他有个深刻的认识，我说如果就因你计算上的粗心大意造成别人的死亡（那事故死亡6人），人命怎么样来赔？上千万的经济损失怎么样来赔？从高考满分来说，这个机会教育成功了。<br><br></p><br><p align="left"><b>案例：</b>你好，我把我8岁三年级儿子的几个特点写出来，请帮我分析一下，能否有改进方法？</p><br><p align="left"><b>缺点：</b></p><br><p align="left">1、注意力不集中。老师反映他上课容易走神，总是似听非听的样子，但让他回答问题又能准确回答，不肯配合，哪怕他都会也不愿举手。</p><br><p align="left">2、作业拖拉，贪玩。每天的课堂作业都要拖到放学前甚至放学后留在办公室做完，几乎每天都这样，但回家做又很迅速（做完有电视看，能出去玩）。他的动作也慢，每一个分解动作都充满拖拉现象。</p><br><p align="left">3、心智发育太晚，俗称没心眼儿。你批评他、表扬他，他都若无其事，也不放在心上。班主任反映教书6年，没碰到这么难搞的学生。</p><br><p align="left"><b>优点：</b></p><br><p align="left">1、成绩很好，特别是英语和数学，语文有时候因慢的原因经常来不及完成卷子，碰到大考我要不停地叮嘱一个星期，威逼利诱，他才能放心上，考出来的分数也很高。老师也总结：慢，准确率很高。</p><br><p align="left">2、喜欢手工，画画、橡皮泥、折纸、拼装玩具。</p><br><p align="left">3、爱阅读，记忆力强，只要你读过的字他看了都能记住，幼儿园时（没学拼音）就能独立看大量的书阅读量和2年级的小朋友差不多。</p><br><p align="left"><b>互动交流：</b></p><br><p align="left">凡事慢半拍，本身没什么问题，表明你儿子内心是平静的。为这点你可列举一些因慢一点而造成危害的事刺激他，如遇危重病人需及时抢救，如果就因为你慢的那3分钟而错过抢救最佳时间，那逝去的生命你能赔吗？就因为你慢的那3分钟而错过上车（比喻各种人生机遇），与自己的精彩人生擦肩而过，会给自己留下很多悔恨。要做到快与慢自己能掌控。</p><br><p align="left">你要问清楚课堂作业时间不做作业，他在做什么及为什么，你根据他的回答再想怎么处理。你给他讲课堂作业率先完成，看着同学还在做，自己内心应比较有优越感，很开心，要不你试一试？让他先找一个同学为目标，老师一布置作业看谁先完成。刚开始他的速度可能还赶不上别人，你让他记录看经过几次能赶上，如赶上了你要奖励他（但不能先许）。</p><br><p align="left">你说的缺点1是正常的，根据你说的优点3，他吸收知识的能力很强，不懂的老师一点就通了，有新的知识点时他才可能抬眼看老师。我也遇到这样的情况，回到家我曾问过他，我说看到其他同学都能认真听课，为什么你在埋头玩自己的铅笔、不认真看着老师上课呢？他回答我：上课是听老师讲又不是看老师讲。我认为不论是怎么样的形式，只要他能听懂就好，以后我就这点上没批评过他。</p><br><p align="left">你说的缺点3根据你说的三项优点，你儿子不会是心智发育晚，不和人计较、不会看老师脸色，不是没心眼，恰恰说明你儿子心胸开阔、不玩心机，好难能可贵！他的心是打开的，也就是开了心窍的，这是很多家长求不来的。你批评他什么呢？不过是迎合世俗观点罢了！道法自然，你可不要过多打压。</p><br><p align="left"><b>建议：</b></p><br><p align="left">1、对成绩好与不好的同学一视同仁。遇到任何同学有不懂的问到他，一定尽自己知道的全力给同学讲解。舍得舍得，有舍才有得，这是心量。心量越大，得到才越多。要让你儿子看每一位同学都很顺眼，那他就没什么烦恼，这是很开心的状态。现在有一种现象，怕把自己懂的告诉同学，怕同学会超越自己，心就不是开而是关，这是让自己的路越走越窄。</p><br><p align="left">2、一定要尊敬师长。老师不论是不是在批评你，出发点都和妈妈一样，都是为了你成为对社会有用的人。人的一生要报的恩里就有师长之恩。</p><br><p align="left">一节课完全专注听讲是不可能的，如果听懂了就会放松。课上经常与同座讲话，你先问她是谁引起的。如是同学，你不要批评她；如果是她先找同学说话，你就当天的话题问她说的是什么。是和上课学习有关的也没啥，无关的就要给她指出来做错了。</p><br><p align="left">有三种严重错误：①上课说话是对老师的不尊重。②老师为了班上60多名学生能掌握知识，很辛苦地讲解；而你和同桌讲话，没认真听课，老师讲的内容你没有听到，又辜负老师辛勤的劳动。③影响同学听课，你有什么权利去影响别人认真学习呢？你为什么不下课后才去问同学而让自己背上过错呢？讲完后请她端个小板凳去面壁思过，仔细想一想妈咪批评的对不对。你该怎样当好一个学生？以后上课该怎样做才对？想清楚了来告诉妈咪。</p><br><p align="left">3、家长和学生有说老师教得不好的现象。我这样教育儿子：不是老师教的问题，只是老师那种教学方法不适应你而已。全班有60-70人，老师不是面对你个体，不可能只照顾到你一个人。只有你调整自己，找出原因，去适应老师的方法。这说的是德的培养，会受用终身。</p><br><p align="left">4、关于超前看书，当妈的要学习水的精神，遇困难绕着前行。</p><br><p align="left">你把儿子抱在怀里（让他感觉到话题有份量），语重心长给他讲现实社会的大环境，就业形势严峻，工作爸爸妈咪也没能力给你找，以后找工作全靠你自己。工作有很多种，工作环境差异也很大，如…（你给他举例）将来你要想有好的工作、生活，完全取决于你现在中学阶段认真努力的程度。在你这一生中，要想长大过你理想的生活，宝贝就要珍惜你现在短短的三年初中。初一，你刚熟悉；转眼你就初二了，等你认真学点知识时；一晃就是初三了，时间过去再也不会回来只能成追忆了。（高中同理）</p><br><p align="left">你现在要语气温柔地给儿子讲，课本里的知识，所有的同学都在学，大家知道的相差不多，如果自己知道的知识比别的同学多，你内心会特别自豪；同时，你班上的同学也会很羡慕你，那时同学才来追赶你，就追不上了。你比别的同学知道的知识多，你学习起来就很轻松，你说妈妈说的对不对？在这一点上你要想办法激起他的自大心和自信心。你要注意，只能这样绕着讲，不能直接喊他看书学习。</p><br><p align="left">另外说一说语文，但又最没办法说。除了上课认真、搞懂那几种作文类型、多阅读书籍外，我也说不上来。最后，你如果把上面说的123落实好，让他发挥主观能动性，所谓的学习任务重就轻松过关了。</p><br><p align="left">你可以给你儿子增加一种杂志《科幻世界》，有一部份物理原理，天方夜谭、天马行空的想象可以打开他的思维，我从我儿子5岁订到高中毕业。不知道你给你儿子订书的情况，我每年有7本左右。有一位特级教师曾告诉我，一本杂志里有一个知识点被孩子吸收，那订这本书就值得了。顺其自然，放松为主，开心、健康就好！这是人生比较好的状态，但一般人做不到，你要学习良好的心态。杂志：《科幻世界》、《奥秘》、《读者》、《青年文摘》、小哥白尼系列的《趣味科学》、《军事世界》</p><br><p align="left">5、关于不懂就要问。</p><br><p align="left">上初、高中后，这句话真的很重要，不能堆积问题。当天学的知识要搞懂，这样学起来没负担；如果有不懂的不及时处理，堆多了会占用更多时间，还人累心累。你和同学所学的都一样，以后大家拉开成绩差距，就看谁能做到有不懂的就及时问老师。老师最喜欢学生上课有没听懂的下课后去问老师或同学。</p><br><p align="left">6、青春期。</p><br><p align="left">你儿子上初一，已进入青春期。当你发现和他说话他开始不耐烦时，就不能在他面前罗嗦，不要强行让他做什么，你要以他的意愿为主，尊重他对问题的取舍。这时候小孩最容易逆反大人的想法，如果大人太强势，小孩就会顶撞，就形成小孩说话很伤人的习惯。在我儿子青春期时，每晚啥时间睡觉，我们都不知道，都是我们先睡，也不主动找他说话，各人做各人的事。等到初二下学期时，儿子主动来和我们谈话，说游戏，说学校里的事，我们就知道儿子顺利度过了青春期。</p><br><p align="left">    左手抛接物和玩纸牌——训练右脑、瞬间集中注意力、快速反映能力。两副纸牌：每次抽2张出来，在他面前快速晃过，让他加出那2张牌的数。每天练一次，训练两个月后他的速度跟上也很快后，你每天就一次加法、一次减法。不要老叫他学习学习，只要同他一起训练。</p><br><p align="left">原文：<a href="http://www.qhdjyw.com/Article.asp?table=Garden&amp;id=17" target="_blank">http://www.qhdjyw.com/Article.asp?table=Garden&amp;id=17</a></p>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/06/03/【zz】一位清华妈妈的教育方法/" class="archive-article-date">
+  	<time datetime="2013-06-03T07:46:59.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-06-03</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/教育/">教育</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-【zz】禁用wordpress评论的HTML标记" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/05/31/【zz】禁用wordpress评论的HTML标记/">【zz】禁用wordpress评论的HTML标记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>wordpress默认的评论可以包括各种HTML标记语言，如超链接、加粗加斜、表单等等，这是一个不错的支持功能，但又是一个很坏的支持功能，很多时候出于安全考虑及避免被垃圾评论干扰，我们就很有必要禁止评论中的html标记。</p>
+<p>解决方法：<a href="http://codex.wordpress.org.cn/%E4%BD%BF%E7%94%A8WordPress%E7%9A%84%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98#.E6.80.8E.E6.A0.B7.E9.98.BB.E6.AD.A2.E5.85.B6.E4.BB.96.E4.BA.BA.E5.9C.A8.E8.AF.84.E8.AE.BA.E4.B8.AD.E4.BD.BF.E7.94.A8HTML.EF.BC.9F" target="_blank">可参考wordpress官方文档</a></p>
+<p><strong>如果想禁用评论中的所有HTML代码</strong></p>
+<p>打开博客当前使用的主题目录下的functions.php，在将第一个 &lt;?php 替换成：</p>
+<p><pre title="">&lt;?php<br>function  comment_code_filter($incoming_comment) {<br>    $incoming_comment = htmlspecialchars($incoming_comment,ENT_QUOTES);<br>    return $incoming_comment;<br>}<br>add_filter( ‘comment_text’,’comment_code_filter’);<br>add_filter( ‘comment_text_rss’,’comment_code_filter’);</pre><br>关于<a href="http://cn.php.net/htmlspecialchars" target="_blank">htmlspecialchars</a>函数可以查看php文档，或者在此查看<a href="http://www.w3school.com.cn/php/func_string_htmlspecialchars.asp" target="_blank">htmlspecialchars() 函数说明</a>。 以上方法是将评论内容中的代码转义，这样浏览器就不解释这部分代码了，代码也不会起任何作用，但可以直接看到评论中的代码。这么改的好处是可以在评论中展示代码，如果你希望去除所有代码标签，只留下文字内容，请将以上代码改成如下：</p>
+<p><pre title="">&lt;?php<br>function comment_code_filter($incoming_comment) {<br>$incoming_comment = strip_tags($incoming_comment);<br>return $incoming_comment;<br>}<br>add_filter( ‘comment_text’,’comment_code_filter’);<br>add_filter( ‘comment_text_rss’,’comment_code_filter’);</pre><br>关于<a href="http://cn.php.net/strip_tags" target="_blank">strip_tags</a>函数同样可以自己去查看PHP文档，或者在此<a href="http://www.w3school.com.cn/php/func_string_strip_tags.asp" target="_blank">查看strip_tags()函数说明</a>。</p>
+<p>保存文件后，你就可以看到效果了，这个可以参看本站！</p>
+<p><strong>如果想允许部分HTML</strong></p>
+<p><blockquote>可以在<strong>wp-includes</strong>文件夹下的<strong>kses.php</strong>文件中设置是否可以在评论中使用HTML标签。</blockquote></p>
+<p>在文本编辑器中打开<strong>kses.php</strong>文件，找到文件最上方的HTML标签列表。每个HTML标签都单独成行，构成一个合法标签的PHP数组。以tt///tt开始的标签行或被标注或被禁用，因此这些标签实际上指明了评论中不允许出现的HTML标签。</p>
+<p>为了阻止人们在评论中使用HTML，可编辑<strong>kses.php</strong>文件，在列表相应标签行的开始部分添加tt///tt，使之按自己的意志<strong>接收</strong>或禁止特定HTML标签。如果不希望任何HTML标签出现在评论中，可标注所有允许HTML标签的标签行。完成修改时记住保存文件。<br>注意：不标注HTML标签，直接删除自己不需要的标签行也可以达到同样的效果，但删除前可保留标签列表以便将来再次激活。<br>&nbsp;</p>
+<p>原文参考：<a href="http://blog.cx125.com/disable-wordpress-comments-html/" target="_blank">http://blog.cx125.com/disable-wordpress-comments-html/</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/05/31/【zz】禁用wordpress评论的HTML标记/" class="archive-article-date">
+  	<time datetime="2013-05-31T15:11:08.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-05-31</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/wordpress/">wordpress</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-《牧羊少年奇幻之旅》摘录" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/05/25/《牧羊少年奇幻之旅》摘录/">《牧羊少年奇幻之旅》摘录</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>摘录了几段文字</p>
+<p><blockquote>天命就是你一直期望去做的事情。人一旦步入青年时期，就知道什么是自已的天命了。在人生的这个阶段， 一切都那么明朗，没有做不到的事情。人们敢于梦想，期 侍完成他们一生中喜欢做的一切事情。但是，随着时光 的流逝，一股神秘的力量开始企图证明，根本不可能实现天命。</blockquote><br>对神秘的力量的解释：</p>
+<p><blockquote>那是表面看来有害无益的力量，但实际上它却在教 你如何完成自己的天命，培养你的精神和毅力。因为在 这个星球上，存在一个伟人的真理：不论你是谁，不论 你做什么，当你渴望得到某种东西时，最终一定能够得 到，因为这愿望来自宇宙的灵魂。那就是你在世间的使命。</blockquote><br>&nbsp;</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/05/25/《牧羊少年奇幻之旅》摘录/" class="archive-article-date">
+  	<time datetime="2013-05-25T15:14:23.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-05-25</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/reading/">reading</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-记录一下从百度hi迁移博客过程" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/05/21/记录一下从百度hi迁移博客过程/">记录一下从百度hi迁移博客过程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>其实去年12月份就开始迁移了，最早从baidu hi导出的博客文章的时间是20121208，从那时就已经完成了博客导出工作。<br>中间在github上搭建了一个博客，纯静态页面+js动态加载文章数据，可以看看效果：<a href="http://jfojfo.github.com" target="_blank">http://jfojfo.github.com</a>，除了加载时间慢点外（如果没显示内容请再刷新试试），界面在bootstrap的帮助下，还是相当清爽的。</p>
+<p>由于github不能搭建动态页面，如果不想把每篇文章都制作一个静态html，只能用静态 + js 动态的方法了。数据服务使用的是<a href="http://www.parse.com/" target="_blank">Parse</a>，后台管理做得不错，但国外服务器访问速度还是慢了一截。另外使用Parse有个最大的感受，对数据的获取和操作不够灵活，比如首页10篇文章想显示个摘要，还必需把前10篇文章的所有内容拉下来，不能选择性拉取；想查询某类别下的文章，query条件支持有限，不够灵活。还好Parse也支持在服务端写自定义函数，可以返回自己想要的结果，一定程度上弥补了上述缺点。</p>
+<p>页面展示用的客户端js动态加载，js使用knockout.js框架，非常好用，knockout.js是用于html页面数据绑定的，开发者在写html时可以只关注UI，从服务器获取到数据后，再用knockout绑定一下。其他一些框架比如Ember.js、backbone等等，也可以实现数据绑定，但knockout应该更简洁一些，没有太复杂的用法，容易上手。很多网页制作网站也是用的knockout进行绑定数据的，比如<a href="http://www.strikingly.com/" target="_blank">http://www.strikingly.com/</a></p>
+<p>介绍了这么多github博客，有点喧宾夺主，实在是不忍心做了这么久又扔掉，但是没有一个服务端，限制还是不少，特别是看了<a href="http://imtx.me/archives/1802.html" target="_blank">《IMTX进入微信时代…》</a>这篇文章后，爱折腾的心又蠢蠢欲动，腾讯微信平台貌似挺好玩，可惜需要一个服务端验证，github + Parse无论如何也无解，只能自己拥有服务端才行。于是又从纯客户端（完全不依赖服务器端）回归到服务端+客户端。不过也学到不少东西：比如knockout这类框架、Backbone的Router使用、扩展TinyMCE支持SyntaxHighligher语法高亮（编辑预览时也高亮显示）、Parse平台如何使用（未来也许是一种趋势哦）、感受一下富客户端页面开发等等。</p>
+<p>最后还是投入了wordpress的怀抱，其实wordpress作为一个平台，用于快速开发网站还是相当实用的，wordpress提供的很多上层接口，如the_post、bloginfo、get_category等等，这些接口足够上层，起码不用处理底层的数据库操作，省了建站人员一大部分时间。wordpress的主题和插件也足够丰富，自己扩展也完全可以，至于网上很多人说的性能问题，只要不是流量超级大，中型网站应该不是瓶颈吧。</p>
+<p>最后感谢一下crifan的开源工具<a href="http://www.crifan.com/crifan_released_all/website/python/blogstowordpress/" target="_blank">BlogsToWordpress</a>，搜索了一圈就这个最好用，并且支持百度改版后的博客，导出的WXR文件直接导入wordpress使用，毫无压力。</p>
+<p>这个工具的代码可以到<a href="https://code.google.com/p/blogs-to-wordpress/" target="_blank">Google Code</a>下载（为什么不放到github上），当初修改了一个百度新版blog解析的bug，email提交给crifan，很快就回复了，希望这个工具能越做越好。</p>
+<p>贴两个BlogsToWordpress的用法，供参考，详细参数解释请移步<a href="http://www.crifan.com/crifan_released_all/website/python/blogstowordpress/usage_example/" target="_blank">这里</a>：</p>
+<p>python BlogsToWordpress.py –startFromUrl=<a href="http://hi.baidu.com/jfojfo/item/64eb48f506a0756b3c1485f7" target="_blank" rel="external">http://hi.baidu.com/jfojfo/item/64eb48f506a0756b3c1485f7</a>  –firstPostId=525 –processPic=yes –processCmt=yes –googleTrans=no<br>python BlogsToWordpress.py –srcUrl=<a href="http://hi.baidu.com/new/jfojfo" target="_blank" rel="external">http://hi.baidu.com/new/jfojfo</a>  –processPic=no –processCmt=yes –googleTrans=no</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/05/21/记录一下从百度hi迁移博客过程/" class="archive-article-date">
+  	<time datetime="2013-05-21T07:48:44.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-05-21</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/wordpress/">wordpress</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/7/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/60/">60</a><a class="extend next" rel="next" href="/page/9/">Next &raquo;</a>
+    </nav>
+  
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: true,
+		isPost: false,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

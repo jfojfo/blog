@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>给WR703n刷OpenWrt，配置无线AP+AP客户端混合模式 | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="前面已经引出了wr703n的rx、tx、+5V、GND信号，通过USB转串口电路板连接至电脑，就可以看到串口输出信息了。
+目前手上有一块OCRobot的MangoII板子，上面有一块FT232RL芯片，可以作为USB转TTL工具使用。
+把MangoII的TX、RX、DTR处的跳帽拔了，TX接wr703n引出的RX（即TP_IN），RX接wr703n引出的TX（即TP_OUT），5V接wr703n引">
+<meta property="og:type" content="article">
+<meta property="og:title" content="给WR703n刷OpenWrt，配置无线AP+AP客户端混合模式">
+<meta property="og:url" content="http://blog.pickbox.me/2013/08/25/给WR703n刷OpenWrt，配置无线AP-AP客户端混合模式/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="前面已经引出了wr703n的rx、tx、+5V、GND信号，通过USB转串口电路板连接至电脑，就可以看到串口输出信息了。
+目前手上有一块OCRobot的MangoII板子，上面有一块FT232RL芯片，可以作为USB转TTL工具使用。
+把MangoII的TX、RX、DTR处的跳帽拔了，TX接wr703n引出的RX（即TP_IN），RX接wr703n引出的TX（即TP_OUT），5V接wr703n引">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/jfo的wr703n系统信息-1024x640.jpg">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="给WR703n刷OpenWrt，配置无线AP+AP客户端混合模式">
+<meta name="twitter:description" content="前面已经引出了wr703n的rx、tx、+5V、GND信号，通过USB转串口电路板连接至电脑，就可以看到串口输出信息了。
+目前手上有一块OCRobot的MangoII板子，上面有一块FT232RL芯片，可以作为USB转TTL工具使用。
+把MangoII的TX、RX、DTR处的跳帽拔了，TX接wr703n引出的RX（即TP_IN），RX接wr703n引出的TX（即TP_OUT），5V接wr703n引">
+<meta name="twitter:image" content="http://img.pickbox.me/wp-content/uploads/jfo的wr703n系统信息-1024x640.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-给WR703n刷OpenWrt，配置无线AP-AP客户端混合模式" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      给WR703n刷OpenWrt，配置无线AP+AP客户端混合模式
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>前面已经引出了wr703n的rx、tx、+5V、GND信号，通过USB转串口电路板连接至电脑，就可以看到串口输出信息了。</p>
+<p>目前手上有一块OCRobot的MangoII板子，上面有一块FT232RL芯片，可以作为USB转TTL工具使用。</p>
+<p>把MangoII的TX、RX、DTR处的跳帽拔了，TX接wr703n引出的RX（即TP_IN），RX接wr703n引出的TX（即TP_OUT），5V接wr703n引出的+5V，GND接wr073n引出的GND，将MangoII通过USB线连接到电脑，就可以给wr703n供电了。</p>
+<p>使用其他的USB转串口板子也是一样的，比如PL2303、CP2102芯片的USB转TTL板子都可以，在taobao上搜有很多。</p>
+<p>在电脑上打开串口工具，波特率设为115200，可以看到启动输出信息了：</p>
+<p>&nbsp;</p>
+<p><pre class="brush: plain;toolbar:false; prettyprint">U-Boot 1.1.4 (Mar 18 2013 - 17:36:20)</pre></p>
+<p>AP121 (ar9330) U-boot</p>
+<p>DRAM:  32 MB<br>led turning on for 1s…<br>id read 0x100000ff<br>flash size 4194304, sector count = 64<br>Flash:  4 MB<br>Using default environment</p>
+<p>In:    serial<br>Out:   serial<br>Err:   serial<br>Net:   ag7240_enet_initialize…<br>No valid address in Flash. Using fixed address<br>No valid address in Flash. Using fixed address<br>: cfg1 0x5 cfg2 0x7114<br>eth0: 00:03:7f:09:0b:ad<br>ag7240_phy_setup<br>eth0 up<br>: cfg1 0xf cfg2 0x7214<br>eth1: 00:03:7f:09:0b:ad<br>athrs26_reg_init_lan<br>ATHRS26: resetting s26<br>ATHRS26: s26 reset done<br>ag7240_phy_setup<br>eth1 up<br>eth0, eth1<br>Autobooting in 1 seconds</p>
+<h2 id="Booting-image-at-9f020000-…"><a href="#Booting-image-at-9f020000-…" class="headerlink" title="Booting image at 9f020000 …"></a>Booting image at 9f020000 …</h2><p>   Uncompressing Kernel Image … OK</p>
+<p>Starting kernel …</p>
+<p>Booting AR9330(Hornet)…</p>
+<p>Linux version 2.6.31–LSDK-9.2.0.312 (root@localhost.localdomain) (gcc version 4.3.3 (GCC) ) #1 Mon Mar 18 17:42:19 CST 2013</p>
+<p>flash_size passed from bootloader = 4</p>
+<p>CPU revision is: 00019374 (MIPS 24Kc)</p>
+<p>Determined physical RAM map:</p>
+<p> memory: 02000000 @ 00000000 (usable)</p>
+<p>User-defined physical RAM map:</p>
+<p> memory: 02000000 @ 00000000 (usable)</p>
+<p>Zone PFN ranges:</p>
+<p>  Normal   0x00000000 -&gt; 0x00002000</p>
+<p>Movable zone start PFN for each node</p>
+<p>early_node_map[1] active PFN ranges</p>
+<pre><code>0: 0x00000000 -&amp;gt; 0x00002000
+</code></pre><p>Built 1 zonelists in Zone order, mobility grouping on.  Total pages: 8128</p>
+<p>Kernel command line: console=ttyS0,115200 root=31:02 rootfstype=squashfs init=/sbin/init mtdparts=ar7240-nor0:128k(u-boot),1024k(kernel),2816(rootfs),64k(config),64k(ART) mem=32M</p>
+<p>PID hash table entries: 128 (order: 7, 512 bytes)</p>
+<p>Dentry cache hash table entries: 4096 (order: 2, 16384 bytes)</p>
+<p>Inode-cache hash table entries: 2048 (order: 1, 8192 bytes)</p>
+<p>Primary instruction cache 64kB, VIPT, 4-way, linesize 32 bytes.</p>
+<p>Primary data cache 32kB, 4-way, VIPT, cache aliases, linesize 32 bytes</p>
+<p>Writing ErrCtl register=00000000</p>
+<p>Readback ErrCtl register=00000000</p>
+<p>Memory: 29880k/32768k available (1883k kernel code, 2888k reserved, 521k data, 112k init, 0k highmem)</p>
+<p>Hierarchical RCU implementation.</p>
+<p>NR_IRQS:128</p>
+<p>plat_time_init: plat time init done</p>
+<p>Calibrating delay loop… 266.24 BogoMIPS (lpj=532480)</p>
+<p>Mount-cache hash table entries: 512</p>
+<p>NET: Registered protocol family 16</p>
+<p>===== ar7240_platform_init: 0</p>
+<p>Whoops! This kernel is for product wr703 v1.0!</p>
+<p>bio: create slab  at 0</p>
+<p>SCSI subsystem initialized</p>
+<p>usbcore: registered new interface driver usbfs</p>
+<p>usbcore: registered new interface driver hub</p>
+<p>usbcore: registered new device driver usb</p>
+<p>NET: Registered protocol family 2</p>
+<p>IP route cache hash table entries: 1024 (order: 0, 4096 bytes)</p>
+<p>TCP established hash table entries: 1024 (order: 1, 8192 bytes)</p>
+<p>TCP bind hash table entries: 1024 (order: 0, 4096 bytes)</p>
+<p>TCP: Hash tables configured (established 1024 bind 1024)</p>
+<p>TCP reno registered</p>
+<p>NET: Registered protocol family 1</p>
+<p>AR7240 GPIOC major 0</p>
+<p>squashfs: version 4.0 (2009/01/31) Phillip Lougher</p>
+<p>NTFS driver 2.1.29 [Flags: R/O].</p>
+<p>msgmni has been set to 58</p>
+<p>alg: No test for lzma (lzma-generic)</p>
+<p>alg: No test for stdrng (krng)</p>
+<p>io scheduler noop registered</p>
+<p>io scheduler anticipatory registered</p>
+<p>io scheduler deadline registered</p>
+<p>io scheduler cfq registered (default)</p>
+<p>Serial: 8250/16550 driver, 1 ports, IRQ sharing disabled</p>
+<p>ttyS0: detected caps 00000000 should be 00000100</p>
+<p>serial8250.0: ttyS0 at MMIO 0xb8020000 (irq = 19) is a 16550A</p>
+<p>console [ttyS0] enabled</p>
+<p>PPP generic driver version 2.4.2</p>
+<p>NET: Registered protocol family 24</p>
+<p>cmdlinepart partition parsing not available</p>
+<p>set partition boot </p>
+<p>set partition kernel </p>
+<p>set partition rootfs </p>
+<p>set partition config </p>
+<p>set partition art </p>
+<p>set partition  </p>
+<p>Searching for RedBoot partition table</p>
+<p>5 RedBoot partitions found on MTD device ar7240-nor0</p>
+<p>Creating 5 MTD partitions on “ar7240-nor0”:</p>
+<p>0x000000000000-0x000000020000 : “boot”</p>
+<p>0x000000020000-0x000000120000 : “kernel”</p>
+<p>0x000000120000-0x0000003e0000 : “rootfs”</p>
+<p>0x0000003e0000-0x0000003f0000 : “config”</p>
+<p>0x0000003f0000-0x000000400000 : “art”</p>
+<p>-&gt;Oops: flash id 0x1c3016 . </p>
+<p>ehci_hcd: USB 2.0 ‘Enhanced’ Host Controller (EHCI) Driver</p>
+<p>Port Status 1c000004 </p>
+<p>ar7240-ehci ar7240-ehci.0: ATH EHCI</p>
+<p>ar7240-ehci ar7240-ehci.0: new USB bus registered, assigned bus number 1</p>
+<p>ehci_reset Intialize USB CONTROLLER in host mode: 3</p>
+<p>ehci_reset Port Status 1c000000 </p>
+<p>ar7240-ehci ar7240-ehci.0: irq 3, io mem 0x1b000000</p>
+<p>ehci_reset Intialize USB CONTROLLER in host mode: 3</p>
+<p>ehci_reset Port Status 1c000000 </p>
+<p>ar7240-ehci ar7240-ehci.0: USB 2.0 started, EHCI 1.00</p>
+<p>usb usb1: configuration #1 chosen from 1 choice</p>
+<p>hub 1-0:1.0: USB hub found</p>
+<p>hub 1-0:1.0: 1 port detected</p>
+<p>TCP cubic registered</p>
+<p>NET: Registered protocol family 17</p>
+<p>802.1Q VLAN Support v1.8 Ben Greear &lt;greearb@candelatech.com&gt;</p>
+<p>All bugs added by David S. Miller &lt;davem@redhat.com&gt;</p>
+<p>ar7240wdt_init: Registering WDT success</p>
+<p>VFS: Mounted root (squashfs filesystem) readonly on device 31:2.</p>
+<p>Freeing unused kernel memory: 112k freed</p>
+<p>init started:  BusyBox v1.01 (2013.03.18-09:49+0000) multi-call binary<br>This Board use 2.6.31<br>xt_time: kernel timezone is -0000</p>
+<p>nf_conntrack version 0.5.0 (512 buckets, 5120 max)</p>
+<p>ip_tables: (C) 2000-2006 Netfilter Core Team</p>
+<p>insmod: cannot open module <code>/lib/modules/2.6.31/kernel/iptable_raw.ko&#39;: No such file or directory
+insmod: cannot open module</code>/lib/modules/2.6.31/kernel/flashid.ko’: No such file or directory<br>PPPoL2TP kernel driver, V1.0</p>
+<p>PPTP driver version 0.8.3</p>
+<p>insmod: cannot open module `/lib/modules/2.6.31/kernel/harmony.ko’: No such file or directory</p>
+<p>Now flash open!</p>
+<p> (none) mips #1 Mon Mar 18 17:42:19 CST 2013 (none)</p>
+<p>(none) login: Now flash open!</p>
+<p>ATHR_GMAC: Length per segment 1536</p>
+<p>ATHR_GMAC: fifo cfg 3 01f00140</p>
+<p>2</p>
+<p>ATHR_GMAC: Max segments per packet :   1</p>
+<p>ATHR_GMAC: Max tx descriptor count :   40</p>
+<p>ATHR_GMAC: Max rx descriptor count :   96</p>
+<p>ATHR_GMAC: Mac capability flags    :   4D83</p>
+<p>1</p>
+<p>ATHR_GMAC: Max segments per packet :   1</p>
+<p>ATHR_GMAC: Max tx descriptor count :   40</p>
+<p>ATHR_GMAC: Max rx descriptor count :   252</p>
+<p>ATHR_GMAC: Mac capability flags    :   4403</p>
+<p>athr_gmac_ring_alloc Allocated 640 at 0x81e82800</p>
+<p>athr_gmac_ring_alloc Allocated 4032 at 0x81d63000</p>
+<p>Setting Drop CRC Errors, Pause Frames and Length Error frames </p>
+<p>Setting PHY…mac 0</p>
+<p>athr_gmac_ring_alloc Allocated 640 at 0x81e82400</p>
+<p>athr_gmac_ring_alloc Allocated 1536 at 0x81f2e000</p>
+<p>athr_gmac_mii_setup: MDC check failed</p>
+<p>Setting Drop CRC Errors, Pause Frames and Length Error frames </p>
+<p>ATHRS26: resetting s26</p>
+<p>ATHRS26: s26 reset done</p>
+<p>Setting PHY…mac 1</p>
+<p>device eth0 entered promiscuous mode</p>
+<p>Now flash open!</p>
+<p>nf_conntrack_rtsp v0.6.21 loading</p>
+<p>nf_nat_rtsp v0.6.21 loading</p>
+<p>asf: module license ‘Proprietary’ taints kernel.</p>
+<p>Disabling lock debugging due to kernel taint</p>
+<p>ath_hal: 0.9.17.1 (AR9380, DEBUG, REGOPS_FUNC, WRITE_EEPROM, 11D)</p>
+<p>ath_rate_atheros: Copyright (c) 2001-2005 Atheros Communications, Inc, All Rights Reserved</p>
+<p>ath_dev: Copyright (c) 2001-2007 Atheros Communications, Inc, All Rights Reserved</p>
+<p>ath_ahb: 9.2.0_U5.508 (Atheros/multi-bss)</p>
+<p>Boostrap clock 25MHz</p>
+<p>ar9300RadioAttach: Need analog access recipe!!</p>
+<p>Restoring Cal data from Flash</p>
+<p>ath_get_caps[4735] rx chainmask mismatch actual 1 sc_chainmak 0</p>
+<p>ath_get_caps[4710] tx chainmask mismatch actual 1 sc_chainmak 0</p>
+<p>wifi0: Atheros 9380: mem=0xb8100000, irq=2</p>
+<p>wlan_vap_create : enter. devhandle=0x80c942c0, opmode=IEEE80211_M_HOSTAP, flags=0x1</p>
+<p>wlan_vap_create : exit. devhandle=0x80c942c0, opmode=IEEE80211_M_HOSTAP, flags=0x1.</p>
+<p>VAP device ath0 created </p>
+<p> DES SSID SET=TP-LINK_F9F34A </p>
+<p>ieee80211_scan_unregister_event_handler: Failed to unregister evhandler=c0abc6c0 arg=81f6aac0</p>
+<p>wlan_vap_delete : enter. vaphandle=0x81c80000</p>
+<p>wlan_vap_delete : exit. vaphandle=0x81c80000</p>
+<p>wlan_vap_create : enter. devhandle=0x80c942c0, opmode=IEEE80211_M_HOSTAP, flags=0x1</p>
+<p>wlan_vap_create : exit. devhandle=0x80c942c0, opmode=IEEE80211_M_HOSTAP, flags=0x1.</p>
+<p>VAP device ath0 created </p>
+<p> DES SSID SET=TP-LINK_F9F34A </p>
+<p> ieee80211_ioctl_siwmode: imr.ifm_active=393856, new mode=3, valid=1 </p>
+<p>WARNING: Fragmentation with HT mode NOT ALLOWED!!</p>
+<p>device ath0 entered promiscuous mode</p>
+<p>br0: port 2(ath0) entering forwarding state</p>
+<p> ieee80211_ioctl_siwmode: imr.ifm_active=918144, new mode=3, valid=1 </p>
+<p>br0: port 2(ath0) entering disabled state</p>
+<p> DES SSID SET=TP-LINK_F9F34A </p>
+<p>br0: port 2(ath0) entering forwarding state<br>&nbsp;</p>
+<p>可以看到flash各区的内容分布：</p>
+<p><pre>0x000000000000-0x000000020000 : “boot”<br>0x000000020000-0x000000120000 : “kernel”<br>0x000000120000-0x0000003e0000 : “rootfs”<br>0x0000003e0000-0x0000003f0000 : “config”<br>0x0000003f0000-0x000000400000 : “art”</pre><br>还可以看到falsh id：</p>
+<p><pre>-&gt;Oops: flash id 0x1c3016</pre><br>到这里，系统已经启动完毕，如果通过串口发送回车，可以看到出现了linux的login界面，网上说用户名root+密码5up可以登入，可惜没有成功。</p>
+<p>下面我们要进入Uboot的命令行模式，在出现“Autobooting in 1 seconds”时，快速输入tpl回车。</p>
+<p>这个模式下可以通过tftp下载文件，然后刷写flash。</p>
+<p>&nbsp;</p>
+<p><pre class="brush: plain;toolbar:false; prettyprint">hornet&gt; ?</pre></p>
+<p>?       - alias for ‘help’<br>bootm   - boot application image from memory<br>cp      - memory copy<br>erase   - erase FLASH memory<br>help    - print online help<br>md      - memory display<br>mm      - memory modify (auto-incrementing)<br>mtest   - simple RAM test<br>mw      - memory write (fill)<br>nm      - memory modify (constant address)<br>printenv- print environment variables<br>progmac - Set ethernet MAC addresses<br>reset   - Perform RESET of the CPU<br>setenv  - set environment variables<br>tftpboot- boot image via network using TFTP protocol<br>version - print monitor version</p>
+<p>hornet&gt; printenv</p>
+<p>bootargs=console=ttyS0,115200 root=31:02 rootfstype=squashfs init=/sbin/init mtdparts=ar7240-nor0:256k(u-boot),64k(u-boot-env),2752k(rootfs),896k(uImage),64k(NVRAM),64k(ART)<br>bootcmd=bootm 0x9f020000<br>bootdelay=1<br>baudrate=115200<br>ethaddr=0xba:0xbe:0xfa:0xce:0x07:0x41<br>ipaddr=192.168.1.111<br>serverip=192.168.1.100<br>stdin=serial<br>stdout=serial<br>stderr=serial<br>ethact=eth0</p>
+<p>Environment size: 362/65532 bytes</p>
+<p>hornet&gt; version<br>U-Boot 1.1.4 (Mar 18 2013 - 17:36:20)<br>&nbsp;</p>
+<p>通过md.b 0x9f000000 0x20000命令可以把uboot区以字节形式dump出来。</p>
+<p><a href="http://blog.csdn.net/sydjm/article/details/8255877" target="_blank">uboot、fw和art在flash中的位置</a>如下：<br>4M的FLASH：flash地址从0x000000~0x3FFFFF<br>ttl访问flash的地址从0x9F000000~0x9F3FFFFF</p>
+<p><table cellspacing="0"></table></p>
+<p><tbody></tbody></p>
+<p><tr></tr></p>
+<p><td></td></p>
+<p><td></td></p>
+<p><div align="center">flash起始地址</div></p>
+<p><td></td></p>
+<p><div align="center">TTL起始地址</div></p>
+<p><td></td></p>
+<p><div align="center">flash终止地址</div></p>
+<p><td></td></p>
+<p><div align="center">TTL终止地址</div><br></p>
+<p><tr></tr></p>
+<p><td></td></p>
+<p><div align="center">uboot</div></p>
+<p><td></td></p>
+<p><div align="center">0X000000</div></p>
+<p><td></td></p>
+<p><div align="center">0X9F000000</div></p>
+<p><td></td></p>
+<p><div align="center">0X01FFFF</div></p>
+<p><td></td></p>
+<p><div align="center">0X9F01FFFF</div><br></p>
+<p><tr></tr></p>
+<p><td></td></p>
+<p><div align="center">fw</div></p>
+<p><td></td></p>
+<p><div align="center">0X020000</div></p>
+<p><td></td></p>
+<p><div align="center">0X9F020000</div></p>
+<p><td></td></p>
+<p><div align="center">0X3DFFFF</div></p>
+<p><td></td></p>
+<p><div align="center">0X9F3DFFFF</div><br></p>
+<p><tr></tr></p>
+<p><td></td></p>
+<p><div align="center">art</div></p>
+<p><td></td></p>
+<p><div align="center">0X3F0000</div></p>
+<p><td></td></p>
+<p><div align="center">0X9F3F0000</div></p>
+<p><td></td></p>
+<p><div align="center">0X3FFFFF</div></p>
+<p><td></td></p>
+<p><div align="center">0X9F3FFFFF</div><br><br><br><br>8M的FLASH：flash地址从0x000000~0x7FFFFF<br>ttl访问flash的地址从0x9F000000~0x9F3FFFFF</p>
+<p><table cellspacing="0"></table></p>
+<p><tbody></tbody></p>
+<p><tr></tr></p>
+<p><td></td></p>
+<p><td></td></p>
+<p><div align="center">flash起始地址</div></p>
+<p><td></td></p>
+<p><div align="center">TTL起始地址</div></p>
+<p><td></td></p>
+<p><div align="center">flash终止地址</div></p>
+<p><td></td></p>
+<p><div align="center">TTL终止地址</div><br></p>
+<p><tr></tr></p>
+<p><td></td></p>
+<p><div align="center">uboot</div></p>
+<p><td></td></p>
+<p><div align="center">0X000000</div></p>
+<p><td></td></p>
+<p><div align="center">0X9F000000</div></p>
+<p><td></td></p>
+<p><div align="center">0X01FFFF</div></p>
+<p><td></td></p>
+<p><div align="center">0X9F01FFFF</div><br></p>
+<p><tr></tr></p>
+<p><td></td></p>
+<p><div align="center">fw</div></p>
+<p><td></td></p>
+<p><div align="center">0X020000</div></p>
+<p><td></td></p>
+<p><div align="center">0X9F020000</div></p>
+<p><td></td></p>
+<p><div align="center">0X7DFFFF</div></p>
+<p><td></td></p>
+<p><div align="center">0X9F7DFFFF</div><br></p>
+<p><tr></tr></p>
+<p><td></td></p>
+<p><div align="center">art</div></p>
+<p><td></td></p>
+<p><div align="center">0X7F0000</div></p>
+<p><td></td></p>
+<p><div align="center">0X9F7F0000</div></p>
+<p><td></td></p>
+<p><div align="center">0X7FFFFF</div></p>
+<p><td></td></p>
+<p><div align="center">0X9F7FFFFF</div><br><br><br><br>&nbsp;</p>
+<p>下面开始刷openwrt固件，刷之前建议看一下<a href="http://wiki.openwrt.org/toh/tp-link/tl-wr703n" target="_blank">http://wiki.openwrt.org/toh/tp-link/tl-wr703n</a></p>
+<p>这块wr703n应该是v1.7的，版本3.14.5 Build 130318 Rel. 64321n，这个版本应该刷入OpenWrt的Attitude Adjustment分支固件：<a href="http://downloads.openwrt.org/attitude_adjustment/12.09/ar71xx/generic/openwrt-ar71xx-generic-tl-wr703n-v1-squashfs-factory.bin" target="_blank">http://downloads.openwrt.org/attitude_adjustment/12.09/ar71xx/generic/openwrt-ar71xx-generic-tl-wr703n-v1-squashfs-factory.bin</a></p>
+<p><a href="http://img.pickbox.me/wp-content/uploads/jfo的wr703n系统信息.jpg" target="_blank" rel="external"><img class="alignnone size-large wp-image-678" alt="jfo的wr703n系统信息" src="http://img.pickbox.me/wp-content/uploads/jfo的wr703n系统信息-1024x640.jpg" width="1000" height="625"></a></p>
+<p>进入系统工具-软件升级，选择刚才下载的固件openwrt-ar71xx-generic-tl-wr703n-v1-squashfs-factory.bin，等待刷成功。</p>
+<p>刷完后在串口可以看到Uboot部分输出信息没变，kernel启动部分已经是新刷的OpenWrt内核信息了。</p>
+<p>网上说要telnet进去修改一下root密码才能ssh登陆进去，我直接从串口输入回车就进入了root命令行界面，修改root密码更方便了。后面ssh登陆系统就跟操作普通linux系统一样了。</p>
+<p>刷完这个固件，从web页面登陆进去就已经是luci界面了，不需要再刷openwrt-ar71xx-generic-tl-wr703n-v1-squashfs-sysupgrade.bin了。</p>
+<p>倒腾了一天将wr703n配置成ap客户端+普通ap的混合模式：普通AP模式不用多说，AP客户端模式是指wr703n通过自己的无线连接家里的主无线路由进行上网，笔记本其他设备可以通过网线连接至wr703n的LAN/WAN口进行上网，相当于一块无线网卡。</p>
+<p>直接贴配置，需要配的同学可以参考，<del style="color: black;">wireless配置文件中的option wds ‘1’ 比较关键，不加上去就连不上。</del>(在公司网络不加也可以连上，家里就不行，不同环境不一样，可以加上或去掉多试试)</p>
+<p>network：</p>
+<p><pre class="brush: plain;toolbar:false; prettyprint">config interface ‘loopback’<br>    option ifname ‘lo’<br>    option proto ‘static’<br>    option ipaddr ‘127.0.0.1’<br>    option netmask ‘255.0.0.0’</pre></p>
+<p>config interface ‘lan’<br>    option ifname ‘eth0’<br>    option type ‘bridge’<br>    option proto ‘static’<br>    option ipaddr ‘192.168.1.1’<br>    option netmask ‘255.255.255.0’</p>
+<p>config interface ‘wwan’<br>    option proto ‘dhcp’</p>
+<p>config interface ‘wlan’<br>    option proto ‘static’<br>    option ipaddr ‘192.168.2.1’<br>    option netmask ‘255.255.255.0’<br>&nbsp;</p>
+<p>wireless：</p>
+<p><pre class="brush: plain;toolbar:false; prettyprint">config wifi-device ‘radio0’<br>    option type ‘mac80211’<br>    option channel ‘11’<br>    option macaddr ‘1c:fa:68:f9:f3:4a’<br>    option hwmode ‘11ng’<br>    option htmode ‘HT20’<br>    list ht_capab ‘SHORT-GI-20’<br>    list ht_capab ‘SHORT-GI-40’<br>    list ht_capab ‘RX-STBC1’<br>    list ht_capab ‘DSSS_CCK-40’<br>    option disabled ‘0’<br>    option txpower ‘27’<br>    option country ‘US’</pre></p>
+<p>config wifi-iface<br>    option device ‘radio0’<br>    option mode ‘ap’<br>    option ssid ‘OpenWrt’<br>    option encryption ‘none’<br>    option wds ‘1’         #可不加<br>    option network ‘wlan’</p>
+<p>config wifi-iface<br>    option network ‘wwan’<br>    option ssid ‘fofo’<br>    option encryption ‘psk2’<br>    option device ‘radio0’<br>    option mode ‘sta’<br>    option bssid ‘00:21:29:74:33:EB’<br>    option key ‘xxxxxxxx’<br>    option wds ‘1’      #可不加<br>&nbsp;</p>
+<p>dhcp：</p>
+<p><pre class="brush: plain;toolbar:false; prettyprint">config dnsmasq<br>    option domainneeded ‘1’<br>    option boguspriv ‘1’<br>    option filterwin2k ‘0’<br>    option localise_queries ‘1’<br>    option rebind_protection ‘1’<br>    option rebind_localhost ‘1’<br>    option local ‘/lan/‘<br>    option domain ‘lan’<br>    option expandhosts ‘1’<br>    option nonegcache ‘0’<br>    option authoritative ‘1’<br>    option readethers ‘1’<br>    option leasefile ‘/tmp/dhcp.leases’<br>    option resolvfile ‘/tmp/resolv.conf.auto’</pre></p>
+<p>config dhcp ‘lan’<br>    option interface ‘lan’<br>    option ignore ‘1’</p>
+<p>config dhcp ‘wan’<br>    option interface ‘wan’<br>    option ignore ‘1’</p>
+<p>config dhcp ‘wlan’<br>    option start ‘100’<br>    option leasetime ‘12h’<br>    option limit ‘150’<br>    option interface ‘wlan’<br>firewall：</p>
+<p><pre class="brush: plain;toolbar:false; prettyprint">config defaults<br>    option syn_flood ‘1’<br>    option input ‘ACCEPT’<br>    option output ‘ACCEPT’<br>    option forward ‘REJECT’</pre></p>
+<p>config zone<br>    option name ‘lan’<br>    option input ‘ACCEPT’<br>    option output ‘ACCEPT’<br>    option forward ‘REJECT’<br>    option network ‘lan wlan’</p>
+<p>config zone<br>    option name ‘wan’<br>    option input ‘REJECT’<br>    option output ‘ACCEPT’<br>    option masq ‘1’<br>    option mtu_fix ‘1’<br>    option forward ‘ACCEPT’<br>    option network ‘wan wwan’</p>
+<p>config forwarding<br>    option src ‘lan’<br>    option dest ‘wan’</p>
+<p>config rule<br>    option name ‘Allow-DHCP-Renew’<br>    option src ‘wan’<br>    option proto ‘udp’<br>    option dest_port ‘68’<br>    option target ‘ACCEPT’<br>    option family ‘ipv4’</p>
+<p>config rule<br>    option name ‘Allow-Ping’<br>    option src ‘wan’<br>    option proto ‘icmp’<br>    option icmp_type ‘echo-request’<br>    option family ‘ipv4’<br>    option target ‘ACCEPT’</p>
+<p>config rule<br>    option name ‘Allow-DHCPv6’<br>    option src ‘wan’<br>    option proto ‘udp’<br>    option src_ip ‘fe80::/10’<br>    option src_port ‘547’<br>    option dest_ip ‘fe80::/10’<br>    option dest_port ‘546’<br>    option family ‘ipv6’<br>    option target ‘ACCEPT’</p>
+<p>config rule<br>    option name ‘Allow-ICMPv6-Input’<br>    option src ‘wan’<br>    option proto ‘icmp’<br>    list icmp_type ‘echo-request’<br>    list icmp_type ‘echo-reply’<br>    list icmp_type ‘destination-unreachable’<br>    list icmp_type ‘packet-too-big’<br>    list icmp_type ‘time-exceeded’<br>    list icmp_type ‘bad-header’<br>    list icmp_type ‘unknown-header-type’<br>    list icmp_type ‘router-solicitation’<br>    list icmp_type ‘neighbour-solicitation’<br>    list icmp_type ‘router-advertisement’<br>    list icmp_type ‘neighbour-advertisement’<br>    option limit ‘1000/sec’<br>    option family ‘ipv6’<br>    option target ‘ACCEPT’</p>
+<p>config rule<br>    option name ‘Allow-ICMPv6-Forward’<br>    option src ‘wan’<br>    option dest ‘*’<br>    option proto ‘icmp’<br>    list icmp_type ‘echo-request’<br>    list icmp_type ‘echo-reply’<br>    list icmp_type ‘destination-unreachable’<br>    list icmp_type ‘packet-too-big’<br>    list icmp_type ‘time-exceeded’<br>    list icmp_type ‘bad-header’<br>    list icmp_type ‘unknown-header-type’<br>    option limit ‘1000/sec’<br>    option family ‘ipv6’<br>    option target ‘ACCEPT’</p>
+<p>config include<br>    option path ‘/etc/firewall.user’<br>&nbsp;</p>
+<p>至此可以正常上网了。<br>更新一下pkg：</p>
+<p><pre class="brush: plain;toolbar:false; prettyprint">opkg update</pre><br>装上usb转串口驱动：</p>
+<p><pre class="brush: plain;toolbar:false; prettyprint">opkg intall kmod-usb-serial-ftdi</pre><br>其他芯片的安装对应驱动模块，如kmod-usb-serial-pl2303</p>
+<p>为后面ser2net做好准备。</p>
+<p>&nbsp;</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/08/25/给WR703n刷OpenWrt，配置无线AP-AP客户端混合模式/" class="archive-article-date">
+  	<time datetime="2013-08-25T14:09:32.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-08-25</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2013/08/26/TP-Link-TL-WR703n路由USB口用途1——串口/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          TP-Link TL-WR703n路由USB口用途1——串口
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2013/08/23/tplink-TL-WR703N到手，拆机引出RX、TX、-5V、GND信号/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">tplink_TL-WR703N到手，拆机引出RX、TX、+5V、GND信号</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

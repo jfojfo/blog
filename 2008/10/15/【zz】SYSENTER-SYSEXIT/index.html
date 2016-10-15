@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>【zz】SYSENTER/SYSEXIT | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="http://www.ibm.com/developerworks/cn/linux/kernel/l-k26ncpu/index.html前言 在 Linux 2.4 内核中，用户态 Ring3 代码请求内核态 Ring0 代码完成某些功能是通过系统调用完成的，而系统调用的是通过软中断指令（int 0x80）实现的。在 x86 保护模式中，处理 INT 中断指令时，CPU 首先从中断描述表 I">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【zz】SYSENTER/SYSEXIT">
+<meta property="og:url" content="http://blog.pickbox.me/2008/10/15/【zz】SYSENTER-SYSEXIT/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="http://www.ibm.com/developerworks/cn/linux/kernel/l-k26ncpu/index.html前言 在 Linux 2.4 内核中，用户态 Ring3 代码请求内核态 Ring0 代码完成某些功能是通过系统调用完成的，而系统调用的是通过软中断指令（int 0x80）实现的。在 x86 保护模式中，处理 INT 中断指令时，CPU 首先从中断描述表 I">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_image002.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【zz】SYSENTER/SYSEXIT">
+<meta name="twitter:description" content="http://www.ibm.com/developerworks/cn/linux/kernel/l-k26ncpu/index.html前言 在 Linux 2.4 内核中，用户态 Ring3 代码请求内核态 Ring0 代码完成某些功能是通过系统调用完成的，而系统调用的是通过软中断指令（int 0x80）实现的。在 x86 保护模式中，处理 INT 中断指令时，CPU 首先从中断描述表 I">
+<meta name="twitter:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-【zz】SYSENTER-SYSEXIT" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      【zz】SYSENTER/SYSEXIT
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <br><a href="http://www.ibm.com/developerworks/cn/linux/kernel/l-k26ncpu/index.html" target="_blank">http://www.ibm.com/developerworks/cn/linux/kernel/l-k26ncpu/index.html</a><br><br></p><p><a name="1">前言</a></p><p> </p><p>在 Linux 2.4 内核中，用户态 Ring3 代码请求内核态 Ring0 代码完成某些功能是通过系统调用完成的，而系统调用的是通过软中断指令（int 0x80）实现的。在 x86 保护模式中，处理 INT 中断指令时，CPU 首先从中断描述表 IDT 取出对应的门描述符，判断门描述符的种类，然后检查门描述符的级别 DPL 和 INT 指令调用者的级别 CPL，当 CPL&lt;=DPL 也就是说 INT 调用者级别高于描述符指定级别时，才能成功调用，最后再根据描述符的内容，进行压栈、跳转、权限级别提升。内核代码执行完毕之后，调用 IRET 指令返回，IRET 指令恢复用户栈，并跳转会低级别的代码。</p><p>其实，在发生系统调用，由 Ring3 进入 Ring0 的这个过程浪费了不少的 CPU 周期，例如，系统调用必然需要由 Ring3 进入 Ring0（由内核调用 INT 指令的方式除外，这多半属于 Hacker 的内核模块所为），权限提升之前和之后的级别是固定的，CPL 肯定是 3，而 INT 80 的 DPL 肯定也是 3，这样 CPU 检查门描述符的 DPL 和调用者的 CPL 就是完全没必要。正是由于如此，Intel x86 CPU 从 PII 300（Family 6，Model 3，Stepping 3）之后，开始支持新的系统调用指令 sysenter/sysexit。sysenter 指令用于由 Ring3 进入 Ring0，SYSEXIT 指令用于由 Ring0 返回 Ring3。由于没有特权级别检查的处理，也没有压栈的操作，所以执行速度比 INT n/IRET 快了不少。</p><br> <img width="100%" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif"><br> <img width="8" height="6" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <img width="100%" height="4" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"><br> <img width="16" height="16" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif"> <a href="http://www.ibm.com/developerworks/cn/linux/kernel/l-k26ncpu/index.html#main" target="_blank" rel="external"><strong>回页首</strong></a> <br><br><p><a name="2">不同系统调用方式的性能比较：</a></p><p> </p><p>下面是一些来自互联网的有关 sysenter/sysexit 指令和 INT n/IRET 指令在 Intel Pentium CPU 上的性能对比：</p><p>表1：系统调用性能测试测试硬件：Intel&#174; Pentium&#174; III CPU, 450 MHzProcessor Family: 6 Model: 7 Stepping: 2</p>                                     用户模式花费的时间            核心模式花费的时间                            基于 sysenter/sysexit 指令的系统调用            9.833 microseconds            6.833 microseconds                            基于中断 INT n 指令的系统调用            17.500 microseconds            7.000 microseconds            <p>数据来源：[1]</p><br><a name="N10080"><strong>数据来源：[2]</strong></a><br><img width="513" height="377" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_image002.jpg"> <br><p>表2：各种 CPU 上 INT 0x80 和 SYSENTER 执行速度的比较</p>                        CPU            Int0x80            sysenter                            Athlon XP 1600+            277            169                            800MHz mode 1 athlon            279            170                            2.8GHz p4 northwood ht            1152            442            <p>上述数据为对 100000 次 getppid() 系统调用所花费的 CPU 时钟周期取的平均值         <br>数据来源[3]</p><p>自 这种技术推出之后，人们一直在考虑在 Linux 中加入对这种指令的支持，在 Kernel.org 的邮件列表中，主题为 &quot;Intel P6 vs P7 system call performance&quot; 的大量邮件讨论了采用这种指令的必要性，邮件中列举的理由主要是 Intel 在 Pentium 4 的设计上存在问题，造成 Pentium 4 使用中断方式执行的系统调用比 Pentium 3 以及 AMD Athlon 所耗费的 CPU 时钟周期多上 5~10 倍。因此，在 Pentium 4 平台上，通过 sysenter/sysexit 指令来执行系统调用已经是刻不容缓的需求。</p><br> <img width="100%" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif"><br> <img width="8" height="6" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <img width="100%" height="4" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"><br> <img width="16" height="16" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif"> <a href="http://www.ibm.com/developerworks/cn/linux/kernel/l-k26ncpu/index.html#main" target="_blank" rel="external"><strong>回页首</strong></a> <br><br><p><a name="3">sysenter/sysexit 系统调用的机制：</a></p><p> </p><p>在 Intel 的软件开发者手册第二、三卷（Vol.2B,Vol.3）中，4.8.7 节是关于 sysenter/sysexit 指令的详细描述。手册中说明，sysenter 指令可用于特权级 3 的用户代码调用特权级 0 的系统内核代码，而 SYSEXIT 指令则用于特权级 0 的系统代码返回用户空间中。sysenter 指令可以在 3，2，1 这三个特权级别调用（Linux 中只用到了特权级 3），而 SYSEXIT 指令只能从特权级 0 调用。</p><p>执行 sysenter 指令的系统必须满足两个条件：1.目标 Ring 0 代码段必须是平坦模式（Flat Mode）的 4GB 的可读可执行的非一致代码段。2.目标 RING0 堆栈段必须是平坦模式（Flat Mode）的 4GB 的可读可写向上扩展的栈段。</p><p>在 Intel 的手册中，还提到了 sysenter/sysexit 和 int n/iret 指令的一个区别，那就是 sysenter/sysexit 指令并不成对，sysenter 指令并不会把 SYSEXIT 所需的返回地址压栈，sysexit 返回的地址并不一定是 sysenter 指令的下一个指令地址。调用 sysenter/sysexit 指令地址的跳转是通过设置一组特殊寄存器实现的。这些寄存器包括：</p><p>SYSENTER_CS_MSR － 用于指定要执行的 Ring 0 代码的代码段选择符，由它还能得出目标 Ring 0 所用堆栈段的段选择符；</p><p>SYSENTER_EIP_MSR － 用于指定要执行的 Ring 0 代码的起始地址；</p><p>SYSENTER_ESP_MSR－用于指定要执行的Ring 0代码所使用的栈指针</p><p>这 些寄存器可以通过 wrmsr 指令来设置，执行 wrmsr 指令时，通过寄存器 edx、eax 指定设置的值，edx 指定值的高 32 位，eax 指定值的低 32 位，在设置上述寄存器时，edx 都是 0，通过寄存器 ecx 指定填充的 MSR 寄存器，sysenter_CS_MSR、sysenter_ESP_MSR、sysenter_EIP_MSR 寄存器分别对应 0x174、0x175、0x176，需要注意的是，wrmsr 指令只能在 Ring 0 执行。</p><p>这里还要介绍一个特性， 就是 Ring0、Ring3 的代码段描述符和堆栈段描述符在全局描述符表 GDT 中是顺序排列的，这样只需知道 SYSENTER_CS_MSR 中指定的 Ring0 的代码段描述符，就可以推算出 Ring0 的堆栈段描述符以及 Ring3 的代码段描述符和堆栈段描述符。</p><p>在 Ring3 的代码调用了 sysenter 指令之后，CPU 会做出如下的操作：</p><p>1． 将 SYSENTER_CS_MSR 的值装载到 cs 寄存器</p><p>2． 将 SYSENTER_EIP_MSR 的值装载到 eip 寄存器</p><p>3． 将 SYSENTER_CS_MSR 的值加 8（Ring0 的堆栈段描述符）装载到 ss 寄存器。</p><p>4． 将 SYSENTER_ESP_MSR 的值装载到 esp 寄存器</p><p>5． 将特权级切换到 Ring0</p><p>6． 如果 EFLAGS 寄存器的 VM 标志被置位，则清除该标志</p><p>7． 开始执行指定的 Ring0 代码</p><p>在 Ring0 代码执行完毕，调用 SYSEXIT 指令退回 Ring3 时，CPU 会做出如下操作：</p><p>1． 将 SYSENTER_CS_MSR 的值加 16（Ring3 的代码段描述符）装载到 cs 寄存器</p><p>2． 将寄存器 edx 的值装载到 eip 寄存器</p><p>3． 将 SYSENTER_CS_MSR 的值加 24（Ring3 的堆栈段描述符）装载到 ss 寄存器</p><p>4． 将寄存器 ecx 的值装载到 esp 寄存器</p><p>5． 将特权级切换到 Ring3</p><p>6． 继续执行 Ring3 的代码</p><p>由此可知，在调用 SYSENTER 进入 Ring0 之前，一定需要通过 wrmsr 指令设置好 Ring0 代码的相关信息，在调用 SYSEXIT 之前，还要保证寄存器edx、ecx 的正确性。</p><br> <img width="100%" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif"><br> <img width="8" height="6" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <img width="100%" height="4" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"><br> <img width="16" height="16" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif"> <a href="http://www.ibm.com/developerworks/cn/linux/kernel/l-k26ncpu/index.html#main" target="_blank" rel="external"><strong>回页首</strong></a> <br><br><p><a name="4">如何得知 CPU 是否支持 sysenter/sysexit 指令</a></p><p> </p><p>根 据 Intel 的 CPU 手册，我们可以通过 CPUID 指令来查看 CPU 是否支持 sysenter/sysexit 指令，做法是将 EAX 寄存器赋值 1，调用 CPUID 指令，寄存器 edx 中第 11 位（这一位名称为 SEP）就表示是否支持。在调用 CPUID 指令之后，还需要查看 CPU 的 Family、Model、Stepping 属性来确认，因为据称 Pentium Pro 处理器会报告 SEP 但是却不支持 sysenter/sysexit 指令。只有 Family 大于等于 6，Model 大于等于 3，Stepping 大于等于 3 的时候，才能确认 CPU 支持 sysenter/sysexit 指令。</p><br> <img width="100%" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif"><br> <img width="8" height="6" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <img width="100%" height="4" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"><br> <img width="16" height="16" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif"> <a href="http://www.ibm.com/developerworks/cn/linux/kernel/l-k26ncpu/index.html#main" target="_blank" rel="external"><strong>回页首</strong></a> <br><br><p><a name="5">Linux 对 sysenter/sysexit 系统调用方式的支持</a></p><p> </p><p>在 2.4 内核中，直到最近的发布的 2.4.26-rc2 版本，没有加入对 sysenter/sysexit 指令的支持。而对 sysenter/sysexit 指令的支持最早是2002 年，由 Linus Torvalds 编写并首次加入 2.5 版内核中的，经过多方测试和多次 patch，最终正式加入到了 2.6 版本的内核中。</p><p><a href="http://kerneltrap.org/node/view/531/1996" target="_blank" rel="external">http://kerneltrap.org/node/view/531/1996</a></p><p><a href="http://lwn.net/Articles/18414/" target="_blank" rel="external">http://lwn.net/Articles/18414/</a></p><p>具 体谈到系统调用的完成，不能孤立的看内核的代码，我们知道，系统调用多被封装成库函数提供给应用程序调用，应用程序调用库函数后，由 glibc 库负责进入内核调用系统调用函数。在 2.4 内核加上老版的 glibc 的情况下，库函数所做的就是通过 int 指令来完成系统调用，而内核提供的系统调用接口很简单，只要在 IDT 中提供 INT 0x80 的入口，库就可以完成中断调用。</p><p>在 2.6 内核中，内核代码同时包含了对 int 0x80 中断方式和 sysenter 指令方式调用的支持，因此内核会给用户空间提供一段入口代码，内核启动时根据 CPU 类型，决定这段代码采取哪种系统调用方式。对于 glibc 来说，无需考虑系统调用方式，直接调用这段入口代码，即可完成系统调用。这样做还可以尽量减少对 glibc 的改动，在 glibc 的源码中，只需将 &quot;int $0x80&quot; 指令替换成 &quot;call 入口地址&quot; 即可。</p><p>下面，以 2.6.0 的内核代码配合支持 SYSENTER 调用方式的 glibc2.3.3 为例，分析一下系统调用的具体实现。</p><br> <img width="100%" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif"><br> <img width="8" height="6" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <img width="100%" height="4" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"><br> <img width="16" height="16" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif"> <a href="http://www.ibm.com/developerworks/cn/linux/kernel/l-k26ncpu/index.html#main" target="_blank" rel="external"><strong>回页首</strong></a> <br><br><p><a name="6">内核在启动时做的准备</a></p><p> </p><p>前 面说到的这段入口代码，根据调用方式分为两个文件，支持 sysenter 指令的代码包含在文件 arch/i386/kernel/vsyscall-sysenter.S 中，支持int中断的代码包含在arch/i386/kernel/vsyscall-int80.S中，入口名都是 <strong>kernel_vsyscall，这两个文件编译出的二进制代码由arch/i386/kernel/vsyscall.S所包含，并导出起始地址和 结束地址。</strong></p><p>2.6内核在启动的时候，调用了新增的函数sysenter_setup（参见arch/i386/kernel /sysenter.c），在这个函数中，内核将虚拟内存空间的顶端一个固定地址页面（从0xffffe000开始到0xffffeffff的4k大小） 映射到一个空闲的物理内存页面。然后通过之前执行CPUID的指令得到的数据，检测CPU是否支持sysenter/sysexit指令。如果CPU不支 持，那么将采用INT调用方式的入口代码拷贝到这个页面中，然后返回。相反，如果CPU支持SYSETER/SYSEXIT指令，则将采用 SYSENTER调用方式的入口代码拷贝到这个页面中。使用宏on_each_cpu在每个CPU上执行enable_sep_cpu这个函数。</p><p>在 enable_sep_cpu函数中，内核将当前CPU的TSS结构中的ss1设置为当前内核使用的代码段，esp1设置为该TSS结构中保留的一个 256字节大小的堆栈。在X86中，TSS结构中ss1和esp1本来是用于保存Ring 1进程的堆栈段和堆栈指针的。由于内核在启动时，并不能预知调用sysenter指令进入Ring 0后esp的确切值，而应用程序又无权调用wrmsr指令动态设置，所以此时就借用esp1指向一个固定的缓冲区来填充这个MSR寄存器，由于Ring 1根本没被启用，所以并不会对系统造成任何影响。在下面的文章中会介绍进入Ring 0之后，内核如何修复ESP来指向正确的Ring 0堆栈。关于TSS结构更细节的应用可参考代码include/asm-i386/processor.h）。</p><p>然后，内核通 过wrmsr(msr,val1,val2)宏调用wrmsr指令对当前CPU设置MSR寄存器，可以看出调用宏的第三个参数即edx都被设置为0。其中 SYSENTER_CS_MSR的值被设置为当前内核用的所在代码段；SYSENTER_ESP_MSR被设置为esp1，即指向当前CPU的TSS结构 中的堆栈；SYSENTER_EIP_MSR则被设置为内核中处理sysenter指令的接口函数sysenter_entry（参见arch/i386 /kernel/entry.S）。这样，sysenter指令的准备工作就完成了。</p><p>通过内核在启动时进行这样的设置，在每个进程的进程空间中，都能访问到内核所映射的这个代码页面，当然这个页面对于应用程序来说是只读的。我们通过新版的ldd工具查看任意一个可执行程序，可以看到下面的结果：</p>                                    [root@test]# file dynamic<br>dynamic: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), <br>for GNU/Linux 2.2.5, dynamically linked (uses shared libs), not stripped<br>[root@test]# ldd dynamic<br>        linux-gate.so.1 =&gt;  (0xffffe000)<br>        libc.so.6 =&gt; /lib/tls/libc.so.6 (0x4002c000)<br>        /lib/ld-linux.so.2 =&gt; /lib/ld-linux.so.2 (0x40000000)                        <br><p>这个所谓的&quot;linux-gate.so.1&quot;的内容 就是内核映射的代码，系统中其实并不存在这样一个链接库文件，它的名字是由ldd自己起的，而在老版本的ldd中，虽然能够检测到这段代码，但是由于没有 命名而且在系统中找不到对应链接库文件，所以会有一些显示上的问题。有关这个问题的背景，可以参考下面这个网址： <a href="http://sources.redhat.com/ml/libc-alpha/2003-09/msg00263.html" target="_blank" rel="external">http://sources.redhat.com/ml/libc-alpha/2003-09/msg00263.html</a>。</p><br> <img width="100%" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif"><br> <img width="8" height="6" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <img width="100%" height="4" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"><br> <img width="16" height="16" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif"> <a href="http://www.ibm.com/developerworks/cn/linux/kernel/l-k26ncpu/index.html#main" target="_blank" rel="external"><strong>回页首</strong></a> <br><br><p><a name="7">由用户态经库函数进入内核态</a></p><p> </p><p>为 了配合内核使用新的系统调用方式，glibc中要做一定的修改。新的glibc-2.3.2（及其以后版本中）中已经包含了这个改动，在glibc源代码 的sysdeps/unix/sysv/linux/i386/sysdep.h文件中，处理系统调用的宏INTERNAL_SYSCALL在不同的编译 选项下有不同的结果。在打开支持sysenter/sysexit指令的选项I386_USE_SYSENTER下，系统调用会有两种方式，在静态链接 （编译时加上-static选项）情况下，采用&quot;call <em>_dl_sysinfo&quot;指令；在动态链接情况下，采用&quot;call </em>%gs:0x10&quot;指令。这两种情况由glibc库采用哪种方法链接，实际上最终都相当于调用某个固定地址的代码。下面我们通过一个小小的程序，配合 gdb来验证。</p><p>首先是一个静态编译的程序，代码很简单：</p>                                    main()<br>{<br> getuid();<br>}                        <br><p>将代码加上static选项用gcc静态编译，然后用gdb装载并反编译main函数。</p>                                    [root@test opt]# gcc test.c -o ./static -static<br>[root@test opt]# gdb ./static<br>(gdb) disassemble main<br>0x08048204 &lt;main+0&gt;:    push   %ebp<br>0x08048205 &lt;main+1&gt;:    mov    %esp,%ebp<br>0x08048207 &lt;main+3&gt;:    sub    $0x8,%esp<br>0x0804820a &lt;main+6&gt;:    and    $0xfffffff0,%esp<br>0x0804820d &lt;main+9&gt;:    mov    $0x0,%eax<br>0x08048212 &lt;main+14&gt;:   sub    %eax,%esp<br>0x08048214 &lt;main+16&gt;:   call   0x804cb20 &lt;getuid&gt;<br>0x08048219 &lt;main+21&gt;:   leave<br>0x0804821a &lt;main+22&gt;:   ret                        <br><p>可以看出，main函数中调用了<strong>getuid函数，接着反编译</strong>getuid函数。</p>                                    (gdb) disassemble 0x804cb20<br>0x0804cb20 &lt;<strong>getuid+0&gt;:        push   %ebp<br>0x0804cb21 &lt;</strong>getuid+1&gt;:        mov    0x80aa028,%eax<br>0x0804cb26 &lt;<strong>getuid+6&gt;:        mov    %esp,%ebp<br>0x0804cb28 &lt;</strong>getuid+8&gt;:        test   %eax,%eax<br>0x0804cb2a &lt;<strong>getuid+10&gt;:       jle    0x804cb40 &lt;</strong>getuid+32&gt;<br>0x0804cb2c &lt;<strong>getuid+12&gt;:       mov    $0x18,%eax<br>0x0804cb31 &lt;</strong>getuid+17&gt;:       call   <em>0x80aa054<br>0x0804cb37 &lt;<strong>getuid+23&gt;:       pop    %ebp<br>0x0804cb38 &lt;</strong>getuid+24&gt;:       ret                        <br><p>上面只是<strong>getuid函数的一部分。可以看到</strong>getuid将eax寄存器赋值为getuid系统调用的功能号0x18然后调用了另一个函数，这个函数的入口在哪里呢？接着查看位于地址0x80aa054的值。</p>                                    (gdb) X 0x80aa054<br>0x80aa054 &lt;_dl_sysinfo&gt;:        0x0804d7f6                        <br><p>看起来不像是指向内核映射页面内的代码，但是，可以确认，<strong>dl_sysinfo指针的指向的地址就是0x80aa054。下面，我们试着启动这个程序，然后停在程序第一条语句，再查看这个地方的值。</strong></p>                                    (gdb) b main<br>Breakpoint 1 at 0x804820a<br>(gdb) r<br>Starting program: /opt/static<br>Breakpoint 1, 0x0804820a in main ()<br>(gdb) X 0x80aa054<br>0x80aa054 &lt;_dl_sysinfo&gt;:        0xffffe400                        <br><p>可以看到，_dl_sysinfo指针指向的数值已经发生了变化，指向了0xffffe400，如果我们继续运行程序，getuid函数将会调用地址0xffffe400处的代码。</p><p>接下来，我们将上面的代码编译成动态链接的方式，即默认方式，用gdb装载并反编译main函数</p>                                    [root@test opt]# gcc test.c -o ./dynamic<br>[root@test opt]# gdb ./dynamic<br>(gdb) disassemble main<br>0x08048204 &lt;main+0&gt;:    push   %ebp<br>0x08048205 &lt;main+1&gt;:    mov    %esp,%ebp<br>0x08048207 &lt;main+3&gt;:    sub    $0x8,%esp<br>0x0804820a &lt;main+6&gt;:    and    $0xfffffff0,%esp<br>0x0804820d &lt;main+9&gt;:    mov    $0x0,%eax<br>0x08048212 &lt;main+14&gt;:   sub    %eax,%esp<br>0x08048214 &lt;main+16&gt;:   call   0x8048288<br>0x08048219 &lt;main+21&gt;:   leave<br>0x0804821a &lt;main+22&gt;:   ret                        <br><p>由于libc库是在程序初始化时才被装载，所以我们先启动程序，并停在main第一条语句，然后反汇编getuid库函数</p>。                                    (gdb) b main<br>Breakpoint 1 at 0x804820a<br>(gdb) r<br>Starting program: /opt/dynamic<br>Breakpoint 1, 0x0804820a in main ()<br>(gdb) disassemble getuid<br>Dump of assembler code for function getuid:<br>0x40219e50 &lt;<strong>getuid+0&gt;:        push   %ebp<br>0x40219e51 &lt;</strong>getuid+1&gt;:        mov    %esp,%ebp<br>0x40219e53 &lt;<strong>getuid+3&gt;:        push   %ebx<br>0x40219e54 &lt;</strong>getuid+4&gt;:        call   0x40219e59 &lt;<strong>getuid+9&gt;<br>0x40219e59 &lt;</strong>getuid+9&gt;:        pop    %ebx<br>0x40219e5a &lt;<strong>getuid+10&gt;:       add    $0x84b0f,%ebx<br>0x40219e60 &lt;</strong>getuid+16&gt;:       mov    0xffffd87c(%ebx),%eax<br>0x40219e66 &lt;<strong>getuid+22&gt;:       test   %eax,%eax<br>0x40219e68 &lt;</strong>getuid+24&gt;:       jle    0x40219e80 &lt;<strong>getuid+48&gt;<br>0x40219e6a &lt;</strong>getuid+26&gt;:       mov    $0x18,%eax<br>0x40219e6f &lt;__getuid+31&gt;:       call   </em>%gs:0x10<br>0x40219e76 &lt;<strong>getuid+38&gt;:       pop    %ebx<br>0x40219e77 &lt;</strong>getuid+39&gt;:       pop    %ebp<br>0x40219e78 &lt;__getuid+40&gt;:       ret                        <br><p>可 以看出，库函数getuid将eax寄存器设置为getuid系统调用的调用号0x18，然后调用%gs:0x10所指向的函数。在gdb中，无法查看非 DS段的数据内容，所以无法查看%gs:0x10所保存的实际数值，不过我们可以通过编程的办法，内嵌汇编将%gs:0x10的值赋予某个局部变量来得到 这个数值，而这个数值也是0xffffe400，具体代码这里就不再赘述。</p><p>由此可见，无论是静态还是动态方式，最终我们都来到了0xffffe400这里的一段代码，这里就是内核为我们映射的系统调用入口代码。在gdb中，我们可以直接反汇编来查看这里的代码</p>                                    (gdb) disassemble 0xffffe400 0xffffe414<br>Dump of assembler code from 0xffffe400 to 0xffffe414:0xffffe400:     push   %ecx<br>0xffffe401:     push   %edx<br>0xffffe402:     push   %ebp<br>0xffffe403:     mov    %esp,%ebp<br>0xffffe405:     sysenter<br>0xffffe407:     nop<br>0xffffe408:     nop<br>0xffffe409:     nop<br>0xffffe40a:     nop<br>0xffffe40b:     nop<br>0xffffe40c:     nop<br>0xffffe40d:     nop<br>0xffffe40e:     jmp    0xffffe403<br>0xffffe410:     pop    %ebp<br>0xffffe411:     pop    %edx<br>0xffffe412:     pop    %ecx<br>0xffffe413:     ret<br>End of assembler dump.                        <br><p>这 段代码正是arch/i386/kernel/vsyscall-sysenter.S文件中的代码。其中，在sysenter之前的是入口代码，在 0xffffe410开始的是内核返回处理代码（后面提到的SYSENTER_RETURN即指向这里）。在入口代码中，首先是保存当前的 ecx，edx（由于sysexit指令需要使用这两个寄存器）以及ebp。然后调用sysenter指令，跳转到内核Ring 0代码，也就是sysenter_entry入口处。</p><br> <img width="100%" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif"><br> <img width="8" height="6" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <img width="100%" height="4" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"><br> <img width="16" height="16" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif"> <a href="http://www.ibm.com/developerworks/cn/linux/kernel/l-k26ncpu/index.html#main" target="_blank" rel="external"><strong>回页首</strong></a> <br><br><p><a name="8">内核中的处理和返回</a></p><p> </p><p>sysenter_entry 整个的实现可以参见arch/i386/kernel/entry.S。内核处理SYSENTER的代码和处理INT的代码不太一样。通过 sysenter指令进入Ring 0之后，由于当前的ESP并非指向正确的内核栈，而是当前CPU的TSS结构中的一个缓冲区（参见上文），所以首先要解决的是修复ESP，幸运的 是，TSS结构中ESP0成员本身就保存有Ring 0状态的ESP值，所以在这里将TSS结构中ESP0的值赋予ESP寄存器。将ESP恢复成指向正确的堆栈之后，由于SYSENTER不是通过调用门进入 Ring 0，所以在堆栈中的上下文和使用INT指令的不一样，INT指令进入Ring 0后栈中会保存如下的值。</p><p>低地址</p>                        返回用户态的EIP                            用户态的CS                            用户态的EFLAGS                            用户态的ESP                            用户态的SS（和DS相同）            高地址<p>因 此，为了简化和重用代码，内核会用pushl指令往栈中放入上述各值，值得注意的是，内核在栈中放入的相对应用户态EIP的值，是一个代码标签 SYSENTER_RETURN，在vsyscall-sysenter.S可以看到，它就在sysenter指令的后面（在它们之间，有一段NOP，是 内核返回出错时的处理代码）。接下来，处理系统调用的代码就和中断方式的处理代码一模一样了，内核保存所有的寄存器，然后系统调用表找到对应系统调用的入 口，完成调用。最后，内核从栈中取出前面存入的用户态的EIP和ESP，存入edx和ecx寄存器，调用SYSEXIT指令返回用户态。返回用户态之后， 从栈中取出ESP，edx，ecx，最终返回glibc库。</p><br> <img width="100%" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif"><br> <img width="8" height="6" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <img width="100%" height="4" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"><br> <img width="16" height="16" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif"> <a href="http://www.ibm.com/developerworks/cn/linux/kernel/l-k26ncpu/index.html#main" target="_blank" rel="external"><strong>回页首</strong></a> <br><br><p><a name="9">其它操作系统以及其它硬件平台的支持</a></p><p> </p><p>值 得一提的是，从 Windows XP 开始，Windows 的系统调用方式也从软中断 int 0x2e 转换到采用 sysenter 方式，由于完全不再支持 int 方式，因此 Windows XP 的对 CPU 的最低配置要求是 PentiumII 300MHz。在其它的操作系统例如 *BSD 系列，目前并没有提供对 sysenter 指令的支持。</p><p>在 CPU 方面，AMD 的 CPU 支持一套与之对应的指令 SYSCALL/SYSRET。在纯 32 位的 AMD CPU 上，还没有支持 sysenter 指令，而在 AMD 推出的 AMD64 系列 CPU 上，处于某些模式的情况下，CPU 能够支持 sysenter/sysexit 指令。在 Linux 内核针对 AMD64 架构的代码中，采用的还是 SYSCALL/SYSRET 指令。至于这两种指令最终谁将成为标准，目前还无法得出结论。</p><br> <img width="100%" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif"><br> <img width="8" height="6" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <img width="100%" height="4" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"><br> <img width="16" height="16" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif"> <a href="http://www.ibm.com/developerworks/cn/linux/kernel/l-k26ncpu/index.html#main" target="_blank" rel="external"><strong>回页首</strong></a> <br><br><p><a name="10">未来</a></p><p> </p><p>我 们将 Intel 的 sysenter/sysexit 指令，AMD 的 SYSCALL/SYSRET 指令统称为&quot;快速系统调用指令&quot;。&quot;快速系统调用指令&quot;比起中断指令来说，其消耗时间必然会少一些，但是随着 CPU 设计的发展，将来应该不会再出现类似 Intel Pentium4 这样悬殊的差距。而&quot;快速系统调用指令&quot;比起中断方式的系统调用方式，还存在一定局限，例如无法在一个系统调用处理过程中再通过&quot;快速系统调用指令&quot;调用 别的系统调用。因此，并不一定每个系统调用都需要通过&quot;快速系统调用指令&quot;来实现。比如，对于复杂的系统调用例如 fork，两种系统调用方式的时间差和系统调用本身运行消耗的时间来比，可以忽略不计，此处采取&quot;快速系统调用指令&quot;方式没有什么必要。而真正应该使用&quot; 快速系统调用指令&quot;方式的，是那些本身运行时间很短，对时间精确性要求高的系统调用，例如 getuid、gettimeofday 等等。因此，采取灵活的手段，针对不同的系统调用采取不同的方式，才能得到最优化的性能和实现最完美的功能。</p><br><br><p><a name="resources">参考资料 </a></p><p>[1] VxWorks Optimized for Intel Architecture,         <br>Hdei Nunoe, Wind River, Member of Technical Staff         <br>Leo Samson, Wind River, Technical Marketing Engineer         <br>David Hillyard, Intel Corporation, Mgr., Platform Architect</p><p>[2] Kernel Entry / Kernel Exit ,  Marcus Voelp &amp; University Karlsruhe</p><p>[3] Dave Jones’ blog,         <a href="http://diary.codemonkey.org.uk/index.php?month=12&amp;year=2002" target="_blank" rel="external">http://diary.codemonkey.org.uk/index.php?month=12&amp;year=2002</a></p><p>[4] Linux 内核源码 v2.6.0         <br><a href="http://www.kernel.org/" target="_blank" rel="external">http://www.kernel.org</a> <br>[Linus Torvalds，2004]</p><p>[5] GNU C Library glibc 2.3.3 源码         <br><a href="http://www.gnu.org/software/libc/libc.html" target="_blank" rel="external">http://www.gnu.org/software/libc/libc.html</a></p><p>Linux Kernel Mailing List 中对系统调用方式的讨论：         <br>[5] Linux Kernel Mailing List, &quot;Intel P6 vs P7 system call performance&quot;         <br><a href="http://www.ussg.iu.edu/hypermail/linux/kernel/0212.1/index.html#1286" target="_blank" rel="external">http://www.ussg.iu.edu/hypermail/linux/kernel/0212.1/index.html#1286</a> <br><a href="http://www.ussg.iu.edu/hypermail/linux/kernel/0212.3/index.html#54" target="_blank" rel="external">http://www.ussg.iu.edu/hypermail/linux/kernel/0212.3/index.html#54</a></p><p>Linux 内核首次引入对 sysenter/sysexit 指令的支持：         <br>[6] Linux Kernel Mailing List, &quot;Add &quot;sysenter&quot; support on x86, and a &quot;vsyscall&quot; page.&quot;         <br><a href="http://lwn.net/Articles/18414/" target="_blank" rel="external">http://lwn.net/Articles/18414/</a></p><br><br><br><br><br><br><br><br><del>end</del> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/10/15/【zz】SYSENTER-SYSEXIT/" class="archive-article-date">
+  	<time datetime="2008-10-15T15:25:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-10-15</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux/">Linux</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2008/10/17/L4学习收集/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          L4学习收集
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2008/10/11/glibc中的vfork/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">glibc中的vfork</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>【zz】Adding New SIMD Instructions to the GCC Back-end | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="http://blog.chinaunix.net/u/30686/showart.php Adding New SIMD Instructions to the GCC Back-end">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【zz】Adding New SIMD Instructions to the GCC Back-end">
+<meta property="og:url" content="http://blog.pickbox.me/2008/03/12/【zz】Adding-New-SIMD-Instructions-to-the-GCC-Back-end/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="http://blog.chinaunix.net/u/30686/showart.php Adding New SIMD Instructions to the GCC Back-end">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【zz】Adding New SIMD Instructions to the GCC Back-end">
+<meta name="twitter:description" content="http://blog.chinaunix.net/u/30686/showart.php Adding New SIMD Instructions to the GCC Back-end">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-【zz】Adding-New-SIMD-Instructions-to-the-GCC-Back-end" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      【zz】Adding New SIMD Instructions to the GCC Back-end
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <a target="_blank" href="http://blog.chinaunix.net/u/30686/showart.php?id=489526">http://blog.chinaunix.net/u/30686/showart.php</a><br><br> <strong>Adding New SIMD Instructions to the GCC Back-end</strong>                                                                                                                                                                                                              Mauricio Alvarez: alvarez (at) ac (dot) upc (dot) edu<br>                        Created: 16/09/2005.<br>                        Modified: 13.03.2006.                        <strong>1. <a name="Introduction"></a>Introduction</strong>                        This guide shows how to include support in the gcc compiler for new instructions that are added to an existing ISA. The idea is to extend an ISA with custom instructions for domain-specific processor acceleration and to  support these instructions into the compiler using intrinsics.<br> <br>                        This work is based on the PowerPC ISA with the Altivec multimedia extension and the new instructions that are going to be added are related to the video coding/decoding domain.  GCC version 4.0 is used.<br> <br>                        In a first stage of this work new instructions are going to be supported by means of intrinsics that allow the programmer to use them directly in C or C++ programs.<br> <br> <br> <strong>2. <a name="GCC_structure_and_passes"></a>GCC structure and passes</strong>                        In order to provide support for new instructions in gcc it is necessary to support them in some of  the stages of the compiler:<br> <br> <strong>front-end: parse tree ——–&gt; middle-end: generic tree ———&gt; back-end: RTL<br> </strong> <strong><br>                        GCC passes [1]</strong><br> <ul> <li>Parsing pass: language front-end</li> <li>Gimplification pass: convert intermediate representation of a function into the GIMPLE language</li> <li>Tree SSA passes: tree optimization passes (for example autovectorization)</li> <li>RTL passes: rtl generation and optimization passes</li> </ul> <strong>Modifications in each stacge of GCC</strong><br> <strong>2.1 front-end</strong>: specification of new intrinsics added to the Altivec existing intrinsics.<br> <strong>2.2 middle-end</strong>: because the instructions are not going to be generated automatically, there is no need to modify this stage<br>                        2.3 <strong>back-end</strong>: creation of the machine description of the new instructions.<br> <strong>3. Front-end support for intrinsics in GCC</strong> <strong>3.1 <a name="What_instrinsics_are"></a>What intrinsics are?</strong><br>                        A <em>intrinsic</em> is a function known by the compiler that directly maps to a sequence of one or more assembly language instructions.<br> <br>                        Intrinsics make the use of processor specific enhancements easier because they provide a language interface (C,C++) to assembly instructions. In doing so, the compiler manages things that the user would normally have to be concerned with, such register names, register allocations and memory locations of data.<br> <br>                        GCC has intrinsics for the SIMD extensions (SSE, Altivec) that are available in most modern processors.<br> <br> <strong>3.2 <a name="Altivec_Intrinsics_in_GCC"></a>Altivec Intrinsics in GCC<br> </strong>Altivec intrinsics are an interface to the PowerPC processors to access Altivec instructions. Intrinsics specification also adds new types to the C,C++ languages for declaring packed variables as described in the Altivec Programming Interface Manual [2].<br> <br>                        The intrinsics interface is made available by adding <em>#include &lt;altivec.h&gt; </em>in the source program and by adding  the <em>-maltivec and -mabi=altivec</em> compiler flags to the compilation command. This is only applicable for the <em>fsf  official GCC. </em>Mac computers (with powerpc processors) use a special version of gcc that does not need to inlude the header <em>altivec.h </em>and requires the compiler flag <em>-faltivec</em><br> <br>                        Altivec intrinsics are declared in <em>altivec.h </em>that is available in the gcc source code in: <em>gcc/config/rs6000/altivec.h<br> </em><br>                        An example of the Altivec intrinsics is the vector average, which calculates the rounded average of two vectors.<br> <br>                        - compiler intrinsic: <em>d = vec_avg(a,b)<br>                        - </em>Assembly instructions: see next table<br> <br> <strong>d = vec_avg(a,b)</strong> <strong>d</strong> <strong>a</strong> <strong>b</strong> <strong>maps to</strong>                                                                                                    vector unsigned char                                    vector unsigned char                                    vector unsigned char                                    vavgub d,a,b                                                                                                    vector signed char                                    vector signed char                                    vector signed char                                    vavgsb d,a,b                                                                                                    vector unsigned short                                    vector unsigned short                                    vector unsigned short                                    vavguh d,a,b                                                                                                    vector signed short                                    vector signed short                                    vector signed short                                    vavgsh d,a,b                                                                                                    vector unsigned int                                    vector unsigned int                                    vector unsigned int                                    vavguw d,a,b                                                                                                    vector signed int                                    vector signed int                                    vector signed int                                    vavgsw d,a,b                                                                                                            <br> <br> <strong>3.3 <a name="Implementation_of_Altivec_intrinsics"></a>Implementation of Altivec intrinsics<br> </strong>Intrinsics are implemented as functions but the code is placed inline and they do not generate a function call. As can be seen in the example above each intrinsic can map to several assembly instructions depending on the data type of the operands. In GCC this is implemented by means of overloaded functions. In C++ they are supported directly by the language. In C they are implemented with macros.<br> <br>                        Here there is the C++ declaration of the <em>vec_avg</em> intrinsic for vector signed/unsigned char:<br> <em><br>                        inline   <strong>vector unsigned char<br>                        vec_avg (</strong>vector unsigned char a1, <strong>vector unsigned char a2)<br>                        {<br>                        return (</strong>vector unsigned char) <strong>builtin_altivec_vavgub ((</strong>vector signed char) a1, (<strong>vector signed char) a2);<br>                        }<br> <br>                        inline   </strong>vector signed char<br>                        vec_avg (<strong>vector signed char a1, </strong>vector signed char a2)<br>                        {<br>                        return (<strong>vector signed char) </strong>builtin_altivec_vavgsb ((<strong>vector signed char) a1, (</strong>vector signed char) a2);<br>                        }<br> <br> </em>In C, the same declaration is done with macros:<br> <em>#define vec_avg(a1, a2) <br>                        <strong>ch (</strong>bin_args_eq (<strong>vector unsigned char, (a1), </strong>vector unsigned char, (a2)), <br>                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   ((<strong>vector unsigned char) </strong>builtin_altivec_vavgub ((<strong>vector signed char) (a1), (</strong>vector signed char) (a2))), <br>                        <strong>ch (</strong>bin_args_eq (<strong>vector signed char, (a1), </strong>vector signed char, (a2)), <br>                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   ((<strong>vector signed char) </strong>builtin_altivec_vavgsb ((<strong>vector signed char) (a1), (</strong>vector signed char) (a2))), <br>                        <strong>ch (</strong>bin_args_eq (<strong>vector unsigned short, (a1), </strong>vector unsigned short, (a2)), <br>                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   ((<strong>vector unsigned short) </strong>builtin_altivec_vavguh ((<strong>vector signed short) (a1), (</strong>vector signed short) (a2))), <br>                        <strong>ch (</strong>bin_args_eq (<strong>vector signed short, (a1), </strong>vector signed short, (a2)), <br>                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   ((<strong>vector signed short) </strong>builtin_altivec_vavgsh ((<strong>vector signed short) (a1), (</strong>vector signed short) (a2))), <br>                        <strong>ch (</strong>bin_args_eq (<strong>vector unsigned int, (a1), </strong>vector unsigned int, (a2)), <br>                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   ((<strong>vector unsigned int) </strong>builtin_altivec_vavguw ((<strong>vector signed int) (a1), (</strong>vector signed int) (a2))), <br>                        <strong>ch (</strong>bin_args_eq (<strong>vector signed int, (a1), </strong>vector signed int, (a2)), <br>                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   ((<strong>vector signed int) </strong>builtin_altivec_vavgsw ((<strong>vector signed int) (a1), (</strong>vector signed int) (a2))), <br>                        &nbsp;&nbsp;&nbsp;   <strong>builtin_altivec_compiletime_error (&quot;vec_avg&quot;)))))))</strong></em><br> <br> <em>bin_args_eq</em> is a macro that checks the compatibility of the data type of the operands.<br> <em>_ch</em> is a macro that chooses between the builtin assembly expression or a data type error<br> <br> <strong>3.4 An example of a new Altivec intrinsics for pixel interpolation<br> </strong>We are going to include support for a new instruction devoted to the pixel interpolation, a process that is common in the video coding standards like MPEG-4 or H.264.<br> <br>                        The interface to the new instruction is <em>d = vec_inter(a,b)</em> and the assembly mapping is shown in the next table<br> <br> <br> <strong>d = vec_inter(a,b)</strong> <strong>d</strong> <strong>a</strong> <strong>b</strong> <strong>maps to</strong>                                                                                                    vector unsigned char                                    vector unsigned char                                    vector unsigned char                                    vinterub d,a,b                                                                                                    vector signed char                                    vector signed char                                    vector signed char                                    vintersb d,a,b                                                                                                    vector unsigned short                                    vector unsigned short                                    vector unsigned short                                    vinteruh d,a,b                                                                                                    vector signed short                                    vector signed short                                    vector signed short                                    vintersh d,a,b                                                                                                    vector unsigned int                                    vector unsigned int                                    vector unsigned int                                    vinteruw d,a,b                                                                                                    vector signed int                                    vector signed int                                    vector signed int                                    vintersw d,a,b                                                                                                            <br>                        The definition in C++  for the signed/unsigned char version is like that:<br> <br> <em>inline   <strong>vector unsigned char<br>                        vec_inter (</strong>vector unsigned char a1, <strong>vector unsigned char a2)<br>                        {<br>                        return (</strong>vector unsigned char) <strong>builtin_altivec_vinterub ((</strong>vector signed char) a1, (<strong>vector signed char) a2);<br>                        }<br> <br>                        inline   </strong>vector signed char<br>                        vec_inter (<strong>vector signed char a1, </strong>vector signed char a2)<br>                        {<br>                        return (<strong>vector signed char) </strong>builtin_altivec_vintersb ((<strong>vector signed char) a1, (</strong>vector signed char) a2);<br>                        }<br> </em><br> <strong>4. Back-end support for intrinsics in GCC</strong>                        Intrinsics are implemented in the machine description of the back-end of the compiler.  The back-end is implemented in several files:<br> <ul> <li>rs6000.h: C macros for machine fundamentals, compiler environment, machine description support and ABI</li> <li>rs6000.c: C functions for macro expansion and machine description support</li> <li>rs6000.md: Machine description for RS6000 (Power) instructions</li> <li>altivec.h: declaration of intrinsics functions</li> <li>altivec.md: machine description for altivec instructions</li> </ul>                        The machine descriptions are used in the matching process to transform RTL expressions into assembler instructions. An instruction description in the machine description consists of instruction template patterns for both instruction generation and instruction matching.<br> <br> <strong>4.1 Instruction patterns for altivec instructions</strong><br>                        Here is an example of an instruction pattern for the vec_avg intrinsic using unsigned char operands:<br> <br> <em>(define_insn &quot;altivec_vavgub&quot;<br>                        [(&nbsp;&nbsp;&nbsp;   set (match_operand: V16QI 0 &quot;register_operand&quot; &quot;=v&quot;)<br>                        &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   (unspec:</em><em>V16QI </em><em>[ (match_operand: </em><em>V16QI </em><em>1 &quot;register_operand&quot; &quot;v&quot;)<br>                        &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   (match_operand:</em><em>V16QI </em><em>2 &quot;register_operand&quot; &quot;v&quot;)] 44))]<br>                        &quot;TARGET_ALTIVEC&quot;<br>                        &quot;vavgub %0,%1,%2&quot;<br>                        [(set_attr &quot;type&quot; &quot;vecsimple&quot;)])<br> </em><br> <ul> <li><em>define_insn</em>: is the pattern type for both instruction generation and matching.</li> <li><em>altivec_vavgub</em>: is the pattern name.</li> <li><em>set (the operand)</em>: a composition of operations: At the leaves of the resulting operation tree, there is usually some kind of operand-matching expression. The generic form is <em>(match_operand: Mode operand-number &quot;predicate&quot; &quot;constraints&quot;)</em> <ul> <li>In<em> set (match_operand: V16QI 0 &quot;register_operand&quot; &quot;=v&quot;) </em>there is a matching for an operand of type V16QI (vector of 16 QI, QI means a byte), which is the first operand &quot;0&quot;. &quot;=v&quot; means this is the destination operand.  There is a predicate &quot;register operand&quot; than means the operand is a register and there is a constraint &quot;v&quot; that means that the register operand needs to be a vector register.</li> <li><code>(unspec [<var>operands</var> <small>…</small>] <var>index</var>)</code> Represents a machine-specific operation on <var>operands</var>. <var>index</var> selects between multiple machine-specific operations.  For standard operations the name of the operation goes instead of unspec (for example: xor: QI), but altivec instructions are not standard instructions for the compiler, so they need to be declared machine-specific instructions.</li> </ul> </li> </ul> <ul> <li><em>&quot;TARGET_ALTIVEC&quot; </em>is a pattern condition for when the pattern applies.</li> <li><em> &quot;vavgub %0,%1,%2&quot; </em>is the specification of output template for the <em>define_insn. </em>The output template for the altivec instructions is just the assembler instruction as a string.</li> <li><em> [(set_attr &quot;type&quot; &quot;vecsimple&quot;)]): </em>is the specification of an attribute for the instruction. In this case the instruction is of the type: vector simple.</li> </ul> <br> <strong>4.2 Instruction patterns for new instructions<br> </strong>Similar to the example presented above, we have defined a pattern for the vector interpolation instruction: <em>vec_avg</em><br> <br>                        -<em> veg_avg</em> for the unsigned data types:<br> <br> <em>(define_insn &quot;altivec_vinteru&lt;VI_char&gt;&quot;<br>                        [(set (match_operand:VI 0 &quot;register_operand&quot; &quot;=v&quot;)<br>                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   (unspec:VI [(match_operand:VI 1 &quot;register_operand&quot; &quot;v&quot;)<br>                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   (match_operand:VI 2 &quot;register_operand&quot; &quot;v&quot;)] 244))]<br>                        &quot;TARGET_ALTIVEC&quot;<br>                        &quot;vinteru&lt;VI_char&gt; %0,%1,%2&quot;<br>                        [(set_attr &quot;type&quot; &quot;vecsimple&quot;)])<br> <br> </em>-<em> veg_avg</em> for the signed data types:<br> <em><br>                        (define_insn &quot;altivec_vinters&lt;VI_char&gt;&quot;<br>                        [(set (match_operand:VI 0 &quot;register_operand&quot; &quot;=v&quot;)<br>                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   (unspec:VI [(match_operand:VI 1 &quot;register_operand&quot; &quot;v&quot;)<br>                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   (match_operand:VI 2 &quot;register_operand&quot; &quot;v&quot;)] 245))]<br>                        &quot;TARGET_ALTIVEC&quot;<br>                        &quot;vinters&lt;VI_char&gt; %0,%1,%2&quot;<br>                        [(set_attr &quot;type&quot; &quot;vecsimple&quot;)])<br> <br> </em><strong>4.3 Builtin description of the intrinsics<br> </strong>It is necessary to add the intrinsics in the back-end of the compiler. In our case, the intrinsics are added to the RS600 back-end which includes all the Power and PowerPC processors. The subroutines for code generation are defined in <em>gcc/gcc-4.0.0/gcc/config/rs6000/rs6000.c  </em>In this file there is a special section for the definition of builtins.<br> <br>                        For two operands instructions there is a structure like this:<br> <em><br>                        static struct builtin_description bdesc_2arg[] =<br>                        {<br>                        …<br>                        { MASK_ALTIVEC, CODE_FOR_altivec_vinterub, &quot;<strong>builtin_altivec_vinterub&quot;, ALTIVEC_BUILTIN_VINTERUB },<br>                        { MASK_ALTIVEC, CODE_FOR_altivec_vintersb, &quot;</strong>builtin_altivec_vintersb&quot;, ALTIVEC_BUILTIN_VINTERSB },<br>                        { MASK_ALTIVEC, CODE_FOR_altivec_vinteruh, &quot;<strong>builtin_altivec_vinteruh&quot;, ALTIVEC_BUILTIN_VINTERUH },<br>                        { MASK_ALTIVEC, CODE_FOR_altivec_vintersh, &quot;</strong>builtin_altivec_vintersh&quot;, ALTIVEC_BUILTIN_VINTERSH },<br>                        { MASK_ALTIVEC, CODE_FOR_altivec_vinteruw, &quot;<strong>builtin_altivec_vinteruw&quot;, ALTIVEC_BUILTIN_VINTERUW },<br>                        { MASK_ALTIVEC, CODE_FOR_altivec_vintersw, &quot;</strong>builtin_altivec_vintersw&quot;, ALTIVEC_BUILTIN_VINTERSW },<br>                        …<br>                        }<br> <br> </em>And the definition of  ALTIVEC_BUILTINs are placed in: <em>gcc/gcc-4.0.0/gcc/config/rs6000/rs6000.h<br> <br>                        enum rs6000_builtins<br>                        {<br>                        /<em> Altivec builtins.  </em>/<br>                        …<br>                        ALTIVEC_BUILTIN_VINTERUB,<br>                        ALTIVEC_BUILTIN_VINTERSB,<br>                        ALTIVEC_BUILTIN_VINTERUH,<br>                        ALTIVEC_BUILTIN_VINTERSH,<br>                        ALTIVEC_BUILTIN_VINTERUW,<br>                        ALTIVEC_BUILTIN_VINTERSW,  <br>                        …<br>                        }<br> </em><br> <strong>5.  Extending GNU Assembler<br> </strong>In order to support new instructions for a given ISA it is necessary to modify the assembler for producing the object code.  The natural election of an assembler to use in conjunction with the gcc compiler is gas, the gnu assembler which is part of the binutils collection of tools.<br> <br>                        Gas is implemented in two sections, a front-end and a back-end<br> <ul> <li><em>Gas Front-end</em>: handles the parsing of input</li> <li><em>Gas back-end:</em> does the whole machine dependant part</li> </ul> <br> <strong>5.1 Opcode List</strong><br>                        The opcode list for PowerPC instructions is defined in the PowerPC back-end: <br> <em>/binutils-2.16.1/opcodes/</em>ppc-opc.c<br> <br> <em>const struct powerpc_opcode powerpc_opcodes[] = {<br>                        …<br>                        { &quot;vinterub&quot;,VX(4, 1900), VX_MASK,&nbsp;&nbsp;&nbsp;   PPCVEC,&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   { VD, VA, VB } },<br>                        { &quot;vinteruh&quot;,VX(4, 1901), VX_MASK,&nbsp;&nbsp;&nbsp;   PPCVEC,&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   { VD, VA, VB } },<br>                        { &quot;vinteruw&quot;,VX(4, 1902), VX_MASK,&nbsp;&nbsp;&nbsp;   PPCVEC,&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   { VD, VA, VB } },<br>                        { &quot;vintersb&quot;,VX(4, 1903), VX_MASK,&nbsp;&nbsp;&nbsp;   PPCVEC,&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   { VD, VA, VB } },<br>                        { &quot;vintersh&quot;,VX(4, 1904), VX_MASK,&nbsp;&nbsp;&nbsp;   PPCVEC,&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   { VD, VA, VB } },<br>                        { &quot;vintersw&quot;,VX(4, 1905), VX_MASK,&nbsp;&nbsp;&nbsp;   PPCVEC,&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   { VD, VA, VB } },<br>                        …<br>                        }<br> <br> </em> <ul> <li><em>vinterXX: is the instruction name.</em></li> <li>VX(4,YY): 4 is the main opcode and YY is the secondary opcode.</li> <li>VX is a macro that creates the altivec instructions:<em> VX(op, xop) (OP (op) | (((unsigned long)(xop)) &amp; 0x7ff))</em></li> <li>VX_MASK: used by the disassembler.</li> <li>PPCVEC: used to indicate which specific processors support the instructions.</li> <li>{ VD, VA, VB }: Operands: an array of operand codes. Each code is an index into the operation table.</li> </ul> <em><br> </em><strong>5.2 Adding new opcodes to the Altivec extension<br> <br>                        PowerPC opcode format:<br> </strong> <strong>———————————————————————————-</strong><br> <strong>| Main Opcode  |&nbsp;&nbsp;   VD&nbsp;&nbsp;   |&nbsp;&nbsp;   VA&nbsp;&nbsp;   |&nbsp;&nbsp;   VB&nbsp;&nbsp;   |&nbsp;&nbsp;   &nbsp;&nbsp;   Extended opcode&nbsp;&nbsp;   |</strong><br> <strong>———————————————————————————-</strong> <br> <ul> <li>Main opcode: for altivec instructions is =0x04.</li> <li>VD, VA, VB, are the identifiers of registers: 5 bits each.</li> <li>Extended opcode: the opcode of the instruction itself.</li> </ul> <br> <strong>Free opcodes<br> </strong>Beyond the extended opcode of 1900 there are free slots for new instructions. For the interpolation instructions these are the selected opcodes:<strong><br> </strong><em>- vinterub: 1900<br>                        - vinteruh: 1901<br>                        - vinteruw: 1902<br>                        - vintersb: 1903<br>                        - vintersh: 1904<br>                        - vintersw: 1905<br> </em><br>                        Appendix 1. Notes on compilation of gcc                        Adding new instructions do not change at all the compilation process of gcc. But for our experiments we are using a Power4 machine with AIX operating system and a PowerPC+Altivec emulator and simulator. Neither the processors or the OS has support for Altivec instructions. So it is necessary to tell gcc that include the support for altivec.<br> <br> <ul> <li><strong>in <em>gcc/config/rs6000/</em></strong><strong>aix.h:</strong> it is necessary to define that the system supports ALTIVEC instructions.</li> </ul> <blockquote> <blockquote>#define TARGET_ALTIVEC 1<br>                        #define TARGET_ALTIVEC_ABI 1<br>                        #define TARGET_ALTIVEC_VRSAVE 1<br> </blockquote></blockquote> <ul> <li><strong>in gcc/config/rs6000/xcoff.h</strong> Additionally it is necessary to guarantee that the global variables are aligned to 128-bit. Thus is done by changing the emission of the assembler directive <em>csect </em>who is responsible for the aligment of sections in the generated code.</li> </ul> <br> <em>#define READ_ONLY_DATA_SECTION_FUNCTION&nbsp;&nbsp;&nbsp;   <br>                        void&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   <br>                        read_only_data_section (void)&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;&nbsp;   <br>                        {&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;&nbsp;   <br>                        if (in_section != read_only_data)&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;   <br>                        &nbsp;&nbsp;&nbsp;   {&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;&nbsp;   <br>                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   fprintf (asm_out_file, &quot;t.csect %s[RO],4n&quot;,&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;     &nbsp;&nbsp;   &lt;——– Alignment to 128<br>                        &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   xcoff_read_only_section_name);&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   <br>                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   in_section = read_only_data;&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;     <br>                        &nbsp;&nbsp;&nbsp;   }&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;     <br>                        }<br> </em><br>                        the same need to be applied for<br> <em>#define READ_ONLY_PRIVATE_DATA_SECTION_FUNCTION </em><br> <br> <ul> <li>it is better to use the bash shell in order to speed-up the compilation process UNDER AIX:</li> </ul> <blockquote><em>CONFIG_SHELL={bin_dir}/bash<br>                        export CONFIG_SHELL<br> </em></blockquote> <ul> <li><strong>Building GCC: </strong>for the configuration it is necessary to enable altivec and the desired languages for the front-end.<strong><br> </strong></li> </ul> <blockquote>$ ./configure –prefix=$BIN_DIR –enable-languages=c,c++ –enable-altivec –disable-nls –disable-multilib.  <br>                        $ gmake<br>                        $ gmake install<br> </blockquote>                        References                        [1] <a href="http://gcc.gnu.org/onlinedocs/gccint/" target="_blank" rel="external">GCC Internals</a>. GNU Compiler Collection Internals<br>                        [2] <a href="http://www.freescale.com/files/32bit/doc/ref_manual/ALTIVECPIM.pdf" target="_blank" rel="external">ALTIVECPIM</a>. AltiVec Technology Programming Interface Manual. Motorola/Freescale.<br>                        [3] <a href="http://www.gnu.org/software/binutils/" target="_blank" rel="external">BINUTILS</a>. GNU binary utils: assembler, linker, loader and other utilities for dealing with binary files generated by gcc compilers.                        <ul> <li>Motorola/Freescale. <em>Programming Environments Manual for 32-bit Implementations of the PowerPC Architecture</em>. P/N MPCFPE32B/AD .</li> <li>IBM (2000). <em>Book E: Enhanced PowerPC&#8482; Architecture</em> (3rd ed.)</li> <li>Motorola/Freescale. ALTIVECPEM. AltiVec Technology Programming Environments Manual.</li> <li>Intrinsics wikipedia. <a href="http://en.wikipedia.org/wiki/Intrinsic_function" target="_blank" rel="external">http://en.wikipedia.org/wiki/Intrinsic_function</a></li> <li>Hans-Peter Nilsson. Porting gcc for dunces. ftp://ftp.axis.se/pub/users/hp/pgccfd/</li> </ul> </p><p> </p> <strong>原文地址</strong> <a href="http://personals.ac.upc.edu/alvarez/media/gcc-isa-extensions.html" target="_blank">http://personals.ac.upc.edu/alvarez/media/gcc-isa-extensions.html</a> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/03/12/【zz】Adding-New-SIMD-Instructions-to-the-GCC-Back-end/" class="archive-article-date">
+  	<time datetime="2008-03-12T13:52:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-03-12</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2008/03/14/read-rtx-from-md-file-gencodes/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          read rtx from .md file &amp; gencodes
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2008/03/11/Linux终端彩色输出/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Linux终端彩色输出</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

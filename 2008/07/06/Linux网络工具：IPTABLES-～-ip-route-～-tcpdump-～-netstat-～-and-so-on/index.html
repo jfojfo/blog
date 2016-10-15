@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Linux网络工具：IPTABLES ～ ip/route ～ tcpdump ～ netstat ～ and so on ... | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="~~ my snortSnort 用户手册-c config-fileUse the rules located in file config-file.-C&amp;#160;&amp;#160;&amp;#160;&amp;#160;      Print the character data from the packet payload only (no  hex).-d&amp;#160;&amp;#160;&amp;#160;&amp;#160;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux网络工具：IPTABLES ～ ip/route ～ tcpdump ～ netstat ～ and so on ...">
+<meta property="og:url" content="http://blog.pickbox.me/2008/07/06/Linux网络工具：IPTABLES-～-ip-route-～-tcpdump-～-netstat-～-and-so-on/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="~~ my snortSnort 用户手册-c config-fileUse the rules located in file config-file.-C&amp;#160;&amp;#160;&amp;#160;&amp;#160;      Print the character data from the packet payload only (no  hex).-d&amp;#160;&amp;#160;&amp;#160;&amp;#160;">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux网络工具：IPTABLES ～ ip/route ～ tcpdump ～ netstat ～ and so on ...">
+<meta name="twitter:description" content="~~ my snortSnort 用户手册-c config-fileUse the rules located in file config-file.-C&amp;#160;&amp;#160;&amp;#160;&amp;#160;      Print the character data from the packet payload only (no  hex).-d&amp;#160;&amp;#160;&amp;#160;&amp;#160;">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-Linux网络工具：IPTABLES-～-ip-route-～-tcpdump-～-netstat-～-and-so-on" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux网络工具：IPTABLES ～ ip/route ～ tcpdump ～ netstat ～ and so on ...
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> ~~ my <del><br><br>snort<br><br><a target="_blank" href="http://man.chinaunix.net/network/snort/Snortman.htm">Snort 用户手册</a><br><br>-c config-file<br>Use the rules located in file config-file.<br>-C&#160;&#160;&#160;&#160;      Print the character data from the packet payload only (no  hex).<br>-d&#160;&#160;&#160;&#160;      Dump  the application layer data when displaying packets in ver‐<br>bose or packet logging mode.<br>-e&#160;&#160;&#160;&#160;      Display/log the link layer packet headers.<br>-i interface<br>Sniff packets on interface.<br>-n packet-count<br>Process packet-count packets and exit.<br>-X&#160;&#160;&#160;&#160;      Dump the raw packet data starting at the link layer.  This<br>switch overrides the ‘-d’ switch.<br>-v&#160;&#160;&#160;&#160;      Be verbose.  Prints packets out to the console.<br>-l log-dir<br>Set  the  output  logging directory to log-dir.  All plain<br>-b&#160;&#160;&#160;&#160;      Log packets in a tcpdump(1) formatted file. （binary mode）<br>-r tcpdump-file<br>Read the tcpdump-formatted file tcpdump-file.<br>-K logging-mode<br>Select a packet logging mode.  The default is pcap.&#160;&#160;      log‐<br>ging-mode.&#160;&#160;      Valid  logging modes include pcap, ascii, and<br>none.  Pcap logs packets through  the  pcap  library  into<br>pcap  (tcpdump)  format.&#160;&#160;      Ascii  logs  packets in the old<br>&quot;directories and files&quot; format with  packet  printouts  in<br>each file.  None Turns off packet logging.<br>-h home-net<br>Set the &quot;home network&quot; to home-net.  The format of this address  variable  is  a  network<br>prefix plus a CIDR block, such as 192.168.1.0/24.  Once this variable is set, all decoded<br>packet logging will be done relative to the home network address space.  This  is  useful<br>because  of  the  way  that Snort formats its ASCII log data.  With this value set to the<br>local network, all decoded output will be logged into decode directories with the address<br>of the foreign computer as the directory name, which is very useful during traffic analy‐<br>sis.<br><br><br><br>eg:<br><br>sudo snort -de -K ascii -l ./log/ -h 10.214.9.0/24<br><br>sudo snort -dvr packet.log icmp&#160;&#160;&#160;      从日志文件中提取ICMP包<br><br><br>snort使用一种简单、轻量级的规则描述语言，灵活而强大，参考其他文章。<br><br><br></del> my <del><br><br>lsof<br><br>lsof abc.txt 显示开启文件abc.txt的进程<br>lsof -i :22 知道22端口现在运行什么程序<br>lsof -c proc_name 显示进程proc_name现在打开的文件<br>lsof -p 12 看进程号为12的进程打开了哪些文件<br>lsof -g gid 显示归属gid的进程情况<br>lsof +d /usr/local/ 显示目录下被进程开启的文件<br>lsof +D /usr/local/ 同上，但是会搜索目录下的目录，时间较长<br>lsof -d 4 显示使用fd为4的进程<br>lsof -r [t] 控制lsof不断重复执行，缺省是15s刷新<br>lsof -s 列出打开文件的大小，如果没有大小，则留下空白<br>lsof -u username 以UID，列出打开的文件<br><br>语法: lsof -i[46] [protocol][@hostname|hostaddr][:service|port]<br>46 –&gt; IPv4 or IPv6<br>protocol –&gt; TCP or UDP<br>hostname –&gt; Internet host name<br>hostaddr –&gt; IPv4位置<br>service –&gt; /etc/service中的 service name (可以不止一个)<br>port –&gt; 端口号(可以不止一个)<br>例子: TCP:25 - TCP and port 25<br>@1.2.3.4 - Internet IPv4 host address 1.2.3.4<br>tcp@ohaha.ks.edu.tw:ftp - TCP protocol hosthaha.ks.edu.tw service name:ftp<br>lsof -n 不将IP转换为hostname，预设是不加上-n参数<br>例子: lsof -i tcp@ohaha.ks.edu.tw:ftp -n<br><br></del> my <del><br><br>netstat<br><br> -t、-u、-w 和-x 分别表示TCP、UDP、RAW和UNIX套接字连接<br>-i 显示网络接口 <br>-p, –programs&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;         display PID/Program name for sockets<br>-c, –continuous&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;         continuous listing<br>-e, –extend&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;         display other/more information<br>eg:<br>tcpdump -ta<br> 显示活动或被动以及等待接入的tcp套接字<br><br><br></del> my <del><br><br>tcpdump<br>-e &#160;&#160;             显示mac物理地址<br>-S&#160;&#160; 显示绝对ACK序列号，不加-S默认会输出相对于初始序列号的相对偏移量<br><br>eg: tcpdump dst net not 192.168.123.0/24<br>tcpdump dst net not 192.168.123.0/24 and dst port not ( www or 25 or 110 or 5000 or domain ) and src port ! ( 4011 or 4010 or 4009 )<br>tcpdump ether src 00:50:04:BA:9B<br><br>ip icmp arp rarp 和 tcp、udp、icmp这些选项等都要放到第一个参数的位置，用来过滤数据报的类型<br>tcpdump udp and src host 192.168.0.1<br><br><br></del> my <del><br><br>iptables<br><br><strong>eg:<br>在10.214.9.191机器上nat映射 bbs 服务和 FTP 服务<br><br>iptables -t nat -A PREROUTING -p tcp -d 10.214.9.191 –dport 8823 -j DNAT –to 10.13.21.88:23<br>iptables -t nat -A POSTROUTING -p tcp -d 10.13.21.88 –dport 23 -j SNAT –to 10.214.9.191<br><br>＃注意：要成功映射FTP服务，需要加载ip_nat_ftp和ip_conntrack_ftp内核模块<br>＃modprobe ip_nat_ftp<br>iptables -t nat -A PREROUTING -p tcp -d 10.214.9.191 –dport 8821 -j DNAT –to 10.214.9.113:21<br>iptables -t nat -A POSTROUTING -p tcp -d 10.214.9.113 –dport 21 -j SNAT –to 10.214.9.191</strong><br><br><strong>iptables -nvL</strong>&#160;&#160;&#160;       list all rules<br><br>other ref:<br>实例：<a target="_blank" href="http://blog.csdn.net/yeqihong/archive/2007/02/06/1503596.aspx">http://blog.csdn.net/yeqihong/archive/2007/02/06/1503596.aspx</a><br><a href="http://blog.csdn.net/Lamour/archive/2007/05/31/1632464.aspx" target="_blank">http://blog.csdn.net/Lamour/archive/2007/05/31/1632464.aspx</a><br><br><br></del> my  <del><br><br>ip/route<br><br># 以下两个等价<br>ip route add 10.0.0.0/8 dev eth0<br>route add -net 10.0.0.0 netmask 255.0.0.0 dev eth0<br><br># 以下两个等价<br>ip route add 10.0.0.0/8 via $gateway<br>route add -net 10.0.0.0 netmask 255.0.0.0 gw $gateway<br><br># 以下是否重复$gateway 和 dev eth0&#160;&#160;               ???<br>ip route add 10.0.0.0/8 via $gateway dev eth0<br>route add -net 10.0.0.0 netmask 255.0.0.0 gw $gateway dev eth0<br><br>route -n  的输出标志位：<br><li>U (route is up)：該路由已經啟動了；</li><li>H (target is a host)：目標是一個主機( IP )，例如上面範例中的 140.116.141.253 那一個；</li><li>G (use gateway)：用來作為 gateway 的設定；</li><li>R (reinstate route for dynamic routing)：使用動態路由時，恢復路由資訊的旗標；</li><li>D (dynamically installed by daemon or redirect)：已經由服務或轉 port 功能設定為 動態路由；</li><li>M (modified from routing daemon or redirect)：路由已經被修改了；</li><li>!&#160;&#160;             (reject route)：這個路由將不會被接受(用來抵擋不安全的網域！)</li><br><br><br></del> my  <del><br><br><br> <strong><br></strong><br><br><br><br><br><br><br><br><br></del>continue~~ </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/07/06/Linux网络工具：IPTABLES-～-ip-route-～-tcpdump-～-netstat-～-and-so-on/" class="archive-article-date">
+  	<time datetime="2008-07-05T16:54:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-07-06</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Network/">Network</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2008/07/07/OpenVPN虚拟网络拓扑剖析/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          OpenVPN虚拟网络拓扑剖析
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2008/07/03/【OpenVPN】配置/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">【OpenVPN】配置</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

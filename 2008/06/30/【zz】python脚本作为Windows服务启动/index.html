@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>【zz】python脚本作为Windows服务启动 | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="如果我们想让系统启动的时候就执行某个程序，windows系统和unix系统是不一样的，对于unix只需要将要执行的命令放到 rc.local中，系统重新启动的时候就可以加载了。windows就麻烦多了，如果你将程序放到启动组中，只有输入了密码后，程序才被执行，如果想在 系统一启动的时候就执行程序，必须使用nt服务。 python下如何使用nt服务，其实很简单。 下载python的win32支持。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【zz】python脚本作为Windows服务启动">
+<meta property="og:url" content="http://blog.pickbox.me/2008/06/30/【zz】python脚本作为Windows服务启动/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="如果我们想让系统启动的时候就执行某个程序，windows系统和unix系统是不一样的，对于unix只需要将要执行的命令放到 rc.local中，系统重新启动的时候就可以加载了。windows就麻烦多了，如果你将程序放到启动组中，只有输入了密码后，程序才被执行，如果想在 系统一启动的时候就执行程序，必须使用nt服务。 python下如何使用nt服务，其实很简单。 下载python的win32支持。">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【zz】python脚本作为Windows服务启动">
+<meta name="twitter:description" content="如果我们想让系统启动的时候就执行某个程序，windows系统和unix系统是不一样的，对于unix只需要将要执行的命令放到 rc.local中，系统重新启动的时候就可以加载了。windows就麻烦多了，如果你将程序放到启动组中，只有输入了密码后，程序才被执行，如果想在 系统一启动的时候就执行程序，必须使用nt服务。 python下如何使用nt服务，其实很简单。 下载python的win32支持。">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-【zz】python脚本作为Windows服务启动" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      【zz】python脚本作为Windows服务启动
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> 如果我们想让系统启动的时候就执行某个程序，windows系统和unix系统是不一样的，对于unix只需要将要执行的命令放到 rc.local中，系统重新启动的时候就可以加载了。windows就麻烦多了，如果你将程序放到启动组中，只有输入了密码后，程序才被执行，如果想在 系统一启动的时候就执行程序，必须使用nt服务。 <br>python下如何使用nt服务，其实很简单。 <br>下载python的win32支持。我使用的是：pywin32-202.win32-py2.3.exe安装好后就可以来写我们的服务了。 <br>我们先来建立一个空的服务，建立test1.py这个文件，并写入如下代码: <br><br># -<em>- coding: cp936 -</em>- <br>import win32serviceutil <br>import win32service <br>import win32event <br><br>class test1(win32serviceutil.ServiceFramework): <br>&nbsp;&nbsp;&nbsp;&nbsp;   _svc<em>name</em> = &quot;test_python&quot; <br>&nbsp;&nbsp;&nbsp;&nbsp;   _svc_display<em>name</em> = &quot;test_python&quot; <br>&nbsp;&nbsp;&nbsp;&nbsp;   def <strong>init</strong>(self, args): <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   win32serviceutil.ServiceFramework.<strong>init</strong>(self, args) <br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   self.hWaitStop = win32event.CreateEvent(None, 0, 0, None) <br><br>&nbsp;&nbsp;&nbsp;&nbsp;   def SvcStop(self): <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   # 先告诉SCM停止这个过程 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   self.ReportServiceStatus(win32service.SERVICE_STOP_PENDING) <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   # 设置事件 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   win32event.SetEvent(self.hWaitStop) <br><br>&nbsp;&nbsp;&nbsp;&nbsp;   def SvcDoRun(self): <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   # 等待服务被停止 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   win32event.WaitForSingleObject(self.hWaitStop, win32event.INFINITE) <br><br>if <strong>name</strong>==’<strong>main</strong>‘: <br>&nbsp;&nbsp;&nbsp;&nbsp;   win32serviceutil.HandleCommandLine(test1)<br><br>这里注意，如果你需要更改文件名，比如将win32serviceutil.HandleCommandLine(test1)中的test1更改为你的文件名，同时class也需要和你的文件名一致，否则会出现服务不能启动的问题。 <br>在命令窗口执行，test1.py可以看到帮助提示 <br><br>C:&gt;test1.py <br>Usage: ‘test1.py [options] install|update|remove|start […]|stop|restart […]| <br>debug […]’ <br>Options for ‘install’ and ‘update’ commands only: <br>–username domainusername : The Username the service is to run under <br>–password password : The password for the username <br>–startup [manual|auto|disabled] : How the service starts, default = manual <br>–interactive : Allow the service to interact with the desktop. （for my auto_desktop.py, this option is needed）<br><br>C:&gt;<br><br>安装我们的服务 <br><br>[code:1:05b7353f1c]C:&gt;test1.py install <br>Installing service test_python to Python class C:test1.test1 <br>Service installed <br><br>C:&gt;<br><br>我们就可以用命令或者在控制面板-》管理工具-》服务中管理我们的服务了。在服务里面可以看到test_python这个服务，虽然这个服务什么都不做，但能启动和停止他。<br><br><br>————————————————————————————————————————————————————————<a href="http://lgj573.javaeye.com/blog/181483" target="_blank" rel="external">关于如何注册Windows2000服务</a>想让一个程序在启动系统的时候自动运行，你有什么好办法？添加到启动组？那如果别人删除掉就不管用了。如果你使用了Windows NT/2000/XP，就可以试试把这个程序添加为一个服务，这样只有拥有权限的人才可以更改服务，只要你设置好权限，就不用担心会被别人删除了。 <br><br>要把应用程序添加为服务，你需要两个小软件：Instsrv.exe和Srvany.exe。 Instsrv.exe可以给系统安装和删除服务，Srvany.exe可以让程序以服务的方式运行。这两个软件都包含在 Windows NT Resource Kit里，如果你没有，也可以点击这里下载。 <br><br>把这两个程序保存在一个方便的位置，例如C盘根目录下。我们举例来说明，把OE作为一个服务添加进Windows XP Professional操作系统中，并把这个服务命名为&ldquo;Mail&rdquo;。在运行中输入&ldquo;CMD&rdquo;，回车，打开命令行窗口，在提示符后面直接输入：&ldquo;c: instsrv.exe Mail c:srvany.exe&rdquo;然后回车，其中的&ldquo;c:instsrv.exe&rdquo;和&ldquo;c:srvany.exe&rdquo;表示这两个程序保存的位置，而Mail 则是你想添加的服务名称。 <br><br>运行Regedit打开注册表编辑器，在HKEY_LOCAL_MACHINESYSTEMCurrentControlSet Services 下，找到刚才添加的Mail，点击右键，新建一个键，命名为&ldquo;Parameters&rdquo;，点击新建的Parameters，并再次新建一个名称为 &ldquo;Application&rdquo;的子键，数据类型为&ldquo;REG_SZ&rdquo;，数值为希望作为服务运行的程序的所在位置，如果你的Windows系统安装在C盘下，那 么OE的程序位置就是C:Program FilesOutlook Expressmsimn.exe ，把这个路径添入数值中。到现在，这个服务已经成功的添加并且设置好了。如果你希望做的更加专业，可以在Mail服务下建立一个名为 Description的子键，数据类型同样为REG_SZ，数值可以写一些你对这个服务的描述，这个我们在后面可以看到。 <br><br><br>接下来需要对服务做一些额外的设置，在运行中输入 &ldquo;Services.msc&rdquo;并回车，在列表中找到我们刚添加的Mail服务，双击打开，来做详细的设置。在&ldquo;General&rdquo;选项卡上，我们需要设置这 个服务的运行方式，在图二中可以看见，作为一个服务，有&ldquo;自动（Automatic）&rdquo;，&ldquo;手动（Manual）&rdquo;和&ldquo;禁止（Disabled）&rdquo;三种启 动类型，按照需要，我们一般设置成自动就可以了。而在&ldquo;Logon&rdquo;选项卡下可以设置以什么身份运行这个服务，一般可以不用理会，按照默认的设置。 &ldquo;Recovery&rdquo;选项卡下则是进行恢复设置的，你可以指定，在服务第一次，第二次和第三次出错之后分别采取什么措施。&ldquo;Dependencies&rdquo;则 显示了服务之间的依存关系，可以让你察看这个服务的运行依赖哪些其它服务，以及还有什么服务依赖于这个服务。这后面几个对我们一般用户没有什么意义。经过 这些设置，你的服务已经完全可以正常工作了。 <br><br><br>注销一下看看。为了让你看清除，我们先打开OE，这时在任务管理器里，有两个msimn进程，用户名为&ldquo;.com.cn&rdquo;的是我们打开的OE，而用户名为&ldquo;SYSTEM&rdquo;的就是我们添加的服务。 <br><br><br>如果你玩够了，不想再运行这个服务，可以直接禁止它在启动的时候运行，或者使用Instsrv.exe程序删除。方法是在命令行下输入&ldquo;c: instsrv.exe Mail remove&rdquo;，然后回车就可以了。需要注意的是Instsrv.exe这个程序也可以删除某些系统服务，所以使用的时候一定要小心，对于系统服务，安全 起见千万不要删除，哪怕你觉得它对你没有用。 </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/06/30/【zz】python脚本作为Windows服务启动/" class="archive-article-date">
+  	<time datetime="2008-06-30T08:17:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-06-30</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2008/06/30/【zz】开发Windows-NT的后台服务/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          【zz】开发Windows NT的后台服务
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2008/06/24/python语法重点参考/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">python语法重点参考</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

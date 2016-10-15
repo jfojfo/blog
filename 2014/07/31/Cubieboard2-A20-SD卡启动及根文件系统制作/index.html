@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Cubieboard2 A20 SD卡启动及根文件系统制作 | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="系统环境Ubuntu-12.04 x86_64安装arm-linux-gnueabihf-gcc编译环境
+$ apt-get install arm-linux-gnueabihf-gcc$ arm-linux-gnueabihf-gcc –versionarm-linux-gnueabihf-gcc (Ubuntu/Linaro 4.6.3-1ubuntu5) 4.6.3
+源码下载：
+$ git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Cubieboard2 A20 SD卡启动及根文件系统制作">
+<meta property="og:url" content="http://blog.pickbox.me/2014/07/31/Cubieboard2-A20-SD卡启动及根文件系统制作/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="系统环境Ubuntu-12.04 x86_64安装arm-linux-gnueabihf-gcc编译环境
+$ apt-get install arm-linux-gnueabihf-gcc$ arm-linux-gnueabihf-gcc –versionarm-linux-gnueabihf-gcc (Ubuntu/Linaro 4.6.3-1ubuntu5) 4.6.3
+源码下载：
+$ git">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/cubieboard-A20-正面.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/cubieboard-A20-反面.jpg">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Cubieboard2 A20 SD卡启动及根文件系统制作">
+<meta name="twitter:description" content="系统环境Ubuntu-12.04 x86_64安装arm-linux-gnueabihf-gcc编译环境
+$ apt-get install arm-linux-gnueabihf-gcc$ arm-linux-gnueabihf-gcc –versionarm-linux-gnueabihf-gcc (Ubuntu/Linaro 4.6.3-1ubuntu5) 4.6.3
+源码下载：
+$ git">
+<meta name="twitter:image" content="http://img.pickbox.me/wp-content/uploads/cubieboard-A20-正面.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-Cubieboard2-A20-SD卡启动及根文件系统制作" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Cubieboard2 A20 SD卡启动及根文件系统制作
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>系统环境Ubuntu-12.04 x86_64<br>安装arm-linux-gnueabihf-gcc编译环境</p>
+<p><pre>$ apt-get install arm-linux-gnueabihf-gcc<br>$ arm-linux-gnueabihf-gcc –version<br>arm-linux-gnueabihf-gcc (Ubuntu/Linaro 4.6.3-1ubuntu5) 4.6.3</pre></p>
+<p></p><h2>源码下载：</h2><p></p>
+<p><pre>$ git clone <a href="http://github.com/linux-sunxi/u-boot-sunxi.git" target="_blank" rel="external">http://github.com/linux-sunxi/u-boot-sunxi.git</a><br>$ git clone <a href="http://github.com/cubieboard/linux-sunxi" target="_blank" rel="external">http://github.com/cubieboard/linux-sunxi</a> -b cubie/sunxi-3.4.91<br>$ git clone <a href="http://github.com/linux-sunxi/sunxi-tools.git" target="_blank" rel="external">http://github.com/linux-sunxi/sunxi-tools.git</a><br>$ git clone <a href="http://github.com/linux-sunxi/sunxi-boards.git" target="_blank" rel="external">http://github.com/linux-sunxi/sunxi-boards.git</a></pre><br>其中linux内核去cubieboard的github下载（注：未使用文档中说的cubieboard2的github地址<a href="http://github.com/cubieboard/linux-sunxi），使用较新的cubie/sunxi-3.4.91分支" target="_blank" rel="external">http://github.com/cubieboard/linux-sunxi），使用较新的cubie/sunxi-3.4.91分支</a></p>
+<p></p><h2>编译uboot</h2><p></p>
+<p><pre>$ cd u-boot-sunxi<br>$ make distclean CROSS_COMPILE=arm-linux-gnueabihf-<br>$ make Cubieboard2 CROSS_COMPILE=arm-linux-gnueabihf-</pre><br>得到u-boot-sunxi-with-spl.bin</p>
+<p></p><h2>编译kernel</h2><p></p>
+<p><pre>$ cd linux-sunxi<br>$ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- cubieboard2_defconfig<br>$ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- menuconfig<br>$ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- -j4 uImage modules</pre><br>得到内核文件 arch/arm/boot/uImage</p>
+<p>$ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- modules_install INSTALL_MOD_PATH=<code>pwd</code>/out<br>将modules安装到out目录</p>
+<p></p><h2>生成 boot.scr和script.bin</h2><br>u-boot在启动的时候会在第一个分区（FAT/extX格式）寻找/boot.scr或者/boot/boot.scr文件，boot.scr中可以包含用<br>于载入script.bin，kernel，initrd（可选）以及设置内核启动参数的uboot命令。<br>参考 <a href="https://github.com/linux-sunxi/u-boot-sunxi/wiki#bootscr-support" target="_blank" rel="external">https://github.com/linux-sunxi/u-boot-sunxi/wiki#bootscr-support</a><p></p>
+<p><pre>$ cat boot.cmd<br>setenv bootargs console=ttyS0,115200 noinitrd disp.screen0_output_mode=EDID:1280x1024p60 init=/sbin/init root=/dev/mmcblk0p2 rootfstype=ext4 rootwait panic=10<br>fatload mmc 0 0x43000000 boot/script.bin<br>fatload mmc 0 0x48000000 boot/uImage<br>bootm 0x48000000</pre><br>详细解释：<br>1.上述第一行设置uboot的bootargs启动参数，格式为 参数=值，不同参数使用空格分开，其中<br>console=ttyS0,115200 含义为使用特定的串口ttyS0，波特率为 115200<br>noinitrd 含义为不使用ramdisk（内存磁盘）<br>init=/init 含义为内核启起来后，进入系统中运行的第一个脚本<br>root=/dev/mmcblk0p2 含义为指定rootfs的位置为TF卡第二个分区<br>rootfstype=ext4 含义为根文件系统类型<br>rootwait 含义为等待设备/dev/mmcblk0p2就绪后才尝试挂载rootfs<br>panic=10 传递内核参数，当遇到panic（内核严重错误）时等待10秒后重启<br>screen0_output_mode 设置合适的屏幕显示分辨率<br>更多的参数可以通过查看Linux内核源码目录下Documentation/kernel-parameters.txt文件了解</p>
+<p>2.第二行和第三行为将script.bin和内核uImage加载到指定内存地址。fatload是U-Boot中装载linux kernel 到内存的指令。<br>基本用法：fatload &lt;interface&gt; &lt;dev[:part]&gt; &lt;addr&gt; &lt;filename&gt; &lt;bytes&gt;<br>interface：所用到接口，如：MMC、USB<br>dev [:part]: 文件存放的设备 如：ide 0:1<br>addr: 装载到内存的开始地址。<br>filename: 装载的文件名称。<br>bytes: copy的字节数.</p>
+<p>3.第四行bootm 从指定的地址加载内核映像</p>
+<p>$ mkimage -C none -A arm -T script -d boot.cmd boot.scr<br>得到boot.scr<br>$ cd sunxi-tools<br>$ make<br>生成fex2bin、bin2fex工具</p>
+<p>$ cd sunxi-boards/sys_config/a20<br>找到[nand_para]，将nand_used设为0，（根据网友经验，sd卡启动后系统会写nand数据，导致nand上的android无法启动）<br>$ fex2bin cubieboard2.fex script.bin<br>得到script.bin</p>
+<p>&nbsp;</p>
+<p></p><h2>烧写uboot和kernel到TF卡</h2><br>A20 芯片上电启动的时候，会读取SD卡最前面的 1M 内容，从而得到 bootloader，所以我们需要把 u-boot 写到SD卡的前1M区间。<p></p>
+<p>SD卡布局：</p>
+<p><table border="1"></table></p>
+<p><thead align="center"></thead></p>
+<p><tr></tr></p>
+<p><th>起始</th></p>
+<p><th>大小</th></p>
+<p><th>用途</th><br><br></p>
+<p><tbody align="center"></tbody></p>
+<p><tr></tr></p>
+<p><td>0</td></p>
+<p><td>8KB</td></p>
+<p><td>存放分区表等内容</td><br></p>
+<p><tr></tr></p>
+<p><td>8KB</td></p>
+<p><td>24KB</td></p>
+<p><td>SPL Loader</td><br></p>
+<p><tr></tr></p>
+<p><td>32KB</td></p>
+<p><td>512KB</td></p>
+<p><td>u-boot</td><br></p>
+<p><tr></tr></p>
+<p><td>544KB</td></p>
+<p><td>128KB</td></p>
+<p><td>environment</td><br></p>
+<p><tr></tr></p>
+<p><td>672KB</td></p>
+<p><td>352KB</td></p>
+<p><td>保留</td><br></p>
+<p><tr></tr></p>
+<p><td>1024KB</td></p>
+<p><td>-</td></p>
+<p><td>剩余分区空间</td><br><br><br></p>
+<p><pre>$ sudo dd if=/dev/zero of=/dev/sdb bs=1M count=1   # 把SD卡前1M的区域填充为0，预留给 u-boot<br>$ sudo fdisk /dev/sdb</pre><br>使用fdisk将sd卡分成两个primary分区，分区1分配64M空间，分区2使用全部剩余空间，并将分区1标记为可引导分区</p>
+<p><pre>$ sudo mkfs.vfat /dev/sdb1<br>$ sudo mkfs.ext4 /dev/sdb2<br>$ sudo dd if=u-boot-sunxi-with-spl.bin of=/dev/sdb bs=1024 seek=8  #跳过分区表</pre></p>
+<p>$ sudo mount /dev/sdb1 mnt1<br>$ sudo mkdir mnt1/boot<br>$ sudo cp linux-sunxi/arch/arm/boot/uImage mnt1/boot/<br>$ sudo cp sunxi-boards/sys_config/a20/script.bin mnt1/boot/<br>$ sudo cp boot.scr mnt1/<br>$ sudo umount mnt1<br>在Mac下可以用diskutil（<span style="color: #ff0000;">下面方法不成功</span>）：</p>
+<p><pre>$ diskutil unmountDisk /dev/disk3<br>$ sudo dd if=/dev/zero of=/dev/disk3 bs=1m count=1<br>$ diskutil partitionDisk /dev/disk3 MBR FAT32 CUBIE1 64m FAT32 CUBIE2 0b<br>$ diskutil unmountDisk /dev/disk3<br>$ sudo fdisk -e /dev/disk3<br>fdisk: 1&gt; flag 1<br>Partition 2 marked active.<br>fdisk:<em>1&gt; setpid 2<br>Partition id (‘0’ to disable)  [0 - FF]: [B] (? for help) 83<br>fdisk:</em>1&gt; quit</pre></p>
+<p>$ sudo dd if=u-boot-sunxi-with-spl.bin of=/dev/disk3 bs=1024 seek=8<br>$ sudo dd if=image_20140731/mmcblk0p1.img of=/dev/disk3s1 bs=2m<br>$ sudo dd if=image_20140731/mmcblk0p2.img of=/dev/disk3s2 bs=2m</p>
+<p></p><h2>制作根文件系统</h2><p></p>
+<p><pre># feel free to change distro to raring/saucy/.. as appropriate for later Ubuntu version or wheezy for Debian<br>$ export distro=precise<br>mount /dev/sdb2 mnt2</pre></p>
+<h1 id="you-can-add-–variant-buildd-to-install-a-compiler-in-your-chroot-at-debootstrap-time-but-using-apt-is-probably-faster"><a href="#you-can-add-–variant-buildd-to-install-a-compiler-in-your-chroot-at-debootstrap-time-but-using-apt-is-probably-faster" class="headerlink" title="you can add –variant=buildd to install a compiler in your chroot at debootstrap time but using apt is probably faster"></a>you can add –variant=buildd to install a compiler in your chroot at debootstrap time but using apt is probably faster</h1><p>$ sudo debootstrap –arch=armhf –foreign $distro <code>pwd</code>/mnt2/<br>$ sudo cp /usr/bin/qemu-arm-static mnt2/usr/bin/<br>$ sudo chroot mnt2</p>
+<p>I have no name!# /debootstrap/debootstrap –second-stage</p>
+<h1 id="chroot-passwd"><a href="#chroot-passwd" class="headerlink" title="chroot . passwd"></a>chroot . passwd</h1><p></p><h3>配置apt sources.list</h3><p></p>
+<p><pre># cat /etc/apt/sources.list<br>deb <a href="http://ports.ubuntu.com/" target="_blank" rel="external">http://ports.ubuntu.com/</a> precise main universe<br>deb-src <a href="http://ports.ubuntu.com/" target="_blank" rel="external">http://ports.ubuntu.com/</a> precise main universe<br>deb <a href="http://ports.ubuntu.com/" target="_blank" rel="external">http://ports.ubuntu.com/</a> precise-security main universe<br>deb-src <a href="http://ports.ubuntu.com/" target="_blank" rel="external">http://ports.ubuntu.com/</a> precise-security main universe<br>deb <a href="http://ports.ubuntu.com/" target="_blank" rel="external">http://ports.ubuntu.com/</a> precise-updates main universe<br>deb-src <a href="http://ports.ubuntu.com/" target="_blank" rel="external">http://ports.ubuntu.com/</a> precise-updates main universe</pre></p>
+<p></p><h3>更新并安装程序</h3><p></p>
+<p><pre># apt-get update</pre></p>
+<h1 id="apt-get-install-vim-…"><a href="#apt-get-install-vim-…" class="headerlink" title="apt-get install vim …"></a>apt-get install vim …</h1><p></p><h3>配置网络</h3><p></p>
+<p><pre># cat /etc/network/interfaces<br>auto lo<br>iface lo inet loopback</pre></p>
+<p>auto eth0<br>iface eth0 inet dhcp</p>
+<p>#iface eth0 inet static</p>
+<p>#address 192.168.1.203</p>
+<p>#netmask 255.255.255.0</p>
+<p>#gateway 192.168.1.1</p>
+<p></p><h3>更改配置文件</h3><p></p>
+<p></p><h4>ubuntu系统须更改tty1.conf</h4><p></p>
+<p><pre># vi /etc/init/tty1.conf<br>exec /sbin/getty -8 38400 tty1 修改为: exec /sbin/getty -8 115200 ttyS0</pre></p>
+<p></p><h4>debain系统须更改这两个文件：inittab和fstab</h4><p></p>
+<p><pre># cd /etc/</pre></p>
+<h1 id="cat-lt-lt-EOT-gt-gt-inittab"><a href="#cat-lt-lt-EOT-gt-gt-inittab" class="headerlink" title="cat &lt;&lt;EOT &gt;&gt; inittab"></a>cat &lt;&lt;EOT &gt;&gt; inittab</h1><p>&gt; T0:2345:respawn:/sbin/getty -L ttyS0 115200 linux<br>&gt; EOT</p>
+<h1 id="cat-lt-lt-EOT-gt-gt-fstab"><a href="#cat-lt-lt-EOT-gt-gt-fstab" class="headerlink" title="cat &lt;&lt;EOT &gt;&gt; fstab"></a>cat &lt;&lt;EOT &gt;&gt; fstab</h1><p>&gt; proc /proc proc defaults 0 0<br>&gt; /dev/mmcblk0p1 /boot vfat defaults 0 2<br>&gt; /dev/mmcblk0p2 / ext4 defaults,noatime 0 1<br>&gt; EOT</p>
+<p></p><h3>清理</h3><p></p>
+<p><pre># rm /usr/bin/qemu-arm-static /etc/resolv.conf /etc/hostname</pre></p>
+<h1 id="touch-etc-resolv-conf"><a href="#touch-etc-resolv-conf" class="headerlink" title="touch /etc/resolv.conf"></a>touch /etc/resolv.conf</h1><h1 id="cat-lt-lt-EOF-gt-gt-etc-hostname"><a href="#cat-lt-lt-EOF-gt-gt-etc-hostname" class="headerlink" title="cat &lt;&lt;EOF &gt;&gt; /etc/hostname"></a>cat &lt;&lt;EOF &gt;&gt; /etc/hostname</h1><p>&gt; cubieboard<br>&gt; EOF</p>
+<p></p><h3>拷贝linux modules</h3><br>先运行exit退出前面的chroot<p></p>
+<p><pre>$ sudo cp linux-sunxi/out/lib/* mnt2/lib/<br>$ sudo umount mnt2</pre><br>至此根文件系统制作完毕</p>
+<p>将sd卡插入cubieboard上电启动，<a href="http://img.pickbox.me/wp-content/uploads/cubieboard2_boot_log.txt" target="_blank" rel="external">cubieboard2_boot_log</a><br>自己build的android image的启动log对比：<a href="http://img.pickbox.me/wp-content/uploads/cubieboard2_android_boot_log.txt" target="_blank" rel="external">cubieboard2_android_boot_log</a></p>
+<p></p><h2>参考文档</h2><br><a title="A10/A20 Bootloader加载过程分析" href="http://forum.lemaker.org/cn/viewthread.php?tid=62" target="_blank">A10/A20 Bootloader加载过程分析</a><br><a title="Bootable SD card" href="http://linux-sunxi.org/Bootable_SD_card" target="_blank">Bootable SD card</a><br><a href="http://forum.lemaker.org/cn/viewthread.php?action=printable&amp;tid=170" target="_blank">制作Banana Pi最小系统</a><br><a href="http://linux-sunxi.org/FirstSteps" target="_blank">Manual build howto</a><br><a href="http://forum.cubietech.com/forum.php?mod=viewthread&amp;tid=600" target="_blank">从头制作硬盘上的ubuntu 12/13</a><br><a href="http://docs.cubieboard.org/zh/tutorials/ct1/installation/install_lubuntu_desktop_server_to_sd_card" target="_blank">CT Lubuntu Desktop/Server SD Card Installation</a><p></p>
+<p>PDF格式下载</p>
+<p><a href="http://img.pickbox.me/wp-content/uploads/Cubieboard-A20-制作SD卡启动.pdf" target="_blank" rel="external">Cubieboard A20 制作SD卡启动</a><br><a href="http://img.pickbox.me/wp-content/uploads/Using-debootstrap-to-make-Ubuntu-based-distributions.pdf" target="_blank" rel="external">Using debootstrap to make Ubuntu based distributions</a><br><a href="http://img.pickbox.me/wp-content/uploads/从头制作硬盘上的ubuntu-12_13参考ubuntu根文件系统制作.pdf" target="_blank" rel="external">从头制作硬盘上的ubuntu 12_13(参考ubuntu根文件系统制作)</a><br><a href="http://img.pickbox.me/wp-content/uploads/CT-Lubuntu-Desktop_Server-SD-Card-Installation.pdf" target="_blank" rel="external">CT Lubuntu Desktop_Server SD Card Installation</a></p>
+<p></p><h2>Cubieboard2靓照</h2><br><a href="http://img.pickbox.me/wp-content/uploads/cubieboard-A20-正面.jpg" target="_blank" rel="external"><img class="alignnone size-full wp-image-938" alt="cubieboard A20 正面" src="http://img.pickbox.me/wp-content/uploads/cubieboard-A20-正面.jpg" width="4208" height="2368"></a> <a href="http://img.pickbox.me/wp-content/uploads/cubieboard-A20-反面.jpg" target="_blank" rel="external"><img class="alignnone size-full wp-image-939" alt="cubieboard A20 反面" src="http://img.pickbox.me/wp-content/uploads/cubieboard-A20-反面.jpg" width="4208" height="2368"></a><p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/07/31/Cubieboard2-A20-SD卡启动及根文件系统制作/" class="archive-article-date">
+  	<time datetime="2014-07-31T03:36:35.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-07-31</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2014/07/31/Cubieboard2-A20-Building-your-own-android-4-2-2-firmware/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Cubieboard2 A20 Building your own android-4.2.2 firmware
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/07/28/Win7开启Wifi热点/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Win7开启Wifi热点</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

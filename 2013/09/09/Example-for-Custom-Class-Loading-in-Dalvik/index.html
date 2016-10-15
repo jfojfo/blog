@@ -1,0 +1,786 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Example for Custom Class Loading in Dalvik | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="依照《Custom Class Loading in Dalvik》文章中所写方法，写了一个测试project和ant build脚本，成功build出第二个dex并动态加载运行，贴出代码和脚本
+总共有这么几个源文件，其中lib目录下的内容是要放到第二个Dex中去的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Example for Custom Class Loading in Dalvik">
+<meta property="og:url" content="http://blog.pickbox.me/2013/09/09/Example-for-Custom-Class-Loading-in-Dalvik/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="依照《Custom Class Loading in Dalvik》文章中所写方法，写了一个测试project和ant build脚本，成功build出第二个dex并动态加载运行，贴出代码和脚本
+总共有这么几个源文件，其中lib目录下的内容是要放到第二个Dex中去的">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/android动态加载class.png">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Example for Custom Class Loading in Dalvik">
+<meta name="twitter:description" content="依照《Custom Class Loading in Dalvik》文章中所写方法，写了一个测试project和ant build脚本，成功build出第二个dex并动态加载运行，贴出代码和脚本
+总共有这么几个源文件，其中lib目录下的内容是要放到第二个Dex中去的">
+<meta name="twitter:image" content="http://img.pickbox.me/wp-content/uploads/android动态加载class.png">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-Example-for-Custom-Class-Loading-in-Dalvik" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Example for Custom Class Loading in Dalvik
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>依照《<a href="http://android-developers.blogspot.com/2011/07/custom-class-loading-in-dalvik.html" target="_blank">Custom Class Loading in Dalvik</a>》文章中所写方法，写了一个测试project和ant build脚本，成功build出第二个dex并动态加载运行，贴出代码和脚本</p>
+<p>总共有这么几个源文件，其中lib目录下的内容是要放到第二个Dex中去的<a id="more"></a></p>
+<p><pre>./src/com<br>./src/com/lib<br>./src/com/lib/MyActivity.java<br>./src/com/lib/MyFragment.java<br>./src/com/lib/Utils.java<br>./src/com/test<br>./src/com/test/MainActivity.java<br>./src/com/test/UtilsInterface.java</pre><br>&nbsp;</p>
+<p><strong>MainActivity.java</strong></p>
+<p><pre>package com.test;</pre></p>
+<p>import java.io.BufferedInputStream;<br>import java.io.BufferedOutputStream;<br>import java.io.File;<br>import java.io.FileOutputStream;<br>import java.io.OutputStream;</p>
+<p>import android.content.Context;<br>import android.os.Bundle;<br>import android.support.v4.app.FragmentActivity;<br>import android.util.Log;<br>import android.view.Menu;<br>import android.widget.TextView;<br>import dalvik.system.DexClassLoader;</p>
+<p>public class MainActivity extends FragmentActivity {<br>    private static final String SECONDARY_DEX_NAME = “secondary_dex.jar”;<br>    private TextView mTextView;</p>
+<pre><code>private DexClassLoader mDexClassLoader;
+private UtilsInterface mUtilsInterface;
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+    mTextView = (TextView) findViewById(R.id.text);
+    test();
+    fragment();
+    //activity();
+}
+
+@Override
+public boolean onCreateOptionsMenu(Menu menu) {
+    getMenuInflater().inflate(R.menu.main, menu);
+    return true;
+}
+
+private void test() {
+    File dexInternalStoragePath = new File(getDir(&quot;dex&quot;,
+            Context.MODE_PRIVATE), SECONDARY_DEX_NAME);
+    Log.d(&quot;jfo&quot;,
+            &quot;dexInternalStoragePath-&amp;gt;&quot;
+                    + dexInternalStoragePath.getAbsolutePath());
+    BufferedInputStream bis = null;
+    OutputStream dexWriter = null;
+    final int BUF_SIZE = 8 * 1024;
+    try {
+        bis = new BufferedInputStream(getAssets().open(SECONDARY_DEX_NAME));
+        dexWriter = new BufferedOutputStream(new FileOutputStream(
+                dexInternalStoragePath));
+        byte[] buf = new byte[BUF_SIZE];
+        int len;
+        while ((len = bis.read(buf, 0, BUF_SIZE)) &amp;gt; 0) {
+            dexWriter.write(buf, 0, len);
+        }
+        dexWriter.close();
+        bis.close();
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    final File optimizedDexOutputPath = getDir(&quot;outdex&quot;,
+            Context.MODE_PRIVATE);
+    Log.d(&quot;jfo&quot;,
+            &quot;optimizedDexOutputPath-&amp;gt;&quot;
+                    + optimizedDexOutputPath.getAbsolutePath());
+    DexClassLoader cl = new DexClassLoader(
+            dexInternalStoragePath.getAbsolutePath(),
+            optimizedDexOutputPath.getAbsolutePath(), null,
+            getClassLoader());
+    mDexClassLoader = cl;
+    Class libProviderClazz = null;
+    try {
+        // Load the library.
+        libProviderClazz = cl.loadClass(&quot;com.lib.Utils&quot;);
+        // Cast the return object to the library interface so that the
+        // caller can directly invoke methods in the interface.
+        // Alternatively, the caller can invoke methods through reflection,
+        // which is more verbose.
+        UtilsInterface lib = (UtilsInterface) libProviderClazz
+                .newInstance();
+        mUtilsInterface = lib;
+        String r = lib.sayHello();
+        mTextView.setText(r);
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
+private void fragment() {
+    mUtilsInterface.createMyFragment(this, R.id.fragment_container);
+}
+
+private void activity() {
+</code></pre><p>//        this.getApplication().getApplicationContext().getPackageManager().getActivityInfo(getComponentName(), 0).<br>        mUtilsInterface.startMyActivity(this);<br>    }<br>}<br><strong>UtilsInterface.java</strong></p>
+<p><pre>package com.test;</pre></p>
+<p>import android.content.Context;<br>import android.support.v4.app.Fragment;<br>import android.support.v4.app.FragmentActivity;</p>
+<p>public interface UtilsInterface {<br>    public String sayHello();<br>    public Fragment createMyFragment(FragmentActivity act, int layoutId);<br>    public void startMyActivity(Context context);<br>}<br><strong>Utils.java</strong></p>
+<p><pre>package com.lib;</pre></p>
+<p>import android.content.Context;<br>import android.content.Intent;<br>import android.support.v4.app.Fragment;<br>import android.support.v4.app.FragmentActivity;<br>import android.support.v4.app.FragmentManager;<br>import android.support.v4.app.FragmentTransaction;<br>import android.util.Log;</p>
+<p>import com.test.UtilsInterface;</p>
+<p>public class Utils implements UtilsInterface {<br>    public String sayHello() {<br>        Log.d(“Utils”, “Hello world!”);<br>        return “Hello world!”;<br>    }</p>
+<pre><code>public Fragment createMyFragment(FragmentActivity act, int layoutId) {
+    FragmentManager fm = act.getSupportFragmentManager();
+    FragmentTransaction ft = fm.beginTransaction();
+    MyFragment fragment = new MyFragment();
+    ft.add(layoutId, fragment);
+    ft.commit();
+    return fragment;
+}
+
+public void startMyActivity(Context context) {
+    Intent intent = new Intent(context, MyActivity.class);
+    context.startActivity(intent);
+}
+</code></pre><p>}<br><strong>MyFragment.java</strong></p>
+<p><pre>package com.lib;</pre></p>
+<p>import android.os.Bundle;<br>import android.support.v4.app.Fragment;<br>import android.view.LayoutInflater;<br>import android.view.View;<br>import android.view.ViewGroup;</p>
+<p>import com.test.R;</p>
+<p>public class MyFragment extends Fragment {</p>
+<pre><code>@Override
+public void onActivityCreated(Bundle savedInstanceState) {
+    super.onActivityCreated(savedInstanceState);
+}
+
+@Override
+public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+}
+
+@Override
+public View onCreateView(LayoutInflater inflater, ViewGroup container,
+        Bundle savedInstanceState) {
+    return inflater.inflate(R.layout.fragment_layout, container, false);
+}
+
+@Override
+public void onDestroy() {
+    super.onDestroy();
+}
+
+@Override
+public void onResume() {
+    super.onResume();
+}
+</code></pre><p>}<br><strong>MyActivity.java</strong></p>
+<p><pre>package com.lib;</pre></p>
+<p>import android.app.Activity;<br>import android.os.Bundle;</p>
+<p>import com.test.R;</p>
+<p>public class MyActivity extends Activity {</p>
+<pre><code>@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.fragment_layout);
+}
+</code></pre><p>}<br><strong>activity_main.xml</strong></p>
+<p><pre>&lt;RelativeLayout xmlns:android=”<a href="http://schemas.android.com/apk/res/android" target="_blank" rel="external">http://schemas.android.com/apk/res/android</a>“<br>    xmlns:tools=”<a href="http://schemas.android.com/tools" target="_blank" rel="external">http://schemas.android.com/tools</a>“<br>    android:layout_width=”match_parent”<br>    android:layout_height=”match_parent”<br>    android:paddingBottom=”@dimen/activity_vertical_margin”<br>    android:paddingLeft=”@dimen/activity_horizontal_margin”<br>    android:paddingRight=”@dimen/activity_horizontal_margin”<br>    android:paddingTop=”@dimen/activity_vertical_margin”<br>    tools:context=”.MainActivity” &gt;</pre></p>
+<pre><code>&amp;lt;TextView
+    android:id=&quot;@+id/text&quot;
+    android:layout_width=&quot;wrap_content&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:text=&quot;@string/hello_world&quot; /&amp;gt;
+
+&amp;lt;LinearLayout
+    android:id=&quot;@+id/fragment_container&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:layout_below=&quot;@id/text&quot; /&amp;gt;
+</code></pre><p>&lt;/RelativeLayout&gt;<br><strong>fragment_layout.xml</strong></p>
+<p><pre>&lt;RelativeLayout xmlns:android=”<a href="http://schemas.android.com/apk/res/android" target="_blank" rel="external">http://schemas.android.com/apk/res/android</a>“<br>    android:layout_width=”match_parent”<br>    android:layout_height=”match_parent”<br>    android:background=”#cccccc”<br>    android:minHeight=”100dp” &gt;</pre></p>
+<pre><code>&amp;lt;TextView
+    android:id=&quot;@+id/text&quot;
+    android:layout_width=&quot;wrap_content&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:text=&quot;This is fragment...&quot; /&amp;gt;
+</code></pre><p>&lt;/RelativeLayout&gt;<br><strong>AndroidManifest.xml</strong></p>
+<p><pre>&lt;?xml version=”1.0” encoding=”utf-8”?&gt;<br>&lt;manifest xmlns:android=”<a href="http://schemas.android.com/apk/res/android" target="_blank" rel="external">http://schemas.android.com/apk/res/android</a>“<br>    package=”com.test”<br>    android:versionCode=”1”<br>    android:versionName=”1.0” &gt;</pre></p>
+<pre><code>&amp;lt;uses-sdk
+    android:minSdkVersion=&quot;8&quot;
+    android:targetSdkVersion=&quot;17&quot; /&amp;gt;
+
+&amp;lt;application
+    android:allowBackup=&quot;true&quot;
+    android:icon=&quot;@drawable/ic_launcher&quot;
+    android:label=&quot;@string/app_name&quot;
+    android:theme=&quot;@style/AppTheme&quot; &amp;gt;
+    &amp;lt;activity
+        android:name=&quot;com.test.MainActivity&quot;
+        android:label=&quot;@string/app_name&quot; &amp;gt;
+        &amp;lt;intent-filter&amp;gt;
+            &amp;lt;action android:name=&quot;android.intent.action.MAIN&quot; /&amp;gt;
+            &amp;lt;category android:name=&quot;android.intent.category.LAUNCHER&quot; /&amp;gt;
+        &amp;lt;/intent-filter&amp;gt;
+    &amp;lt;/activity&amp;gt;
+    &amp;lt;activity android:name=&quot;com.lib.MyActivity&quot; android:label=&quot;@string/app_name&quot; /&amp;gt;
+    &amp;lt;/application&amp;gt;
+</code></pre><p>&lt;/manifest&gt;<br>&nbsp;</p>
+<p><strong>ant build脚本build.xml</strong></p>
+<p><pre>&lt;?xml version=”1.0” encoding=”UTF-8”?&gt;<br>&lt;project name=”MainActivity” default=”help”&gt;</pre></p>
+<pre><code>&amp;lt;!-- The local.properties file is created and updated by the &apos;android&apos; tool.
+     It contains the path to the SDK. It should *NOT* be checked into
+     Version Control Systems. --&amp;gt;
+&amp;lt;property file=&quot;local.properties&quot; /&amp;gt;
+
+&amp;lt;!-- The ant.properties file can be created by you. It is only edited by the
+     &apos;android&apos; tool to add properties to it.
+     This is the place to change some Ant specific build properties.
+     Here are some properties you may want to change/update:
+
+     source.dir
+         The name of the source directory. Default is &apos;src&apos;.
+     out.dir
+         The name of the output directory. Default is &apos;bin&apos;.
+
+     For other overridable properties, look at the beginning of the rules
+     files in the SDK, at tools/ant/build.xml
+
+     Properties related to the SDK location or the project target should
+     be updated using the &apos;android&apos; tool with the &apos;update&apos; action.
+
+     This file is an integral part of the build system for your
+     application and should be checked into Version Control Systems.
+
+     --&amp;gt;
+&amp;lt;property file=&quot;ant.properties&quot; /&amp;gt;
+
+&amp;lt;!-- if sdk.dir was not set from one of the property file, then
+     get it from the ANDROID_HOME env var.
+     This must be done before we load project.properties since
+     the proguard config can use sdk.dir --&amp;gt;
+&amp;lt;property environment=&quot;env&quot; /&amp;gt;
+&amp;lt;condition property=&quot;sdk.dir&quot; value=&quot;${env.ANDROID_HOME}&quot;&amp;gt;
+    &amp;lt;isset property=&quot;env.ANDROID_HOME&quot; /&amp;gt;
+&amp;lt;/condition&amp;gt;
+
+&amp;lt;!-- The project.properties file is created and updated by the &apos;android&apos;
+     tool, as well as ADT.
+
+     This contains project specific properties such as project target, and library
+     dependencies. Lower level build properties are stored in ant.properties
+     (or in .classpath for Eclipse projects).
+
+     This file is an integral part of the build system for your
+     application and should be checked into Version Control Systems. --&amp;gt;
+&amp;lt;loadproperties srcFile=&quot;project.properties&quot; /&amp;gt;
+
+&amp;lt;!-- quick check on sdk.dir --&amp;gt;
+&amp;lt;fail
+        message=&quot;sdk.dir is missing. Make sure to generate local.properties using &apos;android update project&apos; or to inject it through the ANDROID_HOME environment variable.&quot;
+        unless=&quot;sdk.dir&quot;
+/&amp;gt;
+
+&amp;lt;!--
+    Import per project custom build rules if present at the root of the project.
+    This is the place to put custom intermediary targets such as:
+        -pre-build
+        -pre-compile
+        -post-compile (This is typically used for code obfuscation.
+                       Compiled code location: ${out.classes.absolute.dir}
+                       If this is not done in place, override ${out.dex.input.absolute.dir})
+        -post-package
+        -post-build
+        -pre-clean
+--&amp;gt;
+&amp;lt;import file=&quot;custom_rules.xml&quot; optional=&quot;true&quot; /&amp;gt;
+
+&amp;lt;!-- Import the actual build file.
+
+     To customize existing targets, there are two options:
+     - Customize only one target:
+         - copy/paste the target into this file, *before* the
+           &amp;lt;import&amp;gt; task.
+         - customize it to your needs.
+     - Customize the whole content of build.xml
+         - copy/paste the content of the rules files (minus the top node)
+           into this file, replacing the &amp;lt;import&amp;gt; task.
+         - customize to your needs.
+
+     ***********************
+     ****** IMPORTANT ******
+     ***********************
+     In all cases you must update the value of version-tag below to read &apos;custom&apos; instead of an integer,
+     in order to avoid having your file be overridden by tools such as &quot;android update project&quot;
+--&amp;gt;
+
+&amp;lt;macrodef name=&quot;dex-helper-mod&quot;&amp;gt;
+    &amp;lt;attribute name=&quot;input-dir&quot; /&amp;gt;
+    &amp;lt;attribute name=&quot;output-dex-file&quot; /&amp;gt;
+    &amp;lt;element name=&quot;external-libs&quot; optional=&quot;yes&quot; /&amp;gt;
+    &amp;lt;attribute name=&quot;nolocals&quot; default=&quot;false&quot; /&amp;gt;
+    &amp;lt;sequential&amp;gt;
+        &amp;lt;!-- sets the primary input for dex. If a pre-dex task sets it to
+             something else this has no effect --&amp;gt;
+        &amp;lt;!--property name=&quot;out.dex.input.absolute.dir&quot; value=&quot;${out.classes.absolute.dir}&quot; /--&amp;gt;
+        &amp;lt;!--property name=&quot;out.dex.input.absolute.dir&quot; value=&quot;@{input-dir}&quot; /--&amp;gt;
+
+        &amp;lt;!-- set the secondary dx input: the project (and library) jar files
+             If a pre-dex task sets it to something else this has no effect --&amp;gt;
+        &amp;lt;if&amp;gt;
+            &amp;lt;condition&amp;gt;
+                &amp;lt;isreference refid=&quot;out.dex.jar.input.ref&quot; /&amp;gt;
+            &amp;lt;/condition&amp;gt;
+            &amp;lt;else&amp;gt;
+                &amp;lt;path id=&quot;out.dex.jar.input.ref&quot;&amp;gt;
+                    &amp;lt;path refid=&quot;project.all.jars.path&quot; /&amp;gt;
+                &amp;lt;/path&amp;gt;
+            &amp;lt;/else&amp;gt;
+        &amp;lt;/if&amp;gt;
+
+        &amp;lt;echo&amp;gt;Converting compiled files and external libraries into @{output-dex-file}...&amp;lt;/echo&amp;gt;
+        &amp;lt;dex executable=&quot;${dx}&quot;
+                output=&quot;@{output-dex-file}&quot;
+                dexedlibs=&quot;${out.dexed.absolute.dir}&quot;
+                nolocals=&quot;@{nolocals}&quot;
+                forceJumbo=&quot;${dex.force.jumbo}&quot;
+                disableDexMerger=&quot;${dex.disable.merger}&quot;
+                verbose=&quot;${verbose}&quot;&amp;gt;
+            &amp;lt;path path=&quot;@{input-dir}&quot;/&amp;gt;
+            &amp;lt;path refid=&quot;out.dex.jar.input.ref&quot; /&amp;gt;
+            &amp;lt;external-libs /&amp;gt;
+        &amp;lt;/dex&amp;gt;
+    &amp;lt;/sequential&amp;gt;
+&amp;lt;/macrodef&amp;gt;
+
+&amp;lt;macrodef name=&quot;dex-helper-mod2&quot;&amp;gt;
+    &amp;lt;attribute name=&quot;input-dir&quot; /&amp;gt;
+    &amp;lt;attribute name=&quot;output-dex-file&quot; /&amp;gt;
+    &amp;lt;element name=&quot;external-libs&quot; optional=&quot;yes&quot; /&amp;gt;
+    &amp;lt;attribute name=&quot;nolocals&quot; default=&quot;false&quot; /&amp;gt;
+    &amp;lt;sequential&amp;gt;
+        &amp;lt;!-- sets the primary input for dex. If a pre-dex task sets it to
+             something else this has no effect --&amp;gt;
+        &amp;lt;!--property name=&quot;out.dex.input.absolute.dir&quot; value=&quot;${out.classes.absolute.dir}&quot; /--&amp;gt;
+        &amp;lt;!--property name=&quot;out.dex.input.absolute.dir&quot; value=&quot;@{input-dir}&quot; /--&amp;gt;
+
+        &amp;lt;!-- set the secondary dx input: the project (and library) jar files
+             If a pre-dex task sets it to something else this has no effect --&amp;gt;
+        &amp;lt;if&amp;gt;
+            &amp;lt;condition&amp;gt;
+                &amp;lt;isreference refid=&quot;out.dex.jar.input.ref&quot; /&amp;gt;
+            &amp;lt;/condition&amp;gt;
+            &amp;lt;else&amp;gt;
+                &amp;lt;path id=&quot;out.dex.jar.input.ref&quot;&amp;gt;
+                    &amp;lt;path refid=&quot;project.all.jars.path&quot; /&amp;gt;
+                &amp;lt;/path&amp;gt;
+            &amp;lt;/else&amp;gt;
+        &amp;lt;/if&amp;gt;
+
+        &amp;lt;echo&amp;gt;Converting compiled files and external libraries into @{output-dex-file}...&amp;lt;/echo&amp;gt;
+        &amp;lt;dex executable=&quot;${dx}&quot;
+                output=&quot;@{output-dex-file}&quot;
+                dexedlibs=&quot;${out.dexed.absolute.dir}&quot;
+                nolocals=&quot;@{nolocals}&quot;
+                forceJumbo=&quot;${dex.force.jumbo}&quot;
+                disableDexMerger=&quot;${dex.disable.merger}&quot;
+                verbose=&quot;${verbose}&quot;&amp;gt;
+            &amp;lt;path path=&quot;@{input-dir}&quot;/&amp;gt;
+            &amp;lt;!--path refid=&quot;out.dex.jar.input.ref&quot; /--&amp;gt;
+            &amp;lt;external-libs /&amp;gt;
+        &amp;lt;/dex&amp;gt;
+    &amp;lt;/sequential&amp;gt;
+&amp;lt;/macrodef&amp;gt;
+
+&amp;lt;target name=&quot;-dex&quot; depends=&quot;-compile, -post-compile, -obfuscate&quot;
+        unless=&quot;do.not.compile&quot;&amp;gt;
+    &amp;lt;if condition=&quot;${manifest.hasCode}&quot;&amp;gt;
+        &amp;lt;then&amp;gt;
+            &amp;lt;!-- Create staging directories to store .class files to be converted to the --&amp;gt;
+            &amp;lt;!-- default dex and the secondary dex. --&amp;gt;
+            &amp;lt;mkdir dir=&quot;${out.classes.absolute.dir}.1&quot;/&amp;gt;
+            &amp;lt;mkdir dir=&quot;${out.classes.absolute.dir}.2&quot;/&amp;gt;
+
+            &amp;lt;!-- Primary dex to include everything but the concrete library implementation. --&amp;gt;
+            &amp;lt;copy todir=&quot;${out.classes.absolute.dir}.1&quot; &amp;gt;
+                &amp;lt;fileset dir=&quot;${out.classes.absolute.dir}&quot; &amp;gt;
+                    &amp;lt;exclude name=&quot;com/lib/**&quot; /&amp;gt;
+                &amp;lt;/fileset&amp;gt;
+            &amp;lt;/copy&amp;gt;
+            &amp;lt;!-- Secondary dex to include the concrete library implementation. --&amp;gt;
+            &amp;lt;copy todir=&quot;${out.classes.absolute.dir}.2&quot; &amp;gt;
+                &amp;lt;fileset dir=&quot;${out.classes.absolute.dir}&quot; &amp;gt;
+                    &amp;lt;include name=&quot;com/lib/**&quot; /&amp;gt;
+                &amp;lt;/fileset&amp;gt;
+            &amp;lt;/copy&amp;gt;
+
+            &amp;lt;!-- Compile .class files from the two stage directories to the apppropriate dex files. --&amp;gt;
+            &amp;lt;dex-helper-mod input-dir=&quot;${out.classes.absolute.dir}.1&quot;
+                output-dex-file=&quot;${out.absolute.dir}/${dex.file.name}&quot; /&amp;gt;
+            &amp;lt;mkdir dir=&quot;${out.absolute.dir}/secondary_dex_dir&quot; /&amp;gt;
+            &amp;lt;dex-helper-mod2 input-dir=&quot;${out.classes.absolute.dir}.2&quot;
+                output-dex-file=&quot;${out.absolute.dir}/secondary_dex_dir/classes.dex&quot; /&amp;gt;
+            &amp;lt;!-- Jar the secondary dex file so it can be consumed by the DexClassLoader. --&amp;gt;
+            &amp;lt;!-- Package the output in the assets directory of the apk. --&amp;gt;
+            &amp;lt;jar destfile=&quot;${asset.absolute.dir}/secondary_dex.jar&quot;
+                 basedir=&quot;${out.absolute.dir}/secondary_dex_dir&quot; includes=&quot;classes.dex&quot; /&amp;gt;
+        &amp;lt;/then&amp;gt;
+        &amp;lt;else&amp;gt;
+            &amp;lt;echo&amp;gt;hasCode = false. Skipping...&amp;lt;/echo&amp;gt;
+        &amp;lt;/else&amp;gt;
+    &amp;lt;/if&amp;gt;
+&amp;lt;/target&amp;gt;
+
+&amp;lt;!-- version-tag: 1 --&amp;gt;
+&amp;lt;import file=&quot;${sdk.dir}/tools/ant/build.xml&quot; /&amp;gt;
+</code></pre><p>&lt;/project&gt;<br>注意build.xml中的dex-helper-mod2，注释掉了<code>&lt;!–path refid=”out.dex.jar.input.ref” /–&gt;</code>，表示build第二个dex时不要包含libs目录下的jar文件，否则加载fragment时会报错</p>
+<p>另外在MainActivity中尝试调用activity()动态加载第二个dex中的activity，但是没有成功，错误日志显示ClassNotFoundException</p>
+<p><pre>09-09 15:23:01.362: E/AndroidRuntime(16824): java.lang.RuntimeException: Unable to instantiate activity ComponentInfo{com.test/com.lib.MyActivity}: java.lang.ClassNotFoundException: Didn’t find class “com.lib.MyActivity” on path: /data/app/com.test-1.apk<br>09-09 15:23:01.362: E/AndroidRuntime(16824):     at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2220)<br>09-09 15:23:01.362: E/AndroidRuntime(16824):     at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:2354)<br>09-09 15:23:01.362: E/AndroidRuntime(16824):     at android.app.ActivityThread.access$600(ActivityThread.java:150)<br>09-09 15:23:01.362: E/AndroidRuntime(16824):     at android.app.ActivityThread$H.handleMessage(ActivityThread.java:1244)<br>09-09 15:23:01.362: E/AndroidRuntime(16824):     at android.os.Handler.dispatchMessage(Handler.java:99)<br>09-09 15:23:01.362: E/AndroidRuntime(16824):     at android.os.Looper.loop(Looper.java:137)<br>09-09 15:23:01.362: E/AndroidRuntime(16824):     at android.app.ActivityThread.main(ActivityThread.java:5191)<br>09-09 15:23:01.362: E/AndroidRuntime(16824):     at java.lang.reflect.Method.invokeNative(Native Method)<br>09-09 15:23:01.362: E/AndroidRuntime(16824):     at java.lang.reflect.Method.invoke(Method.java:511)<br>09-09 15:23:01.362: E/AndroidRuntime(16824):     at com.android.internal.os.ZygoteInit$MethodAndArgsCaller.run(ZygoteInit.java:795)<br>09-09 15:23:01.362: E/AndroidRuntime(16824):     at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:562)<br>09-09 15:23:01.362: E/AndroidRuntime(16824):     at dalvik.system.NativeStart.main(Native Method)<br>09-09 15:23:01.362: E/AndroidRuntime(16824): Caused by: java.lang.ClassNotFoundException: Didn’t find class “com.lib.MyActivity” on path: /data/app/com.test-1.apk<br>09-09 15:23:01.362: E/AndroidRuntime(16824):     at dalvik.system.BaseDexClassLoader.findClass(BaseDexClassLoader.java:65)<br>09-09 15:23:01.362: E/AndroidRuntime(16824):     at java.lang.ClassLoader.loadClass(ClassLoader.java:501)<br>09-09 15:23:01.362: E/AndroidRuntime(16824):     at java.lang.ClassLoader.loadClass(ClassLoader.java:461)<br>09-09 15:23:01.362: E/AndroidRuntime(16824):     at android.app.Instrumentation.newActivity(Instrumentation.java:1054)<br>09-09 15:23:01.362: E/AndroidRuntime(16824):     at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2211)<br>09-09 15:23:01.362: E/AndroidRuntime(16824):     … 11 more</pre><br>&nbsp;</p>
+<p>运行ant debug之后在bin目录下就生成了apk，安装运行，可以看到灰色区域的fragment成功加载了</p>
+<p><a href="http://img.pickbox.me/wp-content/uploads/android动态加载class.png" target="_blank" rel="external"><img class="alignnone size-full wp-image-785" alt="android动态加载class" src="http://img.pickbox.me/wp-content/uploads/android动态加载class.png" width="480" height="800"></a></p>
+<p>&nbsp;</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/09/09/Example-for-Custom-Class-Loading-in-Dalvik/" class="archive-article-date">
+  	<time datetime="2013-09-09T07:17:55.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-09-09</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2013/11/07/【zz】有一种幸福，叫做平凡/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          【zz】有一种幸福，叫做平凡
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2013/09/07/TP-Link-TL-WR703n将串口引出到Micro-USB供电口/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">TP-Link TL-WR703n将串口引出到Micro USB供电口</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>联系人批量插入实例（VCardEntry.java） | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="frameworks/base/core/java/android/pim/vcard/VCardEntry.java&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; public Uri pushIntoContentResolver(ContentResolver resolver);&amp;nbsp;&amp;nbsp; &amp;nbsp; public Uri pushIntoContentResol">
+<meta property="og:type" content="article">
+<meta property="og:title" content="联系人批量插入实例（VCardEntry.java）">
+<meta property="og:url" content="http://blog.pickbox.me/2011/09/28/联系人批量插入实例（VCardEntry-java）/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="frameworks/base/core/java/android/pim/vcard/VCardEntry.java&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; public Uri pushIntoContentResolver(ContentResolver resolver);&amp;nbsp;&amp;nbsp; &amp;nbsp; public Uri pushIntoContentResol">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="联系人批量插入实例（VCardEntry.java）">
+<meta name="twitter:description" content="frameworks/base/core/java/android/pim/vcard/VCardEntry.java&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; public Uri pushIntoContentResolver(ContentResolver resolver);&amp;nbsp;&amp;nbsp; &amp;nbsp; public Uri pushIntoContentResol">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-联系人批量插入实例（VCardEntry-java）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      联系人批量插入实例（VCardEntry.java）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+         <p>frameworks/base/core/java/android/pim/vcard/VCardEntry.java</p><p>&nbsp; &nbsp; &nbsp; &nbsp; public Uri pushIntoContentResolver(ContentResolver resolver);</p><p>&nbsp;</p><p></p><p>&nbsp; &nbsp; public Uri pushIntoContentResolver(ContentResolver resolver) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; ArrayList&lt;ContentProviderOperation&gt; operationList =</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; new ArrayList&lt;ContentProviderOperation&gt;();</p><p>&nbsp; &nbsp; &nbsp; &nbsp; // After applying the batch the first result’s Uri is returned so it is important that</p><p>&nbsp; &nbsp; &nbsp; &nbsp; // the RawContact is the first operation that gets inserted into the list</p><p>&nbsp; &nbsp; &nbsp; &nbsp; ContentProviderOperation.Builder builder =</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ContentProviderOperation.newInsert(RawContacts.CONTENT_URI);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; String myGroupsId = null;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; if (mAccount != null) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(RawContacts.ACCOUNT_NAME, mAccount.name);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(RawContacts.ACCOUNT_TYPE, mAccount.type);</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // Assume that caller side creates this group if it does not exist.</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (ACCOUNT_TYPE_GOOGLE.equals(mAccount.type)) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; final Cursor cursor = resolver.query(Groups.CONTENT_URI, new String[] {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Groups.SOURCE_ID },</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Groups.TITLE + &quot;=?&quot;, new String[] {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; GOOGLE_MY_CONTACTS_GROUP }, null);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; try {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (cursor != null &amp;&amp; cursor.moveToFirst()) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; myGroupsId = cursor.getString(0);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; } finally {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (cursor != null) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; cursor.close();</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; } else {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(RawContacts.ACCOUNT_NAME, null);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(RawContacts.ACCOUNT_TYPE, null);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; operationList.add(builder.build());</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; if (!nameFieldsAreEmpty()) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder = ContentProviderOperation.newInsert(Data.CONTENT_URI);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValueBackReference(StructuredName.RAW_CONTACT_ID, 0);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Data.MIMETYPE, StructuredName.CONTENT_ITEM_TYPE);</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(StructuredName.GIVEN_NAME, mGivenName);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(StructuredName.FAMILY_NAME, mFamilyName);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(StructuredName.MIDDLE_NAME, mMiddleName);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(StructuredName.PREFIX, mPrefix);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(StructuredName.SUFFIX, mSuffix);</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (!(TextUtils.isEmpty(mPhoneticGivenName)</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &amp;&amp; TextUtils.isEmpty(mPhoneticFamilyName)</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &amp;&amp; TextUtils.isEmpty(mPhoneticMiddleName))) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(StructuredName.PHONETIC_GIVEN_NAME, mPhoneticGivenName);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(StructuredName.PHONETIC_FAMILY_NAME, mPhoneticFamilyName);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(StructuredName.PHONETIC_MIDDLE_NAME, mPhoneticMiddleName);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; } else if (!TextUtils.isEmpty(mPhoneticFullName)) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(StructuredName.PHONETIC_GIVEN_NAME, mPhoneticFullName);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(StructuredName.DISPLAY_NAME, getDisplayName());</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; operationList.add(builder.build());</p><p>&nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; if (mNickNameList != null &amp;&amp; mNickNameList.size() &gt; 0) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; for (String nickName : mNickNameList) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder = ContentProviderOperation.newInsert(Data.CONTENT_URI);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValueBackReference(Nickname.RAW_CONTACT_ID, 0);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Data.MIMETYPE, Nickname.CONTENT_ITEM_TYPE);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Nickname.TYPE, Nickname.TYPE_DEFAULT);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Nickname.NAME, nickName);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; operationList.add(builder.build());</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; if (mPhoneList != null) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; for (PhoneData phoneData : mPhoneList) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder = ContentProviderOperation.newInsert(Data.CONTENT_URI);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValueBackReference(Phone.RAW_CONTACT_ID, 0);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Data.MIMETYPE, Phone.CONTENT_ITEM_TYPE);</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Phone.TYPE, phoneData.type);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (phoneData.type == Phone.TYPE_CUSTOM) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Phone.LABEL, phoneData.label);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Phone.NUMBER, phoneData.data);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (phoneData.isPrimary) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Phone.IS_PRIMARY, 1);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; operationList.add(builder.build());</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; if (mOrganizationList != null) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; for (OrganizationData organizationData : mOrganizationList) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder = ContentProviderOperation.newInsert(Data.CONTENT_URI);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValueBackReference(Organization.RAW_CONTACT_ID, 0);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Data.MIMETYPE, Organization.CONTENT_ITEM_TYPE);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Organization.TYPE, organizationData.type);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (organizationData.companyName != null) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Organization.COMPANY, organizationData.companyName);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (organizationData.departmentName != null) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Organization.DEPARTMENT, organizationData.departmentName);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (organizationData.titleName != null) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Organization.TITLE, organizationData.titleName);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (organizationData.phoneticName != null) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Organization.PHONETIC_NAME, organizationData.phoneticName);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (organizationData.isPrimary) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Organization.IS_PRIMARY, 1);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; operationList.add(builder.build());</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; if (mEmailList != null) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; for (EmailData emailData : mEmailList) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder = ContentProviderOperation.newInsert(Data.CONTENT_URI);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValueBackReference(Email.RAW_CONTACT_ID, 0);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Data.MIMETYPE, Email.CONTENT_ITEM_TYPE);</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Email.TYPE, emailData.type);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (emailData.type == Email.TYPE_CUSTOM) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Email.LABEL, emailData.label);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Email.DATA, emailData.data);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (emailData.isPrimary) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Data.IS_PRIMARY, 1);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; operationList.add(builder.build());</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; if (mPostalList != null) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; for (PostalData postalData : mPostalList) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder = ContentProviderOperation.newInsert(Data.CONTENT_URI);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; VCardUtils.insertStructuredPostalDataUsingContactsStruct(</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; mVCardType, builder, postalData);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; operationList.add(builder.build());</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; if (mImList != null) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; for (ImData imData : mImList) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder = ContentProviderOperation.newInsert(Data.CONTENT_URI);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValueBackReference(Im.RAW_CONTACT_ID, 0);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Data.MIMETYPE, Im.CONTENT_ITEM_TYPE);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Im.TYPE, imData.type);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Im.PROTOCOL, imData.protocol);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Im.DATA, imData.data);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (imData.protocol == Im.PROTOCOL_CUSTOM) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Im.CUSTOM_PROTOCOL, imData.customProtocol);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (imData.isPrimary) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Data.IS_PRIMARY, 1);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; operationList.add(builder.build());</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; if (mNoteList != null) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; for (String note : mNoteList) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder = ContentProviderOperation.newInsert(Data.CONTENT_URI);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValueBackReference(Note.RAW_CONTACT_ID, 0);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Data.MIMETYPE, Note.CONTENT_ITEM_TYPE);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Note.NOTE, note);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; operationList.add(builder.build());</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; if (mPhotoList != null) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; for (PhotoData photoData : mPhotoList) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder = ContentProviderOperation.newInsert(Data.CONTENT_URI);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValueBackReference(Photo.RAW_CONTACT_ID, 0);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Data.MIMETYPE, Photo.CONTENT_ITEM_TYPE);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Photo.PHOTO, photoData.photoBytes);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (photoData.isPrimary) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Photo.IS_PRIMARY, 1);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; operationList.add(builder.build());</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; if (mWebsiteList != null) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; for (String website : mWebsiteList) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder = ContentProviderOperation.newInsert(Data.CONTENT_URI);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValueBackReference(Website.RAW_CONTACT_ID, 0);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Data.MIMETYPE, Website.CONTENT_ITEM_TYPE);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Website.URL, website);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // There’s no information about the type of URL in vCard.</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // We use TYPE_HOMEPAGE for safety.</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Website.TYPE, Website.TYPE_HOMEPAGE);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; operationList.add(builder.build());</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; if (!TextUtils.isEmpty(mBirthday)) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder = ContentProviderOperation.newInsert(Data.CONTENT_URI);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValueBackReference(Event.RAW_CONTACT_ID, 0);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Data.MIMETYPE, Event.CONTENT_ITEM_TYPE);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Event.START_DATE, mBirthday);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Event.TYPE, Event.TYPE_BIRTHDAY);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; operationList.add(builder.build());</p><p>&nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; if (!TextUtils.isEmpty(mAnniversary)) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder = ContentProviderOperation.newInsert(Data.CONTENT_URI);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValueBackReference(Event.RAW_CONTACT_ID, 0);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Data.MIMETYPE, Event.CONTENT_ITEM_TYPE);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Event.START_DATE, mAnniversary);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Event.TYPE, Event.TYPE_ANNIVERSARY);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; operationList.add(builder.build());</p><p>&nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; if (mAndroidCustomPropertyList != null) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; for (List&lt;String&gt; customPropertyList : mAndroidCustomPropertyList) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; int size = customPropertyList.size();</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (size &lt; 2 || TextUtils.isEmpty(customPropertyList.get(0))) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; continue;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; } else if (size &gt; VCardConstants.MAX_DATA_COLUMN + 1) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; size = VCardConstants.MAX_DATA_COLUMN + 1;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; customPropertyList =</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; customPropertyList.subList(0, VCardConstants.MAX_DATA_COLUMN + 2);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; int i = 0;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; for (final String customPropertyValue : customPropertyList) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (i == 0) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; final String mimeType = customPropertyValue;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder = ContentProviderOperation.newInsert(Data.CONTENT_URI);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValueBackReference(GroupMembership.RAW_CONTACT_ID, 0);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Data.MIMETYPE, mimeType);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; } else { &nbsp;// 1 &lt;= i &amp;&amp; i &lt;= MAX_DATA_COLUMNS</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (!TextUtils.isEmpty(customPropertyValue)) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(&quot;data&quot; + i, customPropertyValue);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; i++;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; operationList.add(builder.build());</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; if (myGroupsId != null) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder = ContentProviderOperation.newInsert(Data.CONTENT_URI);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValueBackReference(GroupMembership.RAW_CONTACT_ID, 0);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Data.MIMETYPE, GroupMembership.CONTENT_ITEM_TYPE);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(GroupMembership.GROUP_SOURCE_ID, myGroupsId);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; operationList.add(builder.build());</p><p>&nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; try {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ContentProviderResult[] results = resolver.applyBatch(</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ContactsContract.AUTHORITY, operationList);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // the first result is always the raw_contact. return it’s uri so</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // that it can be found later. do null checking for badly behaving</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // ContentResolvers</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return (results == null || results.length == 0 || results[0] == null)</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ? null</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : results[0].uri;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; } catch (RemoteException e) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Log.e(LOG_TAG, String.format(&quot;%s: %s&quot;, e.toString(), e.getMessage()));</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return null;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; } catch (OperationApplicationException e) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Log.e(LOG_TAG, String.format(&quot;%s: %s&quot;, e.toString(), e.getMessage()));</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return null;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; }</p><br><p></p> 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2011/09/28/联系人批量插入实例（VCardEntry-java）/" class="archive-article-date">
+  	<time datetime="2011-09-28T11:21:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2011-09-28</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2011/09/28/重复导入联系人的问题（Contact-AGGREGATION）/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          重复导入联系人的问题（Contact AGGREGATION）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2011/09/16/json-libs：Jackson-gson/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">json libs：Jackson/gson</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

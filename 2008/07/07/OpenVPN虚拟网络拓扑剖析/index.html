@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>OpenVPN虚拟网络拓扑剖析 | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="OpenVPN虚拟网络拓扑剖析
+By jfo，
+&amp;nbsp;
+转载请注明出处http://blog.pickbox.me/2008/07/07/openvpn%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C%E6%8B%93%E6%89%91%E5%89%96%E6%9E%90/
+&amp;nbsp;
+OpenVPN-
+server/client配置模型
+sample-config">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OpenVPN虚拟网络拓扑剖析">
+<meta property="og:url" content="http://blog.pickbox.me/2008/07/07/OpenVPN虚拟网络拓扑剖析/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="OpenVPN虚拟网络拓扑剖析
+By jfo，
+&amp;nbsp;
+转载请注明出处http://blog.pickbox.me/2008/07/07/openvpn%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C%E6%8B%93%E6%89%91%E5%89%96%E6%9E%90/
+&amp;nbsp;
+OpenVPN-
+server/client配置模型
+sample-config">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/7321c913da721e35dd5401a9.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/c4633887b878223cc65cc3ab.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/3605d3437266c60573f05db0.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/6fb395ddfe6bba225982ddb2.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/f44160d9ebe3403a11df9bb3.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/55f4014f91c5e020afc3abb9.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/c4633887b813223cc65cc38e.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/23c4544e051cc61fb3de058f.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/5d5c7ed9e05516ff39012f88.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/42a15e60bbee49c98db10d89.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/c4633887b817223cc65cc38a.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/add3f9f2e5598405b07ec58b.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/e305087b17416ce20ad18794.jpg">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="OpenVPN虚拟网络拓扑剖析">
+<meta name="twitter:description" content="OpenVPN虚拟网络拓扑剖析
+By jfo，
+&amp;nbsp;
+转载请注明出处http://blog.pickbox.me/2008/07/07/openvpn%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C%E6%8B%93%E6%89%91%E5%89%96%E6%9E%90/
+&amp;nbsp;
+OpenVPN-
+server/client配置模型
+sample-config">
+<meta name="twitter:image" content="http://img.pickbox.me/wp-content/uploads/pic/7321c913da721e35dd5401a9.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-OpenVPN虚拟网络拓扑剖析" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      OpenVPN虚拟网络拓扑剖析
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>OpenVPN虚拟网络拓扑剖析</p>
+<p>By jfo，</p>
+<p>&nbsp;</p>
+<p>转载请注明出处<a href="http://blog.pickbox.me/2008/07/07/openvpn%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C%E6%8B%93%E6%89%91%E5%89%96%E6%9E%90/">http://blog.pickbox.me/2008/07/07/openvpn%E8%99%9A%E6%8B%9F%E7%BD%91%E7%BB%9C%E6%8B%93%E6%89%91%E5%89%96%E6%9E%90/</a></p>
+<p>&nbsp;</p>
+<p>OpenVPN-</p>
+<p>server/client配置模型</p>
+<p>sample-config-files：<a href="http://openvpn.net/index.php/documentation/howto.html#examples" target="_blank" rel="external">http://openvpn.net/index.php/documentation/howto.html#examples</a></p>
+<p>Ø      点对点VPN tunnel网络拓扑</p>
+<p><strong>server .0 255.255.255.0</strong></p>
+<p>一旦client连接上，tun设备相当于虚拟出一个网关</p>
+<p><img class="blogimg" alt="" src="http://img.pickbox.me/wp-content/uploads/pic/7321c913da721e35dd5401a9.jpg"></p>
+<p>服务器端（Linux）的路由如下：</p>
+<p><img class="blogimg" alt="" src="http://img.pickbox.me/wp-content/uploads/pic/c4633887b878223cc65cc3ab.jpg"></p>
+<p>所有VPN .0/24子网段都经由10.10.10.2处理，网关10.10.10.2可以判断目标地址，查找内部记录的信息，将数据包发送给正确的客户端。</p>
+<p>客户端（Windows）的路由如下：</p>
+<p><img class="blogimg" alt="" src="http://img.pickbox.me/wp-content/uploads/pic/3605d3437266c60573f05db0.jpg"></p>
+<p>所有VPN .0/24子网段都经由10.10.10.5处理，网关10.10.10.5可以将数据包通过隧道发送出去。</p>
+<p>当一个用户程序，如FTP，向.1发出连接请求时，这个数据包进入到内核，查找路由表，发现需要经过10.10.10.5这个网关从10.10.10.6（即和虚拟网关相连的网络出口，类似普通网卡接口）发送出去，而网关10.10.10.5其实是OpenVPN底层驱动虚拟出来的，于是数据包从底层被发送到OpenVPN用户程序，OpenVPN可以进行VPN虚拟IP封装、记录真实IP等工作。然后OpenVPN修改数据包的src IP和dest IP为底层网络的真实IP，发送到另一端的OpenVPN服务端或客户端。</p>
+<p>另一端接收到数据包后，由内核交给上层OpenVPN应用程序，OpenVPN可以对这个数据包作任何操作了（数据包格式OpenVPN自己是知道的），比如从中提取出VPN虚拟IP，甚至发送方的真实IP，这些信息和后面将提到的multiple machines on the server side以及multiple machines on the client side都有关系。</p>
+<p>不论是发送还是接收，虚拟网关（.2和10.10.10.5）都记录下VPN虚拟IP和真实IP:PORT的对应关系。</p>
+<p>整个过程用户看上去就像是经过了一个隧道，其中的细节全部被隐蔽了。但值得强调的是，最终数据仍然是以真实IP在网络上跑的，这也符合一般设计逻辑。</p>
+<p>Ø      multiple machines on the server side</p>
+<p>ref for detail：</p>
+<p>在sample-config-files中有如下一段配置：</p>
+<p><img class="blogimg" alt="" src="http://img.pickbox.me/wp-content/uploads/pic/6fb395ddfe6bba225982ddb2.jpg"></p>
+<p>描述的情形如下图所示（稍作修改，192.168.<em>.</em>网段替换成了.*网段）：</p>
+<p><img class="blogimg" alt="" src="http://img.pickbox.me/wp-content/uploads/pic/f44160d9ebe3403a11df9bb3.jpg"></p>
+<p>push “route .0 255.255.255.0” 的作用是将route命令push到连接进来的client，设置client的路由，实际上也可以在连接后手工设置。</p>
+<p><img class="blogimg" alt="" src="http://img.pickbox.me/wp-content/uploads/pic/55f4014f91c5e020afc3abb9.jpg"></p>
+<p>客户端将所有.*的请求全部经过虚拟网关.5（即VPN隧道）发送到VPN服务器。</p>
+<p>服务器端只要允许了<a href="http://openvpn.net/faq.html#ip-forward" target="_blank" rel="external">IP</a> 和 <a href="http://openvpn.net/faq.html#firewall" target="_blank" rel="external">TUN/TAP</a> forwarding，就可以将数据包转发给正确的机器。</p>
+<p>从这一点可以看出，OpenVPN所做的工作只不过是建立通讯隧道、封装一些新的信息到数据包，以及还原数据包和提取真实目标地址信息。也就是说服务器端默认就会转发数据包的，而不需要OpenVPN另外单独做路由判断或是发送目标地址过滤等操作，这些都是底层原有的机制（如iptables，routing tables）完成的。这也说明了为什么即使在服务器的配置文件中不添加push “route .0 255.255.255.0”这一行，只要client端手工添加了这一路由项，都可以成功发送至服务器端内网的任何一台机器。</p>
+<p>文档中特别强调了一句：“Remember that these private subnets will also need to know to route the OpenVPN client address pool (.0/255.255.255.0) back to the OpenVPN server.”</p>
+<p>这句话是说，服务器背后的内网在回复VPN客户端时，要知道将.0/24这个OpenVPN虚拟IP的路由回OpenVPN server上，这在OpenVPN服务器与网关不是同一台机器时尤为重要。这句话暴露出这样一个信息：数据包是以OpenVPN虚拟IP在server私网跑的！</p>
+<p>为了进一步验证这一发现，我们先在客户端用FTP连接服务器内网的一台FTP服务器（.241），然后在服务器端运行如下命令（conntract记录了网络当前数据包的各种信息），从结果可以看到，src=10.10.10.6，确实验证了这一点。</p>
+<p><img class="blogimg" alt="" src="http://img.pickbox.me/wp-content/uploads/pic/c4633887b813223cc65cc38e.jpg"></p>
+<p>这说明OpenVPN服务端收到数据包后，会从中抽取出VPN虚拟IP（前面我们说过，OpenVPN会封装进一些附加信息，虚拟IP就是其中之一），然后用它替换数据包的src address，最后转发出去。</p>
+<p>再次回到文档中的那句话，当OpenVPN服务器与网关不是同一台机器，我的实验环境就是这样，而你又不是网络管理员，无法更改网关的设置时，那么只能说抱歉了，通过设置push “route .0 255.255.255.0”的方法，你仍然不能访问到服务器端内网，你的FTP客户端将不断显示“延迟30秒尝试重新连接”！因为回应数据包无法从内网发送出去。</p>
+<p>如果你有足够的怀疑精神，也许你会问，如果是这样，网关肯定不会将你的OpenVPN连接请求转发到内网自己的OpenVPN服务器（通常情况都会这样），那么从一开始网关就会拒绝我的OpenVPN连接，更不会有后面的通过“sudo cat /proc/net/nf_conntrack”验证数据包了！你说的一点也没错，然而事实是我确实成功的验证了src=.6，这说明OpenVPN连接确实成功建立，那么网关被我设置过？可我又没有配置网关的特权，也不要怀疑我和网管是好朋友，那么只能说明我通过某种非常规途径建立了OpenVPN连接！推断完全正确，事实正是如此。详情请参考<a href="http://blog.chinaunix.net/u/10449/showart.php?id=688463" target="_blank" rel="external">http://blog.chinaunix.net/u/10449/showart.php?id=688463</a>，介绍的是如何穿越NAT对外提供服务。</p>
+<p>之所以提这一小插曲，是因为当我们处于迷惑不解的状态时，例如调试一个内核的bug，搞到晕头转向，也找不出丝毫的蛛丝马迹，这时人们最容易草木皆兵，到处怀疑可能出错的地方，就算我们平时会拍着胸脯说绝对不会有问题的地方，也难逃被怀疑的厄运。这时最重要的是正确的推断，根据眼前可以确认的事实，一步一步追根朔源，找到矛盾的源头，而不是怀疑自己眼前看到的事实，花费大量精力在很可能正确的地方挑错。相信你曾有过这样的经历：明明在街上看到某位朋友，可是回头问时却被否认，于是你开始怀疑自己确实是看错了人。</p>
+<p>言归正传，总结一下，当multiple machines on the server side时，客户端从外网通过VPN隧道访问内网机器，在内网使用的是VPN虚拟IP！并且push “route .0 255.255.255.0”不会对服务器端有任何特殊设置，它仅仅指导客户端添加一项路由。</p>
+<p><img class="blogimg" alt="" src="http://img.pickbox.me/wp-content/uploads/pic/23c4544e051cc61fb3de058f.jpg"></p>
+<p>另外可以试着将VPN虚拟地址指定成.0/24网段，这时不向网关添加任何路由信息，会不会成功？</p>
+<p>&nbsp;</p>
+<p>Ø      multiple machines on the client side</p>
+<p>ref for detail：</p>
+<p><img class="blogimg" alt="" src="http://img.pickbox.me/wp-content/uploads/pic/5d5c7ed9e05516ff39012f88.jpg"></p>
+<p>描述的情形如下图所示（稍作修改，192.168.40.<em>网段替换成了192.168.1.</em>网段）：</p>
+<p><img class="blogimg" alt="" src="http://img.pickbox.me/wp-content/uploads/pic/42a15e60bbee49c98db10d89.jpg"></p>
+<p>route 192.168.1.0 255.255.255.0的作用是在server端添加路由项。实际上也可以手工添加。</p>
+<p><img class="blogimg" alt="" src="http://img.pickbox.me/wp-content/uploads/pic/c4633887b817223cc65cc38a.jpg"></p>
+<p>server在接收到目标地址为192.168.1.0/24的数据包时，根据路由项将数据包从内核传递给OpenVPN应用程序，OpenVPN再根据iroute 192.168.1.0 255.255.255.0查找出192.168.1.0对应着哪个客户端子网，选择正确的VPN隧道，将数据包从OpenVPN server发送出去。iroute不能手工添加的，它被OpenVPN内部使用。How-to文档中有这么一段描述：“<strong>route</strong> controls the routing from the kernel to the OpenVPN server (via the TUN interface) while <strong>iroute</strong> controls the routing from the OpenVPN server to the remote clients. Both are necessary.”</p>
+<p>最后一步，也是经常被忘记的一步，是向server端的网关添加一项路由，将所有目标地址为192.168.1.0/24的数据包转发到OpenVPN服务器。（The last step, and one that is often forgotten, is to add a route to the server’s LAN gateway which directs 192.168.4.0/24 to the OpenVPN server box）</p>
+<p>这一步又向我们暗示了一个信息：client端的任何一台机器访问server端内网机器时，在server端内网显示的是客户端LAN的真实IP！</p>
+<p><img class="blogimg" alt="" src="http://img.pickbox.me/wp-content/uploads/pic/add3f9f2e5598405b07ec58b.jpg"></p>
+<p>client-to-client</p>
+<p>push “route 192.168.1.0 255.255.255.0”</p>
+<p>另一台client2连接server后，它的route table将显示192.168.1.0的路由项</p>
+<p><img class="blogimg" alt="" src="http://img.pickbox.me/wp-content/uploads/pic/e305087b17416ce20ad18794.jpg"></p>
+<p>Ø      其他说明</p>
+<h1 id="EXAMPLE-Suppose-you-want-to-give"><a href="#EXAMPLE-Suppose-you-want-to-give" class="headerlink" title="EXAMPLE: Suppose you want to give"></a>EXAMPLE: Suppose you want to give</h1><h1 id="Thelonious-a-fixed-VPN-IP-address-of-1"><a href="#Thelonious-a-fixed-VPN-IP-address-of-1" class="headerlink" title="Thelonious a fixed VPN IP address of .1."></a>Thelonious a fixed VPN IP address of .1.</h1><h1 id="First-uncomment-out-these-lines"><a href="#First-uncomment-out-these-lines" class="headerlink" title="First uncomment out these lines:"></a>First uncomment out these lines:</h1><p>;client-config-dir ccd</p>
+<p>;route .0 255.255.255.252</p>
+<h1 id="Then-add-this-line-to-ccd-Thelonious"><a href="#Then-add-this-line-to-ccd-Thelonious" class="headerlink" title="Then add this line to ccd/Thelonious:"></a>Then add this line to ccd/Thelonious:</h1><h1 id="ifconfig-push-1-10-9-0-2"><a href="#ifconfig-push-1-10-9-0-2" class="headerlink" title="ifconfig-push .1 10.9.0.2"></a>ifconfig-push .1 10.9.0.2</h1><p>将ifconfig push到客户端配置，由于server .0 255.255.255.0，默认只会对10.8.0.0/24路由，因此需要添加route 10.9.0.0 255.255.255.252，对10.9.0.0/30路由</p>
+<p>push “redirect-gateway def1”</p>
+<p>push “dhcp-option DNS .1”</p>
+<p>push “dhcp-option WINS .1”</p>
+<p>将客户端默认网关配置成服务器端。并设置DNS server和WINS server为.1</p>
+<p>OpenVPN server端必须配置如下：</p>
+<p>iptables -t nat -A POSTROUTING -s .0/24 -o eth0 -j MASQUERADE</p>
+<p>Ø      最终的全景图</p>
+<p>OpenVPN仅仅建立隧道，并封装一些必要的信息，例如VPN虚拟地址和客户真实地址，其他的所有网络扩展，例如访问server端内网、访问client端内网，都是利用基本路由，以及iptables规则实现的。</p>
+<p>也就是说一旦OpenVPN的基本配置完成后（唯一例外的是iroute这一配置项），完全可以自行手工设置路由以及iptables规则，来实现对网络的扩充，了解这一点对配置安全网络尤为重要，不要指望只要在server端不写类似”route .0 255.255.255.0”的语句就可以阻止客户端访问服务器内网，你必须从iptables规则链中确认客户端访问会被过滤掉。了解这一点也会帮助你构建基本网络，在路由器和交换机的重重封锁下，可以通过建立一条VPN隧道打通两个子网之间的网络通路，然后考虑如何通过添加路由和设置iptables规则，实现扩充VPN隧道功能的目标。</p>
+<hr>
+<p>&nbsp;</p>
+<p>#end</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/07/07/OpenVPN虚拟网络拓扑剖析/" class="archive-article-date">
+  	<time datetime="2008-07-07T15:13:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-07-07</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Network/">Network</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2008/07/14/python-function-reference/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          python function reference
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2008/07/06/Linux网络工具：IPTABLES-～-ip-route-～-tcpdump-～-netstat-～-and-so-on/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Linux网络工具：IPTABLES ～ ip/route ～ tcpdump ～ netstat ～ and so on ...</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

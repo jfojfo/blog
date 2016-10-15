@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>sensors HAL | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="补充《sensor service的初始化》中提到的onFirstRef主要是在Android的HAL层对底层驱动封装
+frameworks/native/services/sensorservice/SensorDevice.cpp
+
+SensorDevice::SensorDevice()
+    :  mSensorDevice(0),
+       mSensorModule(0)
+{">
+<meta property="og:type" content="article">
+<meta property="og:title" content="sensors HAL">
+<meta property="og:url" content="http://blog.pickbox.me/2014/11/06/sensors-HAL/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="补充《sensor service的初始化》中提到的onFirstRef主要是在Android的HAL层对底层驱动封装
+frameworks/native/services/sensorservice/SensorDevice.cpp
+
+SensorDevice::SensorDevice()
+    :  mSensorDevice(0),
+       mSensorModule(0)
+{">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/sensors-HAL.png">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="sensors HAL">
+<meta name="twitter:description" content="补充《sensor service的初始化》中提到的onFirstRef主要是在Android的HAL层对底层驱动封装
+frameworks/native/services/sensorservice/SensorDevice.cpp
+
+SensorDevice::SensorDevice()
+    :  mSensorDevice(0),
+       mSensorModule(0)
+{">
+<meta name="twitter:image" content="http://img.pickbox.me/wp-content/uploads/sensors-HAL.png">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-sensors-HAL" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      sensors HAL
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>补充《sensor service的初始化》中提到的onFirstRef<br>主要是在Android的HAL层对底层驱动封装<br><a href="http://img.pickbox.me/wp-content/uploads/sensors-HAL.png" target="_blank" rel="external"><img src="http://img.pickbox.me/wp-content/uploads/sensors-HAL.png" alt="sensors HAL" width="1187" height="632" class="alignnone size-full wp-image-1071"></a></p>
+<p>frameworks/native/services/sensorservice/SensorDevice.cpp</p>
+<pre>
+SensorDevice::SensorDevice()
+    :  mSensorDevice(0),
+       mSensorModule(0)
+{
+    status_t err = hw_get_module(SENSORS_HARDWARE_MODULE_ID,
+            (hw_module_t const**)&amp;mSensorModule);
+
+    ALOGE_IF(err, &quot;couldn't load %s module (%s)&quot;,
+            SENSORS_HARDWARE_MODULE_ID, strerror(-err));
+
+    if (mSensorModule) {
+        err = sensors_open_1(&amp;mSensorModule-&gt;common, &amp;mSensorDevice);
+
+        ALOGE_IF(err, &quot;couldn't open device for module %s (%s)&quot;,
+                SENSORS_HARDWARE_MODULE_ID, strerror(-err));
+
+        if (mSensorDevice) {
+            sensor_t const* list;
+            ssize_t count = mSensorModule-&gt;get_sensors_list(mSensorModule, &amp;list);
+            mActivationCount.setCapacity(count);
+            Info model;
+            for (size_t i=0 ; i&lt;size_t(count) ; i++) {
+                mActivationCount.add(list[i].handle, model);
+                mSensorDevice-&gt;activate(
+                        reinterpret_cast&lt;struct sensors_poll_device_t *&gt;(mSensorDevice),
+                        list[i].handle, 0);
+            }
+        }
+    }
+}
+</pre>
+
+
+<p>hardware/libhardware/include/hardware/sensors.h</p>
+<pre>
+#define SENSORS_HARDWARE_MODULE_ID &quot;sensors&quot;
+
+/**
+ * Every hardware module must have a data structure named HAL_MODULE_INFO_SYM
+ * and the fields of this data structure must begin with hw_module_t
+ * followed by module specific information.
+ */
+struct sensors_module_t {
+    struct hw_module_t common;
+
+    /**
+     * Enumerate all available sensors. The list is returned in &quot;list&quot;.
+     * @return number of sensors in the list
+     */
+    int (*get_sensors_list)(struct sensors_module_t* module,
+            struct sensor_t const** list);
+};
+
+
+static inline int sensors_open(const struct hw_module_t* module,
+        struct sensors_poll_device_t** device) {
+    return module-&gt;methods-&gt;open(module,
+            SENSORS_HARDWARE_POLL, (struct hw_device_t**)device);
+}
+
+static inline int sensors_close(struct sensors_poll_device_t* device) {
+    return device-&gt;common.close(&amp;device-&gt;common);
+}
+
+static inline int sensors_open_1(const struct hw_module_t* module,
+        sensors_poll_device_1_t** device) {
+    return module-&gt;methods-&gt;open(module,
+            SENSORS_HARDWARE_POLL, (struct hw_device_t**)device);
+}
+
+static inline int sensors_close_1(sensors_poll_device_1_t* device) {
+    return device-&gt;common.close(&amp;device-&gt;common);
+}
+</pre>
+
+<p>hardware/libhardware/hardware.c</p>
+<pre>
+int hw_get_module(const char *id, const struct hw_module_t **module)
+{
+    return hw_get_module_by_class(id, NULL, module);
+}
+
+int hw_get_module_by_class(const char *class_id, const char *inst,
+                           const struct hw_module_t **module)
+{
+    int status;
+    int i;
+    const struct hw_module_t *hmi = NULL;
+    char prop[PATH_MAX];
+    char path[PATH_MAX];
+    char name[PATH_MAX];
+
+    if (inst)
+        snprintf(name, PATH_MAX, &quot;%s.%s&quot;, class_id, inst);
+    else
+        strlcpy(name, class_id, PATH_MAX);
+
+    /*
+     * Here we rely on the fact that calling dlopen multiple times on
+     * the same .so will simply increment a refcount (and not load
+     * a new copy of the library).
+     * We also assume that dlopen() is thread-safe.
+     */
+
+    /* Loop through the configuration variants looking for a module */
+    for (i=0 ; i&lt;HAL_VARIANT_KEYS_COUNT+1 ; i++) {
+        if (i &lt; HAL_VARIANT_KEYS_COUNT) {
+            if (property_get(variant_keys[i], prop, NULL) == 0) {
+                continue;
+            }
+            snprintf(path, sizeof(path), &quot;%s/%s.%s.so&quot;,
+                     HAL_LIBRARY_PATH2, name, prop);
+            if (access(path, R_OK) == 0) break;
+
+            snprintf(path, sizeof(path), &quot;%s/%s.%s.so&quot;,
+                     HAL_LIBRARY_PATH1, name, prop);
+            if (access(path, R_OK) == 0) break;
+        } else {
+            snprintf(path, sizeof(path), &quot;%s/%s.default.so&quot;,
+                     HAL_LIBRARY_PATH2, name);
+            if (access(path, R_OK) == 0) break;
+
+            snprintf(path, sizeof(path), &quot;%s/%s.default.so&quot;,
+                     HAL_LIBRARY_PATH1, name);
+            if (access(path, R_OK) == 0) break;
+        }
+    }
+
+    status = -ENOENT;
+    if (i &lt; HAL_VARIANT_KEYS_COUNT+1) {
+        /* load the module, if this fails, we're doomed, and we should not try
+         * to load a different variant. */
+        status = load(class_id, path, module);
+    }
+
+    return status;
+}
+
+/**
+ * There are a set of variant filename for modules. The form of the filename
+ * is &quot;&lt;MODULE_ID&gt;.variant.so&quot; so for the led module the Dream variants 
+ * of base &quot;ro.product.board&quot;, &quot;ro.board.platform&quot; and &quot;ro.arch&quot; would be:
+ *
+ * led.trout.so
+ * led.msm7k.so
+ * led.ARMV6.so
+ * led.default.so
+ */
+
+static const char *variant_keys[] = {
+    &quot;ro.hardware&quot;,  /* This goes first so that it can pick up a different
+                       file on the emulator. */
+    &quot;ro.product.board&quot;,
+    &quot;ro.board.platform&quot;,
+    &quot;ro.arch&quot;
+};
+
+static const int HAL_VARIANT_KEYS_COUNT =
+    (sizeof(variant_keys)/sizeof(variant_keys[0]));
+
+/** Base path of the hal modules */
+#define HAL_LIBRARY_PATH1 &quot;/system/lib/hw&quot;
+#define HAL_LIBRARY_PATH2 &quot;/vendor/lib/hw&quot;
+
+/**
+ * Load the file defined by the variant and if successful
+ * return the dlopen handle and the hmi.
+ * @return 0 = success, !0 = failure.
+ */
+static int load(const char *id,
+        const char *path,
+        const struct hw_module_t **pHmi)
+{
+    int status;
+    void *handle;
+    struct hw_module_t *hmi;
+
+    /*
+     * load the symbols resolving undefined symbols before
+     * dlopen returns. Since RTLD_GLOBAL is not or'd in with
+     * RTLD_NOW the external symbols will not be global
+     */
+    handle = dlopen(path, RTLD_NOW);
+    if (handle == NULL) {
+        char const *err_str = dlerror();
+        ALOGE(&quot;load: module=%s\n%s&quot;, path, err_str?err_str:&quot;unknown&quot;);
+        status = -EINVAL;
+        goto done;
+    }
+
+    /* Get the address of the struct hal_module_info. */
+    const char *sym = HAL_MODULE_INFO_SYM_AS_STR;
+    hmi = (struct hw_module_t *)dlsym(handle, sym);
+    if (hmi == NULL) {
+        ALOGE(&quot;load: couldn't find symbol %s&quot;, sym);
+        status = -EINVAL;
+        goto done;
+    }
+
+    /* Check that the id matches */
+    if (strcmp(id, hmi-&gt;id) != 0) {
+        ALOGE(&quot;load: id=%s != hmi-&gt;id=%s&quot;, id, hmi-&gt;id);
+        status = -EINVAL;
+        goto done;
+    }
+
+    hmi-&gt;dso = handle;
+
+    /* success */
+    status = 0;
+
+    done:
+    if (status != 0) {
+        hmi = NULL;
+        if (handle != NULL) {
+            dlclose(handle);
+            handle = NULL;
+        }
+    } else {
+        ALOGV(&quot;loaded HAL id=%s path=%s hmi=%p handle=%p&quot;,
+                id, path, *pHmi, handle);
+    }
+
+    *pHmi = hmi;
+
+    return status;
+}
+</pre>
+
+<p>hardware/libhardware/include/hardware/hardware.h</p>
+<pre>
+typedef struct hw_module_t {
+    /** tag must be initialized to HARDWARE_MODULE_TAG */
+    uint32_t tag;
+
+    uint16_t module_api_version;
+#define version_major module_api_version
+    uint16_t hal_api_version;
+#define version_minor hal_api_version
+
+    /** Identifier of module */
+    const char *id;
+
+    /** Name of this module */
+    const char *name;
+
+    /** Author/owner/implementor of the module */
+    const char *author;
+
+    /** Modules methods */
+    struct hw_module_methods_t* methods;
+
+    /** module's dso */
+    void* dso;
+
+    /** padding to 128 bytes, reserved for future use */
+    uint32_t reserved[32-7];
+
+} hw_module_t;
+
+typedef struct hw_device_t {
+    /** tag must be initialized to HARDWARE_DEVICE_TAG */
+    uint32_t tag;
+    uint32_t version;
+
+    /** reference to the module this device belongs to */
+    struct hw_module_t* module;
+
+    /** padding reserved for future use */
+    uint32_t reserved[12];
+
+    /** Close this device */
+    int (*close)(struct hw_device_t* device);
+
+} hw_device_t;
+
+#define MAKE_TAG_CONSTANT(A,B,C,D) (((A) << 24) | ((B) << 16) | ((C) << 8) | (D))
+
+#define HARDWARE_MODULE_TAG MAKE_TAG_CONSTANT('H', 'W', 'M', 'T')
+#define HARDWARE_DEVICE_TAG MAKE_TAG_CONSTANT('H', 'W', 'D', 'T')
+
+#define HAL_MODULE_INFO_SYM         HMI
+#define HAL_MODULE_INFO_SYM_AS_STR  "HMI"
+
+</pre>
+
+<p>以device/samsung/manta/libsensors/sensors.cpp实现为例</p>
+<pre>
+struct sensors_module_t HAL_MODULE_INFO_SYM = {
+        common: {
+                tag: HARDWARE_MODULE_TAG,
+                version_major: 1,
+                version_minor: 0,
+                id: SENSORS_HARDWARE_MODULE_ID,
+                name: &quot;Samsung Sensor module&quot;,
+                author: &quot;Samsung Electronic Company&quot;,
+                methods: &amp;sensors_module_methods,
+                dso: 0,
+                reserved: {},
+        },
+        get_sensors_list: sensors__get_sensors_list,
+};
+
+static struct hw_module_methods_t sensors_module_methods = {
+        open: open_sensors
+};
+
+/** Open a new instance of a sensor device using name */
+static int open_sensors(const struct hw_module_t* module, const char* id,
+                        struct hw_device_t** device)
+{
+    FUNC_LOG;
+    int status = -EINVAL;
+    sensors_poll_context_t *dev = new sensors_poll_context_t();
+
+    if (!dev-&gt;isValid()) {
+        ALOGE(&quot;Failed to open the sensors&quot;);
+        return status;
+    }
+
+    memset(&amp;dev-&gt;device, 0, sizeof(sensors_poll_device_t));
+
+    dev-&gt;device.common.tag = HARDWARE_DEVICE_TAG;
+    dev-&gt;device.common.version  = 0;
+    dev-&gt;device.common.module   = const_cast&lt;hw_module_t*&gt;(module);
+    dev-&gt;device.common.close    = poll__close;
+    dev-&gt;device.activate        = poll__activate;
+    dev-&gt;device.setDelay        = poll__setDelay;
+    dev-&gt;device.poll            = poll__poll;
+
+    *device = &amp;dev-&gt;device.common;
+    status = 0;
+
+    return status;
+}
+
+</pre>
+
+<pre>
+struct sensors_poll_context_t {
+    struct sensors_poll_device_t device; // must be first
+
+        sensors_poll_context_t();
+        ~sensors_poll_context_t();
+    int activate(int handle, int enabled);
+    int setDelay(int handle, int64_t ns);
+    int pollEvents(sensors_event_t* data, int count);
+
+    // Will return true if the constructor completed
+    bool isValid() { return mInitialized; };
+
+private:
+    // Will be true if the constructor completed
+    bool mInitialized;
+
+    enum {
+        mpl = 0,
+        compass,
+#ifdef ENABLE_DMP_DISPL_ORIENT_FEAT
+        dmpOrient,
+#endif
+        light,
+        pressure,
+        numSensorDrivers,       // wake pipe goes here
+        numFds,
+    };
+
+    static const size_t wake = numFds - 1;
+    static const char WAKE_MESSAGE = 'W';
+    struct pollfd mPollFds[numFds];
+    int mWritePipeFd;
+    SensorBase* mSensors[numSensorDrivers];
+
+    int handleToDriver(int handle) const {
+        switch (handle) {
+            case ID_RV:
+            case ID_LA:
+            case ID_GR:
+            case ID_GY:
+            case ID_RG:
+            case ID_A:
+            case ID_M:
+            case ID_O:
+                return mpl;
+#ifdef ENABLE_DMP_DISPL_ORIENT_FEAT
+            case ID_SO:
+                return dmpOrient;
+#endif
+            case ID_L:
+                return light;
+            case ID_PR:
+                return pressure;
+        }
+        return -EINVAL;
+    }
+};
+
+sensors_poll_context_t::sensors_poll_context_t()
+{
+    FUNC_LOG;
+    CompassSensor *p_compasssensor = new CompassSensor();
+    MPLSensor *p_mplsen = new MPLSensor(p_compasssensor);
+    mInitialized = false;
+    // Must clean this up early or else the destructor will make a mess.
+    memset(mSensors, 0, sizeof(mSensors));
+
+    setCallbackObject(p_mplsen); //setup the callback object for handing mpl callbacks
+    numSensors =
+        LOCAL_SENSORS +
+        p_mplsen-&gt;populateSensorList(sSensorList + LOCAL_SENSORS,
+                                     sizeof(sSensorList[0]) * (ARRAY_SIZE(sSensorList) - LOCAL_SENSORS));
+
+    mSensors[mpl] = p_mplsen;
+    mPollFds[mpl].fd = mSensors[mpl]-&gt;getFd();
+    mPollFds[mpl].events = POLLIN;
+    mPollFds[mpl].revents = 0;
+
+    mSensors[compass] = p_mplsen;
+    mPollFds[compass].fd =  ((MPLSensor*)mSensors[mpl])-&gt;getCompassFd();
+    mPollFds[compass].events = POLLIN;
+    mPollFds[compass].revents = 0;
+
+#ifdef ENABLE_DMP_DISPL_ORIENT_FEAT
+    mPollFds[dmpOrient].fd = ((MPLSensor*)mSensors[mpl])-&gt;getDmpOrientFd();
+    mPollFds[dmpOrient].events = POLLPRI;
+    mPollFds[dmpOrient].revents = 0;
+#endif
+    mSensors[light] = new LightSensor();
+    mPollFds[light].fd = mSensors[light]-&gt;getFd();
+    mPollFds[light].events = POLLIN;
+    mPollFds[light].revents = 0;
+
+    mSensors[pressure] = new PressureSensor();
+    mPollFds[pressure].fd = mSensors[pressure]-&gt;getFd();
+    mPollFds[pressure].events = POLLIN;
+    mPollFds[pressure].revents = 0;
+
+    int wakeFds[2];
+    int result = pipe(wakeFds);
+    ALOGE_IF(result&lt;0, &quot;error creating wake pipe (%s)&quot;, strerror(errno));
+    fcntl(wakeFds[0], F_SETFL, O_NONBLOCK);
+    fcntl(wakeFds[1], F_SETFL, O_NONBLOCK);
+    mWritePipeFd = wakeFds[1];
+
+    mPollFds[wake].fd = wakeFds[0];
+    mPollFds[wake].events = POLLIN;
+    mPollFds[wake].revents = 0;
+    mInitialized = true;
+}
+</pre>
+
+<p>hardware/libhardware/include/hardware/sensors.h</p>
+<pre>
+/*
+ * sensors_poll_device_t is used with SENSORS_DEVICE_API_VERSION_0_1
+ * and is present for backward binary and source compatibility.
+ * (see documentation of the hooks in struct sensors_poll_device_1 below)
+ */
+struct sensors_poll_device_t {
+    struct hw_device_t common;
+    int (*activate)(struct sensors_poll_device_t *dev,
+            int handle, int enabled);
+    int (*setDelay)(struct sensors_poll_device_t *dev,
+            int handle, int64_t ns);
+    int (*poll)(struct sensors_poll_device_t *dev,
+            sensors_event_t* data, int count);
+};
+
+
+/*
+ * struct sensors_poll_device_1 is used with SENSORS_DEVICE_API_VERSION_1_0
+ */
+typedef struct sensors_poll_device_1 {
+    union {
+        /* sensors_poll_device_1 is compatible with sensors_poll_device_t,
+         * and can be down-cast to it
+         */
+        struct sensors_poll_device_t v0;
+
+        struct {
+            struct hw_device_t common;
+
+            int (*activate)(struct sensors_poll_device_t *dev,
+                    int handle, int enabled);
+
+            int (*setDelay)(struct sensors_poll_device_t *dev,
+                    int handle, int64_t period_ns);
+
+            int (*poll)(struct sensors_poll_device_t *dev,
+                    sensors_event_t* data, int count);
+        };
+    };
+
+
+    int (*batch)(struct sensors_poll_device_1* dev,
+            int handle, int flags, int64_t period_ns, int64_t timeout);
+
+    int (*flush)(struct sensors_poll_device_1* dev, int handle);
+
+    void (*reserved_procs[8])(void);
+
+} sensors_poll_device_1_t;
+</pre>
+
+<p>device/samsung/manta/libsensors/sensors.cpp</p>
+<pre>
+/* The SENSORS Module */
+#define LOCAL_SENSORS 2
+static struct sensor_t sSensorList[LOCAL_SENSORS + MPLSensor::numSensors] = {
+      { &quot;BH1721fvc Light sensor&quot;,
+          &quot;Rohm&quot;,
+          1, SENSORS_LIGHT_HANDLE,
+          SENSOR_TYPE_LIGHT, 65528.0f, 1.0f, 0.20f, 16000, 0, 0, { } },
+      { &quot;BMP182 Pressure sensor&quot;,
+          &quot;Bosch&quot;,
+          1, SENSORS_PRESSURE_HANDLE,
+          SENSOR_TYPE_PRESSURE, 1100.0f, 0.01f, 0.06f, 50000, 0, 0, { } },
+};
+static int numSensors = LOCAL_SENSORS;
+
+#define SENSORS_ROTATION_VECTOR_HANDLE  (ID_RV)
+#define SENSORS_LINEAR_ACCEL_HANDLE     (ID_LA)
+#define SENSORS_GRAVITY_HANDLE          (ID_GR)
+#define SENSORS_GYROSCOPE_HANDLE        (ID_GY)
+#define SENSORS_RAW_GYROSCOPE_HANDLE    (ID_RG)
+#define SENSORS_ACCELERATION_HANDLE     (ID_A)
+#define SENSORS_MAGNETIC_FIELD_HANDLE   (ID_M)
+#define SENSORS_ORIENTATION_HANDLE      (ID_O)
+#define SENSORS_LIGHT_HANDLE            (ID_L)
+#define SENSORS_PROXIMITY_HANDLE        (ID_P)
+#define SENSORS_PRESSURE_HANDLE         (ID_PR)
+
+static int sensors__get_sensors_list(struct sensors_module_t* module,
+                                     struct sensor_t const** list)
+{
+    *list = sSensorList;
+    return numSensors;
+}
+</pre>
+
+<p>SensorDevice的方法，其具体的实现全部由mSensorDevice 封装的设备操作接口函数实现，这些设备操作接口在HAL层实现，其实SensorDevice只是SensorService的设备操作对象，封装了设备的操作，而这些操作实际“干活的”的是HAL层代码。</p>
+<p>更多sensors可以参考cubieboard2的android代码：<br>device/softwinner/common/hardware/libsensors/{AccelSensor.cpp,GyroSensor.cpp,LightSensor.cpp,MagnetoSensor.cpp,MagSensor.cpp,PressSensor.cpp,ProximitySensor.cpp,TempSensor.cpp}</p>
+<p>以及模拟器的实现：<br>development/tools/emulator/system/sensors/sensors_qemu.c<br>sdk/emulator/sensors/sensors_qemu.c<br>device/generic/goldfish/sensors/sensors_qemu.c<br>android版本不同，可能位于上面3个位置</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/11/06/sensors-HAL/" class="archive-article-date">
+  	<time datetime="2014-11-06T11:26:27.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-11-06</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2014/11/07/sensor-service的初始化/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          sensor service的初始化
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/10/30/关于UsbDeviceConnection的claimInterface/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">关于UsbDeviceConnection的claimInterface</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

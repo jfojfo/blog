@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>ramfs, rootfs and initramfs | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="linux-2.6.30/Documentation/filesystems/ramfs-rootfs-initramfs.txtsee also initrd and ramdisk
+ramfs, rootfs and initramfsOctober 17, 2005
+Rob Landley &amp;lt;rob@landley.net&amp;gt;What is ramfs?Ramfs is a ver">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ramfs, rootfs and initramfs">
+<meta property="og:url" content="http://blog.pickbox.me/2010/09/02/ramfs-rootfs-and-initramfs/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="linux-2.6.30/Documentation/filesystems/ramfs-rootfs-initramfs.txtsee also initrd and ramdisk
+ramfs, rootfs and initramfsOctober 17, 2005
+Rob Landley &amp;lt;rob@landley.net&amp;gt;What is ramfs?Ramfs is a ver">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ramfs, rootfs and initramfs">
+<meta name="twitter:description" content="linux-2.6.30/Documentation/filesystems/ramfs-rootfs-initramfs.txtsee also initrd and ramdisk
+ramfs, rootfs and initramfsOctober 17, 2005
+Rob Landley &amp;lt;rob@landley.net&amp;gt;What is ramfs?Ramfs is a ver">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-ramfs-rootfs-and-initramfs" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ramfs, rootfs and initramfs
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>linux-2.6.30/Documentation/filesystems/ramfs-rootfs-initramfs.txt<br>see also <a href="http://blog.pickbox.me/archives/210" target="_blank">initrd</a> and <a href="http://blog.pickbox.me/archives/209" target="_blank">ramdisk</a></p>
+<p>ramfs, rootfs and initramfs<br>October 17, 2005</p>
+<h1 id="Rob-Landley-lt-rob-landley-net-gt"><a href="#Rob-Landley-lt-rob-landley-net-gt" class="headerlink" title="Rob Landley &lt;rob@landley.net&gt;"></a>Rob Landley &lt;rob@landley.net&gt;</h1><h2 id="What-is-ramfs"><a href="#What-is-ramfs" class="headerlink" title="What is ramfs?"></a>What is ramfs?</h2><p>Ramfs is a very simple filesystem that exports Linux’s disk caching<br>mechanisms (the page cache and dentry cache) as a dynamically resizable<br>RAM-based filesystem.</p>
+<p>Normally all files are cached in memory by Linux.  Pages of data read from<br>backing store (usually the block device the filesystem is mounted on) are kept<br>around in case it’s needed again, but marked as clean (freeable) in case the<br>Virtual Memory system needs the memory for something else.  Similarly, data<br>written to files is marked clean as soon as it has been written to backing<br>store, but kept around for caching purposes until the VM reallocates the<br>memory.  A similar mechanism (the dentry cache) greatly speeds up access to<br>directories.</p>
+<p>With ramfs, there is no backing store.  Files written into ramfs allocate<br>dentries and page cache as usual, but there’s nowhere to write them to.<br>This means the pages are never marked clean, so they can’t be freed by the<br>VM when it’s looking to recycle memory.</p>
+<p>The amount of code required to implement ramfs is tiny, because all the<br>work is done by the existing Linux caching infrastructure.  Basically,<br>you’re mounting the disk cache as a filesystem.  Because of this, ramfs is not<br>an optional component removable via menuconfig, since there would be negligible<br>space savings.</p>
+<h2 id="ramfs-and-ramdisk"><a href="#ramfs-and-ramdisk" class="headerlink" title="ramfs and ramdisk:"></a>ramfs and ramdisk:</h2><p>The older “ram disk” mechanism created a synthetic block device out of<br>an area of RAM and used it as backing store for a filesystem.  This block<br>device was of fixed size, so the filesystem mounted on it was of fixed<br>size.  Using a ram disk also required unnecessarily copying memory from the<br>fake block device into the page cache (and copying changes back out), as well<br>as creating and destroying dentries.  Plus it needed a filesystem driver<br>(such as ext2) to format and interpret this data.</p>
+<p>Compared to ramfs, this wastes memory (and memory bus bandwidth), creates<br>unnecessary work for the CPU, and pollutes the CPU caches.  (There are tricks<br>to avoid this copying by playing with the page tables, but they’re unpleasantly<br>complicated and turn out to be about as expensive as the copying anyway.)<br>More to the point, all the work ramfs is doing has to happen <em>anyway</em>,<br>since all file access goes through the page and dentry caches.  The RAM<br>disk is simply unnecessary; ramfs is internally much simpler.</p>
+<p>Another reason ramdisks are semi-obsolete is that the introduction of<br>loopback devices offered a more flexible and convenient way to create<br>synthetic block devices, now from files instead of from chunks of memory.<br>See losetup (8) for details.</p>
+<h2 id="ramfs-and-tmpfs"><a href="#ramfs-and-tmpfs" class="headerlink" title="ramfs and tmpfs:"></a>ramfs and tmpfs:</h2><p>One downside of ramfs is you can keep writing data into it until you fill<br>up all memory, and the VM can’t free it because the VM thinks that files<br>should get written to backing store (rather than swap space), but ramfs hasn’t<br>got any backing store.  Because of this, only root (or a trusted user) should<br>be allowed write access to a ramfs mount.</p>
+<p>A ramfs derivative called tmpfs was created to add size limits, and the ability<br>to write the data to swap space.  Normal users can be allowed write access to<br>tmpfs mounts.  See Documentation/filesystems/tmpfs.txt for more information.</p>
+<h2 id="What-is-rootfs"><a href="#What-is-rootfs" class="headerlink" title="What is rootfs?"></a>What is rootfs?</h2><p>Rootfs is a special instance of ramfs (or tmpfs, if that’s enabled), which is<br>always present in 2.6 systems.  You can’t unmount rootfs for approximately the<br>same reason you can’t kill the init process; rather than having special code<br>to check for and handle an empty list, it’s smaller and simpler for the kernel<br>to just make sure certain lists can’t become empty.</p>
+<p>Most systems just mount another filesystem over rootfs and ignore it.  The<br>amount of space an empty instance of ramfs takes up is tiny.</p>
+<h2 id="What-is-initramfs"><a href="#What-is-initramfs" class="headerlink" title="What is initramfs?"></a>What is initramfs?</h2><p>All 2.6 Linux kernels contain a gzipped “cpio” format archive, which is<br>extracted into rootfs when the kernel boots up.  After extracting, the kernel<br>checks to see if rootfs contains a file “init”, and if so it executes it as PID</p>
+<ol>
+<li>If found, this init process is responsible for bringing the system the<br>rest of the way up, including locating and mounting the real root device (if<br>any).  If rootfs does not contain an init program after the embedded cpio<br>archive is extracted into it, the kernel will fall through to the older code<br>to locate and mount a root partition, then exec some variant of /sbin/init<br>out of that.</li>
+</ol>
+<p>All this differs from the old initrd in several ways:</p>
+<ul>
+<li><p>The old initrd was always a separate file, while the initramfs archive is<br>linked into the linux kernel image.  (The directory linux-*/usr is devoted<br>to generating this archive during the build.)</p>
+</li>
+<li><p>The old initrd file was a gzipped filesystem image (in some file format,<br>such as ext2, that needed a driver built into the kernel), while the new<br>initramfs archive is a gzipped cpio archive (like tar only simpler,<br>see cpio(1) and Documentation/early-userspace/buffer-format.txt).  The<br>kernel’s cpio extraction code is not only extremely small, it’s also<br>__init text and data that can be discarded during the boot process.</p>
+</li>
+<li><p>The program run by the old initrd (which was called /initrd, not /init) did<br>some setup and then returned to the kernel, while the init program from<br>initramfs is not expected to return to the kernel.  (If /init needs to hand<br>off control it can overmount / with a new root device and exec another init<br>program.  See the switch_root utility, below.)</p>
+</li>
+<li><p>When switching another root device, initrd would pivot_root and then<br>umount the ramdisk.  But initramfs is rootfs: you can neither pivot_root<br>rootfs, nor unmount it.  Instead delete everything out of rootfs to<br>free up the space (find -xdev / -exec rm ‘{}’ ‘;’), overmount rootfs<br>with the new root (cd /newmount; mount –move . /; chroot .), attach<br>stdin/stdout/stderr to the new /dev/console, and exec the new init.</p>
+</li>
+</ul>
+<p>Since this is a remarkably persnickety process (and involves deleting<br>commands before you can run them), the klibc package introduced a helper<br>program (utils/run_init.c) to do all this for you.  Most other packages<br>(such as busybox) have named this command “switch_root”.</p>
+<h2 id="Populating-initramfs"><a href="#Populating-initramfs" class="headerlink" title="Populating initramfs:"></a>Populating initramfs:</h2><p>The 2.6 kernel build process always creates a gzipped cpio format initramfs<br>archive and links it into the resulting kernel binary.  By default, this<br>archive is empty (consuming 134 bytes on x86).</p>
+<p>The config option CONFIG_INITRAMFS_SOURCE (in General Setup in menuconfig,<br>and living in usr/Kconfig) can be used to specify a source for the<br>initramfs archive, which will automatically be incorporated into the<br>resulting binary.  This option can point to an existing gzipped cpio<br>archive, a directory containing files to be archived, or a text file<br>specification such as the following example:</p>
+<p>dir /dev 755 0 0<br>nod /dev/console 644 0 0 c 5 1<br>nod /dev/loop0 644 0 0 b 7 0<br>dir /bin 755 1000 1000<br>slink /bin/sh busybox 777 0 0<br>file /bin/busybox initramfs/busybox 755 0 0<br>dir /proc 755 0 0<br>dir /sys 755 0 0<br>dir /mnt 755 0 0<br>file /init initramfs/init.sh 755 0 0</p>
+<p>Run “usr/gen_init_cpio” (after the kernel build) to get a usage message<br>documenting the above file format.</p>
+<p>One advantage of the configuration file is that root access is not required to<br>set permissions or create device nodes in the new archive.  (Note that those<br>two example “file” entries expect to find files named “init.sh” and “busybox” in<br>a directory called “initramfs”, under the linux-2.6.* directory.  See<br>Documentation/early-userspace/README for more details.)</p>
+<p>The kernel does not depend on external cpio tools.  If you specify a<br>directory instead of a configuration file, the kernel’s build infrastructure<br>creates a configuration file from that directory (usr/Makefile calls<br>scripts/gen_initramfs_list.sh), and proceeds to package up that directory<br>using the config file (by feeding it to usr/gen_init_cpio, which is created<br>from usr/gen_init_cpio.c).  The kernel’s build-time cpio creation code is<br>entirely self-contained, and the kernel’s boot-time extractor is also<br>(obviously) self-contained.</p>
+<p>The one thing you might need external cpio utilities installed for is creating<br>or extracting your own preprepared cpio files to feed to the kernel build<br>(instead of a config file or directory).</p>
+<p>The following command line can extract a cpio image (either by the above script<br>or by the kernel build) back into its component files:</p>
+<p>cpio -i -d -H newc -F initramfs_data.cpio –no-absolute-filenames</p>
+<p>The following shell script can create a prebuilt cpio archive you can<br>use in place of the above config file:</p>
+<p>#!/bin/sh</p>
+<h1 id="Copyright-2006-Rob-Landley-lt-rob-landley-net-gt-and-TimeSys-Corporation"><a href="#Copyright-2006-Rob-Landley-lt-rob-landley-net-gt-and-TimeSys-Corporation" class="headerlink" title="Copyright 2006 Rob Landley &lt;rob@landley.net&gt; and TimeSys Corporation."></a>Copyright 2006 Rob Landley &lt;rob@landley.net&gt; and TimeSys Corporation.</h1><h1 id="Licensed-under-GPL-version-2"><a href="#Licensed-under-GPL-version-2" class="headerlink" title="Licensed under GPL version 2"></a>Licensed under GPL version 2</h1><p>if [ $# -ne 2 ]<br>then<br>echo “usage: mkinitramfs directory imagename.cpio.gz”<br>exit 1<br>fi</p>
+<p>if [ -d “$1” ]<br>then<br>echo “creating $2 from $1”<br>(cd “$1”; find . | cpio -o -H newc | gzip) &gt; “$2”<br>else<br>echo “First argument must be a directory”<br>exit 1<br>fi</p>
+<p>Note: The cpio man page contains some bad advice that will break your initramfs<br>archive if you follow it.  It says “A typical way to generate the list<br>of filenames is with the find command; you should give find the -depth option<br>to minimize problems with permissions on directories that are unwritable or not<br>searchable.”  Don’t do this when creating initramfs.cpio.gz images, it won’t<br>work.  The Linux kernel cpio extractor won’t create files in a directory that<br>doesn’t exist, so the directory entries must go before the files that go in<br>those directories.  The above script gets them in the right order.</p>
+<h2 id="External-initramfs-images"><a href="#External-initramfs-images" class="headerlink" title="External initramfs images:"></a>External initramfs images:</h2><p>If the kernel has initrd support enabled, an external cpio.gz archive can also<br>be passed into a 2.6 kernel in place of an initrd.  In this case, the kernel<br>will autodetect the type (initramfs, not initrd) and extract the external cpio<br>archive into rootfs before trying to run /init.</p>
+<p>This has the memory efficiency advantages of initramfs (no ramdisk block<br>device) but the separate packaging of initrd (which is nice if you have<br>non-GPL code you’d like to run from initramfs, without conflating it with<br>the GPL licensed Linux kernel binary).</p>
+<p>It can also be used to supplement the kernel’s built-in initramfs image.  The<br>files in the external archive will overwrite any conflicting files in<br>the built-in initramfs archive.  Some distributors also prefer to customize<br>a single kernel image with task-specific initramfs images, without recompiling.</p>
+<h2 id="Contents-of-initramfs"><a href="#Contents-of-initramfs" class="headerlink" title="Contents of initramfs:"></a>Contents of initramfs:</h2><p>An initramfs archive is a complete self-contained root filesystem for Linux.<br>If you don’t already understand what shared libraries, devices, and paths<br>you need to get a minimal root filesystem up and running, here are some<br>references:<br><a href="http://www.tldp.org/HOWTO/Bootdisk-HOWTO/" target="_blank" rel="external">http://www.tldp.org/HOWTO/Bootdisk-HOWTO/</a><br><a href="http://www.tldp.org/HOWTO/From-PowerUp-To-Bash-Prompt-HOWTO.html" target="_blank" rel="external">http://www.tldp.org/HOWTO/From-PowerUp-To-Bash-Prompt-HOWTO.html</a><br><a href="http://www.linuxfromscratch.org/lfs/view/stable/" target="_blank" rel="external">http://www.linuxfromscratch.org/lfs/view/stable/</a></p>
+<p>The “klibc” package (<a href="http://www.kernel.org/pub/linux/libs/klibc" target="_blank" rel="external">http://www.kernel.org/pub/linux/libs/klibc</a>) is<br>designed to be a tiny C library to statically link early userspace<br>code against, along with some related utilities.  It is BSD licensed.</p>
+<p>I use uClibc (<a href="http://www.uclibc.org" target="_blank" rel="external">http://www.uclibc.org</a>) and busybox (<a href="http://www.busybox.net" target="_blank" rel="external">http://www.busybox.net</a>)<br>myself.  These are LGPL and GPL, respectively.  (A self-contained initramfs<br>package is planned for the busybox 1.3 release.)</p>
+<p>In theory you could use glibc, but that’s not well suited for small embedded<br>uses like this.  (A “hello world” program statically linked against glibc is<br>over 400k.  With uClibc it’s 7k.  Also note that glibc dlopens libnss to do<br>name lookups, even when otherwise statically linked.)</p>
+<p>A good first step is to get initramfs to run a statically linked “hello world”<br>program as init, and test it under an emulator like qemu (www.qemu.org) or<br>User Mode Linux, like so:</p>
+<p>cat &gt; hello.c &lt;&lt; EOF</p>
+<p>#include &lt;stdio.h&gt;</p>
+<p>#include &lt;unistd.h&gt;</p>
+<p>int main(int argc, char *argv[])<br>{<br>printf(“Hello world!n”);<br>sleep(999999999);<br>}<br>EOF<br>gcc -static hello.c -o init<br>echo init | cpio -o -H newc | gzip &gt; test.cpio.gz</p>
+<h1 id="Testing-external-initramfs-using-the-initrd-loading-mechanism"><a href="#Testing-external-initramfs-using-the-initrd-loading-mechanism" class="headerlink" title="Testing external initramfs using the initrd loading mechanism."></a>Testing external initramfs using the initrd loading mechanism.</h1><p>qemu -kernel /boot/vmlinuz -initrd test.cpio.gz /dev/zero</p>
+<p>When debugging a normal root filesystem, it’s nice to be able to boot with<br>“init=/bin/sh”.  The initramfs equivalent is “rdinit=/bin/sh”, and it’s<br>just as useful.</p>
+<h2 id="Why-cpio-rather-than-tar"><a href="#Why-cpio-rather-than-tar" class="headerlink" title="Why cpio rather than tar?"></a>Why cpio rather than tar?</h2><p>This decision was made back in December, 2001.  The discussion started here:</p>
+<p><a href="http://www.uwsg.iu.edu/hypermail/linux/kernel/0112.2/1538.html" target="_blank" rel="external">http://www.uwsg.iu.edu/hypermail/linux/kernel/0112.2/1538.html</a></p>
+<p>And spawned a second thread (specifically on tar vs cpio), starting here:</p>
+<p><a href="http://www.uwsg.iu.edu/hypermail/linux/kernel/0112.2/1587.html" target="_blank" rel="external">http://www.uwsg.iu.edu/hypermail/linux/kernel/0112.2/1587.html</a></p>
+<p>The quick and dirty summary version (which is no substitute for reading<br>the above threads) is:</p>
+<p>1) cpio is a standard.  It’s decades old (from the AT&amp;T days), and already<br>widely used on Linux (inside RPM, Red Hat’s device driver disks).  Here’s<br>a Linux Journal article about it from 1996:</p>
+<p><a href="http://www.linuxjournal.com/article/1213" target="_blank" rel="external">http://www.linuxjournal.com/article/1213</a></p>
+<p>It’s not as popular as tar because the traditional cpio command line tools<br>require _truly<em>hideous</em> command line arguments.  But that says nothing<br>either way about the archive format, and there are alternative tools,<br>such as:</p>
+<p><a href="http://freshmeat.net/projects/afio/" target="_blank" rel="external">http://freshmeat.net/projects/afio/</a></p>
+<p>2) The cpio archive format chosen by the kernel is simpler and cleaner (and<br>thus easier to create and parse) than any of the (literally dozens of)<br>various tar archive formats.  The complete initramfs archive format is<br>explained in buffer-format.txt, created in usr/gen_init_cpio.c, and<br>extracted in init/initramfs.c.  All three together come to less than 26k<br>total of human-readable text.</p>
+<p>3) The GNU project standardizing on tar is approximately as relevant as<br>Windows standardizing on zip.  Linux is not part of either, and is free<br>to make its own technical decisions.</p>
+<p>4) Since this is a kernel internal format, it could easily have been<br>something brand new.  The kernel provides its own tools to create and<br>extract this format anyway.  Using an existing standard was preferable,<br>but not essential.</p>
+<p>5) Al Viro made the decision (quote: “tar is ugly as hell and not going to be<br>supported on the kernel side”):</p>
+<p><a href="http://www.uwsg.iu.edu/hypermail/linux/kernel/0112.2/1540.html" target="_blank" rel="external">http://www.uwsg.iu.edu/hypermail/linux/kernel/0112.2/1540.html</a></p>
+<p>explained his reasoning:</p>
+<p><a href="http://www.uwsg.iu.edu/hypermail/linux/kernel/0112.2/1550.html" target="_blank" rel="external">http://www.uwsg.iu.edu/hypermail/linux/kernel/0112.2/1550.html</a><br><a href="http://www.uwsg.iu.edu/hypermail/linux/kernel/0112.2/1638.html" target="_blank" rel="external">http://www.uwsg.iu.edu/hypermail/linux/kernel/0112.2/1638.html</a></p>
+<p>and, most importantly, designed and implemented the initramfs code.</p>
+<h2 id="Future-directions"><a href="#Future-directions" class="headerlink" title="Future directions:"></a>Future directions:</h2><p>Today (2.6.16), initramfs is always compiled in, but not always used.  The<br>kernel falls back to legacy boot code that is reached only if initramfs does<br>not contain an /init program.  The fallback is legacy code, there to ensure a<br>smooth transition and allowing early boot functionality to gradually move to<br>“early userspace” (I.E. initramfs).</p>
+<p>The move to early userspace is necessary because finding and mounting the real<br>root device is complex.  Root partitions can span multiple devices (raid or<br>separate journal).  They can be out on the network (requiring dhcp, setting a<br>specific MAC address, logging into a server, etc).  They can live on removable<br>media, with dynamically allocated major/minor numbers and persistent naming<br>issues requiring a full udev implementation to sort out.  They can be<br>compressed, encrypted, copy-on-write, loopback mounted, strangely partitioned,<br>and so on.</p>
+<p>This kind of complexity (which inevitably includes policy) is rightly handled<br>in userspace.  Both klibc and busybox/uClibc are working on simple initramfs<br>packages to drop into a kernel build.</p>
+<p>The klibc package has now been accepted into Andrew Morton’s 2.6.17-mm tree.<br>The kernel’s current early boot code (partition detection, etc) will probably<br>be migrated into a default initramfs, automatically created and used by the<br>kernel build.</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2010/09/02/ramfs-rootfs-and-initramfs/" class="archive-article-date">
+  	<time datetime="2010-09-02T04:58:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2010-09-02</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux/">Linux</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2010/09/04/如何制作自己的android升级包-update-zip/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          如何制作自己的android升级包(update.zip)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2010/09/02/Install-CyanogenMod-for-Nexus-One/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Install CyanogenMod for Nexus_One</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

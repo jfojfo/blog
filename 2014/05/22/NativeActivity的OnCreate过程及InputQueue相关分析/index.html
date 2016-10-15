@@ -1,0 +1,1717 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>NativeActivity的OnCreate过程及InputQueue相关分析 | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="每一个应用程序都有一个ActivityThread，当这个应用的进程创建时，会进入到ActivityThread的main函数运行
+
+    public static void main(String[] args) {
+        SamplingProfilerIntegration.start();
+
+        // CloseGuard defaults to true and">
+<meta property="og:type" content="article">
+<meta property="og:title" content="NativeActivity的OnCreate过程及InputQueue相关分析">
+<meta property="og:url" content="http://blog.pickbox.me/2014/05/22/NativeActivity的OnCreate过程及InputQueue相关分析/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="每一个应用程序都有一个ActivityThread，当这个应用的进程创建时，会进入到ActivityThread的main函数运行
+
+    public static void main(String[] args) {
+        SamplingProfilerIntegration.start();
+
+        // CloseGuard defaults to true and">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="NativeActivity的OnCreate过程及InputQueue相关分析">
+<meta name="twitter:description" content="每一个应用程序都有一个ActivityThread，当这个应用的进程创建时，会进入到ActivityThread的main函数运行
+
+    public static void main(String[] args) {
+        SamplingProfilerIntegration.start();
+
+        // CloseGuard defaults to true and">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-NativeActivity的OnCreate过程及InputQueue相关分析" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      NativeActivity的OnCreate过程及InputQueue相关分析
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>每一个应用程序都有一个ActivityThread，当这个应用的进程创建时，<br>会进入到ActivityThread的main函数运行</p>
+<pre>
+    public static void main(String[] args) {
+        SamplingProfilerIntegration.start();
+
+        // CloseGuard defaults to true and can be quite spammy.  We
+        // disable it here, but selectively enable it later (via
+        // StrictMode) on debug builds, but using DropBox, not logs.
+        CloseGuard.setEnabled(false);
+
+        Environment.initForCurrentUser();
+
+        // Set the reporter for event logging in libcore
+        EventLogger.setReporter(new EventLoggingReporter());
+
+        Security.addProvider(new AndroidKeyStoreProvider());
+
+        Process.setArgV0(&quot;&lt;pre-initialized&gt;&quot;);
+
+        Looper.prepareMainLooper();
+
+        ActivityThread thread = new ActivityThread();
+        thread.attach(false);
+
+        if (sMainThreadHandler == null) {
+            sMainThreadHandler = thread.getHandler();
+        }
+
+        AsyncTask.init();
+
+        if (false) {
+            Looper.myLooper().setMessageLogging(new
+                    LogPrinter(Log.DEBUG, &quot;ActivityThread&quot;));
+        }
+
+        Looper.loop();
+
+        throw new RuntimeException(&quot;Main thread loop unexpectedly exited&quot;);
+    }
+</pre>
+这里Looper.prepareMainLooper()创建了mainLooper，并且Looper.loop()
+进入loop循环，之后所有系统回调事件（比如onCreate）都通过这个looper接受
+并由sMainThreadHandler这个主UI线程handler进行处理
+thread.getHandler()返回的是final H mH = new H();
+
+当mH接受到LAUNCH_ACTIVITY事件之后，
+调用handleLaunchActivity() > performLaunchActivity > onCreate
+&nbsp;
+&nbsp;
+
+
+framework/base/core/java/android/app/NativeActivity.java:
+
+可以看到在onCreate()函数里做了很多动作，包括：
+takeSurface、takeInputQueue（表示用户自己来处理input事件，
+android不会调用java层的dispatch等函数），
+设置NativeContentView，加载jni library，
+loadNativeCode返回的mNativeHandle对应着native层的ANativeActivity* activity，
+在后继调用中会被传给native层，可以看到funcname对应着ANativeActivity_onCreate，
+ANativeActivity_onCreate会被自动调用
+
+&nbsp;
+<pre>    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        String libname = "main";
+        String funcname = "ANativeActivity_onCreate";
+        ActivityInfo ai;
+
+        mIMM = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        getWindow().takeSurface(this);
+        getWindow().takeInputQueue(this);
+        getWindow().setFormat(PixelFormat.RGB_565);
+        getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_UNSPECIFIED
+                | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+        mNativeContentView = new NativeContentView(this);
+        mNativeContentView.mActivity = this;
+        setContentView(mNativeContentView);
+        mNativeContentView.requestFocus();
+        mNativeContentView.getViewTreeObserver().addOnGlobalLayoutListener(this);
+
+        try {
+            ai = getPackageManager().getActivityInfo(
+                    getIntent().getComponent(), PackageManager.GET_META_DATA);
+            if (ai.metaData != null) {
+                String ln = ai.metaData.getString(META_DATA_LIB_NAME);
+                if (ln != null) libname = ln;
+                ln = ai.metaData.getString(META_DATA_FUNC_NAME);
+                if (ln != null) funcname = ln;
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            throw new RuntimeException("Error getting activity info", e);
+        }
+
+        String path = null;
+
+        File libraryFile = new File(ai.applicationInfo.nativeLibraryDir,
+                System.mapLibraryName(libname));
+        if (libraryFile.exists()) {
+            path = libraryFile.getPath();
+        }
+
+        if (path == null) {
+            throw new IllegalArgumentException("Unable to find native library: " + libname);
+        }
+
+        byte[] nativeSavedState = savedInstanceState != null
+                ? savedInstanceState.getByteArray(KEY_NATIVE_SAVED_STATE) : null;
+
+        mNativeHandle = loadNativeCode(path, funcname, Looper.myQueue(),
+                getAbsolutePath(getFilesDir()), getAbsolutePath(getObbDir()),
+                getAbsolutePath(getExternalFilesDir(null)),
+                Build.VERSION.SDK_INT, getAssets(), nativeSavedState);
+
+        if (mNativeHandle == 0) {
+            throw new IllegalArgumentException("Unable to load native library: " + path);
+        }
+        super.onCreate(savedInstanceState);
+    }</pre>
+
+<p>loadNativeCode调用jni层的loadNativeCode_native<br>它通过java层的messageQueue取得对应的native层的messageQueue，并赋值给code-&gt;messageQueue<br>创建pipe，将读端赋值给code-&gt;mainWorkRead，写端赋值给code-&gt;mainWorkWrite<br>并将读端添加到主线程looper中进行监听，对应的回调函数是mainWorkCallback<br>这里创建的pipe主要用于将native层函数调用传递到java层<br>例如由native层发起android_NativeActivity_showSoftInput，它就向<br>code-&gt;mainWorkWrite写入CMD_SHOW_SOFT_INPUT，唤醒looper并进入mainWorkCallback回调</p>
+<pre>
+        case CMD_SHOW_SOFT_INPUT: {
+            code-&gt;env-&gt;CallVoidMethod(code-&gt;clazz,
+                    gNativeActivityClassInfo.showIme, work.arg1);
+            code-&gt;messageQueue-&gt;raiseAndClearException(code-&gt;env, &quot;showIme&quot;);
+        } break;
+</pre>
+进而调用java层的showIme()
+
+
+设置好code struct其他字段后，code->createActivityFunc调用jni层的ANativeActivity_onCreate
+code对应于ANativeActivity结构体，load结束后保存在java层的mNativeHandle变量中
+
+frameworks/base/core/jni/android_app_NativeActivity.cpp > loadNativeCode_native
+<pre>
+static jint
+loadNativeCode_native(JNIEnv* env, jobject clazz, jstring path, jstring funcName,
+        jobject messageQueue, jstring internalDataDir, jstring obbDir,
+        jstring externalDataDir, int sdkVersion,
+        jobject jAssetMgr, jbyteArray savedState)
+{
+    LOG_TRACE(&quot;loadNativeCode_native&quot;);
+
+    const char* pathStr = env-&gt;GetStringUTFChars(path, NULL);
+    NativeCode* code = NULL;
+
+    void* handle = dlopen(pathStr, RTLD_LAZY);
+
+    env-&gt;ReleaseStringUTFChars(path, pathStr);
+
+    if (handle != NULL) {
+        const char* funcStr = env-&gt;GetStringUTFChars(funcName, NULL);
+        code = new NativeCode(handle, (ANativeActivity_createFunc*)
+                dlsym(handle, funcStr));
+        env-&gt;ReleaseStringUTFChars(funcName, funcStr);
+
+        if (code-&gt;createActivityFunc == NULL) {
+            ALOGW(&quot;ANativeActivity_onCreate not found&quot;);
+            delete code;
+            return 0;
+        }
+
+        code-&gt;messageQueue = android_os_MessageQueue_getMessageQueue(env, messageQueue);
+        if (code-&gt;messageQueue == NULL) {
+            ALOGW(&quot;Unable to retrieve native MessageQueue&quot;);
+            delete code;
+            return 0;
+        }
+
+        int msgpipe[2];
+        if (pipe(msgpipe)) {
+            ALOGW(&quot;could not create pipe: %s&quot;, strerror(errno));
+            delete code;
+            return 0;
+        }
+        code-&gt;mainWorkRead = msgpipe[0];
+        code-&gt;mainWorkWrite = msgpipe[1];
+        int result = fcntl(code-&gt;mainWorkRead, F_SETFL, O_NONBLOCK);
+        SLOGW_IF(result != 0, &quot;Could not make main work read pipe &quot;
+                &quot;non-blocking: %s&quot;, strerror(errno));
+        result = fcntl(code-&gt;mainWorkWrite, F_SETFL, O_NONBLOCK);
+        SLOGW_IF(result != 0, &quot;Could not make main work write pipe &quot;
+                &quot;non-blocking: %s&quot;, strerror(errno));
+        code-&gt;messageQueue-&gt;getLooper()-&gt;addFd(
+                code-&gt;mainWorkRead, 0, ALOOPER_EVENT_INPUT, mainWorkCallback, code);
+
+        code-&gt;ANativeActivity::callbacks = &amp;code-&gt;callbacks;
+        if (env-&gt;GetJavaVM(&amp;code-&gt;vm) &lt; 0) {
+            ALOGW(&quot;NativeActivity GetJavaVM failed&quot;);
+            delete code;
+            return 0;
+        }
+        code-&gt;env = env;
+        code-&gt;clazz = env-&gt;NewGlobalRef(clazz);
+
+        const char* dirStr = env-&gt;GetStringUTFChars(internalDataDir, NULL);
+        code-&gt;internalDataPathObj = dirStr;
+        code-&gt;internalDataPath = code-&gt;internalDataPathObj.string();
+        env-&gt;ReleaseStringUTFChars(internalDataDir, dirStr);
+
+        if (externalDataDir != NULL) {
+            dirStr = env-&gt;GetStringUTFChars(externalDataDir, NULL);
+            code-&gt;externalDataPathObj = dirStr;
+            env-&gt;ReleaseStringUTFChars(externalDataDir, dirStr);
+        }
+        code-&gt;externalDataPath = code-&gt;externalDataPathObj.string();
+
+        code-&gt;sdkVersion = sdkVersion;
+
+        code-&gt;assetManager = assetManagerForJavaObject(env, jAssetMgr);
+
+        if (obbDir != NULL) {
+            dirStr = env-&gt;GetStringUTFChars(obbDir, NULL);
+            code-&gt;obbPathObj = dirStr;
+            env-&gt;ReleaseStringUTFChars(obbDir, dirStr);
+        }
+        code-&gt;obbPath = code-&gt;obbPathObj.string();
+
+        jbyte* rawSavedState = NULL;
+        jsize rawSavedSize = 0;
+        if (savedState != NULL) {
+            rawSavedState = env-&gt;GetByteArrayElements(savedState, NULL);
+            rawSavedSize = env-&gt;GetArrayLength(savedState);
+        }
+
+        code-&gt;createActivityFunc(code, rawSavedState, rawSavedSize);
+
+        if (rawSavedState != NULL) {
+            env-&gt;ReleaseByteArrayElements(savedState, rawSavedState, 0);
+        }
+    }
+
+    return (jint)code;
+}
+</pre>
+
+<p>在NDK中android-ndk-r9d/sources/android/native_app_glue/android_native_app_glue.c<br>ANativeActivity_onCreate的实现为：</p>
+<pre>void ANativeActivity_onCreate(ANativeActivity* activity,
+        void* savedState, size_t savedStateSize) {
+    LOGV("Creating: %p\n", activity);
+    activity-&gt;callbacks-&gt;onDestroy = onDestroy;
+    activity-&gt;callbacks-&gt;onStart = onStart;
+    activity-&gt;callbacks-&gt;onResume = onResume;
+    activity-&gt;callbacks-&gt;onSaveInstanceState = onSaveInstanceState;
+    activity-&gt;callbacks-&gt;onPause = onPause;
+    activity-&gt;callbacks-&gt;onStop = onStop;
+    activity-&gt;callbacks-&gt;onConfigurationChanged = onConfigurationChanged;
+    activity-&gt;callbacks-&gt;onLowMemory = onLowMemory;
+    activity-&gt;callbacks-&gt;onWindowFocusChanged = onWindowFocusChanged;
+    activity-&gt;callbacks-&gt;onNativeWindowCreated = onNativeWindowCreated;
+    activity-&gt;callbacks-&gt;onNativeWindowDestroyed = onNativeWindowDestroyed;
+    activity-&gt;callbacks-&gt;onInputQueueCreated = onInputQueueCreated;
+    activity-&gt;callbacks-&gt;onInputQueueDestroyed = onInputQueueDestroyed;
+
+    activity-&gt;instance = android_app_create(activity, savedState, savedStateSize);
+}</pre>
+可以看到设置了一些callbacks，包括常见的onResume、onPause等，
+onInputQueueCreated也是在这里设置的，后面会看到
+
+
+最后调用android_app_create，
+<pre>static struct android_app* android_app_create(ANativeActivity* activity,
+        void* savedState, size_t savedStateSize) {
+    struct android_app* android_app = (struct android_app*)malloc(sizeof(struct android_app));
+    memset(android_app, 0, sizeof(struct android_app));
+    android_app-&gt;activity = activity;
+
+    pthread_mutex_init(&amp;android_app-&gt;mutex, NULL);
+    pthread_cond_init(&amp;android_app-&gt;cond, NULL);
+
+    if (savedState != NULL) {
+        android_app-&gt;savedState = malloc(savedStateSize);
+        android_app-&gt;savedStateSize = savedStateSize;
+        memcpy(android_app-&gt;savedState, savedState, savedStateSize);
+    }
+
+    int msgpipe[2];
+    if (pipe(msgpipe)) {
+        LOGE("could not create pipe: %s", strerror(errno));
+        return NULL;
+    }
+    android_app-&gt;msgread = msgpipe[0];
+    android_app-&gt;msgwrite = msgpipe[1];
+
+    pthread_attr_t attr; 
+    pthread_attr_init(&amp;attr);
+    pthread_attr_setdetachstate(&amp;attr, PTHREAD_CREATE_DETACHED);
+    pthread_create(&amp;android_app-&gt;thread, &amp;attr, android_app_entry, android_app);
+
+    // Wait for thread to start.
+    pthread_mutex_lock(&amp;android_app-&gt;mutex);
+    while (!android_app-&gt;running) {
+        pthread_cond_wait(&amp;android_app-&gt;cond, &amp;android_app-&gt;mutex);
+    }
+    pthread_mutex_unlock(&amp;android_app-&gt;mutex);
+
+    return android_app;
+}</pre>
+这个函数会malloc一个struct android_app的自定义结构体保存一些必要的变量，
+pipe(msgpipe)创建一个pipe管道，接着pthread_create创建子线程，
+子线程的入口是android_app_entry，等待子线程起来后就可以返回了，
+返回的android_app结构体保存在ANativeActivity的instance，它是一个
+void*指针，可以保存任何用户自定义数据，这里是android_app结构体
+
+回到android_app_entry这个子线程入口：
+<pre>static void* android_app_entry(void* param) {
+    struct android_app* android_app = (struct android_app*)param;
+
+    android_app-&gt;config = AConfiguration_new();
+    AConfiguration_fromAssetManager(android_app-&gt;config, android_app-&gt;activity-&gt;assetManager);
+
+    print_cur_config(android_app);
+
+    android_app-&gt;cmdPollSource.id = LOOPER_ID_MAIN;
+    android_app-&gt;cmdPollSource.app = android_app;
+    android_app-&gt;cmdPollSource.process = process_cmd;
+    android_app-&gt;inputPollSource.id = LOOPER_ID_INPUT;
+    android_app-&gt;inputPollSource.app = android_app;
+    android_app-&gt;inputPollSource.process = process_input;
+
+    ALooper* looper = ALooper_prepare(ALOOPER_PREPARE_ALLOW_NON_CALLBACKS);
+    ALooper_addFd(looper, android_app-&gt;msgread, LOOPER_ID_MAIN, ALOOPER_EVENT_INPUT, NULL,
+            &amp;android_app-&gt;cmdPollSource);
+    android_app-&gt;looper = looper;
+
+    pthread_mutex_lock(&amp;android_app-&gt;mutex);
+    android_app-&gt;running = 1;
+    pthread_cond_broadcast(&amp;android_app-&gt;cond);
+    pthread_mutex_unlock(&amp;android_app-&gt;mutex);
+
+    android_main(android_app);
+
+    android_app_destroy(android_app);
+    return NULL;
+}</pre>
+这里创建一个native层的looper
+ALooper* looper = ALooper_prepare(ALOOPER_PREPARE_ALLOW_NON_CALLBACKS);
+关于looper更详细的介绍可以参考《<a href="http://blog.csdn.net/luoshengyang/article/details/6817933" target="_blank">Android应用程序消息处理机制（Looper、Handler）分析</a>》（<a href="http://img.pickbox.me/wp-content/uploads/Android应用程序消息处理机制（Looper、Handler）分析.pdf" target="_blank">下载</a>）
+
+然后将前面pipe创建的msgread读端FD，挂到这个looper去监听，
+int Looper::addFd(int fd, int ident, int events, ALooper_callbackFunc callback, void* data)
+fd对应android_app-&gt;msgread，ident对应LOOPER_ID_MAIN，events对应ALOOPER_EVENT_INPUT(监听输入事件)，
+callback为NULL，data指向&amp;android_app-&gt;cmdPollSource
+
+一旦pipe的写端msgwrite写入了数据，监听msgread的looper就会被唤醒（pollOnce结束block状态），
+对于传入callback为NULL的情况，pollOnce直接返回ident，根据这个值就知道是什么类型的事件了，
+比如LOOPER_ID_MAIN、LOOPER_ID_INPUT等等，参考前一篇《<a href="http://blog.pickbox.me/2014/05/19/retroarch%EF%BC%9A%E5%90%AF%E5%8A%A8%E5%85%A5%E5%8F%A3%E3%80%81android%E8%BE%93%E5%85%A5%E9%A9%B1%E5%8A%A8/" target="_blank">retroarch：启动入口、android输入驱动</a>》
+中process_events调用android_run_events时的ALooper_pollOnce
+这里我们传进去的是LOOPER_ID_MAIN，表明是android系统相关的事件
+
+注意，这里创建的pipe及looper是在一个新线程中运行的，而不是前面的主UI线程
+后面提到的LOOPER_ID_MAIN、LOOPER_ID_INPUT都是在这个新线程中处理的
+
+
+下面来看看跟Looper相关的部分：
+
+ALooper_xxx函数基本上都是将调用传递给looper
+frameworks/base/native/android/looper.cpp
+<pre>ALooper* ALooper_forThread() {
+    return Looper::getForThread().get();
+}
+
+ALooper* ALooper_prepare(int opts) {
+    return Looper::prepare(opts).get();
+}
+
+int ALooper_pollOnce(int timeoutMillis, int* outFd, int* outEvents, void** outData) {
+    sp looper = Looper::getForThread();
+    if (looper == NULL) {
+        ALOGE("ALooper_pollOnce: No looper for this thread!");
+        return ALOOPER_POLL_ERROR;
+    }
+
+    IPCThreadState::self()-&gt;flushCommands();
+    return looper-&gt;pollOnce(timeoutMillis, outFd, outEvents, outData);
+}
+
+int ALooper_pollAll(int timeoutMillis, int* outFd, int* outEvents, void** outData) {
+    sp looper = Looper::getForThread();
+    if (looper == NULL) {
+        ALOGE("ALooper_pollAll: No looper for this thread!");
+        return ALOOPER_POLL_ERROR;
+    }
+
+    IPCThreadState::self()-&gt;flushCommands();
+    return looper-&gt;pollAll(timeoutMillis, outFd, outEvents, outData);
+}
+
+void ALooper_wake(ALooper* looper) {
+    static_cast&lt;Looper*&gt;(looper)-&gt;wake();
+}
+
+int ALooper_addFd(ALooper* looper, int fd, int ident, int events,
+        ALooper_callbackFunc callback, void* data) {
+    return static_cast&lt;Looper*&gt;(looper)-&gt;addFd(fd, ident, events, callback, data);
+}
+
+int ALooper_removeFd(ALooper* looper, int fd) {
+    return static_cast&lt;Looper*&gt;(looper)-&gt;removeFd(fd);
+}</pre>
+关于looper可以参考android源代码目录下的system/core/libutils/Looper.cpp实现
+<pre>sp Looper::prepare(int opts) {
+    bool allowNonCallbacks = opts &amp; ALOOPER_PREPARE_ALLOW_NON_CALLBACKS;
+    sp looper = Looper::getForThread();
+    if (looper == NULL) {
+        looper = new Looper(allowNonCallbacks);
+        Looper::setForThread(looper);
+    }
+    if (looper-&gt;getAllowNonCallbacks() != allowNonCallbacks) {
+        ALOGW("Looper already prepared for this thread with a different value for the "
+                "ALOOPER_PREPARE_ALLOW_NON_CALLBACKS option.");
+    }
+    return looper;
+}
+
+Looper::Looper(bool allowNonCallbacks) :
+        mAllowNonCallbacks(allowNonCallbacks), mSendingMessage(false),
+        mResponseIndex(0), mNextMessageUptime(LLONG_MAX) {
+    int wakeFds[2];
+    int result = pipe(wakeFds);
+    LOG_ALWAYS_FATAL_IF(result != 0, &quot;Could not create wake pipe.  errno=%d&quot;, errno);
+
+    mWakeReadPipeFd = wakeFds[0];
+    mWakeWritePipeFd = wakeFds[1];
+
+    result = fcntl(mWakeReadPipeFd, F_SETFL, O_NONBLOCK);
+    LOG_ALWAYS_FATAL_IF(result != 0, &quot;Could not make wake read pipe non-blocking.  errno=%d&quot;,
+            errno);
+
+    result = fcntl(mWakeWritePipeFd, F_SETFL, O_NONBLOCK);
+    LOG_ALWAYS_FATAL_IF(result != 0, &quot;Could not make wake write pipe non-blocking.  errno=%d&quot;,
+            errno);
+
+    mIdling = false;
+
+    // Allocate the epoll instance and register the wake pipe.
+    mEpollFd = epoll_create(EPOLL_SIZE_HINT);
+    LOG_ALWAYS_FATAL_IF(mEpollFd &lt; 0, &quot;Could not create epoll instance.  errno=%d&quot;, errno);
+
+    struct epoll_event eventItem;
+    memset(&amp; eventItem, 0, sizeof(epoll_event)); // zero out unused members of data field union
+    eventItem.events = EPOLLIN;
+    eventItem.data.fd = mWakeReadPipeFd;
+    result = epoll_ctl(mEpollFd, EPOLL_CTL_ADD, mWakeReadPipeFd, &amp; eventItem);
+    LOG_ALWAYS_FATAL_IF(result != 0, &quot;Could not add wake read pipe to epoll instance.  errno=%d&quot;,
+            errno);
+}
+
+int Looper::pollOnce(int timeoutMillis, int* outFd, int* outEvents, void** outData) {
+    int result = 0;
+    for (;;) {
+        while (mResponseIndex &lt; mResponses.size()) {
+            const Response&amp; response = mResponses.itemAt(mResponseIndex++);
+            int ident = response.request.ident;
+            if (ident &gt;= 0) {
+                int fd = response.request.fd;
+                int events = response.events;
+                void* data = response.request.data;
+#if DEBUG_POLL_AND_WAKE
+                ALOGD(&quot;%p ~ pollOnce - returning signalled identifier %d: &quot;
+                        &quot;fd=%d, events=0x%x, data=%p&quot;,
+                        this, ident, fd, events, data);
+#endif
+                if (outFd != NULL) *outFd = fd;
+                if (outEvents != NULL) *outEvents = events;
+                if (outData != NULL) *outData = data;
+                return ident;
+            }
+        }
+
+        if (result != 0) {
+#if DEBUG_POLL_AND_WAKE
+            ALOGD(&quot;%p ~ pollOnce - returning result %d&quot;, this, result);
+#endif
+            if (outFd != NULL) *outFd = 0;
+            if (outEvents != NULL) *outEvents = 0;
+            if (outData != NULL) *outData = NULL;
+            return result;
+        }
+
+        result = pollInner(timeoutMillis);
+    }
+}
+
+int Looper::pollInner(int timeoutMillis) {
+#if DEBUG_POLL_AND_WAKE
+    ALOGD(&quot;%p ~ pollOnce - waiting: timeoutMillis=%d&quot;, this, timeoutMillis);
+#endif
+
+    // Adjust the timeout based on when the next message is due.
+    if (timeoutMillis != 0 &amp;&amp; mNextMessageUptime != LLONG_MAX) {
+        nsecs_t now = systemTime(SYSTEM_TIME_MONOTONIC);
+        int messageTimeoutMillis = toMillisecondTimeoutDelay(now, mNextMessageUptime);
+        if (messageTimeoutMillis &gt;= 0
+                &amp;&amp; (timeoutMillis &lt; 0 || messageTimeoutMillis &lt; timeoutMillis)) {
+            timeoutMillis = messageTimeoutMillis;
+        }
+#if DEBUG_POLL_AND_WAKE
+        ALOGD(&quot;%p ~ pollOnce - next message in %lldns, adjusted timeout: timeoutMillis=%d&quot;,
+                this, mNextMessageUptime - now, timeoutMillis);
+#endif
+    }
+
+    // Poll.
+    int result = ALOOPER_POLL_WAKE;
+    mResponses.clear();
+    mResponseIndex = 0;
+
+    // We are about to idle.
+    mIdling = true;
+
+    struct epoll_event eventItems[EPOLL_MAX_EVENTS];
+    int eventCount = epoll_wait(mEpollFd, eventItems, EPOLL_MAX_EVENTS, timeoutMillis);
+
+    // No longer idling.
+    mIdling = false;
+
+    // Acquire lock.
+    mLock.lock();
+
+    // Check for poll error.
+    if (eventCount &lt; 0) {
+        if (errno == EINTR) {
+            goto Done;
+        }
+        ALOGW(&quot;Poll failed with an unexpected error, errno=%d&quot;, errno);
+        result = ALOOPER_POLL_ERROR;
+        goto Done;
+    }
+
+    // Check for poll timeout.
+    if (eventCount == 0) {
+#if DEBUG_POLL_AND_WAKE
+        ALOGD(&quot;%p ~ pollOnce - timeout&quot;, this);
+#endif
+        result = ALOOPER_POLL_TIMEOUT;
+        goto Done;
+    }
+
+    // Handle all events.
+#if DEBUG_POLL_AND_WAKE
+    ALOGD(&quot;%p ~ pollOnce - handling events from %d fds&quot;, this, eventCount);
+#endif
+
+    for (int i = 0; i &lt; eventCount; i++) {
+        int fd = eventItems[i].data.fd;
+        uint32_t epollEvents = eventItems[i].events;
+        if (fd == mWakeReadPipeFd) {
+            if (epollEvents &amp; EPOLLIN) {
+                awoken();
+            } else {
+                ALOGW(&quot;Ignoring unexpected epoll events 0x%x on wake read pipe.&quot;, epollEvents);
+            }
+        } else {
+            ssize_t requestIndex = mRequests.indexOfKey(fd);
+            if (requestIndex &gt;= 0) {
+                int events = 0;
+                if (epollEvents &amp; EPOLLIN) events |= ALOOPER_EVENT_INPUT;
+                if (epollEvents &amp; EPOLLOUT) events |= ALOOPER_EVENT_OUTPUT;
+                if (epollEvents &amp; EPOLLERR) events |= ALOOPER_EVENT_ERROR;
+                if (epollEvents &amp; EPOLLHUP) events |= ALOOPER_EVENT_HANGUP;
+                pushResponse(events, mRequests.valueAt(requestIndex));
+            } else {
+                ALOGW(&quot;Ignoring unexpected epoll events 0x%x on fd %d that is &quot;
+                        &quot;no longer registered.&quot;, epollEvents, fd);
+            }
+        }
+    }
+Done: ;
+
+    // Invoke pending message callbacks.
+    mNextMessageUptime = LLONG_MAX;
+    while (mMessageEnvelopes.size() != 0) {
+        nsecs_t now = systemTime(SYSTEM_TIME_MONOTONIC);
+        const MessageEnvelope&amp; messageEnvelope = mMessageEnvelopes.itemAt(0);
+        if (messageEnvelope.uptime &lt;= now) {
+            // Remove the envelope from the list.
+            // We keep a strong reference to the handler until the call to handleMessage
+            // finishes.  Then we drop it so that the handler can be deleted *before*
+            // we reacquire our lock.
+            { // obtain handler
+                sp&lt;MessageHandler&gt; handler = messageEnvelope.handler;
+                Message message = messageEnvelope.message;
+                mMessageEnvelopes.removeAt(0);
+                mSendingMessage = true;
+                mLock.unlock();
+
+#if DEBUG_POLL_AND_WAKE || DEBUG_CALLBACKS
+                ALOGD(&quot;%p ~ pollOnce - sending message: handler=%p, what=%d&quot;,
+                        this, handler.get(), message.what);
+#endif
+                handler-&gt;handleMessage(message);
+            } // release handler
+
+            mLock.lock();
+            mSendingMessage = false;
+            result = ALOOPER_POLL_CALLBACK;
+        } else {
+            // The last message left at the head of the queue determines the next wakeup time.
+            mNextMessageUptime = messageEnvelope.uptime;
+            break;
+        }
+    }
+
+    // Release lock.
+    mLock.unlock();
+
+    // Invoke all response callbacks.
+    for (size_t i = 0; i &lt; mResponses.size(); i++) {
+        Response&amp; response = mResponses.editItemAt(i);
+        if (response.request.ident == ALOOPER_POLL_CALLBACK) {
+            int fd = response.request.fd;
+            int events = response.events;
+            void* data = response.request.data;
+#if DEBUG_POLL_AND_WAKE || DEBUG_CALLBACKS
+            ALOGD(&quot;%p ~ pollOnce - invoking fd event callback %p: fd=%d, events=0x%x, data=%p&quot;,
+                    this, response.request.callback.get(), fd, events, data);
+#endif
+            int callbackResult = response.request.callback-&gt;handleEvent(fd, events, data);
+            if (callbackResult == 0) {
+                removeFd(fd);
+            }
+            // Clear the callback reference in the response structure promptly because we
+            // will not clear the response vector itself until the next poll.
+            response.request.callback.clear();
+            result = ALOOPER_POLL_CALLBACK;
+        }
+    }
+    return result;
+}
+
+int Looper::pollAll(int timeoutMillis, int* outFd, int* outEvents, void** outData) {
+    if (timeoutMillis &lt;= 0) {
+        int result;
+        do {
+            result = pollOnce(timeoutMillis, outFd, outEvents, outData);
+        } while (result == ALOOPER_POLL_CALLBACK);
+        return result;
+    } else {
+        nsecs_t endTime = systemTime(SYSTEM_TIME_MONOTONIC)
+                + milliseconds_to_nanoseconds(timeoutMillis);
+
+        for (;;) {
+            int result = pollOnce(timeoutMillis, outFd, outEvents, outData);
+            if (result != ALOOPER_POLL_CALLBACK) {
+                return result;
+            }
+
+            nsecs_t now = systemTime(SYSTEM_TIME_MONOTONIC);
+            timeoutMillis = toMillisecondTimeoutDelay(now, endTime);
+            if (timeoutMillis == 0) {
+                return ALOOPER_POLL_TIMEOUT;
+            }
+        }
+    }
+}
+
+void Looper::wake() {
+    ssize_t nWrite;
+    do {
+        nWrite = write(mWakeWritePipeFd, "W", 1);
+    } while (nWrite == -1 &amp;&amp; errno == EINTR);
+
+    if (nWrite != 1) {
+        if (errno != EAGAIN) {
+            ALOGW("Could not write wake signal, errno=%d", errno);
+        }
+    }
+}
+
+void Looper::awoken() {
+    char buffer[16];
+    ssize_t nRead;
+    do {
+        nRead = read(mWakeReadPipeFd, buffer, sizeof(buffer));
+    } while ((nRead == -1 &amp;&amp; errno == EINTR) || nRead == sizeof(buffer));
+}
+
+int Looper::addFd(int fd, int ident, int events, ALooper_callbackFunc callback, void* data) {
+    return addFd(fd, ident, events, callback ? new SimpleLooperCallback(callback) : NULL, data);
+}
+
+int Looper::addFd(int fd, int ident, int events, const sp&amp; callback, void* data) {
+    if (!callback.get()) {
+        if (! mAllowNonCallbacks) {
+            ALOGE("Invalid attempt to set NULL callback but not allowed for this looper.");
+            return -1;
+        }
+
+        if (ident &lt; 0) {
+            ALOGE("Invalid attempt to set NULL callback with ident &lt; 0.");
+            return -1;
+        }
+    } else {
+        ident = ALOOPER_POLL_CALLBACK;
+    }
+
+    int epollEvents = 0;
+    if (events &amp; ALOOPER_EVENT_INPUT) epollEvents |= EPOLLIN;
+    if (events &amp; ALOOPER_EVENT_OUTPUT) epollEvents |= EPOLLOUT;
+
+    { // acquire lock
+        AutoMutex _l(mLock);
+
+        Request request;
+        request.fd = fd;
+        request.ident = ident;
+        request.callback = callback;
+        request.data = data;
+
+        struct epoll_event eventItem;
+        memset(&amp; eventItem, 0, sizeof(epoll_event)); // zero out unused members of data field union
+        eventItem.events = epollEvents;
+        eventItem.data.fd = fd;
+
+        ssize_t requestIndex = mRequests.indexOfKey(fd);
+        if (requestIndex &lt; 0) {
+            int epollResult = epoll_ctl(mEpollFd, EPOLL_CTL_ADD, fd, &amp; eventItem);
+            if (epollResult &lt; 0) {
+                ALOGE("Error adding epoll events for fd %d, errno=%d", fd, errno);
+                return -1;
+            }
+            mRequests.add(fd, request);
+        } else {
+            int epollResult = epoll_ctl(mEpollFd, EPOLL_CTL_MOD, fd, &amp; eventItem);
+            if (epollResult &lt; 0) {
+                ALOGE("Error modifying epoll events for fd %d, errno=%d", fd, errno);
+                return -1;
+            }
+            mRequests.replaceValueAt(requestIndex, request);
+        }
+    } // release lock
+    return 1;
+}
+
+void Looper::sendMessageAtTime(nsecs_t uptime, const sp&amp; handler,
+        const Message&amp; message) {
+    size_t i = 0;
+    { // acquire lock
+        AutoMutex _l(mLock);
+
+        size_t messageCount = mMessageEnvelopes.size();
+        while (i &lt; messageCount &amp;&amp; uptime &gt;= mMessageEnvelopes.itemAt(i).uptime) {
+            i += 1;
+        }
+
+        MessageEnvelope messageEnvelope(uptime, handler, message);
+        mMessageEnvelopes.insertAt(messageEnvelope, i, 1);
+
+        // Optimization: If the Looper is currently sending a message, then we can skip
+        // the call to wake() because the next thing the Looper will do after processing
+        // messages is to decide when the next wakeup time should be.  In fact, it does
+        // not even matter whether this code is running on the Looper thread.
+        if (mSendingMessage) {
+            return;
+        }
+    } // release lock
+
+    // Wake the poll loop only when we enqueue a new message at the head.
+    if (i == 0) {
+        wake();
+    }
+}</pre>
+最后android_main(android_app)进入主循环，android_main由app实现
+可以看看NDK提供的sample native-activity实现：
+<pre>void android_main(struct android_app* state) {
+    struct engine engine;
+
+    // Make sure glue isn't stripped.
+    app_dummy();
+
+    memset(&amp;engine, 0, sizeof(engine));
+    state-&gt;userData = &amp;engine;
+    state-&gt;onAppCmd = engine_handle_cmd;
+    state-&gt;onInputEvent = engine_handle_input;
+    engine.app = state;
+
+    // Prepare to monitor accelerometer
+    engine.sensorManager = ASensorManager_getInstance();
+    engine.accelerometerSensor = ASensorManager_getDefaultSensor(engine.sensorManager,
+            ASENSOR_TYPE_ACCELEROMETER);
+    engine.sensorEventQueue = ASensorManager_createEventQueue(engine.sensorManager,
+            state-&gt;looper, LOOPER_ID_USER, NULL, NULL);
+
+    if (state-&gt;savedState != NULL) {
+        // We are starting with a previous saved state; restore from it.
+        engine.state = *(struct saved_state*)state-&gt;savedState;
+    }
+
+    // loop waiting for stuff to do.
+
+    while (1) {
+        // Read all pending events.
+        int ident;
+        int events;
+        struct android_poll_source* source;
+
+        // If not animating, we will block forever waiting for events.
+        // If animating, we loop until all events are read, then continue
+        // to draw the next frame of animation.
+        while ((ident=ALooper_pollAll(engine.animating ? 0 : -1, NULL, &amp;events,
+                (void**)&amp;source)) &gt;= 0) {
+
+            // Process this event.
+            if (source != NULL) {
+                source-&gt;process(state, source);
+            }
+
+            // If a sensor has data, process it now.
+            if (ident == LOOPER_ID_USER) {
+                if (engine.accelerometerSensor != NULL) {
+                    ASensorEvent event;
+                    while (ASensorEventQueue_getEvents(engine.sensorEventQueue,
+                            &amp;event, 1) &gt; 0) {
+                        LOGI("accelerometer: x=%f y=%f z=%f",
+                                event.acceleration.x, event.acceleration.y,
+                                event.acceleration.z);
+                    }
+                }
+            }
+
+            // Check if we are exiting.
+            if (state-&gt;destroyRequested != 0) {
+                engine_term_display(&amp;engine);
+                return;
+            }
+        }
+
+        if (engine.animating) {
+            // Done with events; draw next animation frame.
+            engine.state.angle += .01f;
+            if (engine.state.angle &gt; 1) {
+                engine.state.angle = 0;
+            }
+
+            // Drawing is throttled to the screen update rate, so there
+            // is no need to do timing here.
+            engine_draw_frame(&amp;engine);
+        }
+    }
+}
+
+static int32_t engine_handle_input(struct android_app* app, AInputEvent* event) {
+    struct engine* engine = (struct engine*)app-&gt;userData;
+    if (AInputEvent_getType(event) == AINPUT_EVENT_TYPE_MOTION) {
+        engine-&gt;animating = 1;
+        engine-&gt;state.x = AMotionEvent_getX(event, 0);
+        engine-&gt;state.y = AMotionEvent_getY(event, 0);
+        return 1;
+    }
+    return 0;
+}</pre>
+android_native_app_glue.c中，onInputQueueCreated被系统回调时，
+<pre>static void onInputQueueCreated(ANativeActivity* activity, AInputQueue* queue) {
+    LOGV("InputQueueCreated: %p -- %p\n", activity, queue);
+    android_app_set_input((struct android_app*)activity-&gt;instance, queue);
+}
+static void android_app_set_input(struct android_app* android_app, AInputQueue* inputQueue) {
+    pthread_mutex_lock(&amp;android_app-&gt;mutex);
+    android_app-&gt;pendingInputQueue = inputQueue;
+    android_app_write_cmd(android_app, APP_CMD_INPUT_CHANGED);
+    while (android_app-&gt;inputQueue != android_app-&gt;pendingInputQueue) {
+        pthread_cond_wait(&amp;android_app-&gt;cond, &amp;android_app-&gt;mutex);
+    }
+    pthread_mutex_unlock(&amp;android_app-&gt;mutex);
+}</pre>
+这里发送了一个APP_CMD_INPUT_CHANGED命令，
+<pre>static void android_app_write_cmd(struct android_app* android_app, int8_t cmd) {
+    if (write(android_app-&gt;msgwrite, &amp;cmd, sizeof(cmd)) != sizeof(cmd)) {
+        LOGE("Failure writing android_app cmd: %s\n", strerror(errno));
+    }
+}</pre>
+实际上就是向前面创建的pipe的写端msgwrite写入cmd，让挂在looper上等待的读端被唤醒，
+app在android_main循环中应该会不断调用looper的pollOnce/pollAll，这时就会返回LOOPER_ID_MAIN，
+这时可以调用android_app-&gt;cmdPollSource中的process_cmd进行处理
+
+process_cmd的实现如下：
+<pre>static void process_cmd(struct android_app* app, struct android_poll_source* source) {
+    int8_t cmd = android_app_read_cmd(app);
+    android_app_pre_exec_cmd(app, cmd);
+    if (app-&gt;onAppCmd != NULL) app-&gt;onAppCmd(app, cmd);
+    android_app_post_exec_cmd(app, cmd);
+}
+
+int8_t android_app_read_cmd(struct android_app* android_app) {
+    int8_t cmd;
+    if (read(android_app-&gt;msgread, &amp;cmd, sizeof(cmd)) == sizeof(cmd)) {
+        switch (cmd) {
+            case APP_CMD_SAVE_STATE:
+                free_saved_state(android_app);
+                break;
+        }
+        return cmd;
+    } else {
+        LOGE("No data on command pipe!");
+    }
+    return -1;
+}</pre>
+它会先调用android_app_pre_exec_cmd预处理一下，然后调用onAppCmd这个app实现的回调，
+最后调用android_app_post_exec_cmd
+<pre>void android_app_pre_exec_cmd(struct android_app* android_app, int8_t cmd) {
+    switch (cmd) {
+        case APP_CMD_INPUT_CHANGED:
+            LOGV("APP_CMD_INPUT_CHANGED\n");
+            pthread_mutex_lock(&amp;android_app-&gt;mutex);
+            if (android_app-&gt;inputQueue != NULL) {
+                AInputQueue_detachLooper(android_app-&gt;inputQueue);
+            }
+            android_app-&gt;inputQueue = android_app-&gt;pendingInputQueue;
+            if (android_app-&gt;inputQueue != NULL) {
+                LOGV("Attaching input queue to looper");
+                AInputQueue_attachLooper(android_app-&gt;inputQueue,
+                        android_app-&gt;looper, LOOPER_ID_INPUT, NULL,
+                        &amp;android_app-&gt;inputPollSource);
+            }
+            pthread_cond_broadcast(&amp;android_app-&gt;cond);
+            pthread_mutex_unlock(&amp;android_app-&gt;mutex);
+            break;
+    ....</pre>
+这里只看我们关心的APP_CMD_INPUT_CHANGED，主要执行了AInputQueue_attachLooper，
+frameworks/base/native/android/input.cpp:
+<pre>void AInputQueue_attachLooper(AInputQueue* queue, ALooper* looper,
+        int ident, ALooper_callbackFunc callback, void* data) {
+    InputQueue* iq = static_cast&lt;InputQueue*&gt;(queue);
+    Looper* l = static_cast&lt;Looper*&gt;(looper);
+    iq-&gt;attachLooper(l, ident, callback, data);
+}</pre>
+frameworks/base/core/jni/android_view_InputQueue.cpp
+<pre>void InputQueue::attachLooper(Looper* looper, int ident,
+        ALooper_callbackFunc callback, void* data) {
+    Mutex::Autolock _l(mLock);
+    for (size_t i = 0; i &lt; mAppLoopers.size(); i++) {
+        if (looper == mAppLoopers[i]) {
+            return;
+        }
+    }
+    mAppLoopers.push(looper);
+    looper-&gt;addFd(mDispatchReadFd, ident, ALOOPER_EVENT_INPUT, callback, data);
+}</pre>
+最终会调用looper的addFd，将mDispatchReadFd这个读端fd挂到looper上监听，
+从mAppLoopers.push(looper)可以看到mDispatchReadFd可以有多个looper来监听，
+
+至此，input queue的事件也被监听了，android系统底层向input queue的写端写入数据，
+就能唤醒读端，而开发者通过pollOnce返回的ident为LOOPER_ID_INPUT
+
+当LOOPER_ID_INPUT返回时，可以调用android_app-&gt;inputPollSource中的process_input进行处理
+
+它会先调用AInputQueue_preDispatchEvent处理，接着调用app的onInputEvent，
+最后调用AInputQueue_finishEvent结束处理
+
+<pre>static void process_input(struct android_app* app, struct android_poll_source* source) {
+    AInputEvent* event = NULL;
+    while (AInputQueue_getEvent(app-&gt;inputQueue, &amp;event) &gt;= 0) {
+        LOGV("New input event: type=%d\n", AInputEvent_getType(event));
+        if (AInputQueue_preDispatchEvent(app-&gt;inputQueue, event)) {
+            continue;
+        }
+        int32_t handled = 0;
+        if (app-&gt;onInputEvent != NULL) handled = app-&gt;onInputEvent(app, event);
+        AInputQueue_finishEvent(app-&gt;inputQueue, event, handled);
+    }
+}
+</pre>
+
+<p>frameworks/base/native/android/input.cpp:</p>
+<pre>
+int32_t AInputQueue_getEvent(AInputQueue* queue, AInputEvent** outEvent) {
+    InputQueue* iq = static_cast&lt;InputQueue*&gt;(queue);
+    InputEvent* event;
+    int32_t res = iq-&gt;getEvent(&amp;event);
+    *outEvent = event;
+    return res;
+}
+
+int32_t AInputQueue_preDispatchEvent(AInputQueue* queue, AInputEvent* event) {
+    InputQueue* iq = static_cast&lt;InputQueue*&gt;(queue);
+    InputEvent* e = static_cast&lt;InputEvent*&gt;(event);
+    return iq-&gt;preDispatchEvent(e) ? 1 : 0;
+}
+
+void AInputQueue_finishEvent(AInputQueue* queue, AInputEvent* event, int handled) {
+    InputQueue* iq = static_cast&lt;InputQueue*&gt;(queue);
+    InputEvent* e = static_cast&lt;InputEvent*&gt;(event);
+    iq-&gt;finishEvent(e, handled != 0);
+}
+</pre>
+
+<p>frameworks/base/core/jni/android_view_InputQueue.cpp</p>
+<pre>
+status_t InputQueue::getEvent(InputEvent** outEvent) {
+    Mutex::Autolock _l(mLock);
+    *outEvent = NULL;
+    if (!mPendingEvents.isEmpty()) {
+        *outEvent = mPendingEvents[0];
+        mPendingEvents.removeAt(0);
+    }
+
+    if (mPendingEvents.isEmpty()) {
+        char byteread[16];
+        ssize_t nRead;
+        do {
+            nRead = TEMP_FAILURE_RETRY(read(mDispatchReadFd, &amp;byteread, sizeof(byteread)));
+            if (nRead &lt; 0 &amp;&amp; errno != EAGAIN) {
+                ALOGW(&quot;Failed to read from native dispatch pipe: %s&quot;, strerror(errno));
+            }
+        } while (nRead &gt; 0);
+    }
+
+    return *outEvent != NULL ? OK : WOULD_BLOCK;
+}
+
+bool InputQueue::preDispatchEvent(InputEvent* e) {
+    if (e-&gt;getType() == AINPUT_EVENT_TYPE_KEY) {
+        KeyEvent* keyEvent = static_cast&lt;KeyEvent*&gt;(e);
+        if (keyEvent-&gt;getFlags() &amp; AKEY_EVENT_FLAG_PREDISPATCH) {
+            finishEvent(e, false);
+            return true;
+        }
+    }
+    return false;
+}
+
+void InputQueue::finishEvent(InputEvent* event, bool handled) {
+    Mutex::Autolock _l(mLock);
+    mFinishedEvents.push(key_value_pair_t&lt;InputEvent*, bool&gt;(event, handled));
+    if (mFinishedEvents.size() == 1) {
+        mDispatchLooper-&gt;sendMessage(this, Message(MSG_FINISH_INPUT));
+    }
+}
+</pre>
+
+
+<p>再回到前面，android_native_app_glue.c中的onInputQueueCreated何时被回调的？</p>
+<p>Java层在ViewRootImpl.java中调用setView时，会判断mInputQueueCallback是否为null，<br>对于NativeActivity，它在onCreate时调用了getWindow().takeInputQueue(this);<br>因此不为null，于是new InputQueue()创建一个InputQueue，<br>并且调用mInputQueueCallback.onInputQueueCreated</p>
+<pre>public void setView(View view, WindowManager.LayoutParams attrs, View panelParentView) {
+    ....
+    res = mWindowSession.addToDisplay(mWindow, mSeq, mWindowAttributes,
+            getHostVisibility(), mDisplay.getDisplayId(),
+            mAttachInfo.mContentInsets, mInputChannel);
+    ....
+    if (mInputChannel != null) {
+        if (mInputQueueCallback != null) {
+            mInputQueue = new InputQueue();
+            mInputQueueCallback.onInputQueueCreated(mInputQueue);
+        }
+        mInputEventReceiver = new WindowInputEventReceiver(mInputChannel,
+                Looper.myLooper());
+    }
+    ....
+}</pre>
+
+<p>new InputQueue()创建如下：<br>frameworks/base/core/java/android/view/InputQueue.java</p>
+<pre>
+    public InputQueue() {
+        mPtr = nativeInit(new WeakReference&lt;InputQueue&gt;(this), Looper.myQueue());
+        mCloseGuard.open(&quot;dispose&quot;);
+    }
+</pre>
+
+<p>frameworks/base/core/jni/android_view_InputQueue.cpp</p>
+<pre>
+static jint nativeInit(JNIEnv* env, jobject clazz, jobject queueWeak, jobject jMsgQueue) {
+    sp&lt;MessageQueue&gt; messageQueue = android_os_MessageQueue_getMessageQueue(env, jMsgQueue);
+    if (messageQueue == NULL) {
+        jniThrowRuntimeException(env, &quot;MessageQueue is not initialized.&quot;);
+        return 0;
+    }
+    sp&lt;InputQueue&gt; queue = InputQueue::createQueue(queueWeak, messageQueue-&gt;getLooper());
+    if (!queue.get()) {
+        jniThrowRuntimeException(env, &quot;InputQueue failed to initialize&quot;);
+        return 0;
+    }
+    queue-&gt;incStrong(&amp;gInputQueueClassInfo);
+    return reinterpret_cast&lt;jint&gt;(queue.get());
+}
+
+InputQueue* InputQueue::createQueue(jobject inputQueueObj, const sp&lt;Looper&gt;&amp; looper) {
+    int pipeFds[2];
+    if (pipe(pipeFds)) {
+        ALOGW(&quot;Could not create native input dispatching pipe: %s&quot;, strerror(errno));
+        return NULL;
+    }
+    fcntl(pipeFds[0], F_SETFL, O_NONBLOCK);
+    fcntl(pipeFds[1], F_SETFL, O_NONBLOCK);
+    return new InputQueue(inputQueueObj, looper, pipeFds[0], pipeFds[1]);
+}
+
+InputQueue::InputQueue(jobject inputQueueObj, const sp&lt;Looper&gt;&amp; looper,
+        int dispatchReadFd, int dispatchWriteFd) :
+        mDispatchReadFd(dispatchReadFd), mDispatchWriteFd(dispatchWriteFd),
+        mDispatchLooper(looper), mHandler(new WeakMessageHandler(this)) {
+    JNIEnv* env = AndroidRuntime::getJNIEnv();
+    mInputQueueWeakGlobal = env-&gt;NewGlobalRef(inputQueueObj);
+}
+</pre>
+可以看到native层的InputQueue创建了一个pipe，读端是mDispatchReadFd
+前面看到的InputQueue::attachLooper，就是将looper与这个读端绑定的
+
+java层的onInputQueueCreated回调函数会调用native层：
+frameworks/base/core/java/android/view/InputQueue.java
+<pre>    public void onInputQueueCreated(InputQueue queue) {
+        if (!mDestroyed) {
+            mCurInputQueue = queue;
+            onInputQueueCreatedNative(mNativeHandle, queue.getNativePtr());
+        }
+    }</pre>
+frameworks/base/core/jni/android_app_NativeActivity.cpp:
+<pre>static void
+onInputQueueCreated_native(JNIEnv* env, jobject clazz, jint handle, jint queuePtr)
+{
+    LOG_TRACE("onInputChannelCreated_native");
+    if (handle != 0) {
+        NativeCode* code = (NativeCode*)handle;
+        if (code-&gt;callbacks.onInputQueueCreated != NULL) {
+            AInputQueue* queue = reinterpret_cast&lt;AInputQueue*&gt;(queuePtr);
+            code-&gt;callbacks.onInputQueueCreated(code, queue);
+        }
+    }
+}</pre>
+InputQueue中的另一个重要函数sendInputEvent，
+ViewRootImpl在收到InputEvent进行分发的流程中，会将InputEvent通过这个
+函数插入到InputQueue中去，这样native层就接受到InputEvent了
+
+可惜sendInputEvent是hide不可见的
+可以看看native层是如何注入input event事件的（见nativeSendKeyEvent）
+
+frameworks/base/core/java/android/view/InputQueue.java
+<pre>    /** @hide */
+    public void sendInputEvent(InputEvent e, Object token, boolean predispatch,
+            FinishedInputEventCallback callback) {
+        ActiveInputEvent event = obtainActiveInputEvent(token, callback);
+        int id;
+        if (e instanceof KeyEvent) {
+            id = nativeSendKeyEvent(mPtr, (KeyEvent) e, predispatch);
+        } else {
+            id = nativeSendMotionEvent(mPtr, (MotionEvent) e);
+        }
+        mActiveEventArray.put(id, event);
+    }
+
+    private void finishInputEvent(int id, boolean handled) {
+        int index = mActiveEventArray.indexOfKey(id);
+        if (index &gt;= 0) {
+            ActiveInputEvent e = mActiveEventArray.valueAt(index);
+            mActiveEventArray.removeAt(index);
+            e.mCallback.onFinishedInputEvent(e.mToken, handled);
+            recycleActiveInputEvent(e);
+        }
+    }</pre>
+frameworks/base/core/jni/android_view_InputQueue.cpp
+<pre>static jint nativeSendKeyEvent(JNIEnv* env, jobject clazz, jint ptr, jobject eventObj,
+        jboolean predispatch) {
+    InputQueue* queue = reinterpret_cast&lt;InputQueue*&gt;(ptr);
+    KeyEvent* event = queue-&gt;createKeyEvent();
+    status_t status = android_view_KeyEvent_toNative(env, eventObj, event);
+    if (status) {
+        queue-&gt;recycleInputEvent(event);
+        jniThrowRuntimeException(env, "Could not read contents of KeyEvent object.");
+        return -1;
+    }
+
+    if (predispatch) {
+        event-&gt;setFlags(event-&gt;getFlags() | AKEY_EVENT_FLAG_PREDISPATCH);
+    }
+
+    queue-&gt;enqueueEvent(event);
+    return reinterpret_cast(event);
+}
+
+static jint nativeSendMotionEvent(JNIEnv* env, jobject clazz, jint ptr, jobject eventObj) {
+    sp queue = reinterpret_cast&lt;InputQueue*&gt;(ptr);
+    MotionEvent* originalEvent = android_view_MotionEvent_getNativePtr(env, eventObj);
+    if (!originalEvent) {
+        jniThrowRuntimeException(env, "Could not obtain MotionEvent pointer.");
+        return -1;
+    }
+    MotionEvent* event = queue-&gt;createMotionEvent();
+    event-&gt;copyFrom(originalEvent, true /* keepHistory */);
+    queue-&gt;enqueueEvent(event);
+    return reinterpret_cast(event);
+}</pre>
+最后附上两个结构体的定义
+ANativeActivity的定义如下：
+<pre>typedef struct ANativeActivity {
+    /**
+     * Pointer to the callback function table of the native application.
+     * You can set the functions here to your own callbacks.  The callbacks
+     * pointer itself here should not be changed; it is allocated and managed
+     * for you by the framework.
+     */
+    struct ANativeActivityCallbacks* callbacks;
+
+    /**
+     * The global handle on the process's Java VM.
+     */
+    JavaVM* vm;
+
+    /**
+     * JNI context for the main thread of the app.  Note that this field
+     * can ONLY be used from the main thread of the process; that is, the
+     * thread that calls into the ANativeActivityCallbacks.
+     */
+    JNIEnv* env;
+
+    /**
+     * The NativeActivity object handle.
+     *
+     * IMPORTANT NOTE: This member is mis-named. It should really be named
+     * 'activity' instead of 'clazz', since it's a reference to the
+     * NativeActivity instance created by the system for you.
+     *
+     * We unfortunately cannot change this without breaking NDK
+     * source-compatibility.
+     */
+    jobject clazz;
+
+    /**
+     * Path to this application's internal data directory.
+     */
+    const char* internalDataPath;
+
+    /**
+     * Path to this application's external (removable/mountable) data directory.
+     */
+    const char* externalDataPath;
+
+    /**
+     * The platform's SDK version code.
+     */
+    int32_t sdkVersion;
+
+    /**
+     * This is the native instance of the application.  It is not used by
+     * the framework, but can be set by the application to its own instance
+     * state.
+     */
+    void* instance;
+
+    /**
+     * Pointer to the Asset Manager instance for the application.  The application
+     * uses this to access binary assets bundled inside its own .apk file.
+     */
+    AAssetManager* assetManager;
+} ANativeActivity;</pre>
+struct android_app的定义如下：
+<pre>struct android_app {
+    // The application can place a pointer to its own state object
+    // here if it likes.
+    void* userData;
+
+    // Fill this in with the function to process main app commands (APP_CMD_*)
+    void (*onAppCmd)(struct android_app* app, int32_t cmd);
+
+    // Fill this in with the function to process input events.  At this point
+    // the event has already been pre-dispatched, and it will be finished upon
+    // return.  Return 1 if you have handled the event, 0 for any default
+    // dispatching.
+    int32_t (*onInputEvent)(struct android_app* app, AInputEvent* event);
+
+    // The ANativeActivity object instance that this app is running in.
+    ANativeActivity* activity;
+
+    // The current configuration the app is running in.
+    AConfiguration* config;
+
+    // This is the last instance's saved state, as provided at creation time.
+    // It is NULL if there was no state.  You can use this as you need; the
+    // memory will remain around until you call android_app_exec_cmd() for
+    // APP_CMD_RESUME, at which point it will be freed and savedState set to NULL.
+    // These variables should only be changed when processing a APP_CMD_SAVE_STATE,
+    // at which point they will be initialized to NULL and you can malloc your
+    // state and place the information here.  In that case the memory will be
+    // freed for you later.
+    void* savedState;
+    size_t savedStateSize;
+
+    // The ALooper associated with the app's thread.
+    ALooper* looper;
+
+    // When non-NULL, this is the input queue from which the app will
+    // receive user input events.
+    AInputQueue* inputQueue;
+
+    // When non-NULL, this is the window surface that the app can draw in.
+    ANativeWindow* window;
+
+    // Current content rectangle of the window; this is the area where the
+    // window's content should be placed to be seen by the user.
+    ARect contentRect;
+
+    // Current state of the app's activity.  May be either APP_CMD_START,
+    // APP_CMD_RESUME, APP_CMD_PAUSE, or APP_CMD_STOP; see below.
+    int activityState;
+
+    // This is non-zero when the application's NativeActivity is being
+    // destroyed and waiting for the app thread to complete.
+    int destroyRequested;
+
+    // -------------------------------------------------
+    // Below are "private" implementation of the glue code.
+
+    pthread_mutex_t mutex;
+    pthread_cond_t cond;
+
+    int msgread;
+    int msgwrite;
+
+    pthread_t thread;
+
+    struct android_poll_source cmdPollSource;
+    struct android_poll_source inputPollSource;
+
+    int running;
+    int stateSaved;
+    int destroyed;
+    int redrawNeeded;
+    AInputQueue* pendingInputQueue;
+    ANativeWindow* pendingWindow;
+    ARect pendingContentRect;
+};</pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/05/22/NativeActivity的OnCreate过程及InputQueue相关分析/" class="archive-article-date">
+  	<time datetime="2014-05-22T03:36:20.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-05-22</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2014/05/22/Android-InputEvent框架实现及传递过程（app端）/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Android InputEvent框架实现及传递过程（app端）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/05/19/Retroarch：启动入口、android输入驱动/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Retroarch：启动入口、android输入驱动</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

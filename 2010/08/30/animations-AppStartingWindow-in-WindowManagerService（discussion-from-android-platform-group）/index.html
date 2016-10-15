@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>animations &amp; AppStartingWindow in WindowManagerService（discussion from android-platform group） | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="http://groups.google.com.tw/group/android-platform/browse_thread/thread/f2c5ec9b77b9862e&amp;gt; I want to change the animations for starting and stopping activities. &amp;gt; Now I have some questions regar">
+<meta property="og:type" content="article">
+<meta property="og:title" content="animations & AppStartingWindow in WindowManagerService（discussion from android-platform group）">
+<meta property="og:url" content="http://blog.pickbox.me/2010/08/30/animations-AppStartingWindow-in-WindowManagerService（discussion-from-android-platform-group）/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="http://groups.google.com.tw/group/android-platform/browse_thread/thread/f2c5ec9b77b9862e&amp;gt; I want to change the animations for starting and stopping activities. &amp;gt; Now I have some questions regar">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="animations & AppStartingWindow in WindowManagerService（discussion from android-platform group）">
+<meta name="twitter:description" content="http://groups.google.com.tw/group/android-platform/browse_thread/thread/f2c5ec9b77b9862e&amp;gt; I want to change the animations for starting and stopping activities. &amp;gt; Now I have some questions regar">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-animations-AppStartingWindow-in-WindowManagerService（discussion-from-android-platform-group）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      animations &amp; AppStartingWindow in WindowManagerService（discussion from android-platform group）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <br><a href="http://groups.google.com.tw/group/android-platform/browse_thread/thread/f2c5ec9b77b9862e" target="_blank" rel="external">http://groups.google.com.tw/group/android-platform/browse_thread/thread/f2c5ec9b77b9862e</a><br><br><br><br>&gt; I want to change the animations for starting and stopping activities. <br>&gt; Now I have some questions regarding the animation framework used <br>&gt; inside the WindowManagerService. <br>&gt; Just changing the animation’s xml files (activity_open_enter.xml etc.) <br>&gt; is not enough for our UI, so I have to understand the inner working of <br>&gt; the framework. Here is what I got so far and some questions: <br>&gt; The methods refer to class WindowManagerService.I would suggest adding a new kind of animation object instead of mucking <br>with the window manager, but… <br><br>&gt; The applyAnimationLocked chooses the desired animation. <br>&gt; During a performLayoutAndPlaceSurfacesLocked pass the <br>&gt; stepAnimationLocked method starts the chosen animation <br>&gt; (Transformation.getTransformation -&gt; applyTransformation).Yep. <br><br>&gt; What are animation layers and why are they needed? What does the <br>&gt; updateLayers method of class AppWindowToken do?Some animations need to temporarily modify the Z-order of their windows to <br>achieve a certain effect (see for example the sliding animations). &#160;This is <br>tied to the specific transitions between app window tokens, where exit and <br>enter animations are running in conjunction at the same time. <br><br>&gt; What is the purpose of WindowState.computeShownFrameLocked? Is it <br>&gt; involved in the animation process?It just computes the real frame of the window. &#160;It is involved in animations <br>because animations move windows. <br><br>&gt; The SurfaceFlinger is not involved in animations, right? It just <br>&gt; composes the surfaces that are produced by the ViewRoot objects.Well.. &#160;it doesn’t decide what the animations are, but window animations are <br>by definition moving surfaces around, and the surface flinger composites <br>surfaces, so it is required to actually show the animation. <br><br><br>&gt; It seems that the animations are NOT hardware accelerated since they <br>&gt; are implemented using the Skia framework, right?No true, the window manager only deals in surface transformations, which are <br>composited by surface flinger, which is hardware accelerated (if you have <br>implemented the acceleration in your device, which you really want to do). <br><br><br><br>&gt; One more question: Does that mean that the Surface Flinger does not <br>&gt; only get the Surface (Layer) from ViewRoot but also a transformation <br>&gt; matrix from the WindowManagerService that is used during the <br>&gt; compositing of that surface (layer)? So this transformation matrix is <br>&gt; used by the OpenGL compositing?Yes the surface buffer is given to the app for drawing in to, and the window <br>manager controls its position, size, and transformation. &#160;The surface <br>flinger uses these two things to composite the screen. <br><br><br><br>&gt; What is an AppStartingWindow? It is used by some apps via <br>&gt; PhoneWindowManager.addStartingWindow.It is not used by apps. &#160;It is used by the system to show a preview of the <br>application that is being launched, to make the UI more responsive. <br><br><br><br><br>ok, now I understood what is going on in the WindowManagerService <br>regarding the animations. <br>WindowManagerService.WindowState.computeShownFrameLocked computes the <br>transformation matrix for animations that is later passed to <br>LayerBase::setMatrix by WMS.performLayoutAndPlaceSurfacesLockedInner. <br>WMS.performLayoutAndPlaceSurfacesLockedInner drives the animation by <br>triggering itself every 60Hz as long as stepAnimationLocked returns <br>true. <br>Now comes the part inside of the SurfaceFlinger that I don’t really <br>understand fully. <br>After having the transformation matrix in LayerBase the SurfaceFlinger <br>triggers LayerBase::validateVisibility at some point in time. <br>LayerBase::validateVisibility computes some transformation and the <br>bounds. Later LayerBase::drawWithOpenGL is called to draw the layer. <br>But where is the transformation passed to some OpenGL API? I do not <br>see anything like this here. Or is the translation and scaling done by <br>setPosition, setSize or implicitly by mapping to layer (texture) to <br>the display with mTransformedBounds? <br>I tried to do a rotation when opening an activity but I do not see <br>that rotation. Is this simply not possible right now because the <br>SurfaceFlinger does not directly use the transformation matrix <br>calculated by WindowManagerService? <br>So can the SurfaceFlinger only do translation and scale animations <br>with the help of setPosition, setSize and mTransformedBounds but no <br>rotations? <br>Or have I missed something? <br><br>Sorry I can’t help you with the internals of the surface flinger. &#160;I do <br>trust that the transformation is propagated to OpenGL when it draws the <br>surface. :) <br><br>I did a stupid mistake, doh! <br>Also rotation surfaces works great! <br>LayerBase::validateVisibility does the transformation which is <br>triggered by SurfaceFlinger::threadLoop. <br>Later SurfaceFlinger::threadLoop triggers LayerBase::drawWithOpenGL <br>which uses the calculated mVertices in the call to glVertexPointer. <br>Doh, doh, doh :-) <br><br><br><del>end</del> </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2010/08/30/animations-AppStartingWindow-in-WindowManagerService（discussion-from-android-platform-group）/" class="archive-article-date">
+  	<time datetime="2010-08-30T08:24:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2010-08-30</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2010/09/02/Install-CyanogenMod-for-Nexus-One/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Install CyanogenMod for Nexus_One
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2010/08/29/Activity启动流程-2/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Activity启动流程(2)</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

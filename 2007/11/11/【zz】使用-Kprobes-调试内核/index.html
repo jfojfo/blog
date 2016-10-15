@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>【zz】使用 Kprobes 调试内核 | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="使用 Kprobes 调试内核http://www.ibm.com/developerworks/cn/linux/l-kprobes.html#main 将 printk 插入到运行中的 Linux 内核Prasanna S. Panchamukhi (), 开发人员，Linux Technology Center, IBM India Software Labs2004 年  9 月  19">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【zz】使用 Kprobes 调试内核">
+<meta property="og:url" content="http://blog.pickbox.me/2007/11/11/【zz】使用-Kprobes-调试内核/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="使用 Kprobes 调试内核http://www.ibm.com/developerworks/cn/linux/l-kprobes.html#main 将 printk 插入到运行中的 Linux 内核Prasanna S. Panchamukhi (), 开发人员，Linux Technology Center, IBM India Software Labs2004 年  9 月  19">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【zz】使用 Kprobes 调试内核">
+<meta name="twitter:description" content="使用 Kprobes 调试内核http://www.ibm.com/developerworks/cn/linux/l-kprobes.html#main 将 printk 插入到运行中的 Linux 内核Prasanna S. Panchamukhi (), 开发人员，Linux Technology Center, IBM India Software Labs2004 年  9 月  19">
+<meta name="twitter:image" content="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-【zz】使用-Kprobes-调试内核" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      【zz】使用 Kprobes 调试内核
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> 使用 Kprobes 调试内核<a href="http://www.ibm.com/developerworks/cn/linux/l-kprobes.html#main" target="_blank">http://www.ibm.com/developerworks/cn/linux/l-kprobes.html#main</a> <em>将 printk 插入到运行中的 Linux 内核</em><br><a href="http://www.ibm.com/developerworks/cn/linux/l-kprobes.html#author" target="_blank" rel="external">Prasanna S. Panchamukhi</a> (), 开发人员，Linux Technology Center, IBM India Software Labs<br></p><p>2004 年  9 月  19 日</p><blockquote>使用 printk 收集 Linux &#8482; 内核的调试信息是一个众所周知的方法 &mdash;&mdash; 而使用了 Kprobes，不需要经常重新引导和重新编译内核就可以完成这一任务。Kprobes 与 2.6 内核结合起来提供了一个动态插入 printk’s 的轻量级、无干扰而且强大的装置。记录调试信息（比如内核栈追踪、内核数据结构和寄存器）日志从来没有这么简单过！ </blockquote><p>Kprobes 是 Linux 中的一个简单的轻量级装置，让您可以将断点插入到正在运行的内核之中。 Kprobes 提供了一个强行进入任何内核例程并从中断处理器无干扰地收集信息的接口。使用 Kprobes 可以 轻松地收集处理器寄存器和全局数据结构等调试信息。开发者甚至可以使用 Kprobes 来修改 寄存器值和全局数据结构的值。</p><p>为完成这一任务，Kprobes 向运行的内核中给定地址写入断点指令，插入一个探测器。 执行被探测的指令会导致断点错误。Kprobes 钩住（hook in）断点处理器并收集调试信息。Kprobes 甚至可以单步执行被探测的指令。</p><p><a name="N1004F">安装</a></p><p>要安装 Kprobes，需要从 Kprobes 主页下载最新的补丁（参阅          <a href="http://www.ibm.com/developerworks/cn/linux/l-kprobes.html#Resources" target="_blank" rel="external">参考资料</a> 中的链接）。 打包的文件名称类似于 kprobes-2.6.8-rc1.tar.gz。解开补丁并将其安装到 Linux 内核：</p><p><code> $tar -xvzf kprobes-2.6.8-rc1.tar.gz            <br>$cd /usr/src/linux-2.6.8-rc1            <br>$patch -p1 &lt; ../kprobes-2.6.8-rc1-base.patch         </code></p><p>Kprobes 利用了          <strong>SysRq</strong> 键，这个 DOS 时代的产物在 Linux 中有了新的用武之地（参阅         <a href="http://www.ibm.com/developerworks/cn/linux/l-kprobes.html#Resources" target="_blank" rel="external">参考资料</a>）。您可以在         <strong>Scroll Lock</strong>键左边找到         <strong>SysRq</strong> 键；它通常标识为          <strong>Print Screen</strong>。要为 Kprobes 启用         <strong>SysRq</strong> 键，需要安装 kprobes-2.6.8-rc1-sysrq.patch 补丁：</p><p><code> $patch -p1 &lt; ../kprobes-2.6.8-rc1-sysrq.patch </code></p><p>使用          <code>make xconfig/ make menuconfig/ make oldconfig</code> 配置内核，并 启用          <code>CONFIG_KPROBES</code> 和          <code>CONFIG_MAGIC_SYSRQ</code> 标记。 编译并引导到新内核。您现在就已经准备就绪，可以插入 printk 并通过编写简单的 Kprobes 模块来动态而且无干扰地 收集调试信息。</p><br> <img width="100%" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif"><br> <img width="8" height="6" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <img width="100%" height="4" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"><br> <img width="16" height="16" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif"> <a href="http://www.ibm.com/developerworks/cn/linux/l-kprobes.html#main" target="_blank" rel="external"><strong>回页首</strong></a> <br><br><p><a name="N10093">编写 Kprobes 模块</a></p><p>对于每一个探测器，您都要分配一个结构体          <code>struct kprobe kp;</code>  （参考 include/linux/kprobes.h 以获得关于此数据结构的详细信息）。</p><br><a name="N100A0"><strong>清单 1. 定义 pre、post 和 fault 处理器</strong></a><br>                                    /<em> pre_handler: this is called just before the probed instruction is<br>  </em> executed.<br>  <em>/<br>int handler_pre(struct kprobe </em>p, struct pt_regs <em>regs) {<br> printk(&quot;pre_handler: p-&gt;addr=0x%p, eflags=0x%lxn&quot;,p-&gt;addr,<br>  regs-&gt;eflags);<br> return 0;<br>}<br> /</em> post_handler: this is called after the probed instruction is executed<br>  <em>  (provided no exception is generated).<br>  </em>/<br>void handler_post(struct kprobe <em>p, struct pt_regs </em>regs, unsigned long flags) {<br> printk(&quot;post_handler: p-&gt;addr=0x%p, eflags=0x%lx n&quot;, p-&gt;addr,<br>  regs-&gt;eflags);<br>}<br> /<em> fault_handler: this is called if an exception is generated for any<br>  </em> instruction within the fault-handler, or when Kprobes<br>  <em> single-steps the probed instruction.<br>  </em>/<br>int handler_fault(struct kprobe <em>p, struct pt_regs </em>regs, int trapnr) {<br> printk(&quot;fault_handler:p-&gt;addr=0x%p, eflags=0x%lxn&quot;, p-&gt;addr,<br>  regs-&gt;eflags);<br> return 0;<br>}                        <br><p><a name="N100AA">获得内核例程的地址</a></p><p>在注册过程中，您还需要指定插入探测器的内核例程的地址。使用这些方法中的任意一个来获得内核例程 的地址：</p><ol> <li><strong>从 System.map 文件直接得到地址。</strong> <br>    例如，要得到 do_fork 的地址，可以在命令行执行            <code>$grep do_fork /usr/src/linux/System.map</code> 。</li> <li><strong>使用              <code>nm</code> 命令。           </strong> <br> <code>$nm vmlinuz |grep do_fork</code></li> <li><strong>从 /proc/kallsyms 文件获得地址。</strong> <br> <code>$cat /proc/kallsyms |grep do_fork</code></li> <li><strong>使用              <code>kallsyms_lookup_name()</code> 例程。           </strong> <br>    这个例程是在 kernel/kallsyms.c 文件中定义的，要使用它，必须启用            <code>CONFIG_KALLSYMS</code> 编译内核。            <code>kallsyms_lookup_name()</code> 接受一个字符串格式内核例程名， 返回那个内核例程的地址。例如：            <code>kallsyms_lookup_name(&quot;do_fork&quot;);</code></li></ol><p>然后在 init_moudle 中注册您的探测器：</p><br><a name="N100F9"><strong>清单 2. 注册一个探测器</strong></a><br>                                    /<em> specify pre_handler address<br>  </em>/<br> kp.pre_handler=handler_pre;<br> /<em> specify post_handler address<br>  </em>/<br> kp.post_handler=handler_post;<br> /<em> specify fault_handler address<br>  </em>/<br> kp.fault_handler=handler_fault;<br> /<em> specify the address/offset where you want to insert probe.<br>  </em> You can get the address using one of the methods described above.<br>  <em>/<br> kp.addr = (kprobe_opcode_t </em>) kallsyms_lookup_name(&quot;do_fork&quot;);<br> /<em> check if the kallsyms_lookup_name() returned the correct value.<br>  </em>/<br> if (kp.add == NULL) {<br>  printk(&quot;kallsyms_lookup_name could not find address<br>     for the specified symbol namen&quot;);<br>  return 1;<br> }<br> /<em> or specify address directly.<br>  </em> $grep &quot;do_fork&quot; /usr/src/linux/System.map<br>  <em> or<br>  </em> $cat /proc/kallsyms |grep do_fork<br>  <em> or<br>  </em> $nm vmlinuz |grep do_fork<br>  <em>/<br> kp.addr = (kprobe_opcode_t </em>) 0xc01441d0;<br> /<em> All set to register with Kprobes<br>  </em>/<br>        register_kprobe(&amp;kp);                        <br><p>一旦注册了探测器，运行任何 shell 命令都会导致一个对          <code>do_fork</code>  的调用，您将可以在控制台上或者运行          <code>dmesg</code> 命令来查看您的 printk。做完后要记得注销探测器：</p><p><code>  unregister_kprobe(&amp;kp); </code></p><p>下面的输出显示了 kprobe 的地址以及 eflags 寄存器的内容：</p><p><code> $tail -5 /var/log/messages            <br><br>Jun 14 18:21:18 llm05 kernel: pre_handler: p-&gt;addr=0xc01441d0, eflags=0x202           <br>Jun 14 18:21:18 llm05 kernel: post_handler: p-&gt;addr=0xc01441d0, eflags=0x196         </code></p><p><a name="N10125">获得偏移量</a></p><p>您可以在例程的开头或者函数中的任意偏移位置插入 printk（偏移量必须在指令范围之内）。 下面的代码示例展示了如何来计算偏移量。首先，从对象文件中反汇编机器指令，并将它们 保存为一个文件：</p><p><code> $objdump -D /usr/src/linux/kernel/fork.o &gt; fork.dis </code></p><p>其结果是：</p><br><a name="N10138"><strong>清单 3. 反汇编的 fork</strong></a><br>                                    000022b0 &lt;do_fork&gt;:<br>    22b0:       55                      push   %ebp<br>    22b1:       89 e5                   mov    %esp,%ebp<br>    22b3:       57                      push   %edi<br>    22b4:       89 c7                   mov    %eax,%edi<br>    22b6:       56                      push   %esi<br>    22b7:       89 d6                   mov    %edx,%esi<br>    22b9:       53                      push   %ebx<br>    22ba:       83 ec 38                sub    $0x38,%esp<br>    22bd:       c7 45 d0 00 00 00 00    movl   $0x0,0xffffffd0(%ebp)<br>    22c4:       89 cb                   mov    %ecx,%ebx<br>    22c6:       89 44 24 04             mov    %eax,0x4(%esp)<br>    22ca:       c7 04 24 0a 00 00 00    movl   $0xa,(%esp)<br>    22d1:       e8 fc ff ff ff          call   22d2 &lt;do_fork+0x22&gt;<br>    22d6:       b8 00 e0 ff ff          mov    $0xffffe000,%eax<br>    22db:       21 e0                   and    %esp,%eax<br>    22dd:       8b 00                   mov    (%eax),%eax                        <br><p>要在偏移位置 0x22c4 插入探测器，先要得到与例程的开始处相对的偏移量          <code>0x22c4 - 0x22b0 = 0x14</code> ，然后将这个偏移量添加到 do_fork 的地址          <code>0xc01441d0 + 0x14</code> 。（运行          <code>$cat /proc/kallsyms | grep do_fork</code> 命令以获得 do_fork 的地址。）</p><p>您还可以将 do_fork 的相对偏移量          <code>0x22c4 - 0x22b0 = 0x14</code> 添加到          <code>kallsyms_lookup_name(&quot;do_fork&quot;);</code> 的输入，即：          <code>0x14 + kallsyms_lookup_name(&quot;do_fork&quot;);</code></p><p><a name="N10160">转储内核数据结构</a></p><p>现在，让我们使用修改过的用来转储数据结构的 Kprobe post_handler 来转储运行在系统上的所有作业的一些组成部分：</p><br><a name="N10169"><strong>清单 4. 用来转储数据结构的修改过的 Kprope post_handler</strong></a><br>                                    void handler_post(struct kprobe <em>p, struct pt_regs </em>regs, unsigned long flags) {<br> struct task_struct *task;<br> read_lock(&amp;tasklist_lock);<br> for_each_process(task) {<br>  printk(&quot;pid =%x task-info_ptr=%lxn&quot;, task-&gt;pid,<br>   task-&gt;thread_info);<br>  printk(&quot;thread-info element status=%lx,flags=%lx, cpu=%lxn&quot;,<br>   task-&gt;thread_info-&gt;status, task-&gt;thread_info-&gt;flags,<br>   task-&gt;thread_info-&gt;cpu);<br> }<br> read_unlock(&amp;tasklist_lock);<br>}                        <br><p>这个模块应该插入到 do_fork 的偏移位置。</p><br><a name="N10176"><strong>清单 5. pid 1508 和 1509 的结构体 thread_info 的输出</strong></a><br>                                    $tail -10 /var/log/messages<br>Jun 22 18:14:25 llm05 kernel: thread-info element status=0,flags=0, cpu=1<br>Jun 22 18:14:25 llm05 kernel: pid =5e4 task-info_ptr=f5948000<br>Jun 22 18:14:25 llm05 kernel: thread-info element status=0,flags=8, cpu=0<br>Jun 22 18:14:25 llm05 kernel: pid =5e5 task-info_ptr=f5eca000                        <br><p><a name="N10180">启用奇妙的 SysRq 键</a></p><p>为了支持 SysRq 键，我们已经进行了编译。这样来启用它：</p><p><code> $echo 1 &gt; /proc/sys/kernel/sysrq </code></p><p>现在，您可以使用          <strong>Alt+SysRq+W</strong> 在控制台上或者到 /var/log/messages 中去查看所有插入的内核探测器。</p><br><a name="N10196"><strong>清单 6. /var/log/messages 显示出在 do_fork 插入了一个 Kprobe</strong></a><br>                                    Jun 23 10:24:48 linux-udp4749545uds kernel: SysRq : Show kprobes<br>Jun 23 10:24:48 linux-udp4749545uds kernel:<br>Jun 23 10:24:48 linux-udp4749545uds kernel: [&lt;c011ea60&gt;] do_fork+0x0/0x1de                        <br><br> <img width="100%" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif"><br> <img width="8" height="6" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <img width="100%" height="4" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"><br> <img width="16" height="16" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif"> <a href="http://www.ibm.com/developerworks/cn/linux/l-kprobes.html#main" target="_blank" rel="external"><strong>回页首</strong></a> <br><br><p><a name="N101A0">使用 Kprobes 更好地进行调试</a></p><p>由于探测器事件处理器是作为系统断点中断处理器的扩展来运行，所以它们很少或者根本不依赖于系统 工具 &mdash;&mdash; 这样可以被植入到大部分不友好的环境中（从中断时间和任务时间到禁用的上下文间切换和支持 SMP 的代码路径）&mdash;&mdash; 都不会对系统性能带来负面影响。</p><p>使用 Kprobes 的好处有很多。不需要重新编译和重新引导内核就可以插入 printk。为了进行调试可以记录 处理器寄存器的日志，甚至进行修改 &mdash;&mdash; 不会干扰系统。类似地，同样可以无干扰地记录 Linux 内核数据结构的日志，甚至 进行修改。您甚至可以使用 Kprobes 调试 SMP 系统上的竞态条件 &mdash;&mdash; 避免了您自己重新编译和重新引导的所有 麻烦。您将发现内核调试比以往更为快速和简单。</p><br><br><p><a name="resources">参考资料 </a></p><ul> <li>您可以参阅本文在 developerWorks 全球站点上的           <a href="http://www.ibm.com/developerworks/linux/library/l-kprobes.html?S_TACT=105AGX52&amp;S_CMP=cn-a-l" target="_blank" rel="external">英文原文</a>.</li> <li>在            <a href="http://www.ibm.com/developerworks/oss/linux/projects/kprobes/?S_TACT=105AGX52&amp;S_CMP=cn-a-l" target="_blank" rel="external">Kprobes 主页</a>可以找到更多信息、最新消息、README 和下载。           <a href="http://www.ibm.com/linux/projects/kprobes/README.kprobes" target="_blank" rel="external">README</a> 详尽地描述 了 kprobes 接口。</li> <li>Kprobes 开发自完整的             <a href="http://www.ibm.com/developerworks/oss/linux/projects/dprobes/?S_TACT=105AGX52&amp;S_CMP=cn-a-l" target="_blank" rel="external">Dynamic Probes</a>补丁。Dynamic Probes 使用           <a href="http://www.ibm.com/developerworks/oss/linux/projects/kernelhooks/?S_TACT=105AGX52&amp;S_CMP=cn-a-l" target="_blank" rel="external">Kernel Hooks</a> 来收集难以获得的诊断信息。</li> <li>v.2.5.26 版本的内核已经融入了对 Kprobes 的支持；参阅             <a href="http://www.kerneltraffic.org/kernel-traffic/kt20020805_178.html#3" target="_blank" rel="external"> Support for kernel probes</a>（           <em>Kernel Traffic</em>，2002 年 7 月 25 日）的声明以及简短评论。 KProbes 在 2.5.73 版本中增加了            <a href="http://www.ussg.iu.edu/hypermail/linux/kernel/0306.3/0033.html" target="_blank" rel="external">out-of-line single-stepping</a>。</li> <li>Kprobes 利用了 BIOS 中断            <a href="http://www.fact-index.com/s/sy/sysrq.html" target="_blank" rel="external"> <strong>SysRq</strong> </a> 键。 它可以成为一个            <a href="http://linuxgazette.net/issue81/vikas.html" target="_blank" rel="external">Magic SysRq</a> 键， 用来实现防御间谍软件、不完全的重新引导、显示内存信息、杀死进程等等（多得多的）功能。 它适合用于调试；           <a href="http://tldp.org/HOWTO/Remote-Serial-Console-HOWTO/security-sysrq.html" target="_blank" rel="external">不太适合用于生产环境中的机器</a>，它会引发安全威胁。</li> <li>objdump 显示关于一个或多个对象文件的信息。要获得更多资料，请参阅            <a href="http://www.die.net/doc/linux/man/man1/objdump.1.html" target="_blank" rel="external">objdump 手册页</a> Linux 2.6 内核模块。</li> <li>Captain’s Universe 曾经公布过一个关于            <a href="http://www.captain.at/programming/kernel-2.6/" target="_blank" rel="external">如何为内核 2.6 编译内核模块</a> 的文档。</li> <li>下载内核            <a href="http://www.kernel.org/pub/linux/kernel/people/rusty/modules" target="_blank" rel="external">Module Utilities for 2.6</a> 的源文件；它可以取代当前新内核的 modutils。它是           <a href="http://www.kernel.org/pub/linux/kernel/people/rusty/" target="_blank" rel="external">Rusty Russell 的众多实用补丁</a> 之一。</li> <li>在            <a href="http://www.ibm.com/developerworks/cn/linux/" target="_blank" rel="external">developerWorks Linux 专区</a> 可以找到 更多为 Linux 开发者准备的参考资料。</li> <li>在 Developer Bookstore Linux 区中订购           <a href="http://devworks.krcinfo.com/WebForms/ProductList.aspx?Search=Category&amp;id=300&amp;parent=Linux" target="new"> 打折出售的 Linux 书籍</a>。</li> <li>从 developerWorks 的           <a href="http://www.ibm.com/developerworks/cn/linux/linux-speed-start/" target="_blank" rel="external">Speed-start your Linux app</a> 专区下载可以运行于 Linux 之上的经过挑选的 developerWorks Subscription 产品免费测试版本，包括 WebSphere Studio Site Developer、WebSphere SDK for Web services、WebSphere Application Server、DB2 Universal Database Personal Developers Edition、Tivoli Access Manager 和 Lotus Domino Server。要更快速地开始上手，请参阅针对各个产品的 how-to 文章和技术支持。</li></ul> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/11/11/【zz】使用-Kprobes-调试内核/" class="archive-article-date">
+  	<time datetime="2007-11-11T10:51:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-11-11</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux-Debug/">Linux Debug</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2007/11/12/【zz】从程序员角度看ELF/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          【zz】从程序员角度看ELF
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2007/11/11/【zz】printk-调试信息分级显示脚本的编写方法/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">【zz】printk()调试信息分级显示脚本的编写方法</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

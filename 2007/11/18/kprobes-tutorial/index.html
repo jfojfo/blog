@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>kprobes tutorial | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="kprobes tutorialThis tutorial was developed for the 2006 Ottawa Linux Symposium. I’m hoping it will be useful as a general resource.There is documentation in Documentation/kprobes.txt in the kernel s">
+<meta property="og:type" content="article">
+<meta property="og:title" content="kprobes tutorial">
+<meta property="og:url" content="http://blog.pickbox.me/2007/11/18/kprobes-tutorial/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="kprobes tutorialThis tutorial was developed for the 2006 Ottawa Linux Symposium. I’m hoping it will be useful as a general resource.There is documentation in Documentation/kprobes.txt in the kernel s">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="kprobes tutorial">
+<meta name="twitter:description" content="kprobes tutorialThis tutorial was developed for the 2006 Ottawa Linux Symposium. I’m hoping it will be useful as a general resource.There is documentation in Documentation/kprobes.txt in the kernel s">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-kprobes-tutorial" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      kprobes tutorial
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> kprobes tutorial</p><p>This tutorial was developed for the 2006 <a href="http://www.linuxsymposium.org/" target="_blank" rel="external">Ottawa Linux Symposium</a>. I’m hoping it will be useful as a general resource.</p><p>There is documentation in <a href="http://www-users.cs.umn.edu/%7Eboutcher/kprobes/kprobes.txt.html" target="_blank" rel="external">Documentation/kprobes.txt</a> in the kernel source.</p>Why?<p>kprobes is both useful and cool.  Unfortunately most of the kernel developers I’ve talked to are confused both about why its useful and how to use it.  I’m hoping to answer both of those here.  I should add that I have no skin in the game personally, I’m not a kprobes developer.  I should probably turn this into a HOWTO…</p>What is kprobes?<p>Simply, kprobes allows you to write modules that can add debug information to the kernel.  It is an alternative to building custom kernels or custom modules.  I think the most useful case is when you are dealing with some remote machine (your grandmother or a tester) who hits some bug that you can’t figure out by looking at /var/log/messages.  Build a kprobes module and have them insmod it on their kernel.</p><p>This tutorial deals with <em>kernel</em> kprobing.  There is additional work around user-land kprobing that will not be discussed here.</p><p>There are three kinds of kprobes:</p><dl><dt>jprobes </dt><dd>Call a function on the <em>entry</em> to a routine.  All the arguments to the routine are passed. </dd><dt>kretprobes </dt><dd>Call a function on the <em>exit</em> from a routine.  The registers are passed </dd><dt>kprobe </dt><dd>The guts of kprobes.  Any arbitrary kernel instruction can be probed.  A function is called passing the registers. </dd></dl>kprobes prerequisites<p>kprobes has been in mainline since 2.6.9.   There are some kernel configuration flags that need to be set to use kprobes.  Current enterprise kernels (such as SLES 10) have these turned on, and so does FC5. Some others (cough, Ubuntu, cough) do not. The flags that are required are:</p><dl><dt>CONFIG_KPROBES </dt><dd>duh </dd><dt>CONFIG_MODULES and CONFIG_MODULE_UNLOAD </dt><dd>kprobes do not require any code changes to the source kernel (thats kind of the idea.)  They are loaded into existing kernels as modules.  Obviously you need modules configured.  You don’t actually require MODULE_UNLOAD, but it makes life easier. </dd><dt>CONFIG_KALLSYMS and CONFIG_KALSYMS_ALL </dt><dd>You can set a kprobe by using an address from System.map, but it is easier to code <code>kallsyms_lookup_name()</code>. </dd></dl><p>To build a module (any module) you need to have access to the kernel headers and a suitable compiler.</p>Simple Case #1<p>The simplest case, useful in 99% of cases is the <em>jprobe</em> case, where your function gains control on the entry to some arbitrary routine in the kernel.</p><p>In this example we will trace do_execve in the kernel.  Start from the makefile and source  in Documentation/kprobes.txt.</p><a name="line1">  1: </a>/<em> Trace do_execv.  Taken basically from Documentation/kprobes.txt </em>/<br><a name="line2">  2: </a>#include &lt;linux/kernel.h&gt;<br><a name="line3">  3: </a>#include &lt;linux/module.h&gt;<br><a name="line4">  4: </a>#include &lt;linux/sched.h&gt;<br><a name="line5">  5: </a>#include &lt;linux/kprobes.h&gt;<br><a name="line6">  6: </a>#include &lt;linux/kallsyms.h&gt;<br><a name="line7">  7: </a><br><a name="line8">  8: </a>/<em><br><a name="line9">  9: </a> </em> Pre-entry point for do_execve.<br><a name="line10"> 10: </a> <em>/<br><a name="line11"> 11: </a><strong><a name="my_do_execve"></a>static int my_do_execve(char </strong></em> filename,<br><a name="line12"> 12: </a><strong>                        char <strong>user *</strong>user <em>argv,</em></strong><br><a name="line13"> 13: </a><strong>                        char __user <strong>user <em>envp,</em></strong><br><a name="line14"> 14: </a><strong>                        struct pt_regs  regs)</strong><br><a name="line15"> 15: </a>{<br><a name="line16"> 16: </a>        printk(&quot;do_execve for %s from %sn&quot;, filename, current-&gt;comm);<br><a name="line17"> 17: </a>        /<em> Always end with a call to jprobe_return(). </em>/<br><a name="line18"> 18: </a>        jprobe_return();<br><a name="line19"> 19: </a>        /<em>NOTREACHED</em>/<br><a name="line20"> 20: </a>        return 0;<br><a name="line21"> 21: </a>}<br><a name="line22"> 22: </a><br><a name="line23"> 23: </a>static struct jprobe my_jprobe = {<br><a name="line24"> 24: </a>        .entry = (kprobe_opcode_t <em>) my_do_execve<br><a name="line25"> 25: </a>};<br><a name="line26"> 26: </a><br><a name="line27"> 27: </a><strong><a name="init_module"></a>int init_module(void)</strong><br><a name="line28"> 28: </a>{<br><a name="line29"> 29: </a>        int ret;<br><a name="line30"> 30: </a>        my_jprobe.kp.addr = <br><a name="line31"> 31: </a>                (kprobe_opcode_t </em>) kallsyms_lookup_name(&quot;do_execve&quot;);<br><a name="line32"> 32: </a>        if (!my_jprobe.kp.addr) {<br><a name="line33"> 33: </a>                printk(&quot;Couldn’t find %s to plant jproben&quot;, &quot;do_execve&quot;);<br><a name="line34"> 34: </a>                return -1;<br><a name="line35"> 35: </a>        }<br><a name="line36"> 36: </a><br><a name="line37"> 37: </a>        if ((ret = register_jprobe(&amp;my_jprobe)) &lt;0) {<br><a name="line38"> 38: </a>                printk(&quot;register_jprobe failed, returned %dn&quot;, ret);<br><a name="line39"> 39: </a>                return -1;<br><a name="line40"> 40: </a>        }<br><a name="line41"> 41: </a>        printk(&quot;Planted jprobe at %p, handler addr %pn&quot;,<br><a name="line42"> 42: </a>               my_jprobe.kp.addr, my_jprobe.entry);<br><a name="line43"> 43: </a>        return 0;<br><a name="line44"> 44: </a>}<br><a name="line45"> 45: </a><br><a name="line46"> 46: </a><strong><a name="cleanup_module"></a>void cleanup_module(void)</strong><br><a name="line47"> 47: </a>{<br><a name="line48"> 48: </a>        unregister_jprobe(&amp;my_jprobe);<br><a name="line49"> 49: </a>        printk(&quot;jprobe unregisteredn&quot;);<br><a name="line50"> 50: </a>}<br><a name="line51"> 51: </a><br><a name="line52"> 52: </a>MODULE_LICENSE(&quot;GPL&quot;);<p>Note <a href="http://www-users.cs.umn.edu/%7Eboutcher/kprobes/#line11" target="_blank" rel="external">line 11</a> Give YOUR routine a different name than the one you are tracing, otherwise kallsyms_lookup_name will get confused.</p><p>Note <a href="http://www-users.cs.umn.edu/%7Eboutcher/kprobes/#line18" target="_blank" rel="external">line 18</a> where the jprobe handler calls jprobe_return(). I mean REALLY note that (don’t just return from a jprobe.)</p><p>The Makefile (also straight out of Documentation/kprobes.txt) is</p># This is taken straight from Documentation/kprobes.txt<br><br>obj-m := trace-exec.o<br>KDIR := /lib/modules/$(shell uname -r)/build<br>PWD := $(shell pwd)<br>default:<br> $(MAKE) -C $(KDIR) SUBDIRS=$(PWD) modules<br>clean:<br> rm -f <em>.mod.c </em>.ko <em>.o<p>Easy.  insmod the module and away you go!  Here’s the output on my thinkad</p>Jul 16 19:20:46 hound kernel: [17213292.188000] do_execve for /bin/sh from wcstatusd<br>Jul 16 19:20:46 hound kernel: [17213292.204000] do_execve for /sbin/ifconfig from sh<br>Jul 16 19:20:46 hound kernel: [17213292.216000] do_execve for /bin/sh from wcstatusd<br>Jul 16 19:20:46 hound kernel: [17213292.232000] do_execve for /sbin/ifconfig from sh<br>Jul 16 19:20:46 hound kernel: [17213292.248000] do_execve for /bin/sh from wcstatusd<br>Jul 16 19:20:46 hound kernel: [17213292.264000] do_execve for /sbin/ifconfig from sh<br>Jul 16 19:20:46 hound kernel: [17213292.296000] do_execve for /bin/sh from wcstatusd<br>Jul 16 19:20:46 hound kernel: [17213292.376000] do_execve for /sbin/ifconfig from sh<br>Jul 16 19:20:46 hound kernel: [17213292.392000] do_execve for /bin/sh from wcstatusd<br>Jul 16 19:20:46 hound kernel: [17213292.456000] do_execve for /sbin/ifconfig from sh<br>Jul 16 19:20:46 hound kernel: [17213292.472000] do_execve for /bin/sh from wcstatusd<p>Hmm…what the heck is wcstatusd doing all the time…</p>powerpc and ia64 problems<p>If you try the above on powerpc and (I think) ia64 it will fail. And you will bang your head.  The reason is that when you take the address of a routine you get the address in a <em>jump table</em>, not the actual code address.</p><p> </p><p>You can fix this by something like the following:</p><a name="line38"> 38: </a>        if ((ret = register_jprobe(&amp;my_jprobe)) &lt;0) {<br><a name="line39"> 39: </a>                printk(&quot;register_jprobe failed, returned %d. &quot;<br><a name="line40"> 40: </a>                       &quot;trying dereferenced addressn&quot;, ret);<br><a name="line41"> 41: </a>                my_jprobe.kp.addr = </em>((kprobe_opcode_t <strong>)my_jprobe.kp.addr);<br><a name="line42"> 42: </a>                if ((ret = register_jprobe(&amp;my_jprobe)) &lt;0) {<br><a name="line43"> 43: </a>                        printk(&quot;register<em>jprobe failed again, returned %dn&quot;, <br><a name="line44"> 44: </a>                               ret);<br><a name="line45"> 45: </a>                        return -1;<br><a name="line46"> 46: </a>                }<br><a name="line47"> 47: </a>        }<p>Also beware of the 32-bit compat</p></em><em> functions.  In the above example, do_execve is actually never called on powerpc unless you are running 64-bit processes.  compat_do_execve is called instead.<p></p>When good traces go badLimiting your output<p>I usually do something like the following to limit the amount of data that comes out (depending on what I am tracing)</p>…<br><a name="line8">  8: </a>static atomic_t trace_limit;<br>…<br><a name="line15"> 15: </a>        if (atomic_inc_return(&amp;trace_limit) &gt; 100)<br><a name="line16"> 16: </a>                jprobe_return();<br>…Handling Faults<p>It can help to have a fault handler in your kprobes.  Unless you plan to always write bug-less kprobes.</p>…<br><a name="line10"> 10: </a>/</em> fault_handler: this is called if an exception is generated for any<br><a name="line11"> 11: </a> <em> instruction within the pre- or post-handler, or when Kprobes<br><a name="line12"> 12: </a> </em> single-steps the probed instruction.<br><a name="line13"> 13: </a> <em>/<br><a name="line14"> 14: </a><strong><a name="handler_fault"></a>int handler_fault(struct kprobe </strong></em>p, struct pt_regs <em>regs, int trapnr)</em></strong><br><a name="line15"> 15: </a>{<br><a name="line16"> 16: </a>        printk(&quot;fault_handler: p-&gt;addr=0x%p, trap #%dn&quot;,<br><a name="line17"> 17: </a>                p-&gt;addr, trapnr);<br><a name="line18"> 18: </a>        / Return 0 because we don’t handle the fault. */<br><a name="line19"> 19: </a>        return 0;<br><a name="line20"> 20: </a>}<br>…<br><a name="line54"> 54: </a>        my_jprobe.kp.fault_handler = handler_fault;<br>…Simple Case #2<p>My Thinkpad has a Centrino processor with speedstep CPU frequency controls.  CPU frequency is controlled by the <code>speedstep_centrino</code> module.  Lets trace all the calls to <code>centrino_target</code> in that module.</p><p> </p><p>First, here is the routine we want to trace from <code>arch/i386/kernel/cpu/cpufreq/speedstep-centrino.c</code>.</p>…<br><a name="line584">584: </a>/</strong><br><a name="line585">585: </a> <em> centrino_setpolicy - set a new CPUFreq policy<br><a name="line586">586: </a> </em> @policy: new policy<br><a name="line587">587: </a> <em> @target_freq: the target frequency<br><a name="line588">588: </a> </em> @relation: how that frequency relates to achieved frequency (CPUFREQ_RELATION_L or CPUFREQ_RELATION_H)<br><a name="line589">589: </a> <em><br><a name="line590">590: </a> </em> Sets a new CPUFreq policy.<br><a name="line591">591: </a> <em>/<br><a name="line592">592: </a><strong><a name="centrino_target"></a>static int centrino_target (struct cpufreq_policy </strong></em>policy,<br><a name="line593">593: </a><strong>                            unsigned int target_freq,</strong><br><a name="line594">594: </a><strong>                            unsigned int relation)</strong><br><a name="line595">595: </a>{<br><a name="line596">596: </a>        unsigned int    newstate = 0;<br><a name="line597">597: </a>        unsigned int        msr, oldmsr, h, cpu = policy-&gt;cpu;<br><a name="line598">598: </a>        struct cpufreq_freqs        freqs;<br><a name="line599">599: </a>        cpumask_t                saved_mask;<br><a name="line600">600: </a>        int                        retval;<br><a name="line601">601: </a><br><a name="line602">602: </a>        if (centrino_model[cpu] == NULL)<br><a name="line603">603: </a>                return -ENODEV;<br><a name="line604">604: </a><br>…<p>Some things to note.  First, this routine is in a <em>module</em>, not in the kernel proper.  Secondly, the routine is marked <em>static</em>.  No problem.  if KALLSYMS_ALL is configured, we will still get the address for it.</p><a name="line1">  1: </a>/<em> Trace do_execv.  Taken basically from Documentation/kprobes.txt </em>/<br><a name="line2">  2: </a>#include &lt;linux/kernel.h&gt;<br><a name="line3">  3: </a>#include &lt;linux/module.h&gt;<br><a name="line4">  4: </a>#include &lt;linux/cpufreq.h&gt;<br><a name="line5">  5: </a>#include &lt;linux/kprobes.h&gt;<br><a name="line6">  6: </a>#include &lt;linux/kallsyms.h&gt;<br><a name="line7">  7: </a><br><a name="line8">  8: </a>static atomic_t trace_limit;<br><a name="line9">  9: </a><br><a name="line10"> 10: </a>/<em> fault_handler: this is called if an exception is generated for any<br><a name="line11"> 11: </a> </em> instruction within the pre- or post-handler, or when Kprobes<br><a name="line12"> 12: </a> <em> single-steps the probed instruction.<br><a name="line13"> 13: </a> </em>/<br><a name="line14"> 14: </a><strong><a name="handler_fault"></a>int handler_fault(struct kprobe <em>p, struct pt_regs </em>regs, int trapnr)</strong><br><a name="line15"> 15: </a>{<br><a name="line16"> 16: </a>        printk(&quot;fault_handler: p-&gt;addr=0x%p, trap #%dn&quot;,<br><a name="line17"> 17: </a>                p-&gt;addr, trapnr);<br><a name="line18"> 18: </a>        /<em> Return 0 because we don’t handle the fault. </em>/<br><a name="line19"> 19: </a>        return 0;<br><a name="line20"> 20: </a>}<br><a name="line21"> 21: </a><br><a name="line22"> 22: </a>/<em><br><a name="line23"> 23: </a> </em> Pre-entry point for centrino_target.<br><a name="line24"> 24: </a> <em>/<br><a name="line25"> 25: </a><strong><a name="my_centrino_target"></a>static int my_centrino_target (struct cpufreq_policy </strong></em>policy,<br><a name="line26"> 26: </a><strong>                               unsigned int target_freq,</strong><br><a name="line27"> 27: </a><strong>                               unsigned int relation)</strong><br><a name="line28"> 28: </a>{<br><a name="line29"> 29: </a>        if (atomic_inc_return(&amp;trace_limit) &gt; 100)<br><a name="line30"> 30: </a>                jprobe_return();<br><a name="line31"> 31: </a><br><a name="line32"> 32: </a>        printk(&quot;centrino_target %u relation %un&quot;, target_freq, relation);<br><a name="line33"> 33: </a>        dump_stack();<br><a name="line34"> 34: </a><br><a name="line35"> 35: </a>        /<em> Always end with a call to jprobe_return(). </em>/<br><a name="line36"> 36: </a>        jprobe_return();<br><a name="line37"> 37: </a>        /<em>NOTREACHED</em>/<br><a name="line38"> 38: </a>        return 0;<br><a name="line39"> 39: </a>}<br><a name="line40"> 40: </a><br><a name="line41"> 41: </a>static struct jprobe my_jprobe = {<br><a name="line42"> 42: </a>        .entry = (kprobe_opcode_t <em>) my_centrino_target,<br><a name="line43"> 43: </a>};<br><a name="line44"> 44: </a><br><a name="line45"> 45: </a><strong><a name="init_module"></a>int init_module(void)</strong><br><a name="line46"> 46: </a>{<br><a name="line47"> 47: </a>        int ret;<br><a name="line48"> 48: </a>        my_jprobe.kp.addr = <br><a name="line49"> 49: </a>                (kprobe_opcode_t </em>) kallsyms_lookup_name(&quot;centrino_target&quot;);<br><a name="line50"> 50: </a>        if (!my_jprobe.kp.addr) {<br><a name="line51"> 51: </a>                printk(&quot;Couldn’t find %s to plant jproben&quot;, &quot;centrino_target&quot;);<br><a name="line52"> 52: </a>                return -1;<br><a name="line53"> 53: </a>        }<br><a name="line54"> 54: </a><br><a name="line55"> 55: </a>        my_jprobe.kp.fault_handler = handler_fault;<br><a name="line56"> 56: </a><br><a name="line57"> 57: </a>        if ((ret = register_jprobe(&amp;my_jprobe)) &lt;0) {<br><a name="line58"> 58: </a>                printk(&quot;register_jprobe failed, returned %dn&quot;, ret);<br><a name="line59"> 59: </a>                return -1;<br><a name="line60"> 60: </a>        }<br><a name="line61"> 61: </a>        printk(&quot;Planted jprobe at %p, handler addr %pn&quot;,<br><a name="line62"> 62: </a>               my_jprobe.kp.addr, my_jprobe.entry);<br><a name="line63"> 63: </a>        return 0;<br><a name="line64"> 64: </a>}<br><a name="line65"> 65: </a><br><a name="line66"> 66: </a><strong><a name="cleanup_module"></a>void cleanup_module(void)</strong><br><a name="line67"> 67: </a>{<br><a name="line68"> 68: </a>        unregister_jprobe(&amp;my_jprobe);<br><a name="line69"> 69: </a>        printk(&quot;jprobe unregisteredn&quot;);<br><a name="line70"> 70: </a>}<br><a name="line71"> 71: </a><br><a name="line72"> 72: </a>MODULE_LICENSE(&quot;GPL&quot;);<p>Note the use of <code>dump_stack()</code>.  The output in /var/log/messages</p>Jul 16 19:43:01 hound kernel: [17179786.852000] centrino_target 1500000 relation 0<br>Jul 16 19:43:01 hound kernel: [17179786.852000]  [pg0+949055590/1069523968] my_centrino_target+0x36/0x50 [trace_speedstep]<br>Jul 16 19:43:01 hound kernel: [17179786.852000]  [pg0+946753796/1069523968] store_speed+0xb4/0xd0 [cpufreq_userspace]<br>Jul 16 19:43:01 hound kernel: [17179786.852000]  [neigh_get_next+135/160] store+0x47/0x60<br>Jul 16 19:43:01 hound kernel: [17179786.852000]  [ldm_partition+4123/4304] sysfs_write_file+0x9b/0xf0<br>Jul 16 19:43:01 hound kernel: [17179786.852000]  [vfs_read+206/432] vfs_write+0xde/0x1b0<br>Jul 16 19:43:01 hound kernel: [17179786.852000]  [do_sendfile+699/752] sys_write+0x4b/0x80<br>Jul 16 19:43:01 hound kernel: [17179786.852000]  [need_resched+12/33] sysenter_past_esp+0x54/0x75<br>Jul 16 19:43:11 hound kernel: [17179797.328000] centrino_target 1400000 relation 0<br>Jul 16 19:43:11 hound kernel: [17179797.328000]  [pg0+949055590/1069523968] my_centrino_target+0x36/0x50 [trace_speedstep]<br>Jul 16 19:43:11 hound kernel: [17179797.328000]  [pg0+946753796/1069523968] store_speed+0xb4/0xd0 [cpufreq_userspace]<br>Jul 16 19:43:11 hound kernel: [17179797.328000]  [neigh_get_next+135/160] store+0x47/0x60<br>Jul 16 19:43:11 hound kernel: [17179797.328000]  [ldm_partition+4123/4304] sysfs_write_file+0x9b/0xf0<br>Jul 16 19:43:11 hound kernel: [17179797.328000]  [vfs_read+206/432] vfs_write+0xde/0x1b0<br>Jul 16 19:43:11 hound kernel: [17179797.328000]  [do_sendfile+699/752] sys_write+0x4b/0x80<br>Jul 16 19:43:11 hound kernel: [17179797.328000]  [need_resched+12/33] sysenter_past_esp+0x54/0x75Inlines<p>kprobes patches a single address (the address used above in kallsyms_lookup_name().)  This <em>doesn’t</em> handle inlines.  There is no automatic way to handle inlines.</p><p> </p>Return values (kretprobes)<p>The second most useful thing to do is track the return value of a routine.  kprobes uses <code>kretprobes</code> to handle that.  A classic case is tracking memory allocations (kmalloc.)</p><p>kprobes is smart enough to trap on any return from a routine (it actually places a trap at the place the routine was called <em>from</em> rather than on every return instruction</p><p>kprobes can <em>miss</em> kretprobes.  You can check <code>my_kretprobe.nmissed</code> to see if you missed any retprobes.</p><a name="line1">  1: </a>/<em> Trace kmalloc.  Taken basically from Documentation/kprobes.txt </em>/<br><a name="line2">  2: </a>#include &lt;linux/kernel.h&gt;<br><a name="line3">  3: </a>#include &lt;linux/module.h&gt;<br><a name="line4">  4: </a>#include &lt;linux/cpufreq.h&gt;<br><a name="line5">  5: </a>#include &lt;linux/kprobes.h&gt;<br><a name="line6">  6: </a>#include &lt;linux/kallsyms.h&gt;<br><a name="line7">  7: </a><br><a name="line8">  8: </a>static atomic_t trace_limit;<br><a name="line9">  9: </a><br><a name="line10"> 10: </a>/<em><br><a name="line11"> 11: </a> </em> Pre-entry point for kmalloc_target.<br><a name="line12"> 12: </a> */<br><a name="line13"> 13: </a><strong>&lt;a name=”my</strong>kmalloc”&gt;static void <em>my__kmalloc(size_t size, gfp_t flags)<br><a name="line14"> 14: </a>{<br><a name="line15"> 15: </a>        if (atomic_inc_return(&amp;trace_limit) &gt; 100)<br><a name="line16"> 16: </a>                jprobe_return();<br><a name="line17"> 17: </a><br><a name="line18"> 18: </a>        printk(&quot;kmalloc call: %u in %sn&quot;, size, current-&gt;comm);<br><a name="line19"> 19: </a><br><a name="line20"> 20: </a>        /</em> Always end with a call to jprobe_return(). <em>/<br><a name="line21"> 21: </a>        jprobe_return();<br><a name="line22"> 22: </a>        /</em>NOTREACHED<em>/<br><a name="line23"> 23: </a>        return 0;<br><a name="line24"> 24: </a>}<br><a name="line25"> 25: </a><br><a name="line26"> 26: </a>static struct jprobe my_jprobe = {<br><a name="line27"> 27: </a>        .entry = (kprobe_opcode_t </em>) my<strong>kmalloc,<br><a name="line28"> 28: </a>};<br><a name="line29"> 29: </a><br><a name="line30"> 30: </a>/<em> Return-probe handler: If the probed function fails, log the return value. </em>/<br><a name="line31"> 31: </a><strong><a name="ret_handler"></a>static int ret_handler(struct kretprobe_instance <em>ri, struct pt_regs </em>regs)</strong><br><a name="line32"> 32: </a>{<br><a name="line33"> 33: </a>        if (atomic_inc_return(&amp;trace_limit) &gt; 100)<br><a name="line34"> 34: </a>                return 0;<br><a name="line35"> 35: </a>        printk(&quot;kmalloc returns %lxn&quot;, regs-&gt;eax);<br><a name="line36"> 36: </a>        return 0;<br><a name="line37"> 37: </a>}<br><a name="line38"> 38: </a><br><a name="line39"> 39: </a>static struct kretprobe my_kretprobe = {<br><a name="line40"> 40: </a>        .handler = ret_handler,<br><a name="line41"> 41: </a>        /<em> Probe up to 20 instances concurrently. </em>/<br><a name="line42"> 42: </a>        .maxactive = 20<br><a name="line43"> 43: </a>};<br><a name="line44"> 44: </a><br><a name="line45"> 45: </a><strong><a name="init_module"></a>int init_module(void)</strong><br><a name="line46"> 46: </a>{<br><a name="line47"> 47: </a>        int ret;<br><a name="line48"> 48: </a>        my_jprobe.kp.addr = my_kretprobe.kp.addr =<br><a name="line49"> 49: </a>                (kprobe_opcode_t *) kallsyms_lookup_name(&quot;</strong>kmalloc&quot;);<br><a name="line50"> 50: </a>        if (!my_jprobe.kp.addr) {<br><a name="line51"> 51: </a>                printk(&quot;Couldn’t find %s to plant jproben&quot;, &quot;__kmalloc&quot;);<br><a name="line52"> 52: </a>                return -1;<br><a name="line53"> 53: </a>        }<br><a name="line54"> 54: </a><br><a name="line55"> 55: </a>        if ((ret = register_jprobe(&amp;my_jprobe)) &lt;0) {<br><a name="line56"> 56: </a>                printk(&quot;register_jprobe failed, returned %dn&quot;, ret);<br><a name="line57"> 57: </a>                return -1;<br><a name="line58"> 58: </a>        }<br><a name="line59"> 59: </a>        if ((ret = register_kretprobe(&amp;my_kretprobe)) &lt; 0) {<br><a name="line60"> 60: </a>                printk(&quot;register_kretprobe failed, returned %dn&quot;, ret);<br><a name="line61"> 61: </a>                unregister_jprobe(&amp;my_jprobe);<br><a name="line62"> 62: </a>                return -1;<br><a name="line63"> 63: </a>        }<br><a name="line64"> 64: </a>        printk(&quot;Planted jprobe at %p, handler addr %pn&quot;,<br><a name="line65"> 65: </a>               my_jprobe.kp.addr, my_jprobe.entry);<br><a name="line66"> 66: </a>        return 0;<br><a name="line67"> 67: </a>}<br><a name="line68"> 68: </a><br><a name="line69"> 69: </a><strong><a name="cleanup_module"></a>void cleanup_module(void)</strong><br><a name="line70"> 70: </a>{<br><a name="line71"> 71: </a>        unregister_jprobe(&amp;my_jprobe);<br><a name="line72"> 72: </a>        unregister_kretprobe(&amp;my_kretprobe);<br><a name="line73"> 73: </a>        printk(&quot;jprobe unregisteredn&quot;);<br><a name="line74"> 74: </a>}<br><a name="line75"> 75: </a><br><a name="line76"> 76: </a>MODULE_LICENSE(&quot;GPL&quot;);<p>Note that you just <code>return()</code> from kretprobes.</p><p>Given SMP, preemption, etc. there isn’t an <em>easy</em> way to correlate a jprobe and a kretprobe.</p>Raw kprobes<p>jprobes and kretprobes are based on raw kprobes.  A raw kprobe just takes an arbitrary address and sets a breakpoint there.  Frequently useful in debugging a panic (where you know the faulting address) and inassociation with a disassembled kernel (objdump -D)</p><p>kprobes provide &quot;pre&quot; handlers tha run before the specific instruction, and &quot;post&quot; handlers that run afterwards.  The following is a generic kprobe that dumps state when an arbitrary address is hit.</p><a name="line1">  1: </a>/<em> generic kprobe </em>/<br><a name="line2">  2: </a>#include &lt;linux/kernel.h&gt;<br><a name="line3">  3: </a>#include &lt;linux/module.h&gt;<br><a name="line4">  4: </a>#include &lt;linux/kprobes.h&gt;<br><a name="line5">  5: </a>#include &lt;linux/kallsyms.h&gt;<br><a name="line6">  6: </a>#include &lt;linux/sched.h&gt;<br><a name="line7">  7: </a><br><a name="line8">  8: </a>static unsigned long probe_addr;<br><a name="line9">  9: </a><br><a name="line10"> 10: </a>module_param_named(probe_addr, probe_addr, ulong, S_IRUGO | S_IWUSR);<br><a name="line11"> 11: </a><br><a name="line12"> 12: </a>/<em>For each probe you need to allocate a kprobe structure</em>/<br><a name="line13"> 13: </a>static struct kprobe kp;<br><a name="line14"> 14: </a><br><a name="line15"> 15: </a><strong><a name="dump_state"></a>static void dump_state(struct pt_regs <em>regs)</em></strong><br><a name="line16"> 16: </a>{<br><a name="line17"> 17: </a>        print_symbol(KERN_INFO &quot;EIP is at %sn&quot;, regs-&gt;eip);<br><a name="line18"> 18: </a>        printk(KERN_INFO &quot;eax: %08lx   ebx: %08lx   ecx: %08lx   edx: %08lxn&quot;,<br><a name="line19"> 19: </a>               regs-&gt;eax, regs-&gt;ebx, regs-&gt;ecx, regs-&gt;edx);<br><a name="line20"> 20: </a>        printk(KERN_INFO &quot;esi: %08lx   edi: %08lx   ebp: %08lx   esp: %08lxn&quot;,<br><a name="line21"> 21: </a>               regs-&gt;esi, regs-&gt;edi, regs-&gt;ebp, regs-&gt;esp);<br><a name="line22"> 22: </a>        printk(KERN_INFO &quot;ds: %04x   es: %04xn&quot;,<br><a name="line23"> 23: </a>                regs-&gt;xds &amp; 0xffff, regs-&gt;xes &amp; 0xffff);<br><a name="line24"> 24: </a>        printk(KERN_INFO &quot;Process %s (pid: %d, threadinfo=%p task=%p)&quot;,<br><a name="line25"> 25: </a>                current-&gt;comm, current-&gt;pid, current_thread_info(), current);<br><a name="line26"> 26: </a><br><a name="line27"> 27: </a>}<br><a name="line28"> 28: </a><br><a name="line29"> 29: </a>/kprobe pre_handler: called just before the probed instruction is executed<em>/<br><a name="line30"> 30: </a><strong><a name="handler_pre"></a>int handler_pre(struct kprobe </strong></em>p, struct pt_regs <em>regs)<br><a name="line31"> 31: </a>{<br><a name="line32"> 32: </a> <br><a name="line33"> 33: </a>        printk(&quot;pre_handler: p-&gt;addr=0x%pn&quot;,<br><a name="line34"> 34: </a>                p-&gt;addr);<br><a name="line35"> 35: </a>        dump_state(regs);<br><a name="line36"> 36: </a>        dump_stack();<br><a name="line37"> 37: </a>        return 0;<br><a name="line38"> 38: </a>}<br><a name="line39"> 39: </a><br><a name="line40"> 40: </a>/</em>kprobe post_handler: called after the probed instruction is executed<em>/<br><a name="line41"> 41: </a><strong><a name="handler_post"></a>void handler_post(struct kprobe </strong></em>p, struct pt_regs <em>regs, unsigned long flags)<br><a name="line42"> 42: </a>{<br><a name="line43"> 43: </a>        printk(&quot;post_handler: p-&gt;addr=0x%pn&quot;,<br><a name="line44"> 44: </a>                p-&gt;addr);<br><a name="line45"> 45: </a>        dump_state(regs);<br><a name="line46"> 46: </a>        return;<br><a name="line47"> 47: </a>}<br><a name="line48"> 48: </a><br><a name="line49"> 49: </a>/</em> fault_handler: this is called if an exception is generated for any<br><a name="line50"> 50: </a> <em> instruction within the pre- or post-handler, or when Kprobes<br><a name="line51"> 51: </a> </em> single-steps the probed instruction.<br><a name="line52"> 52: </a> <em>/<br><a name="line53"> 53: </a><strong><a name="handler_fault"></a>int handler_fault(struct kprobe </strong></em>p, struct pt_regs <em>regs, int trapnr)<br><a name="line54"> 54: </a>{<br><a name="line55"> 55: </a>        printk(&quot;fault_handler: p-&gt;addr=0x%p, trap #%dn&quot;,<br><a name="line56"> 56: </a>                p-&gt;addr, trapnr);<br><a name="line57"> 57: </a>        /</em> Return 0 because we don’t handle the fault. <em>/<br><a name="line58"> 58: </a>        return 0;<br><a name="line59"> 59: </a>}<br><a name="line60"> 60: </a><br><a name="line61"> 61: </a><strong><a name="init_module"></a>int init_module(void)</strong><br><a name="line62"> 62: </a>{<br><a name="line63"> 63: </a>        int ret;<br><a name="line64"> 64: </a><br><a name="line65"> 65: </a>        if (!probe_addr) {<br><a name="line66"> 66: </a>                printk(&quot;trace-generic: provide probe_addr paramtern&quot;);<br><a name="line67"> 67: </a>                return -1;<br><a name="line68"> 68: </a>        }<br><a name="line69"> 69: </a><br><a name="line70"> 70: </a>        kp.pre_handler = handler_pre;<br><a name="line71"> 71: </a>        kp.post_handler = handler_post;<br><a name="line72"> 72: </a>        kp.fault_handler = handler_fault;<br><a name="line73"> 73: </a>        kp.addr = (kprobe_opcode_t</em>) probe_addr;<br><a name="line74"> 74: </a><br><a name="line75"> 75: </a>        printk(&quot;setting probe at address %pn&quot;,kp.addr);<br><a name="line76"> 76: </a> <br><a name="line77"> 77: </a>        /<em> register the kprobe now </em>/<br><a name="line78"> 78: </a>        if (!kp.addr) {<br><a name="line79"> 79: </a>                printk(&quot;Couldn’t find %s to plant kproben&quot;, &quot;do_fork&quot;);<br><a name="line80"> 80: </a>                return -1;<br><a name="line81"> 81: </a>        }<br><a name="line82"> 82: </a>        if ((ret = register_kprobe(&amp;kp) &lt; 0)) {<br><a name="line83"> 83: </a>                printk(&quot;register_kprobe failed, returned %dn&quot;, ret);<br><a name="line84"> 84: </a>                return -1;<br><a name="line85"> 85: </a>        }<br><a name="line86"> 86: </a>        printk(&quot;kprobe registeredn&quot;);<br><a name="line87"> 87: </a>        return 0;<br><a name="line88"> 88: </a>}<br><a name="line89"> 89: </a><br><a name="line90"> 90: </a><strong><a name="cleanup_module"></a>void cleanup_module(void)</strong><br><a name="line91"> 91: </a>{<br><a name="line92"> 92: </a>        unregister_kprobe(&amp;kp);<br><a name="line93"> 93: </a>        printk(&quot;kprobe unregisteredn&quot;);<br><a name="line94"> 94: </a>}<br><a name="line95"> 95: </a><br><a name="line96"> 96: </a>MODULE_LICENSE(&quot;GPL&quot;);initrd<p>There’s no reason you can’t add a kprobes module to your initrds to trace things happening reasonably early during the boot process. Similarly, you can actually add a kprobe to a distro installation if the installer allows you to load extra modules before doing the install.</p>relayfs<p>relayfs (<a href="http://relayfs.sourceforge.net/" target="_blank" rel="external">http://relayfs.sourceforge.net</a>) provides examples of tying kprobes and relayfs together. Rather than dumping all your trace data into dmesg.</p> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/11/18/kprobes-tutorial/" class="archive-article-date">
+  	<time datetime="2007-11-18T07:15:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-11-18</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux-Debug/">Linux Debug</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2007/11/18/What-happens-when-a-KProbe-JProbe-is-hit/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          What happens when a KProbe/JProbe is hit?
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2007/11/17/【zz】Linux下的调试工具/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">【zz】Linux下的调试工具</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

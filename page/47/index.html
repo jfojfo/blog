@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="jfo planet">
+<meta property="og:url" content="http://blog.pickbox.me/page/47/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jfo planet">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        
+  
+    <article id="post-ELF文件动态链接时-GOT，PLT-的变化过程" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2007/11/12/ELF文件动态链接时-GOT，PLT-的变化过程/">ELF文件动态链接时 GOT，PLT 的变化过程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> Intel平台下Linux中ELF文件动态链接的加载、解析及实例分析（一）: 加载<br><a href="http://www.ibm.com/developerworks/cn/linux/l-elf/part1/index.html" target="_blank">http://www.ibm.com/developerworks/cn/linux/l-elf/part1/index.html</a><br>Intel平台下linux中ELF文件动态链接的加载、解析及实例分析（二）: 函数解析与卸载<br><a href="http://www.ibm.com/developerworks/cn/linux/l-elf/part2/index.html" target="_blank">http://www.ibm.com/developerworks/cn/linux/l-elf/part2/index.html</a><br><a target="_blank" href="http://hiphotos.baidu.com/j%5Ffo/pic/item/93b24d4a9605c82f08f7ef5b.jpg"><img class="blogimg" small="0" src="http://img.pickbox.me/wp-content/uploads/pic/0c43552c9f330dc08b1399ce.jpg"><br></a><br><a target="_blank" href="http://linux.chinaunix.net/doc/system/2005-01-13/777.shtml">http://linux.chinaunix.net/doc/system/2005-01-13/777.shtml</a><br></p><p>最后我们讨论ELF文件的动态连接机制。每一个外部定义的符号在全局偏移表 (Global Offset Table GOT)中有相应的条目,如果符号是函数则在过程连接表(Procedure Linkage Table PLT)中也有相应的条目，且一个PLT条目对应一个GOT条目。对外部定义函数解析可能是整个ELF文件规范中最复杂的，下面是函数符号解析过程的一个 描述。</p><p>1：代码中调用外部函数func,语句形式为call 0xaabbccdd,地址0xaabbccdd实际上就是符号func在PLT表中对应的条目地址（假设地址为标号.PLT2）。</p><p>2：PLT表的形式如下</p><p><br>.PLT0: pushl&#160;&#160;        4(%ebx)&#160;&#160;&#160;        /<em> GOT表的地址保存在寄存器ebx中 </em>/<br>jmp&#160;&#160;&#160;&#160;        *8(%ebx)<br>nop; nop<br>nop; nop<br>.PLT1: jmp&#160;&#160;&#160;&#160;        )<br>pushl&#160;&#160;        $offset<br>jmp&#160;&#160;&#160;&#160;        <br>.PLT2: jmp&#160;&#160;&#160;&#160;        )<br>pushl&#160;&#160;        $offset<br>jmp&#160;&#160;&#160;&#160;        <br></p><p>3：查看标号.PLT2的语句,实际上是跳转到符号func在GOT表中对应的条目。</p><p>4：在符号没有重定位前，GOT表中此符号对应的地址为标号.PLT2的下一条语句，即是pushl $offset，其中$offset是符号func的重定位偏移量。注意到这是一个二次跳转。</p><p>5：在符号func的重定位偏移量压栈后,控制跳到PLT表的第一条目（.PLT0），把GOT[1]的内容（放置了用来标识特定库的代码）压栈，并跳转到GOT[2]对应的地址。</p><p>6：GOT[2]对应的实际上是动态符号解析函数的代码，在对符号func的地址解析后，会把func在内存中的地址设置到GOT表中此符号对应的条目中。</p><p>7：当第二次调用此符号时，GOT表中对应的条目已经包含了此符号的地址，就可直接调用而不需要利用PLT表进行跳转。</p><p>动态连接是比较复杂的，但为了获得灵活性的代价通常就是复杂性。其最终目的是把GOT表中条目的值修改为符号的真实地址，这也可解释节.got包含在可读可写段中。</p><p> </p> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/11/12/ELF文件动态链接时-GOT，PLT-的变化过程/" class="archive-article-date">
+  	<time datetime="2007-11-12T14:23:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-11-12</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-【zz】从程序员角度看ELF" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2007/11/12/【zz】从程序员角度看ELF/">【zz】从程序员角度看ELF</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <br><del>my</del><br><br>特殊说明（by jfo）<br>对于static-linked或shared-linked的ELF可执行文件，他们的入口点都是 _start，<br>然后由 _start 函数调用 _init 执行相关的 .init 节中的初始化代码！（just disassemble the code）<br>这说明内核在加载image后，在控制转入_start之前，_init 没有被调用；<br>对于需要动态链接的可执行文件，内核将控制权转移给interpreter，<br>interpreter 在完成链接工作后，将控制权转移给 _start ，也不会直接执行<br>.init 节中的代码！（这里针对ELF可执行文件，对于共享库的.init段，还是由interpreter来调用的！！！see 启动过程::共享库的初始化）<br>而dlopen 一个 .so 共享库后，_init 函数在返回前会被调用，.so 共享库<br>是没有 _start 的！<br><br>This is the example, which makes a shared .so file executable:<br><a target="_blank" href="http://hi.baidu.com/j%5Ffo/blog/item/1568184cf23d6dfad72afca3.html">http://hi.baidu.com/j%5Ffo/blog/item/1568184cf23d6dfad72afca3.html</a><br><br><br> 一个链接的example<br> ld -o test -e_start -dynamic-linker=/lib/ld-linux.so.2 crt1.o crti.o crtbegin.o test.o -L /usr/lib/gcc/i386-redhat-linux/4.0.0/ -ldl -lc&#160;&#160; crtend.o crtn.o<br><br>crt1.o中含有_start<br>1&#160;&#160;&#160;  0x080480c0 &lt;_start&gt;: &#160;&#160;&#160;  &#160;&#160;&#160;  /<em> entry point in .text </em>/<br>2 &#160;&#160;  &#160;&#160;  call <strong>libc_init_first &#160;&#160;&#160;  &#160;&#160;&#160;&#160;&#160;  /<em> startup code in .text </em>/<br>3 &#160;&#160;  &#160;&#160;  call _init&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;  &#160;&#160;&#160;  &#160;&#160;&#160;  &#160;&#160;&#160;  &#160;&#160;&#160;  &#160;&#160;&#160;  /<em> startup code in .init </em>/<br>4 &#160;&#160;  &#160;&#160;  call atexit&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;  /<em> startup code in .text </em>/<br>5 &#160;&#160;  &#160;&#160;  call main&#160;&#160;&#160;&#160;&#160;&#160;  &#160;&#160;&#160;  &#160;&#160;&#160;  &#160;&#160;&#160;  &#160;&#160;&#160;  &#160;&#160;&#160;&#160;  /<em> application main routine </em>/<br>6&#160;&#160;  &#160;&#160;&#160;  call _exit&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;  &#160;&#160;&#160;  &#160;&#160;&#160;  &#160;&#160;&#160;  &#160;&#160;&#160;  /<em> returns control to OS </em>/<br>7&#160;&#160;  /<em> control never reaches here </em>/<br><br> crti.o、test.o、crtn.o中的.init section中的代码共同组成了_init()函数，crti.o结尾代码会call 下一条指令，也就是说跳转到test.o中的.init section的代码继续执行，test.o中的.init代码不必ret，由crtn.o中的ret返回。<br><br>crtend.o的.init代码含有对</strong>do_global_ctors_aux()的调用，这说明C++构造函数是在前面所有.o文件（如 crti.o、crtbegin.o、test.o以及其他libc.a中的<em>.o）的.init代码执行之后才开始构造的，为什么放在最后，而不把对<strong>do_global_ctors_aux()的调用放在crtbegin.o中呢？那样可能更直观。<br>其实也可 以理解，因为构造函数位于较高层次，很可能依赖于很多其他元素，如libc.a中的函数，因此先调用这些元素的.init代码也合情合理，就像C++构造子类时要先构造其父类一样。<br><br>crtbegin.o的.fini代码含有对</strong>do_global_dtors_aux()的调用，这说明C++析构函数是在后面所有.o文件（如test.o、libc.a中的</em>.o、crtend.o、crtn.o）的.fini代码执行之前就开始析构了，同样也可以理解，应当先把位于较高层次的析构完成，再进行其他底层的析构代码，就像C++先析构子类再析构其其父类一样。<br><br>crtbegin.o的.init代码还有一个对frame_dummy的调用，这个函数主要作用是注册exception frame（<strong>register_frame_info_bases()函数），用于C++的异常处理机制（如回滚unwind），在</strong>do_global_dtors_aux()中析构对象后会unregister exception frame（<strong>deregister_frame_info_bases()函数）。<br><br><br><br>－－－－－－－－－－－－－－－－－－－－－－－<br>特殊参数<br>&quot;-Wl,-Bstatic&quot;参数，实际上是传给了连接器ld。指示它与静态库连接，如果系统中只有静态库当然就不需要这个参数了。 如果要和多个库相连接，而每个库的连接方式不一样，比如上面的程序既要和libhello进行静态连接，又要和libbye进行动态连接，其命令应为：<br>$gcc testlib.o -o testlib -Wl,-Bstatic -lhello -Wl,-Bdynamic -lbye <br><br><br>$gcc -shared -Wl,-soname,libhello.so.1 -o libhello.so.1.0 hello.o<br>When creating an ELF shared object, set the internal&#160; DT_SONAME&#160; field&#160; to&#160; the<br>specified&#160; name.&#160; When an executable is linked with a shared object which has a<br>DT_SONAME field, then when the&#160; executable&#160; is&#160; run&#160; the&#160; dynamic&#160; linker&#160; will<br>attempt&#160; to load the shared object specified by the DT_SONAME field rather than<br>the using the file name given to the linker.<br><br><br>－－－－－－－－－－－－－－－－－－－－－－－<br>启动过程 (linker and loader)<br><br><strong><em><u>启动动态链接器<br><br></u></em></strong>在操作系统运行程序时，它会像通常那样将文件的页映射进来，但注意在可执行程序<br>中存在一个INTERPRETER区段。这里特定的解释器是动态链接器，即ld.so，它自己也是ELF<br>共享库的格式。操作系统并非直接启动程序，而是将动态链接器映射到地址空间的一个合适<br>的位置，然后从ld.so处开始，并在栈中放入链接器所需要的辅助向量（auxiliary vector）<br>信息。向量包括：<br>AT_PHDR，AT_PHENT，和AT_PHNUM：程序头部在程序文件中的地址，头部中每个表项的<br>大小，和表项的个数。头部结构描述了被加载文件中的各个段。如果系统没有将程序映射到<br>内存中，就会有一个AT_EXECFD项作为替换，它包含被打开程序文件的文件描述符。<br>AT_ENTRY：程序的起始地址，当动态链接器完成了初始化工作之后，就会跳转到这个<br>地址去。<br>AT_BASE：动态链接器被加载到的地址。<br>此时，位于ld.so起始处的自举代码找到它自己的GOT，其中的第一项（GOT[0]）指向了ld.so文<br>件中的DYNAMIC段。通过dynamic段，链接器在它自己的数据段中找到自己的重定位项表和<br>重定位指针，然后解析例程需要加载的其它东西的代码引用（Linux ld.so将所有的基础例<br>程都命名为由字串<em>dt</em>起头，并使用专门代码在符号表中搜索以此字串开头的符号并解析它<br>们）。<br>链接器然后通过指向程序符号表和链接器自己的符号表的若干指针来初始化一个符号<br>表链。从概念上讲，程序文件和所有加载到进程中的库会共享一个符号表。但实际中链接器<br>并不是在运行时创建一个合并后的符号表，而是将个个文件中的符号表组成一个符号表链。<br>每个文件中都有一个散列表（一系列的散列头部，每个头部引领一个散列队列）以加速符号<br>查找的速度。链接器可以通过计算符号的散列值，然后访问相应的散列队列进行查找以加速<br>符号搜索的速度。<br><br><strong><u><em>库的查找</em></u></strong><br><br>链接器自身的初始化完成之后，它就会去寻找程序所需要的各个库。程序的程序头部<br>有一个指针，指向dynamic段（包含有动态链接相关信息）在文件中的位置。在这个段中包<br>含一个指针DT_STRTAB，指向文件的字串表，和一个偏移量表DT_NEEDED，其中每一个表项<br>包含了一个所需库的名称在字串表中的偏移量。<br>对于每一个库，链接器在以下位置搜索库：<br>● 是否dynamic段有一个称为DT_RPATH的表项，它是由分号分隔开的可以搜索库的目录列表。<br>它可以通过一个命令行参数或者在程序链接时常规（非动态）链接器的环境变量来添加。它经<br>常会被诸如数据库类这样需要加载一系列程序并可将库放在单一目录的子系统使用，<br>● 是否有一个环境符号LD_LIBRARY_PATH，它可以是由分号分隔开的可供链接器搜索库的目录<br>列表。这就可以让开发者创建一个新版本的库并将它放置在LD_LIBRARY_PATH的路径中，这<br>样既可以通过已存在的程序来测试新的库，或用来监测程序的行为。（因为安全原因，如果程<br>序设置了set-uid，那么这一步会被跳过）<br>● 链接器查看库缓冲文件/etc/ld.so.conf，其中包含了库文件名和路径的列表。如果要查找的<br>库名称存在于其中，则采用文件中相应的路径。大多数库都通过这种方法被找到（路径末尾的<br>文件名称并不需要和所搜索的库名称精确匹配，详细请参看下面的库版本章节）。<br>● 如果所有的都失败了，就查找缺省目录/usr/lib，如果在这个目录中仍没有找到，就打印错<br>误信息，并退出执行。<br>一旦找到包含该库的文件，动态链接器会打开该文件，读取ELF头部寻找程序头部，它<br>指向包括dynamic段在内的众多段。链接器为库的文本和数据段分配空间，并将它们映射进<br>来，对于BSS分配初始化为0的页。从库的dynamic段中，它将库的符号表加入到符号表链<br>中，如果该库还进一步需要其它尚未加载的库，则将那些新库置入将要加载的库链表中。<br>在该过程结束时，所有的库都被映射进来了，加载器拥有了一个由程序和所有映射进<br>来的库的符号表联合而成的逻辑上的全局符号表。<br><br><em><u><strong>共享库的初始化</strong></u></em><br><br>现在加载器再次查看每个库并处理库的重定位项，填充库的GOT，并进行库的数据段所<br>需的任何重定位。<br>在x86平台上，加载时的重定位包括：<br>R_386_GLOB_DAT：初始化一个GOT项，该项是在另一个库中定义的符号的地址。<br>R_386_32：对在另一个库中定义的符号的非GOT引用，通常是静态数据区中的指针。<br>R_386_RELATIVE：对可重定位数据的引用，典型的是指向字串（或其它局部定义静态数<br>据）的指针。<br>R_386_JMP_SLOT：用来初始化PLT的GOT项，稍后描述。<br>如果一个库具有.init区段，加载器会调用它来进行库特定的初始化工作，诸如C++的<br>静态构造函数。库中的.fini区段会在程序退出的时候被执行。它不会对主程序进行初始化，<br>因为主程序的初始化是有自己的启动代码完成的。当这个过程完成后，所有的库就都被完全<br>加载并可以被执行了，此时加载器调用程序的入口点开始执行程序。<br><br><u><em><strong>静态的初始化</strong></em></u><br><br>如果一个程序存在对定义在一个库中的全局变量的引用，由于程序的数据地址必须在<br>链接时被绑定，因此链接器不得不在程序中创建一个该变量的副本，如图4所示。这种方法<br>对于共享库中的代码没有问题，因为代码可以通过GOT中的指针（链接器会调整它）来引用<br>变量。但如果库初始化这个变量就会产生问题。为了解决问题，链接器在程序的重定位表<br>（仅仅包含类型为R_386_JMP_SLOT、R_386_GLOB_DAT、R_386_32和R_386_RELATIVE的表项）<br>中放入一个类型为R_386_COPY类型的表项，指向该变量在程序中的副本被定义的位置，并<br>告诉动态链接器从共享库中将该变量被初始化的数值复制过来。<br>—————————————————————————<br>图10-4：全局数据初始化<br>主程序中：<br>extern int token;<br>共享库中的例程：<br>int token = 42;<br>—————————————————————————<br>虽然这个特性对于特定类型的代码是关键的，但在实际中很少发生。这是一种橡皮膏<br>（译者注：权宜之计的意思），因为它只能用于单字的数据。好在初始化程序通常的对象是<br>指向过程或其它数据的指针，所以这个橡皮膏够用了。<br><br><u><strong><em>库的版本</em></strong></u><br><br>动态链接库通常都会结合主版本和次版本号来命名，例如libc.so.1.1。但是应用程序<br>只会和主版本号绑定，例如libc.so.1，次版本号是用于升级的兼容性的。<br>为了保持加载程序合理的速度，系统会设法维护一个缓冲文件，保存最近用过的每一<br>个库的全路径文件名，该文件会在一个新库被安装时有一个配置管理程序来更新。<br>为了支持这个设计，每一个动态链接的库都有一个在库创建时赋予的称为SONAME的“<br>真名”。例如，被称为libc.so.1.1的库的SONAME为libc.so.1（缺省的SONAME是库的名<br>称）。当链接器创建一个使用共享库的程序时，它会列出程序所使用库的SONAME而不是库<br>的真实名称。缓冲文件创建程序扫描包含共享库的所有目录，查找所有的共享库，提取每一<br>个的SONAME，对于具有相同SONAME的多个库，除版本最高的外其余的忽略。然后它将SONAM<br>E和全路径名称写入缓冲文件，这样在运行时动态链接器可以很快的找到每一个库的当前版<br>本。<br><br><br><del>my</del><br><br><br><br><a href="http://www.xfocus.net/articles/200109/260.html" target="_blank">http://www.xfocus.net/articles/200109/260.html</a><br><br>ELF: From The Programmer’s Perspective<br><a target="_blank" href="http://linux4u.jinr.ru/usoft/WWW/www_debian.org/Documentation/elf/elf.html">http://linux4u.jinr.ru/usoft/WWW/www_debian.org/Documentation/elf/elf.html</a><br><br><br><img width="29" height="18" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_lslnet_icon_new.gif"><strong>从程序员角度看ELF[z</strong><br><br>★3 .init和.fini sections<br><br>在ELF系统上，一个程序是由可执行文件或者还加上一些共享object文件组成。<br>为了执行这样的程序，系统使用那些文件创建进程的内存映象。进程映象<br>有一些段(segment),包含了可执行指令，数据，等等。为了使一个ELF文件<br>装载到内存，必须有一个program header(该program header是一个描述段<br>信息的结构数组和一些为程序运行准备的信息)。<br><br>一个段可能有多个section组成.这些section在程序员角度来看更显的重要。<br><br>每个可执行文件或者是共享object文件一般包含一个section table,该表<br>是描述ELF文件里sections的结构数组。这里有几个在ELF文档中定义的比较<br>特别的sections.以下这些是对程序特别有用的：<br><br>.fini<br>该section保存着进程终止代码指令。因此，当一个程序正常退出时，  &#160;&#160;          &#160;&#160;&#160;<br>系统安排执行这个section的中的代码。<br>.init    <br>该section保存着可执行指令，它构成了进程的初始化代码。<br>因此，当一个程序开始运行时，在main函数被调用之前(c语言称为<br>main)，系统安排执行这个section的中的代码。<br><br>.init和.fini sections的存在有着特别的目的。假如一个函数放到<br>.init section，在main函数执行前系统就会执行它。同理，假如一<br>个函数放到.fini section，在main函数返回后该函数就会执行。<br>该特性被C++编译器使用，完成全局的构造和析构函数功能。<br><br>当ELF可执行文件被执行，系统将在把控制权交给可执行文件前装载所以相关<br>的共享object文件。构造正确的.init和.fini sections,构造函数和析构函数<br>将以正确的次序被调用。 <br> <img width="29" height="18" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_lslnet_icon_new.gif"><strong>从程序员角度看ELF[z</strong><br> <br>            ★3.1 在c++中全局的构造函数和析构函数<br> <br>            在c++中全局的构造函数和析构函数必须非常小心的处理碰到的语言规范问题。<br>            构造函数必须在main函数之前被调用。析构函数必须在main函数返回之后<br>            被调用。例如，除了一般的两个辅助启动文件crti.o和crtn.o外，GNU C/C++<br>            编译器–gcc还提供两个辅助启动文件一个称为crtbegin.o，还有一个被称为<br>            crtend.o。结合.ctors和.dtors两个section，c++全局的构造函数和析构函数<br>            能以运行时最小的负载，正确的顺序执行。<br> <br> <br>            .ctors<br>            该section保存着程序的全局的构造函数的指针数组。<br> <br>            .dtors<br>            该section保存着程序的全局的析构函数的指针数组。    <br> <br>            ctrbegin.o<br>            有四个section:<br>            1 .ctors section<br>            local标号</strong>CTOR_LIST<strong>指向全局构造函数的指针数组头。在<br>            ctrbegin.o中的该数组只有一个dummy元素。<br> <br>            [译注：<br>            # objdump -s -j .ctors  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;&#160;<br>            /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/crtbegin.o<br> <br>            /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/crtbegin.o:<br>            file format elf32-i386<br>            Contents of section .ctors:<br>            0000 ffffffff  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;&#160;         ….<br>            这里说的dummy元素应该就是指的是ffffffff<br>            ]<br> <br>            2 .dtors section<br>            local标号</strong>DTOR_LIST<strong>指向全局析构函数的指针数组头。在<br>            ctrbegin.o中的该数组仅有也只有一个dummy元素。<br> <br>            3 .text section<br>            只包含了</strong>do_global_dtors_aux函数,该函数遍历<strong>DTOR_LIST</strong><br>            列表，调用列表中的每个析构函数。<br>            函数如下：<br>            [code]<br>            Disassembly of section .text:<br> <br>            00000000 &lt;<strong>do_global_dtors_aux&gt;;:<br>            0:   55  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            push   %ebp<br>            1:   89 e5  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            mov    %esp,%ebp<br>            3:   83 3d 04 00 00 00 00    cmpl   $0x0,0x4<br>            a:   75 38  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            jne    44 &lt;</strong>do_global_dtors_aux+0x44&gt;;<br>            c:   eb 0f  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            jmp    1d &lt;<strong>do_global_dtors_aux+0x1d&gt;;<br>            e:   89 f6  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            mov    %esi,%esi<br>            10:   8d 50 04  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            lea    0x4(%eax),%edx<br>            13:   89 15 00 00 00 00  &#160;&#160;            mov    %edx,0x0<br>            19:   8b 00  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            mov    (%eax),%eax<br>            1b:   ff d0  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            call   *%eax<br>            1d:   a1 00 00 00 00  &#160;&#160;          &#160;&#160;            mov    0x0,%eax<br>            22:   83 38 00  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            cmpl   $0x0,(%eax)<br>            25:   75 e9  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            jne    10 &lt;</strong>do_global_dtors_aux+0x10&gt;;<br>            27:   b8 00 00 00 00  &#160;&#160;          &#160;&#160;            mov    $0x0,%eax<br>            2c:   85 c0  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            test   %eax,%eax<br>            2e:   74 0a  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            je  &#160;&#160;&#160;         3a &lt;<strong>do_global_dtors_aux+0x3a&gt;;<br>            30:   68 00 00 00 00  &#160;&#160;          &#160;&#160;            push   $0x0<br>            35:   e8 fc ff ff ff  &#160;&#160;          &#160;&#160;            call   36 &lt;</strong>do_global_dtors_aux+0x36&gt;;<br>            3a:   c7 05 04 00 00 00 01    movl   $0x1,0x4<br>            41:   00 00 00<br>            44:   c9  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            leave<br>            45:   c3  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            ret<br>            46:   89 f6  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            mov    %esi,%esi<br>            [/code]            <br> <img width="29" height="18" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_lslnet_icon_new.gif"><strong>从程序员角度看ELF[z</strong><br> <br>            esi<br> <br> <br>            4 .fini section<br>            它只包含一个<strong>do_global_dtors_aux的函数调用。请记住，它仅是<br>            一个函数调用而不返回的，因为crtbegin.o的.fini section是这个<br>            函数体的一部分。<br>            函数如下：<br>            Disassembly of section .fini:<br> <br>            00000000 &lt;.fini&gt;;:<br>            0:   e8 fc ff ff ff  &#160;&#160;          &#160;&#160;            call   1 &lt;.fini+0x1&gt;;<br> <br> <br>            crtend.o<br>            也有四个section:<br> <br>            1 .ctors section<br>            local标号</strong>CTOR_END<strong>指向全局构造函数的指针数组尾部。<br> <br>            2 .dtors section<br>            local标号</strong>DTOR_END<strong>指向全局析构函数的指针数组尾部。<br> <br>            3 .text section<br>            只包含了</strong>do_global_ctors_aux函数,该函数遍历<strong>CTOR_LIST</strong><br>            列表，调用列表中的每个构造函数。<br>            函数如下：<br>            [code]<br>            00000000 &lt;<strong>do_global_ctors_aux&gt;;:<br>            0:   55  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            push   %ebp<br>            1:   89 e5  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            mov    %esp,%ebp<br>            3:   53  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            push   %ebx<br>            4:   bb fc ff ff ff  &#160;&#160;          &#160;&#160;            mov    $0xfffffffc,%ebx<br>            9:   83 3d fc ff ff ff ff    cmpl   $0xffffffff,0xfffffffc<br>            10:   74 0c  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            je  &#160;&#160;&#160;         1e &lt;</strong>do_global_ctors_aux+0x1e&gt;;<br>            12:   8b 03  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            mov    (%ebx),%eax<br>            14:   ff d0  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            call   <em>%eax<br>            16:   83 c3 fc  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            add    $0xfffffffc,%ebx<br>            19:   83 3b ff  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            cmpl   $0xffffffff,(%ebx)<br>            1c:   75 f4  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            jne    12 &lt;<strong>do_global_ctors_aux+0x12&gt;;<br>            1e:   8b 5d fc  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            mov    0xfffffffc(%ebp),%ebx<br>            21:   c9  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            leave<br>            22:   c3  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            ret<br>            23:   90  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            nop<br>            [/code]            <br> <img width="29" height="18" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_lslnet_icon_new.gif"><strong>从程序员角度看ELF[z</strong><br> <br>            nop<br> <br>            4 .init section<br>            它只包含一个</strong>do_global_ctors_aux的函数调用。请记住，它仅是<br>            一个函数调用而不返回的，因为crtend.o的.init section是这个函<br>            数体的一部分。<br>            函数如下：<br>            Disassembly of section .init:<br> <br>            00000000 &lt;.init&gt;;:<br>            0:   e8 fc ff ff ff  &#160;&#160;          &#160;&#160;            call   1 &lt;.init+0x1&gt;;            <br> <img width="29" height="18" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_lslnet_icon_new.gif"><strong>从程序员角度看ELF[z</strong><br> <br>            crti.o<br>            在.init section中仅是个_init的函数标号。<br>            在.fini section中的_fini函数标号。<br> <br>            crtn.o<br>            在.init和.fini section中仅是返回指令。<br> <br>            Disassembly of section .init:<br> <br>            00000000 &lt;.init&gt;;:<br>            0:   8b 5d fc  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            mov    0xfffffffc(%ebp),%ebx<br>            3:   c9  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            leave<br>            4:   c3  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            ret<br>            Disassembly of section .fini:<br> <br>            00000000 &lt;.fini&gt;;:<br>            0:   8b 5d fc  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            mov    0xfffffffc(%ebp),%ebx<br>            3:   c9  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            leave<br>            4:   c3  &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;          &#160;&#160;            ret            <br><img width="29" height="18" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_lslnet_icon_new.gif"><strong>从程序员角度看ELF[z</strong><br><br>编译产生可重定位文件时，gcc把每个全局构造函数挂在<strong>CTOR_LIST上<br>（通过把指向构造函数的指针放到.ctors section中）。<br>它也把每个全局析构函挂在</strong>DTOR_LIST上（通过把指向析构函的指针<br>放到.dtors section中）。<br><br>连接时，gcc在所有重定位文件前处理crtbegin.o,在所有重定位文件后处理<br>crtend.o。另外，crti.o在crtbegin.o之前被处理，crtn.o在crtend.o之后<br>被处理。<br><br>当产生可执行文件时，连接器ld分别的连接所有可重定位文件的ctors 和<br>.dtors section到<strong>CTOR_LIST</strong>和<strong>DTOR_LIST</strong>列表中。.init section<br>由所有的可重定位文件中_init函数组成。.fini由_fini函数组成。<br><br>运行时，系统将在main函数之前执行_init函数，在main函数返回后执行<br>_fini函数。<br><br><img width="29" height="18" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_lslnet_icon_new.gif"><strong>从程序员角度看ELF</strong><br><br>★5.2 共享C++库 Shared C++ Library<br><br>在共享c++库中主要的困难是如何对待构造函数和析构函数。<br>在SunOS下，构造和使用一个共享的ELF C库是容易的，但是在SunOS下不能<br>构造共享的C++库，因为构造函数和析构函数有特别的需求。为止，在ELF<br>中的.init和.init section提供了完美的解决方法。<br><br>当构造共享C++库时，我们使用crtbegin.o和crtend.o这两个特殊的版本（crtbeginS.o和crtendS.o），<br>(它们已经是经过-fPIC的)。对于连接器(link editor)来说，构造共享<br>的C++库几乎是和一般的可执行文件一样的。全局的构造函数和析构函数<br>被.init和.fini section处理(在上面3.1节中已经讨论过)。<br><br>但一个共享库被映射到进程的地址空间时，动态连接器将在传控制权给程序<br>之前执行_init函数，并且将为_fini函数安排在共享库不再需要的时候被<br>执行。<br><br>连接选项-shared是告诉gcc以正确的顺序放置必要的辅助文件并且告诉它将<br>产生一个共享库。-v选项将显示什么文件什么选项被传到了连接器<br>(link editor).<br>[code]<br>[alert7@redhat62 dl]# gcc -v -shared -o libbar.so libbar.o<br>Reading specs from /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/specs<br>gcc version egcs-2.91.66 19990314/Linux (egcs-1.1.2 release)<br>/usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/collect2 -m elf_i386 <br>-shared -o libbar.so /usr/lib/crti.o /usr/lib/gcc-lib/i386-redhat<br>-linux/egcs-2.91.66/crtbeginS.o <br>-L/usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66 <br>-L/usr/i386-redhat-linux/lib libbar.o -lgcc -lc –version-script <br>/usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/libgcc.map <br>-lgcc /usr/lib/gcc-lib/i386-redhat-linux/egcs-2.91.66/crtendS.o <br>/usr/lib/crtn.o<br>[/code]<br>crtbeginS.o和crtendS.o用-fPIC编译的两个特殊的版本。带上-shared<br>创建共享库是重要的，因为那些辅助的文件也提供其他服务。我们将在<br>5.3节中讨论。<br><br><img width="29" height="18" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_lslnet_icon_new.gif"><strong>从程序员角度看ELF</strong><br><br>★5.3 扩展的GCC特性<br><br>GCC有许多扩展的特性。有些对ELF特别的有用。其中一个就是<strong>attribute</strong>。<br>使用<strong>attribute</strong>可以使一个函数放到<strong>CTOR_LIST</strong>或者<strong>DTOR_LIST</strong>里。<br>例如：<br><br>[code]<br>]# cat miss.c<br><br>#include &lt;stdio.h&gt;;<br>#include &lt;stdlib.h&gt;;<br><br>static void foo(void) <strong>attribute</strong> ((constructor));<br>static void bar(void) <strong>attribute</strong> ((destructor));<br><br><br>int main(int argc, char </em>argv[])<br>{<br>printf(&quot;foo == %pn&quot;, foo);<br>printf(&quot;bar == %pn&quot;, bar);<br><br>exit(EXIT_SUCCESS);<br>}<br><br>void foo(void)<br>{<br>printf(&quot;hi dear njlily!n&quot;);<br>}<br><br>void bar(void)<br>{<br>printf(&quot;missing u! goodbye!n&quot;);<br>}<br><br>[alert7@redhat62 dl]# gcc -o miss miss.c<br>[alert7@redhat62 dl]# ./miss<br>hi dear njlily!<br>foo == 0x8048434<br>bar == 0x8048448<br>missing u! goodbye!<br><br>[/code] <br><img width="29" height="18" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_lslnet_icon_new.gif"><strong>从程序员角度看ELF[z</strong><br><br>我们来看看是否加到了.ctors和.dtors中。<br>[code]]# objdump -s -j .ctors miss<br><br>miss:  &#160;&#160;&#160;         file format elf32-i386<br><br>Contents of section .ctors:<br>8049504 ffffffff 34840408 00000000  &#160;&#160;          &#160;&#160;          &#160;&#160;&#160;         ….4…….<br><br>[alert7@redhat62 dl]# objdump -s -j .dtors miss<br><br>miss:  &#160;&#160;&#160;         file format elf32-i386<br><br>Contents of section .dtors:<br>8049510 ffffffff 48840408 00000000  &#160;&#160;          &#160;&#160;          &#160;&#160;&#160;         ….H…….<br><br>[/code]<br><br>已经把foo和bar地址分别放到了.ctors和.dors，显示34840408只是因为<br>x86上是LSB编码的，小端序。<br><br><strong>attribute</strong> ((constructor))促使函数foo在进入main之前会被自动调用。<br><strong>attribute</strong> ((destructor))促使函数bar在main返回或者exit调用之后<br>会被自动调用。foo和bar必须是不能带参数的而且必须是static void类型的<br>函数。在ELF下，这个特性在一般的可执行文件和共享库中都能很好的工作。 </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/11/12/【zz】从程序员角度看ELF/" class="archive-article-date">
+  	<time datetime="2007-11-12T14:12:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-11-12</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-【zz】使用-Kprobes-调试内核" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2007/11/11/【zz】使用-Kprobes-调试内核/">【zz】使用 Kprobes 调试内核</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> 使用 Kprobes 调试内核<a href="http://www.ibm.com/developerworks/cn/linux/l-kprobes.html#main" target="_blank">http://www.ibm.com/developerworks/cn/linux/l-kprobes.html#main</a> <em>将 printk 插入到运行中的 Linux 内核</em><br><a href="http://www.ibm.com/developerworks/cn/linux/l-kprobes.html#author" target="_blank" rel="external">Prasanna S. Panchamukhi</a> (), 开发人员，Linux Technology Center, IBM India Software Labs<br></p><p>2004 年  9 月  19 日</p><blockquote>使用 printk 收集 Linux &#8482; 内核的调试信息是一个众所周知的方法 &mdash;&mdash; 而使用了 Kprobes，不需要经常重新引导和重新编译内核就可以完成这一任务。Kprobes 与 2.6 内核结合起来提供了一个动态插入 printk’s 的轻量级、无干扰而且强大的装置。记录调试信息（比如内核栈追踪、内核数据结构和寄存器）日志从来没有这么简单过！ </blockquote><p>Kprobes 是 Linux 中的一个简单的轻量级装置，让您可以将断点插入到正在运行的内核之中。 Kprobes 提供了一个强行进入任何内核例程并从中断处理器无干扰地收集信息的接口。使用 Kprobes 可以 轻松地收集处理器寄存器和全局数据结构等调试信息。开发者甚至可以使用 Kprobes 来修改 寄存器值和全局数据结构的值。</p><p>为完成这一任务，Kprobes 向运行的内核中给定地址写入断点指令，插入一个探测器。 执行被探测的指令会导致断点错误。Kprobes 钩住（hook in）断点处理器并收集调试信息。Kprobes 甚至可以单步执行被探测的指令。</p><p><a name="N1004F">安装</a></p><p>要安装 Kprobes，需要从 Kprobes 主页下载最新的补丁（参阅          <a href="http://www.ibm.com/developerworks/cn/linux/l-kprobes.html#Resources" target="_blank" rel="external">参考资料</a> 中的链接）。 打包的文件名称类似于 kprobes-2.6.8-rc1.tar.gz。解开补丁并将其安装到 Linux 内核：</p><p><code> $tar -xvzf kprobes-2.6.8-rc1.tar.gz            <br>$cd /usr/src/linux-2.6.8-rc1            <br>$patch -p1 &lt; ../kprobes-2.6.8-rc1-base.patch         </code></p><p>Kprobes 利用了          <strong>SysRq</strong> 键，这个 DOS 时代的产物在 Linux 中有了新的用武之地（参阅         <a href="http://www.ibm.com/developerworks/cn/linux/l-kprobes.html#Resources" target="_blank" rel="external">参考资料</a>）。您可以在         <strong>Scroll Lock</strong>键左边找到         <strong>SysRq</strong> 键；它通常标识为          <strong>Print Screen</strong>。要为 Kprobes 启用         <strong>SysRq</strong> 键，需要安装 kprobes-2.6.8-rc1-sysrq.patch 补丁：</p><p><code> $patch -p1 &lt; ../kprobes-2.6.8-rc1-sysrq.patch </code></p><p>使用          <code>make xconfig/ make menuconfig/ make oldconfig</code> 配置内核，并 启用          <code>CONFIG_KPROBES</code> 和          <code>CONFIG_MAGIC_SYSRQ</code> 标记。 编译并引导到新内核。您现在就已经准备就绪，可以插入 printk 并通过编写简单的 Kprobes 模块来动态而且无干扰地 收集调试信息。</p><br> <img width="100%" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif"><br> <img width="8" height="6" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <img width="100%" height="4" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"><br> <img width="16" height="16" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif"> <a href="http://www.ibm.com/developerworks/cn/linux/l-kprobes.html#main" target="_blank" rel="external"><strong>回页首</strong></a> <br><br><p><a name="N10093">编写 Kprobes 模块</a></p><p>对于每一个探测器，您都要分配一个结构体          <code>struct kprobe kp;</code>  （参考 include/linux/kprobes.h 以获得关于此数据结构的详细信息）。</p><br><a name="N100A0"><strong>清单 1. 定义 pre、post 和 fault 处理器</strong></a><br>                                    /<em> pre_handler: this is called just before the probed instruction is<br>  </em> executed.<br>  <em>/<br>int handler_pre(struct kprobe </em>p, struct pt_regs <em>regs) {<br> printk(&quot;pre_handler: p-&gt;addr=0x%p, eflags=0x%lxn&quot;,p-&gt;addr,<br>  regs-&gt;eflags);<br> return 0;<br>}<br> /</em> post_handler: this is called after the probed instruction is executed<br>  <em>  (provided no exception is generated).<br>  </em>/<br>void handler_post(struct kprobe <em>p, struct pt_regs </em>regs, unsigned long flags) {<br> printk(&quot;post_handler: p-&gt;addr=0x%p, eflags=0x%lx n&quot;, p-&gt;addr,<br>  regs-&gt;eflags);<br>}<br> /<em> fault_handler: this is called if an exception is generated for any<br>  </em> instruction within the fault-handler, or when Kprobes<br>  <em> single-steps the probed instruction.<br>  </em>/<br>int handler_fault(struct kprobe <em>p, struct pt_regs </em>regs, int trapnr) {<br> printk(&quot;fault_handler:p-&gt;addr=0x%p, eflags=0x%lxn&quot;, p-&gt;addr,<br>  regs-&gt;eflags);<br> return 0;<br>}                        <br><p><a name="N100AA">获得内核例程的地址</a></p><p>在注册过程中，您还需要指定插入探测器的内核例程的地址。使用这些方法中的任意一个来获得内核例程 的地址：</p><ol> <li><strong>从 System.map 文件直接得到地址。</strong> <br>    例如，要得到 do_fork 的地址，可以在命令行执行            <code>$grep do_fork /usr/src/linux/System.map</code> 。</li> <li><strong>使用              <code>nm</code> 命令。           </strong> <br> <code>$nm vmlinuz |grep do_fork</code></li> <li><strong>从 /proc/kallsyms 文件获得地址。</strong> <br> <code>$cat /proc/kallsyms |grep do_fork</code></li> <li><strong>使用              <code>kallsyms_lookup_name()</code> 例程。           </strong> <br>    这个例程是在 kernel/kallsyms.c 文件中定义的，要使用它，必须启用            <code>CONFIG_KALLSYMS</code> 编译内核。            <code>kallsyms_lookup_name()</code> 接受一个字符串格式内核例程名， 返回那个内核例程的地址。例如：            <code>kallsyms_lookup_name(&quot;do_fork&quot;);</code></li></ol><p>然后在 init_moudle 中注册您的探测器：</p><br><a name="N100F9"><strong>清单 2. 注册一个探测器</strong></a><br>                                    /<em> specify pre_handler address<br>  </em>/<br> kp.pre_handler=handler_pre;<br> /<em> specify post_handler address<br>  </em>/<br> kp.post_handler=handler_post;<br> /<em> specify fault_handler address<br>  </em>/<br> kp.fault_handler=handler_fault;<br> /<em> specify the address/offset where you want to insert probe.<br>  </em> You can get the address using one of the methods described above.<br>  <em>/<br> kp.addr = (kprobe_opcode_t </em>) kallsyms_lookup_name(&quot;do_fork&quot;);<br> /<em> check if the kallsyms_lookup_name() returned the correct value.<br>  </em>/<br> if (kp.add == NULL) {<br>  printk(&quot;kallsyms_lookup_name could not find address<br>     for the specified symbol namen&quot;);<br>  return 1;<br> }<br> /<em> or specify address directly.<br>  </em> $grep &quot;do_fork&quot; /usr/src/linux/System.map<br>  <em> or<br>  </em> $cat /proc/kallsyms |grep do_fork<br>  <em> or<br>  </em> $nm vmlinuz |grep do_fork<br>  <em>/<br> kp.addr = (kprobe_opcode_t </em>) 0xc01441d0;<br> /<em> All set to register with Kprobes<br>  </em>/<br>        register_kprobe(&amp;kp);                        <br><p>一旦注册了探测器，运行任何 shell 命令都会导致一个对          <code>do_fork</code>  的调用，您将可以在控制台上或者运行          <code>dmesg</code> 命令来查看您的 printk。做完后要记得注销探测器：</p><p><code>  unregister_kprobe(&amp;kp); </code></p><p>下面的输出显示了 kprobe 的地址以及 eflags 寄存器的内容：</p><p><code> $tail -5 /var/log/messages            <br><br>Jun 14 18:21:18 llm05 kernel: pre_handler: p-&gt;addr=0xc01441d0, eflags=0x202           <br>Jun 14 18:21:18 llm05 kernel: post_handler: p-&gt;addr=0xc01441d0, eflags=0x196         </code></p><p><a name="N10125">获得偏移量</a></p><p>您可以在例程的开头或者函数中的任意偏移位置插入 printk（偏移量必须在指令范围之内）。 下面的代码示例展示了如何来计算偏移量。首先，从对象文件中反汇编机器指令，并将它们 保存为一个文件：</p><p><code> $objdump -D /usr/src/linux/kernel/fork.o &gt; fork.dis </code></p><p>其结果是：</p><br><a name="N10138"><strong>清单 3. 反汇编的 fork</strong></a><br>                                    000022b0 &lt;do_fork&gt;:<br>    22b0:       55                      push   %ebp<br>    22b1:       89 e5                   mov    %esp,%ebp<br>    22b3:       57                      push   %edi<br>    22b4:       89 c7                   mov    %eax,%edi<br>    22b6:       56                      push   %esi<br>    22b7:       89 d6                   mov    %edx,%esi<br>    22b9:       53                      push   %ebx<br>    22ba:       83 ec 38                sub    $0x38,%esp<br>    22bd:       c7 45 d0 00 00 00 00    movl   $0x0,0xffffffd0(%ebp)<br>    22c4:       89 cb                   mov    %ecx,%ebx<br>    22c6:       89 44 24 04             mov    %eax,0x4(%esp)<br>    22ca:       c7 04 24 0a 00 00 00    movl   $0xa,(%esp)<br>    22d1:       e8 fc ff ff ff          call   22d2 &lt;do_fork+0x22&gt;<br>    22d6:       b8 00 e0 ff ff          mov    $0xffffe000,%eax<br>    22db:       21 e0                   and    %esp,%eax<br>    22dd:       8b 00                   mov    (%eax),%eax                        <br><p>要在偏移位置 0x22c4 插入探测器，先要得到与例程的开始处相对的偏移量          <code>0x22c4 - 0x22b0 = 0x14</code> ，然后将这个偏移量添加到 do_fork 的地址          <code>0xc01441d0 + 0x14</code> 。（运行          <code>$cat /proc/kallsyms | grep do_fork</code> 命令以获得 do_fork 的地址。）</p><p>您还可以将 do_fork 的相对偏移量          <code>0x22c4 - 0x22b0 = 0x14</code> 添加到          <code>kallsyms_lookup_name(&quot;do_fork&quot;);</code> 的输入，即：          <code>0x14 + kallsyms_lookup_name(&quot;do_fork&quot;);</code></p><p><a name="N10160">转储内核数据结构</a></p><p>现在，让我们使用修改过的用来转储数据结构的 Kprobe post_handler 来转储运行在系统上的所有作业的一些组成部分：</p><br><a name="N10169"><strong>清单 4. 用来转储数据结构的修改过的 Kprope post_handler</strong></a><br>                                    void handler_post(struct kprobe <em>p, struct pt_regs </em>regs, unsigned long flags) {<br> struct task_struct *task;<br> read_lock(&amp;tasklist_lock);<br> for_each_process(task) {<br>  printk(&quot;pid =%x task-info_ptr=%lxn&quot;, task-&gt;pid,<br>   task-&gt;thread_info);<br>  printk(&quot;thread-info element status=%lx,flags=%lx, cpu=%lxn&quot;,<br>   task-&gt;thread_info-&gt;status, task-&gt;thread_info-&gt;flags,<br>   task-&gt;thread_info-&gt;cpu);<br> }<br> read_unlock(&amp;tasklist_lock);<br>}                        <br><p>这个模块应该插入到 do_fork 的偏移位置。</p><br><a name="N10176"><strong>清单 5. pid 1508 和 1509 的结构体 thread_info 的输出</strong></a><br>                                    $tail -10 /var/log/messages<br>Jun 22 18:14:25 llm05 kernel: thread-info element status=0,flags=0, cpu=1<br>Jun 22 18:14:25 llm05 kernel: pid =5e4 task-info_ptr=f5948000<br>Jun 22 18:14:25 llm05 kernel: thread-info element status=0,flags=8, cpu=0<br>Jun 22 18:14:25 llm05 kernel: pid =5e5 task-info_ptr=f5eca000                        <br><p><a name="N10180">启用奇妙的 SysRq 键</a></p><p>为了支持 SysRq 键，我们已经进行了编译。这样来启用它：</p><p><code> $echo 1 &gt; /proc/sys/kernel/sysrq </code></p><p>现在，您可以使用          <strong>Alt+SysRq+W</strong> 在控制台上或者到 /var/log/messages 中去查看所有插入的内核探测器。</p><br><a name="N10196"><strong>清单 6. /var/log/messages 显示出在 do_fork 插入了一个 Kprobe</strong></a><br>                                    Jun 23 10:24:48 linux-udp4749545uds kernel: SysRq : Show kprobes<br>Jun 23 10:24:48 linux-udp4749545uds kernel:<br>Jun 23 10:24:48 linux-udp4749545uds kernel: [&lt;c011ea60&gt;] do_fork+0x0/0x1de                        <br><br> <img width="100%" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif"><br> <img width="8" height="6" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <img width="100%" height="4" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"><br> <img width="16" height="16" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif"> <a href="http://www.ibm.com/developerworks/cn/linux/l-kprobes.html#main" target="_blank" rel="external"><strong>回页首</strong></a> <br><br><p><a name="N101A0">使用 Kprobes 更好地进行调试</a></p><p>由于探测器事件处理器是作为系统断点中断处理器的扩展来运行，所以它们很少或者根本不依赖于系统 工具 &mdash;&mdash; 这样可以被植入到大部分不友好的环境中（从中断时间和任务时间到禁用的上下文间切换和支持 SMP 的代码路径）&mdash;&mdash; 都不会对系统性能带来负面影响。</p><p>使用 Kprobes 的好处有很多。不需要重新编译和重新引导内核就可以插入 printk。为了进行调试可以记录 处理器寄存器的日志，甚至进行修改 &mdash;&mdash; 不会干扰系统。类似地，同样可以无干扰地记录 Linux 内核数据结构的日志，甚至 进行修改。您甚至可以使用 Kprobes 调试 SMP 系统上的竞态条件 &mdash;&mdash; 避免了您自己重新编译和重新引导的所有 麻烦。您将发现内核调试比以往更为快速和简单。</p><br><br><p><a name="resources">参考资料 </a></p><ul> <li>您可以参阅本文在 developerWorks 全球站点上的           <a href="http://www.ibm.com/developerworks/linux/library/l-kprobes.html?S_TACT=105AGX52&amp;S_CMP=cn-a-l" target="_blank" rel="external">英文原文</a>.</li> <li>在            <a href="http://www.ibm.com/developerworks/oss/linux/projects/kprobes/?S_TACT=105AGX52&amp;S_CMP=cn-a-l" target="_blank" rel="external">Kprobes 主页</a>可以找到更多信息、最新消息、README 和下载。           <a href="http://www.ibm.com/linux/projects/kprobes/README.kprobes" target="_blank" rel="external">README</a> 详尽地描述 了 kprobes 接口。</li> <li>Kprobes 开发自完整的             <a href="http://www.ibm.com/developerworks/oss/linux/projects/dprobes/?S_TACT=105AGX52&amp;S_CMP=cn-a-l" target="_blank" rel="external">Dynamic Probes</a>补丁。Dynamic Probes 使用           <a href="http://www.ibm.com/developerworks/oss/linux/projects/kernelhooks/?S_TACT=105AGX52&amp;S_CMP=cn-a-l" target="_blank" rel="external">Kernel Hooks</a> 来收集难以获得的诊断信息。</li> <li>v.2.5.26 版本的内核已经融入了对 Kprobes 的支持；参阅             <a href="http://www.kerneltraffic.org/kernel-traffic/kt20020805_178.html#3" target="_blank" rel="external"> Support for kernel probes</a>（           <em>Kernel Traffic</em>，2002 年 7 月 25 日）的声明以及简短评论。 KProbes 在 2.5.73 版本中增加了            <a href="http://www.ussg.iu.edu/hypermail/linux/kernel/0306.3/0033.html" target="_blank" rel="external">out-of-line single-stepping</a>。</li> <li>Kprobes 利用了 BIOS 中断            <a href="http://www.fact-index.com/s/sy/sysrq.html" target="_blank" rel="external"> <strong>SysRq</strong> </a> 键。 它可以成为一个            <a href="http://linuxgazette.net/issue81/vikas.html" target="_blank" rel="external">Magic SysRq</a> 键， 用来实现防御间谍软件、不完全的重新引导、显示内存信息、杀死进程等等（多得多的）功能。 它适合用于调试；           <a href="http://tldp.org/HOWTO/Remote-Serial-Console-HOWTO/security-sysrq.html" target="_blank" rel="external">不太适合用于生产环境中的机器</a>，它会引发安全威胁。</li> <li>objdump 显示关于一个或多个对象文件的信息。要获得更多资料，请参阅            <a href="http://www.die.net/doc/linux/man/man1/objdump.1.html" target="_blank" rel="external">objdump 手册页</a> Linux 2.6 内核模块。</li> <li>Captain’s Universe 曾经公布过一个关于            <a href="http://www.captain.at/programming/kernel-2.6/" target="_blank" rel="external">如何为内核 2.6 编译内核模块</a> 的文档。</li> <li>下载内核            <a href="http://www.kernel.org/pub/linux/kernel/people/rusty/modules" target="_blank" rel="external">Module Utilities for 2.6</a> 的源文件；它可以取代当前新内核的 modutils。它是           <a href="http://www.kernel.org/pub/linux/kernel/people/rusty/" target="_blank" rel="external">Rusty Russell 的众多实用补丁</a> 之一。</li> <li>在            <a href="http://www.ibm.com/developerworks/cn/linux/" target="_blank" rel="external">developerWorks Linux 专区</a> 可以找到 更多为 Linux 开发者准备的参考资料。</li> <li>在 Developer Bookstore Linux 区中订购           <a href="http://devworks.krcinfo.com/WebForms/ProductList.aspx?Search=Category&amp;id=300&amp;parent=Linux" target="new"> 打折出售的 Linux 书籍</a>。</li> <li>从 developerWorks 的           <a href="http://www.ibm.com/developerworks/cn/linux/linux-speed-start/" target="_blank" rel="external">Speed-start your Linux app</a> 专区下载可以运行于 Linux 之上的经过挑选的 developerWorks Subscription 产品免费测试版本，包括 WebSphere Studio Site Developer、WebSphere SDK for Web services、WebSphere Application Server、DB2 Universal Database Personal Developers Edition、Tivoli Access Manager 和 Lotus Domino Server。要更快速地开始上手，请参阅针对各个产品的 how-to 文章和技术支持。</li></ul> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/11/11/【zz】使用-Kprobes-调试内核/" class="archive-article-date">
+  	<time datetime="2007-11-11T10:51:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-11-11</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux-Debug/">Linux Debug</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-【zz】printk-调试信息分级显示脚本的编写方法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2007/11/11/【zz】printk-调试信息分级显示脚本的编写方法/">【zz】printk()调试信息分级显示脚本的编写方法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> printk()调试信息分级显示脚本的编写方法<br>&nbsp;&nbsp;       大家都知道，在编写内核程序时printk()在&lt;linux/kernel.h&gt;中定义了一些用于调试的宏，它们是：<br>&nbsp;&nbsp;       KERN_EMERG &quot;&lt;0&gt;&quot; 系统不可用<br>&nbsp;&nbsp;       KERN_ALERT &quot;&lt;1&gt;&quot; 必须采取措施<br>&nbsp;&nbsp;       KERN_CRIT &quot;&lt;2&gt;&quot; 严重状态<br>&nbsp;&nbsp;       KERN_ERR &quot;&lt;3&gt;&quot; 错误状态 <br>&nbsp;&nbsp;       KERN_WARNING &quot;&lt;4&gt;&quot; 警告状态<br>&nbsp;&nbsp;       KERN_NOTICE &quot;&lt;5&gt;&quot; 正常但重要的情况<br>&nbsp;&nbsp;       KERN_INFO &quot;&lt;6&gt;&quot; 消息<br>&nbsp;&nbsp;       KERN_DEBUG &quot;&lt;7&gt;&quot; 调试级别信息<br>&nbsp;&nbsp;&nbsp;      输出的printk()调试信息默认情况是输出到/var/log/message这个日志文件中的。如果想把这些调试信息输出到一些指定的文件中，可以使用本文介绍的这个方法，当然这也就是本文产生的原因。<br>&nbsp;&nbsp;       (1)首先，要在/your_debug_message_path/目录下建立messages、messages-debug、messages- info、messages-notice、messages-warning、messages-err、messages-crit、 messages-alert等文件，用来存储调试信息。<br>&nbsp;&nbsp;       (2)然后，为了能分级显示printk()调试信息,要在/etc/syslog.conf文件中添加以下内容:<br>#+——————–+<br>#下面这个文件包含&lt;0-7&gt;的所有printk()调试信息<br>kern.<em> /your_debug_message_path/messages#下面这个文件只包含KERN_DEBUG &quot;&lt;7&gt;&quot;的调试信息<br>kern.=debug /your_debug_message_path/messages-debug#下面这个文件只包含KERN_INFO &quot;&lt;6&gt;&quot;的调试信息<br>kern.=info /your_debug_message_path/messages-info#下面这个文件只包含KERN_NOTICE &quot;&lt;5&gt;&quot;的调试信息<br>kern.=notice /your_debug_message_path/messages-notice#下面这个文件只包含KERN_WARNING &quot;&lt;4&gt;&quot;的调试信息,但是要尽量少使用这个等级的调试<br>kern.=warning /your_debug_message_path/messages-warning#下面这个文件只包含KERN_ERR &quot;&lt;3&gt;&quot;的调试信息,但是要尽量少使用这个等级的调试<br>kern.=err /your_debug_message_path/messages-err#下面这个文件只包含KERN_CRIT &quot;&lt;2&gt;&quot;的调试信息<br>kern.=crit /your_debug_message_path/messages-crit#下面这个文件只包含KERN_ALERT &quot;&lt;1&gt;&quot;的调试信息<br>kern.=alert /your_debug_message_path/messages-alert<br>#+———————-+<br>&nbsp;&nbsp;       这样，就可以cat某个文件看到相应级别的调试信息了。当然，还要reboot一下，这个脚本才可以生效！<br>在长期使用中，调试信息一定会越来越多，并且文件肯定会越来越大。为了防止messages</em>系列文件过大，要限制她的大小，下面是相应的脚本。<br>&nbsp;&nbsp;       (3)要在/etc/rc.d/rc.local文件中加入以下内容：<br>+—————+<br>#这是一个用户添加的启动项<br>/your_debug_message_path/check_message_size/my_logsize_check_shell<br>+—————-+<br>&nbsp;&nbsp;       (4)建立/your_debug_message_path/checksize_back目录，并在该目录下建立同样的messages、 messages-debug、messages-info、messages-notice、messages-warning、messages- err、messages-crit、messages-alert等空文件，作为文件刷新时的样本文件。<br>&nbsp;&nbsp;       (5)编写/your_debug_message_path/check_message_size/my_logsize_check_shell脚本：<br>#!/bin/sh<br>#+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+<br>logdir=&quot;/your_debug_message_path&quot;<br>backupdir=&quot;/your_debug_message_path/checksize_back&quot;#这是文件的最大值，超过这个值就把/your_debug_message_path/checksize_back目录下的文件<br>#cat到/your_debug_message_path目录下，刷新过大的文件。<br>capacity=400000 size=<code>wc ${logdir}/messages | awk &amp;quot;{print }&amp;quot;</code><br>if [ $size -gt $capacity ]<br>then<br>cat ${backupdir}/messages &gt; ${logdir}/messages<br>fi size=<code>wc ${logdir}/messages-alert | awk &amp;quot;{print }&amp;quot;</code><br>if [ $size -gt $capacity ]<br>then<br>cat ${backupdir}/messages-alert &gt; ${logdir}/messages-alert<br>fi size=<code>wc ${logdir}/messages-crit | awk &amp;quot;{print }&amp;quot;</code><br>if [ $size -gt $capacity ]<br>then<br>cat ${backupdir}/messages-crit &gt; ${logdir}/messages-crit<br>fi size=<code>wc ${logdir}/messages-err | awk &amp;quot;{print }&amp;quot;</code><br>if [ $size -gt $capacity ]<br>then<br>cat ${backupdir}/messages-err &gt; ${logdir}/messages-err<br>fi size=<code>wc ${logdir}/messages-info | awk &amp;quot;{print }&amp;quot;</code><br>if [ $size -gt $capacity ]<br>then<br>cat ${backupdir}/messages-info &gt; ${logdir}/messages-info<br>fi size=<code>wc ${logdir}/messages-notice | awk &amp;quot;{print }&amp;quot;</code><br>if [ $size -gt $capacity ]<br>then<br>cat ${backupdir}/messages-notice &gt; ${logdir}/messages-notice<br>fi size=<code>wc ${logdir}/messages-warning | awk &amp;quot;{print }&amp;quot;</code><br>if [ $size -gt $capacity ]<br>then<br>cat ${backupdir}/messages-warning &gt; ${logdir}/messages-warning<br>fi size=<code>wc ${logdir}/messages-debug | awk &amp;quot;{print }&amp;quot;</code><br>if [ $size -gt $capacity ]<br>then<br>cat ${backupdir}/messages-debug &gt; ${logdir}/messages-debug<br>fi<br>#+&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;+<br>&nbsp;&nbsp;       reboot系统，这个脚本就会生效。<br><br><br>//将info或更高级别的消息送到/var/log/messages，除了mail以外。<br>//其中<em>是通配符，代表任何设备；none表示不对任何级别的信息进行记录。<br></em>.info;mail.none;authpriv.none&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  /var/log/messages<br><br>//将authpirv设备的任何级别的信息记录到/var/log/secure文件中，这主要是一些和认、权限使用相关的信息。<br>authpriv.<em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  /var/log/secure<br><br>//将mail设备中的任何级别的信息记录到/var/log/maillog文件中，这主要是和电子邮件相关的信息。<br>mail.</em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  /var/log/maillog<br><br>//将cron设备中的任何级别的信息记录到/var/log/cron文件中，这主要是和系统中定期执行的任务相关的信息。<br>cron.<em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  /var/log/cron<br><br>//将任何设备的emerg级别的信息发送给所有正在系统上的用户。<br></em>.emerg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <em><br><br>//将uucp和news设备的crit级别的信息记录到/var/log/spooler文件中。<br>uucp,news.crit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  /var/log/spooler<br><br>//将和系统启动相关的信息记录到/var/log/boot.log文件中。<br>local7.</em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  /var/log/boot.log <br><br><br><br>消息是如何记录的<br>printk函数将消息写到一个长度为LOG_BUF_LEN个字节的循环缓冲区中。然后唤醒任何等待消息的进程，即那 些在调用syslog系统调用或读取/proc/kmesg过程中睡眠的进程。这两个访问记录引擎的接口是等价的。<br><br>如果循环缓冲区填满了，printk就绕到缓冲区的开始处 填写新数据，覆盖旧数据。于是记录进程就丢失了最旧的数据。这个问题与利用循环缓冲区所获得的好处相比可以忽略不计。例如，循环缓冲区可以使系统在没有记 录进程的情况下照样运行，同时又不浪费内存。Linux处理消息的方法的另一个特点是，可以在任何地方调用printk，甚至在中断处理函数里也可以调 用，而且对数据量的大小没有限制。这个方法的唯一缺点就是可能丢失某些数据。<br><br>如果klogd正在运行，它读取内核消息并将它们分派到 syslogd，它随后检查/etc/syslog.conf找到处理这些数据的方式。syslogd根据一个&ldquo;设施&rdquo;和&ldquo;优先级&rdquo;切分消息；可以使用的 值定义在&lt;sys/syslog.h&gt;中。内核消息根据相应printk中指定的优先级记录到LOG_KERN设施中。如果klogd没有运 行，数据将保存在循环缓冲区中直到有进程来读取数据或数据溢出。<br><br>可以给 klogd指定-f（文件）选项或修改/etc/syslog.conf将记录写到另一个文件中。另一种方法是一种强硬方法：杀掉klogd，将消息打印 到不用的虚终端上*，或者在一个不用的xterm上执行cat /proc/kmesg显示消息。<br><br><a target="_blank" href="http://blog.csdn.net/cugxueyu/archive/2007/12/21/1957740.aspx">http://blog.csdn.net/cugxueyu/archive/2007/12/21/1957740.aspx</a><br><img class="blogimg" small="0" src="http://img.pickbox.me/wp-content/uploads/pic/0d4eb68feb61a2f9f01f36b9.jpg"><br><br><br><br><br>～～end～～ </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/11/11/【zz】printk-调试信息分级显示脚本的编写方法/" class="archive-article-date">
+  	<time datetime="2007-11-11T10:39:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-11-11</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux-Debug/">Linux Debug</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-The-ELF-Auxiliary-Table" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2007/11/04/The-ELF-Auxiliary-Table/">The ELF Auxiliary Table</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> The ELF Auxiliary Table</p><p>Every process has a stack, but the system defines no fixed stack address.  Furthermore, a program’s     stack address can change from one system to another, and even from one process invocation to another.  Thus     the process initialization code must use the stack address in general purpose register r1.  Data in the stack     segment at addresses below the stack pointer contain undefined values.</p><p>Whereas the argument and environment vectors transmit information from one application program to     another, the auxiliary vector conveys information from the operating system to the program.  This vector is     an array of structures, defined as follows:</p>                                    typedef struct<br>{<br>  int     a_type;<br>  union<br>    {<br>      long  a_val;<br>      void  <em>a_ptr;<br>      void  (</em>a_fcn)();<br>    } a_un;<br>} auxv_t;                                                            Name                Value       a_un field<br><br>AT_NULL             0           ignored<br>AT_IGNORE           1           ignored<br>AT_EXECFD           2           a_val<br>AT_PHDR             3           a_ptr<br>AT_PHENT            4           a_val<br>AT_PHNUM            5           a_val<br>AT_PAGESZ           6           a_val<br>AT_BASE             7           a_ptr<br>AT_FLAGS            8           a_val<br>AT_ENTRY            9           a_ptr<br>AT_HWCAP            16          a_val<br>AT_DCACHEBSIZE      19          a_val<br>AT_ICACHEBSIZE      20          a_val<br>AT_UCACHEBSIZE      21          a_val                        <dl><dt>AT_NULL</dt><dd><p>The auxiliary vector has no fixed length; instead an entry of this type denotes the end of the vector.  The corresponding value of a_un is undefined.</p></dd><dt>AT_IGNORE</dt><dd><p>This type indicates the entry has no meaning. The corresponding value of a_un is undefined.</p></dd><dt>AT_EXECFD</dt><dd><p>As Chapter 5 in the System V ABI describes, exec may pass control to an interpreter program.  When this happens, the system places either an entry of type AT_EXECFD or one of type AT_PHDR in the auxiliary vector.  The entry for type AT_EXECFD uses the a_val member to contain a file descriptor open to read the application program’s object file.</p></dd><dt>AT_PHDR</dt><dd><p>Under some conditions, the system creates the memory image of the application program before passing control to an interpreter program.  When this happens, the a_ptr member of the AT_PHDR entry tells the interpreter where to find the program header table in the memory image.  If the AT_PHDR entry is present, entries of types AT_PHENT, AT_PHNUM, and AT_ENTRY must also be present.  See the section Program Header in Chapter 5 of the System V ABI and <a href="http://www.linux-foundation.org/spec/ELF/ppc64/spec/c917.html" target="_blank" rel="external">the chapter called <em>Program Loading and Dynamic Linking</em></a> of this processor supplement for more information about the program header table.</p></dd><dt>AT_PHENT</dt><dd><p>The a_val member of this entry holds the size, in bytes, of one entry in the program header table to which the AT_PHDR entry points.</p></dd><dt>AT_PHNUM</dt><dd><p>The a_val member of this entry holds the number of entries in the program header table to which the AT_PHDR entry points.</p></dd><dt>AT_PAGESZ</dt><dd><p>If present, this entry’s a_val member gives the system page size in bytes.  The same information is also available through the sysconf system call.</p></dd><dt>AT_BASE</dt><dd><p>The a_ptr member of this entry holds the base address at which the interpreter program was loaded into memory.  See the section Program Header in Chapter 5 of the System V ABI for more information about the base address.</p></dd><dt>AT_FLAGS</dt><dd><p>If present, the a_val member of this entry holds 1-bit flags.  Bits with undefined semantics are set to zero.</p></dd><dt>AT_ENTRY</dt><dd><p>The a_ptr member of this entry holds the entry point of the application program to which the interpreter program should transfer control.</p></dd><dt>AT_DCACHEBSIZE</dt><dd><p>The a_val member of this entry gives the data cache block size for processors on the system on which this program is running.  If the processors have unified caches, AT_DCACHEBSIZE is the same as AT_UCACHEBSIZE.</p></dd><dt>AT_ICACHEBSIZE</dt><dd><p>The a_val member of this entry gives the instruction cache block size for processors on the system on which this program is running.  If the processors have unified caches, AT_DCACHEBSIZE is the same as AT_UCACHEBSIZE.</p></dd><dt>AT_UCACHEBSIZE</dt><dd><p>The a_val member of this entry is zero if the processors on the system on which this program is running do not have a unified instruction and data cache.  Otherwise, it gives the cache block size.</p></dd><dt>AT_HWCAP</dt><dd><p>The a_val member of this entry is bit map of hardware     capabilities. Some bit mask values include:</p>                                    PPC_FEATURE_32               0x80000000 /<em> Always set for powerpc64 </em>/<br>PPC_FEATURE_64               0x40000000 /<em> Always set for powerpc64 </em>/<br>PPC_FEATURE_HAS_ALTIVEC      0x10000000<br>PPC_FEATURE_HAS_FPU          0x08000000<br>PPC_FEATURE_HAS_MMU          0x04000000<br>PPC_FEATURE_UNIFIED_CACHE    0x01000000                        </dd></dl><p>Other auxiliary vector types are reserved.  No flags are currently defined for AT_FLAGS on the 64-bit PowerPC Architecture.</p><p>When a process receives control, its stack holds the arguments, environment, and auxiliary vector from exec.  Argument strings, environment strings, and the auxiliary information appear in no specific order within the information block; the system makes no guarantees about their relative arrangement.  The system may also leave an unspecified amount of memory between the null auxiliary vector entry and the beginning of the information block.  The back chain word of the first stack frame contains a null pointer (0).</p> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/11/04/The-ELF-Auxiliary-Table/" class="archive-article-date">
+  	<time datetime="2007-11-03T17:04:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-11-04</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux/">Linux</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-【zz】输出1-2-100-99-2-1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2007/11/03/【zz】输出1-2-100-99-2-1/">【zz】输出1,2,...,100,99,...,2,1</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <a href="http://www.cppblog.com/shifan3/archive/2007/11/02/35767.html" target="_blank">www.cppblog.com/shifan3/archive/2007/11/02/35767.html</a><br></p><p>输出1,2,…,100,99,…,2,1<br>短路算法和逗号表达式粉墨登场了，一行搞定~</p><p>#include &lt;cstdio&gt;</p><p>void f(int i,int n)<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;    printf(&quot;%dn&quot;,i),(i&lt;n)&amp;&amp;(f(i+1,n),printf(&quot;%dn&quot;,i));<br>}</p><p>int main()<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;    f(1,100);<br>}</p><p> </p><p><br></p> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/11/03/【zz】输出1-2-100-99-2-1/" class="archive-article-date">
+  	<time datetime="2007-11-03T12:50:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-11-03</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-编写操作系统之使用GRUB-multiboot" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2007/11/03/编写操作系统之使用GRUB-multiboot/">编写操作系统之使用GRUB multiboot</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <a href="http://www.oldlinux.org/oldlinux/viewthread.php?tid=6177" target="_blank">【原文】www.oldlinux.org/oldlinux/viewthread.php</a><br><br>Multiboot Specification<br><a href="http://www.gnu.org/software/grub/manual/multiboot/multiboot.html#multiboot_002eh" target="_blank">www.gnu.org/software/grub/manual/multiboot/multiboot.html#multiboot_002eh</a><br><br>编写操作系统之使用GRUB<br><br>[这个贴子最后由sololxy在 2006/04/24 03:21am 第 2 次编辑]<br><br><img src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_oldlinux_rar.gif" class="absmiddle"> <a href="http://www.oldlinux.org/oldlinux/attachment.php?aid=241" target="_blank">9_454.rar</a> (18.26 KB)<br>使用GRUB<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;     翻译   :&nbsp;&nbsp;  solo_lxy<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;     E-mail :&nbsp;&nbsp;<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;     QQ  &nbsp;&nbsp;&nbsp;  :&nbsp;&nbsp;  36727308<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;     MSN    :&nbsp;&nbsp;<br>（GRUB的英文主页可以在<a href="http://www.gnu.org/software/grub/grub.en.html" target="_blank">http://www.gnu.org/software/grub/grub.en.html</a> 上找到）<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  本教程是由Chris Giese贡献的，可以到其网站（这个地址已经无效了&#61516; ）参看英文版。<br>=========================================================<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;     参考<br>=========================================================<br>这些都是我在使用GRUB时经验积累，可以在alt.os.development（我也没上去&#61516;,郁闷拉）上找到相关帖子的原版：<br>Subject: Re: generic bootloader question<br>Newsgroups: alt.os.development<br>From: &quot;Marv&quot; <br>Date: Sat, 7 Apr 2001 23:35:20 +0100<br>References: &lt;9antu8$glc$&gt;<br>Message-ID: &lt;986682856.680474@dionysos&gt;<br>Subject: Re: Grub multiboot example<br>Newsgroups: alt.os.development<br>From: &quot;Marv&quot; <br>Date: Mon, 4 Jun 2001 17:21:17 +0100<br>References: &lt;&gt;<br>Message-ID: <br>Subject: Re: Grub multiboot example<br>Newsgroups: alt.os.development<br>From: &quot;Mike Wimpy&quot; <br>Date: Thu, 7 Jun 2001 22:17:51 -0700<br>References: &lt;&gt; &lt;&gt; &lt;&gt; &lt;&gt; &lt;&gt; &lt;&gt;<br>Message-ID: &lt;&gt;<br>Subject: Re: grub coff (solved it!)<br>Newsgroups: alt.os.development<br>From: &quot;Mark &amp; Candice White&quot; <br>Date: Sun, 16 Sep 2001 10:57:34 GMT<br>References: <br>Message-ID: <br><br>获取GRUB<br>原代码地址： <br>可执行程序： <br>DOS和Windows用户所需要的PARTCOPY和RAWRITE工具可以在以下网址下载：<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;<a href="http://www.execpc.com/%7Egeezer/johnfine/index.htm#zero" target="_blank">http://www.execpc.com/~geezer/johnfine/index.htm#zero</a><br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;<a href="http://uranus.it.swin.edu.au/%7Ejn/linux/rawwrite.htm" target="_blank">http://uranus.it.swin.edu.au/~jn/linux/rawwrite.htm</a><br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;<a href="http://www.tux.org/pub/dos/rawrite/" target="_blank">http://www.tux.org/pub/dos/rawrite/</a><br>建立GRUB<br>类Unix环境可以在shell上执行以下命令：<br>&gt; ./configure<br>&gt; make<br>（…我想应该是这样的…）<br>（实在不行可以参看源代码中的Readme、FAQ或INSTALL文件&#61514;）<br>DOS和Windows用户请参看源代码中的安装文档。（作者并没有给出相关方法，我也不想在这上面花时间，因为我不怎么喜欢在DO或Windows上做这样的事情&#61514;）<br>在没有文件系统的软盘上安装GRUB<br>1.  &nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  获取GRUB的二进制文件（stage1和stage2）<br>2.  &nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  合并stage1、stage2到一个文件：<br>（DOS)  &nbsp;&nbsp;   &nbsp;&nbsp;     &gt; copy&nbsp;&nbsp;  /b stage1 + stage2 boot<br>（UNIX）  &nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  &gt; cat stage1 stage2 &gt; boot<br>3.  &nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  直接将boot文件写进软盘：<br>（DOS)  &nbsp;&nbsp;   &nbsp;&nbsp;     &gt; rewrite boot a:<br>或者  &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;    &gt; partcopy boot 0 168000 &ndash;f0<br>（UNIX）  &nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  &gt; cat stage1 stage2 &gt; boot<br>使用partcopy时它可能会报告说boot文件大小不到0x168000字节，不过不要紧。<br>在已经安装了文件系统的软盘上安装GRUB<br>1.  &nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  按照上面的介绍制作一个带有GRUB可以启动的软盘。<br>2.  &nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  将stage1和stage2拷贝到另外一张安装了文件系统的软盘上，注意该软盘的文件系统必须是GRUB可以识别的。为了使用GRUB的 setup命令，stage1和stage2必须放在安装了文件系统的软盘的/boot/grub目录下，具体操作如下：<br>（DOS）&nbsp;&nbsp;  &gt; mkdir a:boot<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  &gt; mkdir a:bootgrub<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  &gt; copy stage1 a:bootgrub<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  &gt; copy stage2 a:bootgrub<br>（UNIX） &gt; mount /dev/fd0 /mnt<br>&nbsp;&nbsp;   &nbsp;&nbsp;     &gt; mkdir /mnt/boot<br>&nbsp;&nbsp;   &nbsp;&nbsp;     &gt; mkdir /mnt/boot/grub<br>&gt; cp stage1 /mnt/boot/grub<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;    &gt; cp stage2 /mnt/boot/grub<br>3. 在第二个软盘上安装了GRUB后，就不要再修改、移动、删除或经过碎片整理了。一旦被修改，这个软盘就不能在用于启动了！为了防止修改，可以让这个文件变成只读的：<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  (DOS)   attrib +r +s stage2<br>(UNIX)&nbsp;&nbsp;  chmod a-w stage2<br>以上的DOS命令使得stage2变成一个只读的系统文件。这样可以防止碎片整理。<br>注意：stage1文件此时已经被拷贝至启动扇区。如果这个文件在GRUB安装后被删除，则该软盘还是可以启动的，这与stage2不同。<br>3.  &nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  用不带文件系统的软盘启动电脑。当GRUB提示符出现后，取出软盘，插入拷贝了stage1和stage2的带有文件系统的第二张软盘。<br>4.  &nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  如果stage1和stage2已经在/boot/grub目录中，那么可以简单的键入如下命令安装GRUB:<br>&nbsp;&nbsp;     setup (fd0)<br>这条命令显然同下面的命令等效：<br>&nbsp;&nbsp;     install /boot/grub/stage1 d (fd0) /boot/grub/stage2 p <br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;    /boot/grub/menu.lst<br>如果stage1和stage2在其他位置，如在子文件夹/foo中，那么按照如下的方式安装：<br>&nbsp;&nbsp;     install = (fd0)/foo/stage1 (fd0) (fd0)/foo/stage2 0x800 p<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  (fd0)/foo/menu.lst<br>这样带有文件系统的这张软盘就可以作为启动了盘了。<br>xxx - 从第二张软盘上启动，拷贝一个新的stage2并修改其访问属性，然后重新执行setup或install，这样可行吗？（xxx &ndash; GRUB并不是一个shell – 它不能拷贝文件或是列出文件夹 &ndash; 不是吗？）<br>xxx &ndash; 安装语法：<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  0x8000，这个值被写入软盘的驱动扇区，它指示stage2被加载到内存后的首地址。<br>&nbsp;&nbsp;     P,修改stage2,告诉内核stage2所在的分区（我想是这样的）。<br>&nbsp;&nbsp;     (fd0)/boot/grub/menu.lst,修改stage2,告诉GRUB到哪儿去加载menu.lst（启动<br>菜单)配置文件。<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;<br> 制作多启动内核<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  无论你的内核是什么样的文件格式，你的内核必须要有多启动头(multiboot header)。这个头必须是4字节对齐，并且必须在内核的前8k字节以前。<br>注意：一个.text段前8K的地址不必是某个开始文件的前8K.<br>ELF内核<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  GRUB可以直接识别ELF文件格式。如果你的内核是ELF内核，可以使用下面简单的多启动头：<br>MULTIBOOT_PAGE_ALIGN  &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  equ 1&lt;&lt;0<br>MULTIBOOT_MEMORY_INFO  &nbsp;&nbsp;   &nbsp;&nbsp;     equ 1&lt;&lt;1<br>MULTIBOOT_HEADER_MAGIC  &nbsp;&nbsp;   &nbsp;&nbsp;    equ 0x1BADB002<br>MULTIBOOT_HEADER_FLAGS  &nbsp;&nbsp;   &nbsp;&nbsp;    equ MULTIBOOT_PAGE_ALIGN | MULTIBOOT_MEMORY_INFO<br>CHECKSUM  &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  equ -(MULTIBOOT_HEADER_MAGIC + MULTIBOOT_HEADER_FLAGS)<br> ; 多启动头( NASM 语法)<br>ALIGN 4<br>DD MULTIBOOT_HEADER_MAGIC<br>DD MULTIBOOT_HEADER_FLAGS<br>DD CHECKSUM<br>将上面的代码放在靠近内核启动代码的开始处，然后建立内核。在建立的内核以后，使用GRUB的mbchk功能函数测试内核是否能用于多启动<br>内核的加载地址<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  GRUB从ELF内核文件中读取物理地址（加载地址；LMA）。这个值必须大于或等于1M，并且小于真实的物理RAM的大小。<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  如果加载地址在1M以下，会发生#7号错误：<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;     Loading below 1MB is not suppored<br>注意：这是GRUB的限制，并不是多启动机制的限制。<br>如果你使用了像0xC0000000这样的地址，显然是溢出了，同样会得到#7号错误。<br>注意：mbchk并不会检查这样的错误。<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  一般情况下，物理地址就是虚拟地址VMA，这可以在连接脚本或连接器的命令行中设置（&ldquo;ld &ndash;Ttext=0x100000 …&rdquo;）。如果你的连接器版本支持的话，物理地址和虚拟地址可以用&ldquo;AT&rdquo;在连接脚本里独立的指定：<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  OUTPUT_FORMAT(&quot;elf32-i386&quot;<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  ENTRY(entry)<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  virt = 0xC0000000; /<em> 3 G </em>/<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  phys = 0x100000;&nbsp;&nbsp;  /<em> 1 M </em>/<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  SECTIONS<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  {   <br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;    .text virt : AT(phys)<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;    {   code = .;<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;     <em>(.text)<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;     . = ALIGN(4096); <br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;    }<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;    .data :&nbsp;&nbsp;  AT(phys + (data - code))<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;    {   data = .;<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;     </em>(.data)<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;     . = ALIGN(4096); <br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;    }<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;    .bss :&nbsp;&nbsp;  AT(phys + (bss - code))<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;    {   bss = .;<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;     <em>(.bss)<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;     </em>(COMMON)<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;     . = ALIGN(4096); }<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;     end = .; <br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;    }<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  }<br>连接完成后，使用objdump &ndash;h查看地址是否正确。<br>DJGPP的COFF文件格式和其他文件格式<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  DJGPP用户可以使用下面这个工具制作ELF文件。<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;     <a href="http://www.multimania.com/placr/binutils.html" target="_blank">http://www.multimania.com/placr/binutils.html</a><br>（xxx &ndash; 这个服务器一般很难打开的，如果你愿意可以给它作个镜像。我无能为力，因为我的磁盘空间不够&#61514;）<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  我推荐建立标准的COFF文件，然后这样做：<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;     Objcopy-elf &ndash;O elf32-i386 krnl.cof kenl.elf<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  如果这样不行的话，你可以使用&ldquo;AOUT KLUDGE&rdquo;让GRUB加载COFF文件。这需要在多启动头的后面添加额外的域（field），像下面这样：<br>MULTIBOOT_PAGE_ALIGN  &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  equ 1&lt;&lt;0<br>MULTIBOOT_MEMORY_INFO  &nbsp;&nbsp;   &nbsp;&nbsp;     equ 1&lt;&lt;1<br>MULTIBOOT_AOUT_KLUDGE  &nbsp;&nbsp;   &nbsp;&nbsp;     equ 1&lt;&lt;16<br>MULTIBOOT_HEADER_MAGIC  &nbsp;&nbsp;   &nbsp;&nbsp;    equ 0x1BADB002<br>MULTIBOOT_HEADER_FLAGS  &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;     equ MULTIBOOT_PAGE_ALIGN| MULTIBOOT_MEMORY_INFO | MULTIBOOT_AOUT_KLUDGE<br>CHECKSUM  &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;    equ -(MULTIBOOT_HEADER_MAGIC + MULTIBOOT_HEADER_FLAGS)<br>; The Multiboot header<br>ALIGN 4<br>mboot:<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  DD MULTIBOOT_HEADER_MAGIC<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  DD MULTIBOOT_HEADER_FLAGS<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  DD CHECKSUM<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  ;如果设置了在MULTIBOOT_HEADER_FLAGS<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  ;中设置了MULTIBOOT_AOUT_KLUDGE<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  DD mboot  &nbsp;&nbsp;   &nbsp;&nbsp;    ; these are PHYSICAL addresses<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  DD code  &nbsp;&nbsp;   &nbsp;&nbsp;     ; start of kernel .text (code) section<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  DD edata  &nbsp;&nbsp;   &nbsp;&nbsp;    ; end of kernel .data section<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  DD end  &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  ; end of kernel BSS<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  DD start  &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  ; kernel entry point (initial EIP)<br>注意：如果是二进制或其他文件格式，则同样需要&ldquo;AOUT KLUDGE&rdquo;。（xxx &ndash; 没有测试过，也许是正确的）。<br>启动内核<br>1.  &nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  确定你的内核在GRUB方便找到的位置。不必非得在软盘上（靠，这个真COOL）。<br>2.  &nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  从GRUB软盘上启动。<br>3.  &nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  （可选的）告诉GRUB，它的根文件夹所使用的设备。<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;     root (hd0,1)<br>这将挂载（mount）第一块硬盘的第二个主分区，以其作为做为根文件夹。<br>4.  &nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  告诉GRUB你的内核在哪儿：<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;    kernel&nbsp;&nbsp;  /krnl.elf<br>如果你没有指定根设备，就必须在路径名上显式指定：<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;    kernel&nbsp;&nbsp;  (hd0,1)/krnl.elf<br>5.  &nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  如果GRUB没有出现任何错误，那么就可以直接启动了&#61514;:<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;    boot<br>利用GRUB向你的内核传递信息<br>启动后，在32位内核进入点，机器状态如下：<br>1.  &nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  CS指向基地址为0x00000000,限长为4G &ndash; 1的代码段描述符。<br>2.  &nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  DS，SS，ES，FS和GS指向基地址为0x00000000,限长为4G &ndash; 1的数据段描述符。<br>3.  &nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  A20地址线已经打开。<br>4.  &nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  页机制被禁止。<br>5.  &nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  中断被禁止。<br>6.  &nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  EAX = 0x2BADB002<br>7.  &nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  系统信息和启动信息块的线性地址保存在 EBX中（相当于一个指针）。<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;     /<em> 多启动信息结构 </em>/<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  typedef struct multiboot_info<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  {<br>&nbsp;&nbsp;   &nbsp;&nbsp;     unsigned long flags;<br>&nbsp;&nbsp;   &nbsp;&nbsp;     unsigned long mem_lower;<br>&nbsp;&nbsp;   &nbsp;&nbsp;     unsigned long mem_upper;<br>&nbsp;&nbsp;   &nbsp;&nbsp;     unsigned long boot_device;<br>&nbsp;&nbsp;   &nbsp;&nbsp;     unsigned long cmdline;<br>&nbsp;&nbsp;   &nbsp;&nbsp;     unsigned long mods_count;<br>&nbsp;&nbsp;   &nbsp;&nbsp;     unsigned long mods_addr;<br>&nbsp;&nbsp;   &nbsp;&nbsp;     union<br>&nbsp;&nbsp;   &nbsp;&nbsp;     {<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;    aout_symbol_table_t aout_sym;<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;    elf_section_header_table_t elf_sec;<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  } u;<br>&nbsp;&nbsp;   &nbsp;&nbsp;     unsigned long mmap_length;<br>&nbsp;&nbsp;   &nbsp;&nbsp;     unsigned long mmap_addr;<br>&nbsp;&nbsp;   &nbsp;&nbsp;    } multiboot_info_t;<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  在调用main函数之前将EBX的值压入堆栈，就可以使用C代码来访问以上结构中的相关信息了&#61514;，示例代码如下：<br>汇编启动代码：<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;     …<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;     push ebx<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;     call main ; &ldquo;call main&rdquo; for Linux/ELF<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;     …<br>C语言代码：<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;     #include &lt;…&gt;<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;     int main(multiboot_info_t<em> boot_info)<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;     {<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;    if( boot_info-&gt;flags &amp; 2)<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;    {<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  Kprintf(&ldquo;the command line is:&rsquo;%s&rsquo;n&rdquo;,<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;     (char</em>) boot_info-&gt;cmdline);<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;    }<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;    …<br>&nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;     }<br>制作启动菜单<br>示例1：<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  # Entry 0:<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  title   WildMagnolia<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  root    (fd0)<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  kernel&nbsp;&nbsp;  /boot/kernel.elf<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  module&nbsp;&nbsp;  /boot/mod_a<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  module&nbsp;&nbsp;  /boot/mod_b<br>示例2:<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  #<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  # Sample boot menu configuration file<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  #<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  #&nbsp;&nbsp;  default - boot the first entry.<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  default 0<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  # if have problem - boot the second entry.<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  fallback 1<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  # after 30 sec boot default.<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  timeout 30<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  # GNU Hurd<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  title  &nbsp;&nbsp;   &nbsp;&nbsp;     GNU/Hurd<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  root  &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  (hd0,0)<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  kernel  &nbsp;&nbsp;   &nbsp;&nbsp;    /boot/gnumach.gz root=hd0s1<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  module  &nbsp;&nbsp;   &nbsp;&nbsp;    /boot/serverboot.gz<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  # Linux - boot ot second HDD<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  title  &nbsp;&nbsp;   &nbsp;&nbsp;     GNU/Linux<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  kernel  &nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  (hd1,0)/vmlinuz root=/dev/hdb1<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  # booting Mach - get kernel from floppy<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  title  &nbsp;&nbsp;   &nbsp;&nbsp;     Utah Mach4 multiboot<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  root  &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  (hd0,2)<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  pause  &nbsp;&nbsp;   &nbsp;&nbsp;     Insert the diskette now!!<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  kernel  &nbsp;&nbsp;   &nbsp;&nbsp;    (fd0)/boot/kernel root=hd0s3<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  module  &nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  (fd0)/boot/bootstrap<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  # booting OS/2<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  title  &nbsp;&nbsp;   &nbsp;&nbsp;    OS/2<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  root  &nbsp;&nbsp;   &nbsp;&nbsp;     (hd0,1)<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  makeactive<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  # chainload OS/2 bootloader from the first sector<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  chainloader +1<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  # For booting Windows NT or Windows95<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  title  &nbsp;&nbsp;   &nbsp;&nbsp;    Windows NT / Windows 95 boot menu<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  root  &nbsp;&nbsp;&nbsp;  (hd0,0)<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  makeactive<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  chainloader +1<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  # za boot na DOS ako Windows NT e instaliran<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  # chainload /bootsect.dos<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  # Colors change :0).<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  title  &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  Change the colors<br>&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  color  &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;  light-green/brown blink-red/blue<br><br>为内核加载模块(module)<br>=======================================================================<br>xxx<br>=======================================================================<br>=======================================================================<br>Other<br>=======================================================================<br>(看来作者并没有写全这些，真遗憾！&#61514;<br>- gzip-compressed kernels?用gzip压缩的内核如何处理呢？<br>- does GRUB understand kernel file formats other than ELF?<br>- GRUB除了可以处理ELF内核以外还可以处理其他的吗？<br>by K.J.<br>Yes, you may also compile your kernel as a COFF file or an AOUT file.<br>K.J回答说你可以把你的内核编译成COFF或AOUT文件。（纯二进制文件一样是可以处理的&#61514;,我正在写的一个内核就是使用纯二进制的，它可以让我更清楚的知道我的代码在内存的什么位置，这样对我来说更了然入胸&#61514;。）<br><br>(在使用GRUB的过程中也出现了不少问题，有些到现在还没搞得太清楚，那位大虾在行的话不妨让我请教请教，谢谢了！&#61514; 转贴请注明原文和翻译的文章,也不枉我敲了两个小时的中文，谢谢&#61514; ) </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/11/03/编写操作系统之使用GRUB-multiboot/" class="archive-article-date">
+  	<time datetime="2007-11-03T10:20:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-11-03</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux/">Linux</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Makefile-chains-of-implicit-rules-examples" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2007/10/26/Makefile-chains-of-implicit-rules-examples/">Makefile : chains of implicit rules examples</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> chains of implicit rules examples<br>the source code:<br></p><p>                        ///////////////////////////////////////////////////////////////////<br>            //main.e:<br>            #include &quot;fun1.h&quot;<br>            #include &quot;fun2.h&quot;<br> <br>            int main()<br>            {<br>            &nbsp;&nbsp;&nbsp;       fun1();<br>            &nbsp;&nbsp;&nbsp;       fun2();<br>            &nbsp;&nbsp;&nbsp;       printf(&quot;mainn&quot;);<br>            }<br> <br>            ///////////////////////////////////////////////////////////////////<br>            //fun1.h<br>            void fun1();<br> <br>            ///////////////////////////////////////////////////////////////////<br>            //fun2.h<br>            void fun2();<br> <br>            ///////////////////////////////////////////////////////////////////<br>            //fun1.e<br>            #include &lt;stdio.h&gt;<br>            #include &quot;fun1.h&quot;<br> <br>            void fun1()<br>            {<br>            &nbsp;&nbsp;&nbsp;       printf(&quot;fun1n&quot;);<br>            }<br> <br>            ///////////////////////////////////////////////////////////////////<br>            //fun2.e<br>            #include &lt;stdio.h&gt;<br>            #include &quot;fun2.h&quot;<br> <br>            void fun2()<br>            {<br>            &nbsp;&nbsp;&nbsp;       printf(&quot;fun2n&quot;);<br>            }<br> <br>            ###################################################################<br>            ##Makefile<br>            all : main<br> <br>            .SUFFIXES:<br> <br>            %c : %e<br>            &nbsp;&nbsp;&nbsp;       cp $&lt; $@<br> <br>            %.o: %.c<br>            &nbsp;&nbsp;&nbsp;       @sleep 1<br>            &nbsp;&nbsp;&nbsp;       $(CC) -MD -c -o $@ $(CFLAGS) $&lt;<br> <br>            OBJS = fun1.o fun2.o main.o<br> <br>            main : $(OBJS)<br>            &nbsp;&nbsp;&nbsp;       $(CC) -o $@ $^<br> <br>            clean :<br>            &nbsp;&nbsp;&nbsp;       rm -f $(OBJS) $(OBJS:%.o=%) $(OBJS:%.o=%.d) $(OBJS:%.o=%.c) depend<br> <br>            comma := ,<br>            depend: $(wildcard <em>.d)<br>            &nbsp;&nbsp;&nbsp;       if test -f depend; then sed $(patsubst %.d,-e ‘/^%.o/$(comma)/^#/d’,$^) &lt;depend &gt;depend.new; fi; true<br>            &nbsp;&nbsp;&nbsp;       (for file in $^ /dev/null; do (cat $$file; echo ‘#’); done) &gt;&gt;depend.new<br>            &nbsp;&nbsp;&nbsp;       mv -f depend.new depend<br>            &nbsp;&nbsp;&nbsp;       if test &quot;&quot; != &quot;$^&quot;; then rm -f $^; fi; true<br> <br> <br>            # Include the dependency graph (if it exists).<br>            -include depend            </em></p>note that sleep 1 is added before $(CC), this is to distinguish the file-create time of .d(depend file) and depend(ie: make file &quot;depend&quot; the oldest).<br><br>the output :<br><p>                        [jfo@redhat9 test]$ make clean<br>            if test -f depend; then sed  &lt;depend &gt;depend.new; fi; true<br>            (for file in  /dev/null; do (cat $file; echo ‘#’); done) &gt;&gt;depend.new<br>            mv -f depend.new depend<br>            if test &quot;&quot; != &quot;&quot;; then rm -f ; fi; true<br>             rm -f fun1.o fun2.o main.o fun1 fun2 main fun1.d fun2.d main.d fun1.c fun2.c main.c depend<br> <br>            [jfo@redhat9 test]$ make<br>            if test -f depend; then sed  &lt;depend &gt;depend.new; fi; true<br>            (for file in  /dev/null; do (cat $file; echo ‘#’); done) &gt;&gt;depend.new<br>            mv -f depend.new depend<br>            if test &quot;&quot; != &quot;&quot;; then rm -f ; fi; true<br>            cp fun1.e fun1.c<br>            cc -MD -c -o fun1.o  fun1.c<br>            cp fun2.e fun2.c<br>            cc -MD -c -o fun2.o  fun2.c<br>            cp main.e main.c<br>            cc -MD -c -o main.o  main.c<br>            cc -o main fun1.o fun2.o main.o<br>                         rm fun1.c main.c fun2.c<br> <br>            [jfo@redhat9 test]$ make<br>            if test -f depend; then sed -e ‘/^fun1.o/,/^#/d’ -e ‘/^fun2.o/,/^#/d’ -e ‘/^main.o/,/^#/d’ &lt;depend &gt;depend.new; fi; true<br>            (for file in fun1.d fun2.d main.d /dev/null; do (cat $file; echo ‘#’); done) &gt;&gt;depend.new<br>            mv -f depend.new depend<br>            if test &quot;&quot; != &quot;fun1.d fun2.d main.d&quot;; then rm -f fun1.d fun2.d main.d; fi; true<br>            cp fun1.e fun1.c<br>            cc -MD -c -o fun1.o  fun1.c<br>            cp fun2.e fun2.c<br>            cc -MD -c -o fun2.o  fun2.c<br>            cp main.e main.c<br>            cc -MD -c -o main.o  main.c<br>            cc -o main fun1.o fun2.o main.o<br> <br>            [jfo@redhat9 test]$ make<br>            if test -f depend; then sed -e ‘/^fun1.o/,/^#/d’ -e ‘/^fun2.o/,/^#/d’ -e ‘/^main.o/,/^#/d’ &lt;depend &gt;depend.new; fi; true<br>            (for file in fun1.d fun2.d main.d /dev/null; do (cat $file; echo ‘#’); done) &gt;&gt;depend.new<br>            mv -f depend.new depend<br>            if test &quot;&quot; != &quot;fun1.d fun2.d main.d&quot;; then rm -f fun1.d fun2.d main.d; fi; true<br>            make: Nothing to be done for <code>all&#39;.&lt;br /&gt; &lt;br /&gt;            [jfo@redhat9 test]$ make&lt;br /&gt;            make: Nothing to be done for</code>all’.<br> <br> </p>Take note of the last line of the first make command output. This is similar to that of oskit when doing <code>make all&#39; in $(OSKIT_SRC)/kern directory, which output &amp;quot;rm x86_asm.symc trap_asm.symc.o x86_asm.symc.o pc_asm.symc.o pc_asm.symc trap_asm.symc&amp;quot;. But when you</code>make’ for the second time, file &quot;depend&quot; will contains<br>all the intermediate files, so implicit rules is not implict any longer. This is the very reason why the &quot;rm …&quot; didn’t appear for the second make.<br><br>everytime when a file included is older than prequisites, make will try to regenerate the target file.(just think of a Makefile includes another Makefile, it is reasonable to generate the included Makefile first if it is out of date!)<br> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/10/26/Makefile-chains-of-implicit-rules-examples/" class="archive-article-date">
+  	<time datetime="2007-10-26T13:33:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-10-26</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Makefile" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2007/10/24/Makefile/">Makefile</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>make command line options:<br>-r   Eliminate use of the built-in implicit rules. Also clear out the<br>default list of suffixes for suffix rules.<br>-s   Silent operation; do not print the commands as they are executed.<br>-t Touch files (mark them up to date without really changing them)<br>instead of running their commands. This is used to pretend that<br>the commands were done, in order to fool future invocations of<br>make.<br>-n   Print the commands that would be executed, but do not execute<br>them.<br>-k Continue as much as possible after an error. While the target<br>that failed, and those that depend on it, cannot be remade, the<br>other dependencies of these targets can be processed all the same.<br>-w   Print a message containing the working directory before and after<br>other processing.   This may be useful for tracking down errors<br>from complicated nests of recursive make commands.<br>-W file<br>Pretend that the target file has just been modified.   When used<br>with the -n flag, this shows you what would happen if you were to<br>modify that file. Without -n, it is almost the same as running a<br>touch command on the given file before running make, except that<br>the modification time is changed only in the imagination of make.<br>-d<br>–debug[=options]<br>Print debugging information in addition to normal processing. Various levels<br>and types of output can be chosen. With no arguments, print the “basic”<br>level of debugging. Possible arguments are below; only the first character is<br>considered, and values must be comma- or space-separated.<br>all All types of debugging output is enabled. This is equivalent to<br>using `-d’.<br>basic             Basic debugging prints each target that was found to be out-of-date,<br>and whether the build was successful or not.</p>
+<p>makefile contents:<br>$(addprefix -L,$(LIBDIRS))<br>$(addprefix -I,$(INCDIRS))<br>$(filter debug, $(OSKIT_OPTIONS))<br>$(filter %.c,$(FILES))<br>$(filter-out $(OSKIT_EXCLUDE),$(CFILES))</p>
+<p>applications:<br>ifneq “$(filter debug, $(OSKIT_OPTIONS))” “”<br>OSKIT_CFLAGS     += -O -g<br>else<br>OSKIT_CFLAGS     += -O2 -g<br>endif</p>
+<p>ifeq (s,$(findstring s,$(MAKEFLAGS)))<br>OSKIT_QUIET_MAKE_INFORM=@echo<br>ARFLAGS=r ## drop the v from the default<br>else<br>OSKIT_QUIET_MAKE_INFORM=@true<br>endif</p>
+<p>DEPENDLIBS = $(filter %.a, $(foreach DIR,$(LIBDIRS),$(wildcard $(DIR)/*)))</p>
+<p>Double-Colon Rules<br>Double-colon rules are rules written with <code>&lt;strong&gt;::&lt;/strong&gt;&#39; instead of</code><strong>:</strong>‘ after the target names. They<br>are handled differently from ordinary rules when the same target appears in more than one<br>rule.<br>When a target appears in multiple rules, all the rules must be the same type: all ordinary,<br>or all double-colon. If they are double-colon, each of them is independent of the others.<br>Each double-colon rule’s commands are executed if the target is older than any prerequisites<br>of that rule. This can result in executing none, any, or all of the double-colon rules.<br>Double-colon rules with the same target are in fact completely separate from one another.<br>Each double-colon rule is processed individually, just as rules with different targets are<br>processed.<br>eg:</p>
+<p>all :: p1<br>echo “all : p1”</p>
+<p>p1 :<br>echo “this is p1”</p>
+<p>p2 :<br>echo “this is p2”</p>
+<p>all :: p1 p2<br>echo “all : p1 p2”</p>
+<p>“make -s” will output:</p>
+<p>this is p1<br>all : p1<br>this is p2<br>all : p1 p2</p>
+<p>chains of implicit rules<br>The second difference is that if make does create b in order to update something else,<br>it deletes b later on after it is no longer needed. Therefore, an intermediate file which did<br>not exist before make also does not exist after make. make reports the deletion to you by<br>printing a `rm -f’ command showing which file it is deleting.</p>
+<p><a href="http://hi.baidu.com/j%5Ffo/blog/item/add3f9f246ece910b17ec5f6.html" target="_blank">the example is here.</a></p>
+<p>从选项中filter-out不需要的：</p>
+<p>CXXFLAGS := $(filter-out -fno-exceptions, $(CXXFLAGS))<br>CXXFLAGS := $(filter-out -fno-rtti, $(CXXFLAGS))</p>
+<p>如果是shell script，则可以：<br>export CFLAGS=”${CFLAGS/-mtune=generic/}”<br>export CXXFLAGS=”${CXXFLAGS/-mtune=generic/}”</p>
+<p><a href="http://blog.pickbox.me/2010/04/20/makefile%20%3a%20include%20derective/" target="_blank">another example ( ‘include’ example )</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/10/24/Makefile/" class="archive-article-date">
+  	<time datetime="2007-10-24T03:34:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-10-24</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-OBJECT-AND-LIBRARY-ORDERING" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2007/10/01/OBJECT-AND-LIBRARY-ORDERING/">OBJECT AND LIBRARY ORDERING</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> OBJECT AND LIBRARY ORDERING<br><br>  The ordering of object files, archive libraries, and shared libraries on<br>  the command line affects how symbols are resolved. For example, if an<br>  archive library appears before an object file or shared library that refer-<br>  ences one of its symbols, the linker may report that symbol as unresolved.<br><br>  Unresolved symbol errors can be avoided by adhering to the following<br>  suggestions:<br><br>    +  Object files should be ordered before all archive libraries and shared<br>       libraries.<br><br>    +  If archives and shared libraries cannot be specified in dependency<br>       order, shared libraries should be ordered before archive libraries.<br><br>    +  If necessary, archives can be specified more than once on the ld com-<br>       mand line to handle unresolved symbols that were encountered after<br>       previous symbol-resolution passes through the archives.<br><br>  Symbols defined in object files are always included in the output object.<br>  Ordering object files first might prevent the inclusion of conflicting sym-<br>  bols that are also defined in archive libraries or shared libraries speci-<br>  fied on the ld command line.<br>  Both of the following two link OK:</p><p>                                    ld -static -o hello hello.o foo.o /usr/lib/crt<em>.o  -L<code>gcc -print-file-name=</code> -lc -lgcc                        </em></p><p>                                    ld -static -o hello foo.o hello.o /usr/lib/crt.o  -L<code>gcc -print-file-name=</code> -lc -lgcc                        </p><br><br>As each object, archive library, and shared library is processed by the<br>  linker, new symbol definitions and references are added to the output<br>  object. If a symbol reference is added for a symbol that does not yet have<br>  an associated symbol definition, it is an &quot;undefined&quot; symbol.  The linker<br>  must find a definition of every undefined symbol. The definition must exist<br>  in either an object, archive, or shared library specified on the command<br>  line. Archives and shared libraries are processed in the following ways:<br><br>    +  When the linker processes an archive library, it extracts objects from<br>       the archive that define any symbols that are currently undefined.  As<br>       each object is extracted from an archive library, the linker processes<br>       the object, identifies any additional undefined symbols, and extracts<br>       the objects that define those symbols.<br>  The following links OK:<br><p>                                    ld -static -o hello hello.o foo.o /usr/lib/crt<em>.o  -L<code>gcc -print-file-name=</code> -lc -lgcc                        </em></p> But the following produces error, since libc.a depends on some functions on <br> libgcc.a:<p>                                    ld -static -o hello hello.o foo.o /usr/lib/crt.o  -L<code>gcc -print-file-name=</code> -lgcc -lc<br><br>/usr/lib/libc.a(strtoll.o)(.text+0x104): In function <code>__strtoll_internal&#39;:&lt;br /&gt;: undefined reference to</code><strong>udivdi3’<br>/usr/lib/libc.a(strtoll.o)(.text+0x118): In function `</strong>strtoll_internal’:<br>: undefined reference to <code>__umoddi3&#39;&lt;br /&gt;/usr/lib/libc.a(strtoull.o)(.text+0x104): In function</code><strong>strtoull_internal’:<br>: undefined reference to `</strong>udivdi3’<br>/usr/lib/libc.a(strtoull.o)(.text+0x118): In function <code>__strtoull_internal&#39;:&lt;br /&gt;: undefined reference to</code>__umoddi3’                        </p>  The following is another demenstration:<p>                                    ar -q libfoo.a foo.o<br>ld -static -o hello hello.o /usr/lib/crt<em>.o  -L. -lfoo -L<code>gcc -print-file-name=</code> -lc -lgcc<br><br>ld -static -o hello -lfoo hello.o /usr/lib/crt</em>.o  -L. -L<code>gcc -print-file-name=</code> -lc -lgcc<br>hello.o(.text+0x21): In function <code>main&#39;:&lt;br /&gt;: undefined reference to</code>foo’                        </p><br><br>+  When the linker processes a shared library, it extracts symbol defini-<br>       tions from the shared library for symbols that are currently unde-<br>       fined.  These symbol definitions are added to the output object. The<br>       shared library might also define many symbols that are not added to<br>       the output object. These symbols will not be considered as additional<br>       objects (archive libraries and shared libraries) are processed; how-<br>       ever, the linker does not report these symbols as unresolved if they<br>       are referenced in objects ordered after the shared library on the com-<br>       mand line. /<em> by jfo: ie they are remembered by the linker, if referenced<br> later by object files(not archive libraries or shared libraries), add them; <br> if not, discard them when generating the final object. If it is the .a or .so<br> libraries referenced them, it will be undefined. </em>/<p>                                    gcc -shared -fpic foo.c -o libfoo.so<br>gcc -shared -fpic foo2.c -o libfoo2.so<br>ld –dynamic-linker /lib/ld-linux.so.2  -L. -L<code>gcc -print-file-name=</code> -lfoo -lfoo2 -lc -lgcc_s  -o hello hello.o /usr/lib/crt<em>.o -lc<br>ld –dynamic-linker /lib/ld-linux.so.2  -L. -L<code>gcc -print-file-name=</code> -lfoo2 -lfoo -lc -lgcc_s  -o hello hello.o /usr/lib/crt</em>.o -lc<br>why are they the same???<br>The later is expected to fail! But it passed.                        </p><br>       The linker also identifies new undefined symbols while processing a<br>       shared library. These undefined symbols are not added to the output<br>       object and are not reported as unresolved, but the linker does con-<br>       sider these undefined symbols as it processes additional objects on<br>       the command line. /<em> by jfo: ie when defined later, the linker will probably<br> resolved it. </em>/<br><br>  The following will link OK, /<em> libc.so depends on libgcc_s.so ? </em>/<p>                                    ld –dynamic-linker /lib/ld-linux.so.2 -o hello hello.o foo.o  /usr/lib/crt<em>.o -L<code>gcc -print-file-name=</code> -lc<br>/</em>ld –dynamic-linker /lib/ld-linux.so.2 -o hello hello.o foo.o  /usr/lib/crt<em>.o -L<code>gcc -print-file-name=</code> -lgcc_s -lc</em>/                        </p><br><br><br><br><strong>sample codes (Redhat9 gcc version 3.2.2 20030222 (Red Hat Linux 3.2.2-5))</strong><p> </p><p> </p><p> </p><br><br><br><br><br><br><br><br><br> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/10/01/OBJECT-AND-LIBRARY-ORDERING/" class="archive-article-date">
+  	<time datetime="2007-10-01T10:45:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-10-01</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/46/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/45/">45</a><a class="page-number" href="/page/46/">46</a><span class="page-number current">47</span><a class="page-number" href="/page/48/">48</a><a class="page-number" href="/page/49/">49</a><span class="space">&hellip;</span><a class="page-number" href="/page/60/">60</a><a class="extend next" rel="next" href="/page/48/">Next &raquo;</a>
+    </nav>
+  
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: true,
+		isPost: false,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

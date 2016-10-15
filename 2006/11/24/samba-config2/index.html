@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>samba config2 | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="为什么选用Samba  Samba的配置   sam.conf文件简介  配置选项   Samba全局设置  大小写管理  默认全局设置-全局设置  配置共享  共享打印机  配置登录目录  默认全局设置-目录与打印机   配置片段   排除错误   基本网络是否正常  Samba 服务是否运行  防火墙是否打开  用户口令是否使用    Samba是Windows操作系统用来共享文件和打印机">
+<meta property="og:type" content="article">
+<meta property="og:title" content="samba config2">
+<meta property="og:url" content="http://blog.pickbox.me/2006/11/24/samba-config2/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="为什么选用Samba  Samba的配置   sam.conf文件简介  配置选项   Samba全局设置  大小写管理  默认全局设置-全局设置  配置共享  共享打印机  配置登录目录  默认全局设置-目录与打印机   配置片段   排除错误   基本网络是否正常  Samba 服务是否运行  防火墙是否打开  用户口令是否使用    Samba是Windows操作系统用来共享文件和打印机">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="samba config2">
+<meta name="twitter:description" content="为什么选用Samba  Samba的配置   sam.conf文件简介  配置选项   Samba全局设置  大小写管理  默认全局设置-全局设置  配置共享  共享打印机  配置登录目录  默认全局设置-目录与打印机   配置片段   排除错误   基本网络是否正常  Samba 服务是否运行  防火墙是否打开  用户口令是否使用    Samba是Windows操作系统用来共享文件和打印机">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-samba-config2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      samba config2
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <dl><dt> <a href="http://learn.tsinghua.edu.cn:8080/2001012143/wiki/publish/GNU/samba.html#sec1" target="_blank" rel="external">为什么选用Samba</a> </dt><dt> <a href="http://learn.tsinghua.edu.cn:8080/2001012143/wiki/publish/GNU/samba.html#sec2" target="_blank" rel="external">Samba的配置</a> </dt><dd> <dl><dt> <a href="http://learn.tsinghua.edu.cn:8080/2001012143/wiki/publish/GNU/samba.html#sec3" target="_blank" rel="external">sam.conf文件简介</a> </dt><dt> <a href="http://learn.tsinghua.edu.cn:8080/2001012143/wiki/publish/GNU/samba.html#sec4" target="_blank" rel="external">配置选项</a> </dt><dd> <dl><dt> <a href="http://learn.tsinghua.edu.cn:8080/2001012143/wiki/publish/GNU/samba.html#sec5" target="_blank" rel="external">Samba全局设置</a> </dt><dt> <a href="http://learn.tsinghua.edu.cn:8080/2001012143/wiki/publish/GNU/samba.html#sec6" target="_blank" rel="external">大小写管理</a> </dt><dt> <a href="http://learn.tsinghua.edu.cn:8080/2001012143/wiki/publish/GNU/samba.html#sec7" target="_blank" rel="external">默认全局设置-全局设置</a> </dt><dt> <a href="http://learn.tsinghua.edu.cn:8080/2001012143/wiki/publish/GNU/samba.html#sec8" target="_blank" rel="external">配置共享</a> </dt><dt> <a href="http://learn.tsinghua.edu.cn:8080/2001012143/wiki/publish/GNU/samba.html#sec9" target="_blank" rel="external">共享打印机</a> </dt><dt> <a href="http://learn.tsinghua.edu.cn:8080/2001012143/wiki/publish/GNU/samba.html#sec10" target="_blank" rel="external">配置登录目录</a> </dt><dt> <a href="http://learn.tsinghua.edu.cn:8080/2001012143/wiki/publish/GNU/samba.html#sec11" target="_blank" rel="external">默认全局设置-目录与打印机</a> </dt></dl> </dd><dt> <a href="http://learn.tsinghua.edu.cn:8080/2001012143/wiki/publish/GNU/samba.html#sec12" target="_blank" rel="external">配置片段</a> </dt></dl> </dd><dt> <a href="http://learn.tsinghua.edu.cn:8080/2001012143/wiki/publish/GNU/samba.html#sec13" target="_blank" rel="external">排除错误</a> </dt><dd> <dl><dt> <a href="http://learn.tsinghua.edu.cn:8080/2001012143/wiki/publish/GNU/samba.html#sec14" target="_blank" rel="external">基本网络是否正常</a> </dt><dt> <a href="http://learn.tsinghua.edu.cn:8080/2001012143/wiki/publish/GNU/samba.html#sec15" target="_blank" rel="external">Samba 服务是否运行</a> </dt><dt> <a href="http://learn.tsinghua.edu.cn:8080/2001012143/wiki/publish/GNU/samba.html#sec16" target="_blank" rel="external">防火墙是否打开</a> </dt><dt> <a href="http://learn.tsinghua.edu.cn:8080/2001012143/wiki/publish/GNU/samba.html#sec17" target="_blank" rel="external">用户口令是否使用</a> </dt></dl> </dd></dl>  Samba是Windows操作系统用来共享文件和打印机的协议.利用Samba可以把Linux计算机放进Microsoft网络中.</p><p>Samba是个异构服务.配置好的Linux服务器放入Microsoft的网络后,其他计算机看不到它与Microsoft计算机的任何区别.</p><p>Samba可以沟通Linux与Microsoft Windows, 即可以在这些操作系统中无差异的通信.可以将提供Samba服务的Linux服务器的特定目录配置成与Microsoft Windows 网络的任何其他成员一样的共享目录.</p>为什么选用Samba<p>文件共享的工具有很多,比如ftp,nfs等等. Samba不同于ftp,提供在线运行程序的功能,即不需要下载到本地硬盘也能够使用一些程序.最常见的是提供在线观看电影. 虽然nfs也能提供文件共享功能,但是nfs的共享功能需要类Unix的系统,在一般的网络中,很多用户使用Windows系统.</p><p>基于上述的考虑,学习使用Samba是有用处的.</p><p>Samba提供了很全的共享功能,同时配置文件中的选项十分丰富.</p><p>Samba的主要配置文件是smb.conf.</p>Samba的配置sam.conf文件简介sam.conf文件记录samba的配置信息.建议修改前备份安装Samba时默认的配置文件,每次修改后使用 service smb reload 命令读取新的配置.<p>配置文件一般有三部分,全局配置,打印机配置,共享配置.配置文件以[]标识某一部分配置的开始.全局配置中的内容可以作为后续配置的默认选项.</p><p>修改配置文件的方法有两类:修改文本smb.conf,使用有交互界面的配置程序,如SWAT,redhat-config-samba等,后者也是通过修改smb.conf文件达到配置的目的的.一般推荐修改smb.conf文件的方法进行配置.</p>配置选项Samba全局设置smb.conf文件中有大量全局变量.如果不用某个变量,则Samba程序采用默认值.<ul> <li>基本网络类型: 描述要加入的网络类型.    workgroup = WORKGROUP    计算机的描述    server string = CPSELinux Samba Server    </li> <li>IP地址限制: 除可以用iptables限制对Samba的访问外,可以用hosts allow命令进一步限制访问.    hosts allow = 166.111.8.238    或者允许一个网段的访问    hosts allow = 166.111.    更多限制    hosts allow = 59.66. 166.111.8.238    </li> <li>Samba与打印机: 默认情况下,打印机放在共享的可浏览的项目列表中.通过Samba在标准的CUPS系统装入一系列打印机:    printcap name = /etc/printcap<br>load printers = yes<br>printing = cups    </li> <li>宾客账号: Samba可以生成标准的guest帐号.如果要使用宾客帐号,要保证pcguest是Linux系统中的实名用户:    ;guest account = pcguest    </li> <li>日志文件: 下列选项对连接Samba服务器的每台计算机配置不同的日志文件。    log file = /var/log/samba/%m.log    指定日志文件大小，size为0时表示日志文件的长度不受限制。当指定大小时， 文件长度的单位为K。    max log size ＝0    </li> <li>安全模式: Microsoft Windows 网络提供了几个基本的安全模式。选择的方法取决于共享目录的条件和共享网络的类型。    security = share<br>security = user<br>security = server<br>security = domain    Samba的安全模式                                        share                共享目录只要用口令即可访问的系统。                                        user                共享目录通过用户名和口令限制的系统。                                        server                用户名和口令优先选择集中式数据库的系统。                                        domain                选择windows域系统，要求/etc/samba中有smbuser与smbpasswd数据库文件。                            </li> <li>口令设置: 如果设置security = share或security = domain，则还应指定网络的口令服务器。如果已知主域控制器和备份域控制器名称为ntserv1与ntserv2，则需使用下 列命令:    password server = ntserv1 ntserv2    如果不知道主域控制器和备份域控制器名称，则可以将Samba服务器设置成搜索主域控制器:    password server = <em>    试验八字符口令与用户名的所有大小写字母组合：    ;password level = 8<br>;username level = 8    将Samba配置成以标准Samba口令文件发送加密口令。可以用smbadduser添加 Microsoft Windows 用户和口令。    encrypt passwords = yes<br>smb passwd file = /etc/samba/smbpasswd    用户在Microsoft Windows计算机上更改口令，下列命令同步相应的Linux口令：    unix password sync = yes<br>passwd program = /usr/bin/passwd %u<br>passwd chat = New Password %nn Retype new password %nn passwd: all<br>authentication tokens updated successfully    用PAM(可插入验证模块)保护口令，PAM将覆盖password program变量    pam password change = yes    如果设置明文口令，下列命令用PAM控制对系统的访问    obey pam restrictions = yes    </em></li> <li>映射Linux 与 Windows 用户: 可以用不同的用户名匹配Linux与Windows用户。可以使用smbadduser添加用户，也可以直接修改/etc/samba/smbusers文件。    ;username map = /etc/samba/smbusers    </li> <li>计算机定制 Samba: 可以在远程计算机上配置Samba服务器。激活下面的命令，则每台计算机会寻找特定的配置文件。    ; include = /etc/samba/smb.conf.%m    </li> <li>性能管理: 优化网络性能。TCP_NODELAY通常使Samba性能加倍，SO_RCVBUF与SO_SNDBUF变量 是进出Samba的数据缓冲区。    socket options = TCP_NODELAY SO_RCVBUF = 8192 SO_SNDBUF = 8192    </li> <li>网络接口: 服务器可以配置多个网络接口卡，将Samba访问限制在一个网卡上，也可以将Samba服务器设置用于特定的远程网络。    interfaces eth1 172.168.88.0/24    </li> <li>浏览: 在Microsoft Windows网络中，浏览就是计算机显示可用的共享目录与打印机。一台计算机是浏览主计算机，其他计算机将共享信息发送到这台计算机。 如果不知道网络中的主浏览器的IP地址，则可以使用广播地址。    remote browse sync = 192.168.1.255    Microsoft 网络中的一台计算机保存浏览表，通过&ldquo;选举&rdquo;确定此计算机，不参与选举。    ;local master = no    参与&ldquo;选举&rdquo;，同时战胜除域名控制器和Microsoft Windows NT 服务器外的其他计算机。  不让别的计算机有任何机会，将Samba设置为域中的主浏览器    ;domain master = yes    Samba服务器的工作量不足，设置为优选主浏览器    ;preferred master = yes    </li> <li>登录管理: 网络中有Linux和Microsoft Windows计算机，激活下面的命令，将Samba设置为这个网络的主域控制器，控制用户名与口令数据库:    ;domain logons = yes    Microsoft网络可以按用户或计算机配置登录，一个登录脚本配置一种，这些脚本可以放在Samba服务器中。%m对应与每台机器，即计算机，%U对应每个用户。    ; logon script = %m.bat<br>; logon script = %U.bat    利用中央配置文件，用户登录时可以向网络中的任何Microsoft计算机提供一致的外观。可以将配置文件存放在Samba服务器的登录路径中。%L表示服务器名，%U表示用户名。    ;logon path= \%LProfiles%U    </li> <li>WINS与DNS: WINS 是Windows Internet Name Server的缩写，与DNS相似，它是一个NetBIOS名称与IP地址的数据库。如果Samba无法在/etc/hosts中找到所需的计算机名，则WINS与DNS提供了两个其他的数据库。 下列命令在本地Samba服务器中设置WINS：    ;wins support = yes    也可以查找特定IP地址的不同WINS服务器（这里的地址是任意的，应换成相应的 地址）。这里Samba服务器成为WINS客户机:    ;wins server = 192.168.0.22    如果Microsoft网络中还有旧式计算机，激活下面的命令，使所有计算机都能访 问WINS数据库：    ;wins proxy = yes    如果计算机不再WINS数据库中，激活下面的命令，将DNS服务器设置为数据库：    ;dns proxy = yes    大小写管理    Linux是大小写相关的操作系统，Microsoft是大小写无关的操作系统。通常，Samba保留所传输的文件的大小写。可强制让一切保持小写，下面命令影响长文件名和采用Microsoft 8.3文件名格式的文件名:    ;preserve case = no<br>;short preserve case = no    用下列命令将所有文件名设置为默认大写:    ;default case = upper    如果所有用户都采用大小写相关的文件名，可以使用下面的命令使Samba服务器大小写相关：    ;case sensitive = yes    </li></ul>默认全局设置-全局设置这里列出了smb.conf默认的全局设置。如果使用默认参数，则不必在smb.conf中列出。                        变量            默认                            case sensitive            no                            default case            lower                            dns proxy            yes                            domain  logons            no                            encrypt passwords            no                            guest account            nobody                            hosts allow            所有主机                            include            无默认                            interfaces            除127.0.0.1外的所有活动接口                            load printers            yes                            local master            yes                            log file            无默认                            logon script            无默认                            max log size            5000KB                            obey pam restrictions            no                            pam password change            no                            passwd program            /bin/passwd                            passwd server            无默认                            passwd level            0                            preferred master            auto                            preserve case            yes                            printcap name            /etc/printcap                            printing            无默认                            remote announce            无默认                            remote browse sync            无默认                            security            user                            server string            Samba %v, %v显示版本号                            short preserve case            yes                            smb password file            无默认                            socket options            TCP_NODELAY                            ssl CA certFile            /usr/local/ssl/certs/trustedCAs.pem                            unix password sync            no                            username level            0                            username map            无默认                            wins proxy            no                            wins server            不支持                            wins support            no                            workgroup            WORKGROUP            配置共享<ul> <li>[Homes]共享    [homes]<br>comment = Home Directories<br>browseable = no<br>writeable = yes<br>valid users = %S<br>create mode = 0664<br>directory mode = 0775    </li> <li>[tmp]共享    [tmp]<br>comment = Temporary file space<br>path = /tmp<br>read only = no<br>public = yes    共享打印机    配置了CUPS打印机，则要配置基本共享。    [printers]<br>comment = All Printers<br>path = /var/spool/samba<br>browseable = no<br>guest ok = no<br>writeable = no<br>printanble = yes    配置登录目录    在Microsoft网络上用Samba将Linux计算机配置成域控制器时，要配置每个用户的登录和配置文件路径。要先建立相应的目录。 下列命令根据path指定的目录在Microsoft Windows域中配置登录:    [netlogon]<br>comment = Network Logon Service<br>path = /usr/local/samba/lib/netlogon<br>guest ok = yes<br>writable = no<br>share modes = no    下列命令可以对登录Samba服务器的用户配置本地配置文件:    [Profiles]<br>path=/usr/local/samba/profiles<br>broweable = no<br>guest ok = yes    默认全局设置-目录与打印机    目录与打印机的默认全局设置。                                        变量                默认                                        browseable                yes                                        comment                无默认                                        create mode                create mask = 0744                                        directory mode                directory mask = 0755                                        guest ok                no                                        path                无默认                                        printable                no                                        public                guest ok = no                                        read only                yes                                        writable                no                                        write list                无默认                                        valid users                无默认                            </li></ul>配置片段这里是几个例子。<ul> <li>[public]共享</li></ul><p>不一定要与所有人共享目录。</p>[public]<br>comment = Public Stuff<br>path = /home/samba<br>public = yes<br>writeable = yes<br>printalbe = no<br>write list = @staff<ul> <li>另一个[public]共享</li></ul><p>下列的目录使所有用户可以读取和写入该目录下的所有文件。only guest = yes命令使任何连接这个目录的用户只有guest用户的权限。</p>[public]<br>path = /usr/somewhere/else/public<br>public = yes<br>only guest = yes<br>writeable = yes<br>printable = no<ul> <li>两人共享</li></ul><p>仅有两人共享，只有两个人可以访问此共享目录。</p>[myshare]<br>comment =Mary’s and Fred’s stuff<br>path = /usr/somewhere/shared<br>valid users = mary fred<br>public = no<br>writable = yes<br>printable = no<br>create mask = 0765服务器中包含 /usr/somewhere/shared目录和用户mary与fred。<ul> <li>专有目录</li></ul><p>专有目录只有特定的人可以访问。</p>[fredsdir]<br>comment = Fred’s Service <br>path = /usr/somewhere/private<br>valid users = fred<br>public = no<br>write able = yes<br>printable = no<ul> <li>计算机的共享目录</li></ul><p>配置特定计算机的共享目录。</p>[pchome]<br>comment = PC Directories<br>path = /usr/local/pc/%m<br>public = no<br>write able = yes<p>%m表示计算机名。</p>排除错误基本网络是否正常广播地址应该与Samba服务器同学的所有客户端的广播地址相同。 使用下面的命令查看广播地址：# ifconfig -aSamba 服务是否运行在Linux系统上用smbclient命令检查Samba所需的进程是否在运行并且像预期的那样进行共享。<p>使用下面的命令：</p># smbclient -L localhost<br>Password: <strong>**</strong>如果显示出工作组中的所有机器，则说明Samba服务器在本地计算机上运行。如果服务器没有运行，将看到&quot;Connection refused&quot;的提示信息。此时需要重启Samba服务。防火墙是否打开如果Samba已经在本地计算机上运行，但是无法从局域网中的Windows或Linux客户端访问，有可能是Linux Samba服务器上的防火墙禁止对NetBIOS服务的访问。 在安全的局域网中，使用下列命令清除防火墙的规则：# iptables -F如果不是防火墙的问题，用下面的命令重新启动防火墙。# service iptables restart用户口令是否使用作为特定用户尝试访问Samba共享目录。使用如下的命令:# smbclient //localhost/tmp -U chris如果没有问题将看到Samba提示符，一个类似于DOS的提示符。 <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2006/11/24/samba-config2/" class="archive-article-date">
+  	<time datetime="2006-11-23T16:11:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2006-11-24</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux-App/">Linux App</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2006/11/24/tcl-patch/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          tcl patch
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2006/11/23/samba-configure/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">samba configure</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

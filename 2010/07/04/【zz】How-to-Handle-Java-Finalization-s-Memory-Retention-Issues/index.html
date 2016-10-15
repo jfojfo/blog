@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>【zz】How to Handle Java Finalization&#39;s Memory-Retention Issues | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="How to Handle Java Finalization’s Memory-Retention IssuesFinalization is a feature of the Java programming language that allows you to perform postmortem cleanup on objects that the garbage collector">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【zz】How to Handle Java Finalization's Memory-Retention Issues">
+<meta property="og:url" content="http://blog.pickbox.me/2010/07/04/【zz】How-to-Handle-Java-Finalization-s-Memory-Retention-Issues/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="How to Handle Java Finalization’s Memory-Retention IssuesFinalization is a feature of the Java programming language that allows you to perform postmortem cleanup on objects that the garbage collector">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/828ba61e37ebe02041341713.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/4134970a9376382095ca6b13.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/304e251f30f2ccf7a7866913.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/a786c917d6067a36c93d6d13.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/7f3e670962056df03bc76313.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/c93d70cf96ff8202f8dc6113.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/3bc79f3d57e4cc3fbaa16713.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/f8dcd1000b99d02e728b6513.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/baa1cd11c1b35a2fb9127b13.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/728b47100c2ad5c3c3ce7913.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/b912c8fc74f6dec2fc037f13.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/c3cec3fd453b8f7ad6887d13.jpg">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【zz】How to Handle Java Finalization's Memory-Retention Issues">
+<meta name="twitter:description" content="How to Handle Java Finalization’s Memory-Retention IssuesFinalization is a feature of the Java programming language that allows you to perform postmortem cleanup on objects that the garbage collector">
+<meta name="twitter:image" content="http://img.pickbox.me/wp-content/uploads/pic/828ba61e37ebe02041341713.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-【zz】How-to-Handle-Java-Finalization-s-Memory-Retention-Issues" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      【zz】How to Handle Java Finalization&#39;s Memory-Retention Issues
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <a target="_blank" href="http://java.sun.com/developer/technicalArticles/javase/finalization/">How to Handle Java Finalization’s Memory-Retention Issues</a></p><p>Finalization is a feature of the Java programming language that allows you to perform postmortem cleanup on objects that the garbage collector has found to be unreachable. It is typically used to reclaim native resources associated with an object. Here’s a simple finalization example:</p>                                    public class Image1 {<br>        // pointer to the native image data<br>        private int nativeImg;<br>        private Point pos;<br>        private Dimension dim;<br><br>        // it disposes of the native image;<br>        // successive calls to it will be ignored<br>        private native void disposeNative();<br>        public void dispose() { disposeNative(); }<br>        protected void finalize() { dispose(); }<br><br>        static private Image1 randomImg;<br>}                        &#160;<br><p>Sometime after an <code>Image1</code> instance has become unreachable, the Java Virtual Machine (JVM)<a href="http://java.sun.com/developer/technicalArticles/javase/finalization/#TJVM" target="_blank" rel="external"><em></em></a> will call its <code>finalize()</code> method to ensure that the native resource that holds the image data – pointed to by the integer <code>nativeImg</code> in the example – has been reclaimed.</p><p>Notice, however, that the <code>finalize()</code> method, despite its special treatment by the JVM, is an arbitrary method that contains arbitrary code. In particular, it can access any field in the object – <code>pos</code> and <code>dim</code> in the example. Surprisingly, it can also make the object reachable again by, say, making it reachable from a static field, for example, <code>randomImg = this;</code>. The latter programming practice is not recommended, but unfortunately the Java programming language allows it.</p><p>The following steps and Figure 1 describe the lifetime of a <em>finalizable object</em> <code>obj</code> – that is, an object whose class has a nontrivial finalizer.</p> <img width="533" height="333" src="http://img.pickbox.me/wp-content/uploads/pic/828ba61e37ebe02041341713.jpg" alt="Lifetime of Finalizable Object obj"> <strong>Figure 1.</strong><em> Lifetime of Finalizable Object <code>obj</code>.</em>                        &#160;<br><ol> <li>When <code>obj</code> is allocated, the JVM internally records that <code>obj</code> is finalizable. This typically slows down the otherwise fast allocation path that modern JVMs have.<br>    &#160;</li> <li>When the garbage collector determines that <code>obj</code> is unreachable, it notices that <code>obj</code> is finalizable – as it had been recorded upon allocation – and adds it to the JVM’s <em>finalization queue</em>. It also ensures that all objects reachable from <code>obj</code> are retained, even if they are otherwise unreachable, as they might be accessed by the finalizer. Figure 2 illustrates this for an instance of object <code>Image1</code>.<br>    &#160;<br> <img width="533" height="673" src="http://img.pickbox.me/wp-content/uploads/pic/4134970a9376382095ca6b13.jpg" alt="Garbage Collector Determines That obj Is Unreachable."> <strong>Figure 2. </strong><em>Garbage Collector Determines That <code>obj</code> Is Unreachable.</em>                                            &#160;</li> <li>At some point later, the JVM’s <em>finalizer thread</em> will dequeue <code>obj</code>, call its <code>finalize()</code> method, and record that the <code>obj</code>‘s finalizer has been called. At this point, <code>obj</code> is considered to be <em>finalized</em>.<br>    &#160;</li> <li>When the garbage collector rediscovers that <code>obj</code> is unreachable, it will reclaim its space along with everything reachable from it, provided that the latter is otherwise unreachable.</li></ol><p>Notice that the garbage collector needs a minimum of two cycles to reclaim <code>obj</code> and needs to retain all other objects reachable from <code>obj</code> during this process. If a programmer is not careful, this can create temporary, subtle, and unpredictable resource-retention issues. Additionally, the JVM does not guarantee that it will call the finalizers of all the finalizable objects that have been allocated. It might exit before the garbage collector discovers some of them to be unreachable.</p><strong>Avoid Memory-Retention Problems When Subclassing</strong> <img width="1" height="4" src="http://img.pickbox.me/wp-content/uploads/pic/304e251f30f2ccf7a7866913.jpg"> <p>Finalization can delay the reclamation of resources, even if you do not use it explicitly. Consider the following example:</p>                                    public class RGBImage1 extends Image1 {<br>        private byte rgbData[];<br>}                        &#160;<br><p>The <code>RGBImage1</code> class extends <code>Image1</code> and introduces the field <code>rgbData</code> – and maybe some methods that the example does not show. Even though you did not explicitly define a finalizer on <code>RGBImage1</code>, the class will naturally inherit the <code>finalize()</code> method from <code>Image1</code>, and all <code>RGBImage1</code> instances will also be considered to be finalizable. When an <code>RGBImage1</code> instance becomes unreachable, the reclamation of the potentially very large <code>rgbData</code> array will be delayed until the instance is finalized, as shown in Figure 3. This memory retention problem can be difficult to find because the finalizer might be &quot;hidden&quot; in a deep class hierarchy.</p> <img width="533" height="673" src="http://img.pickbox.me/wp-content/uploads/pic/a786c917d6067a36c93d6d13.jpg" alt="Reclamation of rgbData Array Will Be Delayed Until the Instance Is Finalized."> <strong>Figure 3.</strong><em> Reclamation of <code>rgbData</code> Array Will Be Delayed Until the Instance Is Finalized.</em>                        &#160;<br><p>One way to avoid this problem is to rearrange the code so that it uses composition instead of inheritance, as follows:</p>                                    public class RGBImage2 {<br>        private Image1 img;<br>        private byte rgbData[];<br><br>        public void dispose() {<br>                img.dispose();<br>        }<br>}                        &#160;<br><p>See also Joshua Bloch’s book, , chapter 4, item 14: Favor composition over inheritance.</p><p>Compared with <code>RGBImage1</code>, <code>RGBImage2</code> contains an instance of <code>Image1</code> instead of extending <code>Image1</code>. When an instance of <code>RGBImage2</code> becomes unreachable, the garbage collector will promptly reclaim it, along with the <code>rgbData</code> array – assuming the latter is not reachable from elsewhere – and will queue up only the <code>Image1</code> instance for finalization, as shown in Figure 4. Because class <code>RGBImage2</code> does not subclass <code>Image1</code>, it will not inherit any methods from it. Therefore, you might have to add delegator methods to <code>RGBImage1</code> to access the required methods of <code>Image1</code>. The <code>dispose()</code> method is such an example.</p> <img width="533" height="673" src="http://img.pickbox.me/wp-content/uploads/pic/7f3e670962056df03bc76313.jpg" alt="GC Will Queue Up Only the Image1 Instance for            Finalization."> <strong>Figure 4. </strong><em>GC Will Queue Up Only the <code>Image1</code> Instance for Finalization.</em>                        &#160;<br><p>You cannot always rearrange your code in the manner just described, however. Sometimes, as a user of the class, you will have to do more work to ensure that its instances do not hold on to more space than necessary when they are being finalized. The following code illustrates how to do so:</p>                                    public class RGBImage3 extends Image1 {<br>        private byte rgbData[];<br><br>        public void dispose() {<br>                rgbData = null;<br>                super.dispose();<br>        }<br>}                        &#160;<br><p><code>RGBImage3</code> is identical to <code>RGBImage1</code> but with the addition of the <code>dispose()</code> method, which nulls the <code>rgbData</code> field. You are required to explicitly call <code>dispose()</code> after using an <code>RGBImage3</code> instance to ensure that the <code>rgbData</code> array is promptly reclaimed, as shown in Figure 5. Explicit nulling of fields is rarely good practice, but this is one of the rare occasions when it is justified.</p> <img width="533" height="703" src="http://img.pickbox.me/wp-content/uploads/pic/c93d70cf96ff8202f8dc6113.jpg" alt="Call dispose() After Using an RGBImage3 Instance."> <strong>Figure 5.</strong><em> Call <code>dispose()</code> After Using an <code>RGBImage3</code> Instance.</em>                        &#160;<br><strong>Shield Users From Memory-Retention Problems</strong> <img width="1" height="4" src="http://img.pickbox.me/wp-content/uploads/pic/3bc79f3d57e4cc3fbaa16713.jpg"> <p>This article has described how to avoid memory-retention problems when working with third-party classes that use finalizers. Now let’s look at how to write classes that require postmortem cleanup so that their users do not encounter the problems previously outlined. The best way to do so is to split such classes into two – one to hold the data that need postmortem cleanup, the other to hold everything else – and define a finalizer only on the former. The following code illustrates this technique:</p>                                    final class NativeImage2 {<br>        // pointer to the native image data<br>        private int nativeImg;<br><br>        // it disposes of the native image;<br>        // successive calls to it will be ignored<br>        private native void disposeNative();<br>        void dispose() { disposeNative(); }<br>        protected void finalize() { dispose(); }<br>}<br><br>public class Image2 {<br>        private NativeImage2 nativeImg;<br>        private Point pos;<br>        private Dimension dim;<br><br>        public void dispose() { nativeImg.dispose(); }<br>}                        &#160;<br><p>The <code>Image2</code> instance is similar to <code>Image1</code> but with the <code>nativeImg</code> field included in a separate class, <code>NativeImage2</code>. All accesses to <code>nativeImg</code> from the image class must go through one level of indirection. However, when an <code>Image2</code> instance becomes unreachable, only the <code>NativeImage2</code> instance will be queued up for finalization. Anything else reachable from the <code>Image2</code> instance will be promptly reclaimed, as Figure 6 illustrates. Class <code>NativeImage2</code> is declared to be <code>final</code> so that users cannot subclass it and reintroduce the memory-retention problems this article has previously described.</p> <img width="533" height="673" src="http://img.pickbox.me/wp-content/uploads/pic/f8dcd1000b99d02e728b6513.jpg" alt="When the Image2 Instance Becomes Unreachable, Only the NativeImage2 Instance Will Be Queued Up."> <strong>Figure 6.</strong><em> When the <code>Image2</code> Instance Becomes Unreachable, Only the <code>NativeImage2</code> Instance Will Be Queued Up.</em>                        &#160;<br><p>A subtle point is that <code>NativeImage2</code> should <em>not</em> be an inner class of <code>Image2</code>. Instances of inner classes have an implicit reference to the instance of the outer class that created them. Therefore, if <code>NativeImage2</code> was an inner class of <code>Image2</code>, and a <code>NativeImage2</code> instance was queued up for finalization, it would also have retained the corresponding <code>Image2</code> instance, which is precisely what you are trying to avoid. Assume, however, that the <code>NativeImage2</code> class will be accessible only from the <code>Image2</code> class. This is why it has no public methods. Its <code>dispose()</code> method, as well as the class itself, is package-private.</p><strong>An Alternative to Finalization</strong> <img width="1" height="4" src="http://img.pickbox.me/wp-content/uploads/pic/baa1cd11c1b35a2fb9127b13.jpg"> <p>The preceding example still has one source of nondeterminism: The JVM does <em>not</em> guarantee the order in which it will call the finalizers of the objects in the finalization queue. And finalizers from all classes – application, libraries, and so on – are treated equally. So an object that is holding on to a lot of memory or a scarce native resource can get stuck in the finalization queue behind objects whose finalizers are making slow progress – not necessarily maliciously but maybe due to sloppy programming.</p><p>To avoid this type of nondeterminism, you can use weak references, instead of finalization, as the postmortem notification mechanism. This way, you have total control over how to prioritize the reclamation of native resources instead of relying on the JVM to do so. The following example illustrates this technique:</p>                                    final class NativeImage3 extends WeakReference&lt;Image3&gt; {<br>        // pointer to the native image data<br>        private int nativeImg;<br><br>        // it disposes of the native image;<br>        // successive calls to it will be ignored<br>        private native void disposeNative();<br>        void dispose() {<br>                refList.remove(this);<br>                disposeNative();<br>        }<br><br>        static private ReferenceQueue&lt;Image3&gt; refQueue;<br>        static private List&lt;NativeImage3&gt; refList;<br>        static ReferenceQueue&lt;Image3&gt; referenceQueue() {<br>                return refQueue;<br>        }<br><br>        NativeImage3(Image3 img) {<br>                super(img, refQueue);<br>                refList.add(this);<br>        }<br>}<br><br>public class Image3 {<br>        private NativeImage3 nativeImg;<br>        private Point pos;<br>        private Dimension dim;<br><br>        public void dispose() { nativeImg.dispose(); }<br>}                        &#160;<br><p><code>Image3</code> is identical to <code>Image2</code>. <code>NativeImage3</code> is similar to <code>NativeImage2</code>, but its postmortem cleanup relies on weak references instead of finalization. <code>NativeImage3</code> extends <code>WeakReference</code>, whose referent is the associated <code>Image3</code> instance. Remember that when the referent of a reference object – in this case a <code>WeakReference</code> – becomes unreachable, the reference object is added to the reference queue associated with it. Embedding <code>nativeImg</code> into the reference object itself ensures that the JVM will enqueue exactly what is needed and nothing more. See Figure 7. Again, <code>NativeImage3</code> should <em>not</em> be an inner class of <code>Image3</code>, for the reasons previously outlined.</p> <img width="533" height="673" src="http://img.pickbox.me/wp-content/uploads/pic/728b47100c2ad5c3c3ce7913.jpg" alt="Embedding nativeImg into the Reference Object Itself."> <strong>Figure 7. </strong><em>Embedding <code>nativeImg</code> into the Reference Object Itself.</em>                        &#160;<br><p>You can determine whether the garbage collector has reclaimed the referent of a reference object in two ways: explicitly, by calling the <code>get()</code> method on the reference object, or implicitly, by noticing that the reference object has been enqueued on the associated reference queue. This example uses only the latter.</p><p>Notice that reference objects are discovered by the garbage collector and added to their associated reference queues only if they are reachable themselves. Otherwise, they are simply reclaimed like any other unreachable object. This is why you add all <code>NativeImage3</code> instances to the static list – actually, any data structure will suffice – to ensure that they remain reachable and processed when their referents become unreachable. Naturally, you also have to make sure that you remove them from the list when you dispose of them. This is done in the <code>dispose()</code> method.</p><p>When the <code>dispose()</code> method is explicitly called on an <code>Image3</code> instance, no postmortem cleanup will subsequently take place on that instance because none is necessary. The <code>dispose()</code> method removes the <code>NativeImage3</code> instance from the static list so that it is not reachable when its corresponding <code>Image3</code> instance becomes unreachable. And, as previously stated, unreachable reference objects are not added to their corresponding reference queues.</p><p>In contrast, in all the previous examples that use finalization, the finalizable objects will always be considered for finalization when they become unreachable, whether you have explicitly disposed of their associated native resources or not.</p><p>The JVM will ensure that, when the garbage collector finds an <code>Image3</code> instance to be unreachable, it will add its corresponding <code>NativeImage3</code> instance to its associated reference queue. You must then dequeue it and dispose of its native resource. You can do this with the following method, executed, say, on a &quot;cleanup&quot; thread:</p>                                    static void drainRefQueueLoop() {<br>        ReferenceQueue&lt;Image3&gt; refQueue =<br>                NativeImage3.referenceQueue();<br>        while (true) {<br>                NativeImage3 nativeImg =<br>                        (NativeImage3) refQueue.remove();<br>                nativeImg.dispose();<br>        }<br>}                        &#160;<br><p>There are cases, however, in which it might not be easy or desirable to introduce a new thread in an application. In such cases, an alternative is to drain the reference queue before every <code>NativeImage3</code> instance allocation. You can do this by calling the <code>drainRefQueueBounded()</code> method, which follows from the <code>NativeImage3</code> constructor, so that you dispose some native images that have been made available, just before you need to allocate new ones:</p>                                    static final private int MAX_ITERATIONS = 2;<br>static void drainRefQueueBounded() {<br>        ReferenceQueue&lt;Image3&gt; refQueue =<br>                NativeImage3.referenceQueue();<br>        int iterations = 0;<br>        while (iterations &lt; MAX_ITERATIONS) {<br>                NativeImage3 nativeImg =<br>                        (NativeImage3) refQueue.poll();<br>                if (nativeImg == null) {<br>                        break;<br>                }<br>                nativeImg.dispose();<br>                ++iterations;<br>        }<br>}                        &#160;<br><p>The main difference between <code>drainRefQueueLoop()</code> and <code>drainRefQueueBounded()</code> is that the former is an infinite operation – the <code>remove()</code> method blocks until a new entry is made available on the queue – whereas the latter does a bounded amount of work. The <code>poll()</code> method will return <code>null</code> if there are no entries in the queue, and the method will only loop up to <code>MAX_ITERATIONS</code> times, so it does not take an arbitrarily long time if the reference queue is very long.</p><p>The previous examples are quite simplistic. Sophisticated developers can also ensure that different reference objects are associated with different reference queues, according to how they need to prioritize their disposal. And the <code>drainRefQueueLoop()</code> or the <code>drainRefQueueBounded()</code> methods can poll all the available reference queues and dequeue objects according to their required priorities.</p><p>Although cleaning up resources in this way is clearly a more involved process than using finalization, it is also more powerful and more flexible, and it minimizes much of the nondeterminism associated with the use of finalization. It is also very similar to the way finalization is actually implemented within the JVM. This approach is recommended for projects that explicitly use a lot of native resources and require more control during cleanup. Using finalization with care will suffice for most other projects.</p><strong>Use Finalization Only When You Must</strong> <img width="1" height="4" src="http://img.pickbox.me/wp-content/uploads/pic/b912c8fc74f6dec2fc037f13.jpg"> <p>This article briefly described how finalization is implemented in a JVM. It then gave examples of how finalizable objects can unnecessarily retain memory and outlined solutions to such problems. Finally, it described a method that uses weak references instead of finalization, which allows you to perform postmortem cleanup in a more flexible and predictable manner.</p><p>However, total reliance on the garbage collector to identify unreachable objects so that their associated native – and potentially scarce – resources can be reclaimed has a serious flaw: Memory is typically plentiful, and guarding a potentially scarce resource with a plentiful one is not a good strategy. So, when you use an object that you know has native resources associated with it – for example, a GUI component, file, or socket – by all means call its <code>dispose()</code> or equivalent method when you are finished using it. This will ensure the immediate reclamation of the native resources and decrease the probability of resource depletion. Thus, you will use the approaches discussed in this article for postmortem cleanup only as last resorts and not as the main cleanup mechanisms.</p><p>You should also use finalization only when it is absolutely necessary. Finalization is a nondeterministic – and sometimes unpredictable – process. The less you rely on it, the smaller the impact it will have on the JVM and your application. See also Joshua Bloch’s book, , chapter 2, item 6: Avoid finalizers.</p><p><strong>Note:</strong> This article covered only two types of issues that arise when using finalization: memory- and resource-retention issues. The use of finalization and the <code>Reference</code> classes can also cause very subtle synchronization problems. See Hans-J. Boehm’s 2005 JavaOne Conference slides, <em><a href="http://gceclub.sun.com.cn/java_one_online/2005/TS-3281" target="_blank">Finalization, Threads, and the Java Technology-Based Memory Model</a></em>, for a good overview of these issues.</p><p><a name="TJVM"><sup></sup></a> As used on this web site, the terms &quot;Java Virtual Machine&quot; or &quot;JVM&quot; mean a virtual machine for the Java platform.</p><strong>For More Information</strong> <img width="1" height="4" src="http://img.pickbox.me/wp-content/uploads/pic/c3cec3fd453b8f7ad6887d13.jpg"> <p>Joshua Bloch. <em>.</em> Addison-Wesley, 2001.</p><p>Hans-J. Boehm. <em><a href="http://gceclub.sun.com.cn/java_one_online/2005/TS-3281" target="_blank">Finalization, Threads, and the Java Technology-Based Memory Model</a>.</em> Technical Session 3281, 2005 JavaOne Conference.</p> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2010/07/04/【zz】How-to-Handle-Java-Finalization-s-Memory-Retention-Issues/" class="archive-article-date">
+  	<time datetime="2010-07-04T07:25:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2010-07-04</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Java/">Java</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2010/07/04/Android-2-2-Froyo新特性/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Android 2.2 Froyo新特性
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2010/07/04/【zz】理解-Java-的-GC-与-幽灵引用/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">【zz】理解 Java 的 GC 与 幽灵引用</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

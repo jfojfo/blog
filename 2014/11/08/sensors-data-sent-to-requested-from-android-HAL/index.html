@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>sensors data sent to / requested from android HAL | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="模拟器在硬件上为android提供虚拟sensors，通过模拟器console，或者模拟器sensors socket通道，我们可以从外界（比如eclipse调试工具）设置这些虚拟sensors的值
+模拟器中运行的android，通过qemu sensor HAL拿到这些sensors值，qemu sensor HAL与实体手机的sensor HAL的区别在于：实体手机的sensor HAL通过底">
+<meta property="og:type" content="article">
+<meta property="og:title" content="sensors data sent to / requested from android HAL">
+<meta property="og:url" content="http://blog.pickbox.me/2014/11/08/sensors-data-sent-to-requested-from-android-HAL/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="模拟器在硬件上为android提供虚拟sensors，通过模拟器console，或者模拟器sensors socket通道，我们可以从外界（比如eclipse调试工具）设置这些虚拟sensors的值
+模拟器中运行的android，通过qemu sensor HAL拿到这些sensors值，qemu sensor HAL与实体手机的sensor HAL的区别在于：实体手机的sensor HAL通过底">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/sensor-data-xfer.png">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="sensors data sent to / requested from android HAL">
+<meta name="twitter:description" content="模拟器在硬件上为android提供虚拟sensors，通过模拟器console，或者模拟器sensors socket通道，我们可以从外界（比如eclipse调试工具）设置这些虚拟sensors的值
+模拟器中运行的android，通过qemu sensor HAL拿到这些sensors值，qemu sensor HAL与实体手机的sensor HAL的区别在于：实体手机的sensor HAL通过底">
+<meta name="twitter:image" content="http://img.pickbox.me/wp-content/uploads/sensor-data-xfer.png">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-sensors-data-sent-to-requested-from-android-HAL" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      sensors data sent to / requested from android HAL
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>模拟器在硬件上为android提供虚拟sensors，通过模拟器console，或者模拟器sensors socket通道，我们可以从外界（比如eclipse调试工具）设置这些虚拟sensors的值</p>
+<p>模拟器中运行的android，通过qemu sensor HAL拿到这些sensors值，qemu sensor HAL与实体手机的sensor HAL的区别在于：实体手机的sensor HAL通过底层Linux驱动获取真实sensors数据，qemu sensor HAL通过qemud的socket通道获取前面设置的虚拟sensors值</p>
+<p>关于qemud，代码（qemud.c）中有一段介绍，很好说明了qemud与模拟器、qemu sensor HAL之间的关系：</p>
+<p><blockquote></blockquote></p>
+<pre>
+  the qemud daemon program is only used within Android as a bridge
+  between the emulator program and the emulated system. it really works as
+  a simple stream multiplexer that works as follows:
+
+    - qemud is started by init following instructions in
+      /system/etc/init.goldfish.rc (i.e. it is never started on real devices)
+
+    - qemud communicates with the emulator program through a single serial
+      port, whose name is passed through a kernel boot parameter
+      (e.g. android.qemud=ttyS1)
+
+    - qemud binds one unix local stream socket (/dev/socket/qemud, created
+      by init through /system/etc/init.goldfish.rc).
+
+
+      emulator <==serial==> qemud <---> /dev/socket/qemud <-+--> client1
+                                                            |
+                                                            +--> client2
+</-+--></---></==serial==></pre>
+
+qemud是一个桥梁，emulator将从外部应用接受到的sensors数据，通过serial串口给qemud，qemud再通过socket通道将数据传递给连接进来的client，qemu sensor HAL就是client之一
+
+init.goldfish.rc脚本的选择依据：查看/proc/cpuinfo文件，其中的Hardware字段表明了使用哪一个init.?.rc配置，模拟器为goldfish
+
+可以看看这幅图，更好理解qemud与模拟器、qemu sensor HAL之间的关系
+<a href="http://img.pickbox.me/wp-content/uploads/sensor-data-xfer.png" target="_blank" rel="external"><img src="http://img.pickbox.me/wp-content/uploads/sensor-data-xfer.png" alt="sensor data xfer" width="980" height="560" class="alignnone size-full wp-image-1088"></a>
+
+模拟器通过_hwSensorClient_receive()接受到Android HAL层传递过来的请求，通过qemud_client_send()将sensors数据发送给qemud，qemu sensor HAL通过qemud_channel_recv()从qemud拿到sensors数据
+<br>
+
+<h4>sensors数据格式</h4>
+HAL层发送过来的请求数据主要包括这么几种格式：
+"list-sensors"：列出支持的sensors列表，模拟器将返回一个int表示支持的sensors mask值
+"wake"：原样返回给HAL，让HAL退出poll循环
+"set-delay:%d"：设置sensors轮询间隔
+"set:%s:%d"：设置对应的sensor是否enable，例如"set:acceleration:1"
+
+模拟器将虚拟sensors数据返回给HAL，格式如下：
+"acceleration:%g:%g:%g"：获取加速度传感器数据
+"orientation:%g:%g:%g"：获取方向传感器数据
+"magnetic:%g:%g:%g"：获取磁力传感器数据
+"temperature:%g"：获取温度传感器数据
+"proximity:%g"：获取距离传感器数据
+"sync:%lld"：sent after a series of sensor events where 'time' is expressed in micro-seconds
+<br>
+
+下面来看看具体的代码
+qemu sensor HAL层对应的代码位于device/generic/goldfish/sensors/sensors_qemu.c
+模拟器的虚拟sensors代码位于android-4.4/external/qemu/android/hw-sensors.c
+<pre>
+/* handle incoming messages from the HAL module */
+static void
+_hwSensorClient_receive( HwSensorClient*  cl, uint8_t*  msg, int  msglen )
+{
+    HwSensors*  hw = cl-&gt;sensors;
+
+    D(&quot;%s: '%.*s'&quot;, __FUNCTION__, msglen, msg);
+
+    /* &quot;list-sensors&quot; is used to get an integer bit map of
+     * available emulated sensors. We compute the mask from the
+     * current hardware configuration.
+     */
+    if (msglen == 12 &amp;&amp; !memcmp(msg, &quot;list-sensors&quot;, 12)) {
+        char  buff[12];
+        int   mask = 0;
+        int   nn;
+
+        for (nn = 0; nn &lt; MAX_SENSORS; nn++) {
+            if (hw-&gt;sensors[nn].enabled)
+                mask |= (1 &lt;&lt; nn);
+        }
+
+        snprintf(buff, sizeof buff, &quot;%d&quot;, mask);
+        _hwSensorClient_send(cl, (const uint8_t*)buff, strlen(buff));
+        return;
+    }
+
+    /* &quot;wake&quot; is a special message that must be sent back through
+     * the channel. It is used to exit a blocking read.
+     */
+    if (msglen == 4 &amp;&amp; !memcmp(msg, &quot;wake&quot;, 4)) {
+        _hwSensorClient_send(cl, (const uint8_t*)&quot;wake&quot;, 4);
+        return;
+    }
+
+    /* &quot;set-delay:&lt;delay&gt;&quot; is used to set the delay in milliseconds
+     * between sensor events
+     */
+    if (msglen &gt; 10 &amp;&amp; !memcmp(msg, &quot;set-delay:&quot;, 10)) {
+        cl-&gt;delay_ms = atoi((const char*)msg+10);
+        if (cl-&gt;enabledMask != 0)
+            _hwSensorClient_tick(cl);
+
+        return;
+    }
+
+    /* &quot;set:&lt;name&gt;:&lt;state&gt;&quot; is used to enable/disable a given
+     * sensor. &lt;state&gt; must be 0 or 1
+     */
+    if (msglen &gt; 4 &amp;&amp; !memcmp(msg, &quot;set:&quot;, 4)) {
+        char*  q;
+        int    id, enabled, oldEnabledMask = cl-&gt;enabledMask;
+        msg += 4;
+        q    = strchr((char*)msg, ':');
+        if (q == NULL) {  /* should not happen */
+            D(&quot;%s: ignore bad 'set' command&quot;, __FUNCTION__);
+            return;
+        }
+        *q++ = 0;
+
+        id = _sensorIdFromName((const char*)msg);
+        if (id &lt; 0 || id &gt;= MAX_SENSORS) {
+            D(&quot;%s: ignore unknown sensor name '%s'&quot;, __FUNCTION__, msg);
+            return;
+        }
+
+        if (!hw-&gt;sensors[id].enabled) {
+            D(&quot;%s: trying to set disabled %s sensor&quot;, __FUNCTION__, msg);
+            return;
+        }
+        enabled = (q[0] == '1');
+
+        if (enabled)
+            cl-&gt;enabledMask |= (1 &lt;&lt; id);
+        else
+            cl-&gt;enabledMask &amp;= ~(1 &lt;&lt; id);
+
+        if (cl-&gt;enabledMask != oldEnabledMask) {
+            D(&quot;%s: %s %s sensor&quot;, __FUNCTION__,
+                (cl-&gt;enabledMask &amp; (1 &lt;&lt; id))  ? &quot;enabling&quot; : &quot;disabling&quot;,  msg);
+        }
+
+        /* If emulating device is connected update sensor state there too. */
+        if (hw-&gt;sensors_port != NULL) {
+            if (enabled) {
+                sensors_port_enable_sensor(hw-&gt;sensors_port, (const char*)msg);
+            } else {
+                sensors_port_disable_sensor(hw-&gt;sensors_port, (const char*)msg);
+            }
+        }
+
+        _hwSensorClient_tick(cl);
+        return;
+    }
+
+    D(&quot;%s: ignoring unknown query&quot;, __FUNCTION__);
+}
+</pre>
+
+<pre>
+/* this function is called periodically to send sensor reports
+ * to the HAL module, and re-arm the timer if necessary
+ */
+static void
+_hwSensorClient_tick( void*  opaque )
+{
+    HwSensorClient*  cl = opaque;
+    HwSensors*       hw  = cl-&gt;sensors;
+    int64_t          delay = cl-&gt;delay_ms;
+    int64_t          now_ns;
+    uint32_t         mask  = cl-&gt;enabledMask;
+    Sensor*          sensor;
+    char             buffer[128];
+
+    if (_hwSensorClient_enabled(cl, ANDROID_SENSOR_ACCELERATION)) {
+        sensor = &amp;hw-&gt;sensors[ANDROID_SENSOR_ACCELERATION];
+        snprintf(buffer, sizeof buffer, &quot;acceleration:%g:%g:%g&quot;,
+                 sensor-&gt;u.acceleration.x,
+                 sensor-&gt;u.acceleration.y,
+                 sensor-&gt;u.acceleration.z);
+        _hwSensorClient_send(cl, (uint8_t*)buffer, strlen(buffer));
+    }
+
+    if (_hwSensorClient_enabled(cl, ANDROID_SENSOR_MAGNETIC_FIELD)) {
+        sensor = &amp;hw-&gt;sensors[ANDROID_SENSOR_MAGNETIC_FIELD];
+        /* NOTE: sensors HAL expects &quot;magnetic&quot;, not &quot;magnetic-field&quot; name here. */
+        snprintf(buffer, sizeof buffer, &quot;magnetic:%g:%g:%g&quot;,
+                 sensor-&gt;u.magnetic.x,
+                 sensor-&gt;u.magnetic.y,
+                 sensor-&gt;u.magnetic.z);
+        _hwSensorClient_send(cl, (uint8_t*)buffer, strlen(buffer));
+    }
+
+    if (_hwSensorClient_enabled(cl, ANDROID_SENSOR_ORIENTATION)) {
+        sensor = &amp;hw-&gt;sensors[ANDROID_SENSOR_ORIENTATION];
+        snprintf(buffer, sizeof buffer, &quot;orientation:%g:%g:%g&quot;,
+                 sensor-&gt;u.orientation.azimuth,
+                 sensor-&gt;u.orientation.pitch,
+                 sensor-&gt;u.orientation.roll);
+        _hwSensorClient_send(cl, (uint8_t*)buffer, strlen(buffer));
+    }
+
+    if (_hwSensorClient_enabled(cl, ANDROID_SENSOR_TEMPERATURE)) {
+        sensor = &amp;hw-&gt;sensors[ANDROID_SENSOR_TEMPERATURE];
+        snprintf(buffer, sizeof buffer, &quot;temperature:%g&quot;,
+                 sensor-&gt;u.temperature.celsius);
+        _hwSensorClient_send(cl, (uint8_t*)buffer, strlen(buffer));
+    }
+
+    if (_hwSensorClient_enabled(cl, ANDROID_SENSOR_PROXIMITY)) {
+        sensor = &amp;hw-&gt;sensors[ANDROID_SENSOR_PROXIMITY];
+        snprintf(buffer, sizeof buffer, &quot;proximity:%g&quot;,
+                 sensor-&gt;u.proximity.value);
+        _hwSensorClient_send(cl, (uint8_t*) buffer, strlen(buffer));
+    }
+
+    now_ns = qemu_get_clock_ns(vm_clock);
+
+    snprintf(buffer, sizeof buffer, &quot;sync:%&quot; PRId64, now_ns/1000);
+    _hwSensorClient_send(cl, (uint8_t*)buffer, strlen(buffer));
+
+    /* rearm timer, use a minimum delay of 20 ms, just to
+     * be safe.
+     */
+    if (mask == 0)
+        return;
+
+    if (delay &lt; 20)
+        delay = 20;
+
+    delay *= 1000000LL;  /* convert to nanoseconds */
+    qemu_mod_timer(cl-&gt;timer, now_ns + delay);
+}
+
+/* send a one-line message to the HAL module through a qemud channel */
+static void
+_hwSensorClient_send( HwSensorClient*  cl, const uint8_t*  msg, int  msglen )
+{
+    D(&quot;%s: '%s'&quot;, __FUNCTION__, quote_bytes((const void*)msg, msglen));
+    qemud_client_send(cl-&gt;client, msg, msglen);
+}
+</pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/11/08/sensors-data-sent-to-requested-from-android-HAL/" class="archive-article-date">
+  	<time datetime="2014-11-08T12:24:09.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-11-08</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2014/11/08/sensors-data-get-set-from-android-emulator-console/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          sensors data get/set from android emulator console
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/11/07/sensor-service的初始化/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">sensor service的初始化</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

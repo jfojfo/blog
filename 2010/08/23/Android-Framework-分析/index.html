@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Android Framework 分析 | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="http://raymond1860.spaces.live.com/Blog/cns!BF47B6FD104579C9!797.entry1.目录树/framework/base/api&amp;#160;/framework/base/awt/framework/base/build/framework/base/camera 关 于camera的HAL接口库。最终生成native共享库libcam">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android Framework 分析">
+<meta property="og:url" content="http://blog.pickbox.me/2010/08/23/Android-Framework-分析/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="http://raymond1860.spaces.live.com/Blog/cns!BF47B6FD104579C9!797.entry1.目录树/framework/base/api&amp;#160;/framework/base/awt/framework/base/build/framework/base/camera 关 于camera的HAL接口库。最终生成native共享库libcam">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/c782b11b915b0b5a8618bfbb.jpg">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android Framework 分析">
+<meta name="twitter:description" content="http://raymond1860.spaces.live.com/Blog/cns!BF47B6FD104579C9!797.entry1.目录树/framework/base/api&amp;#160;/framework/base/awt/framework/base/build/framework/base/camera 关 于camera的HAL接口库。最终生成native共享库libcam">
+<meta name="twitter:image" content="http://img.pickbox.me/wp-content/uploads/pic/c782b11b915b0b5a8618bfbb.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-Android-Framework-分析" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android Framework 分析
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <a href="http://raymond1860.spaces.live.com/Blog/cns!BF47B6FD104579C9!797.entry" target="_blank">http://raymond1860.spaces.live.com/Blog/cns!BF47B6FD104579C9!797.entry</a><br></p><p>1.目录树<br></p><p>/framework/base/api&#160;<br></p><p>/framework/base/awt<br></p><p>/framework/base/build<br></p><p>/framework/base/camera </p><p>关 于camera的HAL接口库。最终生成native共享库libcamera.so  ,编译时根据是否定义USE_CAMERA_STUB来决定系统是否有Camera硬件支持。若没有实际的Camera硬件，则编译时会和虚拟 camera静态库（libcamerastub.a,由camerahardwarestub.cpp,fakecamera生成）链接生成 libcamera.so。<br></p><p>/framework/base/cmds 关于android系统启动时用到的command等<br></p><p>/framework/base/cmds/am<br></p><p>/framework/base/cmds/app_process&#160;<br></p><p>可 执行文件app_process，该文件可以根据输入参数决定是Zygote启动（参考init.rc中的语句 service zygote  /system/bin/app_process -Xzygote /system/bin –zygote  –start-system-server）.<br></p><p>该执行程式会链接libandroid_runtime.so去链接android runtime。后面我会在详细分析此部分。<br></p><p>/framework/base/cmds/backup&#160;<br></p><p>可执行程式btool<br></p><p>/framework/base/cmds/bmgr<br></p><p>java可执行程式， backup manager, java库形式分发到目标系统/system/framework/bmgr.jar<br></p><p>/framework/base/cmds/bootanimation<br></p><p>android启动动画效果程式，该程式必须在android runtime启动后运行。<br></p><p>/framework/base/cmds/dumpstate<br></p><p>android系统调试辅助工具,生成可执行程式dumpstate,同时建立两个程式dumpcrash bugreport指向该程式。<br></p><p>/framework/base/cmds/dumpsys<br></p><p>生成可执行程式dumpsys<br></p><p>/framework/base/cmds/ime<br></p><p>java可执行程式 ，IME输入法 input method manager, java库形式分发到目标系统/system/framework/ime.jar<br></p><p>/framework/base/cmds/input<br></p><p>java可执行程式，管理input事件例如key event,text event 等，java库形式分发到目标系统/system/framework/input.jar<br></p><p>/framework/base/cmds/installd<br></p><p>可执行程式installd,install manager,仅在非simulator系统中运行，安装到目标系统/system/bin/installd<br></p><p>/framework/base/cmds/keystore<br></p><p>可执行程式keystore,用途？？？仅在非simulator系统中运行，安装到目标系统/system/bin/keystore<br></p><p>/framework/base/cmds/pm<br></p><p>java可执行程式，package manager，java库形式分发到目标系统/system/framework/pm.jar<br></p><p>/framework/base/cmds/runtime<br></p><p>runtime可执行程式，仅在simulator中使用<br></p><p>/framework/base/cmds/service<br></p><p>service可执行程式，用来查找，检查，呼叫service，安装到目标系统/system/bin/service<br></p><p>/framework/base/cmds/servicemanager<br></p><p>android系统的service manager，可执行文件，安装到目标系统/system/bin/servicemanager<br></p><p>servicemanager会和kernel的binder driver协作共同完成service的添加、查询、获取、检查等。<br></p><p>/framework/base/cmds/surfaceflinger<br></p><p>surfaceflinger可执行程式，安装到目标系统/system/bin/surfaceflinger,<br></p><p>该程式会初始化surfaceflinger,surfaceflinger::inistantiate(),该程式会链接到libsurfaceflinger.so<br></p><p>/framework/base/cmds/svc<br></p><p><br></p><p>/framework/base/cmds/system_server<br></p><p>system server库libsystem_server.so-&gt;system/lib/libsystem_server.so和system_server可执行程式-&gt;system/bin/system_server.<br></p><p>该可执行程式不清楚什么用途????<br></p><p>/framework/core/<br></p><p>/framework/core/config<br></p><p>几个简单java常量，（debug标志等）<br></p><p>/framework/core/java/<em><br></em></p><p>framewor</p><p>k的核心，此处主要指application framework,java库形式分发到/system/framework/<br></p><p>包括framework.jar,framework-tests.jar sure？？？<br></p><p>/framework/core/jni<br></p><p>framework所需的JNI接口实现库,分发到/system/lib/lib/libandroid_runtime.so<br></p><p>/framework/core/res<br></p><p>framework所需的资源文件打包，/system/framework/framework-res.apk,<br></p><p>/framework/libs<br></p><p>/framework/libs/audioflinger,</p><p>生成libaudioflinger.so,</p><p>若无实际硬件和静态库libaudiointerface.a（audio interface虚拟设备）链接。<br></p><p>若有实际硬件和libaudio.so链接，若支持bluetooth，则和liba2dp.so链接<br></p><p>/framework/libs/surfaceflinger<br></p><p>生成libsurfaceflinger.so<br></p><p>/framework/libs/ui<br></p><p>生成libui.so<br></p><p>/framework/libs/utils<br></p><p>生成libutils.so<br></p><p>/framework/services/java/<br></p><p>system server java可执行程式service.jar,分发到/system/framework/service.jar<br></p><p>/framework/services/jni/<em><br></em></p><p>system server JNI接口实现库,libanroid_servers.so，分发到/system/lib/libanroid_servers.so<br></p><p> </p><p></p><p>启动 Zygote<br></p><p>-Xzygote /system/bin –zygote –start-system-server<br></p><p>AndroidRuntime-&gt;AppRuntime<br></p><p>int main(int argc,const char const argv[])<br></p><p>{<br></p><p>&#160; AppRuntime runtime;生成AndroidRuntime实例<br></p><p>&#160; …<br></p><p>&#160; AndroidRuntime.Start(&quot;com.android.internal.os.ZygoteInit&quot;,startSystemServer);<br></p><p>}<br></p><p>其中AndroidRuntime.Start(&quot;com.android.internal.os.ZygoteInit&quot;,startSystemServer);<br></p><p>呼叫Android::Start(const char* className,const bool startSystemServer)<br></p><p>/framework/base/core/jni/AndroidRuntime.cpp<br></p><p>该函数的处理内容：</p><p>1.处理Jave Virtual Machine的一些参数选项；<br></p><p>2.创建Dalvik Java虚拟机，JNI_CreateJavaVM(&amp;mJavaVM,&amp;env,&amp;initArgs)；<br></p><p>3.注册Android Runtime中的JNI接口给虚拟机；<br></p><p>4.呼叫Java类com.android.internal.os.ZygoteInit的main函数<br></p><p><br></p><p>在类com.android.internal.os.ZygoteInit的main函数中，<br></p><p>1.注册Zygote socket用来接收请求;<br></p><p>2.加载preloaded class、resources用来加快启动速度，文件清单在framework.jar中的preloaded-classes,framework-res.apk中的res中;<br></p><p>3.启动System Server;<br></p><p>&#160; fork出独立的进程名称为system-server，呼叫com.android.server.SystemServer类的main函数；<br></p><p>&#160; 在HandleSystemServerProcess函数中，RuntimeInit.ZygoteInit调用会呼叫AppRuntime的OnZygoteInit函数<br></p><p>4.RuntimeInit.ZygoteInit函数会呼叫com.android.server.SystemServer类的main函数。<br></p><p>&#160; 在此main函数中，系统首先加载android_server共享库libandroid_server.so 源代码位于/framework/base/service/jni<br></p><p>&#160; 在该库中有定义JNI_OnLoad函数，所以Dalvik在加载libandroid_server.so 的时候会首先呼叫该JNI_OnLoad函数，该函数将android  server注册到Java虚拟机中，包括 KeyInputQueue,HardwareService,AlarmManager,BatteryService,SensorService,SystemServer 等；<br></p><p>&#160; 呼叫在libanroid_server.so中注册的native函数init1，该函数位于/frameworks/base/services/jni/com_android_server_SystemServer.cpp中；<br></p><p>&#160;   init1函数呼叫libsystem_server中的system_init函数，该函数位于/frameworks/base/cmds /system_server/library/system_init.cpp中，该函数将SurfaceFlinger/AudioFlinger /MediaPlayer/CameraService等组件注册到ServiceManager中<br></p><p>&#160; system_init函数反过来呼叫java类com.android.server.SystemServer的init2函数；<br></p><p>5.在init2函数中，android创建了serverthread，在该thread中android开始注册各种service到service manager中<br></p><p>包括EntropyService,PowerManager,ActivityManager,Telephony,PackageManager,ContentManager,ContentProvider,</p><p>BatteryService,HardwareService,AlarmManager等等。<br></p><p>&#160; 注意该线程使用Looper来执行thread<br></p><p>至此android system server启动完成。<br></p><p><br></p><p><a rel="external" href="https://lpjk6g.blu.livefilestore.com/y1mwdwkcvIV41R3M6XBFVubDfpRaRr7mow2aCjnUHIOypRLxRW5syV1bGC_mrTbWx0y0qNraG2kXQjn8F6t1qtMEbVOprsbVnd8Ukj4OsUjWhZmfKGGC1ZZ-SPURmp2kWQHNW3R15L1LrnW-iXNKjrX3w/android%20boot%20sequence%5B3%5D.jpg" target="_blank"><img src="http://img.pickbox.me/wp-content/uploads/pic/c782b11b915b0b5a8618bfbb.jpg" small="0" class="blogimg"><br></a> <br></p><p><br></p><p><br></p> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2010/08/23/Android-Framework-分析/" class="archive-article-date">
+  	<time datetime="2010-08-23T06:54:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2010-08-23</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2010/08/26/Android窗口管理/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Android窗口管理
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2010/08/21/Activity启动流程-1/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Activity启动流程(1)</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

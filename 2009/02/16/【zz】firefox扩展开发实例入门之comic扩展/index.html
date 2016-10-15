@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>【zz】firefox扩展开发实例入门之comic扩展 | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="http://bbs.sjtu.edu.cn/bbstcon?board=GNULinux&amp;amp;reid=1234626263如何写firefox的扩展（注意，这里是extension，和plugin还是有一定区别的）。这次的实例选的是看comic的插件。虽然若干年前的前辈门为了让在linux下也能享受到comic已经写好了相当不错的extension，大家可以直接拿来用。不过因为暂时没想到有">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【zz】firefox扩展开发实例入门之comic扩展">
+<meta property="og:url" content="http://blog.pickbox.me/2009/02/16/【zz】firefox扩展开发实例入门之comic扩展/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="http://bbs.sjtu.edu.cn/bbstcon?board=GNULinux&amp;amp;reid=1234626263如何写firefox的扩展（注意，这里是extension，和plugin还是有一定区别的）。这次的实例选的是看comic的插件。虽然若干年前的前辈门为了让在linux下也能享受到comic已经写好了相当不错的extension，大家可以直接拿来用。不过因为暂时没想到有">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【zz】firefox扩展开发实例入门之comic扩展">
+<meta name="twitter:description" content="http://bbs.sjtu.edu.cn/bbstcon?board=GNULinux&amp;amp;reid=1234626263如何写firefox的扩展（注意，这里是extension，和plugin还是有一定区别的）。这次的实例选的是看comic的插件。虽然若干年前的前辈门为了让在linux下也能享受到comic已经写好了相当不错的extension，大家可以直接拿来用。不过因为暂时没想到有">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-【zz】firefox扩展开发实例入门之comic扩展" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      【zz】firefox扩展开发实例入门之comic扩展
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="http://bbs.sjtu.edu.cn/bbstcon?board=GNULinux&amp;reid=1234626263" target="_blank">http://bbs.sjtu.edu.cn/bbstcon?board=GNULinux&amp;reid=1234626263</a><br>如何写firefox的扩展（注意，这里是extension，<br>和plugin还是有一定区别的）。这次的实例选的是看comic的插件。虽然若干年前的前辈<br>门为了让在linux下也能享受到comic已经写好了相当不错的extension，大家可以直接拿<br>来用。不过因为暂时没想到有什么比较简单的插件（HelloWorld除外）可以作为入门教<br>程，并同时让大家练练手的，就只有拿这个开刀了~还是希望能有人对这个有兴趣，有朝<br>一日弄出个我们SJTUer自己的Firefox版本来~废话到此为止，下面进入正题！</p>
+<p>一． 基础知识</p>
+<p>最直接了当的入门请猛击这里：<a href="https://developer.mozilla.org/en/Extensions" target="_blank" rel="external">https://developer.mozilla.org/en/Extensions</a></p>
+<p>当然，如果这篇文章我什么也不介绍，肯定会被人诅咒的。于是，我就稍微说几句<br>来实现脱盲。</p>
+<p>首先，我们要知道，extension，扩展，顾名思义就是给firefox添加新功能的。比<br>如对于我们亲爱的comic.sjtu.edu.cn，“裸体”状态下的firefox中浏览点击播放图标<br>，我们的小萌狐狸是不会理你的，这时候，就需要给她弄点extension来调教调教，教教<br>她如何service。调教步骤如下：<br>1.从网上找一个扩展，或者自己写一个；<br>2.给小萌狐穿上这个扩展；<br>3.“X掉，再打开”。这时候就已经调教完毕可以正常服务了。</p>
+<p>本文是教你如何写扩展，我们就要了解一下firefox扩展的文件格式。从网上下载下<br>来的都是个xpi后缀名的包，其实也就是个zip格式的包改了个名字而已。把这个包拖到f<br>irefox上就能进行安装。具体这个压缩包有些什么，我将在下一节和实例一起介绍~</p>
+<p>最后，说说想在小狐狸身上打主意都需要些什么要求：<br>1.一定要是怪叔叔，例如sudo；<br>2.会用电脑，要装有firefox（连情人都没有，怎么能过情人节~）；<br>3.懂英语，很可惜，这是只洋loli；<br>4.（最好）看的懂HTML，JAVASCRIPT，XML。以上。</p>
+<p>@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</p>
+<p>二． 开发一个comic扩展</p>
+<p>这里，不会系统的教你如何去开发一个firefox的扩展，我没那本事。我只能以一个<br>看comic的小扩展作为例子，让你理解下firefox的扩展。至于能理解到什么程度，看你<br>造化了<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div><div class="line">123</div><div class="line">124</div><div class="line">125</div><div class="line">126</div><div class="line">127</div><div class="line">128</div><div class="line">129</div><div class="line">130</div><div class="line">131</div><div class="line">132</div><div class="line">133</div><div class="line">134</div></pre></td><td class="code"><pre><div class="line">的所以简化了很多内容，比如字符集处理等。</div><div class="line"></div><div class="line">整个开发的文件目录结构如下：</div><div class="line"></div><div class="line">Comic: ------总目录</div><div class="line">-----install.rdf ------扩展安装信息文件</div><div class="line">-----chrome.manifest ------chrome目录描述文件</div><div class="line">-----chrome: ------chrome目录下是用户界面元素</div><div class="line">----------content: ------content目录下是扩展的源代码</div><div class="line">---------------overlay.js ------处理脚本</div><div class="line">---------------overlay.xul ------用户界面配置</div><div class="line">---------------options.xul ------扩展选项配置</div><div class="line"></div><div class="line">你看，其实整个下来也就5个文件，代码也很少，都很容易理解。下面我们就开始逐</div><div class="line">个的看看这些文件的代码，和作用。</div><div class="line"></div><div class="line">首先是install.rdf文件：</div><div class="line"></div><div class="line">&amp;lt;?xml version=&quot;1.0&quot;?&amp;gt;</div><div class="line">&amp;lt;RDF:RDF xmlns:em=&quot;&lt;a href=&quot;http://www.mozilla.org/2004/em-rdf#&quot; target=&quot;_blank&quot;&gt;http://www.mozilla.org/2004/em-rdf#&lt;/a&gt;</div><div class="line">xmlns:NC=&quot;&lt;a href=&quot;http://home.netscape.com/NC-rdf#&quot; target=&quot;_blank&quot;&gt;http://home.netscape.com/NC-rdf#&lt;/a&gt;</div><div class="line">xmlns:RDF=&quot;&lt;a href=&quot;http://www.w3.org/1999/02/22-rdf-syntax-ns#%3E&quot; target=&quot;_blank&quot;&gt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&amp;gt;&lt;/a&gt;</div><div class="line">&amp;lt;RDF:Description RDF:about=&quot;urn:mozilla:install-manifest&quot;</div><div class="line">em:id=&quot;comic@sudo&quot;</div><div class="line">em:name=&quot;Comic Extension&quot;</div><div class="line">em:version=&quot;0.1&quot;</div><div class="line">em:creator=&quot;sudo&quot;</div><div class="line">em:description=&quot;A simple extension to view movies on</div><div class="line">comic.sjtu.edu.cn&quot;</div><div class="line">em:optionsURL=&quot;chrome://comic/content/options.xul&quot;&amp;gt;</div><div class="line">&amp;lt;em:targetApplication RDF:resource=&quot;rdf:#$Jw9Pt1&quot;/&amp;gt;</div><div class="line">&amp;lt;/RDF:Description&amp;gt;</div><div class="line">&amp;lt;RDF:Description RDF:about=&quot;rdf:#$Jw9Pt1&quot;</div><div class="line">em:id=&quot;&#123;ec8030f7-c20a-464f-9b0e-13a3a9e97384&#125;&quot;</div><div class="line">em:minVersion=&quot;1.5&quot;</div><div class="line">em:maxVersion=&quot;3.*&quot; /&amp;gt;</div><div class="line">&amp;lt;/RDF:RDF&amp;gt;</div><div class="line"></div><div class="line">这个文件只是用来描述你开发的扩展的，比如说，em:id元素是你扩展的id，应该取</div><div class="line">一个唯一的名字，比如可以用你的邮件之类的来命名。em:targetApplication中表示这</div><div class="line">个扩展运用的mozilla应用是什么，以为mozilla除了firefox，还有thunderbird等一大</div><div class="line">堆东西。</div><div class="line">这里em:id=&quot;&#123;ec8030f7-c20a-464f-9b0e-13a3a9e97384&#125;&quot;是firefox，下面的是版本</div><div class="line">号。有些同学的firefox升级后部分插件扩展不能使用了，就是从这里检查出来的。多数</div><div class="line">情况下只要修改一下最高版本号，死了的插件和扩展就又能原地复活了。再下面是插件</div><div class="line">的描述，是安装后最终显示在附加组件中的信息。这个太简单了，我就不废话了：）</div><div class="line"></div><div class="line">然后是chrome.manifest文件：</div><div class="line"></div><div class="line">content comic chrome/content/</div><div class="line">overlay chrome://browser/content/browser.xul</div><div class="line">chrome://comic/content/overlay.xul</div><div class="line"></div><div class="line">就两行，不用解释也看的出是干啥的~定义用户界面的内容的位置</div><div class="line"></div><div class="line">再看overlay.xul：</div><div class="line"></div><div class="line">&amp;lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&amp;gt;</div><div class="line">&amp;lt;overlay id=&quot;comic-overlay&quot;</div><div class="line">xmlns=&quot;&lt;a href=&quot;http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul%3E&quot; target=&quot;_blank&quot;&gt;http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul&amp;gt;&lt;/a&gt;</div><div class="line">&amp;lt;script src=&quot;chrome://comic/content/overlay.js&quot;/&amp;gt;</div><div class="line">&amp;lt;popup id=&quot;contentAreaContextMenu&quot;&amp;gt;</div><div class="line">&amp;lt;menuitem id=&quot;play-comic&quot; label=&quot;Play Online&quot;</div><div class="line">oncommand=&quot;comic.play()&quot;</div><div class="line">insertbefore=&quot;context-openlink&quot;/&amp;gt;</div><div class="line">&amp;lt;/popup&amp;gt;</div><div class="line">&amp;lt;/overlay&amp;gt;</div><div class="line"></div><div class="line">这里定义的是在浏览器中的显示方式，</div><div class="line">&amp;lt;script src=&quot;chrome://comic/content/overlay.js&quot;/&amp;gt;指出我们要用到这个脚本</div><div class="line">来处理。</div><div class="line">&amp;lt;popup id=&quot;contentAreaContextMenu&quot;&amp;gt;说明这里是一个弹出的菜单，contentArea</div><div class="line">ContextMenu是我给这个菜单制定的ID，你想取啥随便你：）</div><div class="line"></div><div class="line">&amp;lt;menuitem id=&quot;play-comic&quot; label=&quot;Play Online&quot; oncommand=&quot;comic.play()&quot;</div><div class="line">insertbefore=&quot;context-openlink&quot;</div><div class="line">image=&quot;chrome://comic/content/comic.png&quot;/&amp;gt;</div><div class="line">指定了菜单中选项的一些属性，比如标签是Play Online，点击后执行的动作是comi</div><div class="line">c.play()，这个是在overlay.js中的，下面会讲到。这里还可以指定位置，insertbefor</div><div class="line">e是在哪个item之前插入这个选项。</div><div class="line"></div><div class="line">然后就是options.xul了，这个是配置扩展的地方，代码如下：</div><div class="line"></div><div class="line">&amp;lt;?xml version=&quot;1.0&quot;?&amp;gt;</div><div class="line">&amp;lt;?xml-stylesheet href=&quot;chrome://global/skin/&quot; type=&quot;text/css&quot;?&amp;gt;</div><div class="line"></div><div class="line">&amp;lt;prefwindow id=&quot;comic-prefs&quot; title=&quot;Comic Setting&quot;</div><div class="line">xmlns=&quot;&lt;a href=&quot;http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul%3E&quot; target=&quot;_blank&quot;&gt;http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul&amp;gt;&lt;/a&gt;</div><div class="line">&amp;lt;prefpane id=&quot;perf-setting&quot;&amp;gt;</div><div class="line">&amp;lt;preferences&amp;gt;</div><div class="line">&amp;lt;preference id=&quot;mplayer&quot; name=&quot;sjtu.comic.mplayer&quot; type=&quot;string&quot;/&amp;gt;</div><div class="line">&amp;lt;/preferences&amp;gt;</div><div class="line">&amp;lt;vbox&amp;gt;</div><div class="line">&amp;lt;label value=&quot;mplayer location: &quot;/&amp;gt;</div><div class="line">&amp;lt;textbox preference=&quot;mplayer&quot;/&amp;gt;</div><div class="line">&amp;lt;/vbox&amp;gt;</div><div class="line">&amp;lt;/prefpane&amp;gt;</div><div class="line">&amp;lt;/prefwindow&amp;gt;</div><div class="line"></div><div class="line">很简单，我们把mplayer播放器的位置保存在firefox的配置之中，配置的位置为sjt</div><div class="line">u.comic.mplayer。这个是可以在浏览器中用about:config打开查的到的~然后就是些简</div><div class="line">单的配置界面上的东西，我就不啰嗦了：）</div><div class="line"></div><div class="line">最后，最核心的代码当然要javascript上场了，请看overlay.js：直接在代码上注</div><div class="line">释了，大家睁大眼睛了！</div><div class="line"></div><div class="line">var comic = &#123;</div><div class="line">onLoad: function() &#123;</div><div class="line">this.initialized = true;</div><div class="line">document.getElementById(&quot;contentAreaContextMenu&quot;)</div><div class="line">.addEventListener(&quot;popupshowing&quot;,this.showContextMenu,false);</div><div class="line">&#125;,</div><div class="line">//这是加载时做的事，第二条是加入处理菜单时候显示的监听器</div><div class="line"></div><div class="line">getURL:function()&#123;</div><div class="line">var URL;</div><div class="line">if (gContextMenu &amp;amp;&amp;amp; gContextMenu.link</div><div class="line">&amp;amp;&amp;amp; gContextMenu.link.getAttribute(&quot;onclick&quot;)) &#123;</div><div class="line">var result = gContextMenu.link.getAttribute(&quot;onclick&quot;)</div><div class="line">.match(/TruevodPlayEx(&apos;(.*)&apos;,&apos;(.*)&apos;,&apos;(.*)&apos;);/i);</div><div class="line">if (result &amp;amp;&amp;amp; result[1] &amp;amp;&amp;amp; result[2]) &#123;</div><div class="line">URL = &quot;vod://&quot;+result[1]+&quot;/&quot;+result[2];</div><div class="line">URL=URL.replace(/\\/ig, &apos;/&apos;);</div><div class="line">URL=URL.replace(/\/ig, &apos;&apos;);</div><div class="line">URL = encodeURI(URL);</div><div class="line">URL = unescape(URL);</div><div class="line">return URL;</div><div class="line">&#125;</div><div class="line">&#125;</div><div class="line">&#125;,</div><div class="line">//这个函数是解析页面上的vod的地址，用到正则表达式大家自己去分析分析：）</div><div class="line">//这里要注意的是，我把URL转成unicode了，在linux下是能很好的工作的</div><div class="line">//但在windows下，由于字符集的问题，碰到非拉丁的玩意就不行了~</div><div class="line">//要打补丁的话~有点麻烦，这里就从简了呵呵~</div></pre></td></tr></table></figure></p>
+<p>showContextMenu: function() {<br>document.getElementById(“play-comic”).hidden = true;</p>
+<p>if (comic.getURL()) {<br>document.getElementById(“play-comic”).hidden = false;<br>}<br>},<br>//这个是是否显示菜单项~当然只有在有vod的URL的情况下才显示，<br>//否则多出个menuitem多难看~<br>//这里注意那些id的匹配~</p>
+<p>callProcess:function(path,args){<br>var file = Components.classes[“@mozilla.org/file/local;1”]<br>.createInstance(Components.interfaces.nsILocalFile);<br>file.initWithPath(path);<br>var process = Components.classes[“@mozilla.org/process/util;1”]<br>.createInstance(Components.interfaces.nsIProcess);<br>process.init(file);<br>process.run(false, args, args.length);<br>},<br>//firefox调用外部程序，我稍微包装了下，参数为程序路径和穿的参数<br>//这里参数也就是vod视屏的链接啦</p>
+<p>play:function(){<br>var path =Components.classes[“@mozilla.org/preferences-service;1”]<br>.getService(Components.interfaces.nsIPrefBranch)<br>.getCharPref(“sjtu.comic.mplayer”);<br>var URL = comic.getURL();<br>var args = [];<br>args.push(URL);<br>comic.callProcess(path,args);<br>}<br>};<br>//播放函数，当在菜单中点击时就调用这个，其先从配置中读取mplayer的位置</p>
+<p>window.addEventListener(“load”, function(e) { comic.onLoad(e); }, false);<br>//这个自己理解：）</p>
+<p>@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@</p>
+<p>三． 小结</p>
+<p>总觉得在关键的地方写的太少了~算了反正代码也不长，读起来也不算太难大家自己<br>理解理解吧：）这个版本是被我“和谐”后的~也就是隐藏了#XX#功能后的版本，也做了<br>很大的简化，在linux下是非常正常的运行的，windows下只能搞搞文件路径中没有中文<br>的。当然，当做教学使用应该是足够了。有什么问题和建议都欢迎来GNULinux提~也欢迎<br>更多的人参与到开发中来，体验开发的乐趣：）</p>
+<p>代码：（xpi文件）<br><a href="http://bbs.sjtu.edu.cn/file/GNULinux/1234626218274327.xpi" target="_blank">http://bbs.sjtu.edu.cn/file/GNULinux/1234626218274327.xpi</a></p>
+<p>附一：<br>对于mplayer：<br>linux下推荐使用打过utf的vod补丁的，推荐smplayer前端<br>扩展配置中直接输入位置，如/usr/local/bin/mplayer,/usr/local/bin/smplayer</p>
+<p>windows下推荐使用ww编译版（<a href="http://mplayer-ww.sourceforge.net/%EF%BC%89" target="_blank">http://mplayer-ww.sourceforge.net/）</a><br>扩展配置重输入位置，斜杆需转义，如C:\Program Files\mplayermplayer.exe</p>
+<p>附二：<br>开发出来的扩展的打包：用压缩软件打包成zip格式文件，然后修改后缀为xpi即可</p>
+<p>==================&gt;&gt;&gt;&gt;&gt;&gt; &lt;&lt;&lt;&lt;&lt;&lt;=====================<br>code ( 稍有修改 ):</p>
+<p>overlay.jsvar comic = {<br>onLoad: function() {<br>this.initialized = true;<br>document.getElementById(“contentAreaContextMenu”)<br>.addEventListener(“popupshowing”,this.showContextMenu,false);<br>},</p>
+<p>getURL:function(){<br>var URL;<br>if (gContextMenu &amp;&amp; gContextMenu.onLink) {<br>var result = gContextMenu.linkURL.match(/.<em>(.rmvb|.avi|.flv|.mp3).</em>/ig);<br>if(result) {<br>URL = encodeURI(result);<br>URL = unescape(URL);<br>}<br>return URL;<br>}<br>},</p>
+<p>showContextMenu: function() {<br>document.getElementById(“play-comic”).hidden = true;<br>if (comic.getURL()) {<br>document.getElementById(“play-comic”).hidden = false;<br>}<br>},</p>
+<p>callProcess:function(path,args){<br>var file = Components.classes[“@mozilla.org/file/local;1”]<br>.createInstance(Components.interfaces.nsILocalFile);<br>file.initWithPath(path);<br>var process = Components.classes[“@mozilla.org/process/util;1”]<br>.createInstance(Components.interfaces.nsIProcess);<br>process.init(file);<br>process.run(false, args, args.length);<br>},</p>
+<p>play:function(){<br>var path =Components.classes[“@mozilla.org/preferences-service;1”].<br>getService(Components.interfaces.nsIPrefBranch).getCharPref(“sjtu.comic.mplayer”);<br>var URL = comic.getURL();<br>var args = [];<br>args.push(URL);<br>comic.callProcess(path,args);<br>},</p>
+<p>};<br>window.addEventListener(“load”, function(e) { comic.onLoad(e); }, false);</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2009/02/16/【zz】firefox扩展开发实例入门之comic扩展/" class="archive-article-date">
+  	<time datetime="2009-02-16T15:15:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2009-02-16</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2009/02/18/firefox扩展开发实例——代理选择/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          firefox扩展开发实例——代理选择
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2009/02/11/秘方收藏/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">秘方收藏</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

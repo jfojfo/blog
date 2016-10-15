@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="jfo planet">
+<meta property="og:url" content="http://blog.pickbox.me/page/23/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jfo planet">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        
+  
+    <article id="post-android获取源代码、编译、命令" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2010/04/13/android获取源代码、编译、命令/">android获取源代码、编译、命令</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> </p><p></p><p><strong><a target="_blank" href="http://source.android.com/porting/build_system.html">http://source.android.com/porting/build_system.html</a><br></strong></p><p><strong><a href="http://source.android.com/porting/build_cookbook.html" target="_blank">http://source.android.com/porting/build_cookbook.html （Build Cookbook，Android.mk中变量含义）</a><br></strong></p><p><strong><a target="_blank" href="http://source.android.com/source/git-repo.html">http://source.android.com/source/git-repo.html（using git and repo）</a><br></strong></p><p><strong><br></strong></p><p><strong>～～～my～～～</strong></p><p>1. 新建一个目录下载源码：<br>mkdir eclair-dev &amp;&amp; cd eclair-dev<br>repo init -u git://192.168.3.120/android2.1/platform/manifest.git -b eclair-dev<br>repo sync<br><br>2. 取出开发分支<br>repo forall -c git checkout korg/eclair-0901 -b eclair-0901</p><p></p><p><strong>～～～my～～～</strong></p><p>正确的编译android sdk：</p><p>cd myandroid<br>.&nbsp; ./build/envsetup.sh<br>lunch sdk-eng<br>make sdk<br><br>//或者：<br>make PRODUCT-sdk-sdk<br><br>这样就会在out/host/linux-x86/sdk/目录下生成跟google 发布的sdk包一样的目录，就可以使用自己的sdk开发包了。</p><p>make snod&nbsp; //生成system.img</p><p>make sdk showcommands&nbsp; //显示编译时的详细信息</p><p>make systemimage&nbsp;&nbsp;&nbsp; //会编译framework和package</p><p>运行模拟器：<br>. build/envsetup.sh <br>lunch 1 或者 lunch sdk-eng&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//加载运行环境<br>export PATH=/home/vnify/software/jdk1.5.0_04/bin/:$PATH&nbsp;//设置java，我的默认为1.6<br>export ANDROID_SDK_ROOT=./out/host/linux-x86/sdk/android-sdk_eng.vnify_linux-x86/<br>emulator -avd wvga800 -skin WVGA800&nbsp; //运行指定的虚拟设备和皮肤<br><br>调试：<br>ddms &amp;</p><p></p><p>加速编译：export USE_CCACHE=1</p><p>参考<a target="_blank" href="http://source.android.com/porting/build_system.html#androidSourceSetupBuildingCodeBase">http://source.android.com/porting/build_system.html#androidSourceSetupBuildingCodeBase</a></p><p></p><br><br>You can also import android source code into eclipse:<br>cd android_src &amp;&amp; cp cp development/ide/eclipse/.classpath ./<br>Then import existing project.<br><br><br>Ctrl-Shift-o = Organize imports <br>Ctrl-Shift-t = load class by name <br>Ctrl-Shift-r = load non-class resource by name <br>Ctrl-1 = quick fix <br>Ctrl-e = Recently viewed files <br>Ctrl-space = auto complete <br>Shift-Alt-r = refactor:rename <br>Shift-Alt-v = refactor:move<p><strong>～～～my～～～</strong></p><p><strong><br></strong></p><p><strong>1、Git的安装</strong><br>在Ubuntu 8.04上安装git只要设定了正确的更新源，然后使用apt-get就可以了，有什么依赖问题，就让它自己解决吧。其中cURL是一个利用URL语法在命令行下工作的文件传输工具，会在后面安装Repo的时候用到。<br><strong>sudo apt-get install git-core curl</strong></p><p><strong>2、安装Repo</strong><br>首先确保在当前用户的主目录下创建一个/bin目录（如果没有的话），然后把它(~/bin)加到PATH环境变量中<br>接下来通过cURL来下载Repo脚本，保存到~/bin/repo文件中<br><strong>curl <a href="http://android.git.kernel.org/repo" target="_blank" rel="external">http://android.git.kernel.org/repo</a> &gt;~/bin/repo</strong></p><p>别忘了给repo可执行权限<br><strong>chmod a+x ~/bin/repo</strong></p><p><strong>3、初始化版本库</strong><br>如果是想把Android当前主线上最新版本的所有的sourcecode拿下来，我们需要repo的帮助。<br>先建立一个目录，比如~/android，进去以后用repo init命令即可。<br><strong>repo init -u git://android.git.kernel.org/platform/manifest.git</strong><br>这个过程会持续很长的时间（至少可以好好睡一觉），具体要多少时间就取决于网络条件了<br>最后会看到 repo initialized in /android这样的提示，就说明本地的版本库已经初始化完毕，并且包含了当前最新的sourcecode。</p><p>如果想拿某个branch而不是主线上的代码，我们需要用-b参数制定branch名字，比如：<br><strong>repo init -u git://android.git.kernel.org/platform/manifest.git -b cupcake</strong></p><p>另一种情况是，我们只需要某一个project的代码，比如kernel/common，就不需要repo了，直接用Git即可。<br><strong>git clone git://android.git.kernel.org/kernel/common.git</strong><br>这也需要不少的时间，因为它会把整个Linux Kernel的代码复制下来。</p><p>如果需要某个branch的代码，用git checkout即可。比如我们刚刚拿了kernel/common.get的代码，那就先进入到common目录，然后用下面的命令：<br><strong>git checkout origin/android-goldfish-2.6.27 -b goldfish</strong><br>这样我们就在本地建立了一个名为goldfish的android-goldfish-2.6.27分支，代码则已经与android-goldgish-2.6.27同步。我们可以通过git branch来列出本地的所有分支。</p><p><strong>4、同步版本库</strong><br>使用<strong>r</strong><strong>erpo sync</strong>命令，我们把整个Android代码树做同步到本地，同样，我们可以用类似<br><strong>repo sync project1 project2 … </strong><br>这样的命令来同步某几个项目</p><p>如果是同步Android中的单个项目，只要在项目目录下执行简单的<br><strong>git pull</strong><br>即可。</p><p><strong>5、通过GitWeb下载代码</strong><br>另外，如果只是需要主线上某个项目的代码，也可以通过<a href="http://android.git.kernel.org/" target="_blank" rel="external">GitWeb</a>下载，在shortlog利用关键字来搜索特定的版本，或者找几个比较新的tag来下载还是很容易的。</p><p></p><p>－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－</p><a target="_blank" href="http://hi.baidu.com/garnetttt/blog/item/13426d222f72b3ae4623e8f3.html">android编译全过程</a><br>2009-11-05  15:00本 文主要参考官方文档（<a href="http://source.android.com/download）和网上相关资料（http" target="_blank" rel="external">http://source.android.com/download）和网上相关资料（http</a>: //blog.csdn.net/HKjinzhao/archive/2009/03/18/4002326.aspx，http: //www.williamhua.com/2009/04/30/how-to-build-android-15-kernel-image/）。网 上的资料对于andorid的最新代码有的已经过时，或者有错误，这份文档本人亲自实验，保证可行。另本人没有使用eclipse的习惯，所以并没有做 eclipse的相关配置。<br><br>编译环境：ubuntu9.10，widnows平台目前不被支持。<br><br>1）安装必要的软件环境<br>$ sudo apt-get install git-core gnupg sun-java5-jdk flex bison gperf libsdl-dev libesd0-dev libwxgtk2.6-dev build-essential zip curl libncurses5-dev zlib1g-dev<br>官方推荐的就是上面这些，如果在编译过程中发现某些命令找不到，就apt-get它。可能需要的包还有：<br>$ sudo apt-get install make<br>$ sudo apt-get install gcc<br>$ sudo apt-get install g++<br>$ sudo apt-get install libc6-dev<br><br>$ sudo apt-get install patch<br>$ sudo apt-get install texinfo<br><br>$ sudo apt-get install zlib1g-dev<br>$ sudo apt-get install valgrind<br>$ sudo apt-get install python2.5（或者更高版本）<br>需要注意的是，官方文档说如果用sun-java6-jdk可出问题，得要用sun-java5- jdk。经测试发现，如果仅仅make（make不包括make sdk），用sun-java6-jdk是没有问题的。而make sdk，就会有问题，严格来说是在make doc出问题，它需要的javadoc版本为1.5。<br>因此，我们安装完sun-java6-jdk后最好再安装sun-java5-jdk，或者只安装sun-java5-jdk。这里sun-java6- jdk和sun-java5-jdk都安装，并只修改javadoc.1.gz和javadoc。因为只有这两个是make sdk用到的。这样的话，除了javadoc工具是用1.5版本，其它均用1.6版本：<br>$ sudo apt-get install sun-java6-jdk<br>修改javadoc的link<br>$ cd /etc/alternatives<br>$ sudo rm javadoc.1.gz<br>$ sudo ln -s /usr/lib/jvm/java-1.5.0-sun/man/man1/javadoc.1.gz javadoc.1.gz<br>$ sudo rm javadoc<br>$ sudo ln -s /usr/lib/jvm/java-1.5.0-sun/bin/javadoc javadoc<br><br>2）设置环境变量<br>$ emacs ~/.bashrc<br>在.bashrc中新增或整合PATH变量，如下：<br>#java 程序开发/运行的一些环境变量<br>JAVA_HOME=/usr/lib/jvm/java-6-sun<br>JRE_HOME=${JAVA_HOME}/jre<br>export ANDROID_JAVA_HOME=$JAVA_HOME<br>export CLASSPATH=.:${JAVA_HOME}/lib:$JRE_HOME/lib:$CLASSPATH<br>export JAVA_PATH=${JAVA_HOME}/bin:${JRE_HOME}/bin<br>export JAVA_HOME;<br>export JRE_HOME;<br>export CLASSPATH;<br>HOME_BIN=~/bin/<br>export PATH=${PATH}:${JAVA_PATH}:${HOME_BIN};<br>保存后，同步更新：<br>source ~/.bashrc<br><br>3）安装repo（用来更新android源码）<br>创建~/bin目录，用来存放repo程序，如下：<br>$ cd ~<br>$ mkdir bin<br>并加到环境变量PATH中，在第2步中已经加入<br>下载repo脚本并使其可执行：<br>$ curl <a href="http://android.git.kernel.org/repo" target="_blank" rel="external">http://android.git.kernel.org/repo</a> &gt;~/bin/repo<br>$ chmod a+x ~/bin/repo<br><br>4）初始化repo<br>repo是android对git的一个封装，简化了一些git的操作。<br>创建工程目录：<br>$ mkdir android<br>$ cd android<br>repo初始化<br>$ repo init -u git://android.git.kernel.org/platform/manifest.git<br>在此过程中需要输入名字和email地址。初始化成功后，会显示：<br>repo initialized in /android<br>在~/android下会有一个.repo的隐藏目录。<br><br>5）同步源代码<br>$ repo sync<br>这一步要很久很久<br><br>6）编译android源码,并得到~/android/out目录<br>$ cd ~/andoird<br>$ make PRODUCT-sdk-sdk<br>这一过程很久<br>或者：<br>.&nbsp; ./build/envsetup.sh<br>lunch sdk-eng<br>make sdk<br><br>7）在模拟器上运行编译好的android<br>编译好android之后，emulator在~/android/out/host/linux-x86/bin 下，ramdisk.img，system.img和userdata.img则在~/android/out/target/product /generic下<br>$ cd ~/android/out/host/linux-x86/bin<br>增加环境变量<br>$ emacs ~/.bashrc<br>在.bashrc中新增环境变量，如下<br>#java 程序开发/运行的一些环境变量<br>export ANDROID_PRODUCT_OUT=~/android/out/target/product/generic<br>ANDROID_PRODUCT_OUT_BIN=~/android/out/host/linux-x86/bin<br>export PATH=${PATH}:${ANDROID_PRODUCT_OUT_BIN}:${ANDROID_PRODUCT_OUT};<br><br>最后，同步这些变化：<br>$ source ~/.bashrc<br>$ cd ~/android/out/target/product/generic<br>$ emulator -system system.img -data userdata.img -ramdisk ramdisk.img<br>最后进入android桌面，就说明成功了。<br><br>8）编译模块<br>android中的一个应用程序可以单独编译，编译后要重新生成system.img<br>在源码目录下执行<br>$ . build/envsetup.sh （.后面有空格）<br>就多出一些命令：<br>- croot:&nbsp;&nbsp; Changes directory to the top of the tree.<br>- m:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Makes from the top of the tree.<br>- mm:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Builds all of the modules in the current directory.<br>- mmm:&nbsp;&nbsp;&nbsp;&nbsp; Builds all of the modules in the supplied directories.<br>- cgrep:&nbsp;&nbsp; Greps on all local C/C++ files.<br>- jgrep:&nbsp;&nbsp; Greps on all local Java files.<br>- resgrep: Greps on all local res/<em>.xml files.<br>- godir:&nbsp;&nbsp; Go to the directory containing a file.<br>可以加—help查看用法<br>我们可以使用mmm来编译指定目录的模块，如编译联系人：<br>$ mmm packages/apps/Contacts/<br>编完之后生成两个文件：<br>out/target/product/generic/data/app/ContactsTests.apk<br>out/target/product/generic/system/app/Contacts.apk<br>可以使用<br>$ make snod<br>重新生成system.img，再运行模拟器<br><br>9）编译SDK<br>直接执行make是不包括make sdk的。make sdk用来生成SDK，这样，我们就可以用与源码同步的SDK来开发android了。<br><br>a）修改/frameworks/base/include/utils/Asset.h<br>‘UNCOMPRESS_DATA_MAX = 1 </em> 1024 <em> 1024’ 改为 ‘UNCOMPRESS_DATA_MAX = 2 </em> 1024 <em> 1024’<br>原因是eclipse编译工程需要大于1.3M的buffer；<br><br>b）编译ADT。<br>由于本人不使用eclipse，所以没有进行这步；<br><br>c）执行make sdk。<br>注意，这里需要的javadoc版本为1.5，所以你需要在步骤1中同时安装sun-java5-jdk<br>$ make sdk<br>编译很慢。编译后生成的SDK存放在out/host/linux-x86/sdk/，此目录下有android-sdk_eng.xxx_linux- x86.zip和android-sdk_eng.xxx_linux-x86目录。android-sdk_eng.xxx_linux-x86就是 SDK目录<br>实际上，当用mmm命令编译模块时，一样会把SDK的输出文件清除，因此，最好把android-sdk_eng.xxx_linux-x86移出来<br>此后的应用开发，就在该SDK上进行，所以把7）对于~/.bashrc的修改注释掉，增加如下一行：<br>export PATH=${PATH}:~/android/out/host/linux-x86/sdk/android-sdk_eng.xxx_linux-x86/tools<br>注意要把xxx换成真实的路径；<br><br># make PRODUCT-sdk-sdk<br><br><br>d）关于环境变量、android工具的选择<br>目前的android工具有：<br>A、我们从网上下载的SDK，如果你下载过的话（ tools下有许多android工具，lib/images下有img映像）<br>B、我们用make sdk编译出来的SDK（ tools下也有许多android工具，lib/images下有img映像）<br>C、我们用make编译出来的out目录（ tools下也有许多android工具，lib/images下有img映像）<br>那么我们应该用那些工具和img呢？<br>首先，我们一般不会用A选项的工具和img，因为一般来说它比较旧，也源码不同步。其次，也不会用C选项的工具和img，因为这些工具和img没有经过 SDK的归类处理，会有工具和配置找不到的情况；事实上，make sdk产生的很多工具和img，在make编译出来out目录的时候，已经编译产生了，make sdk只是做了copy而已。<br><br>e）安装、配置ADT<br>略过；<br><br>f）创建Android Virtual Device<br>编译出来的SDK是没有AVD（Android Virtual Device）的，我们可以通过android工具查看：<br>$ android list<br>创建AVD：<br>$ android create avd -t 1 -n myavd<br>可以android –help来查看上面命令选项的用法。创建中有一些选项，默认就行了<br>再执行android list，可以看到AVD存放的位置<br>以后每次运行emulator都要加-avd myavd或@myavd选项：<br>$ emulator -avd myavd<br><br>10）编译linux内核映像<br>a）准备交叉编译工具链<br>android代码树中有一个prebuilt项目，包含了我们编译内核所需的交叉编译工具。<br><br>b）设定环境变量<br>$ emacs ~/.bashrc<br>增加如下两行：<br>export PATH=$PATH:~/android/prebuilt/linux-x86/toolchain/arm-eabi-4.4.0/bin<br>export ARCH=arm<br>保存后，同步变化：<br>$ source ~/.bashrc<br><br>c）获得合适的内核源代码<br>$ cd ~/android<br>获得内核源代码仓库<br>$ git clone git://android.git.kernel.org/kernel/common.git&nbsp;&nbsp; kernel<br>$ cd kernel<br>$ git branch<br>显示<br></em> android-2.6.27<br>说明你现在在android-2.6.27这个分支上，也是kernel/common.git的默认主分支。<br>显示所有head分支：<br>$ git branch -a<br>显示<br><em> android-2.6.27<br>remotes/origin/HEAD -&gt; origin/android-2.6.27<br>remotes/origin/android-2.6.25<br>remotes/origin/android-2.6.27<br>remotes/origin/android-2.6.29<br>remotes/origin/android-goldfish-2.6.27<br>remotes/origin/android-goldfish-2.6.29<br>我们选取最新的android-goldfish-2.6.29，其中goldfish是android的模拟器模拟的CPU。<br>$ git checkout -b android-goldfish-2.6.29 origin/android-goldfish-2.6.29<br>$ git branch<br>显示<br>android-2.6.27<br></em> android-goldfish-2.6.29<br>我们已经工作在android-goldfish-2.6.29分支上了。<br><br>d）设定交叉编译参数<br>打开kernel目录下的Makefile文件，把CROSS_COMPILE指向刚才下载的prebuilt中的arm-eabi编译器<br>CROSS_COMPILE ?= arm-eabi-<br>把<br>LDFLAGS_BUILD_ID = $(patsubst -Wl$(comma)%,%,<br>$(call ld-option, -Wl$(comma)–build-id,))<br>这一行注释掉，并且添加一个空的LDFLAGS_BUILD_ID定义，如下:<br>LDFLAGS_BUILD_ID =<br><br>e）编译内核映像<br>$ cd ~/android/kernel<br>$ make goldfish_defconfig<br>$ make<br><br>f）测试生成的内核映像<br>$ emulator -avd myavd -kernel ~/android/kernel/arch/arm/boot/zImage<br><br><br>－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－<br>Android tools<br><br>======= adb =======<br>#运行monkey程序，进行随机输入测试<br>$ adb shell monkey -v -p com.android.email 500<br><br>#查看system’s log buffers<br>$ adb logcat<br><br>#Viewing stdout and stderr<br>$ adb shell stop<br>$ adb shell setprop log.redirect-stdio true<br>$ adb shell start<br><br>#view a log buffer containing radio and telephony messages<br>$ adb logcat -b radio&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # radio, events, main is default<br><br>#Filtering Log Output<br>$ adb logcat ActivityManager:I MyApp:D <em>:S<br><br># 向当前activity中的EditText输入文字<br>$ adb shell input text &quot;stringtoinput…&quot;<br><br><br><br>======= emulator =======<br>#运行模拟器<br>$ emulator -system system.img.orig -data userdata.img -ramdisk ramdisk.img @my_avd<br>$ emulator @my_avd<br><br>#运行模拟器，并显示Linux kernel启动时的message<br>$ emulator -show-kernel @my_avd<br><br>#enable root shell on current terminal<br>$ emulator -shell @my_avd<br><br># -wipe-data delete the emulator’s user-data partition<br>emulator -wipe-data @my_avd<br><br><br>emulator -partition-size 256 -system D:romsystem.img -data<br>d:romuserdata.img -kernel d:romkernel-qemu -ramdisk<br>d:romramdisk.img -sdcard D:androidsdk1.6sd64.img -cpu-delay 0<br>-scale 160dpi -dpi-device 240 -skin WVGA800 -skindir<br>D:androidsdk1.6platformsandroid-2.1skins -memory 512 -prop<br>dalvik.vm.heapsize=32m<br><br>具体解释一下：<br>-partition-size 可以设置分区的大小，是system和data两个分区，一起设置<br>-cpu-delay 可以模拟速度慢的cpu<br>-scale 可以缩小或扩大其显示dpi<br>-dpi-device 可以设置hdpi或者mdpi等<br>-skin必须配合-skindir使用<br>-memory是设置内存大小，缺省是96m，如果不设置大一些，大家都很看到不停地kill and start<br>-prop dalvik.vm.heapsize=32m 这个是非常重要的设置，在我们的hdpi下，不设置成24m+就会系统无法启动<br><br><br><br>======= trace =======<br># tracing<br>// start tracing to &quot;/sdcard/calc.trace&quot;, onCreate()<br>Debug.startMethodTracing(&quot;calc&quot;);<br>// …<br>// stop tracing, onDestroy()<br>Debug.stopMethodTracing();<br><br>adb pull /sdcard/calc.trace /tmp<br>traceview /tmp/calc<br><br><br><br># 按F9启动/停止trace记录，在~/.android/avd/my_avd.avd/traces/目录下可以找到trace文件<br>$ emulator -trace trace_log<br># 进入android源代码目录<br>$ cd $ANDROID_HOME<br>$ source build/envsetup.sh<br># 运行envsetup.sh中的tracedmdump函数<br>$ tracedmdump ~/.android/avd/my_avd.avd/traces/trace_log<br>会在~/.android/avd/my_avd.avd/traces/trace_log下产生dmtrace和dmtrace.html文件<br><br><br>======= apk =======<br># 将apk/目录下的所有文件打包成apk<br>$ apkbuilder jfo.apk -rf apk/<br># 或者使用aapt<br>$ aapt p -F jfo2.apk apk/<br><br># 打印APK包信息<br>$ aapt dump badging jfo.apk<br><br># add a file<br>$ aapt a jfo.apk libcharset.so<br># remove a file<br>$ aapt r jfo.apk libcharset.so<br><br><br>=======<strong></strong><strong>hierarchyviewer</strong><strong></strong>=======<br># provides a visual representation of the layout’s View hierarchy  (the Layout View)<br>$ hierarchyviewer<br><br><br><br>======= astyle =======<br># 代码格式化工具 astyle<br>find ./ -name </em>.java -exec astyle–style=ansi {} ;<br><br><br><br><br>======= repo&nbsp; =======<br><br><img small="0" src="http://img.pickbox.me/wp-content/uploads/pic/3d6dfe033d99fecdd53f7cd6.jpg"><br><br><br><p>$ repo&nbsp; forall&nbsp; -c &quot;echo&quot;</p><p>$ repo init -u git://192.168.1.1/android2.2/platform/manifest.git -b froyo-dev<br>$ repo sync&nbsp; -j5<br>$ repo start&nbsp; froyo-dev&nbsp; –all&nbsp;&nbsp;&nbsp; # checkout froyo-dev branch for all projects, froyo-dev branch will track remote branch</p><p>$ repo start&nbsp; froyo-dev&nbsp; frameworks/base</p><p>&nbsp;</p><br><br>======= git&nbsp; =======<br><p>git push ssh://test@192.168.1.100:29418/android2.2/platform/packages/apps/Settings HEAD:refs/for/froyo-dev<br>git config remote.origin.uri git://192.168.1.100/android2.1/platform/manifest.git</p><p>git remote add remote_repo git://192.168.1.100/android2.1/platform/packages/apps/Settings</p><p>git fetch remote_repo</p><p>git push remote_repo master:new_remote_branch&nbsp;&nbsp;&nbsp; #将本地的master分支push到远程的new_remote_branch（新建）分支</p><p>git push remote_repo&nbsp; :new_remote_branch&nbsp;&nbsp;&nbsp; #将删除远程的new_remote_branch分支</p><p></p><p>&nbsp;</p>How to edit incorrect commit messages?<br>$ git rebase –interactive &lt;after-this-commit-id&gt;<br>在跳出界面选择需要修改的commit（将pick改为edit）<br><br>$ git commit –amend<br>修改相应commit<br><br>$ git rebase –continue<br><p>———————-</p><p>$ git cherry -v korg/gingerbread</p><p>列出当前分支与korg/gingerbread的差异</p><p>git cherry [-v] [&lt;upstream&gt; [&lt;head&gt; [&lt;limit&gt;]]]</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Every commit that doesn’t exist in the &lt;upstream&gt; branch has its id (sha1) reported, prefixed by a symbol. The ones that<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; have equivalent change already in the &lt;upstream&gt; branch are prefixed with a minus (-) sign, and those that only exist in<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; the &lt;head&gt; branch are prefixed with a plus (+) symbol:</p><p>&nbsp;</p>======= fastboot&nbsp; =======<br>$fastboot flash system system.img<br>$fastboot flash userdata data.img<br><p>$fastboot flash boot boot.img</p><p>$fastboot -w&nbsp;&nbsp;&nbsp;&nbsp; # erase userdata and cache</p>$fastboot reboot<br><br><br><p>&nbsp;</p><p>======= 其他&nbsp; =======</p><p>列出包名和目录的对应关系</p><p>adb shell pm list packages -f</p><p>eg:&nbsp;package:/data/app/xcxin.filexpert-1.apk=xcxin.filexpert</p><p>&nbsp;</p>~~~~ <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2010/04/13/android获取源代码、编译、命令/" class="archive-article-date">
+  	<time datetime="2010-04-13T10:56:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2010-04-13</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-git-reference" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2010/04/13/git-reference/">git reference</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <a href="http://www.kernel.org/pub/software/scm/git/docs/gittutorial.html" target="_blank">http://www.kernel.org/pub/software/scm/git/docs/gittutorial.html</a><br><br>$ tar xzf project.tar.gz<br>$ cd project<br>$ git init<br>$ git add .<br>————————————–<br>$ git add file1 file2 file3&#160;&#160;&#160; #updated contents to the index:<br>$ git diff&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; #git diff will show you any changes that you’ve made but not yet added to the index<br>$ git diff –cached&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; #–cached will show you any changes you’ve added to the index<br>$ git commit -a<br>$ git log<br>$ git log -p<br>$ git log –stat –summary<br>$ git log –all&#160; &#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; #显示所有log，包括reset之前的commit ID<br>$ git log –pretty=oneline master<br><br>$ git reset&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; #取消当前git add到index中（commit之前先加入index）所做的修改<br>$ git reset PREVIOUS_COMMIT&#160;&#160;&#160; #取消某个已check in的commit（默认是–mixed的，参见–hard,–soft）<br><br>—————————————<br>$ git branch experimental<br><br>$ git branch<br>experimental<br>* master<br><br>$ git checkout experimental<br><br>$ git merge experimental<br><br>$ git branch -d experimental&#160;&#160; #experimental branch里的改变已经被merge过<br>$ git branch -D crazy-idea&#160;&#160;&#160;&#160; #强行删除，不管有没有merge<br><br>—————————————-<br>alice/bob collaboration (alice owned the git repository)<br><br>bob$ git clone /home/alice/project myrepo<br>alice$ cd /home/alice/project<br>alice$ git pull /home/bob/myrepo master&#160;&#160; #This merges the changes from Bob’s &quot;master&quot; branch into Alice’s current branch<br><br>alice$ git fetch /home/bob/myrepo master&#160; #will not merge<br>alice$ git log -p HEAD..FETCH_HEAD<br>###<br>This operation is safe even if Alice has uncommitted local changes. The range notation &quot;HEAD..FETCH_HEAD&quot; means &quot;show everything that is reachable from the FETCH_HEAD but exclude anything that is reachable from HEAD&quot;. Alice already knows everything that leads to her current state (HEAD), and reviews what Bob has in his state (FETCH_HEAD) that she has not seen with this command.<br>###<br><br>$ gitk HEAD…FETCH_HEAD<br><br>alice$ git remote add bob /home/bob/myrepo<br>alice$ git fetch bob<br>alice$ git log -p master..bob/master<br>alice$ git merge bob/master<br>alice$ git pull . remotes/bob/master&#160;&#160; #This merge can also be done by pulling from her own remote tracking branch<br><br>bob$ git pull&#160;&#160; #doesn’t need to give the path to Alice’s repository<br><br>bob$ git branch -r<br><br>——————————————<br>$ git show HEAD^&#160;&#160;&#160; # to see the parent of HEAD<br>$ git show HEAD^^&#160;&#160; # to see the grandparent of HEAD<br>$ git show HEAD~4&#160;&#160; # to see the great-great grandparent of HEAD<br>$ git tag v2.5 1b2e1d63ff&#160;&#160;&#160;&#160; #give commits names of your own;<br>$ git branch stable v2.5&#160;&#160;&#160;&#160;&#160; # start a new branch named &quot;stable&quot; based at v2.5<br><br><br>——————————————<br>$ git config –list&#160;&#160; #查看所有的git config项<br><br>###使用alias将某些常用命令缩写为更简便的短语<br>$ git config –global alias.co checkout<br>$ git config –global alias.ci commit<br>$ git config –global alias.st status<br> </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2010/04/13/git-reference/" class="archive-article-date">
+  	<time datetime="2010-04-13T01:20:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2010-04-13</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux-App/">Linux App</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-“GB-GBK-GB18030-Unicode”汉字编码知识" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2010/04/09/“GB-GBK-GB18030-Unicode”汉字编码知识/">“GB,GBK,GB18030,Unicode”汉字编码知识</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> &#160;&#160;&#160;&#160;  最近常见有人对GB、GBK、GB18030、Unicode等编码概念不清，再掺杂上Ext-A、Ext-B、Ext-C等，更混乱了。所以特别整理一些知识贴出来给大家：<br>1、GB、BIG5、GBK、GB18030<br>字符必须编码后才能被计算机处理。计算机使用的缺省编码方式就是计算机的内码。早期的计算机使用7位的ASCII编码，为了处理汉字，程序员设计了用于简体中文的GB2312和用于繁体中文的BIG5。<br>GB2312(1980年)一共收录了7445个字符，包括6763个汉字和682个其它符号。汉字区的内码范围高字节从B0-F7，低字节从A1-FE，占用的码位是72<em>94=6768。其中有5个空位是D7FA-D7FE。<br>GB2312 支持的汉字太少。1995年的汉字扩展规范GBK1.0收录了21886个符号，它分为汉字区和图形符号区。汉字区包括21003个字符。2000年的 GB18030是取代GBK1.0的正式国家标准。该标准收录了27484个汉字，同时还收录了藏文、蒙文、维吾尔文等主要的少数民族文字。<br>从ASCII、GB2312、 GBK到GB18030，这些编码方法是向下兼容的，即同一个字符在这些方案中总是有相同的编码，后面的标准支持更多的字符。在这些编码中，英文和中文可以统一地处理。区分中文编码的方法是高字节的最高位不为0。按照程序员的称呼，GB2312、GBK到GB18030都属于双字节字符集 (DBCS)。<br>有的中文Windows的缺省内码还是GBK，可以通过GB18030升级包升级到GB18030。不过GB18030相对GBK增加的字符（就是Ext-A部分），普通人是很难用到的，通常我们还是用GBK指代中文Windows内码。<br>2、Unicode、UCS和UTF<br>前面提到从ASCII、GB2312、GBK到GB18030的编码方法是向下兼容的。而Unicode只与ASCII兼容（更准确地说，是与ISO-8859-1兼容），与GB码不兼容。例如“汉”字的Unicode编码是6C49，而GB码是BABA。<br>Unicode 也是一种字符编码方法，不过它是由国际组织设计，可以容纳全世界所有语言文字的编码方案。Unicode的学名是&quot;Universal Multiple-Octet Coded Character Set&quot;，简称为UCS。UCS可以看作是&quot;Unicode Character Set&quot;的缩写。<br>根据维基百科全书(<a target="_blank" href="http://zh.wikipedia.org/wiki/">http://zh.wikipedia.org/wiki/</a>)的记载：历史上存在两个试图独立设计Unicode的组织，即国际标准化组织（ISO）和一个软件制造商的协会（unicode.org）。ISO开发了ISO 10646项目，Unicode协会开发了Unicode项目。<br>在1991年前后，双方都认识到世界不需要两个不兼容的字符集。于是它们开始合并双方的工作成果，并为创立一个单一编码表而协同工作。从Unicode2.0开始，Unicode项目采用了与ISO 10646-1相同的字库和字码。<br>目前两个项目仍都存在，并独立地公布各自的标准。Unicode协会现在的最新版本是2005年的Unicode 4.1.0。ISO的最新标准是10646-3:2003。<br>UCS规定了怎么用多个字节表示各种文字。怎样传输这些编码，是由UTF(UCS Transformation Format)规范规定的，常见的UTF规范包括UTF-8、UTF-7、UTF-16。<br>IETF 的RFC2781和RFC3629以RFC的一贯风格，清晰、明快又不失严谨地描述了UTF-16和UTF-8的编码方法。IETF是 Internet Engineering Task Force的缩写。IETF负责维护的RFC是Internet上一切规范的基础。<br>所以从汉字包含来看，简单地可以说：<br>GB2312＝ASCII＋常用汉字＋符号<br>GBK＝GB2312＋不常用字（含BIG5繁体汉字）＋图形符号<br>GB18030＝GBK＋Ext-A＋图形符号<br>Unicode＝GB18030＋Ext-B＋……（如未发布的Ext-C及其它国家文字）<br>注意：Unicode的汉字编码与前三者不一样<br><br><br><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>___</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong><br><br>unicode<br><br><br>每一种语言的不同的编码页，增加了那些需要支持不同语言的软件的复杂度。因而人们制定了一个世界标准，叫做unicode。unicode为每个字符提供 了唯一的特定数值，不论在什么平台上、不论在什么软件中，也不论什么语言。也就是说，它世界上使用的所有字符都列出来，并给每一个字符一个唯一特定数值。<br>Unicode的最初目标，是用1个16位的编码来为超过65000字符提供映射。但这还不够，它不能覆盖全部历史上的文字，也不能解决传输的问题 (implantation head-ache’s)，尤其在那些基于网络的应用中。已有的软件必须做大量的工作来程序16位的数据。<br>因 此，Unicode用一些基本的保留字符制定了三套编码方式。它们分别是UTF-8,UTF-16和UTF-32。正如名字所示，在UTF－8中，字符是 以8位序列来编码的，用一个或几个字节来表示一个字符。这种方式的最大好处，是UTF－8保留了ASCII字符的编码做为它的一部分，例如，在UTF－8 和ASCII中，“A”的编码都是0x41.<br>UTF－16和UTF－32分别是Unicode的16位和32位编码方式。考虑到最初的目的，通常说的Unicode就是指UTF-16。在讨论Unicode时，搞清楚哪种编码方式非常重要。<br><br>UTF-8<br><br>Unicode Transformation Format-8bit，允许含BOM，但通常不含BOM。是用以解决国际上字符的一种多字节编码，它对英文使用8位（即一个字节），中文使用24为（三 个字节）来编码。UTF-8包含全世界所有国家需要用到的字符，是国际编码，通用性强。UTF-8编码的文字可以在各国支持UTF8字符集的浏览器上显 示。如，如果是UTF8编码，则在外国人的英文IE上也能显示中文，他们无需下载IE的中文语言支持包。<br><br>GBK的文字编码是用双字节来表示的，即不论中、英文字符均使用双字节来表示，为了区分中文，将其最高位都设定成1。GBK包含全部中文字符，是国家编码，通用性比UTF8差，不过UTF8占用的数据库比GBD大。<br><br>GBK、GB2312等与UTF8之间都必须通过Unicode编码才能相互转换：<br><br>GBK、GB2312－－Unicode－－UTF8<br><br>UTF8－－Unicode－－GBK、GB2312<br><br><br><br>－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－<br><br><a href="http://baike.baidu.com/view/40801.htm?fr=ala0_1" target="_blank">Unicode</a>（Unicode Character Set）用数字0-0x10FFFF来映射世界上所有文字和符号，最多可以容纳1114112（1114111＋1）个字符，或者说有1114112个码位。<br><br>UCS-4根据最高位为0的最高字节分成2^7=128个group。每个group再根据次高字节分为256个平面（plane）。每个平面根据第3个 字节分为256行 （row），每行有256个码位（cell）。group 0的平面0被称作BMP（Basic Multilingual Plane）。将UCS-4的BMP去掉前面的两个零字节就得到了UCS-2。<br><br>每个平面有2^16=65536个码位。Unicode计划使用了17个平面，一共有17</em>65536=1114112个码位。在Unicode 5.0.0版本中，已定义的码位只有238605个，分布在平面0、平面1、平面2、平面14、平面15、平面16。其中平面15和平面16上只是定义了 两个各占65534个码位的专用区（Private Use Area），分别是0xF0000-0xFFFFD和0x100000-0x10FFFD。所谓专用区，就是保留给大家放自定义字符的区域，可以简写为 PUA。<br><br>UTF是“UCS Transformation Format”的缩写，可以翻译成Unicode字符集转换格式，即怎样将Unicode定义的数字转换成程序数据。<br><br>UTF-8以字节为单位对Unicode进行编码。从Unicode到UTF-8的编码方式如下：<br>Unicode编码(16进制)　　║　　UTF-8 字节流(二进制) <br>000000 - 00007F　　　　║　　　0xxxxxxx <br>000080 - 0007FF　　　　║　　　110xxxxx 10xxxxxx <br>000800 - 00FFFF　　　　║　　　1110xxxx 10xxxxxx 10xxxxxx <br>010000 - 10FFFF　　　　║　　　11110xxx 10xxxxxx 10xxxxxx 10xxxxxx <br><br>例1：“汉”字的Unicode编码是0x6C49。0x6C49在0x0800-0xFFFF之间，使用用3字节模板了：1110xxxx 10xxxxxx 10xxxxxx。将0x6C49写成二进制是：0110 1100 0100 1001， 用这个比特流依次代替模板中的x，得到：11100110 10110001 10001001，即E6 B1 89。<br><br><br> </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2010/04/09/“GB-GBK-GB18030-Unicode”汉字编码知识/" class="archive-article-date">
+  	<time datetime="2010-04-09T07:24:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2010-04-09</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux-App/">Linux App</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-zz-Move-Window-Buttons-Back-to-the-Right-in-Ubuntu-10-04" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2010/04/08/zz-Move-Window-Buttons-Back-to-the-Right-in-Ubuntu-10-04/">[zz] Move Window Buttons Back to the Right in Ubuntu 10.04</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <a title="Permanent Link: Move Window Buttons Back to the Right in Ubuntu 10.04" rel="external" href="http://www.howtogeek.com/howto/13535/move-window-buttons-back-to-the-right-in-ubuntu-10.04/" target="_blank">Move Window Buttons Back to the Right in Ubuntu 10.04</a></p><p>One of the more controversial changes in the Ubuntu 10.04 beta is the Mac OS-inspired change to have window buttons on the left side. We’ll show you how to move the buttons back to the right.</p><p><strong>Before</strong></p><p>While the change may or may not persist through to the April 29 release of Ubuntu 10.04, in the beta version the maximize, minimize, and close buttons appear in the top left of a window.</p><p><img height="352" width="529" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_howtogeek_sshot130.png" alt="sshot-1"></p><p><strong>How to move the window buttons</strong></p><p>The window button locations are dictated by a configuration file. We’ll use the graphical program gconf-editor to change this configuration file.</p><p>Press Alt+F2 to bring up the Run Application dialog box, enter “gconf-editor” in the text field, and click on Run.</p><p><img height="216" width="361" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_howtogeek_sshot226.png" alt="sshot-2"></p><p>The Configuration Editor should pop up.</p><p><img height="513" width="598" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_howtogeek_sshot313.png" alt="sshot-3"></p><p>The key that we want to edit is in apps/metacity/general.</p><p>Click on the + button next to the “apps” folder, then beside “metacity” in the list of folders expanded for apps, and then click on the “general” folder.</p><p><img height="461" width="640" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_howtogeek_sshot413.png" alt="sshot-4"></p><p>The button layout can be changed by changing the “button_layout” key. Double-click button_layout to edit it.</p><p>Change the text in the Value text field to:</p><blockquote><p>menu:maximize,minimize,close</p></blockquote><p><img height="227" width="359" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_howtogeek_sshot510.png" alt="sshot-5"></p><p>Click OK and the change will occur immediately, changing the location of the window buttons in the Configuration Editor.</p><p><img height="285" width="520" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_howtogeek_sshot618.png" alt="sshot-6"></p><p>Note that this ordering of the window buttons is slightly different than the typical order; in previous versions of Ubuntu and in Windows, the minimize button is to the left of the maximize button.</p><p>You can change the button_layout string to reflect that ordering, but using the default Ubuntu 10.04 theme, it looks a bit strange.</p><p><img height="285" width="520" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_howtogeek_sshot717.png" alt="sshot-7"></p><p>If you plan to change the theme, or even just the graphics used for the window buttons, then this ordering may be more natural to you.</p><p><strong>After</strong></p><p>After this change, all of your windows will have the maximize, minimize, and close buttons on the right.</p><p><img height="352" width="518" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_howtogeek_sshot818.png" alt="sshot-8"></p> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2010/04/08/zz-Move-Window-Buttons-Back-to-the-Right-in-Ubuntu-10-04/" class="archive-article-date">
+  	<time datetime="2010-04-08T07:53:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2010-04-08</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux-App/">Linux App</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-record" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2010/02/26/record/">record</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> 123 </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2010/02/26/record/" class="archive-article-date">
+  	<time datetime="2010-02-25T17:07:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2010-02-26</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/self-collect/">self_collect</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-真正的创业者什么样" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2009/12/04/真正的创业者什么样/">真正的创业者什么样</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <br><br></p><p>&#160; 创业者们总是怀着好奇心。为什么这所大学建立后用了这个人的名字？他们是谁？谁在经营这个校园里的餐饮服务？当我在一个摩天大楼或办公园区开会时，我会瞄一眼其他所有房间，心里想，“他们在那里做什么？”当我去看电影，我会往放映室里看一看，谁在那里？他们的工作是什么样的？难易何在？他们在这个工作中得到了哪些享受？当我看到一些我从来没有听说过的公司的电视广告时，就冲到电脑前去搜索。我知道可以从自己遇到的每一个人那里学到东西，无论他们是谁。</p><p>&#160;&#160;&#160; 创业者生活在现实世界中，与人接触和联系，探索每一天每一分钟。创业者是情境的主人。他们知道周围在发生什么，不管是在全球各地还是在对面的贫民区。他们研究上层阶级和下层阶级。他们也听取著名的和非著名的人的意见。他们努力知道之前发生了什么（历史）和设想将会发生什么（趋势）。他们不断地读和听，而且他们听到和看到的比别人更深刻。</p><p>&#160;&#160;&#160; 他们寻找和发现模式。他们连接其他所有人都看到的点，但是没有任何其他人会去这样连接。通过这些方法，他们就能看到其他人没有看到的东西。</p><p>&#160;&#160;&#160; 他们特别痴迷个人和企业所遇到的挑战和问题。什么事情没有运转起来，而原本完全可以做到？为什么银行和移动电话公司等经营不善时，街对面的超市却能顺风顺水？我该如何利用这种差异？</p><p>&#160;&#160;&#160; 他们会问，“我怎样才能使人们的生活更美好？谁需要我？我怎么能做出贡献？”</p><p>&#160;&#160;&#160; 创业的机会就在我们身边，就在我们眼前。成功就是要变得有好奇心，具备观察力，真正对我们的邻居和同事及地球人的生活感兴趣。</p><p>&#160;&#160;&#160; 创业者体现了“雄心勃勃”这个词的最好含义。他们的目标很高。</p><p>&#160;&#160;&#160; 创业者基本上是局外人，打破常规的人。我们已经被解雇，我们已经被粗暴对待，但是最重要的是我们一直在被嘲笑。我们随时准备好采取行动。我们不打击报复，我们不小心眼，我们没有脆弱的自尊心，我们不容易被伤害。我们不憎恨任何人——我们的能量太宝贵了，不能浪费给输家。相反，我们采取行动。我们证明自己。障碍和怀疑者点亮了我们。</p><p>&#160;&#160;&#160; 我们根深蒂固地不信任官僚机构、专家、做事情遵循“一直都是这样做”、沽名钓誉和形式主义。创业者很少使用大头衔或华丽的办公室。在我们的世界中，“权威”这个词从未以一个大写的A开始：我们挑战政策和程序。</p><p>&#160;&#160;&#160; 我们每个人都按照自己的鼓点行军。我们发现自己的真理。</p><p>&#160;&#160;&#160; 我们学习，我们研究，我们做我们的功课。我们旅行，我们阅读。我们寻找导师和教师。但最终使我们与众不同的是，我们采取行动。如果创业者没有引发改变，他们的精神就会凋谢和死亡。</p><p>&#160;&#160;&#160; 一旦我们有了一个想法，提出并相信它，我们就会激烈地抓住它。我们热情地培育它。我们使它巩固和加强。因此，我们变得不可动摇，强烈而持久。我们已经有很高的能量水平，还会继续上升。</p><p>&#160;&#160;&#160; 创业者是“持续改善”的最好医生，总有更好的方式来做事。即使对我们自己最值得骄傲的发明和创新，也总会有改进的空间。躺在荣誉上睡大觉或者骄傲自满是对创业动力的致命打击。</p><p>&#160;&#160;&#160; 我们沉醉于创造和建设新事物的纯粹快乐，就为了“快乐”本身。</p><p>&#160;&#160;&#160; 高于一切的是“我们是推销员”——销售理念，销售产品，销售服务，销售更好的做事方法。</p><p>&#160;&#160;&#160; 创业者掌握了一种艺术，即保持自己的真实想法和忠实地实践自己的同时，不断适应外界环境，根据需要不断改变战术和方法。</p><p>&#160;&#160;&#160; 我们对于自己想法的信心和与自己的应变能力相结合，就给了我们勇气。勇于挑战最大的竞争对手，勇于改变事物的实现办法，勇于做出对我们的客户和企业正确的事情，不管多么不受欢迎或困难。</p><p>&#160;&#160;&#160; 创业者认为会计、财务、营销、人力资源、管理技术、电子表格和商业计划书不是目的本身，而仅仅是作为工具，使我们能够实现自己的梦想。我们可以不惜一切，学习计算机编程、写招股说明书、建立财务模型、复制、建立货架、穿西装或清洁厕所，让我们的梦想变成现实。</p><p>&#160;&#160;&#160; 我曾经说过，创业者不要害怕失败。但更可能的是，经过深思，最终所有人都担心失败。创业者不是超人。但是，他们可以好好利用失败，他们以恐惧作为动力。他们从错误中吸取教训比地球上任何人都更快。这个周期就是去学习，向前迈进，再学习，再向前迈进。因此，我们害怕失败，但我们不会让它放缓或停止我们的创新脚步。我们将从失败中成长。我们从被打败再走向成功。</p><p>&#160;&#160;&#160; 我们给自己的成功加分，但我们也为自己尽力去做而加分。</p><p>&#160;&#160;&#160; 我们不是忽视风险，而是通过自己独特的见解去看待它。对于亨利·福特来说，在1903年，试图创立汽车公司（在一个未经证实的行业），或建立一家更大更好的马车公司（在有利可图、完善的行业），到底哪个选择才是高风险的？</p><p>&#160;&#160;&#160; 从本质来说，创业精神就是找到你所喜欢的、对之充满激情的、自己所擅长的事情，并能满足人们的实际需要。随后再加入毅力和勇气。</p><p>&#160;&#160;&#160; 最好的创业者能认识到企业中每个人的价值。没有人是完美的，也没有人是一无是处的。领导就是要发掘每个人的长处和思考如何最好地利用这些优势，提供满意的工作，让每个人获得成长，好好对待人们。创业者知道名声也许是他们最宝贵的资产。</p><p>&#160;&#160;&#160; 创业者遍布于各行各业。有华尔街的创业者，在餐饮业，经营汽车旅馆和殡仪馆，开发新的高科技产品，提供从咨询到干洗服务，教育事业，慈善事业，医疗保健，甚至政府！有具备创业精神的兽医，建筑师，作家和诗人，牙医和律师，音乐家，艺术家，运动员和演员。</p><p>&#160;&#160;&#160; 创业者体现在每个时代，每个国家，每个社会阶层，来自各个种族和宗教。你不需要资格证书。只与态度有关。</p><p>&#160;&#160;&#160; 在任何领域里，大多数人都不是创业者。但是，只需要少数（其实只是一个人）就可以改变整个行业或我们的生活方式，变得更好。一个更好的方法来组织一场比赛，一种更好的方式来运行一个流浪者收容所，一个更好的方式来叙述一个故事，一个更好的火腿三明治，一种治愈癌症的方法。</p><p>&#160;&#160;&#160; 在羊肠小径尽头，创业者都知道，没有人能判断他们，没有人可以提出要求，没有人知道你是否付出自己的全部。他们必须照照镜子，问自己，“我是否忠于自己的理想呢？我做出与众不同的事情了吗？”</p><p>&#160;&#160;&#160; 来源：创业邦杂志</p><br><br> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2009/12/04/真正的创业者什么样/" class="archive-article-date">
+  	<time datetime="2009-12-04T15:30:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2009-12-04</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/self-collect/">self_collect</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-UTF-16" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2009/12/03/UTF-16/">UTF-16</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <br><br><br>                                                                                                &#160;                        </p><p>UTF-16 represents non-BMP characters (those from U+10000 through U+10FFFF) using a pair of 16-bit words, known as a&#160;<strong>surrogate pair</strong>. First 10000<sub>16</sub>&#160;is subtracted from the code point to give a 20-bit value. This is then split into two separate 10-bit values each of which is represented as a surrogate with the most significant half placed in the first surrogate. To allow safe use of simple&#160;<a href="/wiki/Word-oriented" title="Word-oriented">word-oriented</a>&#160;string processing, separate ranges of values are used for the two surrogates: 0xD800–0xDBFF for the first, most significant surrogate (marked brown) and 0xDC00-0xDFFF for the second, least significant surrogate (marked azure).</p> <p>For example, the character at code point U+10000 becomes the code unit sequence 0xD800 0xDC00, and the character at U+10FFFD, the upper limit of Unicode, becomes the sequence 0xDBFF 0xDFFD.</p>                                                                                                                                                                                     &#160;                                                                                                                                                             DC00                                    DC01                                    …                                    DFFF                                                                                                    D800                                    010000                                    010001                                    …                                    0103FF                                                                                                    D801                                    010400                                    010401                                    …                                    0107FF                                                                                                    &#160;&#160;&#8942;                                                                                                              &#8945;                                    &#160;&#160;&#160;&#160;&#8942;                                                                                                    DBFF                                    10FC00                                    10FC01                                    …                                    10FFFF                                                                                                                                                                                    <br>Example UTF-16 encoding procedure<p>The character at code point U+64321 (hexadecimal) is to be encoded in UTF-16. Since it is above U+FFFF, it must be encoded with a surrogate pair, as follows:</p>v  = 0x64321<br>v′ = v - 0x10000<br>   = 0x54321<br>   = 0101 0100 0011 0010 0001<br><br>vh = 01 0101 0000 // higher 10 bits of v′<br>vl = 11 0010 0001 // lower  10 bits of v′<br>w1 = 0xD800 // the resulting 1st word is initialized with the high bits<br>w2 = 0xDC00 // the resulting 2nd word is initialized with the low bits<br><br>w1 = w1 | vh<br>   = 1101 1000 0000 0000<br>   |        01 0101 0000<br>   = 1101 1001 0101 0000<br>   = 0xD950<br><br>w2 = w2 | vl<br>   = 1101 1100 0000 0000<br>   |        11 0010 0001<br>   = 1101 1111 0010 0001<br>   = 0xDF21<p>The correct UTF-16 encoding for this character is thus the following word sequence:</p>0xD950 0xDF21<p>Since the character is above U+FFFF, the character cannot be encoded in UCS-2.</p> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2009/12/03/UTF-16/" class="archive-article-date">
+  	<time datetime="2009-12-03T02:48:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2009-12-03</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-海底捞的商业模式" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2009/11/19/海底捞的商业模式/">海底捞的商业模式</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> 海底捞的商业模式 <br><br>价值中国推荐 2008-08-29 14:20:39 《IT经理世界》 &#160;<br><br>海底捞给一线服务员很大授权，包括可以为客户免单的权力　　　　李瑛 <br><br>下午不到5点，海底捞北京望京店里，已经有好几桌客人在吃饭，等候区里也有几位客人，一边等人，一边悠闲地享受着免费的美甲和上网服务。 <br><br>海底捞在每个门店都设有这样面积不菲的等候区，除了舒适的沙发和桌椅，还提供擦鞋、美甲、上网等免费服务，另外，海底捞还免费提供代客泊车等服务，每个门店的服务人员数量因此比同等的其他火锅店多近1/3。 <br><br>海底捞的员工有齐全的福利，住在24小时空调和热水的公寓，基本每天饭桌上都会有一两道可口的荤菜，周末供应水果，并在晚9点提供面包和酸奶作为夜宵； 如果生病了，不用担心，会有宿舍管理员照顾，同事们会带来饭菜，领导还会来看望；小孩可以免费上公司在四川简阳办的私人学校…… <br><br>如果你是海底捞的股东，是否会有点担心，这么经营能挣多少钱，有能力扩张吗？ <br><br>追求满意度 <br><br>“店长不对门店的营业额负责。”海底捞负责北京和上海的大区经理袁华强这样说，“我也不负责，张总也不负责，没有人对营业额负责。”他所说的张总，是海 底捞的创始人张勇。工人出身的张勇以1万元起家，今天已经开设了30家分店，年营业额近3亿元。与大多自己都做着一手好菜的餐馆老板不同，张勇不擅长做 饭，从四川简阳开始做火锅生意起，把服务做得更好些就成了他的立身之本。 <br><br>与业内通行的以营业额和利润来考核店长不同，顾客满意 度与员工满意度，这两项指标基本决定了海底捞对一个店长的评价。即使这两项指标也没有量化的标准，“北京和上海的店，就是我说了算，我到店里转10分钟基 本上就会有个判断。”袁华强说。海底捞里除了工程部、物流中心和财务部里有外来的干部外，整个体系崇尚内部培养提拔，特别是管理门店的前厅干部都是从基层 干起来的。袁华强从1999年进入海底捞，曾经做过洗碗、门迎、传菜、服务员、领班、大堂经理和区经理等职务。像他这样内部培养起来的干部，多年来积累形 成的直觉和判断力，让他们觉得任何量化的评价办法都有很大的漏洞，特别是对于满意度这种东西。 <br><br>成本后移 <br><br>与前厅人性化的管理办法形成鲜明对比，海底捞的后台生产，极尽量化管理之能事。在海底捞北京大兴西红门配送中心，有一整套现代化的清洗、加工、检验、冷 藏或冷冻设备，通过标准化的生产链条，每天向北京城里的10家分店输送菜品。以蔬菜为例，头天下午从协议农户手里收购来的蔬菜，经过严格验货后进入冷库， 第二天一早经人工初步拣选后进入清洗机床，经过消毒并配比了一定比例电解盐的翻滚着气泡的水流，对蔬菜进行充分的清洗，重复两遍，以保证残留的农药可以被 最大限度地洗掉，然后进入甩干机甩干，在装箱前还会逐个进行检查，发现未洗净的蔬菜会进行返工，隶属于另一个部门品控部的质检人员会随时监督检查。清洗加 工好的成品会在检验室进行细菌含量等指标的化验，保证合格后会按照各个门店的配送数量分别装箱归类放入冷库，在当天下午经由专门消毒后的保鲜车配送到达各 个门店。如此严格完整的后台标准化生产使得海底捞各个门店的厨房工作变得相当简单，就是把收到的菜品拆箱，除个别菜品，比如牛肉、土豆等需要切片外，即可 按照规定的标准分量称量后装盘上桌。 <br><br>海底捞在全国已建成四个这样的配送中心，分别位于北京、上海、西安和郑州，为各地的门店服 务。为这些配送中心提供规划、建设、管理咨询服务的是麦当劳全球物流合作伙伴美国夏晖公司。为了尽可能降低库存，配送中心每天的原料进货量及生产量，经过 各个门店报送需求后，由计划部经过严格的数据分析后确定并下达采购及生产任务。配送中心的投资和日常运营费用都不菲，但专业化的后台加工配送保证了各个门 店菜品的标准化的品质和数量，并把门店后厨的工作量降到最低，保证能以最快的速度上菜。同时，门店的后厨面积也得以被压缩到最小，赢得了最大的产生营业额 的摆台面积。下一步，海底捞的目标是完全省略门店后厨环节，已为此设定了1000多个保鲜气体的参数，以保证完全加工好的菜品在最新鲜的状态下直接到达各 门店的餐桌。 <br><br><br>海底捞给一线服务员很大授权，包括可以为客户免单的权力　　配送中心以规模化的生产能力和成本管理提供了获取最大程度营业额和利润的可能，那么硬币的另一 面是如何经营好门店。海底捞很重视门店的选址，如果店址选得不好，店长再努力，营业额也不会太好，这恐怕是海底捞的店长不对门店的营业额负责的原因之一。 另一方面，只要店长可以保证顾客满意，保证员工工作积极性高，就已经是对营业额提升的最大贡献了。这也许就是袁华强所说的“海底捞整个的管理水平对营业额 负责”的原因吧。 <br><br>除了配送中心，海底捞在门店也配置了各种现代化设备，以最大程度地减少员工的工作量。火锅的底料是通过机器来 盛装的，员工只要按一下按钮就行；客人要加菜，服务员只要在餐厅的触摸屏上操作一下，订单就下到后厨了。所有这些做法，目的只有一个，使员工能有更多的精 力让客户满意。 <br><br>最终的魔鬼是翻台率。在餐饮业的成本结构里，直接的食物成本往往不占大头，房租、水电气、工资等固定费用才是大 头，在人员和租用面积都固定的门店里，服务员的优质服务带来的超额翻台率就意味着利润。同时，满意的员工会积极主动地工作和节约，将在许多餐饮企业里很头 痛的浪费和损耗等隐性成本降到最低。 <br><br>将成本尽量后移，实现规模化管理和效益；将生产与服务剥离，分别实现标准化和人性化管理，从而有可能达到各自的最优。这也许是海底捞的商业逻辑，是什么支撑这些逻辑得以实行呢？ <br><br>信任与平等 <br><br>海底捞的员工很少从社会招聘，大部分是现有员工介绍来的亲戚朋友。在大家彼此都熟悉的环境里，无论好的或是坏的，都容易蔓延和生长。作为公司的创始人， 张勇在极力推行一种信任平等的价值观。在接受采访的当天，袁华强刚刚召开了一个会议，起因是一些门店发现酒水的管理不够完善，晚上盘点时发现时多时少。有 人提议应该加大对相关员工的惩罚力度。袁华强觉得这事可能是客人要酒，服务员太忙，忘了；后来客人再要的时候，服务员为了避免客人不满，就来不及在系统里 下单，直接从吧台提酒了。如果不问原因，一律加大惩罚力度，那么对员工来说，很简单，为了不被惩罚，就照章办事，让客人等着呗。“不要因为这点小事情把员 工的积极性给挫伤了，一个服务员的积极性比一瓶五粮液值钱多了！”袁华强相信，这种事大多是员工偶然疏忽造成的。最后确定的处理办法还是具体事情要具体分 析处理。基于一切以为客户服务为重和对员工的信任，海底捞给一线服务员的授权很大，包括可以为客户免单的权力。每个员工都有一张卡，员工在店里的所有服务 行为，都需要刷卡，记录在案。这种信任，一旦发现被滥用，则不会再有第二次机会。 <br><br>“公司给你的总是超出预期，所以就会死心塌地 地为公司干。”2007年7月通过猎头公司进入海底捞的现任物流中心副总的高岩峰，这样谈出自己的体会。刚进入公司一个月，他就参加了公司安排的西交大 MBA为期1年的学习，每次上课来回的飞机票和其他费用都由公司方面支付。今年年初，公司又把比较核心的技术部门交给过去并无经验的他来管理，对于他这个 “外人”而言，“实在是没想到”。高岩峰在公司里被大家称为“高老师”，因为有些员工拜他为师，学习采购和物流管理。 <br><br>经朋友介 绍，小厉进入公司才一个多袁脸上的笑容很由衷，“生活上没什么好担心的，只要好好干就行了。”年轻的她已经听到公司里很多从普通的服务人员升到领班甚至店 经理的例子。一位顾客想再要一个火锅小料，开玩笑地问她：“能送吗？”迅速地思考了一下，小厉爽快地说，“能，我去给您拿！” <br><br>鼓励每位基层员工参与创新，是海底捞信任平等的价值观里的重要组成部分。公司总经理办公会为此专门下了文件，员工提出的每项创新建议都会有专门的记录和片 区经理的意见及总经理评价。因为这项工作，诞生了诸如“鱼滑”、“虾滑”等专门的制作模具，这些已被公司广泛推广。 <br><br>比扩张更重要的 <br><br>海底捞员工的入职培训很简单，只有3天。主要讲一些基本的生活常识和火锅服务常识。真正的培训是在进入门店之后的实习中，每个新员工都会有一个师傅传帮 带。“新员工要达到海底捞优秀员工的水平，一般需要两到三个月的时间”。袁华强解释。体会海底捞的价值观和人性化的服务理念，学会处理不同问题的方法，比 起那些固定的服务动作规范困难多了。 <br><br>为了保证这种价值观和氛围不被稀释，培养后续储备干部，是海底捞对中高层管理人员的一个重 要考核指标。海底捞现在包括袁华强在内的7人核心管理团队，都是跟了张勇近10年的人。也因此，海底捞的扩张根本不可能快。现在新开店的核心人员，至少要 在老店里有三五年的经验。而一般的服务员工，也会保证有80%是从老店里调来的。海底捞这几个月集中开了7家新店，新店开张大量抽调了老店的员工，新员工 数量增多，管理层已明显感觉到顾客满意度的下滑。虽然公司做好了必要时候全民皆兵，把熟悉业务的配菜员、传菜员等二线人员调往一线的准备，但客户满意度的 提升还是需要一个过程。 <br><br>在海底捞的公司目标里，“将海底捞开向全国”只排到第3位，而“创造一个公平公正的工作环境”，“致力 于双手改变命运的价值观在海底捞变成现实”则排在前面。海底捞已经婉拒过几家著名的想要投资的风投，张勇对此的解释是：扩张得太快，海底捞就不是海底捞 了。对一个公司而言，这显然已不再是纯粹的商业目标，而将其对员工和社会的责任，甚至理想放在了更高的位置。随着新开店面不断增加，如何保障根本的理念能 够始终如一、不打折扣地坚持下去，恐怕是海底捞在成长过程中的最大变数。 <br><br>海底捞的平衡计分卡 <br><br>王奋/文 <br><br>海底捞，一个以“好火锅自己会说话”作为唯一广告词的火锅店，何以在企业界掀起一股不大不小的旋风？ <br><br>“服务好”，似乎是消费者一致的好评，在此话题下人们可以举出一系列的实例和感动；同时也引起同行或服务类企业的纷纷学习与效仿。从营销的角度，海底捞 的服务营销无疑是成功的。但是，当我们深入观察和思考时，你会发现，海底捞服务营销成功的背后，是其成功的绩效管理体系实践——这个至今令很多企业管理者 苦恼不堪的难题。 <br><br>我未曾与张勇先生就平衡计分卡这一绩效管理工具进行专门的讨论，也未曾听海底捞上上下下经理和员工提起平衡计 分卡。不过张勇将海底捞企业经营的基本价值观锁定为：“顾客是老板”和“尊重员工”两手硬，两手都不能软。毫无疑问，张勇的管理实践与哈佛教授的观点非常 一致，与惠普、IBM这些国际大公司的管理实践非常一致，对平衡计分卡核心思想的实践诠释是海底捞真正的成功之源。 <br><br>海底捞为什么不直接考核经理人员营业额，而只把顾客满意度、员工满意度作为工作考核的重点，还难以理解吗？ <br><br>（王奋北京理工大学管理与经济学院副教授） &#160;<br><br>【 在 cresent126 (月芽西西|感动并快乐着) 的大作中提到: 】 <br>一些回复： <br><br><br><br>海底捞的老板很聪明，第一步确定了企业的战略目标，即顾客满意度第一，并找到了实现战略目标的方法——让员工满意；第二步就是通过了解员工的需求，替员工解决问题，尊重他们，来实现员工的满意度。 <br><br><br><br>根据马斯洛需求层次理论，只要我们抓住了员工的真正所求，并在力所能及的条件下加一满足，就能够发挥出员工的最大能动性和智慧，当然，员工的需求也不是 一成不变的，所以，我们的用人思维也要随时而变。它在合适的时间、合适的地点、合适的行业、合适的环境，对合适的员工采用了合适的管理方法。这些条件对 “海底捞”的成功都必不可少，所以，我们很多的中小企业，只能够借鉴确不能够完全模仿，这也就是“海底捞”的核心竞争力所在，核心竞争力是不可模仿的。 <br><br><br>大多数民营企业都处在找人才、怕人才的悖论中，企业老总在自己的一亩三分地中容不下外人，海底捞的用人方式可以直接进行市场反馈和动作、行之有效，其代价 却是核心层收益比例下降，这对大多数经营者是难以接受的。。。。值得学习，却难以借鉴，在中国，老总的风格就是企业的风格 。 <br><br><br>一直在思考一个问题：海底捞，“捞”什么？仅仅是捞美味吗？也一直在倡导一个理念：以顾客满意为服务导向。顾客不满意，不仅仅是服务产品的噩梦，更是企业 的灾难。但，顾客的满意由谁实现？神通广大的老板老总？还是无所不能的管理精英？仅靠他们就足够了吗？不！提高顾客满意度的关键，往往不是企业几个关键大 人物，而是更多的基层员工。 <br><br><br><br>文中提到有两家店半年或者一年就能收回投资，可见其收益并不低。完全内生性增长，也可见其现金的盈余。确实是值得借鉴，有了顾客，利润只是对服务的奖赏。 <br>内生性增长是企业最优的状态，当前国内的很多企业面临着太多的诱惑，要么被VC拖下水，要么没做好准备就大肆扩张，造成“管理链”断裂。像“海底捞”这样的企业，从人力资源（即管理）储备着手，步步为营，难能可贵。 &#160;<br><br><br><br>管理真的是件很难拿捏的事情，特别当情感管理成为管理中的重要组成部分时，就更难拿捏。张勇可以拿捏的这么准，抓住服务员的人性，使其人心所向，有一个很 重要的背景特点：张勇是“四川拖拉机厂电焊工”。这个旧时“身份”使得他能够体会到与他差不多处境的服务员，他能够知道宿舍的条件、能够知道外来务工人员 的子女学习问题等这些他都有过的切身感受。说得难听点，他利用了这点。而这些“亲民”的举止是任何出身非贫困、接受正统教育的管理者所不可能做到的。要模 仿也最终是蹩脚，因为相同经历的缺位以及少有的“革命”精神 。 <br><br><br><br>【 在 cresent126 (月芽西西|感动并快乐着) 的大作中提到: 】 <br>“海底捞”的管理智慧 &#160; &#160;<br><br>出处：哈佛《商业评论》 <br><br>在过去两年里，海底捞餐厅已经成为餐饮界的一个热点现象，吸引了众多媒体的关注。北大光华管理学院两位教授对海底捞进行了一年多的深入研究，甚至派人&quot;卧 底&quot;当服务员，总结出海底捞的管理经验。中国的企业，有很大一部分属于劳动密集型的中小企业，员工工时长、工作累、报酬低，劳资矛盾突出，经常为人诟病。 本篇中国特稿却告诉我们，即使是在火锅这样技术含量不高的行业，一样可以创造出令人羡慕的高昂士气、充满激情的员工团队和出色的业绩。 <br><br>1994年，还是四川拖拉机厂电焊工的张勇在家乡简阳支起了4张桌子，利用业余时间卖起了麻辣烫。14年过去，海底捞在全国6个省市开了30多家店，张勇 成了6,000多名员工的董事长。张勇认为，人是海底捞的生意基石。客人的需求五花八门，单是用流程和制度培训出来的服务员最多能达到及格的水平。制度与 流程对保证产品和服务质量的作用毋庸置疑，但同时也压抑了人性，因为它们忽视了员工最有价值的部位——大脑。让雇员严格遵守制度和流程，等于只雇了他的双 手。 <br><br>大脑在什么情况下才有创造力？心理学家的研究证明，当人用心的时候，大脑的创造力最强。于是，服务员都能像自己一样用心就变成张勇的基本经营理念。怎么才 能让员工把海底捞当成家？答案很简单：把员工当成家里人。海底捞的员工住的都是正规住宅，有空调和暖气，可以免费上网，步行20分钟到工作地点。不仅如 此，海底捞还雇人给员工宿舍打扫卫生，换洗被单。海底捞在四川简阳建了海底捞寄宿学校，为员工解决子女的教育问题。海底捞还想到了员工的父母，优秀员工的 一部分奖金，每月由公司直接寄给在家乡的父母。 <br><br>要让员工的大脑起作用，除了让他们把心放在工作上，还必须给他们权力。200万元以下的财务权都交给了各级经理，而海底捞的服务员都有免单权。不论什么原 因，只要员工认为有必要，都可以给客人免费送一些菜，甚至免掉一餐的费用。聪明的管理者能让员工的大脑为他工作，当员工不仅仅是机械地执行上级的命令，他 就是一个管理者了。按照这个定义，海底捞是一个由6,000名管理者组成的公司。 <br><br>人是群居动物，天生追求公平。海底捞知道，要让员工感到幸福，不仅要提供好的物质待遇，还要让人感觉公平。海底捞不仅让这些处在社会底层的员工得到了尊 严，还给了他们希望。海底捞的几乎所有高管都是服务员出身，这些大孩子般的年轻人，独立管理着几百名员工，每年创造几千万营业额。没有管理才能的员工，通 过任劳任怨的苦干也可以得到认可，普通员工如果做到功勋员工，工资收入只比店长差一点。 <br><br>海底捞把培养合格员工的工作称为&quot;造人&quot;。张勇将造人视为海底捞发展战略的基石。海底捞对每个店长的考核，只有两个指标，一是客人的满意度，二是员工的工 作积极性，同时要求每个店按照实际需要的110%配备员工，为扩张提供人员保障。海底捞这种以人为本、稳扎稳打的发展战略值得不少中国企业借鉴。 </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2009/11/19/海底捞的商业模式/" class="archive-article-date">
+  	<time datetime="2009-11-19T07:48:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2009-11-19</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/self-collect/">self_collect</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-make-meaning" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2009/11/18/make-meaning/">make meaning</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <a href="http://ecorner.stanford.edu/authorMaterialInfo.html?mid=1171&amp;fileId=6252" target="_blank">http://ecorner.stanford.edu/authorMaterialInfo.html?mid=1171&amp;fileId=6252</a><br><br>Make meaning for the world<br>1. Increase the quality of life<br>2. Right a wrong(prevent bad from happening)<br>3. Prevent the end of something good<br><br> </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2009/11/18/make-meaning/" class="archive-article-date">
+  	<time datetime="2009-11-18T14:14:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2009-11-18</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/self-collect/">self_collect</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-产品经理值得看的16个博客" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2009/11/18/产品经理值得看的16个博客/">产品经理值得看的16个博客</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <a href="http://blog.csdn.net/iamsujie/archive/2009/03/09/3971056.aspx" target="_blank">http://blog.csdn.net/iamsujie/archive/2009/03/09/3971056.aspx</a><br><br></p><p>这些都是我经常看的博客，但<strong>没有一个产品经理的博客</strong> ，：）</p><p>（注意逻辑：我并没有说我经常看的博客里没有产品经理的博客）</p><p>我觉得产品经理应该是通才，本行功夫自不必说，同学们肯定都已经知道很多博客了（你能看到这篇，至少知道了 <a target="_blank" href="http://iamsujie.com/">iamsujie.com </a>  ，偷偷告诉你可以去我的友链里找到更多），要能出彩，更重要的是外家的功夫，学科交叉、胡思乱想……</p><p><a target="_blank" href="http://ucdchina.com/">UCDChina </a>  ，其实是个群博，也有论坛，“以用户为中心的设计”的圣地，国内的<strong>交互设计</strong> 师、<strong>用户体验</strong> 师基本都在里面混，经常有人说设计师和产品经理是一对冤家，我想如果产品经理多混混这里，这个问题肯定能迎刃而解。ucdchina 上有个很好的 <a target="_blank" href="http://ucdchina.com/123/">网址导航  </a>  ，从url 看我一直觉得他们是在讽刺hao123 ……可以链到几乎所有业内知名设计师的主页。网站上 <a target="_blank" href="http://ucdchina.com/book/">书友会  </a>  里的书也都很不错， <a target="_blank" href="http://groups.google.com/group/UCDChina">讨论组  </a>  虽然不太热闹，但人总算也不少。</p><p><a target="_blank" href="http://blog.sina.com.cn/cmmi">人月神话  </a>  ，这个博我看了有2 年左右了吧，博主很勤奋，涉猎也很广，主要是<strong>项目管理</strong> 、CMMI 、 <a target="_blank" href="http://baike.baidu.com/view/31448.html?wtp=tt#2">PMP </a>  （项目管理师培训考试）、产品管理相关的内容，讲的很深入也很实战，而且还经常转载很实用的，对个人成长很好的文章，更难得的是，博主对东方哲学和佛教也有研究，颇有世外高人的侠骨仙风。其实<a target="_blank" href="http://www.douban.com/subject/1102259/?i=0">人月神话</a> 是一本很经典的软件工程书籍的名字，值得一看。</p><p><a target="_blank" href="http://excelpro.blog.sohu.com/">ExcelPro 的图表博客  </a>  ，从他这里我学到很多excel 、ppt 的技巧，更多画图表的好方法，作为一个产品经理，日常工作很多时候要分析数据，展示数据，“<strong>让图表说话</strong> ”很重要。更好的一点，从这里可以找到更多学excel 、ppt 的好地方。</p><p><a target="_blank" href="http://mindhacks.cn/">刘未鹏|Mind Hacks  </a>  （旧称：C++ 的罗浮宫），虽然低产，但绝对高质，博主对<strong>思维方法</strong> 的分享在业内超级有名，真的不是一个让人获得知识，而是一个能让人聪明起来的地方。博主探讨的话题还有心理学、认知科学、概率论、人工智能等等，一看就是个天才，：）</p><p><a target="_blank" href="http://www.mifengtd.cn/">褪墨  </a>  ，教你<strong>时间管理</strong> ，教你做好每一件事，GTD （get things done ）, 对个人规划能力的提高很有帮助，从这里的友链，可以找到更多教你时间管理的博客，比如 <a target="_blank" href="http://www.gtdlife.cn/">GTD life </a>  。</p><p><a target="_blank" href="http://www.zreading.cn/">左岸读书  </a>  ，<strong>爱读书</strong> ，一切成功均源自积累，各种各样的知识，说不定什么时候就能帮上你做产品。</p><p><a target="_blank" href="http://www.read.org.cn/">战隼的学习探索  </a>  ，朋友跟我说战隼就是F16 ，确实很猛，这里你可以学习如何学习，如何记忆，何如阅读……学会<strong>知识管理</strong> ，让我们在不断成长的时候有一套更好的方法来支撑。</p><p><a target="_blank" href="http://www.yeeyan.com/">译言  </a>  ，翻译<strong>国外技术与创业</strong> 的文章，外面的东西很多、很好、很新，但是外语阅读能力已经很弱了，现实一点，高效一点，多看看译言吧。</p><p>前面8 个对工作的帮助都很大，后面8 个则更生活化一些，太忙的话可以略过……有些严格说不是博客，不过谁在乎，我要不说其实你也不会发现，对不对：</p><p><a target="_blank" href="http://www.izaobao.com/">爱早报  </a>  ，每天早晨一篇，10 分钟看完，<strong>草根的新闻联播</strong> ，透过表象看本质，产品经理也要具备这样的素质。不过我一直担心它什么时候会被和谐掉……</p><p><a target="_blank" href="http://www.ftchinese.com/">FT 中文网  </a>  ，FT=financial time ，来点<strong>经济思维</strong> ，看看外国人怎么看我们。</p><p><a target="_blank" href="http://www.mindmeters.com/">Mindmeters 思维的乐趣  </a>  ，再来点国内人士的<strong>商业思维</strong> ，又是一个群博。</p><p><a target="_blank" href="http://www.dapenti.com/blog/index.asp">打喷嚏  </a>  ，我一直搞不清这个博客的主题是什么，不过经常看到一些有思想的好文章，什么方面的都有，按博主的话说：读书、培训、<strong>8 小时外</strong> 的健康生活。</p><p><a target="_blank" href="http://songshuhui.net/">科学松鼠会  </a>  ，让我们剥开科学的坚果，<strong>让科学流行起来</strong> ，一群很有爱的人，让你学到各种各样好玩的科学，增长见识。</p><p>  ，百度的郭大侠的博，“每天一个惊奇，<strong>设计改变世界</strong> ”，你做的产品设计能改变世界么？</p><p><a target="_blank" href="http://jandan.net/">煎蛋  </a>  ，看图、看片，这是一个需要<strong>娱乐精神</strong> 的时代，类似的网站还有很多，自己去找吧，：）</p><p><a target="_blank" href="http://lengxiaohua.net/">我们爱讲冷笑话  </a>  ，很冷……<strong>真的很冷</strong> ……over ……over ……真的over 了。</p> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2009/11/18/产品经理值得看的16个博客/" class="archive-article-date">
+  	<time datetime="2009-11-18T07:46:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2009-11-18</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/self-collect/">self_collect</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/22/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/21/">21</a><a class="page-number" href="/page/22/">22</a><span class="page-number current">23</span><a class="page-number" href="/page/24/">24</a><a class="page-number" href="/page/25/">25</a><span class="space">&hellip;</span><a class="page-number" href="/page/60/">60</a><a class="extend next" rel="next" href="/page/24/">Next &raquo;</a>
+    </nav>
+  
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: true,
+		isPost: false,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

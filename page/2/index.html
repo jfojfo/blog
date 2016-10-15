@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="jfo planet">
+<meta property="og:url" content="http://blog.pickbox.me/page/2/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jfo planet">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        
+  
+    <article id="post-How-do-I-share-internet-to-2nd-router-through-Mac" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/03/27/How-do-I-share-internet-to-2nd-router-through-Mac/">How do I share internet to 2nd router through Mac?</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Mac配置：Mac通过USB无线网卡连接外网，还有一个有线网口<br>目标：共享Mac无线网络，让另一台路由连接Mac有线网，上外网</p>
+<p>步骤：</p>
+<ol>
+<li>Make sure the 2nd router is off for now</li>
+<li>Go to Dock/Finder–&gt;Preferences–&gt;Sharing</li>
+<li>(Assuming OSX 10.7＋) Highlight the 2nd-to-last option (Internet Sharing)–&gt;Select ‘Wi-Fi’ from the ‘Share your connection from’ drop-box</li>
+<li>Click the check-box next to ‘Ethernet’ in the ‘To computers using:’ section and click the check-box next to ‘Internet Sharing’ to finally enable it.</li>
+<li>Connect the ethernet cable from your Mac to your router’s WAN/Internet port and turn your 2nd router on.</li>
+</ol>
+<p>Assuming that 2nd router is set up for DHCP it should now see your ethernet-connected Mac as its gateway and use it as its internet source.</p>
+<p><a href="http://img.pickbox.me/wp-content/uploads/network-share-for-Mac.png" target="_blank" rel="external"><img class="alignnone size-full wp-image-1166" alt="network share for Mac" src="http://img.pickbox.me/wp-content/uploads/network-share-for-Mac.png" width="699" height="564"></a></p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>这样设置之后，会生成/etc/bootpd.plist</p>
+<p>&nbsp;</p>
+<pre>$ cat /etc/bootpd.plist 
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;
+&lt;plist version="1.0"&gt;
+&lt;dict&gt;
+    &lt;key&gt;Subnets&lt;/key&gt;
+    &lt;array&gt;
+        &lt;dict&gt;
+            &lt;key&gt;_creator&lt;/key&gt;
+            &lt;string&gt;com.apple.NetworkSharing&lt;/string&gt;
+            &lt;key&gt;allocate&lt;/key&gt;
+            &lt;true/&gt;
+            &lt;key&gt;dhcp_domain_name_server&lt;/key&gt;
+            &lt;array&gt;
+                &lt;string&gt;192.168.2.1&lt;/string&gt;
+            &lt;/array&gt;
+            &lt;key&gt;dhcp_router&lt;/key&gt;
+            &lt;string&gt;192.168.2.1&lt;/string&gt;
+            &lt;key&gt;interface&lt;/key&gt;
+            &lt;string&gt;bridge100&lt;/string&gt;
+            &lt;key&gt;lease_max&lt;/key&gt;
+            &lt;integer&gt;86400&lt;/integer&gt;
+            &lt;key&gt;lease_min&lt;/key&gt;
+            &lt;integer&gt;86400&lt;/integer&gt;
+            &lt;key&gt;name&lt;/key&gt;
+            &lt;string&gt;192.168.2/24&lt;/string&gt;
+            &lt;key&gt;net_address&lt;/key&gt;
+            &lt;string&gt;192.168.2.0&lt;/string&gt;
+            &lt;key&gt;net_mask&lt;/key&gt;
+            &lt;string&gt;255.255.255.0&lt;/string&gt;
+            &lt;key&gt;net_range&lt;/key&gt;
+            &lt;array&gt;
+                &lt;string&gt;192.168.2.2&lt;/string&gt;
+                &lt;string&gt;192.168.2.254&lt;/string&gt;
+            &lt;/array&gt;
+        &lt;/dict&gt;
+    &lt;/array&gt;
+    &lt;key&gt;bootp_enabled&lt;/key&gt;
+    &lt;false/&gt;
+    &lt;key&gt;detect_other_dhcp_server&lt;/key&gt;
+    &lt;array&gt;
+        &lt;string&gt;bridge100&lt;/string&gt;
+    &lt;/array&gt;
+    &lt;key&gt;dhcp_enabled&lt;/key&gt;
+    &lt;array&gt;
+        &lt;string&gt;bridge100&lt;/string&gt;
+    &lt;/array&gt;
+    &lt;key&gt;dhcp_ignore_client_identifier&lt;/key&gt;
+    &lt;true/&gt;
+    &lt;key&gt;ignore_allow_deny&lt;/key&gt;
+    &lt;array&gt;
+        &lt;string&gt;bridge100&lt;/string&gt;
+    &lt;/array&gt;
+    &lt;key&gt;use_server_config_for_dhcp_options&lt;/key&gt;
+    &lt;false/&gt;
+&lt;/dict&gt;
+&lt;/plist&gt;</pre>
+可以通过如下命令启动／关闭dhcp服务
+<pre>sudo launchctl load -w /System/Library/LaunchDaemons/bootps.plist
+sudo launchctl unload -w /System/Library/LaunchDaemons/bootps.plist</pre>
+&nbsp;
+
+配置bootptab设置为路由配置固定IP地址
+<pre>$ cat /etc/bootptab 
+%%
+# machine entries have the following format:
+#
+# hostname      hwtype  hwaddr              ipaddr          bootfile
+newifi-wan      1       EC:0E:C4:0F:EA:79   192.168.2.100</pre>
+看看路由
+
+<pre>$ netstat -nr
+Routing tables
+
+Internet:
+Destination        Gateway            Flags        Refs      Use   Netif Expire
+default            172.22.152.1       UGSc           27     7247     en2
+default            link#7             UCSI            0        0 bridge1
+127                127.0.0.1          UCS             0        0     lo0
+127.0.0.1          127.0.0.1          UH              4   325589     lo0
+169.254            link#6             UCS             0        0     en2
+172.22.152/23      link#6             UCS             0        0     en2
+172.22.152.1/32    link#6             UCS             1        0     en2
+172.22.152.1       a4:93:4c:89:c6:4b  UHLWIir        27        0     en2    786
+172.22.152.55/32   link#6             UCS             0        0     en2
+192.168.2          link#7             UC              1        0 bridge1
+192.168.2.100      ec.e.c4.f.ea.79    UHLWIi          3      264 bridge1   1170</pre>
+
+<p>&nbsp;<br>ifconfig 可以看到多了一个bridge100</p>
+<pre>bridge100: flags=8863&lt;UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST&gt; mtu 1500
+    options=3&lt;RXCSUM,TXCSUM&gt;
+    ether c6:34:6b:42:de:64 
+    inet 192.168.2.1 netmask 0xffffff00 broadcast 192.168.2.255
+    inet6 fe80::c434:6bff:fe42:de64%bridge100 prefixlen 64 scopeid 0x7 
+    Configuration:
+        id 0:0:0:0:0:0 priority 0 hellotime 0 fwddelay 0
+        maxage 0 holdcnt 0 proto stp maxaddr 100 timeout 1200
+        root id 0:0:0:0:0:0 priority 0 ifcost 0 port 0
+        ipfilter disabled flags 0x2
+    member: en0 flags=3&lt;LEARNING,DISCOVER&gt;
+            ifmaxaddr 0 port 4 priority 0 path cost 0
+    nd6 options=1&lt;PERFORMNUD&gt;
+    media: autoselect
+    status: active</pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/03/27/How-do-I-share-internet-to-2nd-router-through-Mac/" class="archive-article-date">
+  	<time datetime="2015-03-27T10:19:53.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-03-27</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Mac-OS-X/">Mac OS X</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-【zz】Android-NDK开发Crash错误定位" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/03/19/【zz】Android-NDK开发Crash错误定位/">【zz】Android NDK开发Crash错误定位</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>NDK安装包中提供了三个调试工 具：addr2line、objdump和ndk-stack</p>
+<p>参考：<a href="http://android.jobbole.com/80685/" target="_blank">http://android.jobbole.com/80685/</a>  (<a href="http://img.pickbox.me/wp-content/uploads/Android-NDK开发Crash错误定位.pdf" target="_blank" rel="external">PDF下载</a>)</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/03/19/【zz】Android-NDK开发Crash错误定位/" class="archive-article-date">
+  	<time datetime="2015-03-19T03:33:58.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-03-19</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-【zz】为什么不能往Android的Application对象里存储数据" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/03/13/【zz】为什么不能往Android的Application对象里存储数据/">【zz】为什么不能往Android的Application对象里存储数据</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在一个App里面总有一些数据需要在多个地方用到。这些数据可能是一个 session token，一次费时计算的结果等。通常为了避免activity之间传递对象的开销 ，这些数据一般都会<a href="http://developer.android.com/guide/topics/data/data-storage.html" target="_blank">保存到持久化存储里面</a>。</p>
+<p>有人建议将这些数据保存到 <a href="https://developer.android.com/reference/android/app/Application.html" target="_blank">Application</a> 对象里面，这样这些数据对所有应用内的activities可用。这种方法简单，优雅而且……完全扯淡。</p>
+<p>假设把你的数据都保存到Application对象里面去了，那么你的应用最后会以一个NullPointerException 异常crash掉。</p>
+<p></p><h2>一个简单的测试案例</h2><p></p>
+<p></p><h4>代码</h4><br>Application 对象：<p></p>
+<p><pre>// access modifiers omitted for brevity<br>class MyApplication extends Application {</pre></p>
+<pre><code>String name;
+
+String getName() {
+    return name;
+}
+
+void setName(String name) {
+    this.name = name;
+}
+</code></pre><p>}<br>第一个activity，我们往application对象里面存储了用户姓名：</p>
+<p><pre>// access modifiers omitted for brevity<br>class WhatIsYourNameActivity extends Activity {</pre></p>
+<pre><code>void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.writing);
+
+    // Just assume that in the real app we would really ask it!
+    MyApplication app = (MyApplication) getApplication();
+    app.setName(&quot;Developer Phil&quot;);
+    startActivity(new Intent(this, GreetLoudlyActivity.class));
+
+}
+</code></pre><p>}<br>第二个activity，我们调用第一个activity设置并存在application里面的用户姓名：</p>
+<p><pre>// access modifiers omitted for brevity<br>class GreetLoudlyActivity extends Activity {</pre></p>
+<pre><code>TextView textview;
+
+void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+
+    setContentView(R.layout.reading);
+    textview = (TextView) findViewById(R.id.message);
+}
+
+void onResume() {
+    super.onResume();
+
+    MyApplication app = (MyApplication) getApplication();
+    textview.setText(&quot;HELLO &quot; + app.getName().toUpperCase());
+}
+</code></pre><p>}</p>
+<p></p><h4>测试场景</h4><p></p>
+<p><ol><br>    <li>用户启动app。</li><br>    <li>在 <em>WhatIsYourNameActivity</em>里面，要求用户输入姓名，并存储到 <em>MyApplication。</em></li><br>    <li>在 <em>GreetLoudlyActivity</em>里面，你从<em>MyApplication</em> 对象中获得用户姓名，并且显示。</li><br>    <li>用户按home键离开这个app。</li><br>    <li>几个小时后，Android系统为了回收内存kill掉了这个app。到目前为止，一切尚好。接下来就是crash的部分了…</li><br>    <li>用户重新打开这个App。</li><br>    <li>Android系统创建一个新的 <em>MyApplication</em> 实例并恢复 <em>GreetLoudlyActivity</em>。</li><br>    <li><em>GreetLoudlyActivity</em> 从新的 <em>MyApplication</em> 实例中获取用户姓名，可得到的为空，最后导致NullPointerException。</li><br></ol></p>
+<p></p><h2>为什么会Crash?</h2><br>在上面这个例子中，app会crash得原因是这个 Application 对象是全新的，所以这个name 变量里面的值为 null，当调用<em>String#toUpperCase()</em> 方法时就导致了NullPointerException。<p></p>
+<p>整个问题的核心在于：application 对象不会一直呆着内存里面，它会被kill掉。与大家普遍的看法不同之处在于，实际上app不会重新开始启动。Android系统会创建一个新的Application 对象，然后启动上次用户离开时的activity以造成这个app从来没有被kill掉得假象。</p>
+<p>你以为你的application可以保存数据，却没想到你的用户在没有打开activity A 之前就就直接打开了 activity B ，于是你就收到了一个 crash 的 surprise。</p>
+<p></p><h2>有哪些替代方法呢？</h2><br>这里没啥神奇的解决方法，你可以试试下面几种方法：<p></p>
+<p><ul><br>    <li>直接将数据通过intent传递给 Activity 。</li><br>    <li>使用<a href="http://developer.android.com/guide/topics/data/data-storage.html" target="_blank">官方推荐的几种方式</a>将数据持久化到磁盘上。</li><br>    <li>在使用数据的时候总是要对变量的值进行非空检查。</li><br></ul></p>
+<p></p><h2>如果模拟App被Kill掉</h2><br><em>更新: <a href="http://daniel-codes.blogspot.ca/" target="_blank">Daniel Lew</a>指出，kill app更简单的方式就是使用DDMS里面“停止进程” 。你在调试你的应用的时候可以使用这招。</em><p></p>
+<p>为了测试这个，你必须使用一个Android模拟器或者一台root过的Android手机。</p>
+<p><ol><br>    <li>使用home按钮退出app。</li><br>    <li>在终端里：</li></ol></p>
+<p><pre># find the process id<br>adb shell ps</pre></p>
+<h1 id="then-find-the-line-with-the-package-name-of-your-app"><a href="#then-find-the-line-with-the-package-name-of-your-app" class="headerlink" title="then find the line with the package name of your app"></a>then find the line with the package name of your app</h1><h1 id="Mac-Unix-save-some-time-by-using-grep"><a href="#Mac-Unix-save-some-time-by-using-grep" class="headerlink" title="Mac/Unix: save some time by using grep:"></a>Mac/Unix: save some time by using grep:</h1><p>adb shell ps | grep your.app.package</p>
+<h1 id="The-result-should-look-like"><a href="#The-result-should-look-like" class="headerlink" title="The result should look like:"></a>The result should look like:</h1><h1 id="USER-PID-PPID-VSIZE-RSS-WCHAN-PC-NAME"><a href="#USER-PID-PPID-VSIZE-RSS-WCHAN-PC-NAME" class="headerlink" title="USER      PID   PPID  VSIZE  RSS     WCHAN    PC         NAME"></a>USER      PID   PPID  VSIZE  RSS     WCHAN    PC         NAME</h1><h1 id="u0-a198-21997-160-827940-22064-ffffffff-00000000-S-your-app-package"><a href="#u0-a198-21997-160-827940-22064-ffffffff-00000000-S-your-app-package" class="headerlink" title="u0_a198   21997 160   827940 22064 ffffffff 00000000 S your.app.package"></a>u0_a198   21997 160   827940 22064 ffffffff 00000000 S your.app.package</h1><h1 id="Kill-the-app-by-PID"><a href="#Kill-the-app-by-PID" class="headerlink" title="Kill the app by PID"></a>Kill the app by PID</h1><p>adb shell kill -9 21997</p>
+<h1 id="the-app-is-now-killed"><a href="#the-app-is-now-killed" class="headerlink" title="the app is now killed"></a>the app is now killed</h1><p><br>    <li>长按home按钮回到之前的app。<br>你现在是处于一个新的application实例中了。</li><br></p>
+<p></p><h2>总结</h2><br>不要在application对象里面储存数据，这容易出错，导致你的app crash。<br>要么将你后面要用的数据保存到磁盘上面或者保存到intent得extra里面直接传递给activity 。<p></p>
+<p>这些结论不但对application对象有用，对你app里面的单例对象（singleton）或者公共静态变量（<span style="color: #ff0000;">public static</span>）同样适用。</p>
+<p>&nbsp;</p>
+<p></p><h2>原文链接</h2><br><a href="http://android.jobbole.com/80643/" target="_blank">为什么不能往Android的Application对象里存储数据</a><p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/03/13/【zz】为什么不能往Android的Application对象里存储数据/" class="archive-article-date">
+  	<time datetime="2015-03-13T09:03:22.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-03-13</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-防止Handler导致的内存泄露" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/03/13/防止Handler导致的内存泄露/">防止Handler导致的内存泄露</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>先来看一段代码：</p>
+<pre>
+public class MyActivity extends Activity {
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    if (savedInstanceState == null) {
+      setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+    }
+    Handler handler = new Handler(Looper.getMainLooper());
+    handler.post(new Runnable() {
+      public void run() {
+        doSomething();
+      }
+    });
+  }
+
+  void doSomething() {
+    // Uses the activity instance
+  }
+}
+</pre>
+
+<p>上面的代码会导致doSomething()方法在Activity因为一个configuration change导致 onDestroy() 方法被调用之后执行，使得activity对象无法及时释放</p>
+<p>解决方案：<br>1.Handler的处理逻辑放到一个独立的class文件，并使用WeakReference引用activity，避免类似doSomething直接引用到activity的情景发生<br>2.onDestroy之前通过handler.removeCallbacks() 方法从消息队列移除这个消息<br>3.避免使用static Handler</p>
+<p>参考：《<a href="http://android.jobbole.com/80638/" target="_blank">Android在横竖屏切换时到底发生了什么</a>》<br><a href="http://img.pickbox.me/wp-content/uploads/A-journey-on-the-Android-Main-Thread-Lifecycle-bits.pdf" target="_blank" rel="external">PDF版</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/03/13/防止Handler导致的内存泄露/" class="archive-article-date">
+  	<time datetime="2015-03-13T08:49:35.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-03-13</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-关于IBinder运行的线程" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/03/13/关于IBinder运行的线程/">关于IBinder运行的线程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>根据<a href="http://developer.android.com/guide/components/processes-and-threads.html" target="_blank">官方文档</a>说明</p>
+<blockquote>This is primarily true for methods that can be called remotely—such as methods in a bound service. <strong>When a call on a method implemented in an IBinder originates in the same process in which the IBinder is running, the method is executed in the caller’s thread. However, when the call originates in another process, the method is executed in a thread chosen from a pool of threads that the system maintains in the same process as the IBinder (it’s not executed in the UI thread of the process)</strong>. For example, whereas a service’s onBind() method would be called from the UI thread of the service’s process, methods implemented in the object that onBind() returns (for example, a subclass that implements RPC methods) would be called from threads in the pool. Because a service can have more than one client, more than one pool thread can engage the same IBinder method at the same time. IBinder methods must, therefore, be implemented to be thread-safe.</blockquote>
+
+<p>当IBinder的实现函数与调用者处于同一process中时，IBinder的实现函数运行在与调用者相同的线程，如果调用者从UI线程通过binder调用，则binder的实现函数在UI线程运行，如果调用者从new出来的thread调用，则binder的实现函数在这个thread中运行。</p>
+<p>当IBinder的实现函数与调用者处于不同process时，IBinder的实现函数在binder的thread中运行。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/03/13/关于IBinder运行的线程/" class="archive-article-date">
+  	<time datetime="2015-03-13T05:26:21.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-03-13</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-iptables-NAT" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/12/27/iptables-NAT/">iptables NAT</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>SNAT，DNAT，MASQUERADE都是NAT</p>
+<p><a href="http://img.pickbox.me/wp-content/uploads/Netfilter-Packet-Traversal.png" target="_blank" rel="external"><img src="http://img.pickbox.me/wp-content/uploads/Netfilter-Packet-Traversal.png" alt="Netfilter Packet Traversal" width="807" height="637" class="alignnone size-full wp-image-1143"></a></p>
+<p>MASQUERADE是SNAT的一个特例，要允许带有内部 IP 地址的 LAN 节点和外部的公共网络通信，需要配置防火墙的 IP 伪装（IP masquerading）。这会把来自 LAN 节点的请求都伪装成防火墙的外部设备的 IP 地址</p>
+<p>SNAT是指在数据包从网卡发送出去的时候，把数据包中的源地址部分替换为指定的IP，这样，接收方就认为数据包的来源是被替换的那个IP的主机</p>
+<p>DNAT 修改数据包中的目的IP，如果你想让内部网络内的某个服务器能够被外部利用，你可以使用 NAT 内 PREROUTING 链的 -j DNAT 目标来指定该向哪个目标 IP 地址以及端口转发请求连接到内部服务的分组</p>
+<p>-j MASQUERADE 用发送数据的网卡上的IP来替换源IP</p>
+<pre>
+iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+</pre>
+
+<pre>
+iptables -t nat -A POSTROUTING -s 172.16.36.0/24 -j SNAT --to-source `ifconfig  | grep 'inet addr:'| grep -v '127.0.0.1' | cut -d: -f2 | awk 'NR==1 { print $1}'`  
+iptables -A FORWARD -p tcp --syn -s 172.16.36.0/24 -j TCPMSS --set-mss 1356
+</pre>
+
+<p>来自 LAN 以外的到端口80的 HTTP 连接都会被路由发送到和内部网络分离的另一个网络上的 HTTP 服务器上</p>
+<pre>
+iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j DNAT \
+        --to-destination 10.0.4.2:80
+</pre>
+
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/12/27/iptables-NAT/" class="archive-article-date">
+  	<time datetime="2014-12-27T12:50:10.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-12-27</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Network/">Network</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Ubuntu上安装和配置FreeRadius和DaloRadius" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/12/22/Ubuntu上安装和配置FreeRadius和DaloRadius/">Ubuntu上安装和配置FreeRadius和DaloRadius</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>按照后面的那篇文章的步骤做就行了，由于我使用的是xampp作为mysql server和apache  server，php5相关包就不需要安装了，但是需要如下设置：</p>
+<ol>
+<li><p>使用的xampp版本是xampp-linux-x64-5.5.19，需要下载php-db，将其中的usr/share/php/{DB.php,DB}目录拷贝至lampp/lib/php目录</p>
+</li>
+<li><p>ln -sv /opt/lampp/var/mysql/mysql.sock /var/run/mysqld/mysqld.sock<br>否则freeradius服务启动报错，无法连接mysql server</p>
+</li>
+<li><p>配置lampp/apache2/conf/httpd.conf，添加</p>
+<pre>&lt;VirtualHost *:80&gt;
+ DocumentRoot "/opt/www/daloradius"
+ ServerName "your.server.domain"
+ ServerAlias "your.server.domain"
+ &lt;Directory "/opt/www/daloradius"&gt;
+     Options Indexes FollowSymLinks Includes ExecCGI
+     AllowOverride All
+     Require all granted
+ &lt;/Directory&gt;
+ ErrorLog "logs/daloradius-error_log"
+ CustomLog "logs/daloradius-access_log" common
+&lt;/VirtualHost&gt;</pre>
+</li>
+<li><p>为了能显示Reports/Logs下的log内容<br>修改/opt/www/daloradius/daloradius.conf.php</p>
+<pre>
+$configValues['CONFIG_LOG_FILE'] = '/opt/lampp/logs/daloradius-access_log';
+</pre>
+
+</li>
+</ol>
+<p>修改/etc/default/freeradius，添加</p>
+<pre>
+if [ ! -e /var/run/mysqld/mysqld.sock ]; then
+    mkdir -p /var/run/mysqld
+    ln -sv /opt/lampp/var/mysql/mysql.sock /var/run/mysqld/mysqld.sock
+fi
+
+if [ ! -e /var/log/freeradius ]; then
+    mkdir -p /var/log/freeradius
+    touch /var/log/freeradius/radius.log
+    chown -R freerad.freerad /var/log/freeradius
+fi
+
+if [ -e /var/log/freeradius/radius.log ]; then
+    chmod 644 /var/log/freeradius/radius.log
+fi
+</pre>
+
+<p>做完这些 基本就可以了，从网页打开daloradius服务，创建完用户，然后用VPN连接</p>
+<p>如果有问题，可以 freeradius -X 查看更多出错信息</p>
+<p><hr></p>
+<p></p><h4>配置流量控制</h4><p></p>
+<ol>
+<li><p>在/etc/freeradius/dictionary中添加：<br>ATTRIBUTE Max-Monthly-Traffic 3003 integer<br>ATTRIBUTE Monthly-Traffic-Limit 3004 integer</p>
+</li>
+<li><p>在/etc/freeradius/sql/mysql/counter.conf末尾添加：</p>
+<pre>
+sqlcounter monthlytrafficcounter {
+ counter-name = Monthly-Traffic
+ check-name = Max-Monthly-Traffic
+ reply-name = Monthly-Traffic-Limit
+ sqlmod-inst = sql
+ key = User-Name
+ reset = monthly
+ query = &quot;SELECT SUM(acctinputoctets + acctoutputoctets) FROM radacct WHERE UserName='%{&#69;k}' AND UNIX_TIMESTAMP(AcctStartTime) &gt; '%b'&quot;
+}
+</pre>
+</li>
+<li><p>在/etc/freeradius/sites-enabled/default的authorize里添加monthlytrafficcounter</p>
+<pre>
+authorize {
+ ...
+ monthlytrafficcounter
+}
+</pre>
+</li>
+<li><p>在数据库中插入以下数据：</p>
+<pre>
+INSERT INTO radgroupreply (groupname,attribute,op,VALUE) VALUES ('user','Auth-Type',':=','Local');
+INSERT INTO radgroupreply (groupname,attribute,op,VALUE) VALUES ('user','Service-Type',':=','Framed-User');
+INSERT INTO radgroupreply (groupname,attribute,op,VALUE) VALUES ('user','Framed-IP-Address',':=','255.255.255.255');
+INSERT INTO radgroupreply (groupname,attribute,op,VALUE) VALUES ('user','Framed-IP-Netmask',':=','255.255.255.0');
+INSERT INTO radgroupreply (groupname,attribute,op,VALUE) VALUES ('user','Acct-Interim-Interval',':=','600');
+INSERT INTO radgroupcheck (groupname,attribute,op,VALUE) VALUES ('user','Max-Monthly-Traffic',':=','5368709120');
+INSERT INTO radgroupcheck (groupname,attribute,op,VALUE) VALUES ('user','Simultaneous-Use',':=','1');
+</pre>
+
+
+</li>
+</ol>
+<p>另外参考：<br><a href="http://www.zhukun.net/archives/7455" target="_blank">《CentOS 6安装lnmp+pptp+freeradius+daloradius》</a> <a href="http://img.pickbox.me/wp-content/uploads/CentOS-6安装lnmp+pptp+freeradius+daloradius.pdf" target="_blank" rel="external">下载</a><br><a href="http://www.zhukun.net/archives/7406" target="_blank">《CentOS下给pptp限速》</a> <a href="http://img.pickbox.me/wp-content/uploads/CentOS下给pptp限速.pdf" target="_blank" rel="external">下载</a></p>
+<p><hr><br><span style="line-height: 1.5em;">【zz】</span><a style="line-height: 1.5em;" href="http://blog.atime.me/note/freeradius_daloradius_install_config_on_ubuntu.html" target="_blank">http://blog.atime.me/note/freeradius_daloradius_install_config_on_ubuntu.html</a></p>
+<p>总结我在Ubuntu上安装FreeRadius和DaloRadius的步骤及遇到的问题，以供日后查询，系统为Ubuntu 12.04.3 X86_64，本文的FreeRadius配置使用MySQL作为后端存储相关数据。</p>
+<p>FreeRadius可以为pptp和l2tp提供验证和统计等功能，DaloRadius为FreeRadius提供一个网页界面。阅读本文前确保已经正确安装了pptpd或xl2tpd服务器。相关安装配置教程可参考<a title="blog.atime.me/note/pptpd.html" href="http://blog.atime.me/note/pptpd.html" target="_blank" rel="external">使用pptpd搭建VPN</a>和<a title="blog.atime.me/note/l2tp_ipsec_installation_on_ubuntu.html" href="http://blog.atime.me/note/l2tp_ipsec_installation_on_ubuntu.html" target="_blank" rel="external">在Ubuntu12.04上安装l2tp/ipsec VPN服务器</a>。</p>
+<p>开始安装前建议先通读一下<a title="http://en.wikipedia.org/wiki/RADIUS" href="http://en.wikipedia.org/wiki/RADIUS" target="_blank" rel="external">wikipedia:RADIUS</a>和<a title="http://blog.csdn.net/liang13664759/article/details/1574367" href="http://blog.csdn.net/liang13664759/article/details/1574367" target="_blank" rel="external">radius介绍</a>，了解一些radius的概念。</p>
+<p></p><h2 id="44eb7">安装必要的软件</h2><p></p>
+<p><div></div></p>
+<p><pre>sudo apt-get install freeradius freeradius-mysql radiusclient1 php5 php5-mysql php5-gd php5-cgi php5-fpm php-pear php-db mysql-server-5.5</pre><br></p>
+<p></p><h2 id="eb471">配置FreeRadius</h2><br>FreeRadius的配置文件位于<code>/etc/freeradius</code>目录。<p></p>
+<p></p><h3 id="8fa25">添加client</h3><br>修改<code>/etc/freeradius/clients.conf</code>，添加如下内容，注意将<code>IP_ADDRESS</code>和<code>SHARED_SECRET</code>换为你的服务器IP和你的共享密钥。<p></p>
+<p><div></div></p>
+<p><pre>client IP_ADDRESS {<br>    ipaddr = IP_ADDRESS<br>    secret = SHARED_SECRET<br>    require_message_authenticator = no<br>}</pre><br></p>
+<p></p><h3 id="23c75">启用MySQL支持</h3><p></p>
+<p></p><h4 id="603b5">/etc/freeradius/radiusd.conf</h4><br>取消如下一行的注释来包含FreeRadius的sql配置文件<code>/etc/freeradius/sql.conf</code>。<p></p>
+<p><div></div></p>
+<p><pre>$INCLUDE sql.conf</pre><br></p>
+<p></p><h4 id="41674">/etc/freeradius/sql.conf</h4><br>修改<code>/etc/freeradius/sql.conf</code>，设置MySQL数据库的端口，radius数据库的用户名密码等内容。取消如下一行的注释，使FreeRadius从数据库读取客户端信息。<p></p>
+<p><div></div></p>
+<p><pre>readclients = yes</pre><br><br><code>/etc/freeradius/sql/mysql</code>文件夹下的众多sql脚本文件用于构建FreeRadius的数据库，首先在admin.sql里修改数据库名称，用户名和密码等内容，这些内容必须和<code>/etc/freeradius/sql.conf</code>的设置相同。</p>
+<p></p><h4 id="0f570">/etc/freeradius/sql/mysql/dialup.conf</h4><br>修改<code>/etc/freeradius/sql/mysql/dialup.conf</code>，取消如下几行的注释来提供在线人数统计功能。<p></p>
+<p><div></div></p>
+<p><pre>simul_verify_query  = “SELECT radacctid, acctsessionid, username, \<br>                       nasipaddress, nasportid, framedipaddress, \<br>                       callingstationid, framedprotocol \<br>                       FROM ${acct_table1} \<br>                       WHERE username = ‘%{SQL-User-Name}’ \<br>                       AND acctstoptime IS NULL”</pre><br></p>
+<p></p><h4 id="8d18b">创建FreeRadius数据库radius</h4><br>登录mysql<p></p>
+<p><div></div></p>
+<p><pre>cd /etc/freeradius/sql/mysql<br>mysql -u root -p</pre><br><br>输入以下命令</p>
+<p><div></div></p>
+<p><pre>create database radius;</pre></p>
+<p>source admin.sql;<br>source cui.sql;<br>source ippool.sql;<br>source nas.sql;<br>source schema.sql;<br>source wimax.sql;<br></p>
+<p></p><h4 id="20736">/etc/freeradius/sites-enabled</h4><br>对<code>/etc/freeradius/sites-enabled/default</code>做如下修改<p></p>
+<p><blockquote>找到authorize {}模块，注释掉files，去掉sql前的#号</blockquote></p>
+<p>找到accounting {}模块，注释掉radutmp,注释掉去掉sql前面的#号。</p>
+<p>找到session {}模块，注释掉radutmp，去掉sql前面的#号。</p>
+<p>找到post-auth {}模块，去掉sql前的#号，去掉sql前的#号（Post-Auth-Type REJECT内）。<br>对<code>/etc/freeradius/sites-enabled/inner-tunnel</code>做如下修改</p>
+<p><blockquote>找到authorize {}模块，注释掉files，去掉sql前的#号。</blockquote></p>
+<p>找到session {}模块，注释掉radutmp，去掉sql前面的#号。</p>
+<p>找到post-auth {}模块，去掉sql前的#号，去掉sql前的#号（Post-Auth-Type REJECT内）。</p>
+<p></p><h2 id="0c7c1">配置RadiusClient</h2><br>RadiusClient用于将pptpd和xl2tpd的radius插件的验证请求发送给FreeRadius服务器，充当nas的角色，其配置文件位于<code>/etc/radiusclient</code>内。<p></p>
+<p></p><h3 id="91c87">添加字典</h3><br>RadiusClient的字典主要负责参数的映射，默认配置没有包含dictionary.microsoft，因此无法处理使用mschapv2加密的请求头。下载dictionary.microsoft并包含到主dictonary文件中。<p></p>
+<p><div></div></p>
+<p><pre>cd /etc/radiusclient<br>sudo wget <a href="http://blog.atime.me/static/resource/dictionary.microsoft" target="_blank" rel="external">http://blog.atime.me/static/resource/dictionary.microsoft</a></pre><br><br>在<code>/etc/radiusclient/dictionary</code>文件的最后添加如下一行以包含dictionary.microsoft</p>
+<p><div></div></p>
+<p><pre>INCLUDE /etc/radiusclient/dictionary.microsoft</pre><br><br>为解决FreeRadius的<code>radacct</code>表不更新的问题，需要在<code>/etc/radiusclient/dictionary</code>中加入如下一行，以保证RadiusClient能够识别Acct-Interim-Interval。</p>
+<p><div></div></p>
+<p><pre>ATTRIBUTE Acct-Interim-Interval 85 integer</pre><br><br>另外，记得在daloRadius里为用户添加<code>Acct-Interim-Interval</code> reply attribute（对应MySQL的radgroupreply表）。</p>
+<p></p><h3 id="0f7d4">设置共享密钥</h3><br>修改’/etc/radiusclient/servers’文件，添加如下一行，注意SHARED_SECRET必须和你在<code>/etc/freeradius/clients.conf</code>里设置的<a title="添加client" href="http://blog.atime.me/note/freeradius_daloradius_install_config_on_ubuntu.html#8fa25" target="_blank" rel="external">共享密钥</a>相同。<p></p>
+<p><div></div></p>
+<p><pre>localhost   SHARED_SECRET</pre><br></p>
+<p></p><h2 id="3bade">配置VPN服务器</h2><br>为pptpd和xl2tpd启用radius插件，首先查找插件的位置。<p></p>
+<p><div></div></p>
+<p><pre>sudo updatedb<br>locate radius.so</pre><br><br>插件通常位于<code>/usr/lib/pppd/2.4.5/radius.so</code>。</p>
+<p></p><h3 id="c1568">配置pptpd</h3><br>查看<code>/etc/pptpd.conf</code>，获取pptpd的ppp配置文件位置<p></p>
+<p><div></div></p>
+<p><pre>option /etc/ppp/pptpd-options</pre><br><br>修改<code>/etc/ppp/pptpd-options</code>文件，在最后添加如下两行，注意修改插件的具体位置。</p>
+<p><div></div></p>
+<p><pre>plugin /usr/lib/pppd/2.4.5/radius.so<br>radius-config-file /etc/radiusclient/radiusclient.conf</pre><br><br>重启pptpd</p>
+<p><div></div></p>
+<p><pre>sudo service pptpd restart</pre><br></p>
+<p></p><h3 id="e1ef2">配置xl2tpd</h3><br>查看<code>/etc/xl2tpd/xl2tpd.conf</code>，获取xl2tpd的ppp配置文件位置<p></p>
+<p><div></div></p>
+<p><pre>pppoptfile = /etc/ppp/xl2tpd-options</pre><br><br>修改<code>/etc/ppp/xl2tpd-options</code>，在最后添加如下两行，注意修改插件的具体位置。</p>
+<p><div></div></p>
+<p><pre>plugin  /usr/lib/pppd/2.4.5/radius.so<br>radius-config-file /etc/radiusclient/radiusclient.conf</pre><br><br>重启xl2tpd</p>
+<p><div></div></p>
+<p><pre>sudo service xl2tpd restart</pre><br></p>
+<p></p><h2 id="b61ca">配置DaloRadius</h2><p></p>
+<p></p><h3 id="69a9a">下载并配置daloRadius</h3><br>daloRadius的项目托管在<a title="http://sourceforge.net/projects/daloradius/" href="http://sourceforge.net/projects/daloradius/" target="_blank" rel="external">sourceforge</a>上，下载并解压。<p></p>
+<p><div></div></p>
+<p><pre># 下载并解压<br>cd /tmp<br>sudo wget <a href="http://sourceforge.net/projects/daloradius/files/daloradius/daloradius0.9-9/daloradius-0.9-9.tar.gz" target="_blank" rel="external">http://sourceforge.net/projects/daloradius/files/daloradius/daloradius0.9-9/daloradius-0.9-9.tar.gz</a><br>cd /var/www<br>sudo tar -xvf /tmp/daloradius-0.9-9.tar.gz<br>sudo mv daloradius-0.0.9 daloradius</pre></p>
+<h1 id="修改权限"><a href="#修改权限" class="headerlink" title="修改权限"></a>修改权限</h1><p>sudo chown -R www-data:www-data daloradius<br>sudo chmod 644 daloradius/library/daloradius.conf.php<br><br>修改<code>/var/www/daloradius/library/daloradius.conf.php</code>，设置关于FreeRadius数据库的各个变量，注意和<code>/etc/freeradius/sql.conf</code>的配置相同。</p>
+<p><div></div></p>
+<p><pre>$configValues[‘FREERADIUS_VERSION’] = ‘2’;<br>$configValues[‘CONFIG_DB_ENGINE’] = ‘mysql’;<br>$configValues[‘CONFIG_DB_HOST’] = ‘localhost’;<br>$configValues[‘CONFIG_DB_PORT’] = ‘3306’;<br>$configValues[‘CONFIG_DB_USER’] = ‘radius’;<br>$configValues[‘CONFIG_DB_PASS’] = ‘raduser’;</pre><br><br>其他需要修改的变量，其中<code>SHARED_SECRET</code>要和<code>/etc/freeradius/clients.conf</code>设置的<a title="添加client" href="http://blog.atime.me/note/freeradius_daloradius_install_config_on_ubuntu.html#8fa25" target="_blank" rel="external">共享密钥</a>相同。</p>
+<p><div></div></p>
+<p><pre>$configValues[‘CONFIG_PATH_DALO_VARIABLE_DATA’] = ‘/var/www/daloradius/var’;<br>$configValues[‘CONFIG_MAINT_TEST_USER_RADIUSSECRET’] = ‘SHARED_SECRET’;</pre><br></p>
+<p></p><h3 id="7486e">为daloRadius创建MySQL数据表</h3><br>由于之前已经为FreeRadius创建了相应的表结构，这里只需要为daloRadius创建表即可<p></p>
+<p><div></div></p>
+<p><pre>cd /var/www/daloradius/contrib/db/<br>mysql -u root -p radius &lt; mysql-daloradius.sql</pre><br><br>由于daloRadius向FreeRadius的数据库<code>radius</code>添加了若干新表，我们需要为FreeRadius的数据库用户添加这几张表的访问权限。 FreeRadius的数据库名称和用户可查看<code>/etc/freeradius/sql.conf</code>，这里使用默认数据库radius和默认用户radius。</p>
+<p>登录MySQL数据库</p>
+<p><div></div></p>
+<p><pre>mysql -u root -p</pre><br><br>输入如下命令</p>
+<p><div></div></p>
+<p><pre>revoke all privileges on <em>.</em> from ‘radius’@’localhost’;<br>grant all privileges on radius.* to ‘radius’@’localhost’;<br>flush privileges;<br>exit</pre><br></p>
+<p></p><h3 id="5f33f">配置nginx</h3><br>首先在dns服务商添加一条新的A记录<code>daloradius</code>，然后添加新的nginx配置文件<code>/etc/nginx/sites-available/daloradius.conf</code>，确定已正确安装并启动了php5-fpm。<p></p>
+<p>注意将server_name中的<code>your.domain</code>改为你自己的域名。</p>
+<p><div></div></p>
+<p><pre>server {<br>    listen 80;<br>    server_name  daloradius.your.domain;<br>    root /home/wilbur/www/daloradius;</pre></p>
+<pre><code>access_log  /var/log/nginx/daloradius.access.log main;
+error_log   /var/log/nginx/daloradius.error.log warn;
+
+location / {
+    index index.php;
+    try_files $uri $uri/ /index.php;
+}
+
+location ~ \.php$ {
+    fastcgi_pass   127.0.0.1:9000;
+    fastcgi_index  index.php;
+    fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    include        fastcgi_params;
+}
+
+location ~ /\.ht {
+    deny all;
+}
+</code></pre><p>}<br><br>链接到<code>/etc/nginx/sites-enabled/</code>目录后重启相关服务程序。</p>
+<p><div></div></p>
+<p><pre>cd /etc/nginx/sites-enabled/<br>sudo ln -s ../sites-available/daloradius.conf .</pre></p>
+<p>#sudo service php5-fpm restart<br>sudo service nginx restart<br>sudo service freeradius restart<br><br>dns更改生效后，访问<a href="http://daloradius.your.domain即可配置FreeRadius，默认的用户名是administrator，密码是radius。" target="_blank" rel="external">http://daloradius.your.domain即可配置FreeRadius，默认的用户名是administrator，密码是radius。</a></p>
+<p></p><h3 id="a73a1">daloRadius界面指南</h3><br>daloRadius的管理账户存储在MySQL的<code>radius.operators</code>表中，密码使用明文存储。<p></p>
+<p><div></div></p>
+<p><pre>Management =&gt; Users 管理VPN用户，注意添加新用户时，应选择Cleartext-Password（默认）密码类型</pre></p>
+<p>Config =&gt; Operators 管理daloRadius的登录账户，包括修改密码和权限设置等<br>Config =&gt; Interface Settings =&gt; Enable Password Hiding 设为yes可以将界面上的明文密码改为点号隐藏<br></p>
+<p></p><h2 id="a52f4">排查错误</h2><p></p>
+<p></p><h3 id="a556b">使用调试模式启动FreeRadius</h3><p></p>
+<p><div></div></p>
+<p><pre>freeradius -X</pre><br></p>
+<p></p><h3 id="39d18">使用radtest</h3><br>radtest可以向freeradius服务器发送请求，不过目前不支持mschapv2加密模式，详情见<code>man radtest</code>。<p></p>
+<p><div></div></p>
+<p><pre>radtest user password localhost 0 shared_secret</pre><br></p>
+<p></p><h3 id="f1c09">异常掉线的用户在daloRadius显示为在线用户</h3><br>异常掉线的client无法在退出时更新<code>radius.radacct</code>表的<code>acctstoptime</code>，这些client在daloRadius里会被显示为在线用户。使用如下的命令可修复该问题，最好使用cron定期执行该任务。<p></p>
+<p><div></div></p>
+<p><pre>mysql -uroot -p -e “UPDATE radius.radacct SET acctstoptime = acctstarttime + acctsessiontime WHERE ((UNIX_TIMESTAMP(acctstarttime) + acctsessiontime + 240 - UNIX_TIMESTAMP())&lt;0) AND acctstoptime IS NULL;”</pre><br></p>
+<p></p><h2 id="81f5d">阅读资料</h2><p></p>
+<p><ol><br>    <li><a href="http://wangyan.org/blog/freeradius-pptp-l2tp-html.html" target="_blank" rel="external">PPTP/L2TP + FreeRADIUS + MySQL 安装与配置</a></li><br>    <li><a href="http://blog.dayanjia.com/2011/03/configure-freeradius-and-daloradius-on-pptp-vpn-server/" target="_blank" rel="external">在PPTP VPN服务器上配置FreeRADIUS+daloRADIUS实现用户跟踪管理</a></li><br>    <li><a title="http://poptop.sourceforge.net/dox/skwok/poptop_ads_howto_a5.htm" href="http://poptop.sourceforge.net/dox/skwok/poptop_ads_howto_a5.htm" target="_blank" rel="external">RadiusClient配置</a></li><br>    <li><a title="https://help.ubuntu.com/community/CategoryNetworking/daloRADIUS" href="https://help.ubuntu.com/community/CategoryNetworking/daloRADIUS" target="_blank" rel="external">daloRADIUS Ubuntu help</a></li><br></ol><br>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/12/22/Ubuntu上安装和配置FreeRadius和DaloRadius/" class="archive-article-date">
+  	<time datetime="2014-12-22T12:33:22.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-12-22</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux-App/">Linux App</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-websocket协议" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/12/13/websocket协议/">websocket协议</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <pre>
+  0                   1                   2                   3
+  0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+ +-+-+-+-+-------+-+-------------+-------------------------------+
+ |F|R|R|R| opcode|M| Payload len |    Extended payload length    |
+ |I|S|S|S|  (4)  |A|     (7)     |             (16/64)           |
+ |N|V|V|V|       |S|             |   (if payload len==126/127)   |
+ | |1|2|3|       |K|             |                               |
+ +-+-+-+-+-------+-+-------------+ - - - - - - - - - - - - - - - +
+ |     Extended payload length continued, if payload len == 127  |
+ + - - - - - - - - - - - - - - - +-------------------------------+
+ |                               |Masking-key, if MASK set to 1  |
+ +-------------------------------+-------------------------------+
+ | Masking-key (continued)       |          Payload Data         |
+ +-------------------------------- - - - - - - - - - - - - - - - +
+ :                     Payload Data continued ...                :
+ + - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - +
+ |                     Payload Data continued ...                |
+ +---------------------------------------------------------------+
+</pre>
+
+<p>refer: <a href="http://segmentfault.com/blog/barretlee/1190000000428502" target="_blank" rel="external">http://segmentfault.com/blog/barretlee/1190000000428502</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/12/13/websocket协议/" class="archive-article-date">
+  	<time datetime="2014-12-13T09:49:07.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-12-13</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-通过android-permission获取Linux-guid权限" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/11/14/通过android-permission获取Linux-guid权限/">通过android permission获取Linux guid权限</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>先来看一个实例，通过BLUETOOTH_STACK和DIAGNOSTIC permission获取linux的net_bt_stack和input guid权限</p>
+<p>1.在app的AndroidManifest中声明如下permission，BLUETOOTH_STACK将应用加入到net_bt_stack用户组，可读写/dev/uinput设备，DIAGNOSTIC将应用加入到input组，可读写/dev/input/下的event设备</p>
+<pre>
+&lt;uses-permission android:name=&quot;android.permission.BLUETOOTH_STACK&quot; /&gt;
+&lt;uses-permission android:name=&quot;android.permission.DIAGNOSTIC&quot; /&gt;
+</pre>
+
+<p>2.用platform签名给应用apk签名<br>以上两个权限都是要platform签名的</p>
+<pre>
+java -jar out/host/linux-x86/framework/signapk.jar build/target/product/security/platform.x509.pem  build/target/product/security/platform.pk8  your_app.apk  your_app_signed.apk
+</pre>
+
+<p>3.安装应用apk，不需要安装到/system/app目录，按照普通app安装方式即可<br>当app运行起来的时候，app已经是input、net_bt_stack组了，可以操作对应的linux设备文件</p>
+<p>用ps查看app运行时的进程号PID，查看/proc/PID/status文件，可以看到app所属的guid<br><br></p>
+<p></p><h4>添加自定义permission获取guid</h4><br>为了使用方便，可能需要自定义permission<br>比如我们需要添加一个叫做“android.permission.CONTROL”的permission，可以在frameworks/base/data/etc/platform.xml，添加<p></p>
+<pre>
+&lt;permission name=&quot;android.permission.CONTROL&quot; &gt;
+    &lt;group gid=&quot;net_bt_stack&quot; /&gt;
+    &lt;group gid=&quot;input&quot; /&gt;
+&lt;/permission&gt;
+</pre>
+
+<p>然后在app的AndroidManifest.xml中声明该permission，可参考frameworks/base/core/res/AndroidManifest.xml进行声明</p>
+<pre>
+&lt;permission android:name=&quot;android.permission.CONTROL&quot;
+    android:protectionLevel=&quot;normal&quot; /&gt;
+</pre>
+protectionLevel可以使用normal、dangerous、signature、system以及signature|system的组合
+
+如果需要添加新的guid，可以修改system/core/include/private/android_filesystem_config.h
+
+可以将app的源代码集成到package/app/下与android代码一起编译，也可以使用app生成好的apk集成
+参考《<a href="http://blog.csdn.net/wjky2014/article/details/38042945" target="_blank">如何预置Android 手机 APK</a>》
+
+<blockquote>
+如何将无源码的 APK 预置进系统？
+1) 在 packages/apps 下面以需要预置的 APK 名字创建文件夹，以预置一个名为Test的APK为例
+2) 将 Test.apk 放到 packages/apps/Test 下面
+3) 在 packages/apps/Test 下面创建文件 Android.mk，文件内容如下：
+<pre>
+LOCAL_PATH := $(call my-dir)
+include $(CLEAR_VARS)
+# Module name should match apk name to be installed
+LOCAL_MODULE := Test
+LOCAL_MODULE_TAGS := optional
+LOCAL_SRC_FILES := $(LOCAL_MODULE).apk
+LOCAL_MODULE_CLASS := APPS
+LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
+LOCAL_CERTIFICATE := PRESIGNED
+include $(BUILD_PREBUILT)
+</pre>
+这样Test.apk将预制到/system/app/目录下
+如果想预制到/data/data/下，可添加一行LOCAL_MODULE_PATH := $(TARGET_OUT_DATA_APPS)
+<pre>
+LOCAL_PATH := $(call my-dir)
+include $(CLEAR_VARS)
+# Module name should match apk name to be installed
+LOCAL_MODULE := Test
+LOCAL_MODULE_TAGS := optional
+LOCAL_SRC_FILES := $(LOCAL_MODULE).apk
+LOCAL_MODULE_CLASS := APPS
+LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
+LOCAL_CERTIFICATE := PRESIGNED
+LOCAL_MODULE_PATH := $(TARGET_OUT_DATA_APPS)
+include $(BUILD_PREBUILT)
+</pre>
+
+<p>在cubieboard2的android源码中，只需要将apk添加到android/device/softwinner/wing-common/preinstallapk/目录即可<br></p></blockquote><p></p>
+<p>烧写image到设备上，运行我们的app，就能获取到net_bt_stack和input guid权限了（经测试，预制到/data/分区不能成功，在/system/下可以成功；也可以单独写一个声明permission的app，预制到/system/app/下，其他app使用这个permission就能成功了）</p>
+<p><del datetime="2014-11-14T08:30:33+00:00">注意：通过修改android设备中的/etc/permissions/platform.xml，并将app安装到设备（push到/system/app/或者安装到/data/data/）的方式不能成功，出现如下错误：</del></p>
+<pre>
+W/PackageManager(2330): Removing dangling permission: android.permission.CONTROL from package null
+</pre>
+但通过在android源码中build的方式可以成功，可能跟没有清除数据有关
+
+<hr>
+更新：直接修改android设备中的/etc/permissions/platform.xml，需要<span style="color: #ff0000;">删除/data/system/packages.xml</span>、/data/system/packages-backup.xml，重启之后重新扫描重构packages信息，这样就能成功获取permission对应的guid权限了
+
+"packages.xml"在frameworks/base/services/java/com/android/server/pm/Settings.java中定义：
+<pre>
+Settings(Context context, File dataDir) {
+    mContext = context;
+    mSystemDir = new File(dataDir, &quot;system&quot;);
+    mSystemDir.mkdirs();
+    FileUtils.setPermissions(mSystemDir.toString(),
+            FileUtils.S_IRWXU|FileUtils.S_IRWXG
+            |FileUtils.S_IROTH|FileUtils.S_IXOTH,
+            -1, -1);
+    mSettingsFilename = new File(mSystemDir, &quot;packages.xml&quot;);
+    mBackupSettingsFilename = new File(mSystemDir, &quot;packages-backup.xml&quot;);
+    mPackageListFilename = new File(mSystemDir, &quot;packages.list&quot;);
+    FileUtils.setPermissions(mPackageListFilename, 0660, SYSTEM_UID, PACKAGE_INFO_GID);
+
+    // Deprecated: Needed for migration
+    mStoppedPackagesFilename = new File(mSystemDir, &quot;packages-stopped.xml&quot;);
+    mBackupStoppedPackagesFilename = new File(mSystemDir, &quot;packages-stopped-backup.xml&quot;);
+}
+</pre>
+
+<p>frameworks/base/services/java/com/android/server/pm/PackageManagerService.java中定义了isFirstBoot()</p>
+<p><pre><br>public PackageManagerService(Context context, boolean factoryTest, boolean onlyCore) {<br>    …<br>    mRestoredSettings = mSettings.readLPw(getUsers());<br>    …<br>}</pre></p>
+<p>public boolean isFirstBoot() {<br>    return !mRestoredSettings;<br>}<br><br>PMS会调用mSettings的readLPw，读取packages-backup.xml和packages.xml，如果不存在返回false，进而isFirstBoot()返回true</p>
+<p>与抛出”Removing dangling permission”异常相关的代码位于PackageManagerService.java的updatePermissionsLPw()</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/11/14/通过android-permission获取Linux-guid权限/" class="archive-article-date">
+  	<time datetime="2014-11-14T06:37:02.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-11-14</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-sensors-data-get-set-from-android-emulator-sensor-socket" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/11/08/sensors-data-get-set-from-android-emulator-sensor-socket/">sensors data get/set from android emulator sensor socket</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>android emulator在初始化时会为sensor单独开一个socket，端口为1970，监听外部应用（比如eclipse调试工具）传递的模拟sensor数据</p>
+<p>socket创建过程大致如下图所示：<br><a href="http://img.pickbox.me/wp-content/uploads/qemu-sensors-socket-port-1970.png" target="_blank" rel="external"><img src="http://img.pickbox.me/wp-content/uploads/qemu-sensors-socket-port-1970.png" alt="qemu sensors socket port 1970" width="1168" height="1522" class="alignnone size-full wp-image-1094"></a></p>
+<p>可以看到，最后从socket接受到的外部模拟sensor数据通过android_sensors_set()存放在hw-sensors.c中，这与《sensors data get/set from android emulator console》中用console设置传感器数据类似</p>
+<p>具体如何使用1970这个socket端口，可以参考android源代码目录下的sdk/apps/SdkController，它将实体手机的传感器数据传递给模拟器，但目前有bug，可以从<a href="https://github.com/jfojfo/VirtualSensors" title="VirtualSensors" target="_blank">https://github.com/jfojfo/VirtualSensors</a>下载fix bug的版本</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/11/08/sensors-data-get-set-from-android-emulator-sensor-socket/" class="archive-article-date">
+  	<time datetime="2014-11-08T14:13:24.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-11-08</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/60/">60</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+    </nav>
+  
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: true,
+		isPost: false,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

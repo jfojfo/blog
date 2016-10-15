@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Android之监听Usb设备插拔 | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="SystemServer.java在服务启动时会启动UsbService（frameworks/base/services/java/com/android/server/usb/UsbService.java），UsbService会构造UsbHostManager和UsbDeviceManager
+frameworks/base/services/jni/com_android_server_">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android之监听Usb设备插拔">
+<meta property="og:url" content="http://blog.pickbox.me/2014/10/30/Android之监听Usb设备插拔/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="SystemServer.java在服务启动时会启动UsbService（frameworks/base/services/java/com/android/server/usb/UsbService.java），UsbService会构造UsbHostManager和UsbDeviceManager
+frameworks/base/services/jni/com_android_server_">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android之监听Usb设备插拔">
+<meta name="twitter:description" content="SystemServer.java在服务启动时会启动UsbService（frameworks/base/services/java/com/android/server/usb/UsbService.java），UsbService会构造UsbHostManager和UsbDeviceManager
+frameworks/base/services/jni/com_android_server_">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-Android之监听Usb设备插拔" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android之监听Usb设备插拔
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>SystemServer.java在服务启动时会启动UsbService（frameworks/base/services/java/com/android/server/usb/UsbService.java），UsbService会构造UsbHostManager和UsbDeviceManager</p>
+<p>frameworks/base/services/jni/com_android_server_UsbHostManager.cpp</p>
+<pre>
+static void android_server_UsbHostManager_monitorUsbHostBus(JNIEnv *env, jobject thiz)
+{
+    struct usb_host_context* context = usb_host_init();
+    if (!context) {
+        ALOGE(&quot;usb_host_init failed&quot;);
+        return;
+    }
+    // this will never return so it is safe to pass thiz directly
+    usb_host_run(context, usb_device_added, usb_device_removed, NULL, (void *)thiz);
+}
+</pre>
+
+<p>system/core/libusbhost/usbhost.c</p>
+<pre>
+#define DEV_DIR             &quot;/dev&quot;
+#define DEV_BUS_DIR         DEV_DIR &quot;/bus&quot;
+#define USB_FS_DIR          DEV_BUS_DIR &quot;/usb&quot;
+#define USB_FS_ID_SCANNER   USB_FS_DIR &quot;/%d/%d&quot;
+#define USB_FS_ID_FORMAT    USB_FS_DIR &quot;/%03d/%03d&quot;
+
+#define MAX_USBFS_WD_COUNT      10
+
+struct usb_host_context {
+    int                         fd;
+    usb_device_added_cb         cb_added;
+    usb_device_removed_cb       cb_removed;
+    void                        *data;
+    int                         wds[MAX_USBFS_WD_COUNT];
+    int                         wdd;
+    int                         wddbus;
+};
+
+struct usb_device {
+    char dev_name[64];
+    unsigned char desc[4096];
+    int desc_length;
+    int fd;
+    int writeable;
+};
+
+struct usb_host_context *usb_host_init()
+{
+    struct usb_host_context *context = calloc(1, sizeof(struct usb_host_context));
+    if (!context) {
+        fprintf(stderr, &quot;out of memory in usb_host_context\n&quot;);
+        return NULL;
+    }
+    context-&gt;fd = inotify_init();
+    if (context-&gt;fd &lt; 0) {
+        fprintf(stderr, &quot;inotify_init failed\n&quot;);
+        free(context);
+        return NULL;
+    }
+    return context;
+}
+
+void usb_host_run(struct usb_host_context *context,
+                  usb_device_added_cb added_cb,
+                  usb_device_removed_cb removed_cb,
+                  usb_discovery_done_cb discovery_done_cb,
+                  void *client_data)
+{
+    int done;
+
+    done = usb_host_load(context, added_cb, removed_cb, discovery_done_cb, client_data);
+
+    while (!done) {
+
+        done = usb_host_read_event(context);
+    }
+} /* usb_host_run() */
+
+int usb_host_load(struct usb_host_context *context,
+                  usb_device_added_cb added_cb,
+                  usb_device_removed_cb removed_cb,
+                  usb_discovery_done_cb discovery_done_cb,
+                  void *client_data)
+{
+    int done = 0;
+    int i;
+
+    context-&gt;cb_added = added_cb;
+    context-&gt;cb_removed = removed_cb;
+    context-&gt;data = client_data;
+
+    D(&quot;Created device discovery thread\n&quot;);
+
+    /* watch for files added and deleted within USB_FS_DIR */
+    context-&gt;wddbus = -1;
+    for (i = 0; i &lt; MAX_USBFS_WD_COUNT; i++)
+        context-&gt;wds[i] = -1;
+
+    /* watch the root for new subdirectories */
+    context-&gt;wdd = inotify_add_watch(context-&gt;fd, DEV_DIR, IN_CREATE | IN_DELETE);
+    if (context-&gt;wdd &lt; 0) {
+        fprintf(stderr, &quot;inotify_add_watch failed\n&quot;);
+        if (discovery_done_cb)
+            discovery_done_cb(client_data);
+        return done;
+    }
+
+    watch_existing_subdirs(context, context-&gt;wds, MAX_USBFS_WD_COUNT);
+
+    /* check for existing devices first, after we have inotify set up */
+    done = find_existing_devices(added_cb, client_data);
+    if (discovery_done_cb)
+        done |= discovery_done_cb(client_data);
+
+    return done;
+} /* usb_host_load() */
+
+static void watch_existing_subdirs(struct usb_host_context *context,
+                                   int *wds, int wd_count)
+{
+    char path[100];
+    int i, ret;
+
+    wds[0] = inotify_add_watch(context-&gt;fd, USB_FS_DIR, IN_CREATE | IN_DELETE);
+    if (wds[0] &lt; 0)
+        return;
+
+    /* watch existing subdirectories of USB_FS_DIR */
+    for (i = 1; i &lt; wd_count; i++) {
+        snprintf(path, sizeof(path), USB_FS_DIR &quot;/%03d&quot;, i);
+        ret = inotify_add_watch(context-&gt;fd, path, IN_CREATE | IN_DELETE);
+        if (ret &gt;= 0)
+            wds[i] = ret;
+    }
+}
+
+/* returns true if one of the callbacks indicates we are done */
+static int find_existing_devices(usb_device_added_cb added_cb,
+                                  void *client_data)
+{
+    char busname[32];
+    DIR *busdir;
+    struct dirent *de;
+    int done = 0;
+
+    busdir = opendir(USB_FS_DIR);
+    if(busdir == 0) return 0;
+
+    while ((de = readdir(busdir)) != 0 &amp;&amp; !done) {
+        if(badname(de-&gt;d_name)) continue;
+
+        snprintf(busname, sizeof(busname), USB_FS_DIR &quot;/%s&quot;, de-&gt;d_name);
+        done = find_existing_devices_bus(busname, added_cb,
+                                         client_data);
+    } //end of busdir while
+    closedir(busdir);
+
+    return done;
+}
+
+static int find_existing_devices_bus(char *busname,
+                                     usb_device_added_cb added_cb,
+                                     void *client_data)
+{
+    char devname[32];
+    DIR *devdir;
+    struct dirent *de;
+    int done = 0;
+
+    devdir = opendir(busname);
+    if(devdir == 0) return 0;
+
+    while ((de = readdir(devdir)) &amp;&amp; !done) {
+        if(badname(de-&gt;d_name)) continue;
+
+        snprintf(devname, sizeof(devname), &quot;%s/%s&quot;, busname, de-&gt;d_name);
+        done = added_cb(devname, client_data);
+    } // end of devdir while
+    closedir(devdir);
+
+    return done;
+}
+</pre>
+
+<pre>
+static int usb_device_added(const char *devname, void* client_data) {
+    struct usb_descriptor_header* desc;
+    struct usb_descriptor_iter iter;
+
+    struct usb_device *device = usb_device_open(devname);
+    if (!device) {
+        ALOGE(&quot;usb_device_open failed\n&quot;);
+        return 0;
+    }
+
+    JNIEnv* env = AndroidRuntime::getJNIEnv();
+    jobject thiz = (jobject)client_data;
+    Vector&lt;int&gt; interfaceValues;
+    Vector&lt;int&gt; endpointValues;
+    const usb_device_descriptor* deviceDesc = usb_device_get_device_descriptor(device);
+
+    uint16_t vendorId = usb_device_get_vendor_id(device);
+    uint16_t productId = usb_device_get_product_id(device);
+    uint8_t deviceClass = deviceDesc-&gt;bDeviceClass;
+    uint8_t deviceSubClass = deviceDesc-&gt;bDeviceSubClass;
+    uint8_t protocol = deviceDesc-&gt;bDeviceProtocol;
+
+    usb_descriptor_iter_init(device, &amp;iter);
+
+    while ((desc = usb_descriptor_iter_next(&amp;iter)) != NULL) {
+        if (desc-&gt;bDescriptorType == USB_DT_INTERFACE) {
+            struct usb_interface_descriptor *interface = (struct usb_interface_descriptor *)desc;
+
+            // push class, subclass, protocol and number of endpoints into interfaceValues vector
+            interfaceValues.add(interface-&gt;bInterfaceNumber);
+            interfaceValues.add(interface-&gt;bInterfaceClass);
+            interfaceValues.add(interface-&gt;bInterfaceSubClass);
+            interfaceValues.add(interface-&gt;bInterfaceProtocol);
+            interfaceValues.add(interface-&gt;bNumEndpoints);
+        } else if (desc-&gt;bDescriptorType == USB_DT_ENDPOINT) {
+            struct usb_endpoint_descriptor *endpoint = (struct usb_endpoint_descriptor *)desc;
+
+            // push address, attributes, max packet size and interval into endpointValues vector
+            endpointValues.add(endpoint-&gt;bEndpointAddress);
+            endpointValues.add(endpoint-&gt;bmAttributes);
+            endpointValues.add(__le16_to_cpu(endpoint-&gt;wMaxPacketSize));
+            endpointValues.add(endpoint-&gt;bInterval);
+        }
+    }
+
+    usb_device_close(device);
+
+    // handle generic device notification
+    int length = interfaceValues.size();
+    jintArray interfaceArray = env-&gt;NewIntArray(length);
+    env-&gt;SetIntArrayRegion(interfaceArray, 0, length, interfaceValues.array());
+
+    length = endpointValues.size();
+    jintArray endpointArray = env-&gt;NewIntArray(length);
+    env-&gt;SetIntArrayRegion(endpointArray, 0, length, endpointValues.array());
+
+    jstring deviceName = env-&gt;NewStringUTF(devname);
+    env-&gt;CallVoidMethod(thiz, method_usbDeviceAdded,
+            deviceName, vendorId, productId, deviceClass,
+            deviceSubClass, protocol, interfaceArray, endpointArray);
+
+    env-&gt;DeleteLocalRef(interfaceArray);
+    env-&gt;DeleteLocalRef(endpointArray);
+    env-&gt;DeleteLocalRef(deviceName);
+    checkAndClearExceptionFromCallback(env, __FUNCTION__);
+
+    return 0;
+}
+</pre>
+
+<p>frameworks/base/services/java/com/android/server/usb/UsbHostManager.java</p>
+<pre>
+/* Called from JNI in monitorUsbHostBus() to report new USB devices */
+private void usbDeviceAdded(String deviceName, int vendorID, int productID,
+        int deviceClass, int deviceSubclass, int deviceProtocol,
+        /* array of quintuples containing id, class, subclass, protocol
+           and number of endpoints for each interface */
+        int[] interfaceValues,
+       /* array of quadruples containing address, attributes, max packet size
+          and interval for each endpoint */
+        int[] endpointValues) {
+
+    if (isBlackListed(deviceName) ||
+            isBlackListed(deviceClass, deviceSubclass, deviceProtocol)) {
+        return;
+    }
+
+    synchronized (mLock) {
+        if (mDevices.get(deviceName) != null) {
+            Slog.w(TAG, &quot;device already on mDevices list: &quot; + deviceName);
+            return;
+        }
+
+        int numInterfaces = interfaceValues.length / 5;
+        Parcelable[] interfaces = new UsbInterface[numInterfaces];
+        try {
+            // repackage interfaceValues as an array of UsbInterface
+            int intf, endp, ival = 0, eval = 0;
+            for (intf = 0; intf &lt; numInterfaces; intf++) {
+                int interfaceId = interfaceValues[ival++];
+                int interfaceClass = interfaceValues[ival++];
+                int interfaceSubclass = interfaceValues[ival++];
+                int interfaceProtocol = interfaceValues[ival++];
+                int numEndpoints = interfaceValues[ival++];
+
+                Parcelable[] endpoints = new UsbEndpoint[numEndpoints];
+                for (endp = 0; endp &lt; numEndpoints; endp++) {
+                    int address = endpointValues[eval++];
+                    int attributes = endpointValues[eval++];
+                    int maxPacketSize = endpointValues[eval++];
+                    int interval = endpointValues[eval++];
+                    endpoints[endp] = new UsbEndpoint(address, attributes,
+                            maxPacketSize, interval);
+                }
+
+                // don't allow if any interfaces are blacklisted
+                if (isBlackListed(interfaceClass, interfaceSubclass, interfaceProtocol)) {
+                    return;
+                }
+                interfaces[intf] = new UsbInterface(interfaceId, interfaceClass,
+                        interfaceSubclass, interfaceProtocol, endpoints);
+            }
+        } catch (Exception e) {
+            // beware of index out of bound exceptions, which might happen if
+            // a device does not set bNumEndpoints correctly
+            Slog.e(TAG, &quot;error parsing USB descriptors&quot;, e);
+            return;
+        }
+
+        UsbDevice device = new UsbDevice(deviceName, vendorID, productID,
+                deviceClass, deviceSubclass, deviceProtocol, interfaces);
+        mDevices.put(deviceName, device);
+        getCurrentSettings().deviceAttached(device);
+    }
+}
+</pre>
+
+<p>frameworks/base/services/java/com/android/server/usb/UsbSettingsManager.java</p>
+<pre>
+public void deviceAttached(UsbDevice device) {
+    Intent intent = new Intent(UsbManager.ACTION_USB_DEVICE_ATTACHED);
+    intent.putExtra(UsbManager.EXTRA_DEVICE, device);
+    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+    ArrayList&lt;ResolveInfo&gt; matches;
+    String defaultPackage;
+    synchronized (mLock) {
+        matches = getDeviceMatchesLocked(device, intent);
+        // Launch our default activity directly, if we have one.
+        // Otherwise we will start the UsbResolverActivity to allow the user to choose.
+        defaultPackage = mDevicePreferenceMap.get(new DeviceFilter(device));
+    }
+
+    // Send broadcast to running activity with registered intent
+    mUserContext.sendBroadcast(intent);
+
+    // Start activity with registered intent
+    resolveActivity(intent, matches, defaultPackage, device, null);
+}
+</pre>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/10/30/Android之监听Usb设备插拔/" class="archive-article-date">
+  	<time datetime="2014-10-30T06:27:40.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-10-30</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2014/10/30/关于UsbDeviceConnection的claimInterface/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          关于UsbDeviceConnection的claimInterface
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/09/09/Linux-uhid分析之输入事件传递/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Linux uhid分析之输入事件传递</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

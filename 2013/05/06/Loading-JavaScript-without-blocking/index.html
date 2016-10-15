@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Loading JavaScript without blocking | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="I was reading Steve Souder’s blog post on loading scripts without blocking in which he notes that dynamically creating a &amp;lt;script&amp;gt; element and assigning its src attribute leads to a download t">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Loading JavaScript without blocking">
+<meta property="og:url" content="http://blog.pickbox.me/2013/05/06/Loading-JavaScript-without-blocking/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="I was reading Steve Souder’s blog post on loading scripts without blocking in which he notes that dynamically creating a &amp;lt;script&amp;gt; element and assigning its src attribute leads to a download t">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Loading JavaScript without blocking">
+<meta name="twitter:description" content="I was reading Steve Souder’s blog post on loading scripts without blocking in which he notes that dynamically creating a &amp;lt;script&amp;gt; element and assigning its src attribute leads to a download t">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-Loading-JavaScript-without-blocking" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Loading JavaScript without blocking
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><div id="post-2120"></div></p>
+<div>
+
+<p>I was reading Steve Souder’s blog post on <a href="http://www.stevesouders.com/blog/2009/04/27/loading-scripts-without-blocking/" target="_blank" rel="external">loading scripts without blocking</a> in which he notes that dynamically creating a <code>&lt;script&gt;</code> element and assigning its <code>src</code> attribute leads to a download that doesn’t block other downloads or page processes. His post is missing an example of how to do this, so I thought I’d pick up from there. I think most developers tend to use JavaScript libraries for such behavior (the <a href="http://developer.yahoo.com/yui/get/" target="_blank" rel="external">YUI Get utility</a> comes to mind) but a discussion of the underlying technique is still useful to know.</p>
+<p>The basic approach to downloading JavaScript without blocking is quite straightforward:</p>
+<p><pre>var script = document.createElement(“script”);<br>script.type = “text/javascript”;<br>script.src = “file.js”;<br>document.body.appendChild(script);</pre><br>This is about as easy as it gets, you just create a new DOM element, assign its properties and add it to the page. There are two things to note about this code. First, the download doesn’t actually begin until the <code>script</code> node is added to the document. This is different from dynamically creating an <code>&lt;img&gt;</code> element, for which assigning the <code>src</code> automatically begins the download even before the node is added to the document. The second thing to note is that you can add the script node either to the <code>&lt;head&gt;</code> or <code>&lt;body&gt;</code>; it really doesn’t matter. That’s all it takes to dynamically load a JavaScript file without blocking the page.</p>
+<p>Of course, you may also want to be notified when the JavaScript file is fully downloaded and executed, and that’s where things get a bit tricky. Most modern browsers (Firefox, Safari, Opera, Chrome) support a <code>load</code> event on <code>&lt;script&gt;</code> elements. This is an easy way to determine if the script is loaded:</p>
+<p><pre>//Firefox, Safari, Chrome, and Opera<br>var script = document.createElement(“script”);<br>script.type = “text/javascript”;<br>script.src = “file.js”;<br>script.onload = function(){<br>    alert(“Script is ready!”);<br>};<br>document.body.appendChild(script);</pre><br>The real problem is in Internet Explorer, which uses the <code>readyState</code> property to indicate the state of the script and a <code>readystatechange</code> event to indicate when that property has changed. In this case, <code>readyState</code> isn’t a number as it is with the <code>XMLHttpRequest</code> object; instead, it’s one of five possible values:</p>
+<p><ul><br>    <li>“uninitialized” â€“ the default state.</li><br>    <li>“loading” â€“ download has begun.</li><br>    <li>“loaded” â€“ download has completed.</li><br>    <li>“interactive” â€“ data is completely available but isn’t fully available.</li><br>    <li>“complete” â€“ all data is ready to be used.</li><br></ul><br>Even though the <a href="http://msdn.microsoft.com/en-us/library/ms534359(VS.85).aspx" target="_blank" rel="external">MSDN documentation</a> indicates that these are the available values for<code>readyState</code>, in reality, you’ll never see all of them. The documentation also applies to other elements that also support <code>readyState</code> and leaves us hanging with a rather cryptic description of which <code>readyState</code> values to expect:</p>
+<blockquote>An object’s state is initially set to <code>uninitialized</code>, and then to<code>loading</code>. When data loading is complete, the state of the link object passes through the <code>loaded</code> and <code>interactive</code> states to reach the <code>complete</code> state.<br><em>The states through which an object passes are determined by that object; an object can skip certain states (for example,<code>interactive</code>) if the state does not apply to that object.</em></blockquote><br>Even stranger is that the final <code>readyState</code> isn’t always <code>complete</code>. Sometimes, <code>readyState</code>stops at <code>loaded</code> without going on to <code>complete</code> and sometimes it skips over <code>loaded</code> altogether. The best approach is to check for both <code>readyState</code> values and remove the event handler in both cases to ensure you don’t handle the loading twice:<br><pre>//Internet Explorer only<br>var script = document.createElement(“script”);<br>script.type = “text/javascript”;<br>script.src = “file.js”;<br>script.onreadystatechange = function(){<br>    if (script.readyState == “loaded” ||<br>            script.readyState == “complete”){<br>        script.onreadystatechange = null;<br>        alert(“Script is ready!”);<br>    }<br>};<br>document.body.appendChild(script);</pre><br>You can wrap these two approaches pretty easily to create a cross-browser function to dynamically load JavaScript:<br><pre>function loadScript(url, callback){<br><br>    var script = document.createElement(“script”)<br>    script.type = “text/javascript”;<br><br>    if (script.readyState){  //IE<br>        script.onreadystatechange = function(){<br>            if (script.readyState == “loaded” ||<br>                    script.readyState == “complete”){<br>                script.onreadystatechange = null;<br>                callback();<br>            }<br>        };<br>    } else {  //Others<br>        script.onload = function(){<br>            callback();<br>        };<br>    }<br><br>    script.src = url;<br>    document.body.appendChild(script);<br>}</pre><br>To use this, just pass in the URL to retrieve and a function to call once it’s loaded:<br><pre>loadScript(“<a href="http://yui.yahooapis.com/2.7.0/build/yahoo/yahoo-min.js" target="_blank" rel="external">http://yui.yahooapis.com/2.7.0/build/yahoo/yahoo-min.js</a>“,<br>    function(){<br>        YAHOO.namespace(“mystuff”);<br><br>    //more…<br>});</pre><br>Loading scripts in this way prevents them from blocking the download of other resources on the page or preventing the display from rendering. It’s a really useful technique when performance is important (and let’s face it, when is it never?). The really cool thing is that <a href="http://developer.yahoo.com/yui/3/" target="_blank" rel="external">YUI 3</a> is built completely around the idea of non-blocking JavaScript downloads. All you need to do is download the ~20KB seed file and then specify the additional resources you want to load, such as:<br><pre>YUI().use(“dom”, function(Y){<br>    Y.DOM.addClass(document.body, “active”);<br>});</pre><br>Behind the scenes, YUI constructs the appropriate URL for the <code>dom</code> module and downloads it, automatically executing the callback function when the code is ready. This can really improve the initial download time of an overall page by asynchronously downloading the rest of the JavaScript code.<br><br>Loading JavaScript without blocking is a really important technique to understand and use in web applications that are concerned with page load performance. JavaScript blocking slows down the entire user experience, but it no longer has to.<br><br>Disclaimer: Any viewpoints and opinions expressed in this article are those of Nicholas C. Zakas and do not, in any way, reflect those of my employer, my colleagues, <a href="http://www.wrox.com/" target="_blank" rel="external">Wrox Publishing</a>, <a href="http://www.oreilly.com/" target="_blank" rel="external">O’Reilly Publishing</a>, or anyone else. I speak only for myself, not for them.<br><br>Both comments and pings are currently closed.<br><br></div><br><br><div><br><div><br><h2>Related Posts</h2><br><ul><br>    <li><a href="http://www.nczonline.net/blog/2009/07/28/the-best-way-to-load-external-javascript/" target="_blank" rel="external">The best way to load external JavaScript</a></li><br>    <li><a href="http://www.nczonline.net/blog/2012/04/25/the-performance-of-localstorage-revisited/" target="_blank" rel="external">The performance of localStorage revisited</a></li><br>    <li><a href="http://www.nczonline.net/blog/2012/03/07/in-defense-of-localstorage/" target="_blank" rel="external">In defense of localStorage</a></li><br>    <li><a href="http://www.nczonline.net/blog/2011/12/14/timer-resolution-in-browsers/" target="_blank" rel="external">Timer resolution in browsers</a></li><br>    <li><a href="http://www.nczonline.net/blog/2011/09/19/script-yielding-with-setimmediate/" target="_blank" rel="external">Script yielding with setImmediate</a></li><br></ul><br></div><br><div></div><br></div><br>Refer <a href="http://www.nczonline.net/blog/2009/06/23/loading-javascript-without-blocking/" target="_blank">Original Article</a><br><br>A usefull comment follows:<br><blockquote>This is a great post. Not having been in the Web Development field for very long, it came as quite a shock to find out the embedded script tags were blocking content download. In general, the most difficult aspects are managing scripts that have all ready been loaded and detection of the onload event. My attempts at implementing a script manager lead me to the following cross-browser issues that need to be managed.<br><br>Firefox guarantees the scripts will be executed in the order in which they were attached. If you insert scripts A and B in that order they will download asynchronously; however, script A must FINISH before script B can execute. So, if script A is lagged and script B finished quickly, it will not execute (nor will its onload event fire) until A has completed. This is in contrast to what I have seen in Safari, IE and Chrome.<br><br>In WEbKit, if the script’s src is in cache the onload event will fire as soon as the src is set. That means that, in your example, if file.js is in the browser cache, the onload event will never fire. I have found that this requires you to do two things: Setting the src attribute only AFTER the script is inserted into the DOM and subscribing to the onload event prior to DOM insertion. (This is definitely better than old versions of Safari which did not support the onload event on script elements). IMHO, IE’s readystate is more robust than a single onload event. Having this attribute available in Safari would certainly solve the problem.<br><br>YUI’s get() method only supports synchronized download of scripts. So, telling YUI to get Script A and Script B will download and execute Script A and only start on Script B when it receives A’s onload event. This definitely makes loading external JS files that need another library while they initialize, but it does not lead to an decrease in download times. A feature that seems to be unique to IE is that it will begin downloading an element as soon as the SRC attribute is set. That means that creating scriptEl and then doing scriptEl.src=”file.js” will begin the download of file.js. The script will not be executed, however, until you attach it to the document itself. This is similar to how all browsers handle the src attribute on an image and I think makes sense.<br><br>You can use the fact that FF guarantees execution order and that IE downloads as soon as the src attribute is set to achieve asynchronous downloads but synchronized execution. If Script B needs functions defined in Script A while it executes (not within functions defined in Script B) then B cannot run until A is complete. So, in FF you can simply create and attach script A followed by Script B. In IE, however, you create Script A and Script B at the same time. Then attach Script B after script A’s readystate is complete. Script B will change readystate almost immediately since it has all ready been fetched (In fact, Script B’s onreadystate function will fire before control is returned to the attaching function so watch out)<br><br>A couple of other idiosyncrasies:<br><br>1) When setting innerHTML to a value that contains a scirpt element, it is well known IE will not execute that script (FF will); however, what’s not as well known is that IE will still <strong>DOWNLOAD</strong> any scirpt with a src attribute. If you use innerHTML to extract script tags in an AJAX routine or something, watch out for this especially if your remote scripts are uncacheable (we have the problem with AJAX content that contains ad banner scripts since the server sets explicit no-cache headers).<br><br>2) If you’re using a timeout handler of some kind to detect when a remote server is unavailable, you can remove the script element which will cancel the download, preventing script execution; however, FireFox does not support this. Couple this with FF’s need to execute scripts in insertion order and you have no way to handle a long-loading script from hanging the rest of the script elements (and thereby preventing your page from being functional)<br><br>ServerHerder on September 28th, 2009 at 3:00 pm</blockquote>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/05/06/Loading-JavaScript-without-blocking/" class="archive-article-date">
+  	<time datetime="2013-05-06T09:58:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-05-06</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2013/05/20/Wordpress-Custom-URLs-for-Plugins/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Wordpress Custom URLs for Plugins
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2013/02/24/javascript继承/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">javascript继承</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

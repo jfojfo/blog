@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>TP-Link TL-WR703n将串口引出到Micro USB供电口 | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在《tplink_TL-WR703N到手，拆机引出RX、TX、+5V、GND信号》中已经成功引出了wr703n路由器的Rx、Tx，但使用起来还是不方便，网上有给wr703n钻一个耳机孔将Rx、Tx引到耳机头的，也有将Rx、Tx引出到供电的micro USB口的，如下图所示，虽然有挑战（飞线不好焊啊），但便利性确实很吸引人，于是决定尝试一把。
+
+昨天在taobao上订的CP2102串口转TTL到货，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TP-Link TL-WR703n将串口引出到Micro USB供电口">
+<meta property="og:url" content="http://blog.pickbox.me/2013/09/07/TP-Link-TL-WR703n将串口引出到Micro-USB供电口/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="在《tplink_TL-WR703N到手，拆机引出RX、TX、+5V、GND信号》中已经成功引出了wr703n路由器的Rx、Tx，但使用起来还是不方便，网上有给wr703n钻一个耳机孔将Rx、Tx引到耳机头的，也有将Rx、Tx引出到供电的micro USB口的，如下图所示，虽然有挑战（飞线不好焊啊），但便利性确实很吸引人，于是决定尝试一把。
+
+昨天在taobao上订的CP2102串口转TTL到货，">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/引出RxTx至micro-USB口2.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/CP2102串口转TTL_正面-1024x740.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/CP2102串口转TTL_背面-1024x701.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/CP2102串口转TTL_CP2102芯片焊接引脚相连2-1013x1024.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/CP2102串口转TTL_CP2102芯片焊接引脚相连-1024x957.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/CP2102芯片引脚.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/焊接USB的D-D+信号线-577x1024.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/焊接wr703n的micro-usb-D-D+信号线-1024x577.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/焊接CP2102板的mini-usb-D-D+信号线-1024x577.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/焊接USB的D-D+信号线_装进盒子-577x1024.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/引出串口线的wr703n-577x1024.jpg">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TP-Link TL-WR703n将串口引出到Micro USB供电口">
+<meta name="twitter:description" content="在《tplink_TL-WR703N到手，拆机引出RX、TX、+5V、GND信号》中已经成功引出了wr703n路由器的Rx、Tx，但使用起来还是不方便，网上有给wr703n钻一个耳机孔将Rx、Tx引到耳机头的，也有将Rx、Tx引出到供电的micro USB口的，如下图所示，虽然有挑战（飞线不好焊啊），但便利性确实很吸引人，于是决定尝试一把。
+
+昨天在taobao上订的CP2102串口转TTL到货，">
+<meta name="twitter:image" content="http://img.pickbox.me/wp-content/uploads/引出RxTx至micro-USB口2.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-TP-Link-TL-WR703n将串口引出到Micro-USB供电口" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      TP-Link TL-WR703n将串口引出到Micro USB供电口
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在《<a href="http://blog.pickbox.me/2013/08/23/tplink_tl-wr703n%e5%88%b0%e6%89%8b%ef%bc%8c%e6%8b%86%e6%9c%ba%e5%bc%95%e5%87%barx%e3%80%81tx%e3%80%815v%e3%80%81gnd%e4%bf%a1%e5%8f%b7/" target="_blank">tplink_TL-WR703N到手，拆机引出RX、TX、+5V、GND信号</a>》中已经成功引出了wr703n路由器的Rx、Tx，但使用起来还是不方便，网上有给wr703n钻一个耳机孔将Rx、Tx引到耳机头的，也有将Rx、Tx引出到供电的micro USB口的，如下图所示，虽然有挑战（飞线不好焊啊），但便利性确实很吸引人，于是决定尝试一把。</p>
+<p><a href="http://img.pickbox.me/wp-content/uploads/引出RxTx至micro-USB口2.jpg" target="_blank" rel="external"><img class="alignnone size-full wp-image-757" alt="引出RxTx至micro USB口" src="http://img.pickbox.me/wp-content/uploads/引出RxTx至micro-USB口2.jpg" width="960" height="675"></a></p>
+<p>昨天在taobao上订的CP2102串口转TTL到货，体积很小，适合放进wr703n中，可惜使用的是mini usb母座（也是买来才发现的），所幸手头上找出了几根mini usb线。个人比较偏向于micro usb，毕竟使用更广泛，手机数据线可以直接使用</p>
+<p><a href="http://img.pickbox.me/wp-content/uploads/CP2102串口转TTL_正面.jpg" target="_blank" rel="external"><img class="alignnone size-large wp-image-758" alt="CP2102串口转TTL_正面" src="http://img.pickbox.me/wp-content/uploads/CP2102串口转TTL_正面-1024x740.jpg" width="1000" height="722"></a> <a href="http://img.pickbox.me/wp-content/uploads/CP2102串口转TTL_背面.jpg" target="_blank" rel="external"><img class="alignnone size-large wp-image-759" alt="CP2102串口转TTL_背面" src="http://img.pickbox.me/wp-content/uploads/CP2102串口转TTL_背面-1024x701.jpg" width="1000" height="684"></a></p>
+<p>唯一让我担心的是CP2102芯片引脚有两处的焊锡似乎没有焊好，连接在一起了：</p>
+<p><a href="http://img.pickbox.me/wp-content/uploads/CP2102串口转TTL_CP2102芯片焊接引脚相连2.jpg" target="_blank" rel="external"><img class="alignnone size-large wp-image-760" alt="CP2102串口转TTL_CP2102芯片焊接引脚相连2" src="http://img.pickbox.me/wp-content/uploads/CP2102串口转TTL_CP2102芯片焊接引脚相连2-1013x1024.jpg" width="1000" height="1010"></a> <a href="http://img.pickbox.me/wp-content/uploads/CP2102串口转TTL_CP2102芯片焊接引脚相连.jpg" target="_blank" rel="external"><img class="alignnone size-large wp-image-761" alt="CP2102串口转TTL_CP2102芯片焊接引脚相连" src="http://img.pickbox.me/wp-content/uploads/CP2102串口转TTL_CP2102芯片焊接引脚相连-1024x957.jpg" width="1000" height="934"></a></p>
+<p>查过CP2102芯片手册，第一张图左下方的引脚为22，NC，未使用，可以忽略；第二张图很明显两个引脚连在一起，分别为11、12引脚，SUSPEND，跟挂起状态有关，不知道有没有影响。</p>
+<p><a href="http://img.pickbox.me/wp-content/uploads/CP2102芯片引脚.jpg" target="_blank" rel="external"><img class="alignnone size-full wp-image-762" alt="CP2102芯片引脚" src="http://img.pickbox.me/wp-content/uploads/CP2102芯片引脚.jpg" width="536" height="512"></a></p>
+<p>货到手了下面就剩连线了，由于Rx、Tx、+5V、GND已经引出了，所以只需给CP2102板焊上排针连线即可，头疼的是要把CP2102的mini usb母座的D-/D+ 连接到wr703n的micro usb母座的D-/D+</p>
+<p>拆了一根坏掉的mini usb线，把usb公头剪下来，打算直接插到CP2102板的mini usb母座进行连接，既牢固又省事。弄了半天把两根导线焊到了mini usb公头尾部的D-/D+，接下来又将导线的另一头焊到wr703n micro usb母座的D-/D+，终于都连上了，准备通电测试，这时，突然发现mini usb公头插不进CP2102板子mini usb母座，泪奔啊！可能焊接时把里面的朔胶熔变形了，只好依依不舍的将mini usb公头拆掉，所幸wr703n micro usb母座的D-/D+已经焊好</p>
+<p>由于用的是4cm短导线，另一头又已经连上了体积相对较大的wr703n，很难焊到CP2102板，没办法，用另外一对导线焊接连到CP2102板的mini usb母座D-/D+（体积较大，焊起来比较顺利），然后用焊锡将导线互连，最后用塑料薄膜将导线焊接连接处包了一圈（没有热缩管。。。），中途wr703n那头的线掉了，来回焊了好几次，还虚焊过一次</p>
+<p>经过一晚上的不懈尝试，终于焊接完毕，祈祷一切正常。先用电池5V电源通电查看，没有冒烟，运行正常，再连接上笔记本，安装好CP2102驱动，打开串口查看软件，正常输出启动log信息！松了一口气唉，贴一张焊好后的图吧</p>
+<p><a href="http://img.pickbox.me/wp-content/uploads/焊接USB的D-D+信号线.jpg" target="_blank" rel="external"><img class="alignnone size-large wp-image-763" alt="焊接USB的D-D+信号线" src="http://img.pickbox.me/wp-content/uploads/焊接USB的D-D+信号线-577x1024.jpg" width="577" height="1024"></a></p>
+<p><a href="http://img.pickbox.me/wp-content/uploads/焊接wr703n的micro-usb-D-D+信号线.jpg" target="_blank" rel="external"><img class="alignnone size-large wp-image-764" alt="焊接wr703n的micro usb D-D+信号线" src="http://img.pickbox.me/wp-content/uploads/焊接wr703n的micro-usb-D-D+信号线-1024x577.jpg" width="1000" height="563"></a> <a href="http://img.pickbox.me/wp-content/uploads/焊接CP2102板的mini-usb-D-D+信号线.jpg" target="_blank" rel="external"><img class="alignnone size-large wp-image-765" alt="焊接CP2102板的mini usb D-D+信号线" src="http://img.pickbox.me/wp-content/uploads/焊接CP2102板的mini-usb-D-D+信号线-1024x577.jpg" width="1000" height="563"></a></p>
+<p>装进盒子里，为了防止wr703n的micro usb焊线掉落，点了一坨松香固定导线（没有熔胶）。盒子里面放一块硬纸板作隔离，最后盖上盒盖，大功告成！</p>
+<p><a href="http://img.pickbox.me/wp-content/uploads/焊接USB的D-D+信号线_装进盒子.jpg" target="_blank" rel="external"><img class="alignnone size-large wp-image-766" alt="焊接USB的D-D+信号线_装进盒子" src="http://img.pickbox.me/wp-content/uploads/焊接USB的D-D+信号线_装进盒子-577x1024.jpg" width="577" height="1024"></a></p>
+<p><a href="http://img.pickbox.me/wp-content/uploads/引出串口线的wr703n.jpg" target="_blank" rel="external"><img class="alignnone size-large wp-image-769" alt="引出串口线的wr703n" src="http://img.pickbox.me/wp-content/uploads/引出串口线的wr703n-577x1024.jpg" width="577" height="1024"></a></p>
+<p>又回到了路由刚买来时候的摸样，外壳稍微有些痕迹，但是内部已经改造过</p>
+<p>&nbsp;</p>
+<hr>
+
+<p>2013-09-08更新：</p>
+<p>虽然串口信息能正常输出，但是系统不稳定。使用时间稍长一点（10分钟）时，CP2102芯片发烫，路由不稳定，经常重启，怀疑跟CP2102的11、12引脚（suspend）短路有关，重新焊了一下这两个引脚，mini USB母座上的线也补焊了一下，通电启动路由，还是发烫。无奈将CP2102板子拆下来，插进笔记本连上arduino，过一段时间还是有点烫，看来是这块CP2102板子的问题了，因为换另外一块CP2102板子连接电脑时并没有发烫</p>
+<p>找到原因了，换上好的CP2102板，重新焊接D-/D+，接上wr703n路由，通电启动，这次一切正常了，wr703n可以长时间稳定工作，ssh过去也不会掉线。（ps：工作时CP2102微热，在笔记本连接测试中是完全不热，还是有点隐患啊）</p>
+<p>换下来的这块瑕疵CP2102板，虽然有点烫，但是串口数据传输都正常，以后就拿来短时间使用吧</p>
+<p>&nbsp;</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/09/07/TP-Link-TL-WR703n将串口引出到Micro-USB供电口/" class="archive-article-date">
+  	<time datetime="2013-09-07T08:32:45.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-09-07</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2013/09/09/Example-for-Custom-Class-Loading-in-Dalvik/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Example for Custom Class Loading in Dalvik
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2013/09/05/【zz】Under-the-Hood-Dalvik-patch-for-Facebook-for-Android/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">【zz】Under the Hood: Dalvik patch for Facebook for Android</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

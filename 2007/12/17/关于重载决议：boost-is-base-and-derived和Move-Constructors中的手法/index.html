@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>关于重载决议：boost::is_base_and_derived和Move Constructors中的手法 | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Generic&amp;lt;Programming&amp;gt;: Move Constructors  by Andrei Alexandrescusee source code。。。 。。。Now in starting to overload Connect, an idea would be to define Connect(const String&amp;amp;) to catch &amp;quot;ge">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于重载决议：boost::is_base_and_derived和Move Constructors中的手法">
+<meta property="og:url" content="http://blog.pickbox.me/2007/12/17/关于重载决议：boost-is-base-and-derived和Move-Constructors中的手法/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="Generic&amp;lt;Programming&amp;gt;: Move Constructors  by Andrei Alexandrescusee source code。。。 。。。Now in starting to overload Connect, an idea would be to define Connect(const String&amp;amp;) to catch &amp;quot;ge">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="关于重载决议：boost::is_base_and_derived和Move Constructors中的手法">
+<meta name="twitter:description" content="Generic&amp;lt;Programming&amp;gt;: Move Constructors  by Andrei Alexandrescusee source code。。。 。。。Now in starting to overload Connect, an idea would be to define Connect(const String&amp;amp;) to catch &amp;quot;ge">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-关于重载决议：boost-is-base-and-derived和Move-Constructors中的手法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      关于重载决议：boost::is_base_and_derived和Move Constructors中的手法
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <a target="_blank" href="http://www.ddj.com/cpp/184403855">Generic&lt;Programming&gt;</a>: Move Constructors  by Andrei Alexandrescu<br><br>see <a href="http://hi.baidu.com/j%5Ffo/blog/item/3d6dfe0348d42b8bd53f7c42.html" target="_blank">source code</a><br></p><p>。。。 。。。</p><p>Now in starting to overload <strong>Connect</strong>, an idea would be to define <strong>Connect(const String&amp;)</strong> to catch &quot;genuine&quot; constant objects. This, however, would be a mistake because this declaration will &quot;eat&quot; all <strong>String</strong> objects &mdash; be they lvalues or temporaries. So the first good idea is to <em>not</em> declare a function that accepts a <strong>const</strong> reference, because it swallows all objects like a black hole.</p><p>A second try is to define <strong>Connect(String&amp;)</strong> in an attempt to catch non-<strong>const</strong> lvalues. This works well, and in particular <strong>const</strong> values and unnamed temporaries can’t be &quot;eaten&quot; by this overload &mdash; a good start. Now we only have to differentiate between <strong>const</strong> objects and non-<strong>const</strong> temporaries.</p><p>To do this, the technique we apply is to define two &quot;type sugar&quot; classes <strong>ConstantString</strong> and <strong>TemporaryString</strong>, and to define conversion operators from <strong>String</strong> to those objects:</p><p> </p>class String;<br><p><br>// &quot;type sugar&quot; for constant Strings<br>struct ConstantString <br>{<br>  const String<em> obj<em>;<br>};</em></em></p><p><br>// &quot;type sugar&quot; for temporary Strings<br>// (explanation coming)<br>struct TemporaryString : public ConstantString {};</p><p><br>class String<br>{<br>public:<br>  … constructors, destructors,<br>  operations, you name it … <br>  operator ConstantString() const<br>  {<br>  ConstantString result;<br>    result.obj = this;<br>    return result;<br>  }<br>  operator TemporaryString()<br>  {<br>    TemporaryString result;<br>    result.obj_ = this;<br>    return result;<br>  }<br>};</p><p> </p><p>So now <strong>String</strong> defines two conversion operators. One notable difference between them is that <strong>TemporaryString</strong> doesn’t apply to <strong>const String</strong> objects.</p><p>Now say you define the following three overloads:</p><p> </p>// binds to non-const temporaries<br>void Connect(TemporaryString); <br>// binds to all const objects (lvalues AND temporaries)<br>void Connect(ConstantString); <br>// binds to non-const lvalues<br>void Connect(String&amp; str) <br>{<br>  // just forward to the other overload<br>  // since ContantString has no constructor taking a String as parameter, <br>  // two convertion route exist:<br>  //    str —&gt; str const —&gt; ConstantString<br>  //    str —&gt; TemporaryString —&gt; ConstantString  // #1<br>  // <br>  Connect(ConstantString(str)); <br>}<p> </p><p>Here’s how it all works. Constant <strong>String</strong> objects are &quot;attracted&quot; by <strong>Connect(ConstantString)</strong>. There is no other binding that could work; the other two work for non-<strong>const</strong> <strong>String</strong>s only.</p><p>Temporary objects can’t go to <strong>Connect(String&amp;)</strong>. They could, however, go to either <strong>Connect(TemporaryString)</strong> or <strong>Connect(ConstantString)</strong>, and the former overload must be chosen unambiguously. That’s the reason for deriving <strong>TemporaryString</strong> from <strong>ConstantString</strong>, a trick that deserves some attention.</p><p>Consider for a moment that <strong>ConstantString</strong> and <strong>TemporaryString</strong> were totally independent types. Then, when prompted to copy a temporary object, the compiler would be equally motivated to go either:</p><p> </p>operator TemporaryY() &mdash;&gt; Y(TemporaryY)<p> </p><p>or:</p><p> </p>operator ConstantY() const &mdash;&gt; Y(ConstantY)<p> </p><p>Why the equal motivation? This is because the non-<strong>const</strong> to <strong>const</strong> conversion is &quot;frictionless&quot; as far as selecting member functions is concerned. (两个不同参数的函数，两个用户自定义转换，因此两个转换一样好，see C++ primer ———–&gt; this is not the case!!! see the following)</p><p>【explanation:<br>for  void Connect(ConstantString);<br> Y —&gt; Y const —&gt; Constant (UDC)<br> Y —&gt; Temporary (UDC) —&gt; Constant<br>for  void Connect(TemporaryString);<br>Y —&gt; Temporary (UDC)</p><p>for the first function, choose the second conversion, for the second, there is only one choice.<br>finally the last conversion is chosen obviously.</p><p>//Testing source code:<br> class String;<br>struct ConstantString<br>{<br>&nbsp;&nbsp;&nbsp;     const String obj_;<br>};<br><br>struct TemporaryString : public ConstantString<br>{<br>};<br><br>class String<br>{<br>public:<br>&nbsp;&nbsp;&nbsp;     operator ConstantString() const<br>&nbsp;&nbsp;&nbsp;     {<br>&nbsp;&nbsp;&nbsp;     &nbsp;&nbsp;&nbsp;     cout &lt;&lt; &quot;operator ConstantString() const&quot; &lt;&lt; endl;<br>&nbsp;&nbsp;&nbsp;     }<br>&nbsp;&nbsp;&nbsp;     operator TemporaryString()<br>&nbsp;&nbsp;&nbsp;     {<br>&nbsp;&nbsp;&nbsp;     &nbsp;&nbsp;&nbsp;     cout &lt;&lt; &quot;operator TemporaryString()&quot; &lt;&lt; endl;<br>&nbsp;&nbsp;&nbsp;     }<br>};<br><br>void test(ConstantString s){}<br><br>int main()<br>{<br>&nbsp;&nbsp;&nbsp;     test(String());<br>&nbsp;&nbsp;&nbsp;     return 0;<br>}</p><p>output : operator TemporaryString()</p><p>】</p><p>【 note<br>// compiled by g++-3.4.4 &amp; VC8.0<br>struct Class<br>{<br>&nbsp;&nbsp;&nbsp;          Class(){}<br>&nbsp;&nbsp;&nbsp;          operator int() const<br>&nbsp;&nbsp;&nbsp;          {<br>&nbsp;&nbsp;&nbsp;          &nbsp;&nbsp;&nbsp;          cout &lt;&lt; &quot;int() const&quot; &lt;&lt; endl;<br>&nbsp;&nbsp;&nbsp;          &nbsp;&nbsp;&nbsp;          return 0;<br>&nbsp;&nbsp;&nbsp;          }<br>&nbsp;&nbsp;&nbsp;          operator int()<br>&nbsp;&nbsp;&nbsp;          {<br>&nbsp;&nbsp;&nbsp;          &nbsp;&nbsp;&nbsp;          cout &lt;&lt; &quot;int()&quot; &lt;&lt; endl;<br>&nbsp;&nbsp;&nbsp;          &nbsp;&nbsp;&nbsp;          return 0;<br>&nbsp;&nbsp;&nbsp;          }<br>};<br>int main()<br>{<br>&nbsp;&nbsp;&nbsp;          Class a;<br>&nbsp;&nbsp;&nbsp;          int i = Class();&nbsp;&nbsp;           // output &quot;int()&quot;, so by default a r-value temparory is not treated as const<br>}<br> 】</p><p>The need, therefore, is to give the compiler more &quot;motivation&quot; to choose the first route than the second. That’s where the inheritance kicks in. Now the compiler says: &quot;Ok, I guess I could go through <strong>ConstantString</strong> or <strong>TemporaryString</strong>… but wait, the <em>derived</em> class <strong>TemporaryString</strong> is a better match!&quot;</p><p>The rule in action here is that matching a derived class is considered better than matching a base class when selecting a function from an overloaded set.</p><p>Finally, an interesting twist &mdash; the inheritance doesn’t necessarily have to be <strong>public</strong>. Access rules are orthogonal onto overloading rules. (  If private, #1 will be error by gcc: <code>ConstantString&#39; is an inaccessible base of</code>TemporaryString’, because conversion to the private base of TemporaryString leads to inaccessibility. This error can be eliminated by adding to class ConstantString a constructor taking a String as parameter , ie ConstantString(const String &amp;){} )</p><strong> &mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;</strong><br><p>boost::is_base_and_derived</p><p> template &lt;typename B, typename D&gt;<br>struct bd_helper<br>{<br>&nbsp;&nbsp;&nbsp;                     template &lt;typename T&gt;<br>&nbsp;&nbsp;&nbsp;                     static type_traits::yes_type check_sig(D const volatile <em>, T);<br>&nbsp;&nbsp;&nbsp;                     static type_traits::no_type check_sig(B const volatile </em>, int);<br>};<br><br>template&lt;typename B, typename D&gt;<br>struct is_base_and_derived_impl2<br>{<br>&nbsp;&nbsp;&nbsp;                     struct Host<br>&nbsp;&nbsp;&nbsp;                     {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                     operator B const volatile <em>() const;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                     operator D const volatile </em>();<br>&nbsp;&nbsp;&nbsp;                     };<br>&nbsp;&nbsp;&nbsp;                     static const bool value = sizeof(bd_helper&lt;B,D&gt;::check_sig(Host(), 0)) == sizeof(type_traits::yes_type);<br>};<br>   // Host() 临时对象是一个右值<br></p><p>Let’s take the multiple base class below as an example, and the following<br>will also show why there’s not a problem with private or ambiguous base<br>class:<br><br>struct B {};<br>struct B1 : B {};<br>struct B2 : B {};<br>struct D : private B1, private B2 {};<br><br>is_base_and_derived&lt;B, D&gt;::value;<br><br>First, some terminology:<br><br>SC  - Standard conversion<br>UDC - User-defined conversion<br><br>A user-defined conversion sequence consists of an SC, followed by an UDC,<br>followed by another SC. Either SC may be the identity conversion.<br><br>When passing the default-constructed Host object to the overloaded check_sig()<br>functions (initialization 8.5/14/4/3), we have several viable implicit<br>conversion sequences:<br><br>For &quot;static no_type check_sig(B const volatile <em>, int)&quot; we have the conversion<br>sequences:<br><br>C -&gt; C const (SC - Qualification Adjustment) -&gt; B const volatile</em> (UDC)<br>C -&gt; D const volatile<em> (UDC) -&gt; B1 const volatile</em> / B2 const volatile<em> -&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;                      B const volatile</em> (SC - Conversion)<br><br>For &quot;static yes_type check_sig(D const volatile <em>, T)&quot; we have the conversion<br>sequence:<br><br>C -&gt; D const volatile</em> (UDC)<br><br>According to 13.3.3.1/4, in context of user-defined conversion only the<br>standard conversion sequence is considered when selecting the best viable<br>function, so it only considers up to the user-defined conversion. For the<br> first function this means choosing between C -&gt; C const and C -&gt; C, and it<br>chooses the latter, because it’s a proper subset (13.3.3.2/3/2) of the<br>former. Therefore, we have:</p><p>【 C++ primer<br>类似地很可能有两个构造函数都能被用来把一个值变成转换的目标类型。在这种情况<br>下，在用户定义转换之前的标准转换序列会成为&ldquo;选择最佳的用户定义转换序列&rdquo;的依据<br>例如：<br>class SmallInt {<br>&nbsp;&nbsp;&nbsp;               public:<br>&nbsp;&nbsp;&nbsp;               SmallInt( int ival ) : value( ival ) { }<br>&nbsp;&nbsp;&nbsp;               SmallInt( double dval )<br>&nbsp;&nbsp;&nbsp;               : value( static_cast&lt; int &gt;( dval ) )<br>&nbsp;&nbsp;&nbsp;               { }<br>};<br>extern void manip( const SmallInt &amp; );<br>int main() {<br>&nbsp;&nbsp;&nbsp;               double dobj;<br>&nbsp;&nbsp;&nbsp;               manip( dobj ); //ok: SmallInt( double )<br>}<br>】</p><p>【 C++ primer<br>如果两个转换函数都可以使用，则跟在转换函数之后的标准转换序列会成为选择最佳<br>的用户定义转换序列的依据。<br>class Number {<br>public:<br>&nbsp;&nbsp;&nbsp;              operator float();<br>&nbsp;&nbsp;&nbsp;              operator int();<br>};<br>Number num;<br>float ff = num;&nbsp;&nbsp;               // operator float()<br>】</p><p>【 C++ primer<br>class SmallInt {<br>public:<br>&nbsp;&nbsp;&nbsp;              operator int();<br>&nbsp;&nbsp;&nbsp;              operator float();<br>&nbsp;&nbsp;&nbsp;              // …<br>};<br>void compute( float );<br>void compute( char );<br>SmallInt si ( 68 );<br>main() {<br>&nbsp;&nbsp;&nbsp;              compute( si ); // 二义的<br>}<br>而这里考虑的是两个不同的函数，带有不同的参数类型，且目<br>标类型是变化的。如果两个参数类型要求不同的用户定义的转换，则不可能选择哪一个参数<br>类型比另一个更好，除非用户定义的转换涉及到相同的转换函数。</p><p>因为两个用户定义的转换序列使用了不同的转换函数，所以不能判定哪个函数对该<br>调用有最佳的参数类型。标准转换序列的等级也不能被用来判定最佳转换序列，以及最佳参<br>数类型，所以，该调用被编译器标记为二义的。<br>】<br></p><p>C -&gt; D const volatile<em> (UDC) -&gt; B1 const volatile</em> / B2 const volatile<em> -&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;                      B const volatile</em> (SC - Conversion)<br>C -&gt; D const volatile<em> (UDC)<br><br>Here, the principle of the &quot;shortest subsequence&quot; applies again, and it<br>chooses C -&gt; D const volatile</em>. This shows that it doesn’t even need to<br>consider the multiple paths to B, or accessibility, as that possibility is<br>eliminated before it could possibly cause ambiguity or access violation.<br><br>If D is not derived from B, it has to choose between C -&gt; C const -&gt; B const<br>volatile<em> for the first function, and C -&gt; D const volatile</em> for the second<br>function, which are just as good (both requires a UDC, 13.3.3.2), had it not<br>been for the fact that &quot;static no_type check_sig(B const volatile <em>, int)&quot; is<br>not templated, which makes C -&gt; C const -&gt; B const volatile</em> the best choice<br>(13.3.3/1/4), resulting in &quot;no&quot;.<br><br>Also, if Host::operator B const volatile<em> hadn’t been const, the two<br>conversion sequences for &quot;static no_type check_sig(B const volatile </em>, int)&quot;, in<br>the case where D is derived from B, would have been ambiguous.</p><br><strong><br>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;</strong> <br><br>C++ primer<br><br>右值只是一个表达式，它表示了一个值或一个引用了临时对象的表达式，用户不能寻址该<br>对象，也不能改变它的值。<br><br>精确匹配的实参并不一定与参数的类型完全一致，有一些最小转换可以被应用到实参上。<br>在精确匹配的等级类别中可能存在的转换如下：<br>&nbsp;&nbsp;&nbsp;                从左值到右值的转换<br>&nbsp;&nbsp;&nbsp;                从数组到指针的转换<br>&nbsp;&nbsp;&nbsp;                从函数到指针的转换<br>&nbsp;&nbsp;&nbsp;                限定修饰转换（这种转换只影响指针，它将限定修饰符const或volatile 或两者加到指针指向的类型上）<br><br>即使一个实参必须应用一些最小的类型转换，才能将其转换为相应函<br>数参数的类型，它仍然是精确匹配的。<br><br><br><br>一个标准(standard) 转换序列潜在地由下列转换以下列顺序构成：<br>&nbsp;&nbsp;&nbsp;                左值转换&mdash;&mdash;&gt;<br>&nbsp;&nbsp;&nbsp;                &nbsp;&nbsp;&nbsp;                提升或者标准转换&mdash;&mdash;&gt;<br>&nbsp;&nbsp;&nbsp;                &nbsp;&nbsp;&nbsp;                &nbsp;&nbsp;&nbsp;                限定修饰转换<br>（至多每种转换会有一个被应用上，以将实参转换成相应的参数）<br>这种转换序列被称为标准(standard) 转换序列，还有另外一种转换序列被称为用户定义<br>的user-defined 转换序列。<br><br>限定转换（把const 或volatile 修饰符加到指针指向的类型上的转换）具有精确匹配的等<br>级。但是，如果两个转换序列前面都相同，只是一个在序列尾部有一个额外的限定转换，则<br>另一个没有额外限定转换的序列比较好。eg：<br>void reset( int <em> );<br>void reset( const int </em> );<br><br><br><br><p> </p><p> </p> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/12/17/关于重载决议：boost-is-base-and-derived和Move-Constructors中的手法/" class="archive-article-date">
+  	<time datetime="2007-12-17T13:31:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-12-17</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2007/12/18/mojo/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          mojo
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2007/12/15/boost代码分析：is-const，is-reference/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">boost代码分析：is_const，is_reference</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

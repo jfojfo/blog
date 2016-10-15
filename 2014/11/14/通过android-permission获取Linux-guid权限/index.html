@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>通过android permission获取Linux guid权限 | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="先来看一个实例，通过BLUETOOTH_STACK和DIAGNOSTIC permission获取linux的net_bt_stack和input guid权限
+1.在app的AndroidManifest中声明如下permission，BLUETOOTH_STACK将应用加入到net_bt_stack用户组，可读写/dev/uinput设备，DIAGNOSTIC将应用加入到input组，可读写/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="通过android permission获取Linux guid权限">
+<meta property="og:url" content="http://blog.pickbox.me/2014/11/14/通过android-permission获取Linux-guid权限/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="先来看一个实例，通过BLUETOOTH_STACK和DIAGNOSTIC permission获取linux的net_bt_stack和input guid权限
+1.在app的AndroidManifest中声明如下permission，BLUETOOTH_STACK将应用加入到net_bt_stack用户组，可读写/dev/uinput设备，DIAGNOSTIC将应用加入到input组，可读写/">
+<meta property="og:updated_time" content="2016-10-15T04:38:08.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="通过android permission获取Linux guid权限">
+<meta name="twitter:description" content="先来看一个实例，通过BLUETOOTH_STACK和DIAGNOSTIC permission获取linux的net_bt_stack和input guid权限
+1.在app的AndroidManifest中声明如下permission，BLUETOOTH_STACK将应用加入到net_bt_stack用户组，可读写/dev/uinput设备，DIAGNOSTIC将应用加入到input组，可读写/">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-通过android-permission获取Linux-guid权限" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      通过android permission获取Linux guid权限
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>先来看一个实例，通过BLUETOOTH_STACK和DIAGNOSTIC permission获取linux的net_bt_stack和input guid权限</p>
+<p>1.在app的AndroidManifest中声明如下permission，BLUETOOTH_STACK将应用加入到net_bt_stack用户组，可读写/dev/uinput设备，DIAGNOSTIC将应用加入到input组，可读写/dev/input/下的event设备</p>
+<pre>
+&lt;uses-permission android:name=&quot;android.permission.BLUETOOTH_STACK&quot; /&gt;
+&lt;uses-permission android:name=&quot;android.permission.DIAGNOSTIC&quot; /&gt;
+</pre>
+
+<p>2.用platform签名给应用apk签名<br>以上两个权限都是要platform签名的</p>
+<pre>
+java -jar out/host/linux-x86/framework/signapk.jar build/target/product/security/platform.x509.pem  build/target/product/security/platform.pk8  your_app.apk  your_app_signed.apk
+</pre>
+
+<p>3.安装应用apk，不需要安装到/system/app目录，按照普通app安装方式即可<br>当app运行起来的时候，app已经是input、net_bt_stack组了，可以操作对应的linux设备文件</p>
+<p>用ps查看app运行时的进程号PID，查看/proc/PID/status文件，可以看到app所属的guid<br><br></p>
+<p></p><h4>添加自定义permission获取guid</h4><br>为了使用方便，可能需要自定义permission<br>比如我们需要添加一个叫做“android.permission.CONTROL”的permission，可以在frameworks/base/data/etc/platform.xml，添加<p></p>
+<pre>
+&lt;permission name=&quot;android.permission.CONTROL&quot; &gt;
+    &lt;group gid=&quot;net_bt_stack&quot; /&gt;
+    &lt;group gid=&quot;input&quot; /&gt;
+&lt;/permission&gt;
+</pre>
+
+<p>然后在app的AndroidManifest.xml中声明该permission，可参考frameworks/base/core/res/AndroidManifest.xml进行声明</p>
+<pre>
+&lt;permission android:name=&quot;android.permission.CONTROL&quot;
+    android:protectionLevel=&quot;normal&quot; /&gt;
+</pre>
+protectionLevel可以使用normal、dangerous、signature、system以及signature|system的组合
+
+如果需要添加新的guid，可以修改system/core/include/private/android_filesystem_config.h
+
+可以将app的源代码集成到package/app/下与android代码一起编译，也可以使用app生成好的apk集成
+参考《<a href="http://blog.csdn.net/wjky2014/article/details/38042945" target="_blank">如何预置Android 手机 APK</a>》
+
+<blockquote>
+如何将无源码的 APK 预置进系统？
+1) 在 packages/apps 下面以需要预置的 APK 名字创建文件夹，以预置一个名为Test的APK为例
+2) 将 Test.apk 放到 packages/apps/Test 下面
+3) 在 packages/apps/Test 下面创建文件 Android.mk，文件内容如下：
+<pre>
+LOCAL_PATH := $(call my-dir)
+include $(CLEAR_VARS)
+# Module name should match apk name to be installed
+LOCAL_MODULE := Test
+LOCAL_MODULE_TAGS := optional
+LOCAL_SRC_FILES := $(LOCAL_MODULE).apk
+LOCAL_MODULE_CLASS := APPS
+LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
+LOCAL_CERTIFICATE := PRESIGNED
+include $(BUILD_PREBUILT)
+</pre>
+这样Test.apk将预制到/system/app/目录下
+如果想预制到/data/data/下，可添加一行LOCAL_MODULE_PATH := $(TARGET_OUT_DATA_APPS)
+<pre>
+LOCAL_PATH := $(call my-dir)
+include $(CLEAR_VARS)
+# Module name should match apk name to be installed
+LOCAL_MODULE := Test
+LOCAL_MODULE_TAGS := optional
+LOCAL_SRC_FILES := $(LOCAL_MODULE).apk
+LOCAL_MODULE_CLASS := APPS
+LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
+LOCAL_CERTIFICATE := PRESIGNED
+LOCAL_MODULE_PATH := $(TARGET_OUT_DATA_APPS)
+include $(BUILD_PREBUILT)
+</pre>
+
+<p>在cubieboard2的android源码中，只需要将apk添加到android/device/softwinner/wing-common/preinstallapk/目录即可<br></p></blockquote><p></p>
+<p>烧写image到设备上，运行我们的app，就能获取到net_bt_stack和input guid权限了（经测试，预制到/data/分区不能成功，在/system/下可以成功；也可以单独写一个声明permission的app，预制到/system/app/下，其他app使用这个permission就能成功了）</p>
+<p><del datetime="2014-11-14T08:30:33+00:00">注意：通过修改android设备中的/etc/permissions/platform.xml，并将app安装到设备（push到/system/app/或者安装到/data/data/）的方式不能成功，出现如下错误：</del></p>
+<pre>
+W/PackageManager(2330): Removing dangling permission: android.permission.CONTROL from package null
+</pre>
+但通过在android源码中build的方式可以成功，可能跟没有清除数据有关
+
+<hr>
+更新：直接修改android设备中的/etc/permissions/platform.xml，需要<span style="color: #ff0000;">删除/data/system/packages.xml</span>、/data/system/packages-backup.xml，重启之后重新扫描重构packages信息，这样就能成功获取permission对应的guid权限了
+
+"packages.xml"在frameworks/base/services/java/com/android/server/pm/Settings.java中定义：
+<pre>
+Settings(Context context, File dataDir) {
+    mContext = context;
+    mSystemDir = new File(dataDir, &quot;system&quot;);
+    mSystemDir.mkdirs();
+    FileUtils.setPermissions(mSystemDir.toString(),
+            FileUtils.S_IRWXU|FileUtils.S_IRWXG
+            |FileUtils.S_IROTH|FileUtils.S_IXOTH,
+            -1, -1);
+    mSettingsFilename = new File(mSystemDir, &quot;packages.xml&quot;);
+    mBackupSettingsFilename = new File(mSystemDir, &quot;packages-backup.xml&quot;);
+    mPackageListFilename = new File(mSystemDir, &quot;packages.list&quot;);
+    FileUtils.setPermissions(mPackageListFilename, 0660, SYSTEM_UID, PACKAGE_INFO_GID);
+
+    // Deprecated: Needed for migration
+    mStoppedPackagesFilename = new File(mSystemDir, &quot;packages-stopped.xml&quot;);
+    mBackupStoppedPackagesFilename = new File(mSystemDir, &quot;packages-stopped-backup.xml&quot;);
+}
+</pre>
+
+<p>frameworks/base/services/java/com/android/server/pm/PackageManagerService.java中定义了isFirstBoot()</p>
+<p><pre><br>public PackageManagerService(Context context, boolean factoryTest, boolean onlyCore) {<br>    …<br>    mRestoredSettings = mSettings.readLPw(getUsers());<br>    …<br>}</pre></p>
+<p>public boolean isFirstBoot() {<br>    return !mRestoredSettings;<br>}<br><br>PMS会调用mSettings的readLPw，读取packages-backup.xml和packages.xml，如果不存在返回false，进而isFirstBoot()返回true</p>
+<p>与抛出”Removing dangling permission”异常相关的代码位于PackageManagerService.java的updatePermissionsLPw()</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/11/14/通过android-permission获取Linux-guid权限/" class="archive-article-date">
+  	<time datetime="2014-11-14T06:37:02.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-11-14</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2014/12/13/websocket协议/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          websocket协议
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/11/08/sensors-data-get-set-from-android-emulator-sensor-socket/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">sensors data get/set from android emulator sensor socket</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

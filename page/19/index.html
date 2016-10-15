@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="jfo planet">
+<meta property="og:url" content="http://blog.pickbox.me/page/19/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jfo planet">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        
+  
+    <article id="post-反编译apk" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2010/09/12/反编译apk/">反编译apk</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+         <p><strong>keytool</strong></p><p>eg:</p><p>keytool.exe -list -keystore key.store -v</p><p>keytool.exe -genkey -keystore key.store -alias dicewars -validity 222222</p><p>keytool.exe -importkeystore -srckeystore ../../MyControlWidget/config/mycontrol.keystore -destkeystore key.store</p><p>keytool.exe -export -file dice.cer -keystore key.store -alias dicewars</p><p>eg2:</p><p>keytool -genkey -keystore mykeystorefile -alias mykeystore -validity 999</p><p>jarsigner.exe -verbose -keystore ../../mykeystorefile -signedjar com.jfo.app.signed.apk com.jfo.app.apk&nbsp;mykeystore</p><p>&nbsp;</p><p>———————————————————————-</p>一、更改apk文件的后缀名，如：LianyunHelper3.0.11.apk改成LianyunHelper3.0.11.zip <br>二、用zip解压缩LianyunHelper3.0.11.zip文件 <br>三、从解压缩的文件夹中取出classes.dex文件并放到dex2jar.bat所在目录 <br>四、运行cmd命令，进入dex2jar.bat所在的目录，输入dex2jar.bat classes.dex即可生成classes.dex.dex2jar.jar文件 <br>五、用JD-GUI工具打开classes.dex.dex2jar.jar文件，即可看到源码 <br>六、将AndroidManifest.xml文件放到AXMLPrinter2.jar所在目录，运行cmd命令，进入 AXMLPrinter2.jar所在目录，输入java -jar AXMLPrinter2.jar AndroidManifest.xml &gt; AndroidManifest.txt。 <br><br><a href="http://dl.javaeye.com/topics/download/b6536556-bfa8-31e9-9fc1-fb3e92862a18" target="_blank" rel="external">apk反编译工具.rar</a> (1.6 MB)<br><br>———————————————————————-<br><a href="http://android-apktool.googlecode.com/" target="_blank"><strong>Apktool 命令</strong></a><p>　　apktool d XXX.apk ABC 反编译 XXX.apk到文件夹ABC</p><p>　　apktool b ABC 从文件夹ABC重建APK，输出到ABCdistout.apk</p>apktool 对AndroidManifest.xml文件反编译效果比较好，<br><p>但对源代码反编译成了.smali格式。</p><p>如果没有classes.dex文件，可以加上 -s/–no-src 选项。</p><p>&nbsp;</p><p>———————————————————————–</p><p></p><p>有时候，某些应用并不太常用，放在ROM里面占空间挺可惜的，不如把它变成一个单独的APK安装包，想用的时候再装来的更方便些。这种时候，就需要把优化成APK文件和Odex文件组成的程序重新合并起来。<br>需要用到的工具是smali，一个开源的java处理软件</p><p><a href="http://code.google.com/p/smali/downloads/list" target="_blank">http://code.google.com/p/smali/downloads/list</a></p><p>下载里面的baksmali和smali的jar文件到工作目录，把ROM里面的core.odex, ext.odex, framework.odex, android.policy.odex, services.odex这5个文件也放在同一目录（也可以放在别的目录，通过设置BOOTCLASSPATH指定，默认就是当前目录）。</p><p>我们以teeter为例子，ROM里面拿出来的可能是2个文件，teeter.apk + teeter.odex。<br>第一步，分解odex文件：<br>java -jar baksmali-1.2.1.jar -x teeter.odex<br>如果没其他问题，会在工作目录生成一个out的目录，里面是分解出来的一些文件，我们在此不深究这些文件的作用。</p><p>第二部，把分解得到的文件变成classes.dex：<br>java -Xmx512M -jar smali-1.2.1.jar out -o classes.dex<br>这样，我们就得到了一个有用的classes.dex文件，用WinZip或者WinRAR打开teeter.apk文件，把这个classes.dex放进去，最后再用signapk把最新得到的这个包含classes.dex的apk重新签署一下，就生成一个可以安装的单独APK程序了。</p><p>就这么简单。</p><p></p> 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2010/09/12/反编译apk/" class="archive-article-date">
+  	<time datetime="2010-09-12T09:30:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2010-09-12</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Interrupting-Java-threads" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2010/09/08/Interrupting-Java-threads/">Interrupting Java threads</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <br><br><del>my</del><br><br><strong>Sample</strong><br>void run() {<br>    try {<br>        while (!sFlagExit) {<br>            [I/O operation];<br>            [wait/sleep operation];<br>        }<br>    } catch (InterruptedException e) {<br>        …<br>    } catch (ClosedByInterruptException e) {<br>        …<br>    } catch (IOException e) {<br>        …<br>    }<br>}<br><del>my</del><br><br><br><br><br><a href="http://articles.techrepublic.com.com/5100-10878_11-5144546.html" target="_blank">Interrupting Java threads</a><br></p><p><strong>Takeaway:</strong> Multithreading presents a whole set  of new challenges to the programmer that, if not correctly addressed,  can lead to unexpected behavior and hard-to-find errors. In this article  we address one of those challenges: how to interrupt a running thread.</p><br>Writing multithreaded programs in Java, with its built-in  support for threads, is fairly straightforward. However, multithreading  presents a whole set of new challenges to the programmer that, if not  correctly addressed, can lead to unexpected behavior and subtle,  hard-to-find errors. In this article, we address one of those  challenges: how to interrupt a running thread.<br><br><strong>Background</strong><br>Interrupting  a thread means stopping what it is doing before it has completed its  task, effectively aborting its current operation. Whether the thread  dies, waits for new tasks, or goes on to the next step depends on the  application.<br><br>Although it may seem simple at first, you must take  some precautions in order to achieve the desired result. There are some  caveats you must be aware of as well.<br><br>First of all, forget the <em>Thread.stop</em> method. Although it indeed stops a running thread, the method is unsafe and was <a href="http://java.sun.com/j2se/1.3/docs/guide/misc/threadPrimitiveDeprecation.html" target="_target">deprecated</a>, which means it may not be available in future versions of the Java.<br><br>Another method that can be confusing for the unadvised is <em>Thread.interrupt</em>. Despite what its name may imply, the method does not interrupt a running thread (more on this later), as <a href="http://articles.techrepublic.com.com/5100-10878_11-5144546.html#" target="_blank" rel="external">Listing A</a> demonstrates. It creates a thread and tries to stop it using <em>Thread.interrupt</em>. The calls to <em>Thread.sleep</em><em>(</em><em>)</em> give plenty of time for the thread initialization and termination. The thread itself does not do anything useful.<br><br>If you run the code in Listing A, you should see something like this on your console:<br>Starting thread…<br>Thread is running…<br>Thread is running…<br>Thread is running…<br>Interrupting thread…<br>Thread is running…<br>Thread is running…<br>Thread is running…<br>Stopping application…<br><br>Even after <em>Thread.interrupt</em><em>()</em> is called, the thread continues to run for a while.<br><br><strong>Really interrupting a thread</strong><br>The  best, recommended way to interrupt a thread is to use a shared variable  to signal that it must stop what it is doing. The thread must check the  variable periodically, especially during lengthy operations, and  terminate its task in an orderly manner. <a href="http://articles.techrepublic.com.com/5100-10878_11-5144546.html#" target="_blank" rel="external">Listing B</a> demonstrates this technique.<br><br>Running the code in Listing B will generate output like this (notice how the thread exits in an orderly fashion):<br>Starting thread…<br>Thread is running…<br>Thread is running…<br>Thread is running…<br>Asking thread to stop…<br>Thread exiting under request…<br>Stopping application…<br><br>Although  this method requires some coding, it is not difficult to implement and  give the thread the opportunity to do any cleanup needed, which is an  absolute requirement for any multithreaded application. Just be sure to  declare the shared variable as <em>volatile</em> or enclose any access to it into <em>synchronized</em> blocks/methods.<br><br>So  far, so good! But what happens if the thread is blocked waiting for  some event? Of course, if the thread is blocked, it can’t check the  shared variable and can’t stop. There are plenty of situations when that  may occur, such as calling <em>Object.wait</em><em>()</em>, <em>ServerSocket.accept</em><em>()</em>, and <em>DatagramSocket.receive</em><em>()</em>, to name a few.<br><br>They  all can block the thread forever. Even if a timeout is employed, it may  not be feasible or desirable to wait until the timeout expires, so a  mechanism to prematurely exit the blocked state must be used.<br><br>Unfortunately  there is no such mechanism that works for all cases, but the particular  technique to use depends on each situation. In the following sections,  I’ll give solutions for the most common cases.<br><br><strong>Interrupting a thread with Thread.interrupt()</strong><br>As demonstrated in Listing A, the method <em>Thread.interrupt</em><em>()</em>  does not interrupt a running thread. What the method actually does is  to throw an interrupt if the thread is blocked, so that it exits the  blocked state. More precisely, if the thread is blocked at one of the  methods <em>Object.wait</em>, <em>Thread.join</em>, or <em>Thread.sleep</em>, it receives an <em>InterruptedException</em>, thus terminating the blocking method prematurely.<br><br>So,  if a thread blocks in one of the aforementioned methods, the correct  way to stop it is to set the shared variable and then call the <em>interrupt()</em> method on it (notice that it is important to set the variable first). If the thread is not blocked, calling <em>interrupt(</em><em>)</em>  will not hurt; otherwise, the thread will get an exception (the thread  must be prepared to handle this condition) and escape the blocked state.  In either case, eventually the thread will test the shared variable and  stop. <a href="http://articles.techrepublic.com.com/5100-10878_11-5144546.html#" target="_blank" rel="external">Listing C</a> is a simple example that demonstrates this technique.<br><br>As soon as <em>Thread.interrupt</em><em>()</em> is called in Listing C,  the thread gets an exception so that it escapes the blocked state and  determines that it should stop. Running this code produces output like  this:<br>Starting thread…<br>Thread running…<br>Thread running…<br>Thread running…<br>Asking thread to stop…<br>Thread interrupted…<br>Thread exiting under request…<br>Stopping application…<br><br><strong>Interrupting an I/O operation</strong><br>But  what happens if the thread is blocked on an I/O operation? I/O can  block a thread for a considerable amount of time, particularly if  network communication is involved. For example, a server may be waiting  for a request, or a network application may be waiting for an answer  from a remote host.<br><br>If you’re using channels, available with the new I/O API introduced in Java 1.4, the blocked thread will get a <em>ClosedByInterruptException</em> exception. If that is the case, the logic is the same as that used in the third example—only the exception is different.<br><br>But  you might be using the traditional I/O available since Java 1.0, since  the new I/O is so recent and requires more work. In this case, <em>Thread.interrupt</em><em>()</em> doesn’t help, since the thread will not exit the blocked state. <a href="http://articles.techrepublic.com.com/5100-10878_11-5144546.html#" target="_blank" rel="external">Listing D</a> demonstrates that behavior. Although the <em>interrupt()</em> method is called, the thread does not exit the blocked state.<br><br>Fortunately, the Java Platform provides a solution for that case by calling the <em>close()</em>  method of the socket the thread is blocked in. In this case, if the  thread is blocked in an I/O operation, the thread will get a <em>SocketException</em> exception, much like the <em>interrupt()</em> method causes an <em>InterruptedException</em> to be thrown.<br><br>The only caveat is that a reference to the socket must be available so that its <em>close()</em> method can be called. That means the socket object must also be shared. <a href="http://articles.techrepublic.com.com/5100-10878_11-5144546.html#" target="_blank" rel="external">Listing E</a> demonstrates this case. The logic is the same as in the examples presented so far.<br><br>And here’s the sample output you can expect from running Listing E:<br>Starting thread…<br>Waiting for connection…<br>Asking thread to stop…<br>accept() failed or interrupted…<br>Thread exiting under request…<br>Stopping application…<br><br>Multithreading  is a powerful tool, but it presents its own set of challenges. One of  these is how to interrupt a running thread. If properly implemented,  these techniques make interrupting a thread no more difficult than using  the built-in operations already provided by the Java Platform. <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2010/09/08/Interrupting-Java-threads/" class="archive-article-date">
+  	<time datetime="2010-09-08T07:41:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2010-09-08</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Java/">Java</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Android-HttpClient网络通信" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2010/09/06/Android-HttpClient网络通信/">Android HttpClient网络通信</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <a href="http://aina-hk55hk.javaeye.com/blog/711544" target="_blank" rel="external">Android HttpClient网络通信</a><br>package com.Aina.Android;<br><br>import java.io.BufferedReader;<br>import java.io.IOException;<br>import java.io.InputStream;<br>import java.io.InputStreamReader;<br>import java.io.UnsupportedEncodingException;<br>import java.net.HttpURLConnection;<br>import java.net.MalformedURLException;<br>import java.net.URL;<br>import java.util.ArrayList;<br>import java.util.List;<br><br>import org.apache.http.HttpEntity;<br>import org.apache.http.HttpResponse;<br>import org.apache.http.HttpStatus;<br>import org.apache.http.NameValuePair;<br>import org.apache.http.client.ClientProtocolException;<br>import org.apache.http.client.HttpClient;<br>import org.apache.http.client.entity.UrlEncodedFormEntity;<br>import org.apache.http.client.methods.HttpGet;<br>import org.apache.http.client.methods.HttpPost;<br>import org.apache.http.impl.client.DefaultHttpClient;<br>import org.apache.http.message.BasicNameValuePair;<br>import org.apache.http.util.EntityUtils;<br><br>import android.app.Activity;<br>import android.os.Bundle;<br>import android.os.Handler;<br>import android.os.Message;<br>import android.view.View;<br>import android.widget.Button;<br>import android.widget.TextView;<br><br>public class Test extends Activity implements Runnable {<br>    /<em>* Called when the activity is first created. </em>/<br>    private Button btn_get = null;<br>    private Button btn_post = null;<br>    private TextView tv_rp = null;<br><br>    @Override<br>        public void onCreate(Bundle savedInstanceState) {<br>            super.onCreate(savedInstanceState);<br>            setContentView(R.layout.main);<br>            btn_get = (Button) this.findViewById(R.id.Button01);<br>            btn_post = (Button) this.findViewById(R.id.Button02);<br>            tv_rp = (TextView) this.findViewById(R.id.TextView);<br>            btn_get.setOnClickListener(new Button.OnClickListener() {<br><br>                public void onClick(View v) {<br>                    // TODO Auto-generated method stub<br>                    String httpUrl = &quot;<a href="http://192.168.0.132:8080/Android/httpreq.jsp?par=request-get&amp;quot" target="_blank" rel="external">http://192.168.0.132:8080/Android/httpreq.jsp?par=request-get&amp;quot</a>;;<br>                    HttpGet request = new HttpGet(httpUrl);<br>                    HttpClient httpClient = new DefaultHttpClient();<br>                    try {<br>                        HttpResponse response = httpClient.execute(request);<br>                        if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {<br>                            String str = EntityUtils.toString(response.getEntity());<br>                            tv_rp.setText(str);<br>                        } else {<br>                            tv_rp.setText(&quot;请求错误&quot;);<br>                        }<br>                    } catch (ClientProtocolException e) {<br>                        // TODO Auto-generated catch block<br>                        e.printStackTrace();<br>                    } catch (IOException e) {<br>                        // TODO Auto-generated catch block<br>                        e.printStackTrace();<br>                    }<br>                }<br><br>            });<br>            btn_post.setOnClickListener(new Button.OnClickListener() {<br><br>                public void onClick(View v) {<br>                    // TODO Auto-generated method stub<br>                    String httpUrl = &quot;<a href="http://192.168.0.132:8080/Android/httpreq.jsp&amp;quot" target="_blank" rel="external">http://192.168.0.132:8080/Android/httpreq.jsp&amp;quot</a>;;<br>                    HttpPost request = new HttpPost(httpUrl);<br>                    List&lt;NameValuePair&gt; params = new ArrayList&lt;NameValuePair&gt;();<br>                    params.add(new BasicNameValuePair(&quot;par&quot;, &quot;request-post&quot;));<br>                    try {<br>                        HttpEntity entity = new UrlEncodedFormEntity(params,<br>                            &quot;UTF-8&quot;);<br>                        request.setEntity(entity);<br>                        HttpClient client = new DefaultHttpClient();<br>                        HttpResponse response = client.execute(request);<br>                        if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {<br>                            String str = EntityUtils.toString(response.getEntity());<br>                            tv_rp.setText(str);<br>                        } else {<br>                            tv_rp.setText(&quot;请求错误&quot;);<br>                        }<br>                    } catch (UnsupportedEncodingException e) {<br>                        // TODO Auto-generated catch block<br>                        e.printStackTrace();<br>                    } catch (ClientProtocolException e) {<br>                        // TODO Auto-generated catch block<br>                        e.printStackTrace();<br>                    } catch (IOException e) {<br>                        // TODO Auto-generated catch block<br>                        e.printStackTrace();<br>                    }<br>                }<br><br>            });<br>            new Thread(this).start();<br>        }<br><br>    public void refresh() {<br>        String httpUrl = &quot;<a href="http://192.168.0.132:8080/Android/httpreq.jsp&amp;quot" target="_blank" rel="external">http://192.168.0.132:8080/Android/httpreq.jsp&amp;quot</a>;;<br>        try {<br>            URL url = new URL(httpUrl);<br>            HttpURLConnection urlConn = (HttpURLConnection) url<br>                .openConnection();<br>            urlConn.setConnectTimeout(1000);  // set parameters here<br>            urlConn.setReadTimeout(1000);<br>            urlConn.connect();<br>            InputStream input = urlConn.getInputStream();<br>            InputStreamReader inputreader = new InputStreamReader(input);<br>            BufferedReader reader = new BufferedReader(inputreader);<br>            String str = null;<br>            StringBuffer sb = new StringBuffer();<br>            while ((str = reader.readLine()) != null) {<br>                sb.append(str).append(&quot;n&quot;);<br>            }<br>            if (sb != null) {<br>                tv_rp.setText(sb.toString());<br>            } else {<br>                tv_rp.setText(&quot;NULL&quot;);<br>            }<br>            reader.close();<br>            inputreader.close();<br>            input.close();<br>            reader = null;<br>            inputreader = null;<br>            input = null;<br>        } catch (MalformedURLException e) {<br>            e.printStackTrace();<br>        } catch (IOException e) {<br>            // TODO Auto-generated catch block<br>            e.printStackTrace();<br>        }<br>    }<br><br>    public Handler handler = new Handler() {<br>        public void handleMessage(Message msg) {<br>            super.handleMessage(msg);<br>            refresh();<br>        }<br>    };<br><br>    public void run() {<br>        // TODO Auto-generated method stub<br>        while (true) {<br>            try {<br>                Thread.sleep(1000);<br>                handler.sendMessage(handler.obtainMessage());<br>            } catch (InterruptedException e) {<br>                // TODO Auto-generated catch block<br>                e.printStackTrace();<br>            }<br>        }<br>    }<br>}<br><br><br> </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2010/09/06/Android-HttpClient网络通信/" class="archive-article-date">
+  	<time datetime="2010-09-05T17:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2010-09-06</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Android-Socket网络通信" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2010/09/06/Android-Socket网络通信/">Android Socket网络通信</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <a href="http://aina-hk55hk.javaeye.com/blog/712725" target="_blank" rel="external">Android Socket网络通信</a>1.服务器程序：<ol> <li>package&#160;com;&#160;&#160;</li> <li>&#160;&#160;</li> <li>import&#160;java.io.BufferedReader;&#160;&#160;</li> <li>import&#160;java.io.BufferedWriter;&#160;&#160;</li> <li>import&#160;java.io.IOException;&#160;&#160;</li> <li>import&#160;java.io.InputStreamReader;&#160;&#160;</li> <li>import&#160;java.io.OutputStreamWriter;&#160;&#160;</li> <li>import&#160;java.io.PrintWriter;&#160;&#160;</li> <li>import&#160;java.net.ServerSocket;&#160;&#160;</li> <li>import&#160;java.net.Socket;&#160;&#160;</li> <li>import&#160;java.util.ArrayList;&#160;&#160;</li> <li>import&#160;java.util.List;&#160;&#160;</li> <li>import&#160;java.util.concurrent.ExecutorService;&#160;&#160;</li> <li>import&#160;java.util.concurrent.Executors;&#160;&#160;</li> <li>&#160;&#160;</li> <li>/<strong>&#160;</strong></li> <li>&#160;<em>&#160;com&#160;Server&#160;</em></li> <li>&#160;&#160;&#160;</li> <li>&#160;<em>&#160;@author&#160;Aina.huang&#160;E-mail:&#160;674023920@qq.com&#160;</em></li> <li>&#160;&#160;@version&#160;创建时间：2010&#160;Jul&#160;14,&#160;2010&#160;10:45:35&#160;AM&#160;类说明&#160;</li> <li>&#160;*/&#160;&#160;</li> <li>public&#160;class&#160;Main&#160;{&#160;&#160;</li> <li>&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;private&#160;static&#160;final&#160;int&#160;PORT&#160;=&#160;9999;//&#160;端口监听&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;private&#160;List&lt;Socket&gt;&#160;mList&#160;=&#160;new&#160;ArrayList&lt;Socket&gt;();//&#160;存放客户端socket&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;private&#160;ServerSocket&#160;server&#160;=&#160;null;&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;private&#160;ExecutorService&#160;mExecutorService&#160;=&#160;null;//&#160;线程池&#160;&#160;</li> <li>&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;/&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;<em>&#160;@param&#160;args&#160;</em></li> <li>&#160;&#160;&#160;&#160;&#160;/&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;public&#160;static&#160;void&#160;main(String[]&#160;args)&#160;{&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;//&#160;TODO&#160;Auto-generated&#160;method&#160;stub&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;new&#160;Main();&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;}&#160;&#160;</li> <li>&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;public&#160;Main()&#160;{&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;try&#160;{&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;server&#160;=&#160;new&#160;ServerSocket(PORT);&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;mExecutorService&#160;=&#160;Executors.newCachedThreadPool();//&#160;创建一个线程池&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;System.out.println(&quot;Server&#160;Start…&quot;);&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Socket&#160;client&#160;=&#160;null;&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;while&#160;(true)&#160;{&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;client&#160;=&#160;server.accept();&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;mList.add(client);&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;mExecutorService.execute(new&#160;Service(client));//&#160;开启一个客户端线程.&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}&#160;catch&#160;(Exception&#160;ex)&#160;{&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ex.printStackTrace();&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;}&#160;&#160;</li> <li>&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;public&#160;class&#160;Service&#160;implements&#160;Runnable&#160;{&#160;&#160;</li> <li>&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;private&#160;Socket&#160;socket;&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;private&#160;BufferedReader&#160;in&#160;=&#160;null;&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;private&#160;String&#160;msg&#160;=&#160;&quot;&quot;;&#160;&#160;</li> <li>&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;public&#160;Service(Socket&#160;socket)&#160;{&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;this.socket&#160;=&#160;socket;&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;try&#160;{&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;in&#160;=&#160;new&#160;BufferedReader(new&#160;InputStreamReader(socket&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;.getInputStream()));&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;msg&#160;=&#160;&quot;user:&quot;&#160;+&#160;this.socket.getInetAddress()&#160;+&#160;&quot;&#160;come&#160;total:&quot;&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;+&#160;mList.size();&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;this.sendmsg();&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}&#160;catch&#160;(IOException&#160;e)&#160;{&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;e.printStackTrace();&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}&#160;&#160;</li> <li>&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;public&#160;void&#160;run()&#160;{&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;//&#160;TODO&#160;Auto-generated&#160;method&#160;stub&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;try&#160;{&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;while&#160;(true)&#160;{&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;if&#160;((msg&#160;=&#160;in.readLine())&#160;!=&#160;null)&#160;{&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;if&#160;(msg.equals(&quot;exit&quot;))&#160;{&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;System.out.println(&quot;sssssssssss&quot;);&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;mList.remove(socket);&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;in.close();&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;msg&#160;=&#160;&quot;user:&quot;&#160;+&#160;socket.getInetAddress()&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;+&#160;&quot;&#160;exit&#160;total:&quot;&#160;+&#160;mList.size();&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;socket.close();&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;this.sendmsg();&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;break;&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}&#160;else&#160;{&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;msg&#160;=&#160;socket.getInetAddress()&#160;+&#160;&quot;&#160;:&#160;&quot;&#160;+&#160;msg;&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;this.sendmsg();&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}&#160;&#160;</li> <li>&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}&#160;catch&#160;(Exception&#160;ex)&#160;{&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;System.out.println(&quot;server&#160;读取数据异常&quot;);&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ex.printStackTrace();&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}&#160;&#160;</li> <li>&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;/<strong>&#160;</strong></li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;<em>&#160;发送消息给所有客户端&#160;</em></li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;/&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;public&#160;void&#160;sendmsg()&#160;{&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;System.out.println(msg);&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;int&#160;num&#160;=&#160;mList.size();&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;for&#160;(int&#160;i&#160;=&#160;0;&#160;i&#160;&lt;&#160;num;&#160;i++)&#160;{&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Socket&#160;mSocket&#160;=&#160;mList.get(i);&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;PrintWriter&#160;pout&#160;=&#160;null;&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;try&#160;{&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;pout&#160;=&#160;new&#160;PrintWriter(new&#160;BufferedWriter(&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;new&#160;OutputStreamWriter(mSocket.getOutputStream())),&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;true);&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;pout.println(msg);&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}&#160;catch&#160;(IOException&#160;e)&#160;{&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;e.printStackTrace();&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;}&#160;&#160;</li> <li>}&#160; </li></ol>2.客户端程序： <br><br><ol> <li>&#160; …</li> <li>&#160;&#160;&#160; public&#160;void&#160;run()&#160;{&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;try&#160;{&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;while&#160;(true)&#160;{&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;if(socket.isConnected()){&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;if(!socket.isInputShutdown()){&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;if&#160;((content&#160;=&#160;in.readLine())&#160;!=&#160;null)&#160;{&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;Log.i(&quot;TAG&quot;,&#160;&quot;++&#160;&quot;+content);&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;content&#160;+=&#160;&quot;n&quot;;&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;mHandler.sendMessage(mHandler.obtainMessage());&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}else{&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}&#160;catch&#160;(Exception&#160;ex)&#160;{&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;ex.printStackTrace();&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;}&#160;&#160;</li> <li>&#160;&#160;&#160;&#160;}&#160;&#160;</li> <li>&#160;&#160;</li> <li>&#160; <br> </li></ol>package com.Aina.Android;  import java.io.BufferedReader; import java.io.BufferedWriter; import java.io.InputStreamReader; import java.io.OutputStreamWriter; import java.io.PrintWriter; import java.net.Socket;  import android.app.Activity; import android.app.AlertDialog; import android.content.DialogInterface; import android.os.Bundle; import android.os.Handler; import android.os.Message; import android.util.Log; import android.view.View; import android.widget.Button; import android.widget.EditText; import android.widget.TextView;  public class Test extends Activity implements Runnable {  / Called when the activity is first created. <em>/  private TextView tv_msg = null;  private EditText ed_msg = null;  private Button btn_send = null;  private Button btn_login = null;  private static final String HOST = &quot;192.168.0.132&quot;;  private static final int PORT = 9999;  private Socket socket = null;  private BufferedReader in = null;  private PrintWriter out = null;  private String content = &quot;&quot;;   @Override  public void onCreate(Bundle savedInstanceState) {   super.onCreate(savedInstanceState);   setContentView(R.layout.main);   tv_msg = (TextView) this.findViewById(R.id.TextView);   ed_msg = (EditText) this.findViewById(R.id.EditText01);   btn_login = (Button) this.findViewById(R.id.Button01);   btn_send = (Button) this.findViewById(R.id.Button02);   try {    socket = new Socket(HOST, PORT);    in = new BufferedReader(new InputStreamReader(socket      .getInputStream()));    out = new PrintWriter(new BufferedWriter(      new OutputStreamWriter(socket.getOutputStream())),      true);   } catch (Exception ex) {    ex.printStackTrace();    ShowDialog(&quot;登陆异常:&quot; + ex.getMessage());   }   btn_send.setOnClickListener(new Button.OnClickListener() {     public void onClick(View v) {     // TODO Auto-generated method stub     String msg = ed_msg.getText().toString();     if (socket.isConnected()) {      if (!socket.isOutputShutdown()) {       out.println(msg);      }     }    }    });   new Thread(this).start();  }   public void ShowDialog(String msg) {   new AlertDialog.Builder(this).setTitle(&quot;提示&quot;).setMessage(msg)     .setPositiveButton(&quot;OK&quot;, new DialogInterface.OnClickListener() {       public void onClick(DialogInterface dialog, int which) {       // TODO Auto-generated method stub       }      }).show();  }   public void run() {   try {    while (true) {     if(socket.isConnected()){      if(!socket.isInputShutdown()){       if ((content = in.readLine()) != null) {        Log.i(&quot;TAG&quot;, &quot;++ &quot;+content);        content += &quot;n&quot;;        mHandler.sendMessage(mHandler.obtainMessage());       }else{               }      }     }         }   } catch (Exception ex) {    ex.printStackTrace();   }  }   public Handler mHandler = new Handler() {   public void handleMessage(Message msg) {    super.handleMessage(msg);    Log.i(&quot;TAG&quot;, &quot;– &quot;+msg);    tv_msg.setText(tv_msg.getText().toString() + content);   }  }; }package com;  import java.io.BufferedReader; import java.io.BufferedWriter; import java.io.IOException; import java.io.InputStreamReader; import java.io.OutputStreamWriter; import java.io.PrintWriter; import java.net.ServerSocket; import java.net.Socket; import java.util.ArrayList; import java.util.List; import java.util.concurrent.ExecutorService; import java.util.concurrent.Executors;  /**  </em> com Server  <em>   </em> @author Aina.huang E-mail: 674023920@qq.com  <em> @version 创建时间：2010 Jul 14, 2010 10:45:35 AM 类说明  </em>/ public class Main {   private static final int PORT = 9999;// 端口监听  private List&lt;Socket&gt; mList = new ArrayList&lt;Socket&gt;();// 存放客户端socket  private ServerSocket server = null;  private ExecutorService mExecutorService = null;// 线程池   /<strong>   <em> @param args   </em>/  public static void main(String[] args) {   // TODO Auto-generated method stub   new Main();  }   public Main() {   try {    server = new ServerSocket(PORT);    mExecutorService = Executors.newCachedThreadPool();// 创建一个线程池    System.out.println(&quot;Server Start…&quot;);    Socket client = null;    while (true) {     client = server.accept();     mList.add(client);     mExecutorService.execute(new Service(client));// 开启一个客户端线程.    }   } catch (Exception ex) {    ex.printStackTrace();   }  }   public class Service implements Runnable {    private Socket socket;   private BufferedReader in = null;   private String msg = &quot;&quot;;    public Service(Socket socket) {    this.socket = socket;    try {     in = new BufferedReader(new InputStreamReader(socket       .getInputStream()));     msg = &quot;user:&quot; + this.socket.getInetAddress() + &quot; come total:&quot;       + mList.size();     this.sendmsg();    } catch (IOException e) {     e.printStackTrace();    }   }    public void run() {    // TODO Auto-generated method stub    try {     while (true) {      if ((msg = in.readLine()) != null) {       if (msg.equals(&quot;exit&quot;)) {        System.out.println(&quot;sssssssssss&quot;);        mList.remove(socket);        in.close();        msg = &quot;user:&quot; + socket.getInetAddress()          + &quot; exit total:&quot; + mList.size();        socket.close();        this.sendmsg();        break;       } else {        msg = socket.getInetAddress() + &quot; : &quot; + msg;        this.sendmsg();       }      }      }    } catch (Exception ex) {     System.out.println(&quot;server 读取数据异常&quot;);     ex.printStackTrace();    }   }    /</strong>    <em> 发送消息给所有客户端    </em>/   public void sendmsg() {    System.out.println(msg);    int num = mList.size();    for (int i = 0; i &lt; num; i++) {     Socket mSocket = mList.get(i);     PrintWriter pout = null;     try {      pout = new PrintWriter(new BufferedWriter(        new OutputStreamWriter(mSocket.getOutputStream())),        true);      pout.println(msg);     } catch (IOException e) {      e.printStackTrace();     }    }   }  } } </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2010/09/06/Android-Socket网络通信/" class="archive-article-date">
+  	<time datetime="2010-09-05T16:47:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2010-09-06</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-如何制作自己的android升级包-update-zip" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2010/09/04/如何制作自己的android升级包-update-zip/">如何制作自己的android升级包(update.zip)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>手动制作update.zip包的过程：<br>1.创建一个update目录，该目录包含自己想要升级或替换的内容例如：update/update/systemupdate/system/appupdate/system/app/doodle_jump.apkupdate/META-INFupdate/META-INF/comupdate/META-INF/com/googleupdate/META-INF/com/google/androidupdate/META-INF/com/google/android/update-script 该目录包含doodle_jump游戏，升级后该apk将出现在手机的/system/app/目录下。META-INF目录下包含升级脚本，update-script脚本的内容如下：show_progress 0.500000 0copy_dir PACKAGE:system SYSTEM:show_progress 0.100000 0大家可以根据自己的升级内容添加相应的命令。 2.创建压缩包在update/目录下运行：$ zip -qry ../update.unsigned.zip ./将在update/的父目录下产生update.unsigned.zip 压缩包 3.签名$ java -Xmx512m -jar signapk.jar -w key.x509.pem key.pk8 update.unsigned.zip update.zip生成签过名的update.zip包，其中signapk.jar，key.x509.pem，key.pk8与具体手机系统相关 4.将签过名的update.zip包放入手机sdcard根目录，<br>重启系统进入recovery模式，选择apply update.zip，成功后重启手机 ok，现在手机上已经有doodle_jump游戏了，并且它无法被删除～</p>
+<p>refer: <a href="http://blog.pickbox.me/2010/08/11/how%20to%20create%20android%20update%20zip%20package/">http://blog.pickbox.me/2010/08/11/how%20to%20create%20android%20update%20zip%20package/</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2010/09/04/如何制作自己的android升级包-update-zip/" class="archive-article-date">
+  	<time datetime="2010-09-04T11:34:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2010-09-04</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-ramfs-rootfs-and-initramfs" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2010/09/02/ramfs-rootfs-and-initramfs/">ramfs, rootfs and initramfs</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>linux-2.6.30/Documentation/filesystems/ramfs-rootfs-initramfs.txt<br>see also <a href="http://blog.pickbox.me/archives/210" target="_blank">initrd</a> and <a href="http://blog.pickbox.me/archives/209" target="_blank">ramdisk</a></p>
+<p>ramfs, rootfs and initramfs<br>October 17, 2005</p>
+<h1 id="Rob-Landley-lt-rob-landley-net-gt"><a href="#Rob-Landley-lt-rob-landley-net-gt" class="headerlink" title="Rob Landley &lt;rob@landley.net&gt;"></a>Rob Landley &lt;rob@landley.net&gt;</h1><h2 id="What-is-ramfs"><a href="#What-is-ramfs" class="headerlink" title="What is ramfs?"></a>What is ramfs?</h2><p>Ramfs is a very simple filesystem that exports Linux’s disk caching<br>mechanisms (the page cache and dentry cache) as a dynamically resizable<br>RAM-based filesystem.</p>
+<p>Normally all files are cached in memory by Linux.  Pages of data read from<br>backing store (usually the block device the filesystem is mounted on) are kept<br>around in case it’s needed again, but marked as clean (freeable) in case the<br>Virtual Memory system needs the memory for something else.  Similarly, data<br>written to files is marked clean as soon as it has been written to backing<br>store, but kept around for caching purposes until the VM reallocates the<br>memory.  A similar mechanism (the dentry cache) greatly speeds up access to<br>directories.</p>
+<p>With ramfs, there is no backing store.  Files written into ramfs allocate<br>dentries and page cache as usual, but there’s nowhere to write them to.<br>This means the pages are never marked clean, so they can’t be freed by the<br>VM when it’s looking to recycle memory.</p>
+<p>The amount of code required to implement ramfs is tiny, because all the<br>work is done by the existing Linux caching infrastructure.  Basically,<br>you’re mounting the disk cache as a filesystem.  Because of this, ramfs is not<br>an optional component removable via menuconfig, since there would be negligible<br>space savings.</p>
+<h2 id="ramfs-and-ramdisk"><a href="#ramfs-and-ramdisk" class="headerlink" title="ramfs and ramdisk:"></a>ramfs and ramdisk:</h2><p>The older “ram disk” mechanism created a synthetic block device out of<br>an area of RAM and used it as backing store for a filesystem.  This block<br>device was of fixed size, so the filesystem mounted on it was of fixed<br>size.  Using a ram disk also required unnecessarily copying memory from the<br>fake block device into the page cache (and copying changes back out), as well<br>as creating and destroying dentries.  Plus it needed a filesystem driver<br>(such as ext2) to format and interpret this data.</p>
+<p>Compared to ramfs, this wastes memory (and memory bus bandwidth), creates<br>unnecessary work for the CPU, and pollutes the CPU caches.  (There are tricks<br>to avoid this copying by playing with the page tables, but they’re unpleasantly<br>complicated and turn out to be about as expensive as the copying anyway.)<br>More to the point, all the work ramfs is doing has to happen <em>anyway</em>,<br>since all file access goes through the page and dentry caches.  The RAM<br>disk is simply unnecessary; ramfs is internally much simpler.</p>
+<p>Another reason ramdisks are semi-obsolete is that the introduction of<br>loopback devices offered a more flexible and convenient way to create<br>synthetic block devices, now from files instead of from chunks of memory.<br>See losetup (8) for details.</p>
+<h2 id="ramfs-and-tmpfs"><a href="#ramfs-and-tmpfs" class="headerlink" title="ramfs and tmpfs:"></a>ramfs and tmpfs:</h2><p>One downside of ramfs is you can keep writing data into it until you fill<br>up all memory, and the VM can’t free it because the VM thinks that files<br>should get written to backing store (rather than swap space), but ramfs hasn’t<br>got any backing store.  Because of this, only root (or a trusted user) should<br>be allowed write access to a ramfs mount.</p>
+<p>A ramfs derivative called tmpfs was created to add size limits, and the ability<br>to write the data to swap space.  Normal users can be allowed write access to<br>tmpfs mounts.  See Documentation/filesystems/tmpfs.txt for more information.</p>
+<h2 id="What-is-rootfs"><a href="#What-is-rootfs" class="headerlink" title="What is rootfs?"></a>What is rootfs?</h2><p>Rootfs is a special instance of ramfs (or tmpfs, if that’s enabled), which is<br>always present in 2.6 systems.  You can’t unmount rootfs for approximately the<br>same reason you can’t kill the init process; rather than having special code<br>to check for and handle an empty list, it’s smaller and simpler for the kernel<br>to just make sure certain lists can’t become empty.</p>
+<p>Most systems just mount another filesystem over rootfs and ignore it.  The<br>amount of space an empty instance of ramfs takes up is tiny.</p>
+<h2 id="What-is-initramfs"><a href="#What-is-initramfs" class="headerlink" title="What is initramfs?"></a>What is initramfs?</h2><p>All 2.6 Linux kernels contain a gzipped “cpio” format archive, which is<br>extracted into rootfs when the kernel boots up.  After extracting, the kernel<br>checks to see if rootfs contains a file “init”, and if so it executes it as PID</p>
+<ol>
+<li>If found, this init process is responsible for bringing the system the<br>rest of the way up, including locating and mounting the real root device (if<br>any).  If rootfs does not contain an init program after the embedded cpio<br>archive is extracted into it, the kernel will fall through to the older code<br>to locate and mount a root partition, then exec some variant of /sbin/init<br>out of that.</li>
+</ol>
+<p>All this differs from the old initrd in several ways:</p>
+<ul>
+<li><p>The old initrd was always a separate file, while the initramfs archive is<br>linked into the linux kernel image.  (The directory linux-*/usr is devoted<br>to generating this archive during the build.)</p>
+</li>
+<li><p>The old initrd file was a gzipped filesystem image (in some file format,<br>such as ext2, that needed a driver built into the kernel), while the new<br>initramfs archive is a gzipped cpio archive (like tar only simpler,<br>see cpio(1) and Documentation/early-userspace/buffer-format.txt).  The<br>kernel’s cpio extraction code is not only extremely small, it’s also<br>__init text and data that can be discarded during the boot process.</p>
+</li>
+<li><p>The program run by the old initrd (which was called /initrd, not /init) did<br>some setup and then returned to the kernel, while the init program from<br>initramfs is not expected to return to the kernel.  (If /init needs to hand<br>off control it can overmount / with a new root device and exec another init<br>program.  See the switch_root utility, below.)</p>
+</li>
+<li><p>When switching another root device, initrd would pivot_root and then<br>umount the ramdisk.  But initramfs is rootfs: you can neither pivot_root<br>rootfs, nor unmount it.  Instead delete everything out of rootfs to<br>free up the space (find -xdev / -exec rm ‘{}’ ‘;’), overmount rootfs<br>with the new root (cd /newmount; mount –move . /; chroot .), attach<br>stdin/stdout/stderr to the new /dev/console, and exec the new init.</p>
+</li>
+</ul>
+<p>Since this is a remarkably persnickety process (and involves deleting<br>commands before you can run them), the klibc package introduced a helper<br>program (utils/run_init.c) to do all this for you.  Most other packages<br>(such as busybox) have named this command “switch_root”.</p>
+<h2 id="Populating-initramfs"><a href="#Populating-initramfs" class="headerlink" title="Populating initramfs:"></a>Populating initramfs:</h2><p>The 2.6 kernel build process always creates a gzipped cpio format initramfs<br>archive and links it into the resulting kernel binary.  By default, this<br>archive is empty (consuming 134 bytes on x86).</p>
+<p>The config option CONFIG_INITRAMFS_SOURCE (in General Setup in menuconfig,<br>and living in usr/Kconfig) can be used to specify a source for the<br>initramfs archive, which will automatically be incorporated into the<br>resulting binary.  This option can point to an existing gzipped cpio<br>archive, a directory containing files to be archived, or a text file<br>specification such as the following example:</p>
+<p>dir /dev 755 0 0<br>nod /dev/console 644 0 0 c 5 1<br>nod /dev/loop0 644 0 0 b 7 0<br>dir /bin 755 1000 1000<br>slink /bin/sh busybox 777 0 0<br>file /bin/busybox initramfs/busybox 755 0 0<br>dir /proc 755 0 0<br>dir /sys 755 0 0<br>dir /mnt 755 0 0<br>file /init initramfs/init.sh 755 0 0</p>
+<p>Run “usr/gen_init_cpio” (after the kernel build) to get a usage message<br>documenting the above file format.</p>
+<p>One advantage of the configuration file is that root access is not required to<br>set permissions or create device nodes in the new archive.  (Note that those<br>two example “file” entries expect to find files named “init.sh” and “busybox” in<br>a directory called “initramfs”, under the linux-2.6.* directory.  See<br>Documentation/early-userspace/README for more details.)</p>
+<p>The kernel does not depend on external cpio tools.  If you specify a<br>directory instead of a configuration file, the kernel’s build infrastructure<br>creates a configuration file from that directory (usr/Makefile calls<br>scripts/gen_initramfs_list.sh), and proceeds to package up that directory<br>using the config file (by feeding it to usr/gen_init_cpio, which is created<br>from usr/gen_init_cpio.c).  The kernel’s build-time cpio creation code is<br>entirely self-contained, and the kernel’s boot-time extractor is also<br>(obviously) self-contained.</p>
+<p>The one thing you might need external cpio utilities installed for is creating<br>or extracting your own preprepared cpio files to feed to the kernel build<br>(instead of a config file or directory).</p>
+<p>The following command line can extract a cpio image (either by the above script<br>or by the kernel build) back into its component files:</p>
+<p>cpio -i -d -H newc -F initramfs_data.cpio –no-absolute-filenames</p>
+<p>The following shell script can create a prebuilt cpio archive you can<br>use in place of the above config file:</p>
+<p>#!/bin/sh</p>
+<h1 id="Copyright-2006-Rob-Landley-lt-rob-landley-net-gt-and-TimeSys-Corporation"><a href="#Copyright-2006-Rob-Landley-lt-rob-landley-net-gt-and-TimeSys-Corporation" class="headerlink" title="Copyright 2006 Rob Landley &lt;rob@landley.net&gt; and TimeSys Corporation."></a>Copyright 2006 Rob Landley &lt;rob@landley.net&gt; and TimeSys Corporation.</h1><h1 id="Licensed-under-GPL-version-2"><a href="#Licensed-under-GPL-version-2" class="headerlink" title="Licensed under GPL version 2"></a>Licensed under GPL version 2</h1><p>if [ $# -ne 2 ]<br>then<br>echo “usage: mkinitramfs directory imagename.cpio.gz”<br>exit 1<br>fi</p>
+<p>if [ -d “$1” ]<br>then<br>echo “creating $2 from $1”<br>(cd “$1”; find . | cpio -o -H newc | gzip) &gt; “$2”<br>else<br>echo “First argument must be a directory”<br>exit 1<br>fi</p>
+<p>Note: The cpio man page contains some bad advice that will break your initramfs<br>archive if you follow it.  It says “A typical way to generate the list<br>of filenames is with the find command; you should give find the -depth option<br>to minimize problems with permissions on directories that are unwritable or not<br>searchable.”  Don’t do this when creating initramfs.cpio.gz images, it won’t<br>work.  The Linux kernel cpio extractor won’t create files in a directory that<br>doesn’t exist, so the directory entries must go before the files that go in<br>those directories.  The above script gets them in the right order.</p>
+<h2 id="External-initramfs-images"><a href="#External-initramfs-images" class="headerlink" title="External initramfs images:"></a>External initramfs images:</h2><p>If the kernel has initrd support enabled, an external cpio.gz archive can also<br>be passed into a 2.6 kernel in place of an initrd.  In this case, the kernel<br>will autodetect the type (initramfs, not initrd) and extract the external cpio<br>archive into rootfs before trying to run /init.</p>
+<p>This has the memory efficiency advantages of initramfs (no ramdisk block<br>device) but the separate packaging of initrd (which is nice if you have<br>non-GPL code you’d like to run from initramfs, without conflating it with<br>the GPL licensed Linux kernel binary).</p>
+<p>It can also be used to supplement the kernel’s built-in initramfs image.  The<br>files in the external archive will overwrite any conflicting files in<br>the built-in initramfs archive.  Some distributors also prefer to customize<br>a single kernel image with task-specific initramfs images, without recompiling.</p>
+<h2 id="Contents-of-initramfs"><a href="#Contents-of-initramfs" class="headerlink" title="Contents of initramfs:"></a>Contents of initramfs:</h2><p>An initramfs archive is a complete self-contained root filesystem for Linux.<br>If you don’t already understand what shared libraries, devices, and paths<br>you need to get a minimal root filesystem up and running, here are some<br>references:<br><a href="http://www.tldp.org/HOWTO/Bootdisk-HOWTO/" target="_blank" rel="external">http://www.tldp.org/HOWTO/Bootdisk-HOWTO/</a><br><a href="http://www.tldp.org/HOWTO/From-PowerUp-To-Bash-Prompt-HOWTO.html" target="_blank" rel="external">http://www.tldp.org/HOWTO/From-PowerUp-To-Bash-Prompt-HOWTO.html</a><br><a href="http://www.linuxfromscratch.org/lfs/view/stable/" target="_blank" rel="external">http://www.linuxfromscratch.org/lfs/view/stable/</a></p>
+<p>The “klibc” package (<a href="http://www.kernel.org/pub/linux/libs/klibc" target="_blank" rel="external">http://www.kernel.org/pub/linux/libs/klibc</a>) is<br>designed to be a tiny C library to statically link early userspace<br>code against, along with some related utilities.  It is BSD licensed.</p>
+<p>I use uClibc (<a href="http://www.uclibc.org" target="_blank" rel="external">http://www.uclibc.org</a>) and busybox (<a href="http://www.busybox.net" target="_blank" rel="external">http://www.busybox.net</a>)<br>myself.  These are LGPL and GPL, respectively.  (A self-contained initramfs<br>package is planned for the busybox 1.3 release.)</p>
+<p>In theory you could use glibc, but that’s not well suited for small embedded<br>uses like this.  (A “hello world” program statically linked against glibc is<br>over 400k.  With uClibc it’s 7k.  Also note that glibc dlopens libnss to do<br>name lookups, even when otherwise statically linked.)</p>
+<p>A good first step is to get initramfs to run a statically linked “hello world”<br>program as init, and test it under an emulator like qemu (www.qemu.org) or<br>User Mode Linux, like so:</p>
+<p>cat &gt; hello.c &lt;&lt; EOF</p>
+<p>#include &lt;stdio.h&gt;</p>
+<p>#include &lt;unistd.h&gt;</p>
+<p>int main(int argc, char *argv[])<br>{<br>printf(“Hello world!n”);<br>sleep(999999999);<br>}<br>EOF<br>gcc -static hello.c -o init<br>echo init | cpio -o -H newc | gzip &gt; test.cpio.gz</p>
+<h1 id="Testing-external-initramfs-using-the-initrd-loading-mechanism"><a href="#Testing-external-initramfs-using-the-initrd-loading-mechanism" class="headerlink" title="Testing external initramfs using the initrd loading mechanism."></a>Testing external initramfs using the initrd loading mechanism.</h1><p>qemu -kernel /boot/vmlinuz -initrd test.cpio.gz /dev/zero</p>
+<p>When debugging a normal root filesystem, it’s nice to be able to boot with<br>“init=/bin/sh”.  The initramfs equivalent is “rdinit=/bin/sh”, and it’s<br>just as useful.</p>
+<h2 id="Why-cpio-rather-than-tar"><a href="#Why-cpio-rather-than-tar" class="headerlink" title="Why cpio rather than tar?"></a>Why cpio rather than tar?</h2><p>This decision was made back in December, 2001.  The discussion started here:</p>
+<p><a href="http://www.uwsg.iu.edu/hypermail/linux/kernel/0112.2/1538.html" target="_blank" rel="external">http://www.uwsg.iu.edu/hypermail/linux/kernel/0112.2/1538.html</a></p>
+<p>And spawned a second thread (specifically on tar vs cpio), starting here:</p>
+<p><a href="http://www.uwsg.iu.edu/hypermail/linux/kernel/0112.2/1587.html" target="_blank" rel="external">http://www.uwsg.iu.edu/hypermail/linux/kernel/0112.2/1587.html</a></p>
+<p>The quick and dirty summary version (which is no substitute for reading<br>the above threads) is:</p>
+<p>1) cpio is a standard.  It’s decades old (from the AT&amp;T days), and already<br>widely used on Linux (inside RPM, Red Hat’s device driver disks).  Here’s<br>a Linux Journal article about it from 1996:</p>
+<p><a href="http://www.linuxjournal.com/article/1213" target="_blank" rel="external">http://www.linuxjournal.com/article/1213</a></p>
+<p>It’s not as popular as tar because the traditional cpio command line tools<br>require _truly<em>hideous</em> command line arguments.  But that says nothing<br>either way about the archive format, and there are alternative tools,<br>such as:</p>
+<p><a href="http://freshmeat.net/projects/afio/" target="_blank" rel="external">http://freshmeat.net/projects/afio/</a></p>
+<p>2) The cpio archive format chosen by the kernel is simpler and cleaner (and<br>thus easier to create and parse) than any of the (literally dozens of)<br>various tar archive formats.  The complete initramfs archive format is<br>explained in buffer-format.txt, created in usr/gen_init_cpio.c, and<br>extracted in init/initramfs.c.  All three together come to less than 26k<br>total of human-readable text.</p>
+<p>3) The GNU project standardizing on tar is approximately as relevant as<br>Windows standardizing on zip.  Linux is not part of either, and is free<br>to make its own technical decisions.</p>
+<p>4) Since this is a kernel internal format, it could easily have been<br>something brand new.  The kernel provides its own tools to create and<br>extract this format anyway.  Using an existing standard was preferable,<br>but not essential.</p>
+<p>5) Al Viro made the decision (quote: “tar is ugly as hell and not going to be<br>supported on the kernel side”):</p>
+<p><a href="http://www.uwsg.iu.edu/hypermail/linux/kernel/0112.2/1540.html" target="_blank" rel="external">http://www.uwsg.iu.edu/hypermail/linux/kernel/0112.2/1540.html</a></p>
+<p>explained his reasoning:</p>
+<p><a href="http://www.uwsg.iu.edu/hypermail/linux/kernel/0112.2/1550.html" target="_blank" rel="external">http://www.uwsg.iu.edu/hypermail/linux/kernel/0112.2/1550.html</a><br><a href="http://www.uwsg.iu.edu/hypermail/linux/kernel/0112.2/1638.html" target="_blank" rel="external">http://www.uwsg.iu.edu/hypermail/linux/kernel/0112.2/1638.html</a></p>
+<p>and, most importantly, designed and implemented the initramfs code.</p>
+<h2 id="Future-directions"><a href="#Future-directions" class="headerlink" title="Future directions:"></a>Future directions:</h2><p>Today (2.6.16), initramfs is always compiled in, but not always used.  The<br>kernel falls back to legacy boot code that is reached only if initramfs does<br>not contain an /init program.  The fallback is legacy code, there to ensure a<br>smooth transition and allowing early boot functionality to gradually move to<br>“early userspace” (I.E. initramfs).</p>
+<p>The move to early userspace is necessary because finding and mounting the real<br>root device is complex.  Root partitions can span multiple devices (raid or<br>separate journal).  They can be out on the network (requiring dhcp, setting a<br>specific MAC address, logging into a server, etc).  They can live on removable<br>media, with dynamically allocated major/minor numbers and persistent naming<br>issues requiring a full udev implementation to sort out.  They can be<br>compressed, encrypted, copy-on-write, loopback mounted, strangely partitioned,<br>and so on.</p>
+<p>This kind of complexity (which inevitably includes policy) is rightly handled<br>in userspace.  Both klibc and busybox/uClibc are working on simple initramfs<br>packages to drop into a kernel build.</p>
+<p>The klibc package has now been accepted into Andrew Morton’s 2.6.17-mm tree.<br>The kernel’s current early boot code (partition detection, etc) will probably<br>be migrated into a default initramfs, automatically created and used by the<br>kernel build.</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2010/09/02/ramfs-rootfs-and-initramfs/" class="archive-article-date">
+  	<time datetime="2010-09-02T04:58:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2010-09-02</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux/">Linux</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Install-CyanogenMod-for-Nexus-One" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2010/09/02/Install-CyanogenMod-for-Nexus-One/">Install CyanogenMod for Nexus_One</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <br><strong> Building kernel from source</strong><br><a href="http://wiki.cyanogenmod.com/index.php?title=Building_from_source" target="_blank" rel="external">http://wiki.cyanogenmod.com/index.php?title=Building_from_source</a><br><br><strong>Install CyanogenMod for Nexus_One</strong><br><a href="http://wiki.cyanogenmod.com/index.php?title=Nexus_One" target="_blank" rel="external">http://wiki.cyanogenmod.com/index.php?title=Nexus_One</a><br><br><strong>Compile CyanogenMod for Nexus_One</strong><br><a href="http://wiki.cyanogenmod.com/index.php?title=Compile_CyanogenMod_for_Passion#Download_Repo" target="_blank" rel="external">http://wiki.cyanogenmod.com/index.php?title=Compile_CyanogenMod_for_Passion#Download_Repo</a><br><br>========<br><br><br><br>========<br><br><strong> MetaMorph: </strong><br><a href="http://code.google.com/p/android-metamorph/wiki/MetaMorph" target="_blank" rel="external">http://code.google.com/p/android-metamorph/wiki/MetaMorph</a><br></p><p><a href="http://code.google.com/p/android-metamorph/wiki/MetaMorph" target="_blank" rel="external">MetaMorph</a>  is an application for Rooted android phones that allows end users to  apply customizable zip files with specific directories inside that can  be applied to various apks, jars, or any other zip type format.</p><p>Specifically  the goal of metamorph was to allow end users to apply custom themes to  their android phones without having to boot into recovery mode and  flashing a custom update.</p> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2010/09/02/Install-CyanogenMod-for-Nexus-One/" class="archive-article-date">
+  	<time datetime="2010-09-02T04:56:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2010-09-02</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-animations-AppStartingWindow-in-WindowManagerService（discussion-from-android-platform-group）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2010/08/30/animations-AppStartingWindow-in-WindowManagerService（discussion-from-android-platform-group）/">animations &amp; AppStartingWindow in WindowManagerService（discussion from android-platform group）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <br><a href="http://groups.google.com.tw/group/android-platform/browse_thread/thread/f2c5ec9b77b9862e" target="_blank" rel="external">http://groups.google.com.tw/group/android-platform/browse_thread/thread/f2c5ec9b77b9862e</a><br><br><br><br>&gt; I want to change the animations for starting and stopping activities. <br>&gt; Now I have some questions regarding the animation framework used <br>&gt; inside the WindowManagerService. <br>&gt; Just changing the animation’s xml files (activity_open_enter.xml etc.) <br>&gt; is not enough for our UI, so I have to understand the inner working of <br>&gt; the framework. Here is what I got so far and some questions: <br>&gt; The methods refer to class WindowManagerService.I would suggest adding a new kind of animation object instead of mucking <br>with the window manager, but… <br><br>&gt; The applyAnimationLocked chooses the desired animation. <br>&gt; During a performLayoutAndPlaceSurfacesLocked pass the <br>&gt; stepAnimationLocked method starts the chosen animation <br>&gt; (Transformation.getTransformation -&gt; applyTransformation).Yep. <br><br>&gt; What are animation layers and why are they needed? What does the <br>&gt; updateLayers method of class AppWindowToken do?Some animations need to temporarily modify the Z-order of their windows to <br>achieve a certain effect (see for example the sliding animations). &#160;This is <br>tied to the specific transitions between app window tokens, where exit and <br>enter animations are running in conjunction at the same time. <br><br>&gt; What is the purpose of WindowState.computeShownFrameLocked? Is it <br>&gt; involved in the animation process?It just computes the real frame of the window. &#160;It is involved in animations <br>because animations move windows. <br><br>&gt; The SurfaceFlinger is not involved in animations, right? It just <br>&gt; composes the surfaces that are produced by the ViewRoot objects.Well.. &#160;it doesn’t decide what the animations are, but window animations are <br>by definition moving surfaces around, and the surface flinger composites <br>surfaces, so it is required to actually show the animation. <br><br><br>&gt; It seems that the animations are NOT hardware accelerated since they <br>&gt; are implemented using the Skia framework, right?No true, the window manager only deals in surface transformations, which are <br>composited by surface flinger, which is hardware accelerated (if you have <br>implemented the acceleration in your device, which you really want to do). <br><br><br><br>&gt; One more question: Does that mean that the Surface Flinger does not <br>&gt; only get the Surface (Layer) from ViewRoot but also a transformation <br>&gt; matrix from the WindowManagerService that is used during the <br>&gt; compositing of that surface (layer)? So this transformation matrix is <br>&gt; used by the OpenGL compositing?Yes the surface buffer is given to the app for drawing in to, and the window <br>manager controls its position, size, and transformation. &#160;The surface <br>flinger uses these two things to composite the screen. <br><br><br><br>&gt; What is an AppStartingWindow? It is used by some apps via <br>&gt; PhoneWindowManager.addStartingWindow.It is not used by apps. &#160;It is used by the system to show a preview of the <br>application that is being launched, to make the UI more responsive. <br><br><br><br><br>ok, now I understood what is going on in the WindowManagerService <br>regarding the animations. <br>WindowManagerService.WindowState.computeShownFrameLocked computes the <br>transformation matrix for animations that is later passed to <br>LayerBase::setMatrix by WMS.performLayoutAndPlaceSurfacesLockedInner. <br>WMS.performLayoutAndPlaceSurfacesLockedInner drives the animation by <br>triggering itself every 60Hz as long as stepAnimationLocked returns <br>true. <br>Now comes the part inside of the SurfaceFlinger that I don’t really <br>understand fully. <br>After having the transformation matrix in LayerBase the SurfaceFlinger <br>triggers LayerBase::validateVisibility at some point in time. <br>LayerBase::validateVisibility computes some transformation and the <br>bounds. Later LayerBase::drawWithOpenGL is called to draw the layer. <br>But where is the transformation passed to some OpenGL API? I do not <br>see anything like this here. Or is the translation and scaling done by <br>setPosition, setSize or implicitly by mapping to layer (texture) to <br>the display with mTransformedBounds? <br>I tried to do a rotation when opening an activity but I do not see <br>that rotation. Is this simply not possible right now because the <br>SurfaceFlinger does not directly use the transformation matrix <br>calculated by WindowManagerService? <br>So can the SurfaceFlinger only do translation and scale animations <br>with the help of setPosition, setSize and mTransformedBounds but no <br>rotations? <br>Or have I missed something? <br><br>Sorry I can’t help you with the internals of the surface flinger. &#160;I do <br>trust that the transformation is propagated to OpenGL when it draws the <br>surface. :) <br><br>I did a stupid mistake, doh! <br>Also rotation surfaces works great! <br>LayerBase::validateVisibility does the transformation which is <br>triggered by SurfaceFlinger::threadLoop. <br>Later SurfaceFlinger::threadLoop triggers LayerBase::drawWithOpenGL <br>which uses the calculated mVertices in the call to glVertexPointer. <br>Doh, doh, doh :-) <br><br><br><del>end</del> </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2010/08/30/animations-AppStartingWindow-in-WindowManagerService（discussion-from-android-platform-group）/" class="archive-article-date">
+  	<time datetime="2010-08-30T08:24:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2010-08-30</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Activity启动流程-2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2010/08/29/Activity启动流程-2/">Activity启动流程(2)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <br><blockquote>&#160;<a href="http://blog.csdn.net/maxleng/archive/2010/05/24/5621349.aspx" target="_blank">Activity设计框架</a>3.1 外特性空间的Activity<p>&#160;&#160;&#160; 我们先来看看，Android应用开发人员接触的外特性空间中的Activity，对于AMS来讲，这个Activity就是客服端的Activity。 应用程序员在建立Android应用时，构建Activity的子类就是Andoid外特性空间展现的接口。我们可以从下面的简单的例子描述看看 Activity，到底如何建立的。</p><p>DemoActivity extend Activity</p><p>{</p><p>&#160;&#160;&#160;&#160; onCreate</p><p>&#160;&#160;&#160; onResume</p><p>&#160;&#160;&#160; onPause</p><p>&#160;&#160;&#160; onStop</p><p>}</p><p>&#160;&#160;&#160; 在Android的外特性空间(SDK)中，Android应用程序员根本不知道进程是什么时候起来的，系统消息是如何传递过来的。这个DemoActivity是如何实例化的呢？并且该Activity是托管在哪个进程的呢？本节的分析将给出答案。</p><p>我们从ActivityThread中可以看到在应用进程中的Activity都被放置在mActivities中。</p> </blockquote></p><p>&#160;&#160;&#160; 这些ActivityRecord记录了应用进程中，程序员建立的Activity子类的实例，我们称之为外特性空间的Activity。这些 Activity类实例是放在应用程序端进行实际交互的Activity，而为了管理这些Activity，AMS内核中还有一个影子Activity， 被称为HistoryRecord。</p><p>3.2 Activity与HistoryRecord的关系</p><p>&#160;&#160;&#160;&#160; 在整个系统中，Activity实际上有两个实体。一个在应用进程中跟应用程序员打交道的Activity，一个是在AMS的中具有管理功能的 History Record。应用进程中的Activity都登记ActivityThread实例中的mActivity数组中，而在AM 端，HistroytRecord实例放置在mHistroy栈中。mHistory栈是Android管理Activity的场所，放置在栈顶的就是 User看到的处于活动状态的Activity。</p><p>Activity与HistrotyRecord的关系图可以表示如下：</p><p></p><p>&#160;&#160;&#160;&#160;&#160;&#160; Activity的内核实体是依靠在ProcessRecord的成员变量中，通过ProcessRecord我们可以访问到所有的属于该Process 的Activity。而在ProcessRecord记录了与应用进程之间的联系：IActivtityThread接口。通过该接口，可以访问到所对应 的Activity的方法。在Launch Activity时，AMS将对应的HistoryRecord作为token传递到客服端和客服端的Activity建立联系。在AMS中 Activity状态变化时，将通过该联系找到客服端的Activity，从而将消息或者动作传递应用程序面对的接口：xxxActivity。</p>3.3 Actvity的Launch过程<blockquote><p>1)发起请求startActivity(intent)</p><p>2）Activity Service Manager接收到请求执行StartActivity函数。</p></blockquote> <blockquote><p>&#160;&#160;&#160;&#160;&#160; 建立：HistoryRecord实例r.</p><p>&#160;&#160;&#160;&#160;&#160; 将r 加入到mHistory顶。</p></blockquote> <blockquote><p>（3）通过app.thread.scheduleLaunchActvity( </p><p>（4）在App应用中建立新的ActivityRecord。</p><p>（5）建立新的Activity对象并放入到ActivityRecord中。</p><p>（6）将ActivityRecord加入到mActivites@ActivityThread</p><p>(7)发起Activity.onCreate(..),,该onCreate就是在你的应用程序XXXActivity中的onCreate。</p><p>&#160; </p>3.4 Activity的Resume<p>（1）Activity什么时候被Resume</p></blockquote><p></p><p>（2）Rusume的过程</p><p>&#160;&#160;&#160; 通过该过程的研究我们会进一步的了解到AMS与应用进程的交互过程。</p><p>在AMS端，满足resume条件都会调用：Resume的核心函数：</p><p>XXX当前栈顶的HistroyRecord</p><p>1）窗口切换：隐藏前一个Activity的窗口，</p><p>2）更新LRUList，（LRUList是淘汰应用程序的依据之一）</p><p>3) XXX.app.thread.scheduleResumeActivity(XXX,</p><p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; isNextTransitionForward());</p><p>4)completeResumeLocked</p><p>&#160;&#160;&#160;&#160; setFocusedActivityLocked</p><blockquote><p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; mFocusActivity=xxx&#160; //此时焦点Actvitiy切换了。</p><p>&#160;&#160;&#160;&#160;&#160;&#160; WM.setFocusedApp(xxx, </p><p>&#160;&#160;&#160;&#160;&#160;&#160; mWindowManager.executeAppTransition();</p><p>&#160;&#160;&#160;&#160;&#160;&#160; mNoAnimActivities.clear();</p></blockquote><p>在应用程序端：</p><p>（5）scheduleResumeActivity</p><p>handleResumeActivity(IBinder token, boolean clearHide, boolean isForward) {</p><blockquote><p>ActivityRecord r = performResumeActivity(token, clearHide);</p></blockquote> <blockquote><p>&#160;&#160;&#160;&#160; ActivityRecord r = mActivities.get(token);</p></blockquote> <blockquote><p>&#160;&#160;&#160;&#160; r.activity.performResume()</p></blockquote> <blockquote><p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; performResume</p><p>整个Resume的过程如下：</p></blockquote><p></p> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2010/08/29/Activity启动流程-2/" class="archive-article-date">
+  	<time datetime="2010-08-29T08:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2010-08-29</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-【转】Linux程序编译速度提高方法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2010/08/28/【转】Linux程序编译速度提高方法/">【转】Linux程序编译速度提高方法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <a href="http://www.cnblogs.com/jacktu/archive/2010/07/15/1777974.html" target="_blank" rel="external">【转】Linux程序编译速度提高方法</a></p><p>项目越来越大，每次需要重新编译整个项目都是一件很浪费时间的事情。Research了一下，找到以下可以帮助提高速度的方法，总结一下。</p><p>tmpfs</p><p>有人说在Windows下用了RAMDisk把一个项目编译时间从4.5小时减少到了5分钟，也许这个数字是有点夸张了，不过粗想想，把文件放到内存上做编译应该是比在磁盘上快多了吧，尤其如果编译器需要生成很多临时文件的话。</p><p>这个做法的实现成本最低，在Linux中，直接mount一个tmpfs就可以了。而且对所编译的工程没有任何要求，也不用改动编译环境。</p><p>mount -t tmpfs tmpfs ~/build -o size=1G</p><p>用2.6.32.2的Linux Kernel来测试一下编译速度：</p><p>用物理磁盘：40分16秒</p><p>用tmpfs：39分56秒</p><p>呃……没什么变化。看来编译慢很大程度上瓶颈并不在IO上面。但对于一个实际项目来说，编译过程中可能还会有打包等IO密集的操作，所以只要可能，用tmpfs是有益无害的。当然对于大项目来说，你需要有足够的内存才能负担得起这个tmpfs的开销。</p><p>make -j</p><p>既然IO不是瓶颈，那CPU就应该是一个影响编译速度的重要因素了。</p><p>用make -j带一个参数，可以把项目在进行并行编译，比如在一台双核的机器上，完全可以用make -j4，让make最多允许4个编译命令同时执行，这样可以更有效的利用CPU资源。</p><p>还是用Kernel来测试：</p><p>用make： 40分16秒</p><p>用make -j4：23分16秒</p><p>用make -j8：22分59秒</p><p>由此看来，在多核CPU上，适当的进行并行编译还是可以明显提高编译速度的。但并行的任务不宜太多，一般是以CPU的核心数目的两倍为宜。</p><p>不过这个方案不是完全没有cost的，如果项目的Makefile不规范，没有正确的设置好依赖关系，并行编译的结果就是编译不能正常进行。如果依赖关系设置过于保守，则可能本身编译的可并行度就下降了，也不能取得最佳的效果。</p><p>ccache</p><p>ccache 用于把编译的中间结果进行缓存，以便在再次编译的时候可以节省时间。这对于玩Kernel来说实在是再好不过了，因为经常需要修改一些Kernel的代 码，然后再重新编译，而这两次编译大部分东西可能都没有发生变化。对于平时开发项目来说，也是一样。为什么不是直接用make所支持的增量编译呢？还是因 为现实中，因为Makefile的不规范，很可能这种“聪明”的方案根本不能正常工作，只有每次make clean再make才行。</p><p>安 装完ccache后，可以在/usr/local/bin下建立gcc，g++，c++，cc的symbolic  link，链到/usr/bin/ccache上。总之确认系统在调用gcc等命令时会调用到ccache就可以了（通常情况下/usr/local  /bin会在PATH中排在/usr/bin前面）。</p><p>继续测试：</p><p>用ccache的第一次编译(make -j4)：23分38秒</p><p>用ccache的第二次编译(make -j4)：8分48秒</p><p>用ccache的第三次编译(修改若干配置，make -j4)：23分48秒</p><p>看 来修改配置（我改了CPU类型…）对ccache的影响是很大的，因为基本头文件发生变化后，就导致所有缓存数据都无效了，必须重头来做。但如果只是 修改一些.c文件的代码，ccache的效果还是相当明显的。而且使用ccache对项目没有特别的依赖，布署成本很低，这在日常工作中很实用。</p><p>可以用ccache -s来查看cache的使用和命中情况：</p><p>cache  directory&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; /home/lifanxi/.ccachecache  hit&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; 7165cache miss&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;  14283called for link&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; 71not a C/C++  file&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; 120no input file&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;  3045files in cache&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; 28566cache  size&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; 81.7 Mbytesmax cache  size&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; 976.6 Mbytes</p><p>可以看到，显然只有第二编次译时cache命中了，cache miss是第一次和第三次编译带来的。两次cache占用了81.7M的磁盘，还是完全可以接受的。</p><p>distcc</p><p>一台机器的能力有限，可以联合多台电脑一起来编译。这在公司的日常开发中也是可行的，因为可能每个开发人员都有自己的开发编译环境，它们的编译器版本一般是一致的，公司的网络也通常具有较好的性能。这时就是distcc大显身手的时候了。</p><p>使 用distcc，并不像想象中那样要求每台电脑都具有完全一致的环境，它只要求源代码可以用make  -j并行编译，并且参与分布式编译的电脑系统中具有相同的编译器。因为它的原理只是把预处理好的源文件分发到多台计算机上，预处理、编译后的目标文件的链 接和其它除编译以外的工作仍然是在发起编译的主控电脑上完成，所以只要求发起编译的那台机器具备一套完整的编译环境就可以了。</p><p>distcc安装后，可以启动一下它的服务：</p><p>/usr/bin/distccd&#160; –daemon –allow 10.64.0.0/16</p><p>默认的3632端口允许来自同一个网络的distcc连接。</p><p>然 后设置一下DISTCC_HOSTS环境变量，设置可以参与编译的机器列表。通常localhost也参与编译，但如果可以参与编译的机器很多，则可以把 localhost从这个列表中去掉，这样本机就完全只是进行预处理、分发和链接了，编译都在别的机器上完成。因为机器很多时，localhost的处理 负担很重，所以它就不再“兼职”编译了。</p><p>export DISTCC_HOSTS=&quot;localhost 10.64.25.1 10.64.25.2 10.64.25.3&quot;</p><p>然后与ccache类似把g++，gcc等常用的命令链接到/usr/bin/distcc上就可以了。</p><p>在make的时候，也必须用-j参数，一般是参数可以用所有参用编译的计算机CPU内核总数的两倍做为并行的任务数。</p><p>同样测试一下：</p><p>一台双核计算机，make -j4：23分16秒</p><p>两台双核计算机，make -j4：16分40秒</p><p>两台双核计算机，make -j8：15分49秒</p><p>跟最开始用一台双核时的23分钟相比，还是快了不少的。如果有更多的计算机加入，也可以得到更好的效果。</p><p>在编译过程中可以用distccmon-text来查看编译任务的分配情况。distcc也可以与ccache同时使用，通过设置一个环境变量就可以做到，非常方便。</p><p>总结一下：</p><p>tmpfs： 解决IO瓶颈，充分利用本机内存资源</p><p>make -j： 充分利用本机计算资源</p><p>distcc： 利用多台计算机资源</p><p>ccache： 减少重复编译相同代码的时间</p><p>这些工具的好处都在于布署的成本相对较低，综合利用这些工具，就可以轻轻松松的节省相当可观的时间。上面介绍的都是这些工具最基本的用法，更多的用法可以参考它们各自的man page</p> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2010/08/28/【转】Linux程序编译速度提高方法/" class="archive-article-date">
+  	<time datetime="2010-08-28T07:26:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2010-08-28</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux/">Linux</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/18/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/17/">17</a><a class="page-number" href="/page/18/">18</a><span class="page-number current">19</span><a class="page-number" href="/page/20/">20</a><a class="page-number" href="/page/21/">21</a><span class="space">&hellip;</span><a class="page-number" href="/page/60/">60</a><a class="extend next" rel="next" href="/page/20/">Next &raquo;</a>
+    </nav>
+  
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: true,
+		isPost: false,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

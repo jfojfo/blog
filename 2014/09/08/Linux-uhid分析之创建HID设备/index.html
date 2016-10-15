@@ -1,0 +1,1250 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Linux uhid分析之创建HID设备 | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="对/dev/uhid的说明可参考Linux源码的Documentation/hid/uhid.txt，还附带了一个示例samples/uhid/uhid-example.c
+另外还有一篇文章UHID: User-Space HID I/O drivers（PDF）大致介绍了一下uhid是什么，以及与uinput的区别
+下面分析通过uhid创建HID设备的过程，分析之前可以先看看uhid-examp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux uhid分析之创建HID设备">
+<meta property="og:url" content="http://blog.pickbox.me/2014/09/08/Linux-uhid分析之创建HID设备/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="对/dev/uhid的说明可参考Linux源码的Documentation/hid/uhid.txt，还附带了一个示例samples/uhid/uhid-example.c
+另外还有一篇文章UHID: User-Space HID I/O drivers（PDF）大致介绍了一下uhid是什么，以及与uinput的区别
+下面分析通过uhid创建HID设备的过程，分析之前可以先看看uhid-examp">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/hid_device的report_description结构图.jpg">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux uhid分析之创建HID设备">
+<meta name="twitter:description" content="对/dev/uhid的说明可参考Linux源码的Documentation/hid/uhid.txt，还附带了一个示例samples/uhid/uhid-example.c
+另外还有一篇文章UHID: User-Space HID I/O drivers（PDF）大致介绍了一下uhid是什么，以及与uinput的区别
+下面分析通过uhid创建HID设备的过程，分析之前可以先看看uhid-examp">
+<meta name="twitter:image" content="http://img.pickbox.me/wp-content/uploads/hid_device的report_description结构图.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-Linux-uhid分析之创建HID设备" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux uhid分析之创建HID设备
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>对/dev/uhid的说明可参考Linux源码的<a href="http://img.pickbox.me/wp-content/uploads/uhid.txt" target="_blank" rel="external">Documentation/hid/uhid.txt</a>，还附带了一个示例<a href="http://img.pickbox.me/wp-content/uploads/uhid-example.c" target="_blank" rel="external">samples/uhid/uhid-example.c</a></p>
+<p>另外还有一篇文章<a href="http://dvdhrm.wordpress.com/2012/07/16/uhid-user-space-hid-io-drivers/" target="_blank">UHID: User-Space HID I/O drivers</a>（<a href="http://img.pickbox.me/wp-content/uploads/UHID_-User-Space-HID-I_O-drivers.pdf" target="_blank" rel="external">PDF</a>）大致介绍了一下uhid是什么，以及与uinput的区别</p>
+<p>下面分析通过uhid创建HID设备的过程，分析之前可以先看看<a href="http://img.pickbox.me/wp-content/uploads/uhid-example.c" target="_blank" rel="external">uhid-example</a></p>
+<p>分析过程涉及到以下文件</p>
+<pre>drivers/hid/uhid.c
+drivers/hid/hid-core.c
+drivers/base/core.c
+drivers/base/bus.c
+drivers/base/dd.c
+drivers/hid/usbhid/hid-core.c</pre>
+uhid的fops结构体中指定了open为uhid_char_open，write为uhid_char_write
+<pre>static const struct file_operations uhid_fops = {
+    .owner        = THIS_MODULE,
+    .open        = uhid_char_open,
+    .release    = uhid_char_release,
+    .read        = uhid_char_read,
+    .write        = uhid_char_write,
+    .poll        = uhid_char_poll,
+    .llseek        = no_llseek,
+};</pre>
+每次open /dev/uhid设备，uhid_char_open都会分配一个uhid_device
+<pre>static int uhid_char_open(struct inode *inode, struct file *file)
+{
+    struct uhid_device *uhid;
+
+    uhid = kzalloc(sizeof(*uhid), GFP_KERNEL);
+    if (!uhid)
+        return -ENOMEM;
+
+    mutex_init(&amp;uhid-&gt;devlock);
+    mutex_init(&amp;uhid-&gt;report_lock);
+    spin_lock_init(&amp;uhid-&gt;qlock);
+    init_waitqueue_head(&amp;uhid-&gt;waitq);
+    init_waitqueue_head(&amp;uhid-&gt;report_wait);
+    uhid-&gt;running = false;
+    atomic_set(&amp;uhid-&gt;report_done, 1);
+
+    file-&gt;private_data = uhid;
+    nonseekable_open(inode, file);
+
+    return 0;
+}</pre>
+open之后向/dev/uhid写入指令创建一个hid设备，UHID_CREATE指令会调用uhid_dev_create
+<pre>static ssize_t uhid_char_write(struct file *file, const char __user *buffer,
+                size_t count, loff_t *ppos)
+{
+    struct uhid_device *uhid = file-&gt;private_data;
+    int ret;
+    size_t len;
+
+    /* we need at least the "type" member of uhid_event */
+    if (count &lt; sizeof(__u32))
+        return -EINVAL;
+
+    ret = mutex_lock_interruptible(&amp;uhid-&gt;devlock);
+    if (ret)
+        return ret;
+
+    memset(&amp;uhid-&gt;input_buf, 0, sizeof(uhid-&gt;input_buf));
+    len = min(count, sizeof(uhid-&gt;input_buf));
+    if (copy_from_user(&amp;uhid-&gt;input_buf, buffer, len)) {
+        ret = -EFAULT;
+        goto unlock;
+    }
+
+    switch (uhid-&gt;input_buf.type) {
+    case UHID_CREATE:
+        ret = uhid_dev_create(uhid, &amp;uhid-&gt;input_buf);
+        break;
+    case UHID_DESTROY:
+        ret = uhid_dev_destroy(uhid);
+        break;
+    case UHID_INPUT:
+        ret = uhid_dev_input(uhid, &amp;uhid-&gt;input_buf);
+        break;
+    case UHID_FEATURE_ANSWER:
+        ret = uhid_dev_feature_answer(uhid, &amp;uhid-&gt;input_buf);
+        break;
+    default:
+        ret = -EOPNOTSUPP;
+    }
+
+unlock:
+    mutex_unlock(&amp;uhid-&gt;devlock);
+
+    /* return "count" not "len" to not confuse the caller */
+    return ret ? ret : count;
+}</pre>
+uhid_dev_create调用hid_allocate_device分配一个hid_device并初始化，hid-&gt;dev.bus被设置为hid_bus_type，hid-&gt;ll_driver = &amp;uhid_hid_driver; ll_driver我们在后面的分析中会看到；
+
+然后调用hid_add_device进而调用device_add添加设备，device_add在/sys目录下创建相关文件
+<pre>static int uhid_dev_create(struct uhid_device *uhid,
+               const struct uhid_event *ev)
+{
+    struct hid_device *hid;
+    int ret;
+
+    if (uhid-&gt;running)
+        return -EALREADY;
+
+    uhid-&gt;rd_size = ev-&gt;u.create.rd_size;
+    if (uhid-&gt;rd_size &lt;= 0 || uhid-&gt;rd_size &gt; HID_MAX_DESCRIPTOR_SIZE)
+        return -EINVAL;
+
+    uhid-&gt;rd_data = kmalloc(uhid-&gt;rd_size, GFP_KERNEL);
+    if (!uhid-&gt;rd_data)
+        return -ENOMEM;
+
+    if (copy_from_user(uhid-&gt;rd_data, ev-&gt;u.create.rd_data,
+               uhid-&gt;rd_size)) {
+        ret = -EFAULT;
+        goto err_free;
+    }
+
+    hid = hid_allocate_device();
+    if (IS_ERR(hid)) {
+        ret = PTR_ERR(hid);
+        goto err_free;
+    }
+
+    strncpy(hid-&gt;name, ev-&gt;u.create.name, 127);
+    hid-&gt;name[127] = 0;
+    strncpy(hid-&gt;phys, ev-&gt;u.create.phys, 63);
+    hid-&gt;phys[63] = 0;
+    strncpy(hid-&gt;uniq, ev-&gt;u.create.uniq, 63);
+    hid-&gt;uniq[63] = 0;
+
+    hid-&gt;ll_driver = &amp;uhid_hid_driver;
+    hid-&gt;hid_get_raw_report = uhid_hid_get_raw;
+    hid-&gt;hid_output_raw_report = uhid_hid_output_raw;
+    hid-&gt;bus = ev-&gt;u.create.bus;
+    hid-&gt;vendor = ev-&gt;u.create.vendor;
+    hid-&gt;product = ev-&gt;u.create.product;
+    hid-&gt;version = ev-&gt;u.create.version;
+    hid-&gt;country = ev-&gt;u.create.country;
+    hid-&gt;driver_data = uhid;
+    hid-&gt;dev.parent = uhid_misc.this_device;
+
+    uhid-&gt;hid = hid;
+    uhid-&gt;running = true;
+
+    ret = hid_add_device(hid);
+    if (ret) {
+        hid_err(hid, "Cannot register HID device\n");
+        goto err_hid;
+    }
+
+    return 0;
+
+err_hid:
+    hid_destroy_device(hid);
+    uhid-&gt;hid = NULL;
+    uhid-&gt;running = false;
+err_free:
+    kfree(uhid-&gt;rd_data);
+    return ret;
+}</pre>
+hid_allocate_device分配hid_device，特别注意hid-&gt;dev.bus = &amp;hid_bus_type，后面device_add时会通过这个bus_type为dev找驱动
+<pre>struct hid_device *hid_allocate_device(void)
+{
+    struct hid_device *hdev;
+    unsigned int i;
+    int ret = -ENOMEM;
+
+    hdev = kzalloc(sizeof(*hdev), GFP_KERNEL);
+    if (hdev == NULL)
+        return ERR_PTR(ret);
+
+    device_initialize(&amp;hdev-&gt;dev);
+    hdev-&gt;dev.release = hid_device_release;
+    hdev-&gt;dev.bus = &amp;hid_bus_type;
+
+    hdev-&gt;collection = kcalloc(HID_DEFAULT_NUM_COLLECTIONS,
+            sizeof(struct hid_collection), GFP_KERNEL);
+    if (hdev-&gt;collection == NULL)
+        goto err;
+    hdev-&gt;collection_size = HID_DEFAULT_NUM_COLLECTIONS;
+
+    for (i = 0; i &lt; HID_REPORT_TYPES; i++)
+        INIT_LIST_HEAD(&amp;hdev-&gt;report_enum[i].report_list);
+
+    init_waitqueue_head(&amp;hdev-&gt;debug_wait);
+    INIT_LIST_HEAD(&amp;hdev-&gt;debug_list);
+    sema_init(&amp;hdev-&gt;driver_lock, 1);
+
+    return hdev;
+err:
+    put_device(&amp;hdev-&gt;dev);
+    return ERR_PTR(ret);
+}</pre>
+hid_add_device根据bus、vendor、product以及id序号，设置好dev（这里的dev是一个struct device）的名称，然后调用device_add向Linux系统添加新设备，可以在/sys目录下看到新添加的相关文件（/sys/devices/virtual/misc/uhid/0003:15D9:0A37:0006目录，更多参考文章结尾）
+<pre>int hid_add_device(struct hid_device *hdev)
+{
+    static atomic_t id = ATOMIC_INIT(0);
+    int ret;
+
+    if (WARN_ON(hdev-&gt;status &amp; HID_STAT_ADDED))
+        return -EBUSY;
+
+    /* we need to kill them here, otherwise they will stay allocated to
+     * wait for coming driver */
+    if (!(hdev-&gt;quirks &amp; HID_QUIRK_NO_IGNORE)
+            &amp;&amp; (hid_ignore(hdev) || (hdev-&gt;quirks &amp; HID_QUIRK_IGNORE)))
+        return -ENODEV;
+
+    /* XXX hack, any other cleaner solution after the driver core
+     * is converted to allow more than 20 bytes as the device name? */
+    dev_set_name(&amp;hdev-&gt;dev, "%04X:%04X:%04X.%04X", hdev-&gt;bus,
+             hdev-&gt;vendor, hdev-&gt;product, atomic_inc_return(&amp;id));
+
+    hid_debug_register(hdev, dev_name(&amp;hdev-&gt;dev));
+    ret = device_add(&amp;hdev-&gt;dev);
+    if (!ret)
+        hdev-&gt;status |= HID_STAT_ADDED;
+    else
+        hid_debug_unregister(hdev);
+
+    return ret;
+}</pre>
+device_add是Linux添加所有设备文件的一个公共方法，现在我们只关注其中的一处调用
+<pre>int device_add(struct device *dev)
+{
+    ...
+    bus_probe_device(dev);
+    ...
+}</pre>
+bus_probe_device会为dev这个设备寻找driver
+<pre>/**
+ * bus_probe_device - probe drivers for a new device
+ * @dev: device to probe
+ *
+ * - Automatically probe for a driver if the bus allows it.
+ */
+void bus_probe_device(struct device *dev)
+{
+    struct bus_type *bus = dev-&gt;bus;
+    struct subsys_interface *sif;
+    int ret;
+
+    if (!bus)
+        return;
+
+    if (bus-&gt;p-&gt;drivers_autoprobe) {
+        ret = device_attach(dev);
+        WARN_ON(ret &lt; 0);
+    }
+
+    mutex_lock(&amp;bus-&gt;p-&gt;mutex);
+    list_for_each_entry(sif, &amp;bus-&gt;p-&gt;interfaces, node)
+        if (sif-&gt;add_dev)
+            sif-&gt;add_dev(dev, sif);
+    mutex_unlock(&amp;bus-&gt;p-&gt;mutex);
+}</pre>
+bus-&gt;p-&gt;drivers_autoprobe在Linux系统初始化时通过drivers/hid/hid-core.c的 hid_init -&gt; bus_register -&gt; __bus_register 的调用过程被设置为了1，device_attach被调用
+
+device_attach通过bus_for_each_drv遍历bus上注册的所有driver，调用__device_attach方法，
+
+注意：bus_for_each_drv会遍历所有的driver，如果中途有driver已经match并且probe返回0，遍历任然继续；但是如果某个driver match成功而probe返回非0出错，则while循环退出
+<pre>int device_attach(struct device *dev)
+{
+    int ret = 0;
+
+    device_lock(dev);
+    if (dev-&gt;driver) {
+        if (klist_node_attached(&amp;dev-&gt;p-&gt;knode_driver)) {
+            ret = 1;
+            goto out_unlock;
+        }
+        ret = device_bind_driver(dev);
+        if (ret == 0)
+            ret = 1;
+        else {
+            dev-&gt;driver = NULL;
+            ret = 0;
+        }
+    } else {
+        pm_runtime_get_noresume(dev);
+        ret = bus_for_each_drv(dev-&gt;bus, NULL, dev, __device_attach);
+        pm_runtime_put_sync(dev);
+    }
+out_unlock:
+    device_unlock(dev);
+    return ret;
+}
+
+int bus_for_each_drv(struct bus_type *bus, struct device_driver *start,
+             void *data, int (*fn)(struct device_driver *, void *))
+{
+    struct klist_iter i;
+    struct device_driver *drv;
+    int error = 0;
+
+    if (!bus)
+        return -EINVAL;
+
+    klist_iter_init_node(&amp;bus-&gt;p-&gt;klist_drivers, &amp;i,
+                 start ? &amp;start-&gt;p-&gt;knode_bus : NULL);
+    while ((drv = next_driver(&amp;i)) &amp;&amp; !error)
+        error = fn(drv, data);
+    klist_iter_exit(&amp;i);
+    return error;
+}</pre>
+那么bus上都有哪些driver呢？
+
+在drivers/hid/usbhid/hid-core.c中注册过一个hid_driver(generic-usb hid驱动)，它匹配所有usb的hid设备（bus为BUS_USB、vendor为HID_ANY_ID、product为HID_ANY_ID），当然也匹配我们在这里通过uhid创建的hid设备
+
+这里的hid_init在drivers/hid/usbhid/hid-core.c，前面提到的hid_init在drivers/hid/hid-core.c，是两个不同的文件
+<pre>#define HID_USB_DEVICE(ven, prod)    HID_DEVICE(BUS_USB, ven, prod)
+#define HID_BLUETOOTH_DEVICE(ven, prod)    HID_DEVICE(BUS_BLUETOOTH, ven, prod)
+
+static const struct hid_device_id hid_usb_table[] = {
+    { HID_USB_DEVICE(HID_ANY_ID, HID_ANY_ID) },
+    { }
+};
+
+static struct hid_driver hid_usb_driver = {
+    .name = "generic-usb",
+    .id_table = hid_usb_table,
+};
+
+static int __init hid_init(void)
+{
+    int retval = -ENOMEM;
+
+    retval = hid_register_driver(&amp;hid_usb_driver);
+    if (retval)
+        goto hid_register_fail;
+    retval = usbhid_quirks_init(quirks_param);
+    if (retval)
+        goto usbhid_quirks_init_fail;
+    retval = usb_register(&amp;hid_driver);
+    if (retval)
+        goto usb_register_fail;
+    printk(KERN_INFO KBUILD_MODNAME ": " DRIVER_DESC "\n");
+
+    return 0;
+usb_register_fail:
+    usbhid_quirks_exit();
+usbhid_quirks_init_fail:
+    hid_unregister_driver(&amp;hid_usb_driver);
+hid_register_fail:
+    return retval;
+}
+
+#define hid_register_driver(driver) \
+    __hid_register_driver(driver, THIS_MODULE, KBUILD_MODNAME)
+
+int __hid_register_driver(struct hid_driver *hdrv, struct module *owner,
+        const char *mod_name)
+{
+    int ret;
+
+    hdrv-&gt;driver.name = hdrv-&gt;name;
+    hdrv-&gt;driver.bus = &amp;hid_bus_type;
+    hdrv-&gt;driver.owner = owner;
+    hdrv-&gt;driver.mod_name = mod_name;
+
+    INIT_LIST_HEAD(&amp;hdrv-&gt;dyn_list);
+    spin_lock_init(&amp;hdrv-&gt;dyn_lock);
+
+    ret = driver_register(&amp;hdrv-&gt;driver);
+    if (ret)
+        return ret;
+
+    ret = driver_create_file(&amp;hdrv-&gt;driver, &amp;driver_attr_new_id);
+    if (ret)
+        driver_unregister(&amp;hdrv-&gt;driver);
+
+    return ret;
+}</pre>
+可以看到，hid_driver的driver.bus被设置为hid_bus_type
+
+回到前面的__device_attach，它会调用driver_match_device，如果match匹配，进而调用driver_probe_device
+
+match的过程就是调用driver的bus的match函数，也就是前面提到的hid_bus_type的hid_bus_match函数
+<pre>static int __device_attach(struct device_driver *drv, void *data)
+{
+    struct device *dev = data;
+
+    if (!driver_match_device(drv, dev))
+        return 0;
+
+    return driver_probe_device(drv, dev);
+}
+
+static inline int driver_match_device(struct device_driver *drv,
+                        struct device *dev)
+{
+    return drv-&gt;bus-&gt;match ? drv-&gt;bus-&gt;match(dev, drv) : 1;
+}</pre>
+<pre>static int hid_bus_match(struct device *dev, struct device_driver *drv)
+{
+    struct hid_driver *hdrv = container_of(drv, struct hid_driver, driver);
+    struct hid_device *hdev = container_of(dev, struct hid_device, dev);
+
+    if ((hdev-&gt;quirks &amp; HID_QUIRK_MULTITOUCH) &amp;&amp;
+        !strncmp(hdrv-&gt;name, "hid-multitouch", 14))
+        return 1;
+
+    if (!hid_match_device(hdev, hdrv))
+        return 0;
+
+    /* generic wants all that don't have specialized driver */
+    if (!strncmp(hdrv-&gt;name, "generic-", 8) &amp;&amp; !hid_ignore_special_drivers)
+        return !hid_match_id(hdev, hid_have_special_driver);
+
+    return 1;
+}
+
+static const struct hid_device_id *hid_match_device(struct hid_device *hdev,
+        struct hid_driver *hdrv)
+{
+    struct hid_dynid *dynid;
+
+    spin_lock(&amp;hdrv-&gt;dyn_lock);
+    list_for_each_entry(dynid, &amp;hdrv-&gt;dyn_list, list) {
+        if (hid_match_one_id(hdev, &amp;dynid-&gt;id)) {
+            spin_unlock(&amp;hdrv-&gt;dyn_lock);
+            return &amp;dynid-&gt;id;
+        }
+    }
+    spin_unlock(&amp;hdrv-&gt;dyn_lock);
+
+    return hid_match_id(hdev, hdrv-&gt;id_table);
+}</pre>
+可以看到整个match过程最终回到了drivers/hid/hid-core.c，由此扩展开来，对于其他任何使用hid子系统的驱动，只需调用hid_register_driver将driver的bus设置成hid_bus_type即可，例如net/bluetooth/hidp/core.c注册了 hidp_driver 这个 generic-bluetooth hid 驱动
+<pre>#define HID_USB_DEVICE(ven, prod)   HID_DEVICE(BUS_USB, ven, prod)
+#define HID_BLUETOOTH_DEVICE(ven, prod) HID_DEVICE(BUS_BLUETOOTH, ven, prod)
+
+static const struct hid_device_id hidp_table[] = {
+        { HID_BLUETOOTH_DEVICE(HID_ANY_ID, HID_ANY_ID) },
+        { }
+};
+
+static struct hid_driver hidp_driver = {
+        .name = "generic-bluetooth",
+        .id_table = hidp_table,
+};
+
+static int __init hidp_init(void)
+{
+        int ret;
+
+        BT_INFO("HIDP (Human Interface Emulation) ver %s", VERSION);
+
+        ret = hid_register_driver(&amp;hidp_driver);
+        if (ret)
+                goto err;
+
+        ret = hidp_init_sockets();
+        if (ret)
+                goto err_drv;
+
+        return 0;
+err_drv:
+        hid_unregister_driver(&amp;hidp_driver);
+err:
+        return ret;
+}</pre>
+回到前面的match，匹配之后将进行driver_probe_device
+<pre>int driver_probe_device(struct device_driver *drv, struct device *dev)
+{
+    int ret = 0;
+
+    if (!device_is_registered(dev))
+        return -ENODEV;
+
+    pr_debug("bus: '%s': %s: matched device %s with driver %s\n",
+         drv-&gt;bus-&gt;name, __func__, dev_name(dev), drv-&gt;name);
+
+    pm_runtime_get_noresume(dev);
+    pm_runtime_barrier(dev);
+    ret = really_probe(dev, drv);
+    pm_runtime_put_sync(dev);
+
+    return ret;
+}
+
+static int really_probe(struct device *dev, struct device_driver *drv)
+{
+    int ret = 0;
+
+    atomic_inc(&amp;probe_count);
+    pr_debug("bus: '%s': %s: probing driver %s with device %s\n",
+         drv-&gt;bus-&gt;name, __func__, drv-&gt;name, dev_name(dev));
+    WARN_ON(!list_empty(&amp;dev-&gt;devres_head));
+
+    dev-&gt;driver = drv;
+    if (driver_sysfs_add(dev)) {
+        printk(KERN_ERR "%s: driver_sysfs_add(%s) failed\n",
+            __func__, dev_name(dev));
+        goto probe_failed;
+    }
+
+    if (dev-&gt;bus-&gt;probe) {
+        ret = dev-&gt;bus-&gt;probe(dev);
+        if (ret)
+            goto probe_failed;
+    } else if (drv-&gt;probe) {
+        ret = drv-&gt;probe(dev);
+        if (ret)
+            goto probe_failed;
+    }
+
+    driver_bound(dev);
+    ret = 1;
+    pr_debug("bus: '%s': %s: bound device %s to driver %s\n",
+         drv-&gt;bus-&gt;name, __func__, dev_name(dev), drv-&gt;name);
+    goto done;
+
+probe_failed:
+    ...
+}</pre>
+可以看到，probe会优先使用bus-&gt;probe，之后才是driver-&gt;probe。这里的bus-&gt;probe对应hid_bus_type的hid_device_probe
+
+hid_device_probe
+第一行hdrv不能为NULL，dev-&gt;driver是在really_probe中设置的，设置完dev-&gt;driver后才调用dev-&gt;bus-&gt;probe，因此这里不会有问题，hdrv不会为NULL
+
+换句话说，driver或者bus的probe被调用之前，dev-&gt;driver会被设置为当前尝试probe的那个driver，可以看做临时预设，方便从dev找到当前probe的driver
+
+第一次probe时hdev->driver如果为NULL，会赋值hdev->driver = hdrv，前面提到device_attach会遍历bus上所有driver，对每一个match的driver调用probe，如果有多个driver match，那么下一次调用hid_device_probe时发现hdev->driver不为NULL就退出probe了
+<pre>static int hid_device_probe(struct device *dev)
+{
+    struct hid_driver *hdrv = container_of(dev-&gt;driver,
+            struct hid_driver, driver);
+    struct hid_device *hdev = container_of(dev, struct hid_device, dev);
+    const struct hid_device_id *id;
+    int ret = 0;
+
+    if (down_interruptible(&amp;hdev-&gt;driver_lock))
+        return -EINTR;
+
+    if (!hdev-&gt;driver) {
+        id = hid_match_device(hdev, hdrv);
+        if (id == NULL) {
+            if (!((hdev-&gt;quirks &amp; HID_QUIRK_MULTITOUCH) &amp;&amp;
+                !strncmp(hdrv-&gt;name, "hid-multitouch", 14))) {
+                ret = -ENODEV;
+                goto unlock;
+            }
+        }
+
+        hdev-&gt;driver = hdrv;
+        if (hdrv-&gt;probe) {
+            ret = hdrv-&gt;probe(hdev, id);
+        } else { /* default probe */
+            ret = hid_parse(hdev);
+            if (!ret)
+                ret = hid_hw_start(hdev, HID_CONNECT_DEFAULT);
+        }
+        if (ret)
+            hdev-&gt;driver = NULL;
+    }
+unlock:
+    up(&amp;hdev-&gt;driver_lock);
+    return ret;
+}</pre>
+前面hdrv-&gt;probe为空，hid_usb_driver的probe并没有设置过（drivers/hid/usbhid/hid-core.c），因此执行else分支逻辑：hid_parse和hid_hw_start，这两个函数都涉及到ll_driver，也就是前面提到的uhid.c中uhid_hid_driver
+
+在Document/hid/uhid.txt文档中提到过
+<blockquote>
+The first thing you should do is sending an UHID_CREATE event. This will
+register the device. UHID will respond with an UHID_START event.</blockquote>
+
+UHID_START event就是通过hid_hw_start 调用 uhid_hid_driver的uhid_hid_start产生的
+
+hid_parse调用ll_driver->parse，即uhid_hid_driver->uhid_hid_parse
+<pre>
+static inline int __must_check hid_parse(struct hid_device *hdev)
+{
+    int ret;
+
+    if (hdev-&gt;status & HID_STAT_PARSED)
+        return 0;
+
+    ret = hdev-&gt;ll_driver-&gt;parse(hdev);
+    if (!ret)
+        hdev-&gt;status |= HID_STAT_PARSED;
+
+    return ret;
+}
+
+static int uhid_hid_parse(struct hid_device *hid)
+{
+    struct uhid_device *uhid = hid-&gt;driver_data;
+    return hid_parse_report(hid, uhid-&gt;rd_data, uhid-&gt;rd_size);
+}
+</pre>
+
+<p>略过详细Parse过程，参考report和field存放示意图<br><a href="http://img.pickbox.me/wp-content/uploads/hid_device的report_description结构图.jpg" target="_blank" rel="external"><img src="http://img.pickbox.me/wp-content/uploads/hid_device的report_description结构图.jpg" alt="hid_device的report_description结构图" width="733" height="620" class="alignnone size-full wp-image-1032"></a></p>
+<p>hid_hw_start调用ll_driver-&gt;start之后，调用一个重要函数hid_connect，hid_connect将这个hid_device与hidinput、hiddev、hidraw联系在一起</p>
+<pre>
+static inline int __must_check hid_hw_start(struct hid_device *hdev,
+        unsigned int connect_mask)
+{
+    int ret = hdev-&gt;ll_driver-&gt;start(hdev);
+    if (ret || !connect_mask)
+        return ret;
+    ret = hid_connect(hdev, connect_mask);
+    if (ret)
+        hdev-&gt;ll_driver-&gt;stop(hdev);
+    return ret;
+}
+</pre>
+
+
+<p>hid_connect调用hidinput_connect创建input_dev并注册到input子系统，hiddev_connect将hid_device与hiddev联系在一起，hidraw_connect将hid_device与hidraw设备联系在一起</p>
+<pre>
+int hid_connect(struct hid_device *hdev, unsigned int connect_mask)
+{
+    static const char *types[] = { &quot;Device&quot;, &quot;Pointer&quot;, &quot;Mouse&quot;, &quot;Device&quot;,
+        &quot;Joystick&quot;, &quot;Gamepad&quot;, &quot;Keyboard&quot;, &quot;Keypad&quot;,
+        &quot;Multi-Axis Controller&quot;
+    };
+    const char *type, *bus;
+    char buf[64];
+    unsigned int i;
+    int len;
+    int ret;
+
+    if (hdev-&gt;quirks & HID_QUIRK_HIDDEV_FORCE)
+        connect_mask |= (HID_CONNECT_HIDDEV_FORCE | HID_CONNECT_HIDDEV);
+    if (hdev-&gt;quirks & HID_QUIRK_HIDINPUT_FORCE)
+        connect_mask |= HID_CONNECT_HIDINPUT_FORCE;
+    if (hdev-&gt;bus != BUS_USB)
+        connect_mask &= ~HID_CONNECT_HIDDEV;
+    if (hid_hiddev(hdev))
+        connect_mask |= HID_CONNECT_HIDDEV_FORCE;
+
+    if ((connect_mask & HID_CONNECT_HIDINPUT) && !hidinput_connect(hdev,
+                connect_mask & HID_CONNECT_HIDINPUT_FORCE))
+        hdev-&gt;claimed |= HID_CLAIMED_INPUT;
+    if (hdev-&gt;quirks & HID_QUIRK_MULTITOUCH) {
+        /* this device should be handled by hid-multitouch, skip it */
+        return -ENODEV;
+    }
+
+    if ((connect_mask & HID_CONNECT_HIDDEV) && hdev-&gt;hiddev_connect &&
+            !hdev-&gt;hiddev_connect(hdev,
+                connect_mask & HID_CONNECT_HIDDEV_FORCE))
+        hdev-&gt;claimed |= HID_CLAIMED_HIDDEV;
+    if ((connect_mask & HID_CONNECT_HIDRAW) && !hidraw_connect(hdev))
+        hdev-&gt;claimed |= HID_CLAIMED_HIDRAW;
+
+    if (!hdev-&gt;claimed) {
+        hid_err(hdev, &quot;claimed by neither input, hiddev nor hidraw\n&quot;);
+        return -ENODEV;
+    }
+
+    if ((hdev-&gt;claimed & HID_CLAIMED_INPUT) &&
+            (connect_mask & HID_CONNECT_FF) && hdev-&gt;ff_init)
+        hdev-&gt;ff_init(hdev);
+
+    len = 0;
+    if (hdev-&gt;claimed & HID_CLAIMED_INPUT)
+        len += sprintf(buf + len, &quot;input&quot;);
+    if (hdev-&gt;claimed & HID_CLAIMED_HIDDEV)
+        len += sprintf(buf + len, &quot;%shiddev%d&quot;, len ? &quot;,&quot; : &quot;&quot;,
+                hdev-&gt;minor);
+    if (hdev-&gt;claimed & HID_CLAIMED_HIDRAW)
+        len += sprintf(buf + len, &quot;%shidraw%d&quot;, len ? &quot;,&quot; : &quot;&quot;,
+                ((struct hidraw *)hdev-&gt;hidraw)-&gt;minor);
+
+    type = &quot;Device&quot;;
+    for (i = 0; i &lt; hdev-&gt;maxcollection; i++) {
+        struct hid_collection *col = &hdev-&gt;collection[i];
+        if (col-&gt;type == HID_COLLECTION_APPLICATION &&
+           (col-&gt;usage & HID_USAGE_PAGE) == HID_UP_GENDESK &&
+           (col-&gt;usage & 0xffff) &lt; ARRAY_SIZE(types)) {
+            type = types[col-&gt;usage & 0xffff];
+            break;
+        }
+    }
+
+    switch (hdev-&gt;bus) {
+    case BUS_USB:
+        bus = &quot;USB&quot;;
+        break;
+    case BUS_BLUETOOTH:
+        bus = &quot;BLUETOOTH&quot;;
+        break;
+    default:
+        bus = &quot;&lt;UNKNOWN&gt;&quot;;
+    }
+
+    ret = device_create_bin_file(&hdev-&gt;dev, &dev_bin_attr_report_desc);
+    if (ret)
+        hid_warn(hdev,
+             &quot;can't create sysfs report descriptor attribute err: %d\n&quot;, ret);
+
+    hid_info(hdev, &quot;%s: %s HID v%x.%02x %s [%s] on %s\n&quot;,
+         buf, bus, hdev-&gt;version &gt;&gt; 8, hdev-&gt;version & 0xff,
+         type, hdev-&gt;name, hdev-&gt;phys);
+
+    return 0;
+}
+</pre>
+
+<p></p><h2>/sys目录相关文件</h2><p></p>
+<pre>
+# tree /sys/devices/virtual/misc/uhid/0003\:15D9\:0A37.0006
+/sys/devices/virtual/misc/uhid/0003:15D9:0A37.0006
+├── driver -> ../../../../../bus/hid/drivers/hid-generic
+├── hidraw
+│   └── hidraw1
+│       ├── dev
+│       ├── device -> ../../../0003:15D9:0A37.0006
+│       ├── power
+│       │   ├── async
+│       │   ├── autosuspend_delay_ms
+│       │   ├── control
+│       │   ├── runtime_active_kids
+│       │   ├── runtime_active_time
+│       │   ├── runtime_enabled
+│       │   ├── runtime_status
+│       │   ├── runtime_suspended_time
+│       │   └── runtime_usage
+│       ├── subsystem -> ../../../../../../../class/hidraw
+│       └── uevent
+├── modalias
+├── power
+│   ├── async
+│   ├── autosuspend_delay_ms
+│   ├── control
+│   ├── runtime_active_kids
+│   ├── runtime_active_time
+│   ├── runtime_enabled
+│   ├── runtime_status
+│   ├── runtime_suspended_time
+│   └── runtime_usage
+├── report_descriptor
+├── subsystem -> ../../../../../bus/hid
+└── uevent
+
+8 directories, 23 files
+
+
+# cat /sys/devices/virtual/misc/uhid/uevent 
+MAJOR=10
+MINOR=239
+DEVNAME=uhid
+
+
+# cat /sys/devices/virtual/misc/uhid/0003\:15D9\:0A37.0006/uevent 
+DRIVER=hid-generic
+HID_ID=0003:000015D9:00000A37
+HID_NAME=test-uhid-device
+HID_PHYS=
+HID_UNIQ=
+MODALIAS=hid:b0003g0001v000015D9p00000A37
+
+
+
+# tree /sys/devices/virtual/misc/uhid/input12
+/sys/devices/virtual/misc/uhid/input12
+├── capabilities
+│   ├── abs
+│   ├── ev
+│   ├── ff
+│   ├── key
+│   ├── led
+│   ├── msc
+│   ├── rel
+│   ├── snd
+│   └── sw
+├── device -> ../../uhid
+├── event8
+│   ├── dev
+│   ├── device -> ../../input12
+│   ├── power
+│   │   ├── async
+│   │   ├── autosuspend_delay_ms
+│   │   ├── control
+│   │   ├── runtime_active_kids
+│   │   ├── runtime_active_time
+│   │   ├── runtime_enabled
+│   │   ├── runtime_status
+│   │   ├── runtime_suspended_time
+│   │   └── runtime_usage
+│   ├── subsystem -> ../../../../../../class/input
+│   └── uevent
+├── id
+│   ├── bustype
+│   ├── product
+│   ├── vendor
+│   └── version
+├── modalias
+├── mouse0
+│   ├── dev
+│   ├── device -> ../../input12
+│   ├── power
+│   │   ├── async
+│   │   ├── autosuspend_delay_ms
+│   │   ├── control
+│   │   ├── runtime_active_kids
+│   │   ├── runtime_active_time
+│   │   ├── runtime_enabled
+│   │   ├── runtime_status
+│   │   ├── runtime_suspended_time
+│   │   └── runtime_usage
+│   ├── subsystem -> ../../../../../../class/input
+│   └── uevent
+├── name
+├── phys
+├── power
+│   ├── async
+│   ├── autosuspend_delay_ms
+│   ├── control
+│   ├── runtime_active_kids
+│   ├── runtime_active_time
+│   ├── runtime_enabled
+│   ├── runtime_status
+│   ├── runtime_suspended_time
+│   └── runtime_usage
+├── properties
+├── subsystem -> ../../../../../class/input
+├── uevent
+└── uniq
+
+13 directories, 50 files
+
+
+
+# cat /sys/devices/virtual/misc/uhid/input12/uevent 
+PRODUCT=3/15d9/a37/0
+NAME="test-uhid-device"
+PHYS=""
+UNIQ=""
+PROP=0
+EV=17
+KEY=70000 0 0 0 0
+REL=103
+MSC=10
+MODALIAS=input:b0003v15D9p0A37e0000-e0,1,2,4,k110,111,112,r0,1,8,am4,lsfw
+
+
+
+# tree /sys/bus/hid/
+/sys/bus/hid/
+├── devices
+│   ├── 0003:093A:2510.0005 -> ../../../devices/pci0000:00/0000:00:1d.0/usb6/6-1/6-1:1.0/0003:093A:2510.0005
+│   ├── 0003:15D9:0A37.0006 -> ../../../devices/virtual/misc/uhid/0003:15D9:0A37.0006
+│   └── 0003:413C:2107.0001 -> ../../../devices/pci0000:00/0000:00:1a.0/usb3/3-2/3-2:1.0/0003:413C:2107.0001
+├── drivers
+│   └── hid-generic
+│       ├── 0003:093A:2510.0005 -> ../../../../devices/pci0000:00/0000:00:1d.0/usb6/6-1/6-1:1.0/0003:093A:2510.0005
+│       ├── 0003:15D9:0A37.0006 -> ../../../../devices/virtual/misc/uhid/0003:15D9:0A37.0006
+│       ├── 0003:413C:2107.0001 -> ../../../../devices/pci0000:00/0000:00:1a.0/usb3/3-2/3-2:1.0/0003:413C:2107.0001
+│       ├── bind
+│       ├── module -> ../../../../module/hid_generic
+│       ├── new_id
+│       ├── uevent
+│       └── unbind
+├── drivers_autoprobe
+├── drivers_probe
+└── uevent
+
+10 directories, 7 files
+
+
+# cat /sys/bus/hid/drivers_autoprobe
+1
+</pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/09/08/Linux-uhid分析之创建HID设备/" class="archive-article-date">
+  	<time datetime="2014-09-07T16:32:35.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-09-08</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux/">Linux</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2014/09/09/Linux-uhid分析之输入事件传递/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Linux uhid分析之输入事件传递
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/09/04/Linux-Input子系统分析之eventX设备创建和事件传递/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Linux Input子系统分析之eventX设备创建和事件传递</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

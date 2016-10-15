@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="jfo planet">
+<meta property="og:url" content="http://blog.pickbox.me/page/9/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jfo planet">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        
+  
+    <article id="post-Wordpress-Custom-URLs-for-Plugins" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/05/20/Wordpress-Custom-URLs-for-Plugins/">Wordpress Custom URLs for Plugins</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Wordpress supports custom URL rewrites for search engine friendly URLs, but the fact is they can be a real pain in the ass for WP plugin authors. As is evidenced by the plethora of confused posts out there desperately seeking help with <a href="http://codex.wordpress.org/Rewrite_API/add_rewrite_rule" target="_blank" rel="external">add_rewrite_rule()</a> and <a href="http://codex.wordpress.org/Rewrite_API/add_rewrite_tag" target="_blank" rel="external">add_rewrite_tag()</a>, slapping a few new rules and custom querystring variables in your plugin’s functions.php just doesn’t always cut it.</p>
+<p></p><h2>Custom URLs for Wordpress Plugins</h2><br>Take the following scenario: you have a custom plugin for displaying products on a Wordpress site, but there are thousands of products. Obviously you don’t want to use WP posts or pages to add every single product, so you probably have a unique interface for product management somewhere. Heck, maybe you’re even fetching the product info from a 3rd party source.<p></p>
+<p>WP purists will whine that if it <strong>can</strong> work with built-in Wordpress posts and pages, then it<strong>should</strong> work with posts and pages. I disagree. Many websites get started with WP and want to expand beyond the limitations of the WP platform - that shouldn’t require an intensive migration of design, categories, posts, and everything else they have created, assuming they are happy with the WP platform for their blogging and basic CMS needs. But anyway, that’s a conversation for a different time.</p>
+<p>That said - if your plugin doesn’t just piggyback the built-in posts and pages format, and you don’t want to create custom taxonomies that tie you in to the WP mechanisms, the solution might be to roll your own basic rules.</p>
+<p></p><h2>Setting up Custom URLs</h2><br>Since many plugins are developed that work outside the scope of Wordpress pages, plugin authors can use custom templates with <a href="http://codex.wordpress.org/Plugin_API/Action_Reference#Template_Actions" target="_blank" rel="external">template_redirect()</a>. This is an easy way to create a unique interface for your plugin that you can do pretty much anything with.<p></p>
+<p>But, let’s say you want to use a custom URL for your interface, and also need to access the URL variables from your custom template. For example, imagine you need an URL format like this:</p>
+<p><code><a href="http://mysite.com/items/big-yellow-raincoat/" target="_blank" rel="external">http://mysite.com/items/big-yellow-raincoat/</a></code></p>
+<p>Wouldn’t it be nice to call that URL, have the query string variables “items” and “big-yellow-raincoat” parsed out and automatically redirect to your custom template?</p>
+<p>Wordpress has a whole slew of functions for <a href="http://codex.wordpress.org/Rewrite_API" target="_blank" rel="external">custom URL rewriting</a>, but they all tend to work around the existing structure of Wordpress page and post types.</p>
+<p>After endless experimentation with <code>add_rewrite_rule()</code> and <code>add_rewrite_tag()</code>, as well as custom handling of <code>$wp-&gt;query_vars</code> and everything else in between, I have settled on a very simple implementation to essentially take control of the custom URLs and pass it along to a plugin interface.</p>
+<p></p><h2>Coding a Custom URL Handler</h2><br>First, the basic approach is to set up a custom function for parsing the current URL.<p></p>
+<p><div></div></p>
+<p><div id="highlighter_906601"></div></p>
+<p><pre>function my_url_handler()<br>{<br>    // Manually parse the URL request<br>    if(!empty($_SERVER[‘REQUEST_URI’]))<br>    {<br>        $urlvars = explode(‘/‘, $_SERVER[‘REQUEST_URI’]);<br>    }<br>}</pre><br><br><br>The above function <code>my_url_handler()</code> basically takes the current request URL from<code>$_SERVER[‘REQUEST_URI’]</code> and splits it up on the forward slashes. Then we can do WHATEVER WE WANT with it.</p>
+<p>So, after running this, the <code>$urlvars</code> array will contain the elements from our URL in the example above:</p>
+<p><div></div></p>
+<p><div id="highlighter_798184"></div></p>
+<p><pre>[0] =&gt; ‘items’,<br>[1] =&gt; ‘big-yellow-raincoat’</pre><br><br><br>Typically, the first element in the URL contains important information about our “view” (or the interface that will process the request). Then the second element will contain the data - in this case, a unique ID string.</p>
+<p>So, we can expand our function to check for these elements and then set our $_REQUEST variables explicitly, where they can then be accessed from the rest of our plugin just like they were passed by a browser.</p>
+<p><div></div></p>
+<p><div id="highlighter_499672"></div></p>
+<p><pre>function my_url_handler()<br>{<br>    // Manually parse the URL request<br>    if(!empty($_SERVER[‘REQUEST_URI’]))<br>    {<br>        $urlvars = explode(‘/‘, $_SERVER[‘REQUEST_URI’]);<br>    }</pre></p>
+<pre><code>// Check for querystring variables
+if((!empty($urlvars[1])) &amp;amp;&amp;amp; (!empty($urlvars[2])))
+{
+    $_REQUEST[&apos;myview&apos;] = $urlvars[1];
+
+    if($urlvars[1] == &apos;item&apos;)
+    {
+        // Set the $_REQUEST vars
+        $_REQUEST[&apos;myid&apos;] = $urlvars[2];
+
+        // Redirect to custom plugin template for &quot;item&quot; view
+        add_action(&apos;template_redirect&apos;, &apos;my_custom_item_template&apos;);
+    }
+
+    // ... handle multiple types of URL by checking $urlvars[1] here
+}
+</code></pre><p>}<br><br><br>There! Now our little function parses the URL, checks the first element to determine our view, then sets the view and URL data in the <a href="http://us3.php.net/manual/en/reserved.variables.request.php" target="_blank" rel="external">$_REQUEST array</a> ($_REQUEST is an associative array that contains all the HTTP request variables GET, POST and COOKIE). It then registers the template_redirect for our custom template for that view.</p>
+<p>The final step is just to add a hook to <code>parse_request</code> for the new function, generally add the end of your plugin’s functions.php file:</p>
+<p><div></div></p>
+<p><div id="highlighter_268778"></div></p>
+<p><pre>add_action(‘parse_request’, ‘my_url_handler’);</pre><br><br><br>Now, when your custom plugin template runs, you can just access the variables in $_REQUEST to get the unique ID, view, etc.</p>
+<p>The next steps are filtering the page titles to ensure that you don’t see “Page Not Found” in the browser title, and further testing to make sure that WP doesn’t spit any 404’s out because it couldn’t find your content. However, that’s a subject for another post.</p>
+<p>This method is simple, clean, and requires virtually no built-in WP methods. Wordpress purists may be seething in a fit of rage right now, and if that’s the case I invite them all to seriously improve Wordpress custom URL handling for plugin authors.</p>
+<p>refer:</p>
+<ul><br>    <li><a href="http://gabrielharper.com/blog/2012/09/wordpress-custom-urls-for-plugins/" target="_blank">wordpress-custom-urls-for-plugins</a></li><br>    <li><a href="http://www.rlmseo.com/blog/passing-get-query-string-parameters-in-wordpress-url/" target="_blank" rel="external">passing-get-query-string-parameters-in-wordpress-url</a></li><br>    <li><a href="http://www.mihaivalentin.com/wordpress-tutorial-load-the-template-you-want-with-template_redirect/" target="_blank" rel="external">wordpress-tutorial-load-the-template-you-want-with-template_redirect</a></li><br></ul>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/05/20/Wordpress-Custom-URLs-for-Plugins/" class="archive-article-date">
+  	<time datetime="2013-05-20T06:48:58.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-05-20</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/wordpress/">wordpress</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Loading-JavaScript-without-blocking" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/05/06/Loading-JavaScript-without-blocking/">Loading JavaScript without blocking</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><div id="post-2120"></div></p>
+<div>
+
+<p>I was reading Steve Souder’s blog post on <a href="http://www.stevesouders.com/blog/2009/04/27/loading-scripts-without-blocking/" target="_blank" rel="external">loading scripts without blocking</a> in which he notes that dynamically creating a <code>&lt;script&gt;</code> element and assigning its <code>src</code> attribute leads to a download that doesn’t block other downloads or page processes. His post is missing an example of how to do this, so I thought I’d pick up from there. I think most developers tend to use JavaScript libraries for such behavior (the <a href="http://developer.yahoo.com/yui/get/" target="_blank" rel="external">YUI Get utility</a> comes to mind) but a discussion of the underlying technique is still useful to know.</p>
+<p>The basic approach to downloading JavaScript without blocking is quite straightforward:</p>
+<p><pre>var script = document.createElement(“script”);<br>script.type = “text/javascript”;<br>script.src = “file.js”;<br>document.body.appendChild(script);</pre><br>This is about as easy as it gets, you just create a new DOM element, assign its properties and add it to the page. There are two things to note about this code. First, the download doesn’t actually begin until the <code>script</code> node is added to the document. This is different from dynamically creating an <code>&lt;img&gt;</code> element, for which assigning the <code>src</code> automatically begins the download even before the node is added to the document. The second thing to note is that you can add the script node either to the <code>&lt;head&gt;</code> or <code>&lt;body&gt;</code>; it really doesn’t matter. That’s all it takes to dynamically load a JavaScript file without blocking the page.</p>
+<p>Of course, you may also want to be notified when the JavaScript file is fully downloaded and executed, and that’s where things get a bit tricky. Most modern browsers (Firefox, Safari, Opera, Chrome) support a <code>load</code> event on <code>&lt;script&gt;</code> elements. This is an easy way to determine if the script is loaded:</p>
+<p><pre>//Firefox, Safari, Chrome, and Opera<br>var script = document.createElement(“script”);<br>script.type = “text/javascript”;<br>script.src = “file.js”;<br>script.onload = function(){<br>    alert(“Script is ready!”);<br>};<br>document.body.appendChild(script);</pre><br>The real problem is in Internet Explorer, which uses the <code>readyState</code> property to indicate the state of the script and a <code>readystatechange</code> event to indicate when that property has changed. In this case, <code>readyState</code> isn’t a number as it is with the <code>XMLHttpRequest</code> object; instead, it’s one of five possible values:</p>
+<p><ul><br>    <li>“uninitialized” â€“ the default state.</li><br>    <li>“loading” â€“ download has begun.</li><br>    <li>“loaded” â€“ download has completed.</li><br>    <li>“interactive” â€“ data is completely available but isn’t fully available.</li><br>    <li>“complete” â€“ all data is ready to be used.</li><br></ul><br>Even though the <a href="http://msdn.microsoft.com/en-us/library/ms534359(VS.85).aspx" target="_blank" rel="external">MSDN documentation</a> indicates that these are the available values for<code>readyState</code>, in reality, you’ll never see all of them. The documentation also applies to other elements that also support <code>readyState</code> and leaves us hanging with a rather cryptic description of which <code>readyState</code> values to expect:</p>
+<blockquote>An object’s state is initially set to <code>uninitialized</code>, and then to<code>loading</code>. When data loading is complete, the state of the link object passes through the <code>loaded</code> and <code>interactive</code> states to reach the <code>complete</code> state.<br><em>The states through which an object passes are determined by that object; an object can skip certain states (for example,<code>interactive</code>) if the state does not apply to that object.</em></blockquote><br>Even stranger is that the final <code>readyState</code> isn’t always <code>complete</code>. Sometimes, <code>readyState</code>stops at <code>loaded</code> without going on to <code>complete</code> and sometimes it skips over <code>loaded</code> altogether. The best approach is to check for both <code>readyState</code> values and remove the event handler in both cases to ensure you don’t handle the loading twice:<br><pre>//Internet Explorer only<br>var script = document.createElement(“script”);<br>script.type = “text/javascript”;<br>script.src = “file.js”;<br>script.onreadystatechange = function(){<br>    if (script.readyState == “loaded” ||<br>            script.readyState == “complete”){<br>        script.onreadystatechange = null;<br>        alert(“Script is ready!”);<br>    }<br>};<br>document.body.appendChild(script);</pre><br>You can wrap these two approaches pretty easily to create a cross-browser function to dynamically load JavaScript:<br><pre>function loadScript(url, callback){<br><br>    var script = document.createElement(“script”)<br>    script.type = “text/javascript”;<br><br>    if (script.readyState){  //IE<br>        script.onreadystatechange = function(){<br>            if (script.readyState == “loaded” ||<br>                    script.readyState == “complete”){<br>                script.onreadystatechange = null;<br>                callback();<br>            }<br>        };<br>    } else {  //Others<br>        script.onload = function(){<br>            callback();<br>        };<br>    }<br><br>    script.src = url;<br>    document.body.appendChild(script);<br>}</pre><br>To use this, just pass in the URL to retrieve and a function to call once it’s loaded:<br><pre>loadScript(“<a href="http://yui.yahooapis.com/2.7.0/build/yahoo/yahoo-min.js" target="_blank" rel="external">http://yui.yahooapis.com/2.7.0/build/yahoo/yahoo-min.js</a>“,<br>    function(){<br>        YAHOO.namespace(“mystuff”);<br><br>    //more…<br>});</pre><br>Loading scripts in this way prevents them from blocking the download of other resources on the page or preventing the display from rendering. It’s a really useful technique when performance is important (and let’s face it, when is it never?). The really cool thing is that <a href="http://developer.yahoo.com/yui/3/" target="_blank" rel="external">YUI 3</a> is built completely around the idea of non-blocking JavaScript downloads. All you need to do is download the ~20KB seed file and then specify the additional resources you want to load, such as:<br><pre>YUI().use(“dom”, function(Y){<br>    Y.DOM.addClass(document.body, “active”);<br>});</pre><br>Behind the scenes, YUI constructs the appropriate URL for the <code>dom</code> module and downloads it, automatically executing the callback function when the code is ready. This can really improve the initial download time of an overall page by asynchronously downloading the rest of the JavaScript code.<br><br>Loading JavaScript without blocking is a really important technique to understand and use in web applications that are concerned with page load performance. JavaScript blocking slows down the entire user experience, but it no longer has to.<br><br>Disclaimer: Any viewpoints and opinions expressed in this article are those of Nicholas C. Zakas and do not, in any way, reflect those of my employer, my colleagues, <a href="http://www.wrox.com/" target="_blank" rel="external">Wrox Publishing</a>, <a href="http://www.oreilly.com/" target="_blank" rel="external">O’Reilly Publishing</a>, or anyone else. I speak only for myself, not for them.<br><br>Both comments and pings are currently closed.<br><br></div><br><br><div><br><div><br><h2>Related Posts</h2><br><ul><br>    <li><a href="http://www.nczonline.net/blog/2009/07/28/the-best-way-to-load-external-javascript/" target="_blank" rel="external">The best way to load external JavaScript</a></li><br>    <li><a href="http://www.nczonline.net/blog/2012/04/25/the-performance-of-localstorage-revisited/" target="_blank" rel="external">The performance of localStorage revisited</a></li><br>    <li><a href="http://www.nczonline.net/blog/2012/03/07/in-defense-of-localstorage/" target="_blank" rel="external">In defense of localStorage</a></li><br>    <li><a href="http://www.nczonline.net/blog/2011/12/14/timer-resolution-in-browsers/" target="_blank" rel="external">Timer resolution in browsers</a></li><br>    <li><a href="http://www.nczonline.net/blog/2011/09/19/script-yielding-with-setimmediate/" target="_blank" rel="external">Script yielding with setImmediate</a></li><br></ul><br></div><br><div></div><br></div><br>Refer <a href="http://www.nczonline.net/blog/2009/06/23/loading-javascript-without-blocking/" target="_blank">Original Article</a><br><br>A usefull comment follows:<br><blockquote>This is a great post. Not having been in the Web Development field for very long, it came as quite a shock to find out the embedded script tags were blocking content download. In general, the most difficult aspects are managing scripts that have all ready been loaded and detection of the onload event. My attempts at implementing a script manager lead me to the following cross-browser issues that need to be managed.<br><br>Firefox guarantees the scripts will be executed in the order in which they were attached. If you insert scripts A and B in that order they will download asynchronously; however, script A must FINISH before script B can execute. So, if script A is lagged and script B finished quickly, it will not execute (nor will its onload event fire) until A has completed. This is in contrast to what I have seen in Safari, IE and Chrome.<br><br>In WEbKit, if the script’s src is in cache the onload event will fire as soon as the src is set. That means that, in your example, if file.js is in the browser cache, the onload event will never fire. I have found that this requires you to do two things: Setting the src attribute only AFTER the script is inserted into the DOM and subscribing to the onload event prior to DOM insertion. (This is definitely better than old versions of Safari which did not support the onload event on script elements). IMHO, IE’s readystate is more robust than a single onload event. Having this attribute available in Safari would certainly solve the problem.<br><br>YUI’s get() method only supports synchronized download of scripts. So, telling YUI to get Script A and Script B will download and execute Script A and only start on Script B when it receives A’s onload event. This definitely makes loading external JS files that need another library while they initialize, but it does not lead to an decrease in download times. A feature that seems to be unique to IE is that it will begin downloading an element as soon as the SRC attribute is set. That means that creating scriptEl and then doing scriptEl.src=”file.js” will begin the download of file.js. The script will not be executed, however, until you attach it to the document itself. This is similar to how all browsers handle the src attribute on an image and I think makes sense.<br><br>You can use the fact that FF guarantees execution order and that IE downloads as soon as the src attribute is set to achieve asynchronous downloads but synchronized execution. If Script B needs functions defined in Script A while it executes (not within functions defined in Script B) then B cannot run until A is complete. So, in FF you can simply create and attach script A followed by Script B. In IE, however, you create Script A and Script B at the same time. Then attach Script B after script A’s readystate is complete. Script B will change readystate almost immediately since it has all ready been fetched (In fact, Script B’s onreadystate function will fire before control is returned to the attaching function so watch out)<br><br>A couple of other idiosyncrasies:<br><br>1) When setting innerHTML to a value that contains a scirpt element, it is well known IE will not execute that script (FF will); however, what’s not as well known is that IE will still <strong>DOWNLOAD</strong> any scirpt with a src attribute. If you use innerHTML to extract script tags in an AJAX routine or something, watch out for this especially if your remote scripts are uncacheable (we have the problem with AJAX content that contains ad banner scripts since the server sets explicit no-cache headers).<br><br>2) If you’re using a timeout handler of some kind to detect when a remote server is unavailable, you can remove the script element which will cancel the download, preventing script execution; however, FireFox does not support this. Couple this with FF’s need to execute scripts in insertion order and you have no way to handle a long-loading script from hanging the rest of the script elements (and thereby preventing your page from being functional)<br><br>ServerHerder on September 28th, 2009 at 3:00 pm</blockquote>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/05/06/Loading-JavaScript-without-blocking/" class="archive-article-date">
+  	<time datetime="2013-05-06T09:58:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-05-06</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-javascript继承" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/02/24/javascript继承/">javascript继承</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+         <p>TypeScript编译生成的继承：</p><pre class="brush: js;toolbar:false;">var&nbsp;<strong>extends&nbsp;=&nbsp;this.</strong>extends&nbsp;||&nbsp;function&nbsp;(d,&nbsp;b)&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;<strong>()&nbsp;{&nbsp;this.constructor&nbsp;=&nbsp;d;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;</strong>.prototype&nbsp;=&nbsp;b.prototype;<br>&nbsp;&nbsp;&nbsp;&nbsp;d.prototype&nbsp;=&nbsp;new&nbsp;<strong>();<br>};<br>var&nbsp;Greeter&nbsp;=&nbsp;(function&nbsp;()&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;Greeter(message)&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.greeting&nbsp;=&nbsp;message;<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;Greeter.prototype.greet&nbsp;=&nbsp;function&nbsp;()&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;&quot;Hello,&nbsp;&quot;&nbsp;+&nbsp;this.greeting;<br>&nbsp;&nbsp;&nbsp;&nbsp;};<br>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;Greeter;<br>})();<br>var&nbsp;B&nbsp;=&nbsp;(function&nbsp;(_super)&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;</strong>extends(B,&nbsp;_super);<br>&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;B()&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_super.apply(this,&nbsp;arguments);<br>&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;B;<br>})(Greeter);</pre><p>see&nbsp;<a href="http://www.typescriptlang.org/Playground/" target="_blank">http://www.typescriptlang.org/Playground/</a></p><p>这里有个问题是，var&nbsp;b&nbsp;=&nbsp;new&nbsp;B()时，b的<strong>proto</strong>显示成了<strong>，调试时辨别该对象比较麻烦。</strong></p><p>一个解决办法是定义function<span style="font-family: Consolas,'Bitstream Vera Sans Mono','Courier New',Courier,monospace; background-color: #ffffff;">&nbsp;</span>()&nbsp;{&nbsp;this.constructor&nbsp;=&nbsp;d;&nbsp;}时，将<strong>替换成函数名字，然后eval该表达式</strong></p><p><br></p><p><br></p><p><br></p><p>从一段js代码中摘取出的：</p><pre class="brush: js;toolbar:false;">function()&nbsp;{<br>&nbsp;&nbsp;var&nbsp;e&nbsp;=&nbsp;function(e,&nbsp;t)&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;function()&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;e.apply(t,&nbsp;arguments)<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;},<br>&nbsp;&nbsp;t&nbsp;=&nbsp;{}.hasOwnProperty,<br>&nbsp;&nbsp;n&nbsp;=&nbsp;function(e,&nbsp;n)&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;i()&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.constructor&nbsp;=&nbsp;e<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;(var&nbsp;r&nbsp;in&nbsp;n)&nbsp;t.call(n,&nbsp;r)&nbsp;&amp;&amp;&nbsp;(e[r]&nbsp;=&nbsp;n[r]);<br>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;i.prototype&nbsp;=&nbsp;n.prototype,<br>&nbsp;&nbsp;&nbsp;&nbsp;e.prototype&nbsp;=&nbsp;new&nbsp;i,<br>&nbsp;&nbsp;&nbsp;&nbsp;e.super<strong>&nbsp;=&nbsp;n.prototype,<br>&nbsp;&nbsp;&nbsp;&nbsp;e<br>&nbsp;&nbsp;};<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;Bobcat.Text&nbsp;=&nbsp;function(e)&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;t(e)&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;n,&nbsp;r&nbsp;=&nbsp;this;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n&nbsp;=&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;style:&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;create:&nbsp;function(e)&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;new&nbsp;Bobcat.TextStyle(e.data)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t.</strong>super<strong>.constructor.call(this,&nbsp;e,&nbsp;n),<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.oldValue&nbsp;=&nbsp;ko.observable()<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;n(t,&nbsp;e),<br>&nbsp;&nbsp;&nbsp;&nbsp;t.prototype.edit&nbsp;=&nbsp;function()&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t.</strong>super<strong>.edit.call(this);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(this<a href="">&quot;default&quot;</a>)&nbsp;return&nbsp;this.oldValue(this.value()),<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.value(&quot;&amp;nbsp;&quot;)<br>&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;t.prototype.deselect&nbsp;=&nbsp;function()&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t.</strong>super__.deselect.call(this);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(this<a href="">&quot;default&quot;</a>)&nbsp;return&nbsp;this.value()&nbsp;===&nbsp;&quot;&amp;nbsp;&quot;&nbsp;?&nbsp;this.value(this.oldValue())&nbsp;:&nbsp;this<a href="!1">&quot;default&quot;</a><br>&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;t<br>&nbsp;&nbsp;}&nbsp;(Bobcat.Component),<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>}&nbsp;(window);</pre><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p> 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/02/24/javascript继承/" class="archive-article-date">
+  	<time datetime="2013-02-24T08:50:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-02-24</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js-html-python/">js/html/python</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/js-html-python/">js/html/python</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-virtualbox中调整虚拟机的硬盘大小，再fdisk-扩大ext3分区" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/01/21/virtualbox中调整虚拟机的硬盘大小，再fdisk-扩大ext3分区/">virtualbox中调整虚拟机的硬盘大小，再fdisk 扩大ext3分区</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+         <p><br></p><p><span style="font-family: Calibri; background-color: #ffffff;">VBoxManage.exe&nbsp;modifyhd&nbsp;E:ubuntu_64</span><span style="font-family: Calibri; background-color: #ffffff;">.vdi&nbsp;&nbsp;showhdinfo</span><br></p><p><span style="">UUID:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d476f654-3100-4530-b645-31dcaf80ae56</span></p><p><span style="">Accessible:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;yes</span></p><p><span style="">Logical&nbsp;size:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;28723&nbsp;MBytes</span></p><p><span style="">Current&nbsp;size&nbsp;on&nbsp;disk:&nbsp;23389&nbsp;MBytes</span></p><p><span style="">Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;normal&nbsp;(base)</span></p><p><span style="">Storage&nbsp;format:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VDI</span></p><p><span style="">Format&nbsp;variant:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dynamic&nbsp;default</span></p><p><span style="">In&nbsp;use&nbsp;by&nbsp;VMs:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ubuntu64_build_android&nbsp;(UUID:&nbsp;b787cc4e-69b5-4c05-99d3-f060</span><span>29b9d910)</span></p><p><span style="">Location:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;E:ubuntu64.vdi</span></p><p><span style="font-family: Calibri; background-color: #ffffff;"><br></span></p><p><span style="font-family: Calibri; background-color: #ffffff;">VBoxManage.exe&nbsp;<span style="font-family: Calibri; background-color: #ffffff;">modifyhd&nbsp;</span><span style="font-family: Calibri; background-color: #ffffff;">–resize&nbsp;30000</span>&nbsp;E:ubuntu_64</span><span style="font-family: Calibri; background-color: #ffffff;">.vdi</span></p><p style="font-family: Arial; background-color: #ffffff; line-height: 26px;"><span style="font-family: Calibri;">0%…10%…20%…30%…40%…50%…60%…70%…80%…90%…100%</span></p><p><br></p><p><br></p><p><br></p><p>用<span>ubuntu</span>光盘启动进入Linux系统</p><p style="font-size: 12px; font-family: Verdana,'BitStream vera Sans',Tahoma,Helvetica,sans-serif; color: #555555; background-color: #ffffff; line-height: 17px; margin-bottom: 10px;">1、执行&nbsp;fdisk&nbsp;-l&nbsp;&gt;&nbsp;/tmp/fdisk.out&nbsp;命令，将&nbsp;fdisk&nbsp;的信息保存;</p><p style="font-size: 12px; font-family: Verdana,'BitStream vera Sans',Tahoma,Helvetica,sans-serif; color: #555555; background-color: #ffffff; line-height: 17px; margin-bottom: 10px;">2、执行&nbsp;fdisk&nbsp;/dev/sdb&nbsp;命令，对&nbsp;sdb&nbsp;设备进行操作，<br>输入&nbsp;d&nbsp;将唯一一个分区删除;(只要不保存就不会影响数据的)<br>输入&nbsp;n&nbsp;建立一个主分区，分区号和之前的保持一致;<br>在&nbsp;First&nbsp;cylinder&nbsp;处输入之前分区的&nbsp;start&nbsp;值，如果不清楚，可以查看备份出来的&nbsp;fdisk.out&nbsp;文件，关于&nbsp;/dev/sdb1&nbsp;的start&nbsp;值;(此处非常重要！)<br>Last&nbsp;cylinder&nbsp;可以直接回车，默认最大，也就是说将全部空间给该分区，当然也可以手动输入，但不能比之前的小;<br>输入&nbsp;w&nbsp;保存。</p><p style="font-size: 12px; font-family: Verdana,'BitStream vera Sans',Tahoma,Helvetica,sans-serif; color: #555555; background-color: #ffffff; line-height: 17px; margin-bottom: 10px;">3、e2fsck&nbsp;-y&nbsp;/dev/sdb1&nbsp;检测文件系统;</p><p style="font-size: 12px; font-family: Verdana,'BitStream vera Sans',Tahoma,Helvetica,sans-serif; color: #555555; background-color: #ffffff; line-height: 17px; margin-bottom: 10px;">4、resize2fs&nbsp;/dev/sdb1&nbsp;使扩大的文件系统生效。</p><p style="font-size: 12px; font-family: Verdana,'BitStream vera Sans',Tahoma,Helvetica,sans-serif; color: #555555; background-color: #ffffff; line-height: 17px; margin-bottom: 10px;">需要说明的是，如果设备上有很多分区，只能扩最后一个分区。</p><p><br></p> 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/01/21/virtualbox中调整虚拟机的硬盘大小，再fdisk-扩大ext3分区/" class="archive-article-date">
+  	<time datetime="2013-01-21T03:39:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-01-21</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/linux-app/">linux app</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux-App/">Linux App</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-用wget从oracle官网下载jre-jdk" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/01/20/用wget从oracle官网下载jre-jdk/">用wget从oracle官网下载jre,jdk</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+         <p>wget&nbsp;–no-cookies&nbsp;–header&nbsp;&quot;Cookie:&nbsp;gpw_e24=aaa&quot;&nbsp;<a href="http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jre-6u38-linux-x64.bin" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jre-6u38-linux-x64.bin</a><br></p><p><br></p><p>reference:&nbsp;<a href="http://ivan-site.com/2012/05/download-oracle-java-jre-jdk-using-a-script/" target="_blank" title="http://ivan-site.com/2012/05/download-oracle-java-jre-jdk-using-a-script/">http://ivan-site.com/2012/05/download-oracle-java-jre-jdk-using-a-script/</a><br></p><p><br></p><div><p style="line-height: 18px; margin-bottom: 15px;"><strong>JDK&nbsp;7u10</strong></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jdk-7u10-linux-i586.rpm" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jdk-7u10-linux-i586.rpm</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jdk-7u10-linux-i586.tar.gz" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jdk-7u10-linux-i586.tar.gz</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jdk-7u10-linux-x64.rpm" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jdk-7u10-linux-x64.rpm</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jdk-7u10-linux-x64.tar.gz" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jdk-7u10-linux-x64.tar.gz</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jdk-7u10-macosx-x64.dmg" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jdk-7u10-macosx-x64.dmg</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jdk-7u10-solaris-i586.tar.Z" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jdk-7u10-solaris-i586.tar.Z</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jdk-7u10-solaris-i586.tar.gz" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jdk-7u10-solaris-i586.tar.gz</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jdk-7u10-solaris-sparc.tar.Z" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jdk-7u10-solaris-sparc.tar.Z</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jdk-7u10-solaris-sparc.tar.gz" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jdk-7u10-solaris-sparc.tar.gz</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jdk-7u10-solaris-sparcv9.tar.Z" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jdk-7u10-solaris-sparcv9.tar.Z</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jdk-7u10-solaris-sparcv9.tar.gz" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jdk-7u10-solaris-sparcv9.tar.gz</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jdk-7u10-solaris-x64.tar.Z" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jdk-7u10-solaris-x64.tar.Z</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jdk-7u10-solaris-x64.tar.gz" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jdk-7u10-solaris-x64.tar.gz</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jdk-7u10-windows-i586.exe" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jdk-7u10-windows-i586.exe</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jdk-7u10-windows-x64.exe" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jdk-7u10-windows-x64.exe</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jdk-7u10-linux-arm-sfp.tar.gz" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jdk-7u10-linux-arm-sfp.tar.gz</a></p><p style="line-height: 18px; margin-bottom: 15px;"><strong>JDK&nbsp;6u38</strong></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jdk-6u38-linux-i586-rpm.bin" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jdk-6u38-linux-i586-rpm.bin</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jdk-6u38-linux-i586.bin" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jdk-6u38-linux-i586.bin</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jdk-6u38-linux-x64-rpm.bin" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jdk-6u38-linux-x64-rpm.bin</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jdk-6u38-linux-x64.bin" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jdk-6u38-linux-x64.bin</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jdk-6u38-solaris-i586.sh" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jdk-6u38-solaris-i586.sh</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jdk-6u38-solaris-i586.tar.Z" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jdk-6u38-solaris-i586.tar.Z</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jdk-6u38-solaris-sparc.sh" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jdk-6u38-solaris-sparc.sh</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jdk-6u38-solaris-sparc.tar.Z" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jdk-6u38-solaris-sparc.tar.Z</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jdk-6u38-solaris-sparcv9.sh" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jdk-6u38-solaris-sparcv9.sh</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jdk-6u38-solaris-sparcv9.tar.Z" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jdk-6u38-solaris-sparcv9.tar.Z</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jdk-6u38-solaris-x64.sh" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jdk-6u38-solaris-x64.sh</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jdk-6u38-solaris-x64.tar.Z" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jdk-6u38-solaris-x64.tar.Z</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jdk-6u38-windows-i586.exe" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jdk-6u38-windows-i586.exe</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jdk-6u38-windows-x64.exe" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jdk-6u38-windows-x64.exe</a></p><p style="line-height: 18px; margin-bottom: 15px;"><strong>JRE&nbsp;7u10</strong></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jre-7u10-linux-i586.rpm" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jre-7u10-linux-i586.rpm</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jre-7u10-linux-i586.tar.gz" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jre-7u10-linux-i586.tar.gz</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jre-7u10-linux-x64.rpm" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jre-7u10-linux-x64.rpm</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jre-7u10-linux-x64.tar.gz" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jre-7u10-linux-x64.tar.gz</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jre-7u10-macosx-x64.dmg" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jre-7u10-macosx-x64.dmg</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jre-7u10-macosx-x64.tar.gz" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jre-7u10-macosx-x64.tar.gz</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jre-7u10-solaris-i586.tar.gz" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jre-7u10-solaris-i586.tar.gz</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jre-7u10-solaris-sparc.tar.gz" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jre-7u10-solaris-sparc.tar.gz</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jre-7u10-solaris-sparcv9.tar.gz" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jre-7u10-solaris-sparcv9.tar.gz</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jre-7u10-solaris-x64.tar.gz" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jre-7u10-solaris-x64.tar.gz</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jre-7u10-windows-i586-iftw.exe" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jre-7u10-windows-i586-iftw.exe</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jre-7u10-windows-i586.exe" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jre-7u10-windows-i586.exe</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jre-7u10-windows-i586.tar.gz" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jre-7u10-windows-i586.tar.gz</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jre-7u10-windows-x64.exe" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jre-7u10-windows-x64.exe</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jre-7u10-windows-x64.tar.gz" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/7u10-b18/jre-7u10-windows-x64.tar.gz</a></p><p style="line-height: 18px; margin-bottom: 15px;"><strong>JRE&nbsp;6u38</strong></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jre-6u38-linux-i586-rpm.bin" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jre-6u38-linux-i586-rpm.bin</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jre-6u38-linux-i586.bin" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jre-6u38-linux-i586.bin</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jre-6u38-linux-x64-rpm.bin" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jre-6u38-linux-x64-rpm.bin</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jre-6u38-linux-x64.bin" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jre-6u38-linux-x64.bin</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jre-6u38-solaris-i586.sh" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jre-6u38-solaris-i586.sh</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jre-6u38-solaris-sparc.sh" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jre-6u38-solaris-sparc.sh</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jre-6u38-solaris-sparcv9.sh" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jre-6u38-solaris-sparcv9.sh</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jre-6u38-solaris-x64.sh" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jre-6u38-solaris-x64.sh</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jre-6u38-windows-i586-iftw-k.exe" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jre-6u38-windows-i586-iftw-k.exe</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jre-6u38-windows-i586-iftw.exe" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jre-6u38-windows-i586-iftw.exe</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jre-6u38-windows-i586.exe" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jre-6u38-windows-i586.exe</a></p><p><a href="http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jre-6u38-windows-x64.exe" target="_blank" rel="external">http://download.oracle.com/otn-pub/java/jdk/6u38-b05/jre-6u38-windows-x64.exe</a></p></div><p><br></p> 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/01/20/用wget从oracle官网下载jre-jdk/" class="archive-article-date">
+  	<time datetime="2013-01-20T03:56:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-01-20</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/">java</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Java/">Java</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Service中创建窗口显示-TYPE-SYSTEM-ALERT-TYPE-SYSTEM-OVERLAY" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/12/21/Service中创建窗口显示-TYPE-SYSTEM-ALERT-TYPE-SYSTEM-OVERLAY/">Service中创建窗口显示(TYPE_SYSTEM_ALERT, TYPE_SYSTEM_OVERLAY)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+         <p><br></p><p><a href="http://blog.csdn.net/zmyde2010/article/details/6863717" target="_blank">http://blog.csdn.net/zmyde2010/article/details/6863717</a><br></p><p><br></p><p>有时候需要在显示UI的时候不中断原来的Activity</p><p>比如在播放视频时或者玩游戏时，需要显示某个菜单(可以是系统提示，或类似于TV菜单)</p><p>显然用Activity来做是不行的，因为新Activity启动的时候会把原来的Activity&nbsp;pause掉</p><p>怎么做呢，可以参考系统电量提示窗口或statusbar那样在service中启动窗口</p><p>新窗口将会出现在UI最上层，但不会中断原来的Activity</p><p>效果图，一个是播视频中，一个是玩游戏中:</p><p><img width="440" height="330" src="http://img.pickbox.me/wp-content/uploads/pic/ac345982b2b7d0a2698e3a4bcbef76094a369aa4.jpg"></p><p><img width="440" height="330" src="http://img.pickbox.me/wp-content/uploads/pic/8644ebf81a4c510f9ba2dccc6059252dd52aa585.jpg"></p><p><br></p><p><br></p><p>看一下WindowManager.LayoutParams的两个属性:</p><p>intTYPE_SYSTEM_ALERT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Window&nbsp;type:&nbsp;system&nbsp;window,&nbsp;such&nbsp;as&nbsp;low&nbsp;power&nbsp;alert.<br>intTYPE_SYSTEM_OVERLAYWindow&nbsp;type:&nbsp;system&nbsp;overlay&nbsp;windows,&nbsp;which&nbsp;need&nbsp;to&nbsp;be&nbsp;displayed&nbsp;on&nbsp;top&nbsp;of&nbsp;everything&nbsp;else.<br></p><p>这两个不错，正是我们想要的，上代码~</p><p><br></p><p>Seivece中代码</p><pre class="brush: java;toolbar:false;">private&nbsp;void&nbsp;showSystemDialog()&nbsp;{&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;/<em>&nbsp;create&nbsp;ui&nbsp;</em>/&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;View&nbsp;v&nbsp;=&nbsp;View.inflate(mContext,&nbsp;R.layout.main,&nbsp;null);<br>&nbsp;&nbsp;&nbsp;&nbsp;AlertDialog.Builder&nbsp;b&nbsp;=&nbsp;new&nbsp;AlertDialog.Builder(mContext);<br>&nbsp;&nbsp;&nbsp;&nbsp;b.setView(v);<br>&nbsp;&nbsp;&nbsp;&nbsp;d&nbsp;=&nbsp;b.create();&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;d.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);<br>&nbsp;&nbsp;&nbsp;&nbsp;//d.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_OVERLAY);<br>&nbsp;&nbsp;&nbsp;&nbsp;d.show();&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;/<em>&nbsp;set&nbsp;size&nbsp;&amp;&nbsp;pos&nbsp;</em>/<br>&nbsp;&nbsp;&nbsp;&nbsp;WindowManager.LayoutParams&nbsp;lp&nbsp;=&nbsp;d.getWindow().getAttributes();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;WindowManager&nbsp;wm&nbsp;=&nbsp;(WindowManager)&nbsp;getSystemService(WINDOW_SERVICE);<br>&nbsp;&nbsp;&nbsp;&nbsp;Display&nbsp;display&nbsp;=&nbsp;wm.getDefaultDisplay();<br>&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(display.getHeight()&nbsp;&gt;&nbsp;display.getWidth())&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//lp.height&nbsp;=&nbsp;(int)&nbsp;(display.getHeight()&nbsp;<em>&nbsp;0.5);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lp.width&nbsp;=&nbsp;(int)&nbsp;(display.getWidth()&nbsp;</em>&nbsp;1.0);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;else&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//lp.height&nbsp;=&nbsp;(int)&nbsp;(display.getHeight()&nbsp;<em>&nbsp;0.75);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lp.width&nbsp;=&nbsp;(int)&nbsp;(display.getWidth()&nbsp;</em>&nbsp;0.5);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;d.getWindow().setAttributes(lp);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;/<em>&nbsp;update&nbsp;ui&nbsp;data&nbsp;</em>/<br>&nbsp;&nbsp;&nbsp;&nbsp;lv&nbsp;=&nbsp;(ListView)&nbsp;d.getWindow().findViewById(R.id.listview);&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;SimpleAdapter&nbsp;adapter&nbsp;=&nbsp;new&nbsp;SimpleAdapter(mContext,&nbsp;getListData(),&nbsp;R.layout.list_item,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new&nbsp;String[]{&quot;item_text&quot;,&nbsp;&quot;item_img&quot;},&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;new&nbsp;int[]{R.id.item_text,&nbsp;R.id.item_img});&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;lv.setAdapter(adapter);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;/<em>&nbsp;set&nbsp;listener&nbsp;</em>/<br>&nbsp;&nbsp;&nbsp;&nbsp;lv.setOnItemClickListener(new&nbsp;OnItemClickListener()&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;void&nbsp;onItemClick(AdapterView&lt;?&gt;&nbsp;parent,&nbsp;View&nbsp;view,&nbsp;int&nbsp;pos,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;long&nbsp;id)&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d.dismiss();&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;});&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;<br>}</pre><p><span>创建了一个dialog，可以调整dialog的位置、大小，dialog的从R.layout.main创建，动态添加UI数据</span></p><p>响应Ui上的OnClick操作</p><p><br></p><p><em>&nbsp;manifest中需要相应的permission</em></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&lt;uses-permission&nbsp;android:name=&quot;android.permission.SYSTEM_ALERT_WINDOW&quot;&nbsp;/&gt;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;uses-permission&nbsp;android:name=&quot;android.permission.SYSTEM_OVERLAY_WINDOW&quot;&nbsp;/&gt;&nbsp;<br></p><p>&nbsp;TYPE_SYSTEM_ALERT跟TYPE_SYSTEM_OVERLAY的区别</p><p>&nbsp;&nbsp;&nbsp;以上面的代码为例，system_alert窗口可以获得焦点，响应操作</p><p>&nbsp;&nbsp;&nbsp;system_overlay窗口显示的时候焦点在后面的Activity上，仍旧可以操作后面的Activity</p><p><em>&nbsp;上面的代码中请留意d.show()的位置，只有在show之后才能调整dialog大小及更新数据</em></p><p>&nbsp;可以调整的Attributes，先dump出来</p><p>&nbsp;&nbsp;&nbsp;lp.flags&nbsp;=&nbsp;0x20002,&nbsp;//&nbsp;FLAG_DIM_BEHIND&nbsp;|&nbsp;FLAG_ALT_FOCUSABLE_IM</p><p>&nbsp;&nbsp;&nbsp;lp.gravity&nbsp;=&nbsp;0x11,&nbsp;//&nbsp;CENTER</p><p>&nbsp;&nbsp;&nbsp;lp.type&nbsp;=&nbsp;0x7d3,&nbsp;//&nbsp;TYPE_SYSTEM_ALERT</p><p>&nbsp;&nbsp;&nbsp;这些Attr都可以设置，具体定义在API文档WindowManager.LayoutParams中</p><p><br></p><p><br></p><p><br></p><p><br></p> 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2012/12/21/Service中创建窗口显示-TYPE-SYSTEM-ALERT-TYPE-SYSTEM-OVERLAY/" class="archive-article-date">
+  	<time datetime="2012-12-21T10:27:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2012-12-21</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-开发框架" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/12/02/开发框架/">开发框架</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+         <p><br></p><p>1.&nbsp;webasyst</p><p><a href="http://www.webasyst.com/" target="_blank">Webasyst</a><span style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; color: #333333;">&nbsp;is&nbsp;</span><strong>an&nbsp;open&nbsp;source&nbsp;PHP&nbsp;framework&nbsp;for&nbsp;developing&nbsp;sleek&nbsp;multi-user&nbsp;web&nbsp;apps,&nbsp;and&nbsp;complex&nbsp;websites</strong><span style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; color: #333333;">.</span><br></p><p><span style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; color: #333333;">download&nbsp;here:&nbsp;<a href="http://www.webasyst.com/framework/" target="_blank">http://www.webasyst.com/framework/</a></span></p><p>environment&nbsp;download&nbsp;here:&nbsp;<a href="http://www.apachefriends.org/en/xampp-windows.html" target="_blank">http://www.apachefriends.org/en/xampp-windows.html</a></p><p><img width="640" src="http://img.pickbox.me/wp-content/uploads/pic/d043ad4bd11373f0df55cb77a40f4bfbfaed04eb.jpg"></p><p><br></p> 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2012/12/02/开发框架/" class="archive-article-date">
+  	<time datetime="2012-12-02T08:04:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2012-12-02</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/framework/">framework</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Javascript的构造函数和constructor属性" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/11/30/Javascript的构造函数和constructor属性/">Javascript的构造函数和constructor属性</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+         <p><br></p><p>Chrome下执行如下代码：</p><p><img width="640" src="http://img.pickbox.me/wp-content/uploads/pic/9922720e0cf3d7ca56b51e91f21fbe096a63a991.jpg"></p><p>注意，<span style="font-family: Arial,Helvetica,sans-serif; color: #333333; background-color: #ffffff;">这个时候obj的constructor已经不再是创建它的函数，但是<span style="font-family: Arial,Helvetica,sans-serif; color: #333333; background-color: #ffffff;">修改构造函数的prototype的contructor并不会影响构造函数所产生的对象！</span></span></p><p><span style="font-family: Arial,Helvetica,sans-serif; color: #333333;">这里仍然会调用原来定义的MyClass进行构造，而不会调用新的MyClass.prototype.constructor进行构造。</span></p><p><br></p><p>更多烧脑筋的constructor例子请&nbsp;参考：<a href="http://joost.zeekat.nl/constructors-considered-mildly-confusing.html" target="_blank">Constructors&nbsp;considered&nbsp;mildly&nbsp;confusing</a>&nbsp;(如果连接无法打开，可向作者索要pdf文档)</p><p>这里仅摘录两段&nbsp;instanceof&nbsp;例子：</p><pre class="brush: js;toolbar:false;">function&nbsp;MyConstructor()&nbsp;{}<br>MyConstructor.prototype&nbsp;=&nbsp;{};<br>var&nbsp;myobject&nbsp;=&nbsp;new&nbsp;MyConstructor();<br>myobject&nbsp;instanceof&nbsp;MyConstructor&nbsp;//&nbsp;true<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>function&nbsp;MyConstructor()&nbsp;{}<br>MyConstructor.prototype&nbsp;=&nbsp;{};<br>var&nbsp;myobject&nbsp;=&nbsp;new&nbsp;MyConstructor();<br>myobject&nbsp;instanceof&nbsp;Object&nbsp;//&nbsp;true</pre><p>原因用作者的话说，<span>When&nbsp;</span>instanceof<span>&nbsp;is&nbsp;called&nbsp;it&nbsp;checks&nbsp;the&nbsp;</span>prototype<span>&nbsp;property&nbsp;of&nbsp;the&nbsp;given&nbsp;constructor&nbsp;and&nbsp;checks&nbsp;it&nbsp;agains&nbsp;the&nbsp;</span>[[Prototype]]<span>&nbsp;chain&nbsp;of&nbsp;the&nbsp;given&nbsp;object.&nbsp;In&nbsp;other&nbsp;words,&nbsp;it&#39;s&nbsp;not&nbsp;dependent&nbsp;on&nbsp;the</span>constructor<span>&nbsp;property.</span></p><p><br></p><p>MyConstructor.prototype&nbsp;为{}，看它是否被myobject的[[Prototype]]链所包含。</p><p><br></p><p>再变态一点:</p><pre class="brush: js;toolbar:false;">function&nbsp;MyConstructor()&nbsp;{}<br>var&nbsp;myobject&nbsp;=&nbsp;new&nbsp;MyConstructor();<br>MyConstructor.prototype&nbsp;=&nbsp;{};<br>&nbsp;&nbsp;<br>&nbsp;[&nbsp;myobject&nbsp;instanceof&nbsp;MyConstructor,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;false&nbsp;!<br>&nbsp;&nbsp;&nbsp;myobject.constructor&nbsp;==&nbsp;MyConstructor,&nbsp;//&nbsp;true&nbsp;!<br>&nbsp;&nbsp;&nbsp;myobject&nbsp;instanceof&nbsp;Object&nbsp;]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;true</pre><p><br></p><p><br></p><p><br></p> 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2012/11/30/Javascript的构造函数和constructor属性/" class="archive-article-date">
+  	<time datetime="2012-11-30T08:02:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2012-11-30</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/js-html-python/">js/html/python</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-jQuery中Deferred的实现原理" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/11/30/jQuery中Deferred的实现原理/">jQuery中Deferred的实现原理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+         <p><span style="font-family: Helvetica,Tahoma,Arial,sans-serif; background-color: #ffffff;"><br></span></p><p><span style="font-family: Helvetica,Tahoma,Arial,sans-serif; background-color: #ffffff;">Deferred提供了一种用非阻塞的串行逻辑方式编写<span style="font-family: Helvetica,Tahoma,Arial,sans-serif; background-color: #ffffff;">异步执行</span>代码。</span><br></p><p><span style="font-family: Helvetica,Tahoma,Arial,sans-serif; background-color: #ffffff;"><br></span></p><p>defer的用法：</p><pre class="brush: js;toolbar:false;">function&nbsp;doJob()&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;defer&nbsp;=&nbsp;$.Deferred();<br>&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;image&nbsp;=&nbsp;new&nbsp;Image();<br>&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;url&nbsp;=&nbsp;&quot;<a href="http://hiphotos.baidu.com/j_fo/pic/item/5fd4af345982b2b7e633367931adcbef77099b6b.jpg&amp;quot" target="_blank" rel="external">http://hiphotos.baidu.com/j_fo/pic/item/5fd4af345982b2b7e633367931adcbef77099b6b.jpg&amp;quot</a>;;<br>&nbsp;&nbsp;&nbsp;&nbsp;image.onload&nbsp;=&nbsp;function()&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alert(&quot;success&quot;);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;defer.resolve(&nbsp;url&nbsp;);<br>&nbsp;&nbsp;&nbsp;&nbsp;};<br>&nbsp;&nbsp;&nbsp;&nbsp;image.onerror&nbsp;=&nbsp;function()&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alert(&quot;error&quot;);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;defer.reject(&nbsp;url&nbsp;);<br>&nbsp;&nbsp;&nbsp;&nbsp;};<br>&nbsp;&nbsp;&nbsp;&nbsp;image.src&nbsp;=&nbsp;url;<br>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;defer.promise();<br>}<br>doJob().done(function(){<br>&nbsp;&nbsp;&nbsp;&nbsp;alert(&quot;done&quot;);<br>});</pre><p>更多例子：<a href="http://houfeng0923.iteye.com/blog/1722596" target="_blank">使用jQuery&nbsp;Deferred&nbsp;和&nbsp;Promise&nbsp;创建响应式应用程序</a></p><p><br></p><p><br></p><p>实现原理参考如下实现代码：</p><pre class="brush: js;toolbar:false;">function&nbsp;Deferred()&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;new&nbsp;Deferred.prototype.init();<br>}<br>Deferred.prototype.init&nbsp;=&nbsp;function()&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;this.state&nbsp;=&nbsp;0;<br>&nbsp;&nbsp;&nbsp;&nbsp;this.doneQueue&nbsp;=&nbsp;[];<br>&nbsp;&nbsp;&nbsp;&nbsp;this.failQueue&nbsp;=&nbsp;[];<br>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;this;<br>}<br>Deferred.prototype.init.prototype&nbsp;=&nbsp;Deferred.prototype;<br>Deferred.prototype.promise&nbsp;=&nbsp;function(){<br>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;this;<br>}<br>Deferred.prototype.done&nbsp;=&nbsp;function(cbDone){<br>&nbsp;&nbsp;&nbsp;&nbsp;this.doneQueue.push(cbDone);<br>&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(this.state&nbsp;!=&nbsp;0)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this._finish();<br>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;this;<br>}<br>Deferred.prototype.fail&nbsp;=&nbsp;function(cbFail){<br>&nbsp;&nbsp;&nbsp;&nbsp;this.failQueue.push(cbFail);<br>&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(this.state&nbsp;!=&nbsp;0)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this._finish();<br>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;this;<br>}<br>Deferred.prototype.resolve&nbsp;=&nbsp;function(){<br>&nbsp;&nbsp;&nbsp;&nbsp;this.state&nbsp;=&nbsp;1;<br>&nbsp;&nbsp;&nbsp;&nbsp;this.args&nbsp;=&nbsp;arguments;<br>&nbsp;&nbsp;&nbsp;&nbsp;this._finish();<br>}<br>Deferred.prototype.reject&nbsp;=&nbsp;function(){<br>&nbsp;&nbsp;&nbsp;&nbsp;this.state&nbsp;=&nbsp;2;<br>&nbsp;&nbsp;&nbsp;&nbsp;this.args&nbsp;=&nbsp;arguments;<br>&nbsp;&nbsp;&nbsp;&nbsp;this._finish();<br>}<br>Deferred.prototype._finish&nbsp;=&nbsp;function(){<br>&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;queue&nbsp;=&nbsp;[];<br>&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(this.state&nbsp;==&nbsp;1)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;queue&nbsp;=&nbsp;this.doneQueue;<br>&nbsp;&nbsp;&nbsp;&nbsp;else&nbsp;if&nbsp;(state&nbsp;==&nbsp;2)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;queue&nbsp;=&nbsp;this.failQueue;<br>&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;(var&nbsp;i&nbsp;=&nbsp;0;&nbsp;i&nbsp;&lt;&nbsp;queue.length;&nbsp;i++)&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;cb&nbsp;=&nbsp;queue[i];<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cb.apply(this,&nbsp;this.args);<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}</pre><p><br></p><p><br></p> 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2012/11/30/jQuery中Deferred的实现原理/" class="archive-article-date">
+  	<time datetime="2012-11-30T07:38:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2012-11-30</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/js-html-python/">js/html/python</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-JavaScript原型和继承-a-special-example-by-jfo" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/11/28/JavaScript原型和继承-a-special-example-by-jfo/">JavaScript原型和继承 - a special example by jfo</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><pre class="brush: as3;toolbar:false;">function A() {<br>    A.prototype = {<br>        print: function(){<br>            alert(“print”);<br>        }<br>    };<br>}<br>var a = new A();<br>a.print();   // will cause exception: Object #&lt;A&gt; has no method ‘print’<br>a = new A(); // new second time<br>a.print();   // ok now</pre><br>&nbsp;</p>
+<p>A本身是一个普通对象：</p>
+<p><img alt="" src="http://img.pickbox.me/wp-content/uploads/pic/5fd4af345982b2b7e633367931adcbef77099b6b.jpg"></p>
+<p>&nbsp;</p>
+<p>第一次new A() 的时候，先申请一片内存空间，赋予变量a，并将a的[[Prototype]]指向A.prototype（此时还没有print函数）</p>
+<p>然后执行constructor，即A函数体，并将A的prototype重设（此时print函数设置完成）</p>
+<p>&nbsp;</p>
+<p>这样第二次new A() 的时候，a的[[Prototype]]指向我们自己设置的那个prototype对象，就可以调用print函数了</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>参考：<a title="JavaScript原型和继承" href="http://blog.pickbox.me/2012/05/21/JavaScript原型和继承" target="_blank">JavaScript原型和继承</a></p>
+<p>&nbsp;</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2012/11/28/JavaScript原型和继承-a-special-example-by-jfo/" class="archive-article-date">
+  	<time datetime="2012-11-28T11:27:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2012-11-28</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/js-html-python/">js/html/python</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/8/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/60/">60</a><a class="extend next" rel="next" href="/page/10/">Next &raquo;</a>
+    </nav>
+  
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: true,
+		isPost: false,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>AWS账号被冻结（AWS Account on hold），如何解封 | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="最近BAE平台升级到3.0，并且不支持未备案的域名绑定了，于是又开始了寻找托管平台之旅。试过各种平台，国外的GAE被墙，新浪的SAE要收云豆，百度的BAE平台3.0升级且域名策略改变，并且BAE这类平台不支持部署除了http服务以外的其他服务，比如即时通信协议xmpp、获取外网地址的stun服务（内网NAT穿透），它们都用到了除80端口以外的端口，直接socket通讯的服务也不支持。
+还是找一个V">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AWS账号被冻结（AWS Account on hold），如何解封">
+<meta property="og:url" content="http://blog.pickbox.me/2014/01/10/AWS账号被冻结（AWS-Account-on-hold），如何解封/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="最近BAE平台升级到3.0，并且不支持未备案的域名绑定了，于是又开始了寻找托管平台之旅。试过各种平台，国外的GAE被墙，新浪的SAE要收云豆，百度的BAE平台3.0升级且域名策略改变，并且BAE这类平台不支持部署除了http服务以外的其他服务，比如即时通信协议xmpp、获取外网地址的stun服务（内网NAT穿透），它们都用到了除80端口以外的端口，直接socket通讯的服务也不支持。
+还是找一个V">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AWS账号被冻结（AWS Account on hold），如何解封">
+<meta name="twitter:description" content="最近BAE平台升级到3.0，并且不支持未备案的域名绑定了，于是又开始了寻找托管平台之旅。试过各种平台，国外的GAE被墙，新浪的SAE要收云豆，百度的BAE平台3.0升级且域名策略改变，并且BAE这类平台不支持部署除了http服务以外的其他服务，比如即时通信协议xmpp、获取外网地址的stun服务（内网NAT穿透），它们都用到了除80端口以外的端口，直接socket通讯的服务也不支持。
+还是找一个V">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-AWS账号被冻结（AWS-Account-on-hold），如何解封" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      AWS账号被冻结（AWS Account on hold），如何解封
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近BAE平台升级到3.0，并且不支持未备案的域名绑定了，于是又开始了寻找托管平台之旅。试过各种平台，国外的GAE被墙，新浪的SAE要收云豆，百度的BAE平台3.0升级且域名策略改变，并且BAE这类平台不支持部署除了http服务以外的其他服务，比如即时通信协议xmpp、获取外网地址的stun服务（内网NAT穿透），它们都用到了除80端口以外的端口，直接socket通讯的服务也不支持。</p>
+<p>还是找一个VPS比较靠谱，不需要修改自己的代码适应这些不同平台，并且有一个自己的Linux环境可以做很多事情，比如开个VPN服务，特别适合我这种喜欢倒腾的人。</p>
+<p>AWS可以免费用一年，各项配置足够个人blog使用，于是开始申请。<br>其实之前已经申请过，但是大家都知道AWS需要绑定一个能刷美元的信用卡，于是卡在这一步停滞不前。<br>重新注册了一个账户，绑定信用卡，扣一美元验证成功后AWS账户就开通了。</p>
+<p>可惜第二天就收到Amazon的邮件说AWS账户被冻结，发件人是address-verification@amazon.com</p>
+<p>Hello from Amazon.com.</p>
+<p>We have placed a hold on your account because the card issuer has declined our request to confirm your billing details for your MC ending in 59 citing legal and privacy reasons. You will not be able to access your account or place orders with us until we confirm your information.</p>
+<p>To resolve this matter, please allow the card issuer to grant our request, or send this information to our secure fax line at 206-266-1838 (US) or 001-206-266-1838 (international):</p>
+<ul>
+<li>A copy of your statement for the payment card used, including the billing address</li>
+<li>The last two digits of the payment card</li>
+<li>Your name, phone number, and e-mail address</li>
+</ul>
+<p>We will convert your fax to a secure electronic image. For your security, we restrict access to your billing details to a team of account specialists.</p>
+<p>Our Customer Service team cannot access these details, view your fax, or provide you with more information on this matter. They can only verify that we sent this request.</p>
+<p>You can expect a response from us within 24 hours of sending your fax.</p>
+<p>If you would like us to confirm your information with the card issuer, reply to this message from the e-mail address registered to your Amazon.com account after you have arranged for them to grant our request.</p>
+<p>Your financial institution can use our fax number to send us the name and number of a representative we can contact by phone.</p>
+<p>We ask that you do not open new accounts as any new order you place may be delayed.</p>
+<p>Thank you for choosing Amazon.com.</p>
+<p>Sincerely,</p>
+<p>Account Specialist</p>
+<h1 id="http-www-amazon-com"><a href="#http-www-amazon-com" class="headerlink" title="http://www.amazon.com"></a><a href="http://www.amazon.com/" target="_blank">http://www.amazon.com</a></h1><p>说是需要带对账地址的对账单复印件一份，信用卡后2位数字，背面还是正面不清楚，名字、电话、email，关键是要fax过去，这个很无语，更何况我用的都是电子账单，没有纸质账单</p>
+<p>后来又收到一封：</p>
+<p>Greetings from Amazon Web Services,</p>
+<p>We were unable to validate important details about your Amazon Web Services (AWS) account. Your AWS account has been placed on hold pending additional verification.<br>You will not be able to log in to your Amazon.com or the AWS portal. If you do not respond within 5 days of this email (by Sunday, January 12, 2014),<br>your AWS account will be suspended and you will no longer be able to access AWS services.</p>
+<p>To avoid suspension, please fax us a copy of a current bill (utility bill, phone bill or similar).<br>As an alternative, you can fax us a copy of your national ID (both sides). The faxed statement should include the following information:</p>
+<ul>
+<li>Subject: “Attention to Amazon Web Services”</li>
+<li>The name on the AWS account</li>
+<li>The billing address on the AWS account</li>
+<li>The email address associated with your AWS account</li>
+</ul>
+<p>Additionally, we are always interested in learning more about our customers and  how they use Amazon Web Services.<br>As such, we request that you also provide us with the following information:</p>
+<ul>
+<li>Name of the business</li>
+<li>Business phone number</li>
+<li>The url for your website (if applicable)</li>
+<li>A contact phone number where you can be reached should we need additional information</li>
+<li>Potential business/personal expectations for using Amazon Web Services</li>
+</ul>
+<p>Our fax number is +1-206-266-2752. If you have any questions, you can contact us at <a href="mailto:aws-verification@amazon.com" target="_blank" rel="external">aws-verification@amazon.com</a>.<br>We apologize for any inconvenience this may have caused you and appreciate your patience with our security measures.</p>
+<p>Thank you for your immediate attention to this matter.</p>
+<p>Sincerely,<br>Amazon Web Services</p>
+<p>还是要账单，或者手机账单之类的，或者是把身份证双面复印件传真过去</p>
+<p>网上搜了一圈，有说直接找客服的，可以从amazon国外网站的Help页面右侧找到，于是联系国外客服好几次，被告知专员会email联系我，于是又收到了几封类似上面的邮件，期间回复了好几次邮件，说我没有纸质账单，还把水费单拍照发了过去，还抱怨了一番，浪费了我很多时间，还是半夜3点钟给他们回复的邮件（咱的上班时间是老外的睡觉时间啊），最后没办法把交行的对账单地址改成现在地址，还用英文准确翻译了一遍，再回邮件给amazon</p>
+<p>my credit card billing statement was sent by email, I don’t have paper statement.<br>shall I provide electronic bill statement?</p>
+<p>Here is the infomation you requested:</p>
+<p>Name as it appears on your credit or debit card :<br>ZHANG SAN<span style="color: #ff0000;">（填写信用卡上印着的英文名字）</span><br>(in Chinese: 张三)</p>
+<p>Address on file with the card issuer :<br>Building xxx, xxxx, Chaoyang District, Beijing 100028<br>(in Chinese: <span style="color: #ff0000;">填写</span><span style="color: #ff0000;">中文地址</span>)</p>
+<p>Telephone number associated with the card : 137xxxxxxxx</p>
+<p>The customer service phone number for the financial institution is +86-400-800-9888</p>
+<p>&nbsp;</p>
+<p>本来不抱希望了，没想到第二天收到验证通过的邮件了，大喜，看来没白折腾啊！</p>
+<p>Greetings,</p>
+<p>Thank you for contacting Amazon Web Services. We appreciate your business and interest in our product.</p>
+<p>We have verified the details provided by you and are glad to inform that we have activated your Amazon Web Services account.</p>
+<p>Thank you for your interest in Amazon Web Services!</p>
+<p>&nbsp;</p>
+<p>登入到AWS账号查了一下信用卡，貌似没有绑定信用卡，难道特殊处理了，如果超支了是不是也扣不了费用了？</p>
+<p>总之账户又可以登录了，其他碰到类似情况的同学可以把准确账单地址（一定要翻译成英文）发过去试试。</p>
+<p>&nbsp;</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/01/10/AWS账号被冻结（AWS-Account-on-hold），如何解封/" class="archive-article-date">
+  	<time datetime="2014-01-10T01:26:14.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-01-10</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Life/">Life</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2014/01/12/Dropbox-同步卡住如何解决/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Dropbox 同步卡住如何解决
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2013/12/05/为什么从CCSpriteFrameCache创建的sprite能添加到CCSpriteBatchNode/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">为什么从CCSpriteFrameCache创建的sprite能添加到CCSpriteBatchNode</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

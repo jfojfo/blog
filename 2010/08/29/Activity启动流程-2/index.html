@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Activity启动流程(2) | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="&amp;#160;Activity设计框架3.1 外特性空间的Activity&amp;#160;&amp;#160;&amp;#160; 我们先来看看，Android应用开发人员接触的外特性空间中的Activity，对于AMS来讲，这个Activity就是客服端的Activity。 应用程序员在建立Android应用时，构建Activity的子类就是Andoid外特性空间展现的接口。我们可以从下面的简单的例子描述看看 Ac">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Activity启动流程(2)">
+<meta property="og:url" content="http://blog.pickbox.me/2010/08/29/Activity启动流程-2/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="&amp;#160;Activity设计框架3.1 外特性空间的Activity&amp;#160;&amp;#160;&amp;#160; 我们先来看看，Android应用开发人员接触的外特性空间中的Activity，对于AMS来讲，这个Activity就是客服端的Activity。 应用程序员在建立Android应用时，构建Activity的子类就是Andoid外特性空间展现的接口。我们可以从下面的简单的例子描述看看 Ac">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Activity启动流程(2)">
+<meta name="twitter:description" content="&amp;#160;Activity设计框架3.1 外特性空间的Activity&amp;#160;&amp;#160;&amp;#160; 我们先来看看，Android应用开发人员接触的外特性空间中的Activity，对于AMS来讲，这个Activity就是客服端的Activity。 应用程序员在建立Android应用时，构建Activity的子类就是Andoid外特性空间展现的接口。我们可以从下面的简单的例子描述看看 Ac">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-Activity启动流程-2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Activity启动流程(2)
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <br><blockquote>&#160;<a href="http://blog.csdn.net/maxleng/archive/2010/05/24/5621349.aspx" target="_blank">Activity设计框架</a>3.1 外特性空间的Activity<p>&#160;&#160;&#160; 我们先来看看，Android应用开发人员接触的外特性空间中的Activity，对于AMS来讲，这个Activity就是客服端的Activity。 应用程序员在建立Android应用时，构建Activity的子类就是Andoid外特性空间展现的接口。我们可以从下面的简单的例子描述看看 Activity，到底如何建立的。</p><p>DemoActivity extend Activity</p><p>{</p><p>&#160;&#160;&#160;&#160; onCreate</p><p>&#160;&#160;&#160; onResume</p><p>&#160;&#160;&#160; onPause</p><p>&#160;&#160;&#160; onStop</p><p>}</p><p>&#160;&#160;&#160; 在Android的外特性空间(SDK)中，Android应用程序员根本不知道进程是什么时候起来的，系统消息是如何传递过来的。这个DemoActivity是如何实例化的呢？并且该Activity是托管在哪个进程的呢？本节的分析将给出答案。</p><p>我们从ActivityThread中可以看到在应用进程中的Activity都被放置在mActivities中。</p> </blockquote></p><p>&#160;&#160;&#160; 这些ActivityRecord记录了应用进程中，程序员建立的Activity子类的实例，我们称之为外特性空间的Activity。这些 Activity类实例是放在应用程序端进行实际交互的Activity，而为了管理这些Activity，AMS内核中还有一个影子Activity， 被称为HistoryRecord。</p><p>3.2 Activity与HistoryRecord的关系</p><p>&#160;&#160;&#160;&#160; 在整个系统中，Activity实际上有两个实体。一个在应用进程中跟应用程序员打交道的Activity，一个是在AMS的中具有管理功能的 History Record。应用进程中的Activity都登记ActivityThread实例中的mActivity数组中，而在AM 端，HistroytRecord实例放置在mHistroy栈中。mHistory栈是Android管理Activity的场所，放置在栈顶的就是 User看到的处于活动状态的Activity。</p><p>Activity与HistrotyRecord的关系图可以表示如下：</p><p></p><p>&#160;&#160;&#160;&#160;&#160;&#160; Activity的内核实体是依靠在ProcessRecord的成员变量中，通过ProcessRecord我们可以访问到所有的属于该Process 的Activity。而在ProcessRecord记录了与应用进程之间的联系：IActivtityThread接口。通过该接口，可以访问到所对应 的Activity的方法。在Launch Activity时，AMS将对应的HistoryRecord作为token传递到客服端和客服端的Activity建立联系。在AMS中 Activity状态变化时，将通过该联系找到客服端的Activity，从而将消息或者动作传递应用程序面对的接口：xxxActivity。</p>3.3 Actvity的Launch过程<blockquote><p>1)发起请求startActivity(intent)</p><p>2）Activity Service Manager接收到请求执行StartActivity函数。</p></blockquote> <blockquote><p>&#160;&#160;&#160;&#160;&#160; 建立：HistoryRecord实例r.</p><p>&#160;&#160;&#160;&#160;&#160; 将r 加入到mHistory顶。</p></blockquote> <blockquote><p>（3）通过app.thread.scheduleLaunchActvity( </p><p>（4）在App应用中建立新的ActivityRecord。</p><p>（5）建立新的Activity对象并放入到ActivityRecord中。</p><p>（6）将ActivityRecord加入到mActivites@ActivityThread</p><p>(7)发起Activity.onCreate(..),,该onCreate就是在你的应用程序XXXActivity中的onCreate。</p><p>&#160; </p>3.4 Activity的Resume<p>（1）Activity什么时候被Resume</p></blockquote><p></p><p>（2）Rusume的过程</p><p>&#160;&#160;&#160; 通过该过程的研究我们会进一步的了解到AMS与应用进程的交互过程。</p><p>在AMS端，满足resume条件都会调用：Resume的核心函数：</p><p>XXX当前栈顶的HistroyRecord</p><p>1）窗口切换：隐藏前一个Activity的窗口，</p><p>2）更新LRUList，（LRUList是淘汰应用程序的依据之一）</p><p>3) XXX.app.thread.scheduleResumeActivity(XXX,</p><p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; isNextTransitionForward());</p><p>4)completeResumeLocked</p><p>&#160;&#160;&#160;&#160; setFocusedActivityLocked</p><blockquote><p>&#160;&#160;&#160;&#160;&#160;&#160;&#160; mFocusActivity=xxx&#160; //此时焦点Actvitiy切换了。</p><p>&#160;&#160;&#160;&#160;&#160;&#160; WM.setFocusedApp(xxx, </p><p>&#160;&#160;&#160;&#160;&#160;&#160; mWindowManager.executeAppTransition();</p><p>&#160;&#160;&#160;&#160;&#160;&#160; mNoAnimActivities.clear();</p></blockquote><p>在应用程序端：</p><p>（5）scheduleResumeActivity</p><p>handleResumeActivity(IBinder token, boolean clearHide, boolean isForward) {</p><blockquote><p>ActivityRecord r = performResumeActivity(token, clearHide);</p></blockquote> <blockquote><p>&#160;&#160;&#160;&#160; ActivityRecord r = mActivities.get(token);</p></blockquote> <blockquote><p>&#160;&#160;&#160;&#160; r.activity.performResume()</p></blockquote> <blockquote><p>&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160; performResume</p><p>整个Resume的过程如下：</p></blockquote><p></p> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2010/08/29/Activity启动流程-2/" class="archive-article-date">
+  	<time datetime="2010-08-29T08:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2010-08-29</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2010/08/30/animations-AppStartingWindow-in-WindowManagerService（discussion-from-android-platform-group）/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          animations &amp; AppStartingWindow in WindowManagerService（discussion from android-platform group）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2010/08/28/【转】Linux程序编译速度提高方法/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">【转】Linux程序编译速度提高方法</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

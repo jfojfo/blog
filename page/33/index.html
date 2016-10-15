@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="jfo planet">
+<meta property="og:url" content="http://blog.pickbox.me/page/33/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jfo planet">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        
+  
+    <article id="post-L4：thread-creation" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2008/10/22/L4：thread-creation/">L4：thread creation</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <br>创建线程create_thread()<br><br>创建进程可参考l4ka-pistachio-cb2d287364bc/user/apps/l4test/threads.cc：<br>create_thread (bool new_space, int cpu)<br>{&nbsp;&nbsp;    <br>&nbsp;&nbsp;&nbsp;    static L4_Fpage_t kip_area, utcb_area;<br>&nbsp;&nbsp;&nbsp;    static L4_Word_t utcb_base;<br>&nbsp;&nbsp;&nbsp;    static bool initialized = false;<br>&nbsp;&nbsp;&nbsp;    static void <em> kip;<br><br>&nbsp;&nbsp;&nbsp;    if (! initialized)<br>&nbsp;&nbsp;&nbsp;    {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    kip = L4_KernelInterface ();<br>&nbsp;&nbsp;&nbsp;    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    // Put the kip at the same location in all address spaces<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    // to make sure we can reuse the syscall jump table.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    kip_area = L4_FpageLog2 ((L4_Word_t) kip, L4_KipAreaSizeLog2 (kip));<br>&nbsp;&nbsp;&nbsp;    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    L4_ThreadId_t mylocalid = L4_MyLocalId ();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    utcb_base = </em>(L4_Word_t <em>) &amp;mylocalid;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    utcb_base &amp;= ~(L4_UtcbAreaSize (kip) - 1);<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    // Make room for at least 1000 threads in the UTCB area<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    utcb_area = L4_Fpage (utcb_base, L4_UtcbSize (kip) </em> 1000);<br>&nbsp;&nbsp;&nbsp;    <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    initialized = true;<br>&nbsp;&nbsp;&nbsp;    }<br><br>如果没有初始化，会先获得kip、kip_area、utcb_base、utcb_area这四个变量，后面创建thread时会用到。<br>在IA－32体系下，L4_MylocalId()返回的local_id正好是当前thread的utcb起始地址（类似Linux将sp设置为task struct末端），gs:[0]指向UTCB address，偏移 -60 的位置存储的是 MyGlobalId，参见&ldquo;L4 eXperimental Kernel Reference Manual (Version X.2)<strong><strong>A.1 Virtual Registers(TCRS)&rdquo;。<br><br>L4的UTCB有点类似Windows中的TEB(Thread Environment Block)，先预留一片空间，每当新创建线程时，在这片空间（看作UTCB或TEB结构体的数组）中分配一项。<br><br><br>接下来要分配新的tid号：<br>&nbsp;&nbsp;&nbsp;    L4_ThreadId_t me = L4_Myself ();<br>&nbsp;&nbsp;&nbsp;    L4_ThreadId_t tid = get_new_tid ();<br>&nbsp;&nbsp;&nbsp;    <br>get_new_tid (void)<br>{<br>&nbsp;&nbsp;&nbsp;    static L4_Word_t next_no = 0;<br><br>&nbsp;&nbsp;&nbsp;    if (next_no == 0)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    // Initialize with my thread_no + 1<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    next_no = L4_ThreadNo (L4_MyGlobalId ()) + 1;<br><br>&nbsp;&nbsp;&nbsp;    return L4_GlobalId (next_no++, 1);<br>}<br><br>可以看到新分配的tid号一定会比当前roottask的GlobalId号大，这是L4内核的规定，参考&ldquo;L4 eXperimental Kernel Reference Manual (Version X.2)</strong></strong>2.1 ThreadId&rdquo;<br><br><br>tid得到后，计算新线程的utcb地址，这样计算所有线程的utcb决不会重叠：<br>&nbsp;&nbsp;&nbsp;    L4_Word_t utcb_location =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    utcb_base + L4_UtcbSize (kip) <em> L4_ThreadNo (tid);<br><br>如果创建的线程将运行于新的address space，将分三步走。第一次L4_ThreadControl时内核将创建一个address space为空的线程结构体，然后L4_SpaceControl为该thread指定kip和utcb，最后第二次L4_ThreadControl让该线程变为active状态。<br> &nbsp;&nbsp;&nbsp;    if (new_space)<br>&nbsp;&nbsp;&nbsp;    {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    // Create inactive thread<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    int res = L4_ThreadControl (tid, tid, me, L4_nilthread, (void </em>) -1);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    if (res != 1)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    printf (&quot;ERROR: ThreadControl returned %dn&quot;, res);<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    L4_Word_t control;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    res = L4_SpaceControl (tid, 0, kip_area, utcb_area,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    L4_nilthread, &amp;control);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    if (res != 1)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    printf (&quot;ERROR: SpaceControl returned %dn&quot;, res);<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    // Activate thread<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    res = L4_ThreadControl (tid, tid, me, me, (void <em>) utcb_location);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    if (res != 1)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    printf (&quot;ERROR: ThreadControl returned %dn&quot;, res);<br>&nbsp;&nbsp;&nbsp;    }<br><br>如果线程运行在同一个address space，工作更简单<br>&nbsp;&nbsp;&nbsp;    else<br>&nbsp;&nbsp;&nbsp;    {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    // Create active thread<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    int res = L4_ThreadControl (tid, me, me, me, (void </em>) utcb_location);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    if (res != 1)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    printf (&quot;ERROR: ThreadControl returned %dn&quot;, res);<br>&nbsp;&nbsp;&nbsp;    }<br><br><br>最后设置一下运行的CPU，一个thread就创建好了<br>&nbsp;&nbsp;&nbsp;    if (cpu != -1)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    L4_Set_ProcessorNo (tid, cpu);<br><br>&nbsp;&nbsp;&nbsp;    return tid;<br>}<br><br><br><br>运行线程start_thread()<br><br>void<br>start_thread( L4_ThreadId_t tid, L4_Word_t ip, L4_Word_t sp )<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    L4_Msg_t msg;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    L4_Clear( &amp;msg );<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    L4_Append( &amp;msg, ip );<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    L4_Append( &amp;msg, sp );<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    L4_Load( &amp;msg );<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    L4_Send( tid );<br>}<br><br>运行一个线程只需向该线程发送一个ipc，ipc参数包括线程运行时的入口点ip、堆栈sp<br>注意：这个ipc必须由待运行线程的pager发送才有效！<br><br><br><br>一个简单的example<br><strong><br></strong>L4_ThreadId_t thread1;<br>L4_ThreadId_t thread2;<br>int n_switch;<br><br>void func1() <br>{<br>&nbsp;&nbsp;&nbsp;    L4_Clock_t usec1;<br>&nbsp;&nbsp;&nbsp;    L4_Clock_t usec2;<br><br>&nbsp;&nbsp;&nbsp;    printf(&quot;start thread1n&quot;);<br>//  L4_Sleep (L4_TimePeriod (1000<em>1000));<br>&nbsp;&nbsp;&nbsp;    <br>&nbsp;&nbsp;&nbsp;    usec1 = L4_SystemClock();<br><br>&nbsp;&nbsp;&nbsp;    for(int i = 0; i &lt; 300; i++)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    L4_ThreadSwitch(thread2);<br>&nbsp;&nbsp;&nbsp;    <br>&nbsp;&nbsp;&nbsp;    usec2 = L4_SystemClock();<br><br>&nbsp;&nbsp;&nbsp;    printf(&quot;usec1 %un&quot;, usec1.raw);<br>&nbsp;&nbsp;&nbsp;    printf(&quot;usec2 %un&quot;, usec2.raw);<br>&nbsp;&nbsp;&nbsp;    printf(&quot;delta %un&quot;, usec2.raw - usec1.raw);<br>&nbsp;&nbsp;&nbsp;    printf(&quot;average thread switch time: %fn&quot;, (double)(usec2.raw - usec1.raw) / 2000);<br>&nbsp;&nbsp;&nbsp;    printf(&quot;n_switch: %dn&quot;, n_switch);<br>}<br><br>void func2() <br>{<br>&nbsp;&nbsp;&nbsp;    printf(&quot;start thread2n&quot;);<br>&nbsp;&nbsp;&nbsp;    while(true)<br>&nbsp;&nbsp;&nbsp;    {<br>//&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   L4_ThreadSwitch(L4_nilthread);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    L4_ThreadSwitch(thread1);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    n_switch++;<br>&nbsp;&nbsp;&nbsp;    }<br>}<br><br>int main()<br>{<br>&nbsp;&nbsp;&nbsp;    thread1 = create_thread(false, 0);<br>&nbsp;&nbsp;&nbsp;    thread2 = create_thread(false, 0);<br>&nbsp;&nbsp;&nbsp;    n_switch = 0;<br><br>&nbsp;&nbsp;&nbsp;    printf(&quot;in mainn&quot;);<br><br>&nbsp;&nbsp;&nbsp;    // Touch the memory to make sure we never get pagefaults<br>&nbsp;&nbsp;&nbsp;    extern L4_Word_t _end, _start;<br>&nbsp;&nbsp;&nbsp;    for (L4_Word_t </em> x = (&amp;_start); x &lt; &amp;_end; x++)<br>&nbsp;&nbsp;&nbsp;    {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   volatile L4_Word_t q;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   q = <em>(volatile L4_Word_t</em>) x;<br>&nbsp;&nbsp;&nbsp;    }<br>&nbsp;&nbsp;&nbsp;    <br>&nbsp;&nbsp;&nbsp;    start_thread(thread2, func2); <br>&nbsp;&nbsp;&nbsp;    start_thread(thread1, func1); <br><br>&nbsp;&nbsp;&nbsp;    L4_Sleep(L4_Never);<br>}<strong><br></strong><br><br><br><br><br><br><br><br><br><del>end</del><br><br> </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/10/22/L4：thread-creation/" class="archive-article-date">
+  	<time datetime="2008-10-22T13:32:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-10-22</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-L4：map-pages-from-sigma0" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2008/10/22/L4：map-pages-from-sigma0/">L4：map pages from sigma0</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <br>客户端请求<br><br>在root task中通常会先将地址空间的所有页面从sigma0中分配出来，这样以后创建的thread运行时，若没有指定pager，仍然可以正常运行。<br>具体的请求页面操作如下所示：<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   // <em>** pin all code and data of the root task by requesting the pages from sigma0<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   for (const char</em> addr = &amp;<strong>elf_start; addr &lt; &amp;</strong>elf_end; addr += pagesize)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   if (!request_page((L4_Word_t)addr)) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   panic(&quot;root: could not get roottask pages from sigma0.&quot;);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   }<br>当然，也可以通过系统自身的缺页机制：<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   // Touch the memory to make sure we never get pagefaults<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   extern L4_Word_t _end, _start;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   for (L4_Word_t <em> x = (&amp;_start); x &lt; &amp;_end; x++)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   volatile L4_Word_t q;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   q = </em>(volatile L4_Word_t<em>) x;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   }<br><br><br>static inline L4_Bool_t request_page(L4_Word_t addr) <br>{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <br>&nbsp;&nbsp;&nbsp;   return !(L4_IsNilFpage( L4_Sigma0_GetPage(sigma0id, L4_Fpage(addr, pagesize)) ) );<br>}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <br>&nbsp;&nbsp;&nbsp;   <br><br>request_page会调用 L4_Sigma0_GetPage(sigma0id, L4_Fpage(addr, pagesize)) )，向sigma0请求起始地址为addr，大小为pagesize的页面。<br><br><br>L4_INLINE L4_Fpage_t L4_Sigma0_GetPage (L4_ThreadId_t s0, L4_Fpage_t f)<br>{<br>&nbsp;&nbsp;&nbsp;  return L4_Sigma0_GetPage_RcvWindow (s0, f, L4_CompleteAddressSpace);<br>}<br><br>L4_Sigma0_GetPage_RcvWindow()指定receive windows为L4_CompleteAddressSpace，即当前线程的全部地址空间，向sigma0发送并等待ipc消息：<br> L4_INLINE L4_Fpage_t L4_Sigma0_GetPage_RcvWindow (L4_ThreadId_t s0,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  L4_Fpage_t f,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  L4_Fpage_t RcvWindow)<br>{<br>&nbsp;&nbsp;&nbsp;  L4_MsgTag_t tag;<br>&nbsp;&nbsp;&nbsp;  L4_Msg_t msg;<br><br>&nbsp;&nbsp;&nbsp;  if (L4_IsNilThread (s0))<br>&nbsp;&nbsp;&nbsp;  {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  L4_KernelInterfacePage_t </em> kip = (L4_KernelInterfacePage_t <em>)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  L4_GetKernelInterface ();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  s0 = L4_GlobalId (kip-&gt;ThreadInfo.X.UserBase, 1);<br>&nbsp;&nbsp;&nbsp;  }<br><br>&nbsp;&nbsp;&nbsp;  L4_MsgClear (&amp;msg);<br>&nbsp;&nbsp;&nbsp;  L4_MsgAppendWord (&amp;msg, f.raw);<br>&nbsp;&nbsp;&nbsp;  L4_MsgAppendWord (&amp;msg, 0);<br>&nbsp;&nbsp;&nbsp;  L4_Set_MsgLabel (&amp;msg, (L4_Word_t) -6UL &lt;&lt; 4);<br>&nbsp;&nbsp;&nbsp;  L4_MsgLoad (&amp;msg);<br>&nbsp;&nbsp;&nbsp;  L4_Accept (L4_MapGrantItems (RcvWindow));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <br>&nbsp;&nbsp;&nbsp;  tag = L4_Call (s0); <br>&nbsp;&nbsp;&nbsp;  if (L4_IpcFailed (tag))<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  return L4_Nilpage;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <br>&nbsp;&nbsp;&nbsp;  L4_StoreMR (2, &amp;f.raw);<br>&nbsp;&nbsp;&nbsp;  return f;<br>}<br><br>L4_MapGrantItems() 返回一个类型为 L4_Acceptor_t 的 acceptor，它指定了Receive Windows的大小<br>L4_Accept()把fpage结构体写入到BR0(Buffer Register 0)中<br>参见L4_User_Manual-x2<strong><strong>4.4. SHARING MEMORY &mdash; MEMORY MAPPING<br>关于GrantItem参见&ldquo;L4 eXperimental Kernel Reference Manual (Version X.2)</strong></strong>5.3 GrantItem&rdquo;<br><br>当L4_Call()返回时，内核已经完成了page的映射（可以理解为设置好了page table中的项）。<br> <br><br><br>服务端响应<br><br>对应的服务端代码在serv/sigma0/sigma0.cc中：<br>extern &quot;C&quot; void sigma0_main (void)<br>{<br>&nbsp;&nbsp;&nbsp;  …<br><br>&nbsp;&nbsp;&nbsp;  for(;;)<br>&nbsp;&nbsp;&nbsp;  {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  case L4_SIGMA0_RPC:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  fpage.raw = L4_Get (&amp;msg, 0);  <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  L4_Word_t addr = L4_Address (fpage);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  L4_Word_t attributes = L4_Get (&amp;msg, 1);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  …<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  allocate_page (tid, addr, L4_SizeLog2 (fpage), map));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  …<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  }<br><br>        … <br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  L4_Put (&amp;msg, 0, 0, (L4_Word_t </em>) 0, 2, &amp;map);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  L4_Load (&amp;msg);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  tag = L4_ReplyWait (tid, &amp;tid);<br>&nbsp;&nbsp;&nbsp;  }<br>}<br><br>sigma0_main()如果接受到了L4_SIGMA0_RPC ipc，会分配page：<br>bool allocate_page (L4_ThreadId_t tid, L4_Word_t addr, L4_Word_t log2size,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  L4_MapItem_t &amp; map, bool only_conventional)<br>{<br>&nbsp;&nbsp;&nbsp;  memregion_t * r;<br>&nbsp;&nbsp;&nbsp;  L4_Fpage_t fp;<br><br>&nbsp;&nbsp;&nbsp;  …<br><br>&nbsp;&nbsp;&nbsp;  // Try allocating from one of the memory pools.<br>&nbsp;&nbsp;&nbsp;  for (L4_Word_t i = 0; pools[i] != NULL; i++)<br>&nbsp;&nbsp;&nbsp;  {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  pools[i]-&gt;reset ();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  while ((r = pools[i]-&gt;next ()) != NULL)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  if (r-&gt;low &gt; addr_high || r-&gt;high &lt; addr)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  continue;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  fp = r-&gt;allocate (addr, log2size);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  if (! L4_IsNilFpage (fp))<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  map = L4_MapItem (fp, addr);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  alloc_pool.insert<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  (new memregion_t (addr, addr_high, tid));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  return true;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  }<br>&nbsp;&nbsp;&nbsp;  }<br><br>&nbsp;&nbsp;&nbsp;  …<br><br>}<br><br>其中的map = L4_MapItem(fp, addr)返回类型为L4_MapItem_t，它指定返回页面将被映射到请求线程的起始地址为addr的地方，参见L4_User_Manual-x2____4.4. SHARING MEMORY &mdash; MEMORY MAPPING<br><br>sigma0发送响应ipc后，内核会将所有的映射工作做好。<br><br><br><br><br><br><br><br><br><br><del>end</del><br> </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/10/22/L4：map-pages-from-sigma0/" class="archive-article-date">
+  	<time datetime="2008-10-22T12:18:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-10-22</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-优先级反转" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2008/10/22/优先级反转/">优先级反转</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <br><strong></strong><strong>优先级反转</strong>一般性描述<br>&nbsp;&nbsp;&nbsp;&nbsp;  <strong>优先级反转</strong>发生在一个高优先级的任务被迫等待一段不确定时 间，图1中3 个任务分别为<strong>task</strong>1、<strong>task</strong>2和<strong>task</strong>3，其优先级由高到低。 从图1可知，当<strong>task</strong>3占有由信号量(semaphore)保护的某种共享资源而 进入临界区执行时，<strong>task</strong>1就绪，由于系统的抢占式调度策略，出现 <strong>task</strong>1抢占<strong>task</strong>3执行。<strong>task</strong>1执行一段时间后也进入临界区，但此时 <strong>task</strong>3仍占有此临界资源的信号量，<strong>task</strong>1被阻塞，等待<strong>task</strong>3释放此信 号量。在经过这么一段时间后，<strong>task</strong>2已处于就绪状态，于是系统调 度<strong>task</strong>2执行。如果<strong>task</strong>3在<strong>task</strong>2的执行期间一直没有能够被调度执行 的话，那<strong>task</strong>1和<strong>task</strong>3将一直等到<strong>task</strong>2执行完后才能执行，<strong>task</strong>1更要 等到<strong>task</strong>3释放它所占有的信号量才能执行；如果这段时间超出<strong>task</strong>1 的最后期限，<strong>task</strong>1的调度出现了问题，此时轻则任务被长时间 阻塞，重则造成系统崩溃。 <strong>优先级反转</strong>原因可归纳为：高优先级的任务<strong>task</strong>1 由于要等待被低优先级任务 <strong>task</strong>3占有的临界资源而被<strong>task</strong>2阻 塞，而此时具有中优先级的任务 <strong>task</strong>2抢占了<strong>task</strong>3的CPU时间,导 致<strong>task</strong>2先于<strong>task</strong>1执行。此类优先 级反转问题的解决方法大致有2 种： 一种被称作优先级继承 (inheritance)；另一种被称作优先级 极限(ceilings)。<br><br><img src="http://img.pickbox.me/wp-content/uploads/pic/0562b011ba9ef665cb80c45d.jpg" small="0" class="blogimg"><br><br><br><br><br><br><br><br><del>end</del> </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/10/22/优先级反转/" class="archive-article-date">
+  	<time datetime="2008-10-22T07:39:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-10-22</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux/">Linux</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-【zz】一种变进制数及其应用（全排列之Hash实现）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2008/10/18/【zz】一种变进制数及其应用（全排列之Hash实现）/">【zz】一种变进制数及其应用（全排列之Hash实现）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <br><del>my</del><br><br>任意一个排列a3a1a5a2a4，与变进制数31524对应，以变进制数31524为索引（数组下标），即可查找到对应的这个排列。<br>hash(a3a1a5a2a4) = 31524<br><br>反之，以数组下标也可以查找到对应的排列<br><a target="_blank" href="http://algorithmically.blogbus.com/logs/7508802.html"><img class="blogimg" small="0" src="http://img.pickbox.me/wp-content/uploads/pic/53dbd3135df6482e5aaf53a7.jpg"></a><br><br><br><del>my</del><br><br><a target="_blank" href="http://bbs.chinaunix.net/archiver/?tid-1283459.html">http://bbs.chinaunix.net/archiver/?tid-1283459.html</a><br><br>我们经常使用的数的进制为“常数进制”，即始终逢p进1。例如，p进制数K可表示为<br>K = a0<em>p^0 + a1</em>p^1 + a2<em>p^2 + … + an</em>p^n （其中0 &lt;= ai &lt;= p-1），<br>它可以表示任何一个自然数。<br><br>对于这种常数进制表示法，以及各种进制之间的转换大家应该是很熟悉的了，但大家可能很少听说变进制数。这里我要介绍一种特殊的变进制数，它能够被用来实现 全排列的Hash函数，并且该Hash函数能够实现完美的防碰撞和空间利用（不会发生碰撞，且所有空间被完全使用，不多不少）。这种全排列Hash函数也 被称为全排列数化技术。下面，我们就来看看这种变进制数。<br><br>我们考查这样一种变进制数：第1位逢2进1，第2位逢3进1，……，第n位逢n+1进1。它的表示形式为<br>K = a1<em>1! + a2</em>2! + a3<em>3! + … + an</em>n! （其中0 &lt;= ai &lt;= i），<br>也可以扩展为如下形式（因为按定义a0始终为0），以与p进制表示相对应：<br>K = a0<em>0! + a1</em>1! + a2<em>2! + a3</em>3! + … + an<em>n! （其中0 &lt;= ai &lt;= i）。<br>（后面的变进制数均指这种变进制数，且采用前一种表示法）<br><br>先让我们来考查一下该变进制数的进位是否正确。假设变进制数K的第i位ai为i+1，需要进位，而ai</em>i!=(i+1)<em>i!=1</em>(i+1)!，即正确的向高位进1。这说明该变进制数能够正确进位，从而是一种合法的计数方式。<br><br>接下来我们考查n位变进制数K的性质：<br>（1）当所有位ai均为i时，此时K有最大值<br>MAX[K] = 1<em>1! + 2</em>2! + 3<em>3! + … + n</em>n!<br>= 1! + 1<em>1! + 2</em>2! + 3<em>3! + … + n</em>n! - 1<br>= (1+1)<em>1! + 2</em>2! + 3<em>3! + … + n</em>n! - 1<br>= 2! + 2<em>2! + 3</em>3! + … + n<em>n! - 1<br>= …<br>= (n+1)!-1<br>因此，n位K进制数的最大值为(n+1)!-1。<br>（2）当所有位ai均为0时，此时K有最小值0。<br>因此，n位变进制数能够表示0到(n+1)!-1的范围内的所有自然数，共(n+1)!个。<br><br>在一些状态空间搜索算法中，我们需要快速判断某个状态是否已经出现，此时常常使用Hash函数来实现。其中，有一类特殊的状态空间，它们是由全排列产生 的，比如N数码问题。对于n个元素的全排列，共产生n!个不同的排列或状态。下面将讨论如何使用这里的变进制数来实现一个针对全排列的Hash函数。<br><br>从数的角度来看，全排列和变进制数都用到了阶乘。如果我们能够用0到n!-1这n!个连续的变进制数来表示n个元素的所有排列，那么就能够把全排列完全地 数化，建立起全排列和自然数之间一一对应的关系，也就实现了一个完美的Hash函数。那么，我们的想法能否实现呢？答案是肯定的，下面将进行讨论。<br><br>假设我们有b0,b1,b2,b3,…,bn共n+1个不同的元素，并假设各元素之间有一种次序关系 b0&lt;b1&lt;b2&lt;…&lt;bn。对它们进行全排列，共产生(n+1)!种不同的排列。对于产生的任一排列 c0,c1,c2,..,cn，其中第i个元素ci（1 &lt;= i &lt;= n）与它前面的i个元素构成的逆序对的个数为di（0 &lt;= di &lt;= i），那么我们得到一个逆序数序列d1,d2,…,dn（0 &lt;= di &lt;= i）。这不就是前面的n位变进制数的各个位么？于是，我们用n位变进制数M来表示该排列：<br>M = d1</em>1! + d2<em>2! + … + dn</em>n!<br>因此，每个排列都可以按这种方式表示成一个n位变进制数。下面，我们来考查n位变进制数能否与n+1个元素的全排列建立起一一对应的关系。<br><br>由于n位变进制数能表示(n+1)!个不同的数，而n+1个元素的全排列刚好有(n+1)!个不同的排列，且每一个排列都已经能表示成一个n位变进制数。如果我们能够证明任意两个不同的排列产生两个不同的变进制数，那么我们就可以得出结论：<br><strong>★ 定理1 n+1个元素的全排列的每一个排列对应着一个不同的n位变进制数。</strong><br><br>对于全排列的任意两个不同的排列p0,p1,p2,…,pn（排列P）和q0,q1,q2,…,qn（排列Q），从后往前查找第一个不相同的元素，分别记为pi和qi（0 &lt; i &lt;= n）。<br>（1）如果qi &gt; pi，那么,<br>如果在排列Q中qi之前的元素x与qi构成逆序对，即有x &gt; qi，则在排列P中pi之前也有相同元素x &gt; pi（因为x &gt; qi且qi &gt; pi），即在排列P中pi之前的元素x也与pi构成逆序对，所以pi的逆序数大于等于qi的逆序数。又qi与pi在排列P中构成pi的逆序对，所以pi的 逆序数大于qi的逆序数。<br>（2）同理，如果pi &gt; qi，那么qi的逆序数大于pi的逆序数。<br>因此，由（1）和（2）知，排列P和排列Q对应的变进制数至少有第i位不相同，即全排列的任意两个不同的排列具有不同的变进制数。至此，定理1得证。<br><br>计算n个元素的一个排列的变进制数的算法大致如下（时间复杂度为O(n^2)）：<br>template &lt;typename T&gt;<br>size_t PermutationToNumber(const T permutation[], int n)<br>{<br>// n不能太大，否则会溢出（如果size_t为32位，则n &lt;= 12）<br>size_t result = 0;<br>for (int j = 1; j &lt; n; ++j) {<br>int count = 0;<br>for (int k = 0; k &lt; j; ++k) {<br>if (permutation[k] &gt; permutation[j])<br>++count;<br>}<br>// factorials[j]保存着j!<br>result += count * factorials[j];<br>}<br><br>return result;<br>}<br><br>说明：<br>（1）由于n!是一个很大的数，因此一般只能用于较小的n。<br>（2）有了计算排列的变进制数的算法，我们就可以使用一个大小为n!的数组来保存每一个排列的状态，使用排列的变进制数作为数组下标，从而实现状态的快速检索。如果只是标记状态是否出现，则可以用一位来标记状态。<br><br>最后，附上一段完整的代码来演示使用变进制数实现全排列的数化（或者Hash，随便怎么称乎了）。<br><br>2008.10.9补充：“十进制数 &lt;–&gt; 变进制数 &lt;–&gt; 排列”之间的转换算法实现见13楼<br><br>[<em> 本帖最后由 tyc611 于 2008-10-9 18:43 编辑 </em>]<br> <br><br>2008-10-8 22:48<br>下载次数: 61<img src="http://img.pickbox.me/wp-content/uploads/pic/other_site/bbs_chinaunix_zip.gif" class="absmiddle"> <a href="http://bbs.chinaunix.net/attachment.php?aid=293384" target="_blank">src.zip</a> (4.72 KB)<br><br><br><br><br><br><br><del>end</del> </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/10/18/【zz】一种变进制数及其应用（全排列之Hash实现）/" class="archive-article-date">
+  	<time datetime="2008-10-18T15:18:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-10-18</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-inotify-监控文件系统的活动" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2008/10/18/inotify-监控文件系统的活动/">inotify 监控文件系统的活动</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <br>example code<br><br>#include &lt;stdio.h&gt;<br>#include &lt;stdlib.h&gt;<br>#include &lt;errno.h&gt;<br>#include &lt;sys/types.h&gt;<br>#include &lt;sys/inotify.h&gt;<br><br>#define EVENT_SIZE  ( sizeof (struct inotify_event) )<br>#define BUF_LEN&nbsp;&nbsp;&nbsp;&nbsp;  ( 1024 <em> ( EVENT_SIZE + 16 ) )<br><br>int main( int argc, char **argv ) <br>{<br>  int length, i = 0;<br>  int fd;<br>  int wd;<br>  char buffer[BUF_LEN];<br><br>  fd = inotify_init();<br><br>  if ( fd &lt; 0 ) {<br>&nbsp;&nbsp;&nbsp;  perror( &quot;inotify_init&quot; );<br>  }<br><br>  wd = inotify_add_watch( fd, &quot;/home/strike&quot;, <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  IN_MODIFY | IN_CREATE | IN_DELETE );<br>  length = read( fd, buffer, BUF_LEN );  <br><br>  if ( length &lt; 0 ) {<br>&nbsp;&nbsp;&nbsp;  perror( &quot;read&quot; );<br>  }  <br><br>  while ( i &lt; length ) {<br>&nbsp;&nbsp;&nbsp;  struct inotify_event </em>event = ( struct inotify_event * ) &amp;buffer[ i ];<br>&nbsp;&nbsp;&nbsp;  if ( event-&gt;len ) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  if ( event-&gt;mask &amp; IN_CREATE ) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  if ( event-&gt;mask &amp; IN_ISDIR ) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  printf( &quot;The directory %s was created.n&quot;, event-&gt;name );&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  else {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  printf( &quot;The file %s was created.n&quot;, event-&gt;name );<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  else if ( event-&gt;mask &amp; IN_DELETE ) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  if ( event-&gt;mask &amp; IN_ISDIR ) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  printf( &quot;The directory %s was deleted.n&quot;, event-&gt;name );&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  else {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  printf( &quot;The file %s was deleted.n&quot;, event-&gt;name );<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  else if ( event-&gt;mask &amp; IN_MODIFY ) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  if ( event-&gt;mask &amp; IN_ISDIR ) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  printf( &quot;The directory %s was modified.n&quot;, event-&gt;name );<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  else {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  printf( &quot;The file %s was modified.n&quot;, event-&gt;name );<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  }<br>&nbsp;&nbsp;&nbsp;  }<br>&nbsp;&nbsp;&nbsp;  i += EVENT_SIZE + event-&gt;len;<br>  }<br><br>  ( void ) inotify_rm_watch( fd, wd );<br>  ( void ) close( fd );<br><br>  exit( 0 );<br>}<br><br><br>more introduction here :<br><a href="http://www.ibm.com/developerworks/cn/linux/l-ubuntu-inotify/index.html?ca=drs-cn-1013" target="_blank">使用 inotify 监控文件系统的活动</a><br><br><br><br><br><br><br><br><br><br><del>end</del> </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/10/18/inotify-监控文件系统的活动/" class="archive-article-date">
+  	<time datetime="2008-10-18T13:46:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-10-18</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux/">Linux</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-【zz】make-the-other-person-fell-important-and-do-it-sincerely" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2008/10/18/【zz】make-the-other-person-fell-important-and-do-it-sincerely/">【zz】make the other person fell important and do it sincerely</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <br><a href="http://blog.csdn.net/futurelight/archive/2008/09/27/2985516.aspx" target="_blank">http://blog.csdn.net/futurelight/archive/2008/09/27/2985516.aspx</a><br></p><p>　　I could not, of course, accept your resignation without some explanation. I took her aside and said,&quot;Paulette, you must understand that I can’t accept your resignation. You mean a great deal to me and to this company, and you are important to the success of this restaurant as I am.&quot;I repeated this in front of the entire staff, and I invited her to my home and reiterated my confidence in her with my family present.</p><p>　　&quot;Talk to people about themselves,&quot; said Disraeli, one of the shrewdest men who ever ruled the British Empire.&quot;Talk to people about themselves and they will listen for hours.&quot;</p><br><br><br><br><br><br><br><br><br><br><del>end</del> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/10/18/【zz】make-the-other-person-fell-important-and-do-it-sincerely/" class="archive-article-date">
+  	<time datetime="2008-10-18T07:25:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-10-18</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Life/">Life</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-L4学习收集" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2008/10/17/L4学习收集/">L4学习收集</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <br>Fiasco/L4 System Call C-Bindings Reference Manual<br><a href="http://os.inf.tu-dresden.de/l4env/doc/html/l4sys-l4v2/index.html" target="_blank">http://os.inf.tu-dresden.de/l4env/doc/html/l4sys-l4v2/index.html</a><br><br>iguana<br><a target="_blank" href="http://ertos.nicta.com.au/software/kenge/iguana-project/latest/">http://ertos.nicta.com.au/software/kenge/iguana-project/latest/</a><br><br><br>微内核与操作系统的简化<br><a target="_blank" href="http://hi.baidu.com/l4os/blog/item/c2114c82544220bb6c81198b.html">http://hi.baidu.com/l4os/blog/item/c2114c82544220bb6c81198b.html</a><br><br>Operating System Based L4-Like Microkernel<br><a target="_blank" href="http://hi.baidu.com/l4os/blog/item/7838405269fb64080df3e3d4.html">http://hi.baidu.com/l4os/blog/item/7838405269fb64080df3e3d4.html</a><br><br>OKL4（Open Kernel Labs）<br><a href="http://wiki.ok-labs.com/PreviousReleases" target="_blank">http://wiki.ok-labs.com/PreviousReleases</a><br><br><br><br><br><br><del>end</del> </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/10/17/L4学习收集/" class="archive-article-date">
+  	<time datetime="2008-10-17T14:05:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-10-17</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-【zz】SYSENTER-SYSEXIT" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2008/10/15/【zz】SYSENTER-SYSEXIT/">【zz】SYSENTER/SYSEXIT</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <br><a href="http://www.ibm.com/developerworks/cn/linux/kernel/l-k26ncpu/index.html" target="_blank">http://www.ibm.com/developerworks/cn/linux/kernel/l-k26ncpu/index.html</a><br><br></p><p><a name="1">前言</a></p><p> </p><p>在 Linux 2.4 内核中，用户态 Ring3 代码请求内核态 Ring0 代码完成某些功能是通过系统调用完成的，而系统调用的是通过软中断指令（int 0x80）实现的。在 x86 保护模式中，处理 INT 中断指令时，CPU 首先从中断描述表 IDT 取出对应的门描述符，判断门描述符的种类，然后检查门描述符的级别 DPL 和 INT 指令调用者的级别 CPL，当 CPL&lt;=DPL 也就是说 INT 调用者级别高于描述符指定级别时，才能成功调用，最后再根据描述符的内容，进行压栈、跳转、权限级别提升。内核代码执行完毕之后，调用 IRET 指令返回，IRET 指令恢复用户栈，并跳转会低级别的代码。</p><p>其实，在发生系统调用，由 Ring3 进入 Ring0 的这个过程浪费了不少的 CPU 周期，例如，系统调用必然需要由 Ring3 进入 Ring0（由内核调用 INT 指令的方式除外，这多半属于 Hacker 的内核模块所为），权限提升之前和之后的级别是固定的，CPL 肯定是 3，而 INT 80 的 DPL 肯定也是 3，这样 CPU 检查门描述符的 DPL 和调用者的 CPL 就是完全没必要。正是由于如此，Intel x86 CPU 从 PII 300（Family 6，Model 3，Stepping 3）之后，开始支持新的系统调用指令 sysenter/sysexit。sysenter 指令用于由 Ring3 进入 Ring0，SYSEXIT 指令用于由 Ring0 返回 Ring3。由于没有特权级别检查的处理，也没有压栈的操作，所以执行速度比 INT n/IRET 快了不少。</p><br> <img width="100%" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif"><br> <img width="8" height="6" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <img width="100%" height="4" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"><br> <img width="16" height="16" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif"> <a href="http://www.ibm.com/developerworks/cn/linux/kernel/l-k26ncpu/index.html#main" target="_blank" rel="external"><strong>回页首</strong></a> <br><br><p><a name="2">不同系统调用方式的性能比较：</a></p><p> </p><p>下面是一些来自互联网的有关 sysenter/sysexit 指令和 INT n/IRET 指令在 Intel Pentium CPU 上的性能对比：</p><p>表1：系统调用性能测试测试硬件：Intel&#174; Pentium&#174; III CPU, 450 MHzProcessor Family: 6 Model: 7 Stepping: 2</p>                                     用户模式花费的时间            核心模式花费的时间                            基于 sysenter/sysexit 指令的系统调用            9.833 microseconds            6.833 microseconds                            基于中断 INT n 指令的系统调用            17.500 microseconds            7.000 microseconds            <p>数据来源：[1]</p><br><a name="N10080"><strong>数据来源：[2]</strong></a><br><img width="513" height="377" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_image002.jpg"> <br><p>表2：各种 CPU 上 INT 0x80 和 SYSENTER 执行速度的比较</p>                        CPU            Int0x80            sysenter                            Athlon XP 1600+            277            169                            800MHz mode 1 athlon            279            170                            2.8GHz p4 northwood ht            1152            442            <p>上述数据为对 100000 次 getppid() 系统调用所花费的 CPU 时钟周期取的平均值         <br>数据来源[3]</p><p>自 这种技术推出之后，人们一直在考虑在 Linux 中加入对这种指令的支持，在 Kernel.org 的邮件列表中，主题为 &quot;Intel P6 vs P7 system call performance&quot; 的大量邮件讨论了采用这种指令的必要性，邮件中列举的理由主要是 Intel 在 Pentium 4 的设计上存在问题，造成 Pentium 4 使用中断方式执行的系统调用比 Pentium 3 以及 AMD Athlon 所耗费的 CPU 时钟周期多上 5~10 倍。因此，在 Pentium 4 平台上，通过 sysenter/sysexit 指令来执行系统调用已经是刻不容缓的需求。</p><br> <img width="100%" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif"><br> <img width="8" height="6" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <img width="100%" height="4" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"><br> <img width="16" height="16" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif"> <a href="http://www.ibm.com/developerworks/cn/linux/kernel/l-k26ncpu/index.html#main" target="_blank" rel="external"><strong>回页首</strong></a> <br><br><p><a name="3">sysenter/sysexit 系统调用的机制：</a></p><p> </p><p>在 Intel 的软件开发者手册第二、三卷（Vol.2B,Vol.3）中，4.8.7 节是关于 sysenter/sysexit 指令的详细描述。手册中说明，sysenter 指令可用于特权级 3 的用户代码调用特权级 0 的系统内核代码，而 SYSEXIT 指令则用于特权级 0 的系统代码返回用户空间中。sysenter 指令可以在 3，2，1 这三个特权级别调用（Linux 中只用到了特权级 3），而 SYSEXIT 指令只能从特权级 0 调用。</p><p>执行 sysenter 指令的系统必须满足两个条件：1.目标 Ring 0 代码段必须是平坦模式（Flat Mode）的 4GB 的可读可执行的非一致代码段。2.目标 RING0 堆栈段必须是平坦模式（Flat Mode）的 4GB 的可读可写向上扩展的栈段。</p><p>在 Intel 的手册中，还提到了 sysenter/sysexit 和 int n/iret 指令的一个区别，那就是 sysenter/sysexit 指令并不成对，sysenter 指令并不会把 SYSEXIT 所需的返回地址压栈，sysexit 返回的地址并不一定是 sysenter 指令的下一个指令地址。调用 sysenter/sysexit 指令地址的跳转是通过设置一组特殊寄存器实现的。这些寄存器包括：</p><p>SYSENTER_CS_MSR － 用于指定要执行的 Ring 0 代码的代码段选择符，由它还能得出目标 Ring 0 所用堆栈段的段选择符；</p><p>SYSENTER_EIP_MSR － 用于指定要执行的 Ring 0 代码的起始地址；</p><p>SYSENTER_ESP_MSR－用于指定要执行的Ring 0代码所使用的栈指针</p><p>这 些寄存器可以通过 wrmsr 指令来设置，执行 wrmsr 指令时，通过寄存器 edx、eax 指定设置的值，edx 指定值的高 32 位，eax 指定值的低 32 位，在设置上述寄存器时，edx 都是 0，通过寄存器 ecx 指定填充的 MSR 寄存器，sysenter_CS_MSR、sysenter_ESP_MSR、sysenter_EIP_MSR 寄存器分别对应 0x174、0x175、0x176，需要注意的是，wrmsr 指令只能在 Ring 0 执行。</p><p>这里还要介绍一个特性， 就是 Ring0、Ring3 的代码段描述符和堆栈段描述符在全局描述符表 GDT 中是顺序排列的，这样只需知道 SYSENTER_CS_MSR 中指定的 Ring0 的代码段描述符，就可以推算出 Ring0 的堆栈段描述符以及 Ring3 的代码段描述符和堆栈段描述符。</p><p>在 Ring3 的代码调用了 sysenter 指令之后，CPU 会做出如下的操作：</p><p>1． 将 SYSENTER_CS_MSR 的值装载到 cs 寄存器</p><p>2． 将 SYSENTER_EIP_MSR 的值装载到 eip 寄存器</p><p>3． 将 SYSENTER_CS_MSR 的值加 8（Ring0 的堆栈段描述符）装载到 ss 寄存器。</p><p>4． 将 SYSENTER_ESP_MSR 的值装载到 esp 寄存器</p><p>5． 将特权级切换到 Ring0</p><p>6． 如果 EFLAGS 寄存器的 VM 标志被置位，则清除该标志</p><p>7． 开始执行指定的 Ring0 代码</p><p>在 Ring0 代码执行完毕，调用 SYSEXIT 指令退回 Ring3 时，CPU 会做出如下操作：</p><p>1． 将 SYSENTER_CS_MSR 的值加 16（Ring3 的代码段描述符）装载到 cs 寄存器</p><p>2． 将寄存器 edx 的值装载到 eip 寄存器</p><p>3． 将 SYSENTER_CS_MSR 的值加 24（Ring3 的堆栈段描述符）装载到 ss 寄存器</p><p>4． 将寄存器 ecx 的值装载到 esp 寄存器</p><p>5． 将特权级切换到 Ring3</p><p>6． 继续执行 Ring3 的代码</p><p>由此可知，在调用 SYSENTER 进入 Ring0 之前，一定需要通过 wrmsr 指令设置好 Ring0 代码的相关信息，在调用 SYSEXIT 之前，还要保证寄存器edx、ecx 的正确性。</p><br> <img width="100%" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif"><br> <img width="8" height="6" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <img width="100%" height="4" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"><br> <img width="16" height="16" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif"> <a href="http://www.ibm.com/developerworks/cn/linux/kernel/l-k26ncpu/index.html#main" target="_blank" rel="external"><strong>回页首</strong></a> <br><br><p><a name="4">如何得知 CPU 是否支持 sysenter/sysexit 指令</a></p><p> </p><p>根 据 Intel 的 CPU 手册，我们可以通过 CPUID 指令来查看 CPU 是否支持 sysenter/sysexit 指令，做法是将 EAX 寄存器赋值 1，调用 CPUID 指令，寄存器 edx 中第 11 位（这一位名称为 SEP）就表示是否支持。在调用 CPUID 指令之后，还需要查看 CPU 的 Family、Model、Stepping 属性来确认，因为据称 Pentium Pro 处理器会报告 SEP 但是却不支持 sysenter/sysexit 指令。只有 Family 大于等于 6，Model 大于等于 3，Stepping 大于等于 3 的时候，才能确认 CPU 支持 sysenter/sysexit 指令。</p><br> <img width="100%" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif"><br> <img width="8" height="6" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <img width="100%" height="4" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"><br> <img width="16" height="16" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif"> <a href="http://www.ibm.com/developerworks/cn/linux/kernel/l-k26ncpu/index.html#main" target="_blank" rel="external"><strong>回页首</strong></a> <br><br><p><a name="5">Linux 对 sysenter/sysexit 系统调用方式的支持</a></p><p> </p><p>在 2.4 内核中，直到最近的发布的 2.4.26-rc2 版本，没有加入对 sysenter/sysexit 指令的支持。而对 sysenter/sysexit 指令的支持最早是2002 年，由 Linus Torvalds 编写并首次加入 2.5 版内核中的，经过多方测试和多次 patch，最终正式加入到了 2.6 版本的内核中。</p><p><a href="http://kerneltrap.org/node/view/531/1996" target="_blank" rel="external">http://kerneltrap.org/node/view/531/1996</a></p><p><a href="http://lwn.net/Articles/18414/" target="_blank" rel="external">http://lwn.net/Articles/18414/</a></p><p>具 体谈到系统调用的完成，不能孤立的看内核的代码，我们知道，系统调用多被封装成库函数提供给应用程序调用，应用程序调用库函数后，由 glibc 库负责进入内核调用系统调用函数。在 2.4 内核加上老版的 glibc 的情况下，库函数所做的就是通过 int 指令来完成系统调用，而内核提供的系统调用接口很简单，只要在 IDT 中提供 INT 0x80 的入口，库就可以完成中断调用。</p><p>在 2.6 内核中，内核代码同时包含了对 int 0x80 中断方式和 sysenter 指令方式调用的支持，因此内核会给用户空间提供一段入口代码，内核启动时根据 CPU 类型，决定这段代码采取哪种系统调用方式。对于 glibc 来说，无需考虑系统调用方式，直接调用这段入口代码，即可完成系统调用。这样做还可以尽量减少对 glibc 的改动，在 glibc 的源码中，只需将 &quot;int $0x80&quot; 指令替换成 &quot;call 入口地址&quot; 即可。</p><p>下面，以 2.6.0 的内核代码配合支持 SYSENTER 调用方式的 glibc2.3.3 为例，分析一下系统调用的具体实现。</p><br> <img width="100%" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif"><br> <img width="8" height="6" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <img width="100%" height="4" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"><br> <img width="16" height="16" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif"> <a href="http://www.ibm.com/developerworks/cn/linux/kernel/l-k26ncpu/index.html#main" target="_blank" rel="external"><strong>回页首</strong></a> <br><br><p><a name="6">内核在启动时做的准备</a></p><p> </p><p>前 面说到的这段入口代码，根据调用方式分为两个文件，支持 sysenter 指令的代码包含在文件 arch/i386/kernel/vsyscall-sysenter.S 中，支持int中断的代码包含在arch/i386/kernel/vsyscall-int80.S中，入口名都是 <strong>kernel_vsyscall，这两个文件编译出的二进制代码由arch/i386/kernel/vsyscall.S所包含，并导出起始地址和 结束地址。</strong></p><p>2.6内核在启动的时候，调用了新增的函数sysenter_setup（参见arch/i386/kernel /sysenter.c），在这个函数中，内核将虚拟内存空间的顶端一个固定地址页面（从0xffffe000开始到0xffffeffff的4k大小） 映射到一个空闲的物理内存页面。然后通过之前执行CPUID的指令得到的数据，检测CPU是否支持sysenter/sysexit指令。如果CPU不支 持，那么将采用INT调用方式的入口代码拷贝到这个页面中，然后返回。相反，如果CPU支持SYSETER/SYSEXIT指令，则将采用 SYSENTER调用方式的入口代码拷贝到这个页面中。使用宏on_each_cpu在每个CPU上执行enable_sep_cpu这个函数。</p><p>在 enable_sep_cpu函数中，内核将当前CPU的TSS结构中的ss1设置为当前内核使用的代码段，esp1设置为该TSS结构中保留的一个 256字节大小的堆栈。在X86中，TSS结构中ss1和esp1本来是用于保存Ring 1进程的堆栈段和堆栈指针的。由于内核在启动时，并不能预知调用sysenter指令进入Ring 0后esp的确切值，而应用程序又无权调用wrmsr指令动态设置，所以此时就借用esp1指向一个固定的缓冲区来填充这个MSR寄存器，由于Ring 1根本没被启用，所以并不会对系统造成任何影响。在下面的文章中会介绍进入Ring 0之后，内核如何修复ESP来指向正确的Ring 0堆栈。关于TSS结构更细节的应用可参考代码include/asm-i386/processor.h）。</p><p>然后，内核通 过wrmsr(msr,val1,val2)宏调用wrmsr指令对当前CPU设置MSR寄存器，可以看出调用宏的第三个参数即edx都被设置为0。其中 SYSENTER_CS_MSR的值被设置为当前内核用的所在代码段；SYSENTER_ESP_MSR被设置为esp1，即指向当前CPU的TSS结构 中的堆栈；SYSENTER_EIP_MSR则被设置为内核中处理sysenter指令的接口函数sysenter_entry（参见arch/i386 /kernel/entry.S）。这样，sysenter指令的准备工作就完成了。</p><p>通过内核在启动时进行这样的设置，在每个进程的进程空间中，都能访问到内核所映射的这个代码页面，当然这个页面对于应用程序来说是只读的。我们通过新版的ldd工具查看任意一个可执行程序，可以看到下面的结果：</p>                                    [root@test]# file dynamic<br>dynamic: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), <br>for GNU/Linux 2.2.5, dynamically linked (uses shared libs), not stripped<br>[root@test]# ldd dynamic<br>        linux-gate.so.1 =&gt;  (0xffffe000)<br>        libc.so.6 =&gt; /lib/tls/libc.so.6 (0x4002c000)<br>        /lib/ld-linux.so.2 =&gt; /lib/ld-linux.so.2 (0x40000000)                        <br><p>这个所谓的&quot;linux-gate.so.1&quot;的内容 就是内核映射的代码，系统中其实并不存在这样一个链接库文件，它的名字是由ldd自己起的，而在老版本的ldd中，虽然能够检测到这段代码，但是由于没有 命名而且在系统中找不到对应链接库文件，所以会有一些显示上的问题。有关这个问题的背景，可以参考下面这个网址： <a href="http://sources.redhat.com/ml/libc-alpha/2003-09/msg00263.html" target="_blank" rel="external">http://sources.redhat.com/ml/libc-alpha/2003-09/msg00263.html</a>。</p><br> <img width="100%" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif"><br> <img width="8" height="6" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <img width="100%" height="4" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"><br> <img width="16" height="16" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif"> <a href="http://www.ibm.com/developerworks/cn/linux/kernel/l-k26ncpu/index.html#main" target="_blank" rel="external"><strong>回页首</strong></a> <br><br><p><a name="7">由用户态经库函数进入内核态</a></p><p> </p><p>为 了配合内核使用新的系统调用方式，glibc中要做一定的修改。新的glibc-2.3.2（及其以后版本中）中已经包含了这个改动，在glibc源代码 的sysdeps/unix/sysv/linux/i386/sysdep.h文件中，处理系统调用的宏INTERNAL_SYSCALL在不同的编译 选项下有不同的结果。在打开支持sysenter/sysexit指令的选项I386_USE_SYSENTER下，系统调用会有两种方式，在静态链接 （编译时加上-static选项）情况下，采用&quot;call <em>_dl_sysinfo&quot;指令；在动态链接情况下，采用&quot;call </em>%gs:0x10&quot;指令。这两种情况由glibc库采用哪种方法链接，实际上最终都相当于调用某个固定地址的代码。下面我们通过一个小小的程序，配合 gdb来验证。</p><p>首先是一个静态编译的程序，代码很简单：</p>                                    main()<br>{<br> getuid();<br>}                        <br><p>将代码加上static选项用gcc静态编译，然后用gdb装载并反编译main函数。</p>                                    [root@test opt]# gcc test.c -o ./static -static<br>[root@test opt]# gdb ./static<br>(gdb) disassemble main<br>0x08048204 &lt;main+0&gt;:    push   %ebp<br>0x08048205 &lt;main+1&gt;:    mov    %esp,%ebp<br>0x08048207 &lt;main+3&gt;:    sub    $0x8,%esp<br>0x0804820a &lt;main+6&gt;:    and    $0xfffffff0,%esp<br>0x0804820d &lt;main+9&gt;:    mov    $0x0,%eax<br>0x08048212 &lt;main+14&gt;:   sub    %eax,%esp<br>0x08048214 &lt;main+16&gt;:   call   0x804cb20 &lt;getuid&gt;<br>0x08048219 &lt;main+21&gt;:   leave<br>0x0804821a &lt;main+22&gt;:   ret                        <br><p>可以看出，main函数中调用了<strong>getuid函数，接着反编译</strong>getuid函数。</p>                                    (gdb) disassemble 0x804cb20<br>0x0804cb20 &lt;<strong>getuid+0&gt;:        push   %ebp<br>0x0804cb21 &lt;</strong>getuid+1&gt;:        mov    0x80aa028,%eax<br>0x0804cb26 &lt;<strong>getuid+6&gt;:        mov    %esp,%ebp<br>0x0804cb28 &lt;</strong>getuid+8&gt;:        test   %eax,%eax<br>0x0804cb2a &lt;<strong>getuid+10&gt;:       jle    0x804cb40 &lt;</strong>getuid+32&gt;<br>0x0804cb2c &lt;<strong>getuid+12&gt;:       mov    $0x18,%eax<br>0x0804cb31 &lt;</strong>getuid+17&gt;:       call   <em>0x80aa054<br>0x0804cb37 &lt;<strong>getuid+23&gt;:       pop    %ebp<br>0x0804cb38 &lt;</strong>getuid+24&gt;:       ret                        <br><p>上面只是<strong>getuid函数的一部分。可以看到</strong>getuid将eax寄存器赋值为getuid系统调用的功能号0x18然后调用了另一个函数，这个函数的入口在哪里呢？接着查看位于地址0x80aa054的值。</p>                                    (gdb) X 0x80aa054<br>0x80aa054 &lt;_dl_sysinfo&gt;:        0x0804d7f6                        <br><p>看起来不像是指向内核映射页面内的代码，但是，可以确认，<strong>dl_sysinfo指针的指向的地址就是0x80aa054。下面，我们试着启动这个程序，然后停在程序第一条语句，再查看这个地方的值。</strong></p>                                    (gdb) b main<br>Breakpoint 1 at 0x804820a<br>(gdb) r<br>Starting program: /opt/static<br>Breakpoint 1, 0x0804820a in main ()<br>(gdb) X 0x80aa054<br>0x80aa054 &lt;_dl_sysinfo&gt;:        0xffffe400                        <br><p>可以看到，_dl_sysinfo指针指向的数值已经发生了变化，指向了0xffffe400，如果我们继续运行程序，getuid函数将会调用地址0xffffe400处的代码。</p><p>接下来，我们将上面的代码编译成动态链接的方式，即默认方式，用gdb装载并反编译main函数</p>                                    [root@test opt]# gcc test.c -o ./dynamic<br>[root@test opt]# gdb ./dynamic<br>(gdb) disassemble main<br>0x08048204 &lt;main+0&gt;:    push   %ebp<br>0x08048205 &lt;main+1&gt;:    mov    %esp,%ebp<br>0x08048207 &lt;main+3&gt;:    sub    $0x8,%esp<br>0x0804820a &lt;main+6&gt;:    and    $0xfffffff0,%esp<br>0x0804820d &lt;main+9&gt;:    mov    $0x0,%eax<br>0x08048212 &lt;main+14&gt;:   sub    %eax,%esp<br>0x08048214 &lt;main+16&gt;:   call   0x8048288<br>0x08048219 &lt;main+21&gt;:   leave<br>0x0804821a &lt;main+22&gt;:   ret                        <br><p>由于libc库是在程序初始化时才被装载，所以我们先启动程序，并停在main第一条语句，然后反汇编getuid库函数</p>。                                    (gdb) b main<br>Breakpoint 1 at 0x804820a<br>(gdb) r<br>Starting program: /opt/dynamic<br>Breakpoint 1, 0x0804820a in main ()<br>(gdb) disassemble getuid<br>Dump of assembler code for function getuid:<br>0x40219e50 &lt;<strong>getuid+0&gt;:        push   %ebp<br>0x40219e51 &lt;</strong>getuid+1&gt;:        mov    %esp,%ebp<br>0x40219e53 &lt;<strong>getuid+3&gt;:        push   %ebx<br>0x40219e54 &lt;</strong>getuid+4&gt;:        call   0x40219e59 &lt;<strong>getuid+9&gt;<br>0x40219e59 &lt;</strong>getuid+9&gt;:        pop    %ebx<br>0x40219e5a &lt;<strong>getuid+10&gt;:       add    $0x84b0f,%ebx<br>0x40219e60 &lt;</strong>getuid+16&gt;:       mov    0xffffd87c(%ebx),%eax<br>0x40219e66 &lt;<strong>getuid+22&gt;:       test   %eax,%eax<br>0x40219e68 &lt;</strong>getuid+24&gt;:       jle    0x40219e80 &lt;<strong>getuid+48&gt;<br>0x40219e6a &lt;</strong>getuid+26&gt;:       mov    $0x18,%eax<br>0x40219e6f &lt;__getuid+31&gt;:       call   </em>%gs:0x10<br>0x40219e76 &lt;<strong>getuid+38&gt;:       pop    %ebx<br>0x40219e77 &lt;</strong>getuid+39&gt;:       pop    %ebp<br>0x40219e78 &lt;__getuid+40&gt;:       ret                        <br><p>可 以看出，库函数getuid将eax寄存器设置为getuid系统调用的调用号0x18，然后调用%gs:0x10所指向的函数。在gdb中，无法查看非 DS段的数据内容，所以无法查看%gs:0x10所保存的实际数值，不过我们可以通过编程的办法，内嵌汇编将%gs:0x10的值赋予某个局部变量来得到 这个数值，而这个数值也是0xffffe400，具体代码这里就不再赘述。</p><p>由此可见，无论是静态还是动态方式，最终我们都来到了0xffffe400这里的一段代码，这里就是内核为我们映射的系统调用入口代码。在gdb中，我们可以直接反汇编来查看这里的代码</p>                                    (gdb) disassemble 0xffffe400 0xffffe414<br>Dump of assembler code from 0xffffe400 to 0xffffe414:0xffffe400:     push   %ecx<br>0xffffe401:     push   %edx<br>0xffffe402:     push   %ebp<br>0xffffe403:     mov    %esp,%ebp<br>0xffffe405:     sysenter<br>0xffffe407:     nop<br>0xffffe408:     nop<br>0xffffe409:     nop<br>0xffffe40a:     nop<br>0xffffe40b:     nop<br>0xffffe40c:     nop<br>0xffffe40d:     nop<br>0xffffe40e:     jmp    0xffffe403<br>0xffffe410:     pop    %ebp<br>0xffffe411:     pop    %edx<br>0xffffe412:     pop    %ecx<br>0xffffe413:     ret<br>End of assembler dump.                        <br><p>这 段代码正是arch/i386/kernel/vsyscall-sysenter.S文件中的代码。其中，在sysenter之前的是入口代码，在 0xffffe410开始的是内核返回处理代码（后面提到的SYSENTER_RETURN即指向这里）。在入口代码中，首先是保存当前的 ecx，edx（由于sysexit指令需要使用这两个寄存器）以及ebp。然后调用sysenter指令，跳转到内核Ring 0代码，也就是sysenter_entry入口处。</p><br> <img width="100%" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif"><br> <img width="8" height="6" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <img width="100%" height="4" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"><br> <img width="16" height="16" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif"> <a href="http://www.ibm.com/developerworks/cn/linux/kernel/l-k26ncpu/index.html#main" target="_blank" rel="external"><strong>回页首</strong></a> <br><br><p><a name="8">内核中的处理和返回</a></p><p> </p><p>sysenter_entry 整个的实现可以参见arch/i386/kernel/entry.S。内核处理SYSENTER的代码和处理INT的代码不太一样。通过 sysenter指令进入Ring 0之后，由于当前的ESP并非指向正确的内核栈，而是当前CPU的TSS结构中的一个缓冲区（参见上文），所以首先要解决的是修复ESP，幸运的 是，TSS结构中ESP0成员本身就保存有Ring 0状态的ESP值，所以在这里将TSS结构中ESP0的值赋予ESP寄存器。将ESP恢复成指向正确的堆栈之后，由于SYSENTER不是通过调用门进入 Ring 0，所以在堆栈中的上下文和使用INT指令的不一样，INT指令进入Ring 0后栈中会保存如下的值。</p><p>低地址</p>                        返回用户态的EIP                            用户态的CS                            用户态的EFLAGS                            用户态的ESP                            用户态的SS（和DS相同）            高地址<p>因 此，为了简化和重用代码，内核会用pushl指令往栈中放入上述各值，值得注意的是，内核在栈中放入的相对应用户态EIP的值，是一个代码标签 SYSENTER_RETURN，在vsyscall-sysenter.S可以看到，它就在sysenter指令的后面（在它们之间，有一段NOP，是 内核返回出错时的处理代码）。接下来，处理系统调用的代码就和中断方式的处理代码一模一样了，内核保存所有的寄存器，然后系统调用表找到对应系统调用的入 口，完成调用。最后，内核从栈中取出前面存入的用户态的EIP和ESP，存入edx和ecx寄存器，调用SYSEXIT指令返回用户态。返回用户态之后， 从栈中取出ESP，edx，ecx，最终返回glibc库。</p><br> <img width="100%" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif"><br> <img width="8" height="6" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <img width="100%" height="4" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"><br> <img width="16" height="16" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif"> <a href="http://www.ibm.com/developerworks/cn/linux/kernel/l-k26ncpu/index.html#main" target="_blank" rel="external"><strong>回页首</strong></a> <br><br><p><a name="9">其它操作系统以及其它硬件平台的支持</a></p><p> </p><p>值 得一提的是，从 Windows XP 开始，Windows 的系统调用方式也从软中断 int 0x2e 转换到采用 sysenter 方式，由于完全不再支持 int 方式，因此 Windows XP 的对 CPU 的最低配置要求是 PentiumII 300MHz。在其它的操作系统例如 *BSD 系列，目前并没有提供对 sysenter 指令的支持。</p><p>在 CPU 方面，AMD 的 CPU 支持一套与之对应的指令 SYSCALL/SYSRET。在纯 32 位的 AMD CPU 上，还没有支持 sysenter 指令，而在 AMD 推出的 AMD64 系列 CPU 上，处于某些模式的情况下，CPU 能够支持 sysenter/sysexit 指令。在 Linux 内核针对 AMD64 架构的代码中，采用的还是 SYSCALL/SYSRET 指令。至于这两种指令最终谁将成为标准，目前还无法得出结论。</p><br> <img width="100%" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif"><br> <img width="8" height="6" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <img width="100%" height="4" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"><br> <img width="16" height="16" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif"> <a href="http://www.ibm.com/developerworks/cn/linux/kernel/l-k26ncpu/index.html#main" target="_blank" rel="external"><strong>回页首</strong></a> <br><br><p><a name="10">未来</a></p><p> </p><p>我 们将 Intel 的 sysenter/sysexit 指令，AMD 的 SYSCALL/SYSRET 指令统称为&quot;快速系统调用指令&quot;。&quot;快速系统调用指令&quot;比起中断指令来说，其消耗时间必然会少一些，但是随着 CPU 设计的发展，将来应该不会再出现类似 Intel Pentium4 这样悬殊的差距。而&quot;快速系统调用指令&quot;比起中断方式的系统调用方式，还存在一定局限，例如无法在一个系统调用处理过程中再通过&quot;快速系统调用指令&quot;调用 别的系统调用。因此，并不一定每个系统调用都需要通过&quot;快速系统调用指令&quot;来实现。比如，对于复杂的系统调用例如 fork，两种系统调用方式的时间差和系统调用本身运行消耗的时间来比，可以忽略不计，此处采取&quot;快速系统调用指令&quot;方式没有什么必要。而真正应该使用&quot; 快速系统调用指令&quot;方式的，是那些本身运行时间很短，对时间精确性要求高的系统调用，例如 getuid、gettimeofday 等等。因此，采取灵活的手段，针对不同的系统调用采取不同的方式，才能得到最优化的性能和实现最完美的功能。</p><br><br><p><a name="resources">参考资料 </a></p><p>[1] VxWorks Optimized for Intel Architecture,         <br>Hdei Nunoe, Wind River, Member of Technical Staff         <br>Leo Samson, Wind River, Technical Marketing Engineer         <br>David Hillyard, Intel Corporation, Mgr., Platform Architect</p><p>[2] Kernel Entry / Kernel Exit ,  Marcus Voelp &amp; University Karlsruhe</p><p>[3] Dave Jones’ blog,         <a href="http://diary.codemonkey.org.uk/index.php?month=12&amp;year=2002" target="_blank" rel="external">http://diary.codemonkey.org.uk/index.php?month=12&amp;year=2002</a></p><p>[4] Linux 内核源码 v2.6.0         <br><a href="http://www.kernel.org/" target="_blank" rel="external">http://www.kernel.org</a> <br>[Linus Torvalds，2004]</p><p>[5] GNU C Library glibc 2.3.3 源码         <br><a href="http://www.gnu.org/software/libc/libc.html" target="_blank" rel="external">http://www.gnu.org/software/libc/libc.html</a></p><p>Linux Kernel Mailing List 中对系统调用方式的讨论：         <br>[5] Linux Kernel Mailing List, &quot;Intel P6 vs P7 system call performance&quot;         <br><a href="http://www.ussg.iu.edu/hypermail/linux/kernel/0212.1/index.html#1286" target="_blank" rel="external">http://www.ussg.iu.edu/hypermail/linux/kernel/0212.1/index.html#1286</a> <br><a href="http://www.ussg.iu.edu/hypermail/linux/kernel/0212.3/index.html#54" target="_blank" rel="external">http://www.ussg.iu.edu/hypermail/linux/kernel/0212.3/index.html#54</a></p><p>Linux 内核首次引入对 sysenter/sysexit 指令的支持：         <br>[6] Linux Kernel Mailing List, &quot;Add &quot;sysenter&quot; support on x86, and a &quot;vsyscall&quot; page.&quot;         <br><a href="http://lwn.net/Articles/18414/" target="_blank" rel="external">http://lwn.net/Articles/18414/</a></p><br><br><br><br><br><br><br><br><del>end</del> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/10/15/【zz】SYSENTER-SYSEXIT/" class="archive-article-date">
+  	<time datetime="2008-10-15T15:25:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-10-15</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux/">Linux</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-glibc中的vfork" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2008/10/11/glibc中的vfork/">glibc中的vfork</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <br>vfork：子进程共享父进程的地址空间，对应Linux内核的task struct中的mm struct指针指向同一个mm。<br><br>在main()函数中调用vfork()时，会把返回地址IP push到堆栈，当子进程返回后，调用任何函数（例如execve），该地址将被覆盖；然而子进程结束，父进程接着运行时表现正常，这说明返回地址在vfork函数中被保存过，父进程在vfork返回前会恢复该返回地址，从而继续正常运行！<br><br>以下glibc中vfork()的代码说明了这一点：<br><br>glibc-2.7/sysdeps/unix/i386/vfork.S<br>ENTRY(vfork)<br>jmp <strong>vfork<br><br>glibc-2.7/sysdeps/unix/sysv/linux/i386/vfork.S<br>ENTRY (</strong>vfork)<br><br>#ifdef __NR_vfork<br><br>/<em> Pop the return PC value into ECX.  </em>/<br>popl&#160;&#160;&#160;    %ecx<br><br>/<em> Stuff the syscall number in EAX and enter into the kernel.  </em>/<br>movl&#160;&#160;&#160;    $SYS_ify (vfork), %eax<br>int&#160;&#160;&#160;&#160;    $0x80<br><br>/<em> Jump to the return PC.  Don’t jump directly since this<br>disturbs the branch target cache.  Instead push the return<br>address back on the stack.  </em>/<br>pushl&#160;&#160;    %ecx<br><br>cmpl&#160;&#160;&#160;    $-4095, %eax<br>&#160;&#160;&#160;&#160;&#160;&#160;&#160;    …<br><br><br><br>因此，运行以下代码不会有异常：<br><br>//example 1<br>int main()<br>{<br>int a, b;<br>a =1, b =100;<br>int pid;<br><br>write(1, &quot;output!n&quot;, sizeof(&quot;output!n&quot;));<br>printf(&quot;before forkn&quot;);<br><br>if((pid = vfork()) == 0) {<br>a++;<br>b++;<br>func();  //any number of function calls here is ok, stack will not be messed<br>}<br>else if(pid &gt; 0) {<br>}<br><br>printf(&quot;cc:%dn&quot;, cc);<br>&#160;&#160;&#160;    return 0;<br>}<br><br><br><br>而运行下面代码将得到段误，原因就是vfork()只保存自己这一层的函数堆栈返回地址正确，而不能保证调用vfork()的上层函数的堆栈内容，<br>//example 2<br>#include &lt;unistd.h&gt;<br>#include &lt;stdio.h&gt;<br><br>void f1()<br>{<br>pid_t pid;<br>if((pid = vfork()) == 0)<br>;<br>printf(&quot;ok, …n&quot;);<br>}<br>void f2()<br>{<br>printf(&quot;f2n&quot;);<br>}<br>int main()<br>{<br>f1();&#160;&#160;    // 一旦子进程从f1()返回，父进程就再也不能从f1()返回到正确的地址了！<br>printf(&quot;out, …n&quot;);<br>f2();<br>return 0;<br>}<br><br>运行结果为：<br>ok, …<br>out, …<br>f2<br>ok, …<br>段错误<br><br><br><br>2009-9-10<br>说明：<br>实际上，由于main最终还是会return，从而改变堆栈内容，因此example 1仍然有错误！<br>在Arch Linux中运行仍然产生segment fault!!!（gcc-4.3.1 glibc-2.8 Linux-2.6.26.6）<br>（在子进程中调用_exit()可以避免出错）<br><br><br>由此可见，vfork的目的只能用于创建一个新进程，然后该新进程exec一个新进程！<br><br>vfork和fork之间的另一个区别是： vfork保证子进程先运行，在它调用exec或exit之后<br>父进程才可能被调度运行。如果在调用这两个函数之前子进程依赖于父进程的进一步动作<br>，则会导致死锁。 <br> <br><br><br><del>end</del><br> </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/10/11/glibc中的vfork/" class="archive-article-date">
+  	<time datetime="2008-10-11T07:27:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-10-11</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux/">Linux</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-【zz】debian基本系统构建（build-Linux-system-from-scratch-based-on-deb-packages）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2008/10/06/【zz】debian基本系统构建（build-Linux-system-from-scratch-based-on-deb-packages）/">【zz】debian基本系统构建（build Linux system from scratch based on deb packages）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <br><del>my</del><br><br>1.mkdir -p /opt/root_filesystem/var/cache/apt/archive/partial<br><br>2.从/var/lib/dpkg/status文件中获取essential,required,important软件包列表<br><br>3.将所有软件包以及它们所依赖包拷贝到/opt/root_filesystem/var/cache/apt/archive/<br><br>4.将所有essential,required包用 dpkg -x pkg.deb /opt/root_filesystem/ 解压<br><br>5.root@jfo-laptop:/# chroot /opt/root_filesystem/ /bin/bash　<br>root@jfo-laptop:/# export LC_ALL=C<br>root@jfo-laptop:/# touch /var/lib/dpkg/{status,available,diversions}<br><br>6.开始用dpkg安装essential,required包　<br>对所有essential,required包运行 dpkg –force-depends –unpack pkg.deb　<br>–force-depends 告诉 dpkg 忽略依赖关系　<br>　root@jfo-laptop:/# dpkg –configure -a –force-configure-any –force-depends　<br>  　–force-depends 在这里可以解决包相互依赖的问题，例如 debconf与debconf-i18n 就相互依赖，用  dpkg单独对其中任何一个进行–configure都会失败，因此需要加上–force-depends　　<br>-a 或 –pending 表示重新配置所有　<br>–force-configure-any : Configure also any unpacked but unconfigured packages on which the current package depends.　<br><br>7.安装配置apt<br>　root@jfo-laptop:/# dpkg -i apt<em>.deb　<br>为方便后继安装，可以将ubunut DVD光盘作为源<br>  　root@jfo-laptop:/# mount -o loop ubuntu-8.04.1-dvd-i386.iso /mnt/　<br>   　root@jfo-laptop:/# echo &quot;deb file:/mnt/ hardy main restricted&quot; &gt; /etc/apt/sources.list　<br>下面一步解决cdrom作为源时的authentication warning问题　<br>  　root@jfo-laptop:/# echo ‘APT::Authentication::TrustCDROM &quot;true&quot;;’ &gt; /etc/apt/apt.conf.d/00trustcdrom　　<br>　root@jfo-laptop:/# apt-get update　<br>　root@jfo-laptop:/# apt-key update　<br><br>8.用apt-get安装important包，自动解决依赖关系　<br>  　root@jfo-laptop:/# apt-get -y install pkg　<br>安装ubuntu最小化环境：<br>root@jfo-laptop:/# apt-get -y install ubuntu-minimal ubuntu-standard ubuntu-restricted-extras 　<br><br> 9.安装xorg、gdm或kde，以及其他软件包；或者安装ubuntu-desktop，桌面相关包全部自动安装<br>  　root@jfo-laptop:/# apt-get -y install language-pack-{en,zh}　<br>　root@jfo-laptop:/# apt-get -y install xorg gdm gnome-session gnome-terminal gnome-panel ubuntu-gdm-themes metacity　<br>metacity是gnome的默认窗口管理器，不装这个窗口显示没有标题栏，并且窗口位于桌面左上角，遮住系统菜单<br><br>10.退出chroot，配置系统文件 　<br>　root@jfo-laptop:/# touch /opt/root_filesystem/etc/{fstab,mtab}　 <br>　root@jfo-laptop:/# cp /etc/hostname /opt/root_filesystem/etc/　<br>　root@jfo-laptop:/# cp /etc/hosts /opt/root_filesystem/etc/　<br><br>这样，一个根文件系统就制作完成了，消耗磁盘空间600M多！<br><br><del>my</del><br><br><br><br><a target="_blank" href="http://comcat.blog.openrays.org/blog-htm-do-showone-tid-214.html">http://comcat.blog.openrays.org/blog-htm-do-showone-tid-214.html</a><br><br>0. 缘起<br><br>基本系统，是一个最小化的debian系统，可以在其上使用debian的apt-get 机制，进一<br>步的安装你所需要的软件包。多用于开发测试用，比如在现有系统下交叉编译一个64位<br>的系统为了不影响当前系统的环境，可以在某个工作目录下安装一个基本系统，然后在<br>这个子系统里构建交叉编译环境。<br><br>安装程序也用到。在将目标磁盘分区完后，安装程序会将要安装整个系统的分区挂载在<br>某个目录下然后调用debootstrap 脚本在该目录下安装一个基本系统，完了进入这个基<br>本系统，使用 apt-get 进一步的安装 X-Windows、Gnome、KDE 等。<br><br><br><br>1. deb 包格式<br><br>deb 包实际上是一个二进制归档文件（使用 ar 创建），一般包含3个文件：<br>debian-binary, control.tar.gz, data.tar.gz<br><br><br>其中： <br><br>debian-binary 是deb包格式的版本号，我的系统里 $cat debian-binary 显示 2.0<br><br>control.tar.gz 包含deb包的控制信息和一些辅助脚本<br><br>如一个典型的control.tar.gz 解开为：<br><br>control.tar.gz<br>|<br><code>|--- control     控制信息文件，就是源码目录中的debian/control&lt;br /&gt;|--- md5sum      软件包中所有文件的 md5 值，文本文件&lt;br /&gt;|--- conffiles   软件包的配置文件列表，在升级包的过程中不会被覆盖(可有可无)&lt;br /&gt;|--- preinst     辅助脚本，在包解压前执行 (可有可无)&lt;br /&gt;|--- postinst    辅助脚本，在包解压后执行 (可有可无)&lt;br /&gt;|--- prerm       辅助脚本，在包删除之前执行 (可有可无)&lt;br /&gt;</code>— postrm      辅助脚本，在包删除之后执行 (可有可无) <br><br><br>data.tar.gz 即是真实的安装数据所在，一个真实的data.tar.gz解开后的目录树为：<br><br>data.tar.gz<br>|<br>|– etc<br>|   <code>-- rarfiles.lst&lt;br /&gt;</code>– usr<br>|– bin<br>|   <code>-- rar&lt;br /&gt;|-- lib&lt;br /&gt;|</code>– default.sfx<br><code>-- share&lt;br /&gt;|-- doc&lt;br /&gt;|</code>– rar<br>|       |– changelog.Debian.gz<br>|       |– copyright<br>|       |– order.htm<br>|       |– rar.txt.gz<br>|       |– rar_faq.txt.gz<br>|       |– readme.txt<br>|       |– technote.txt.gz<br>|       <code>-- whatsnew.txt&lt;br /&gt;|-- lintian&lt;br /&gt;|</code>– overrides<br>|       <code>-- rar&lt;br /&gt;</code>– man<br><code>-- man1&lt;br /&gt;</code>– rar.1.gz<br><br><br>可以通过如下命令解包： ar x rar_3.20-2_i386.deb <br><br>以下命令查看包的内容： ar t rar_3.20-2_mipsel.deb<br><br><br>明白了这一层，我们就可以自己提供 debian-binary，control.tar.gz，data.tar.gz<br>随心所欲地制作deb 包 ^-^<br><br><br>如下命令制作deb包： ar r rar.deb debian-binary control.tar.gz data.tar.gz<br><br>dpkg -c rar.deb 就会显示包的内容了， 注意 debian-binary 要放在第一位，<br><br>否则 dpkg 会报： 文件&ldquo;rar.deb&rdquo;不是 debian 的二进制包文件 <br><br><br>亦可直接解包获取我们所需的数据文件，绕开 dpkg 的控制，如： <br><br>ar -p ./rar.deb data.tar.gz | zcat | tar -xf -<br><br><br><br><br>2. 基本系统软件包的下载<br><br>debian 对核心的基本系统包进行了分类，一类用Essential: yes; Priority: required 标识，<br>一类用Priority: important 标识。 加上一些额外常用的包，可以形成两个列表：<br><br>required = &quot;base-files base-passwd bash bsdutils coreutils libacl1 libattr1 debianutils diff dpkg dselect libblkid1 e2fsprogs e2fslibs libcomerr2 libss2 libuuid1 findutils grep gzip hostname libcap1 libdb1-compat libdb3 libncurses5 libnewt0.51 libpam-modules libpam-runtime libpam0g login makedev mawk mount ncurses-base ncurses-bin passwd perl-base procps sed slang1a-utf8 initscripts sysvinit sysv-rc tar util-linux libgcc1 gcc-3.3-base libstdc++5 zlib1g libc6&quot;<br><br>base = &quot;adduser apt apt-utils libdb4.2 base-config aptitude libsigc++-1.2-5c102 bsdmainutils console-common console-tools libconsole console-data cpio cron dhcp-client ed libgnutls11 libgcrypt11 libgpg-error0 libncursesw5 libopencdk8 libtasn1-2 fdutils gettext-base groff-base ifupdown info klogd libssl0.9.7 liblzo1 liblockfile1 libpcre3 libwrap0 logrotate man-db libgdbm3 manpages nano net-tools netbase netkit-inetd iputils-ping nvi ppp pppconfig pppoe pppoeconf libpcap0.7 sysklogd tasksel libtextwrap1 tcpd telnet wget libpopt0 modutils whiptail &quot;<br><br>有了基本软件包的列表，就可以使用 apt 的机制来下载这些包到指定的目录。<br><br>假定我们的工作目录在$TARGET_DIR，下面建立工作目录：<br><br>mkdir -p &quot;$TARGET_DIR/var/lib/dpkg&quot;<br>mkdir -p &quot;$TARGET_DIR/var/lib/apt/lists/partial&quot;<br>mkdir -p &quot;$TARGET_DIR/var/cache/apt/archives/partial&quot;<br>: &gt;&quot;$TARGET_DIR/var/cache/apt/archives/lock&quot;<br>: &gt;&quot;$TARGET_DIR/var/lib/dpkg/status&quot;<br>: &gt;&quot;$TARGET_DIR/var/lib/dpkg/status&quot;<br>: &gt;&quot;$TARGET_DIR/var/lib/dpkg/lock&quot;<br>: &gt;&quot;$TARGET_DIR/var/lib/dpkg/available&quot;<br>: &gt;&quot;$TARGET_DIR/var/lib/apt/lists/lock&quot;<br>mkdir -p &quot;$TARGET_DIR/etc/apt&quot;<br>cp /etc/apt/sources.list $TARGET_DIR/etc/apt/<br><br><br>下面解析包依赖关系，使用 apt-get -d install 下载之：<br><br>all_debs=&quot;$required $base&quot;<br><br>options=&quot; -q <br>-o Dir::State::status=$TARGET_DIR/var/lib/dpkg/status    <br>-o Dir::State=$TARGET_DIR/var/lib/apt      <br>-o Dir::Cache=$TARGET_DIR/var/cache/apt    <br>-o Dir::Etc=$TARGET_DIR/etc/apt    <br>-o APT::Cache::AllVersions=0 &quot;<br><br># 更新源索引于 $TARGET_DIR/var/lib/apt/list/ 下<br>apt-get $options update -f&gt;/dev/null 2&gt;&amp;1     <br><br># 解析依赖关系，并扩展所有基本系统软件包列表<br>apt-get install -s $all_debs $options         <br>expand_list=$(apt-get install -s $all_debs $options | awk ‘{if ($0 ~ /^Inst/) print $2}’)  <br><br># 下载软件包于 $TARGET_DIR/var/cache/apt/archives/ 下<br>for f in $expand_list;do<br>apt-get install -d -y –force-yes $f $options <br>done<br><br>有关这里所用的 apt-get 的高级选项，参见我的另一篇 blog 文章：《深入 APT 系统》<br><br>注意： 传给apt-get 的options，其中的 $TARGET_DIR 必须为绝对路径。<br><br><br><br>3. 强制解压核心包<br><br>核心包即上面 required 列表所示的包，由于目标目录目前仅有一些 dpkg 所必须的工作目录及刚<br>下载的基本系统软件包，并无一些基本程序、基本文件的实体，这些通过强制解压所有核心包于目<br>标目录来是实现：<br><br>ar -p ./$pkg_full_path data.tar.gz | zcat | tar -xf -<br><br><br>然后向 dpkg 的控制信息文件写入 dpkg 自己的控制信息：<br><br><br># 获取 dpkg 的版本号<br>ver=&quot;$(<br>ar -p &quot;$TARGET<em>DIR/var/cache/apt/archives/dpkg</em></em>.deb&quot; control.tar.gz | zcat |<br>tar -O -xf - control ./control 2&gt;/dev/null |<br>sed -ne ‘s/^Version: <em>//Ip’ | head -n 1<br>)&quot;<br><br>mkdir -p &quot;$TARGET_DIR/var/lib/dpkg/info&quot;<br><br>echo <br>&quot;Package: dpkg<br>Version: $ver<br>Status: install ok installed&quot; &gt;&gt; &quot;$TARGET_DIR/var/lib/dpkg/status&quot;<br><br>touch &quot;$TARGET_DIR/var/lib/dpkg/info/${pkg}.list&quot;<br><br><br>告诉 dpkg 自己已经安装了 ^-^<br><br><br><br>4. 使用dpkg 安装基本系统软件包<br><br>要保证我们的基本系统能使用apt-get 安装后序的开发包，则所有的基本系统包还是要纳入 <br>dpkg 的管理机制的。故而所有包都要重新用 dpkg 安装。<br><br><br>经第3步强制解压后，目标目录已经有了最基本的文件，可以chroot 过去，使用dpkg 依序安装了：<br><br>ln -s mawk $TARGET_DIR/usr/bin/awk<br><br>pkg_path=var/cache/apt/archives        # 所有基本系统deb包所在目录<br><br>chroot $TARGET_DIR                                   # 将当前进程的根目录设为目标目录<br><br>dpkg –force-depends –install $pkg<em>path/base-files</em></em>.deb <br>dpkg –force-depends –install $pkg<em>path/base-passwd</em><em>.deb<br>dpkg –force-depends –install $pkg<em>path/dpkg</em></em>.deb<br><br>if [ ! -e &quot;$TARGET_DIR/etc/localtime&quot; ]; then         <br>ln -sf /usr/share/zoneinfo/UTC &quot;$TARGET_DIR/etc/localtime&quot;              # 设置子系统时区<br>fi<br><br>dpkg –force-depends –install $pkg<em>path/libc6</em><em>.deb<br>dpkg –force-depends –install $pkg<em>path/perl-base</em></em>.deb<br><br>rm $TARGET_DIR/usr/bin/awk<br><br>dpkg –force-depends –install $pkg<em>path/mawk</em><em>.deb<br>dpkg –force-depends –install $pkg<em>path/debconf</em></em>.deb<br><br><br>收拾了最基本的，就可以批量处理了，使用如下命令安装 required 列表的所有软件包：<br><br>dpkg –force-depends –unpack $pkg<em>path/pkgname</em><em>.deb<br><br>–force-depends 告诉 dpkg 忽略依赖关系<br>–unpack: 解压软件包，但不配置之。 –install 的话包括 –unpack 和 –configure<br><br><br># 设置 dselect 使用 apt  <br>echo &quot;apt apt&quot; &gt; &quot;$TARGET_DIR/var/lib/dpkg/cmethopt&quot;<br>chmod 644 &quot;$TARGET_DIR/var/lib/dpkg/cmethopt&quot;<br><br># 配置刚刚忽略依赖关系 unpack 的所有软件包<br>dpkg –configure –pending –force-configure-any –force-depends <br><br>–configure：　重新配置一个 unpack 的软件包，加 -a 或 –pending 则重新配置所有<br>–force-configure-any: Configure also any unpacked but unconfigured packages on which the current package depends. <br><br><br>搞定了 required 列表的，现在来收拾 base 列表的软件包:<br><br>dpkg –force-auto-select –force-overwrite –force-confold –skip-same-version<br>–unpack $pkg<em>path/pkgname</em></em>.deb<br><br>–force-overwrite：如有新的文件，则用新的<br>–force-confold：若原有配置文件被修改，则保留之。<br>–skip-same-version: 如果已经安装了相同版本号的包，就不再安装<br><br><br># 配置刚刚忽略依赖关系 unpack 的所有软件包，-a 等价于 –pending<br>dpkg  –force-confold –skip-same-version  –configure -a<br><br><br><br>至此基本系统就安装在目标目录了，chroot $TARGET_DIR　就可以这个子系统里想干嘛就干嘛了 ^-^<br><br><br><br><br><br><br><br><br><br><br><del>end</del> </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/10/06/【zz】debian基本系统构建（build-Linux-system-from-scratch-based-on-deb-packages）/" class="archive-article-date">
+  	<time datetime="2008-10-06T00:53:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-10-06</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux-App/">Linux App</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/32/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/31/">31</a><a class="page-number" href="/page/32/">32</a><span class="page-number current">33</span><a class="page-number" href="/page/34/">34</a><a class="page-number" href="/page/35/">35</a><span class="space">&hellip;</span><a class="page-number" href="/page/60/">60</a><a class="extend next" rel="next" href="/page/34/">Next &raquo;</a>
+    </nav>
+  
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: true,
+		isPost: false,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

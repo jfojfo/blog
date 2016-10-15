@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Android Surface (double buffered) | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="http://blog.chinaunix.net/u2/85805/showart_1882368.html&amp;gt; Hi All, &amp;gt; I’ve been using SurfaceView and Surface for one of my graphics &amp;gt; project. &amp;gt; The problem keep bothering me is that the co">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android Surface (double buffered)">
+<meta property="og:url" content="http://blog.pickbox.me/2010/07/12/Android-Surface-double-buffered/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="http://blog.chinaunix.net/u2/85805/showart_1882368.html&amp;gt; Hi All, &amp;gt; I’ve been using SurfaceView and Surface for one of my graphics &amp;gt; project. &amp;gt; The problem keep bothering me is that the co">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android Surface (double buffered)">
+<meta name="twitter:description" content="http://blog.chinaunix.net/u2/85805/showart_1882368.html&amp;gt; Hi All, &amp;gt; I’ve been using SurfaceView and Surface for one of my graphics &amp;gt; project. &amp;gt; The problem keep bothering me is that the co">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-Android-Surface-double-buffered" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android Surface (double buffered)
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <a href="http://blog.chinaunix.net/u2/85805/showart_1882368.html" target="_blank">http://blog.chinaunix.net/u2/85805/showart_1882368.html<br></a><br>&gt; Hi All, <br>&gt; I’ve been using SurfaceView and Surface for one of my graphics <br>&gt; project. <br>&gt; The problem keep bothering me is that the content in Surface’s two <br>&gt; graphic buffers does not synchronized so that when the &quot;lockCanvas- <br>&gt; drawCanvas-unlockCanvas&quot; cycle is running, it shows different content <br>&gt; and generate screen flicker. <br><br>Here is some information on how the Android graphics system works: <br></p><p>In Android, every window is implemented with an underlaying Surface <br>object. A Surface is an object that gets composited onto the <br>framebuffer by SurfaceFlinger, the sytem-wide screen composer. <br>Each Surface is double-buffered, it has a back buffer which is where <br>drawing takes place and a front buffer which is used for composition.</p><p>When &quot;unlockCanvas()&quot; is called, the back buffer is &quot;posted&quot;, which <br>means it’s being displayed and &#160;becomes available again.</p><p>However, the <em>implementation</em> of this mechanism is done by swapping <br>the front and back buffers. The back buffer becomes the front buffer <br>and vice-versa.</p><p>This mechanism ensures that there is a minimal amount of buffer <br>copying (a post operation doesn’t move any pixels around) and that <br>there is always a buffer for SurfaceFlinger to use for composition. <br>This last feature is very important because it ensures that the screen <br>never flickers and never shows any artifacts <em>and</em> that <br>SurfaceFlinger never has to wait for a Surface to be ready (its front <br>buffer is always ready by definition), this means that a badly written <br>application cannot slowdown or interfere with other application’s <br>windows.</p><p>As a side note, it is worth noting that the main screen itself (the <br>frame buffer) is double-buffered as well and uses the same posting <br>mechanism than any regular surface.</p><p>It should appear now that because of this posting mechanism, <br>incremental updates are not supported; and this is /the/ key point.</p><p>Back to your question now:</p><br>&gt; After doing a bit research, I got my conclusion (not sure if it is <br>&gt; correct though) here: <br>&gt; 1. There are two separate buffers of each Surface object. According to <br>&gt; SDK, they were called &quot;front buffer&quot; and &quot;back buffer&quot;. <br><p>&gt; 2. Android’s Surface does not behaves like regular &quot;double-buffer&quot; <br>&gt; system, which means: draw everything in back buffer and then flip the <br>&gt; back buffer into the front buffer. <br>&gt; What Android Surface does seems to be: draw in buffer A and flip it on <br>&gt; the screen, then in next cycle, draw buffer B and flip it on the <br>&gt; screen. As the result, the content visible on the screen comes from <br>&gt; buffer A, B, A, B, A, …. I’m using buffer &quot;A&quot; and &quot;B&quot; here instead <br>&gt; of &quot;front&quot; and &quot;back&quot; because I think they have equal role in <br>&gt; rendering cycle.</p><p>&gt; 3. The Surface buffer’s alternate work style causes problem when I’m <br>&gt; doing partial update (repaint only a portion of the Surface) for the <br>&gt; performance purpose. Because one &quot;lockCanvas-drawCanvas-unlockCanvas&quot; <br>&gt; cycle only update one buffer, the other one remains untouched, then <br>&gt; when next &quot;lockCanvas-drawCanvas-unlockCanvas&quot; comes, it shows you an <br>&gt; old content on the screen so that the flicker happens.</p>You are correct in your analysis. Something that the documentation <br> doesn’t emphasis clearly is that with such a mechanism, your <em>must</em> <br> draw every single pixel of the Surface’s back buffer each-time. In <br> essence, the back buffer is not preserved in post. This is a common <br> behavior &#160;of hardware-accelerated graphics systems. <br><p>There is fact an API on the underlaying Surface object that allows to <br>update only a portion of the back buffer (but even then, every pixel <br>of that portion need to be redrawn). It is implemented by copying back <br>the former back buffer (now in the front) to the new back buffer <br>(formerly in the front). Unfortunately, this API is not exposed to <br>SurfaceView at the moment. I’m hoping to have this feature added <br>eventually.</p><br>&gt; 4. My work around (works but with tremendous performance penalty) <br>&gt; When I’m doing partial Surface update, I do the following thing in <br>&gt; each rendering cycle: <br><br>The best solution available right now to solve this problem, is to do <br> all of your rendering into your own bitmap and simply copy it into the <br> back buffer: <br><p>- create a bitmap <br>- attach a canvas to it <br>- do the rendering into that canvas <br>- lockCanvas <br>- draw your bitmap into the backbuffer <br>- unlockAndPost</p><p>Note that this method involves an extra copy of the whole buffer size, <br>but it is in fact not slower than what it would have been if the <br>posting mechanism worked as you expected/suggested.</p><br>&gt; 5. In order to improve my solution a bit, I try to use <br>&gt; &quot;s.unlockCanvas(b);&quot; instead of &quot;s.unlockCanvasAndPost(b);&quot; because I <br>&gt; really do not need to make the second buffer flipping, I just need to <br>&gt; synchronize its content. However, unlockCanvas() generates a &quot;Illegal <br>&gt; argument&quot; exception. I can not figure out the reason. <br><br>I will investigate the error you are reporting. However, this solution <br> would not have worked because unlockCanvas() is essentially a no-op, <br> it doesn’t post the back buffer, which means it won’t make it visible. <br> It is only intended to be used in very special situations. <br><br>&gt; I have noticed someone has met the similar SurfaceView problem, see <br>&gt; the following topic:<a href="http://groups.google.com/group/android-developers/browse_thread/threa" target="_blank" rel="external">http://groups.google.com/group/android-developers/browse_thread/threa</a>… <br>&gt; I’m not sure if someone has any better solution than mine? <br>&gt; Is there a way to notify Surface that I would like to use a fixed <br>&gt; buffer as front buffer? <br><br>There is no way to do that at the moment, but we might add this <br> functionality eventually. Note that in that case, your Surface will <br> suffer from tearing, so it won’t be suited for Surfaces that do a lot <br> of animations <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2010/07/12/Android-Surface-double-buffered/" class="archive-article-date">
+  	<time datetime="2010-07-12T15:24:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2010-07-12</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2010/07/15/通过Theme设置一些判断标志/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          通过Theme设置一些判断标志
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2010/07/12/【zz】What-is-the-role-of-WindowManager-in-android-frame/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">【zz】What is the role of WindowManager in android frame</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

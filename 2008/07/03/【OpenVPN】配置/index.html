@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>【OpenVPN】配置 | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="http://openvpn.net/index.php/documentation/howto.html#examplesopenvpn   –config server.ovpn   –lport 1194openvpn   –config client.ovpn   –remote 10.10.10.22 1194   –lport 7890 Expanding the scope of">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【OpenVPN】配置">
+<meta property="og:url" content="http://blog.pickbox.me/2008/07/03/【OpenVPN】配置/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="http://openvpn.net/index.php/documentation/howto.html#examplesopenvpn   –config server.ovpn   –lport 1194openvpn   –config client.ovpn   –remote 10.10.10.22 1194   –lport 7890 Expanding the scope of">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【OpenVPN】配置">
+<meta name="twitter:description" content="http://openvpn.net/index.php/documentation/howto.html#examplesopenvpn   –config server.ovpn   –lport 1194openvpn   –config client.ovpn   –remote 10.10.10.22 1194   –lport 7890 Expanding the scope of">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-【OpenVPN】配置" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      【OpenVPN】配置
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> </p><p><a target="_blank" href="http://openvpn.net/index.php/documentation/howto.html#examples">http://openvpn.net/index.php/documentation/howto.html#examples</a></p><p>openvpn   –config server.ovpn   –lport 1194<br>openvpn   –config client.ovpn   –remote 10.10.10.22 1194   –lport 7890</p><p> </p><hr><a name="scope" title="scope"></a>Expanding the scope of the VPN to include additional machines on either the client or server subnet.Including multiple machines on the server side when using a routed VPN (dev tun)<p>Once the VPN is operational in a point-to-point capacity between client and server, it may be desirable to expand the scope of the VPN so that clients can reach multiple machines on the server network, rather than only the server machine itself.</p><p>For the purpose of this example, we will assume that the server-side LAN uses a subnet of <strong>10.66.0.0/24</strong> and the VPN IP address pool uses <strong>10.8.0.0/24</strong> as cited in the <strong>server</strong> directive in the OpenVPN server configuration file.</p><p>First, you must <em>advertise</em> the <strong>10.66.0.0/24</strong> subnet to VPN clients as being accessible through the VPN. This can easily be done with the following server-side config file directive:</p><blockquote><strong>push &quot;route 10.66.0.0 255.255.255.0&quot;</strong></blockquote><p>Next, you must set up a route on the server-side LAN gateway to route the VPN client subnet (<strong>10.8.0.0/24</strong>) to the OpenVPN server (this is only necessary if the OpenVPN server and the LAN gateway are different machines).</p><p>Make sure that you’ve enabled <a href="http://openvpn.net/faq.html#ip-forward" target="_blank" rel="external">IP</a> and <a href="http://openvpn.net/faq.html#firewall" target="_blank" rel="external">TUN/TAP</a> forwarding on the OpenVPN server machine.</p><p> </p>Including multiple machines on the client side when using a routed VPN (dev tun)<p>In a typical road-warrior or remote access scenario, the client machine connects to the VPN as a single machine. But suppose the client machine is a gateway for a local LAN (such as a home office), and you would like each machine on the client LAN to be able to route through the VPN.</p><p>For this example, we will assume that the client LAN is using the <strong>192.168.4.0/24</strong> subnet, and that the VPN client is using a certificate with a common name of <strong>client2</strong>. Our goal is to set up the VPN so that any machine on the client LAN can communicate with any machine on the server LAN through the VPN.</p><p>Before setup, there are some basic prerequisites which must be followed:</p><ul> <li>The client LAN subnet (192.168.4.0/24 in our example) must not be exported to the VPN by the server or any other client sites which are using the same subnet. Every subnet which is joined to the VPN via routing must be unique.</li> <li>The client must have a unique Common Name in its certificate (&quot;client2&quot; in our example), and the <strong>duplicate-cn</strong> flag must not be used in the OpenVPN server configuration file.</li></ul><p>First, make sure that <a href="http://openvpn.net/faq.html#ip-forward" target="_blank" rel="external">IP</a> and <a href="http://openvpn.net/faq.html#firewall" target="_blank" rel="external">TUN/TAP</a> forwarding is enabled on the client machine.</p>Enabling TCP/IP Forwarding                        1.            Use Registry Editor (Regedt32.exe) to view the following registry key:             HKEY_LOCAL_MACHINESYSTEMCurrentControlSetServicesTcpipParameters                                         2.            Set the following registry value:             Value Name: IPEnableRouter<br>            Value type: REG_DWORD<br>            Value Data: 1             <strong>NOTE</strong>: A value of 1 enables TCP/IP forwarding for all network connections installed and used by this computer.             <p>Next, we will deal with the necessary configuration changes on the server side. If the server configuration file does not currently reference a client configuration directory, add one now:</p><blockquote><strong>client-config-dir ccd</strong></blockquote><p>In the above directive, <strong>ccd</strong> should be the name of a directory which has been pre-created in the default directory where the OpenVPN server daemon runs. On Linux this tends to be <strong>/etc/openvpn</strong> and on Windows it is usually <strong>Program FilesOpenVPNconfig</strong>. When a new client connects to the OpenVPN server, the daemon will check this directory for a file which matches the common name of the connecting client. If a matching file is found, it will be read and processed for additional configuration file directives to be applied to the named client.</p><p>The next step is to create a file called <strong>client2</strong> in the <strong>ccd</strong> directory.  This file should contain the line:</p><blockquote><strong>iroute 192.168.4.0 255.255.255.0</strong></blockquote><p>This will tell the OpenVPN server that the 192.168.4.0/24 subnet should be routed to <strong>client2</strong>.</p><p>Next, add the following line to the main server config file (not the <strong>ccd/client2</strong> file):</p><blockquote><strong>route 192.168.4.0 255.255.255.0</strong></blockquote><p>Why the redundant <strong>route</strong> and <strong>iroute</strong> statements, you might ask? The reason is that <strong>route</strong> controls the routing from the kernel to the OpenVPN server (via the TUN interface) while <strong>iroute</strong> controls the routing from the OpenVPN server to the remote clients.  Both are necessary.</p><p>Next, ask yourself if you would like to allow network traffic between client2’s subnet (192.168.4.0/24) and other clients of the OpenVPN server. If so, add the following to the server config file.</p><blockquote><strong>client-to-client<br>push &quot;route 192.168.4.0 255.255.255.0&quot;</strong></blockquote><p>This will cause the OpenVPN server to <em>advertise</em> client2’s subnet to other connecting clients.</p><p>The last step, and one that is often forgotten, is to add a route to the server’s LAN gateway which directs 192.168.4.0/24 to the OpenVPN server box (you won’t need this if the OpenVPN server box <em>is</em> the gateway for the server LAN). Suppose you were missing this step and you tried to ping a machine (not the OpenVPN server itself) on the server LAN from 192.168.4.8? The outgoing ping would probably reach the machine, but then it wouldn’t know how to route the ping reply, because it would have no idea how to reach 192.168.4.0/24. The rule of thumb to use is that when routing entire LANs through the VPN (when the VPN server is not the same machine as the LAN gateway), make sure that the gateway for the LAN routes all VPN subnets to the VPN server machine.</p><p>Similarly, if the client machine running OpenVPN is not also the gateway for the client LAN, then the gateway for the client LAN must have a route which directs all subnets which should be reachable through the VPN to the OpenVPN client machine.</p><p> </p><br><br><hr>Pushing DHCP options to clients<p>The OpenVPN server can push DHCP options such as DNS and WINS server addresses to clients (some <a href="http://openvpn.net/faq.html#dhcpcaveats" target="_blank" rel="external">caveats</a> to be aware of). Windows clients can accept pushed DHCP options natively, while non-Windows clients can accept them by using a client-side <strong>up</strong> script which parses the <strong>foreign<em>option</em><em>n</em></strong> environmental variable list. See the <a href="http://openvpn.net/man.html" target="_blank" rel="external">man page</a> or <a href="http://openvpn.net/mail.html" target="_blank" rel="external">openvpn-users mailing list archive</a> for non-Windows <strong>foreign<em>option</em><em>n</em></strong> documentation and script examples.</p><p>For example, suppose you would like connecting clients to use an internal DNS server at 10.66.0.4 or 10.66.0.5 and a WINS server at 10.66.0.8. Add this to the OpenVPN server configuration:</p><blockquote><strong>push &quot;dhcp-option DNS 10.66.0.4&quot;<br>push &quot;dhcp-option DNS 10.66.0.5&quot;<br>push &quot;dhcp-option WINS 10.66.0.8&quot;</strong></blockquote><p>To test this feature on Windows, run the following from a command prompt window after the machine has connected to an OpenVPN server:</p><blockquote><strong>ipconfig /all</strong></blockquote><p>The entry for the TAP-Win32 adapter should show the DHCP options which were pushed by the server.</p><br><br><hr><a name="redirect" title="redirect"></a>Routing all client traffic (including web-traffic) through the VPNOverview<p>By default, when an OpenVPN client is active, only network traffic to and from the OpenVPN server site will pass over the VPN. General web browsing, for example, will be accomplished with direct connections that bypass the VPN.</p><p>In certain cases this behavior might not be desirable – you might want a VPN client to tunnel all network traffic through the VPN, including general internet web browsing. While this type of VPN configuration will exact a performance penalty on the client, it gives the VPN administrator more control over security policies when a client is simultaneously connected to both the public internet and the VPN at the same time.</p>Implementation<p>Add the following directive to the server configuration file:</p><blockquote><strong>push &quot;redirect-gateway def1&quot;</strong></blockquote><p>If your VPN setup is over a wireless network, where all clients and the server are on the same wireless subnet, add the <strong>local</strong> flag:</p><blockquote><strong>push &quot;redirect-gateway local def1&quot;</strong></blockquote><p>Pushing the <strong>redirect-gateway</strong> option to clients will cause all IP network traffic originating on client machines to pass through the OpenVPN server. The server will need to be configured to deal with this traffic somehow, such as by NATing it to the internet, or routing it through the server site’s HTTP proxy.</p><p>On Linux, you could use a command such as this to NAT the VPN client traffic to the internet:</p><blockquote><strong>iptables -t nat -A POSTROUTING -s 10.8.0.0/24 -o eth0 -j MASQUERADE</strong></blockquote><p>This command assumes that the VPN subnet is <strong>10.8.0.0/24</strong> (taken from the <strong>server</strong> directive in the OpenVPN server configuration) and that the local ethernet interface is <strong>eth0</strong>.</p><p>When <strong>redirect-gateway</strong> is used, OpenVPN clients will route DNS queries through the VPN, and the VPN server will need handle them. This can be accomplished by pushing a DNS server address to connecting clients which will replace their normal DNS server settings during the time that the VPN is active. For example:</p><blockquote><strong>push &quot;dhcp-option DNS 10.8.0.1&quot;</strong></blockquote><p>will configure Windows clients (or non-Windows clients with some extra server-side scripting) to use 10.8.0.1 as their DNS server. Any address which is reachable from clients may be used as the DNS server address.</p>Caveats<p>Redirecting all network traffic through the VPN is not entirely a problem-free proposition. Here are some typical gotchas to be aware of:</p><ul> <li>Many OpenVPN client machines connecting to the internet will periodically interact with a DHCP server to renew their IP address leases. The <strong>redirect-gateway</strong> option might prevent the client from reaching the local DHCP server (because DHCP messages would be routed over the VPN), causing it to lose its IP address lease.</li> <li><a href="http://openvpn.net/faq.html#dhcpcaveats" target="_blank" rel="external">Issues exist</a> with respect to pushing DNS addresses to Windows clients.</li> <li>Web browsing performance on the client will be noticably slower.</li></ul><p>For more information on the mechanics of the <strong>redirect-gateway</strong> directive, see the <a href="http://openvpn.net/man.html" target="_blank" rel="external">manual page</a>.</p><p> </p><hr><br><br>                                    Setting up your own Certificate Authority (CA) and generating certificates and keys for an OpenVPN server and multiple clients            Overview            <p>The first step in building an OpenVPN 2.0 configuration is to establish a PKI (public key infrastructure).  The PKI consists of:</p> <ul> <li>a separate certificate (also known as a public key) and private key for the server and each client, and</li> <li>a master Certificate Authority (CA) certificate and key which is used to sign each of the server and client certificates.</li> </ul> <p>OpenVPN supports bidirectional authentication based on certificates, meaning that the client must authenticate the server certificate and the server must authenticate the client certificate before mutual trust is established.</p> <p>Both server and client will authenticate the other by first verifying that the presented certificate was signed by the master certificate authority (CA), and then by testing information in the now-authenticated certificate header, such as the certificate common name or certificate type (client or server).</p> <p>This security model has a number of desirable features from the VPN perspective:</p> <ul> <li>The server only needs its own certificate/key – it doesn’t need to know the individual certificates of every client which might possibly connect to it.</li> <li>The server will only accept clients whose certificates were signed by the master CA certificate (which we will generate below). And because the server can perform this signature verification without needing access to the CA private key itself, it is possible for the CA key (the most sensitive key in the entire PKI) to reside on a completely different machine, even one without a network connection.</li> <li>If a private key is compromised, it can be disabled by adding its certificate to a CRL (certificate revocation list). The CRL allows compromised certificates to be selectively rejected without requiring that the entire PKI be rebuilt.</li> <li>The server can enforce client-specific access rights based on embedded certificate fields, such as the Common Name.</li> </ul>            Generate the master Certificate Authority (CA) certificate &amp; key            <p>In this section we will generate a master CA certificate/key, a server certificate/key, and certificates/keys for 3 separate clients.</p> <p>For PKI management, we will use a set of scripts bundled with OpenVPN.</p> <p>If you are using Linux, BSD, or a unix-like OS, open a shell and cd to the <strong>easy-rsa</strong> subdirectory of the OpenVPN distribution. If you installed OpenVPN from an RPM file, the easy-rsa directory can usually be found in <strong>/usr/share/doc/packages/openvpn</strong> or <strong>/usr/share/doc/openvpn-2.0</strong> (it’s best to copy this directory to another location such as <strong>/etc/openvpn</strong>, before any edits, so that future OpenVPN package upgrades won’t overwrite your modifications). If you installed from a .tar.gz file, the easy-rsa directory will be in the top level directory of the expanded source tree.</p> <p>If you are using Windows, open up a Command Prompt window and cd to <strong>Program FilesOpenVPNeasy-rsa</strong>. Run the following batch file to copy configuration files into place (this will overwrite any preexisting vars.bat and openssl.cnf files):</p> <blockquote> <strong>init-config</strong> </blockquote> <p>Now edit the <strong>vars</strong> file (called <strong>vars.bat</strong> on Windows) and set the KEY_COUNTRY, KEY_PROVINCE, KEY_CITY, KEY_ORG, and KEY_EMAIL parameters. Don’t leave any of these parameters blank.</p> <p>Next, initialize the PKI.  On Linux/BSD/Unix:</p> <blockquote> <strong>. ./vars<br>./clean-all<br>./build-ca<br></strong> </blockquote> <p>On Windows:</p> <blockquote> <strong>vars<br>clean-all<br>build-ca<br></strong> </blockquote> <p>The final command (<strong>build-ca</strong>) will build the certificate authority (CA) certificate and key by invoking the interactive <strong>openssl</strong> command:</p> <blockquote>ai:easy-rsa # ./build-ca<br>Generating a 1024 bit RSA private key<br>…………++++++<br>………..++++++<br>writing new private key to ‘ca.key’<br>—–<br>You are about to be asked to enter information that will be incorporated<br>into your certificate request.<br>What you are about to enter is what is called a Distinguished Name or a DN.<br>There are quite a few fields but you can leave some blank<br>For some fields there will be a default value,<br>If you enter ‘.’, the field will be left blank.<br>—–<br>Country Name (2 letter code) [KG]:<br>State or Province Name (full name) [NA]:<br>Locality Name (eg, city) [BISHKEK]:<br>Organization Name (eg, company) [OpenVPN-TEST]:<br>Organizational Unit Name (eg, section) []:<br>Common Name (eg, your name or your server’s hostname) []:OpenVPN-CA<br>Email Address [me@myhost.mydomain]:</blockquote> <p>Note that in the above sequence, most queried parameters were defaulted to the values set in the <strong>vars</strong> or <strong>vars.bat</strong> files.  The only parameter which must be explicitly entered is the <strong>Common Name</strong>.  In the example above, I used &quot;OpenVPN-CA&quot;.</p>            Generate certificate &amp; key for server            <p>Next, we will generate a certificate and private key for the server.  On Linux/BSD/Unix:</p> <blockquote> <strong>./build-key-server server</strong> </blockquote> <p>On Windows:</p> <blockquote> <strong>build-key-server server</strong> </blockquote> <p>As in the previous step, most parameters can be defaulted. When the <strong>Common Name</strong> is queried, enter &quot;server&quot;. Two other queries require positive responses, &quot;Sign the certificate? [y/n]&quot; and &quot;1 out of 1 certificate requests certified, commit? [y/n]&quot;.</p>            Generate certificates &amp; keys for 3 clients            <p>Generating client certificates is very similar to the previous step.  On Linux/BSD/Unix:</p> <blockquote> <strong>./build-key client1<br>./build-key client2<br>./build-key client3</strong> </blockquote> <p>On Windows:</p> <blockquote> <strong>build-key client1<br>build-key client2<br>build-key client3</strong> </blockquote> <p>If you would like to password-protect your client keys, substitute the <strong>build-key-pass</strong> script.</p> <p>Remember that for each client, make sure to type the appropriate <strong>Common Name</strong> when prompted, i.e. &quot;client1&quot;, &quot;client2&quot;, or &quot;client3&quot;.  Always use a unique common name for each client.</p>            Generate Diffie Hellman parameters            <p><a href="http://www.rsasecurity.com/rsalabs/node.asp?id=2248" target="_blank" rel="external"> Diffie Hellman</a> parameters must be generated for the OpenVPN server.  On Linux/BSD/Unix:</p> <blockquote> <strong>./build-dh</strong> </blockquote> <p>On Windows:</p> <blockquote> <strong>build-dh</strong> </blockquote> <p>Output:</p> <blockquote>ai:easy-rsa # ./build-dh<br>Generating DH parameters, 1024 bit long safe prime, generator 2<br>This is going to take a long time<br>……………..+…………………………………….<br>……………….+………….+……………..+………<br>………………………………..</blockquote>Key Files<p>Now we will find our newly-generated keys and certificates in the <strong>keys</strong> subdirectory.  Here is an explanation of the relevant files:</p> <strong>Filename</strong> <strong>Needed By</strong> <strong>Purpose</strong> <strong>Secret</strong>                            ca.crt            server + all clients            Root CA certificate            NO                            ca.key            key signing machine only            Root CA key            YES                            dh{n}.pem            server only            Diffie Hellman parameters            NO                            server.crt            server only            Server Certificate            NO                            server.key            server only            Server Key            YES                            client1.crt            client1 only            Client1 Certificate            NO                            client1.key            client1 only            Client1 Key            YES                            client2.crt            client2 only            Client2 Certificate            NO                            client2.key            client2 only            Client2 Key            YES                            client3.crt            client3 only            Client3 Certificate            NO                            client3.key            client3 only            Client3 Key            YES            <p>The final step in the key generation process is to copy all files to the machines which need them, taking care to copy secret files over a secure channel.</p><p>Now wait, you may say.  Shouldn’t it be possible to set up the PKI without a pre-existing secure channel?</p><p> </p><p>The answer is ostensibly yes. In the example above, for the sake of brevity, we generated all private keys in the same place. With a bit more effort, we could have done this differently. For example, instead of generating the client certificate and keys on the server, we could have had the client generate its own private key locally, and then submit a Certificate Signing Request (CSR) to the key-signing machine. In turn, the key-signing machine could have processed the CSR and returned a signed certificate to the client. This could have been done without ever requiring that a secret <strong>.key</strong> file leave the hard drive of the machine on which it was generated.</p><p> </p><br><hr><a title="control" name="control"></a>Controlling a running OpenVPN processRunning on Linux/BSD/Unix<p>OpenVPN accepts several signals:</p><ul> <li><strong>SIGUSR1</strong> – Conditional restart, designed to restart without root privileges</li> <li><strong>SIGHUP</strong> – Hard restart</li> <li><strong>SIGUSR2</strong> – Output connection statistics to log file or syslog</li> <li><strong>SIGTERM</strong>, <strong>SIGINT</strong> – Exit</li></ul><p>Use the <strong>writepid</strong> directive to write the OpenVPN daemon’s PID to a file, so that you know where to send the signal (if you are starting openvpn with an <strong>initscript</strong>, the script may already be passing a <strong>–writepid</strong> directive on the <strong>openvpn</strong> command line).</p>Running in a Windows command prompt window<p>On Windows, you can start OpenVPN by right clicking on an OpenVPN configuration file (<strong>.ovpn</strong> file) and selecting &quot;Start OpenVPN on this config file&quot;.</p><p>Once running in this fashion, several keyboard commands are available:</p><ul> <li><strong>F1</strong> – Conditional restart (doesn’t close/reopen TAP adapter)</li> <li><strong>F2</strong> – Show connection statistics</li> <li><strong>F3</strong> – Hard restart</li> <li><strong>F4</strong> – Exit</li></ul>Status File<p>The default <a href="http://openvpn.net/howto.html#server" target="_blank" rel="external">server.conf</a> file has a line</p><blockquote><strong>status openvpn-status.log</strong></blockquote><p>which will output a list of current client connections to the file <strong>openvpn-status.log</strong> once per minute.</p>Using the management interface<p>The <a href="http://openvpn.net/management.html" target="_blank" rel="external">OpenVPN management interface</a> allows a great deal of control over a running OpenVPN process. You can use the management interface directly, by telneting to the management interface port, or indirectly by using an <a href="http://openvpn.net/gui.html" target="_blank" rel="external">OpenVPN GUI</a> which itself connects to the management interface.</p><p>To enable the management interface on either an OpenVPN server or client, add this to the configuration file:</p><blockquote><strong>management localhost 7505</strong></blockquote><p>This tells OpenVPN to listen on TCP port 7505 for management interface clients (port 7505 is an arbitrary choice – you can use any free port).</p>Once OpenVPN is running, you can connect to the management interface using a <strong>telnet</strong> client.  For example:        <blockquote>ai:~ # telnet localhost 7505<br>Trying 127.0.0.1…<br>Connected to localhost.<br>Escape character is ‘^]’.<br>&gt;INFO:OpenVPN Management Interface Version 1 – type ‘help’ for more info<br>help<br>Management Interface for OpenVPN 2.0_rc14 i686-suse-linux [SSL] [LZO] [EPOLL] built on Feb 15 2005<br>Commands:<br>echo [on|off] [N|all]  : Like log, but only show messages in echo buffer.<br>exit|quit              : Close management session.<br>help                   : Print this message.<br>hold [on|off|release]  : Set/show hold flag to on/off state, or<br>                         release current hold and start tunnel.<br>kill cn                : Kill the client instance(s) having common name cn.<br>kill IP:port           : Kill the client instance connecting from IP:port.<br>log [on|off] [N|all]   : Turn on/off realtime log display<br>                         + show last N lines or ‘all’ for entire history.<br>mute [n]               : Set log mute level to n, or show level if n is absent.<br>net                    : (Windows only) Show network info and routing table.<br>password type p        : Enter password p for a queried OpenVPN password.<br>signal s               : Send signal s to daemon,<br>                         s = SIGHUP|SIGTERM|SIGUSR1|SIGUSR2.<br>state [on|off] [N|all] : Like log, but show state history.<br>status [n]             : Show current daemon status info using format #n.<br>test n                 : Produce n lines of output for testing/debugging.<br>username type u        : Enter username u for a queried OpenVPN username.<br>verb [n]               : Set log verbosity level to n, or show if n is absent.<br>version                : Show current version number.<br>END<br>exit<br>Connection closed by foreign host.<br>ai:~ #</blockquote> <strong><br></strong> <hr><br><br><br><br>#end<br><br><br><blockquote> </blockquote> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/07/03/【OpenVPN】配置/" class="archive-article-date">
+  	<time datetime="2008-07-03T12:08:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-07-03</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Network/">Network</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2008/07/06/Linux网络工具：IPTABLES-～-ip-route-～-tcpdump-～-netstat-～-and-so-on/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Linux网络工具：IPTABLES ～ ip/route ～ tcpdump ～ netstat ～ and so on ...
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2008/06/30/【zz】开发Windows-NT的后台服务/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">【zz】开发Windows NT的后台服务</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

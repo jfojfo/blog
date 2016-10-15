@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Retroarch：启动入口、android输入驱动 | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="retroarch/frontend/frontend.c
+returntype main_entry(signature())
+{
+   ...
+   while (!main_entry_iterate(signature_expand(), args));
+}
+int main_entry_iterate(signature(), args_type() args)
+{
+   if (g_e">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Retroarch：启动入口、android输入驱动">
+<meta property="og:url" content="http://blog.pickbox.me/2014/05/19/Retroarch：启动入口、android输入驱动/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="retroarch/frontend/frontend.c
+returntype main_entry(signature())
+{
+   ...
+   while (!main_entry_iterate(signature_expand(), args));
+}
+int main_entry_iterate(signature(), args_type() args)
+{
+   if (g_e">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Retroarch：启动入口、android输入驱动">
+<meta name="twitter:description" content="retroarch/frontend/frontend.c
+returntype main_entry(signature())
+{
+   ...
+   while (!main_entry_iterate(signature_expand(), args));
+}
+int main_entry_iterate(signature(), args_type() args)
+{
+   if (g_e">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-Retroarch：启动入口、android输入驱动" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Retroarch：启动入口、android输入驱动
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <pre>retroarch/frontend/frontend.c
+returntype main_entry(signature())
+{
+   ...
+   while (!main_entry_iterate(signature_expand(), args));
+}
+int main_entry_iterate(signature(), args_type() args)
+{
+   if (g_extern.system.shutdown)
+      return main_entry_iterate_shutdown(args);
+   else if (g_extern.lifecycle_state &amp; (1ULL &lt;&lt; MODE_CLEAR_INPUT))
+      return main_entry_iterate_clear_input(args);
+   else if (g_extern.lifecycle_state &amp; (1ULL &lt;&lt; MODE_LOAD_GAME))
+      return main_entry_iterate_load_content(args);
+   else if (g_extern.lifecycle_state &amp; (1ULL &lt;&lt; MODE_GAME))
+      return main_entry_iterate_content(args);
+#ifdef HAVE_MENU
+   else if (g_extern.lifecycle_state &amp; (1ULL &lt;&lt; MODE_MENU_PREINIT))
+      main_entry_iterate_menu_preinit(args);
+   else if (g_extern.lifecycle_state &amp; (1ULL &lt;&lt; MODE_MENU))
+      return main_entry_iterate_menu(args);
+#endif
+   else
+      return 1;
+
+   return 0;
+}
+static int main_entry_iterate_content(args_type() args)
+{
+   bool r;
+   if (g_extern.is_paused &amp;&amp; !g_extern.is_oneshot)
+      r = rarch_main_idle_iterate();
+   else
+      r = rarch_main_iterate();
+
+   if (r)
+   {
+      if (frontend_ctx &amp;&amp; frontend_ctx-&gt;process_events)
+         frontend_ctx-&gt;process_events(args);
+   }
+   else
+      g_extern.lifecycle_state &amp;= ~(1ULL &lt;&lt; MODE_GAME);
+
+   return 0;
+}
+
+retroarch/retroarch.c
+bool rarch_main_iterate(void)
+{
+   ...
+   for (i = 0; i &lt; MAX_PLAYERS; i++)
+   {
+      input_push_analog_dpad(g_settings.input.binds[i], g_settings.input.analog_dpad_mode[i]);
+      input_push_analog_dpad(g_settings.input.autoconf_binds[i], g_settings.input.analog_dpad_mode[i]);
+   }
+
+   update_frame_time();
+   pretro_run();
+   limit_frame_time();
+
+   for (i = 0; i &lt; MAX_PLAYERS; i++)
+   {
+      input_pop_analog_dpad(g_settings.input.binds[i]);
+      input_pop_analog_dpad(g_settings.input.autoconf_binds[i]);
+   }
+   ...
+}
+
+pretro_run是一个指向retro_run的函数指针，
+见dynamic.c的load_symbols()的SYM(retro_run);
+retro_run()函数由每一个ROM模拟器实现，比如
+libretro-fceumm/src/drivers/libretro.c
+void retro_run(void)
+{
+   ...
+   FCEUI_Emulate(&amp;gfx, &amp;sound, &amp;ssize, 0);
+   if (ssize)
+      FCEUD_WriteSoundData(sound, ssize);
+
+   ...
+   video_cb(video_out, width, height, pitch);
+
+   ...
+}
+libretro-fceumm/src/fceu.c
+void FCEUI_Emulate(uint8 **pXBuf, int32 **SoundBuf, int32 *SoundBufSize, int skip) {
+        int r, ssize;
+
+        FCEU_UpdateInput();
+        if (geniestage != 1) FCEU_ApplyPeriodicCheats();
+        r = FCEUPPU_Loop(skip);
+
+        ssize = FlushEmulateSound();
+
+        timestampbase += timestamp;
+
+        timestamp = 0;
+
+        *pXBuf = skip ? 0 : XBuf;
+        *SoundBuf = WaveFinal;
+        *SoundBufSize = ssize;
+}
+FCEUPPU_Loop模拟了CPU指令执行，
+FCEU_UpdateInput更新输入
+libretro-fceumm/src/drivers/libretro/libretro.c
+static void FCEUD_UpdateInput(void)
+{
+   unsigned i;
+   unsigned char pad[2];
+
+   pad[0] = 0;
+   pad[1] = 0;
+
+   poll_cb();
+
+   for ( i = 0; i &lt; 8; i++)
+      pad[0] |= input_cb(0, RETRO_DEVICE_JOYPAD, 0, bindmap[i].retro) ? bindmap[i].nes : 0;
+
+   for ( i = 0; i &lt; 8; i++)
+      pad[1] |= input_cb(1, RETRO_DEVICE_JOYPAD, 0, bindmap[i].retro) ? bindmap[i].nes : 0;
+
+   JSReturn[0] = pad[0] | (pad[1] &lt;&lt; 8);
+}
+poll_cb对android来说，最终会调用retroarch/android/native/jni/input_android.c
+中的android_input_poll()，通过poll方式更新用户输入，
+input_cb最终调用input_android.c中的android_input_state()，取出用户输入
+可见poll行为由ROM游戏触发
+
+这些函数指针初始化地方：
+retroarch/retroarch.c
+static void init_libretro_cbs_plain(void)
+{
+   pretro_set_video_refresh(video_frame);
+   pretro_set_audio_sample(audio_sample);
+   pretro_set_audio_sample_batch(audio_sample_batch);
+   pretro_set_input_state(input_state);
+   pretro_set_input_poll(rarch_input_poll);
+}
+
+void rarch_input_poll(void)
+{
+   input_poll_func();
+
+#ifdef HAVE_OVERLAY
+   if (driver.overlay) // Poll overlay state
+      input_poll_overlay();
+#endif
+
+#ifdef HAVE_COMMAND
+   if (driver.command)
+      rarch_cmd_poll(driver.command);
+#endif
+}
+其中input_poll_func调用input_android.c中的中的android_input_poll()
+#define input_poll_func() driver.input-&gt;poll(driver.input_data)
+#define input_input_state_func(retro_keybinds, port, device, index, id) \
+   driver.input-&gt;input_state(driver.input_data, retro_keybinds, port, device, index, id)
+
+static int16_t input_state(unsigned port, unsigned device, unsigned index, unsigned id)
+{
+   device &amp;= RETRO_DEVICE_MASK;
+
+#ifdef HAVE_BSV_MOVIE
+   if (g_extern.bsv.movie &amp;&amp; g_extern.bsv.movie_playback)
+   {
+      int16_t ret;
+      if (bsv_movie_get_input(g_extern.bsv.movie, &amp;ret))
+         return ret;
+      else
+         g_extern.bsv.movie_end = true;
+   }
+#endif
+
+   static const struct retro_keybind *binds[MAX_PLAYERS] = {
+      g_settings.input.binds[0],
+      g_settings.input.binds[1],
+      g_settings.input.binds[2],
+      g_settings.input.binds[3],
+      g_settings.input.binds[4],
+      g_settings.input.binds[5],
+      g_settings.input.binds[6],
+      g_settings.input.binds[7],
+   };
+
+   int16_t res = 0;
+   if (id &lt; RARCH_FIRST_META_KEY || device == RETRO_DEVICE_KEYBOARD)
+      res = input_input_state_func(binds, port, device, index, id);
+
+#ifdef HAVE_OVERLAY
+   if (device == RETRO_DEVICE_JOYPAD &amp;&amp; port == 0)
+      res |= driver.overlay_state.buttons &amp; (UINT64_C(1) &lt;&lt; id) ? 1 : 0;
+   else if (device == RETRO_DEVICE_KEYBOARD &amp;&amp; port == 0 &amp;&amp; id &lt; RETROK_LAST)
+      res |= OVERLAY_GET_KEY(&amp;driver.overlay_state, id) ? 1 : 0;
+   else if (device == RETRO_DEVICE_ANALOG &amp;&amp; port == 0)
+   {
+      unsigned base = (index == RETRO_DEVICE_INDEX_ANALOG_RIGHT) ? 2 : 0;
+      base += (id == RETRO_DEVICE_ID_ANALOG_Y) ? 1 : 0;
+      if (driver.overlay_state.analog[base])
+         res = driver.overlay_state.analog[base];
+   }
+#endif
+
+#ifndef RARCH_CONSOLE
+   // Don't allow turbo for D-pad.
+   if (device == RETRO_DEVICE_JOYPAD &amp;&amp; (id &lt; RETRO_DEVICE_ID_JOYPAD_UP || id &gt; RETRO_DEVICE_ID_JOYPAD_RIGHT))
+      res = input_apply_turbo(port, id, res);
+#endif
+
+#ifdef HAVE_BSV_MOVIE
+   if (g_extern.bsv.movie &amp;&amp; !g_extern.bsv.movie_playback)
+      bsv_movie_set_input(g_extern.bsv.movie, res);
+#endif
+
+   return res;
+}
+
+其中input_input_state_func调用input_android.c中的android_input_state()
+
+可以看到对overlay（手机屏幕浮层显示的虚拟手柄）输入也是在这里处理的
+
+
+static void android_input_poll(void *data)
+{
+   ....
+   while ((ident = ALooper_pollAll((input_key_pressed_func(RARCH_PAUSE_TOGGLE)) ? -1 : 0,
+               NULL, NULL, NULL)) >= 0)
+   {
+      if (ident == LOOPER_ID_INPUT)
+      {
+            while (AInputQueue_getEvent(android_app->inputQueue, &event) >= 0)
+            {
+              ...
+              predispatched = AInputQueue_preDispatchEvent(android_app->inputQueue,event);
+
+            AInputQueue_finishEvent(android_app->inputQueue, event, handled);
+    ....
+}
+
+static int16_t android_input_state(void *data, const struct retro_keybind **binds, unsigned port, unsigned device, unsigned index, unsigned id)
+{
+   android_input_t *android = (android_input_t*)data;
+
+   switch (device)
+   {
+      case RETRO_DEVICE_JOYPAD:
+         return ((android->pad_state[port] & binds[port][id].joykey) && (port < android->pads_connected));
+      case RETRO_DEVICE_ANALOG:
+         if (port >= android->pads_connected)
+            return 0;
+         switch ((index << 1) | id)
+         {
+            case (RETRO_DEVICE_INDEX_ANALOG_LEFT << 1) | RETRO_DEVICE_ID_ANALOG_X:
+               return android->analog_state[port][0][0];
+            case (RETRO_DEVICE_INDEX_ANALOG_LEFT << 1) | RETRO_DEVICE_ID_ANALOG_Y:
+               return android->analog_state[port][0][1];
+            case (RETRO_DEVICE_INDEX_ANALOG_RIGHT << 1) | RETRO_DEVICE_ID_ANALOG_X:
+               return android->analog_state[port][1][0];
+            case (RETRO_DEVICE_INDEX_ANALOG_RIGHT << 1) | RETRO_DEVICE_ID_ANALOG_Y:
+               return android->analog_state[port][1][1];
+         }
+    ....
+}
+
+
+回到retroarch/frontend/frontend.c的main_entry_iterate_content()
+其中调用了frontend_ctx-&gt;process_events(args);
+
+retroarch/frontend/platform/platform_android.c
+
+const frontend_ctx_driver_t frontend_ctx_android = {
+   get_environment_settings,     /* get_environment_settings */
+   system_init,                  /* init */
+   system_deinit,                /* deinit */
+   NULL,                         /* exitspawn */
+   NULL,                         /* process_args */
+   process_events,               /* process_events */
+   NULL,                         /* exec */
+   system_shutdown,              /* shutdown */
+   "android",
+};
+
+static int process_events(void *data)
+{
+   struct android_app* android_app = (struct android_app*)data;
+
+   if (input_key_pressed_func(RARCH_PAUSE_TOGGLE))
+         android_run_events(android_app);
+
+   return 0;
+}
+
+input_key_pressed_func会调用driver的input的key_pressed函数指针
+static inline bool input_key_pressed_func(int key)
+{
+   bool ret = false;
+
+   if (!driver.block_hotkey)
+      ret = ret || driver.input-&gt;key_pressed(driver.input_data, key);
+
+#ifdef HAVE_OVERLAY
+   ret = ret || (driver.overlay_state.buttons &amp; (1ULL &lt;&lt; key));
+#endif
+
+#ifdef HAVE_COMMAND
+   if (driver.command)
+      ret = ret || rarch_cmd_get(driver.command, key);
+#endif
+
+   return ret;
+}
+
+对于android来说，key_pressed指向android_input_key_pressed
+retroarch/android/native/jni/input_android.c
+const input_driver_t input_android = {
+   android_input_init,
+   android_input_poll,
+   android_input_state,
+   android_input_key_pressed,
+   android_input_free_input,
+   android_input_set_keybinds,
+   android_input_set_sensor_state,
+   android_input_get_sensor_input,
+   android_input_get_capabilities,
+   android_input_devices_size,
+   "android_input",
+};
+
+static bool android_input_key_pressed(void *data, int key)
+{
+   return ((g_extern.lifecycle_state | driver.overlay_state.buttons) &amp; (1ULL &lt;&lt; key));
+}
+
+android_run_events()
+retroarch/frontend/platform/platform_android.c
+static bool android_run_events (void *data)
+{
+   int id = ALooper_pollOnce(-1, NULL, NULL, NULL);
+
+   if (id == LOOPER_ID_MAIN)
+      engine_handle_cmd(driver.input_data);
+
+   // Check if we are exiting.
+   if (g_extern.lifecycle_state &amp; (1ULL &lt;&lt; RARCH_QUIT_KEY))
+      return false;
+
+   return true;
+}
+void engine_handle_cmd(void *data)
+{
+   struct android_app *android_app = (struct android_app*)g_android;
+   int8_t cmd;
+
+   if (read(android_app-&gt;msgread, &amp;cmd, sizeof(cmd)) != sizeof(cmd))
+      cmd = -1;
+
+   switch (cmd)
+   {
+      case APP_CMD_INPUT_CHANGED:
+         slock_lock(android_app-&gt;mutex);
+
+         if (android_app-&gt;inputQueue)
+            AInputQueue_detachLooper(android_app-&gt;inputQueue);
+
+         android_app-&gt;inputQueue = android_app-&gt;pendingInputQueue;
+
+         if (android_app-&gt;inputQueue)
+         {
+            RARCH_LOG("Attaching input queue to looper");
+            AInputQueue_attachLooper(android_app-&gt;inputQueue,
+                  android_app-&gt;looper, LOOPER_ID_INPUT, NULL,
+                  NULL);
+         }
+
+         scond_broadcast(android_app-&gt;cond);
+         slock_unlock(android_app-&gt;mutex);
+         break;
+      case APP_CMD_INIT_WINDOW:
+         ...
+         break;
+      case APP_CMD_RESUME:
+         ...
+         break;
+
+      case APP_CMD_START:
+         ...
+         break;
+      case APP_CMD_DESTROY:
+         g_extern.lifecycle_state |= (1ULL &lt;&lt; RARCH_QUIT_KEY);
+         break;
+   }
+
+可以看到这里的处理不涉及到游戏过程的用户输入的处理，仅仅处理
+activity周期中的cmd事件
+
+
+
+其他：
+
+retroarch/frontend/platform/platform_android.c 中初始化android相关函数：
+static void system_init(void *data)
+{
+   JNIEnv *env;
+   jclass class = NULL;
+   jobject obj = NULL;
+   struct android_app* android_app = (struct android_app*)data;
+
+   ALooper* looper = ALooper_prepare(ALOOPER_PREPARE_ALLOW_NON_CALLBACKS);
+   ALooper_addFd(looper, android_app-&gt;msgread, LOOPER_ID_MAIN, ALOOPER_EVENT_INPUT, NULL, NULL);
+   android_app-&gt;looper = looper;
+
+   slock_lock(android_app-&gt;mutex);
+   android_app-&gt;running = 1;
+   scond_broadcast(android_app-&gt;cond);
+   slock_unlock(android_app-&gt;mutex);
+
+   memset(&amp;g_android, 0, sizeof(g_android));
+   g_android = android_app;
+
+   RARCH_LOG("Native Activity started.\n");
+   rarch_main_clear_state();
+   rarch_init_msg_queue();
+
+   while (!android_app-&gt;window)
+   {
+      if (!android_run_events(android_app))
+      {
+         system_deinit(android_app);
+         system_shutdown(android_app);
+      }
+   }
+
+   env = jni_thread_getenv();
+   if (!env)
+      return;
+
+   GET_OBJECT_CLASS(env, class, android_app-&gt;activity-&gt;clazz);
+   GET_METHOD_ID(env, android_app-&gt;getIntent, class, "getIntent", "()Landroid/content/Intent;");
+   CALL_OBJ_METHOD(env, obj, android_app-&gt;activity-&gt;clazz, android_app-&gt;getIntent);
+
+   GET_OBJECT_CLASS(env, class, obj);
+   GET_METHOD_ID(env, android_app-&gt;getStringExtra, class, "getStringExtra", "(Ljava/lang/String;)Ljava/lang/String;");
+}</pre>
+
+<p>&nbsp;<br>&nbsp;<br>&nbsp;<br>附上两个结构体的定义：</p>
+<pre>
+typedef struct android_input
+{
+   jmethodID onBackPressed;
+   unsigned pads_connected;
+   int state_device_ids[MAX_PADS];
+   uint64_t pad_state[MAX_PADS];
+   uint64_t keycode_lut[LAST_KEYCODE];
+   int16_t analog_state[MAX_PADS][2][2];
+   sensor_t accelerometer_state;
+   unsigned dpad_emulation[MAX_PLAYERS];
+   struct input_pointer pointer[MAX_TOUCH];
+   unsigned pointer_count;
+   ASensorManager* sensorManager;
+   ASensorEventQueue* sensorEventQueue;
+} android_input_t;
+
+struct retro_keybind
+{
+   bool valid;
+   unsigned id;
+   const char *desc;
+   enum retro_key key;
+
+   // PC only uses lower 16-bits.
+   // Full 64-bit can be used for port-specific purposes, like simplifying multiple binds, etc.
+   uint64_t joykey;
+
+   // Default key binding value - for resetting bind to default
+   uint64_t def_joykey;
+
+   uint32_t joyaxis;
+   uint32_t def_joyaxis;
+
+   uint32_t orig_joyaxis; // Used by input_{push,pop}_analog_dpad().
+};
+</pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/05/19/Retroarch：启动入口、android输入驱动/" class="archive-article-date">
+  	<time datetime="2014-05-19T02:42:32.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-05-19</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2014/05/22/NativeActivity的OnCreate过程及InputQueue相关分析/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          NativeActivity的OnCreate过程及InputQueue相关分析
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/04/11/均值不等式/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">均值不等式</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

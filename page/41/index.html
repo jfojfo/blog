@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="jfo planet">
+<meta property="og:url" content="http://blog.pickbox.me/page/41/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jfo planet">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        
+  
+    <article id="post-【zz】mozilla中的设计亮点" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2008/04/02/【zz】mozilla中的设计亮点/">【zz】mozilla中的设计亮点</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+         <p><a href="http://blog.csdn.net/absurd/archive/2007/03/01/1518630.aspx" target="_blank">http://blog.csdn.net/absurd/archive/2007/03/01/1518630.aspx</a></p><p><br></p><p>mozilla 是一个以浏览器为中心的软件平台，它在我们平台中占有重要地位。我们用它来实现WEB浏览器、WAP浏览器、邮件系统、电子书和帮助阅读器等应用程序。为 此，我最近花了不少时间去阅读mozilla的代码和文档，我将写一系列的BLOG作为笔记，供有需要的朋友参考。本文介绍一下mozilla中的设计亮 点。</p><p> </p><p>近几年我看了不少大型开源系统，它们每个设计得都很经典，而mozilla无疑是其中的佼佼者之一。好的设计总是遵循一些众所周知的设计准则，套句俗语说，差的设计千差万别，好的设计都差不多。Mozilla也一样，它也无非是遵循了一些好的准则，只是实现手段有些差异罢了。这里简单的说一说，就算是温故知新吧。</p><p> </p><p>1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   针对接口编程。</p><p>Mozilla 整个设计都是基于组件对象模型(COM)的，而组件对象模型(COM)的主要特点就是针对接口编程。在《设计模式》中，作者把针对接口编程作为设计的首要 准则。针对接口编程的主要目的就是信息隐藏，隔离变化，把模块的使用者和实现者之间的耦合减到最小。而且在XPCOM的帮助下，组件可以动态替换或者增 加，具有更强的灵活性。</p><p> </p><p>2.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   分离界面和实现。</p><p>在这一方面，mozilla 算是非常前卫了：用标记语言(XML)开发界面，用编程语言来实现(C++)逻辑，而用脚本语言(javascript)把两者胶合起来，这可以说是把三 者的长处发挥到了极致。以前我也有过类似的想法，当时刚进入手机行业，我发现各种GUI的不统一，导致手机程序移植非常困难。当时就想，如果应用程序的界 面用HTML来写，应用程序的逻辑用C/C++写，界面在浏览器中运行，而应用程序的逻辑作为WEB服务器运行。再扩展一下HTTP协议，支持异步事件， 完全可以实现传统的应用程序。后来发现mozilla早就实现了类似的东东，让我大跌眼镜。</p><p> </p><p>另外mozilla也大量应用了观察者模式，这对分离界面和实现很有帮助。比如，网络操作通常都要花很长时间，在此期间要报告操作的当前状态。通过观察者模式，可以在长时间操作中更新状态，而又避免了操作与用户界面的耦合。</p><p> </p><p>3.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   可移植性。</p><p>Mozilla 是一个跨平台的软件，它的基本运行平台有linux、windows和mac，实际上它还可以运行在其它unix平台上，所以可移植性是mozilla是 主要目标之一。如果开发过跨平台软件，你就会知道开发可移植性软件是多么困难，特别是大型GUI应用程序。Mozilla在可移植性上可谓费尽苦心：</p><p>l&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   实现了一套跨平台的组件对象模型(XPCOM)，这使得mozilla可以利用组件对象模型(COM)的好处，而又不限于windows平台。</p><p>l&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   实现了一套可移植运行库,对各种操作系统的接口作了抽象，隔离上层模块对操作系统的依赖。</p><p>l&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   实现了自己国际化机制，包括编码转换、编码检测和字符串翻译等等。</p><p>l&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   对GUI作了抽象，实现了widget和gfx两个库，前者负责窗口/控件的处理，后者负责图形/图像的绘制。可以用不同的GUI作为实现后端。</p><p> </p><p>4.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   可扩展性。</p><p>对于浏览器来说，可扩展性也是非常重要的。由于它涉及的东西太多，专业的功能应该由专业的厂商去做，而不是全部由浏览器来实现。比如像flash播放、视频播放和pdf阅读等等都应该从浏览器中分离出来。Mozilla提供了两种扩展机制，一种称为plugin，另外一种称为extension。这可能有点让人混淆，我是这样理解的：</p><p>l&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   plugin用来增强现有功能，比如wml browser plugin可以把wml转换成html，而media player plugin可以播放音/视频文件。所有的plugin都要实现指定的接口。</p><p>l&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   extension用来扩展新功能，这些功能可能与浏览器有关，也可能无关，像help extension就是用来实现帮助功能的。Extension不必实现特定的接口。</p><p> </p><p>5.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   稳定性(内存问题检测)。</p><p>用C/C++开发的应用程序，最大的毛病就是容易出现内存泄露和越界，即使有多年开发经验的老手也可能在此栽了跟头。有人说，有很多工具可以帮助检测内存问题啊。没错，但有两种情况可能让这些工具失效，一是GUI系统，它们通常使用了共享内存，大多数工具对此都无能为力。不信的话，你可以用valgrind检查一下GTK应用程序试试。二是自己管理了内存，大型系统中，为了高效的利用内存，往往实现了自己的内存管理器，工具对此一无所知，自然帮不上忙。</p><p> </p><p>Mozilla实现了自己的内存管理器，同时还实现多种内存问题检查机制，比如用boehm垃圾回收机制来检查内存泄露问题。当然，对于C/C++这个毛病，也是迫不得已，大家都在重复实现这些东西，却没有好的重用办法，这不怪mozilla。</p> 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/04/02/【zz】mozilla中的设计亮点/" class="archive-article-date">
+  	<time datetime="2008-04-02T14:53:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-04-02</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux-App/">Linux App</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-DLL转移（file-exe-local文件）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2008/04/02/DLL转移（file-exe-local文件）/">DLL转移（file.exe.local文件）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <strong><a href="http://www.cppblog.com/mzty/archive/2006/09/22/12823.html" target="_blank">http://www.cppblog.com/mzty/archive/2006/09/22/12823.html</a><br><br>DLL转移</strong><br>M i c r o s o f t给Windows 2000增加了一个D L L转移特性。这个特性能够强制操作系统的加载程序首先从你的应用程序目录中加载文件模块。只有当加载程序无法在应用程序目录中找到该文件时，它才搜索其他目录。为了强制加载程序总是首先查找应用程序的目录，要做的工作就是在应用程序的目录中放入一个文件。该文件的内容可以忽略，但是该文件必须称为A p p N a m e . l o c a l。例如，如果有一个可执行文件的名字是S u p e r A p p . e x e ，那么转移文件必须称为S u p e r A p p . e x e . l o c a l。在 系统内部， L o a d L i b r a r y ( E x )已经被修改，以便查看是否存在该文件。如果应用程序的目录中存在该文件，该目录中的模块就已经被加载。如果应用程序的目录中不存在这个模块，L o a d L i b r a r y ( E x )将正常运行。对于已经注册的C O M对象来说，这个特性是非常有用的。它使应用程序能够将它的C O M对象D L L放入自己的目录，这样，注册了相同C O M对象的其他应用程序就无法干扰你的操作。 </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/04/02/DLL转移（file-exe-local文件）/" class="archive-article-date">
+  	<time datetime="2008-04-02T07:49:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-04-02</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Windows/">Windows</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-【zz】C-拷贝构造函数的几个细节" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2008/04/02/【zz】C-拷贝构造函数的几个细节/">【zz】C++拷贝构造函数的几个细节</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> C++拷贝构造函数的几个细节(转自：<a href="http://grantren.javaeye.com/blog/43289" target="_blank">http://grantren.javaeye.com/blog/43289</a>)</p><p>拷贝构造函数是C++最基础的概念之一，大家自认为对拷贝构造函数了解么？请大家先回答一下三个问题:</p><p><strong>1.</strong> 以下函数哪个是拷贝构造函数,为什么?</p><ol> <li>X::X(const X&amp;); &nbsp;&nbsp;</li> <li>X::X(X); &nbsp;&nbsp;</li> <li>X::X(X&amp;, int a=1); &nbsp;&nbsp;</li> <li>X::X(X&amp;, int a=1, b=2);&nbsp;&nbsp;</li></ol><p> <strong>2.</strong> 一个类中可以存在多于一个的拷贝构造函数吗?</p><p><strong>3.</strong> 写出以下程序段的输出结果, 并说明为什么?<strong> </strong>如果你都能回答无误的话，那么你已经对拷贝构造函数有了相当的了解。</p><ol> <li>#include  &nbsp;&nbsp;</li> <li>#include  &nbsp;&nbsp;</li> <li>&nbsp;&nbsp;</li> <li>struct X { &nbsp;&nbsp;</li> <li>&nbsp;&nbsp;template&lt;typename T&gt; &nbsp;&nbsp;</li> <li>&nbsp;&nbsp; X( T&amp; ) { std::cout &lt;&lt; &quot;This is ctor.&quot; &lt;&lt; std::endl; } &nbsp;&nbsp;</li> <li>&nbsp;&nbsp;</li> <li>&nbsp;&nbsp;template&lt;typename T&gt; &nbsp;&nbsp;</li> <li>&nbsp;&nbsp;&nbsp;&nbsp; X&amp; operator=( T&amp; ) { std::cout &lt;&lt; &quot;This is ctor.&quot; &lt;&lt; std::endl; } &nbsp;&nbsp;</li> <li>}; &nbsp;&nbsp;</li> <li>&nbsp;&nbsp;</li> <li>void main() { &nbsp;&nbsp;</li> <li>&nbsp;&nbsp; X a(5); &nbsp;&nbsp;</li> <li>&nbsp;&nbsp; X b(10.5); &nbsp;&nbsp;</li> <li>&nbsp;&nbsp; X c = a; &nbsp;&nbsp;</li> <li>&nbsp;&nbsp;c = b; &nbsp;&nbsp;</li> <li>}&nbsp;&nbsp;</li></ol><p> </p><p><strong>解答如下：</strong></p><p><strong>1. </strong>对于一个类X,如果一个构造函数的第一个参数是下列之一:<br>a) X&amp;<br>b) const X&amp;<br>c) volatile X&amp;<br>d) const volatile X&amp;<br>且没有其他参数或其他参数都有默认值,那么这个函数是拷贝构造函数. </p><ol> <li><strong>X::X(const X&amp;);&nbsp;&nbsp;//是拷贝构造函数 &nbsp;&nbsp; </strong></li> <li><strong>X::X(X&amp;, int=1); //是拷贝构造函数&nbsp;&nbsp; </strong></li></ol><p> 2.类中可以存在超过一个拷贝构造函数, </p><ol> <li>class<strong> X {&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;</strong><strong> </strong></li> <li>public<strong>:&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp; </strong></li> <li><strong>&nbsp;&nbsp; X(const X&amp;);&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp; </strong></li> <li><strong>&nbsp;&nbsp; X(X&amp;);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;// OK &nbsp;&nbsp; </strong></li> <li><strong>};&nbsp;&nbsp; </strong></li></ol><p>注意,如果一个类中只存在一个参数为X&amp;的拷贝构造函数,那么就不能使用const X或volatile X的对象实行拷贝初始化.</p><ol> <li>class<strong> X { &nbsp;&nbsp;</strong><strong> </strong></li> <li>public<strong>: &nbsp;&nbsp; </strong></li> <li><strong>&nbsp;&nbsp; X(); &nbsp;&nbsp; </strong></li> <li><strong>&nbsp;&nbsp; X(X&amp;); &nbsp;&nbsp; </strong></li> <li><strong>}; &nbsp;&nbsp; </strong></li> <li><strong>  &nbsp;&nbsp; </strong></li> <li>const<strong> X cx; &nbsp;&nbsp; </strong></li> <li><strong>X x = cx;&nbsp;&nbsp;&nbsp;&nbsp;// error &nbsp;&nbsp; </strong></li></ol><p>如果一个类中没有定义拷贝构造函数,那么编译器会自动产生一个默认的拷贝构造函数.<br>这个默认的参数可能为X::X(const X&amp;)或X::X(X&amp;),由编译器根据上下文决定选择哪一个.</p><p>默认拷贝构造函数的行为如下:<br> 默认的拷贝构造函数执行的顺序与其他用户定义的构造函数相同,执行先父类后子类的构造.<br> 拷贝构造函数对类中每一个数据成员执行成员拷贝(memberwise Copy)的动作.<br> a)如果数据成员为某一个类的实例,那么调用此类的拷贝构造函数.<br> b)如果数据成员是一个数组,对数组的每一个执行按位拷贝. <br> c)如果数据成员是一个数量,如int,double,那么调用系统内建的赋值运算符对其进行赋值.</p><p><strong> </strong></p><p><strong>3.</strong>  拷贝构造函数不能由成员函数模版生成. </p><ol> <li>struct<strong> X { &nbsp;&nbsp;</strong><strong> </strong></li> <li><strong>&nbsp;&nbsp;&nbsp;&nbsp;template&lt;typename T&gt; &nbsp;&nbsp; </strong></li> <li><strong>&nbsp;&nbsp;&nbsp;&nbsp; X( const T&amp; );&nbsp;&nbsp;&nbsp;&nbsp;// NOT copy ctor, T can’t be X &nbsp;&nbsp; </strong></li> <li><strong>&nbsp;&nbsp; </strong></li> <li><strong>&nbsp;&nbsp;&nbsp;&nbsp;template&lt;typename T&gt; &nbsp;&nbsp; </strong></li> <li><strong>&nbsp;&nbsp;&nbsp;&nbsp; operator=( const T&amp; );&nbsp;&nbsp;// NOT copy ass’t, T can’t be X &nbsp;&nbsp; </strong></li> <li><strong>}; &nbsp;&nbsp; </strong></li> <li><strong>&nbsp;&nbsp; </strong></li></ol><p>原因很简单, 成员函数模版并不改变语言的规则,而语言的规则说,如果程序需要一个拷贝构造函数而你没有声明它,那么编译器会为你自动生成一个. 所以成员函数模版并不会阻止编译器生成拷贝构造函数, 赋值运算符重载也遵循同样的规则.(参见Effective C++ 3edition, Item45)</p> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/04/02/【zz】C-拷贝构造函数的几个细节/" class="archive-article-date">
+  	<time datetime="2008-04-02T07:18:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-04-02</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-3rd-签名Sign软件订做贴和Sign软件教程" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2008/04/01/3rd-签名Sign软件订做贴和Sign软件教程/">3rd 签名Sign软件订做贴和Sign软件教程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <a href="http://www.opda.net.cn/viewthread.php?tid=824&amp;page=1&amp;extra=page%3D1#pid33949" target="_blank">http://www.opda.net.cn/viewthread.php?tid=824&amp;page=1&amp;extra=page%3D1#pid33949</a><br> </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/04/01/3rd-签名Sign软件订做贴和Sign软件教程/" class="archive-article-date">
+  	<time datetime="2008-04-01T04:21:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-04-01</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Mobile/">Mobile</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-解决百阅字挤字的problem" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2008/04/01/解决百阅字挤字的problem/">解决百阅字挤字的problem</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <a href="http://www.dospy.com/bbs/viewthread.php?tid=1093412" target="_blank">http://www.dospy.com/bbs/viewthread.php</a><br><br>自己动手，解决百阅字挤字……<br><br>前段时间，在论坛里下载了百阅看小说，觉得挺不错，但美中不足的是百阅不能够调整字体的大小，这对于我们替换了系统字体的76机友来说，百阅里面的字体，变成了字挤字，字间距太小了……<br>我在网上找到了解决方法，并实验成功，故把我修改配置文件的过程贴出来给大家分享，也在此感谢原帖者aoe2006和x_wp……<br>第一步：修改百阅brc.ini配置文件<br>在c盘目录下面找到byread的文件夹（我百阅装在存储卡里，同样在C盘有配置文件），里面有个brc.ini配置文件，使用DEdit打开，找到这一行<br>[FontTypeFace]; These are fonts for S60 V1.x and V2.0, V2.1, V2.6, dot matrix fonts，<br>下面写的是关于百阅字体的配置，修改那个=号右边为系统字体那行，我改为YaHei=系统字体（系统字体为出现在百阅字体设置里面的选项），如果你想百阅字体设置里面出现多个选项，则把其他行前的分号去掉……（我只有那个系统字体的选项，其他的选项觉得没必要）<br>第二步：修改FontRounter.ini配置文件<br>去字体文件夹里面找到FontRounter.ini，使用DEdit打开，找到FontMap，进行YaHei字体的映射，我的配置文件这样修改：[FontMap]<br>[email=YaHei=Microsoft-M02@15,FZZhunYuan-M02@15]YaHei=Microsoft YaHei-M02@15,Microsoft YaHei-M02@15<a href="不知道在帖子里面怎么变成邮箱地址了，因为有个@号？">/email</a><br>字体映射的设置大家可以参考fontrounter的使用说明，我就不多写了，版主的字体贴里面有使用说明……<br>[email=ZhunYuan=FZZhunYuan-M02@15,FZZhunYuan-M02@15]ZhunYuan=FZZhunYuan-M02@15,FZZhunYuan-M02@15[/email]<br>（方正准圆字体的映射，需要和百阅配置文件里面的字体名相同，则改成ZhunYuan=系统字体），保存修改，重新启动手机（让fontrounter.ini配置生效），打开百阅，在阅览小说之前会出现，正在生成字体文件，请稍候……的提示框，等待一段时间，再看下手机，字挤字的问题是不是解决了……而打开百阅文件夹，则会发现里面多出了一个YaHei.fsf或ZhunYuan.fsf的字体文件<br>希望大家能够按照我的经验，顺顺利利舒舒服服地用上百阅看小说……<br><br>手机端修改配置文件所需的软件，大家可以在论坛里面搜索，如果有必要，我把软件打包发上来……<br><br>前段时间测试过，修改百阅的配置文件，并不能把百阅字体调成象其他阅读软件那样的小字体，这时标题就有些误导人的样子，所以改了，希望大家不要介意……偶 也是一片好心的啊……如果想要百阅实现修改字体大小的功能，只有等待新版本了（百阅这么久都没有推出新版本了，偶很介意！）……<br><br>ps一句：我装了百阅，掌上书院，qreader，百阅是款兼容性比较好的，可使用的格式最多了，但是综合使用来说，我还是偏向qreader了 （qreader可以自定义字体大小，背景颜色，但是有些格式不支持，而在qreader在阅读txt格式时，需要转换编码）……上面仅仅是我的使用经 验，大家按照自己的需求自主选用…… </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/04/01/解决百阅字挤字的problem/" class="archive-article-date">
+  	<time datetime="2008-04-01T04:16:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-04-01</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Mobile/">Mobile</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-几个有用的Linux-command" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2008/03/31/几个有用的Linux-command/">几个有用的Linux command</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <br>==================================================================<br>locale 是 utf-8 的时候 telnet gbk编码的bbs 会出现乱码<br><br>解决方法 : 使用 luit (belongs to ‘xorg-apps’)<br>luit -encoding gbk telnet zju88.cn<br><br>==================================================================<br>linux shell 列出当前目录的文件树/目录树<br>文件树：<br>find . -print 2&gt;/dev/null|awk ‘!/.$/ {for (i=1;i&lt;NF;i++){d=length($i);if ( d &lt; 5 &amp;&amp; i != 1 )d=5;printf(&quot;%&quot;d&quot;s&quot;,&quot;|&quot;)}print &quot;—&quot;$NF}’ FS=’/‘<br><br>目录树：<br>find . -type d -print 2&gt;/dev/null|awk ‘!/.$/ {for (i=1;i&lt;NF;i++){d=length($i);if ( d &lt; 5 &amp;&amp; i != 1 )d=5;printf(&quot;%&quot;d&quot;s&quot;,&quot;|&quot;)}print &quot;—&quot;$NF}’ FS=’/‘<br><br>==================================================================<br>wget下载整个网站<br>wget -t0 -c -nH -np -b -m -P /localdir <a href="http://freesoft.online.sh.cn/mirrors/ftp.redhat.com" target="_blank" rel="external">http://freesoft.online.sh.cn/mirrors/ftp.redhat.com</a> -o wget.log<br><br>==================================================================<br> 怎样限制一个用户可以启动的进程数<br>先确定一下/etc/pam.d/login 文件中下面一行的存在:<br>session required /lib/security/pam_limits.so<br>然后编辑/etc/security/limits.conf,在里面可以设置限制用户的进程数、CPU 占用率和内存使用率<br>等,如 hard nproc 20 就是指限制 20 个进程,具体可以看 man。<br><br>限制su命令的滥用<br>使用PAM（Pluggable Authentication Modules）可以禁止除在<br>wheel 组以外的任何人su 成root ， 修改/etc/pam.d/su 文件， 除去屏蔽标识# 。使<br>用/usr/sbin/usermod G10 bjecadm将bjecadm这个账号加入gid为10的组，就是wheel组。<br>命令如下：<br>cat /etc/pam.d/su<br>#%PAM-1.0<br>auth&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;    sufficient&#160;&#160;&#160;&#160;&#160;    pam_rootok.so<br># Uncomment the following line to implicitly trust users in the &quot;wheel&quot; group.<br>auth&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;    sufficient&#160;&#160;&#160;&#160;&#160;    pam_wheel.so trust use_uid<br># Uncomment the following line to require a user to be in the &quot;wheel&quot; group.<br>auth&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;    required&#160;&#160;&#160;&#160;&#160;&#160;&#160;    pam_wheel.so use_uid<br>auth&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;    required&#160;&#160;&#160;&#160;&#160;&#160;&#160;    pam_unix.so<br>account&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;    required&#160;&#160;&#160;&#160;&#160;&#160;&#160;    pam_unix.so<br>session&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;    required&#160;&#160;&#160;&#160;&#160;&#160;&#160;    pam_unix.so<br><br>chmod -G10 username<br><br>==================================================================<br>日志维护工具 logrotate<br>在/etc/logrotate.conf 中配置,定义 log 文件达到预定的大小或时间时,自动压缩 log 文件<br><br>==================================================================<br>去掉多余的回车符<br>sed ‘s/^M//‘ test.sh &gt; back.sh， 注意^M是敲ctrl_v ctrl-m得到的<br><br>==================================================================<br>改变redhat的系统语言/字符集<br>修改 /etc/sysconfig/i18n 文件，如<br>LANG=&quot;en_US&quot;，xwindow会显示英文界面，<br>LANG=&quot;zh_CN.GB18030&quot;，xwindow会显示中文界面。<br>还有一种方法<br>cp /etc/sysconfig/i18n $HOME/.i18n<br>vi $HOME/.i18n 文件，如<br>LANG=&quot;en_US&quot;，xwindow会显示英文界面，<br>LANG=&quot;zh_CN.GB18030&quot;，xwindow会显示中文界面。<br>这样就可以改变个人的界面语言，而不影响别的用户<br><br>==================================================================<br>查找权限位为S的文件<br>find . -type f ( -perm -04000 -o -perm -02000 ) -exec ls -lg {} ;<br><br>==================================================================<br>把弹出的光盘收回来<br>eject –t<br><br>==================================================================<br>查找或删除正在使用某文件的进程<br>fuser filename<br>fuser -k filename<br><br>==================================================================<br>让显示器不休眠<br>setterm -blank 0<br>setterm -blank n (n为等待时间)<br><br>==================================================================<br>让用户的密码必须有一定的长度，并且符合复杂度<br>vi /etc/login.defs，修改PASS_MIN_LEN<br><br>==================================================================<br>硬盘iso安装后怎么添加和删除rpm包<br>redhat-config-packages –isodir=&lt; PATH &gt;<br>&lt; PATH &gt;为iso文件所在的目录<br><br>==================================================================<br><u><em>文件名编码转换工具</em></u><br><br><br><br>在linux中各种文件时经常会遇到文件名乱码的情况，用工具convmv可以把文件名从一种编码转换到另一种编码，使之正常显示。<br><br>中文系统中最常见到的是gb2312编码，而debian默认的是utf-8编码，用gnome默认的bt客户端下载的文件中，中文编码大多数都是乱码的，于是，用下面命令可以批量转换：<br>$cd 放置乱码文件的目录下（只有乱码的文件/文件夹的情况下）<br>$convmv -f zh_CN.gb2312 -t UTF-8 -r –notest *<br><br><br><u><em>文件内容编码转换工具</em></u><br>$iconv -f gb2312 -t utf-8 sample.txt -o converted.txt<br>ref：<a target="_blank" href="http://blog.chinaunix.net/u1/39867/showart_320100.html"><strong>convert gb2312 to utf-8</strong></a><br><br><br><em><u>检测文件编码</u></em><br></p><p>a.如果你不知道你所要转换的文件的编码格式，你可以通过 enca 这个工具来检测编<br>码。举例如下：</p><p>bash: ~ &gt; enca foo.txt</p><p>Universal transformation format 8 bits; UTF-8</p><br>==================================================================<br>怎样恢复被删除的文件（使用该文件的进程未退出）<br>jfo@jfo-laptop:~$ ls &gt; myfile<br>jfo@jfo-laptop:~$ less myfile<br>然后按Ctrl+z，使得less进程进入后台<br>jfo@jfo-laptop:~$ rm myfile<br>此时myfile已经被删除～<br>jfo@jfo-laptop:~$ lsof -n | grep myfile<br>less&#160;&#160;&#160;&#160;&#160;&#160;        9833&#160;&#160;&#160;&#160;&#160;&#160;&#160;        jfo&#160;&#160;&#160;        4r&#160;&#160;&#160;&#160;&#160;        REG&#160;&#160;&#160;&#160;&#160;&#160;&#160;        7,0&#160;&#160;&#160;&#160;&#160;&#160;        80 232573 /home/jfo/myfile (deleted)<br>可以看到进程9833仍在使用该文件<br>jfo@jfo-laptop:~$ cd /proc/9833/fd/<br>jfo@jfo-laptop:~$ ls -l<br>lrwx—— 1 jfo jfo 64 2008-10-11 10:59 0 -&gt; /dev/pts/4<br>lrwx—— 1 jfo jfo 64 2008-10-11 10:59 1 -&gt; /dev/pts/4<br>lrwx—— 1 jfo jfo 64 2008-10-11 10:59 2 -&gt; /dev/pts/4<br>lr-x—— 1 jfo jfo 64 2008-10-11 10:59 3 -&gt; /dev/tty<br>lr-x—— 1 jfo jfo 64 2008-10-11 10:59 4 -&gt; /home/jfo/myfile (deleted)<br>jfo@jfo-laptop:~$ cp 4 ~/myfile.recovered<br><br>Ok，文件已恢复！<br><br>==================================================================<br><br><br><br><br><br><br><br><br><br><br><del>continue</del> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/03/31/几个有用的Linux-command/" class="archive-article-date">
+  	<time datetime="2008-03-31T14:18:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-03-31</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux-App/">Linux App</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-【zz】兰德公司评中国" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2008/03/29/【zz】兰德公司评中国/">【zz】兰德公司评中国</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> 发信人: lomavler (欲与天公试比高), 信区: Graduate<br>标  题: [转载] 【兰德公司评中国】z<br>发信站: 飘渺水云间 (Sat Mar 29 09:42:33 2008)<br><br>【 以下文字转载自 MilitaryView 讨论区 】&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <br>【 原文由 gusumurong 所发表 】&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <br><br><br>【 原文由 lalpha 发表于 ZJUOnline 讨论区 】&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <br>美国兰德公司是一家著名的非盈利的研究机构，为美国官方提供&ldquo;客观的分析和有效的解<br><br>决方案&rdquo;。最近，他们公布了一份对中国现状分析报告，即有肯定，也有严厉批评，值得<br><br>国人反省。本文观点来自兰德公司亚太政策中心。<br><br>如果20世纪的中国是一个富裕和统一的国家，我们会有一个完全不同的第一次世界大<br><br>战，我们就不会有第二次世界大战而是第二次欧洲大战。中国能够阻止日本侵略或者打败<br><br>日本。美国在这些冲突上的花费从根本意义上会减少很多，因为珍珠港事件不会发生。我<br><br>们和整个世界，更不用说10亿中国人，一个多世纪以来，已经为中国的弱小付出了惨重的<br><br>代价。世界需要一个健康的中国。<br><br>中国的需求对日本走出衰退起到了促进作用。日本状况给世界经济带来了风险。关于<br><br>这一点，怎么说都不夸张。日本巨额的债务会产生多米诺骨牌效应，逐渐波及到全世界。<br><br>在中国有力的帮助下，危险似乎已经过去。中国全球化给美国带来了很多影响。最明显的<br><br>是，中国成为美国商品最大的市场。<br><br>可口可乐早就完成了那个看上去像是神话的目标：卖10亿瓶可口可乐；曾经嘲笑中国<br><br>梦的通用在中国卖了很多的别克汽车，在困难时期，中国带来的利润占通用利润的很大一<br><br>部分；中国联想购买IBM个人电脑业务，挽救了这个垂死部门的工作岗位。中国提供更低价<br><br>的生活必需品给美国人的生活水平做出了很大的贡献，尤其是对我们不是那么富裕的居民<br><br>而言。有迹象表明由于能够购买中国低价的出口货物，低收入美国人的生活水平可能提高<br><br>了5%到10%。<br><br>中国金融体系的不合理意味著中国建造了垂死企业，导致巨大的生产力过剩。近些年<br><br>来，中国财政政策上的反复无常导致过度建造，对铁、铝、水泥和其他原材料产生了巨大<br><br>的需求。日本人和现在的中国人看上去似乎会买下世界上所有的东西，但是当你看到他们<br><br>的财政状况的潜在问题时，你会发现一个黑洞。日本人在90年代陷入了这样一个黑洞，至<br><br>今还在努力地爬出来。中国人很多年后仍将会为目前这种无节制的狂热的购买行为感到心<br><br>痛。<br><br>目前，中国面临著巨大的挑战。中国的银行是我们所知道的世界上最糟糕的银行。中<br><br>国每一代，都有相当于美国规模的人口从农村涌入城市。每年，都有1200&mdash;1300万新工人<br><br>加入就业大军。在制造业，生产力对就业的影响比我们国家要严重得多。到2020年，中国<br><br>人口老龄化会使工作人口与不工作人口的比率成为世界上最糟糕的，比日本更甚。如果没<br><br>有特效的新政策的话，中国的经济在那个时期就会狠狠地撞墙。到2020年，以我们的标准<br><br>来看，它会是一个非常穷的国家。<br><br>中国人缺乏诚信和社会责任感。中国人不了解他们作为社会个体应该对国家和社会所<br><br>承担的责任和义务。普通中国人通常只关心他们的家庭和亲属，中国的文化是建立在家族<br><br>血缘关系上而不是建立在一个理性的社会基础之上。中国人只在乎他们直系亲属的福址，<br><br>对与自己毫不相关的人所遭受的苦难则视而不见。毫无疑问，这种以血缘关系为基础的道<br><br>德观势必导致自私，冷酷，这种自私和冷酷已经成为阻碍中国社会向前发展的最关键因素<br><br>。<br><br>中国从来就没有成为一个法制社会，因为中国人的思维方式与守法行为格格不入。中<br><br>国人老想走捷径。他们不明白这样一个事实：即成就来自于与努力工作和牺牲。中国人倾<br><br>向于索取而不给予。他们需要明白一个道理：生活的真蒂不在于你你索取多少而在于你能<br><br>给予社会和你的人类同胞多少。<br><br>大多数中国人从来就没有学到过什么是体面和尊敬的生活意义。中国人普遍不懂得如<br><br>何为了个人和社会的福址去进行富有成效的生活。潜意识里，中国人视他们的生活目的就<br><br>是抬高自己从而获得别人的认知。这样一来，一个人就会对&quot;保有面子&quot; 这样微不足道欲望<br><br>感到满足。&quot;面子&quot;是中国人心理最基本的组成部分，它已经成为了中国人难以克服的障碍<br><br>，阻碍中国人接受真理并尝试富有意义的生活。<br><br>这个应受谴责的习性使得中国人生来就具有无情和自私的特点，它已成为中国落后的<br><br>主要原因。中国人没有勇气追求他们认为正确的事情。首先，他们没有从错误中筛选正确<br><br>事物的能力，因为他们的思想被贪婪所占据。再有，就算他们有能力筛选出正确的事情，<br><br>他们也缺乏勇气把真理化为实践。<br><br>中国人习惯接受廉价和免费的事物，他们总是梦想奇迹或者好运，因为他们不愿意付<br><br>出努力，他们总想不劳而获。很少有中国人明白一个事实，就是威望和成就是通过一步步<br><br>努力的工作和牺牲实现的，不付出就没有所得。简单来说，如果是为了谋生，那一个人只<br><br>有去索取；但如果是为了生活，一个人必须要去奉献。<br><br>由于在贫穷的环境下生长并且缺少应有的教育，大多数中国人不懂得优雅的举止和基<br><br>本的礼貌。他们中的大多数人着装笨拙粗鄙却不感到害羞。他们在青少年时所受的教育就<br><br>是如何说谎并从别人那里索取，而不是去与别人去分享自己的所有。<br><br>中国是一个物产丰富的国家。但无限制生育政策所带来恶果使得中国成为了无限廉价<br><br>劳动力的输出国。这些输出也包括那些受过教育的劳力输出，除了他们的教育水平，实则<br><br>和其他一般苦力没有本质上的区别。<br><br>中国大规模生产的便宜产品降低了输入这些产品的地区的商业信用度。由于技术落后<br><br>，管理失败，中国制造的单位能耗要比发达国家如日本，美国高出很多。因此，随着出口<br><br>额的增加，中国在扩大生产的同时丧失着宝贵的能源。同时，这种行为也严重的污染了环<br><br>境，使中国变为全世界最不适宜人类居住的国家。<br><br>目前中国正在遭受着资本主义社会2大邪恶的折磨，即环境的破坏与人性的丧失。由于<br><br>中国人天生的贪婪的本性，它们可以毫无保留的接受资本主义的阴暗面即无止境的追求利<br><br>润，忽视人的尊严。中国人对西方的技术与产品狂热追求却对西方管理文化所强调的坦率<br><br>，直接，诚实这些品质漠不关心。<br><br>由于中国文化不鼓励敢于冒险这种优良品质，所以中国人极力避免冒险，他们也不想<br><br>寻求机会来改善自己的生活。中国人对于生活的平衡性和意义性并不感兴趣，相反他们更<br><br>执迷于对物质的索取，这点上要远远胜于西方人。大多数中国人发现他们不懂得&quot;精神灵性<br><br>&quot;，&quot;自由信仰&quot;以及&quot;心智健康&quot;这样的概念，因为他们的思想尚不能达到一个生命（补：即<br><br>肉体和灵性的并存）存在的更高层次。他们的思想还停留在专注于动物本能对性和食物那<br><br>点贪婪可怜的欲望上。<br><br>在中国人的眼中，受教育不是为了寻求真理或者改善生活质量，而只是身份和显赫地<br><br>位的象征和标志。中国的知识分子从别人那里得到尊敬并不是因为他们为了别人的幸福做<br><br>过什么，而只是因为他们获得占有了相当的知识。事实上，他们中的大多数只不过是一群<br><br>仅仅通晓考试却从不关心真理和道德的食客。<br><br>中国的教育体系很大程度上已经成为一种失败和耻辱。它已经不能够服务于教育本应<br><br>所服务的对象：社会。这个教育体系不能提供给社会许多有用的个体。它只是制造出一群<br><br>投机分子，他们渴望能够受益于社会所提供的好处却毫不关心回报。<br><br>中国可以培养出大批的高技能人才，但却很少可以培养出合格的可以独立主持的管理<br><br>级专家。服务于一个公司或者社会，光有技术是不够的；还需要有勇气，胆量，正直和诚<br><br>实的领导才能，这恰恰是大多数中国人所缺少的品性。正如亚瑟.史密斯，一位著名的西方<br><br>传教士一个世纪前所指出的，中国人最缺乏的不是智慧，而是勇气和正直的纯正品性。这<br><br>个评价，虽然历经百年，如今依旧准确诊断出中国综合症的病因。<br><br>大多数中国毕业生对选择出国并为外国工作不会感到内疚，事实上他们首先欠下了中<br><br>国人民在教育上为他们所做出的牺牲。随着传统文化价值观的破坏和逐步衰弱，大多数的<br><br>中国人，包括受过教育的人都徘徊在精神和内心世界的路口，像迷失的狗一样不知何去何<br><br>从。<br><br><br><br>–<br>++++++++++++++++++++++++++++++++++++++++++++++<br>茫茫乾坤方圓幾何 長傳我 千百年 民族魂魄<br>&nbsp;&nbsp;&nbsp;  舊日宮墻 尋常巷陌 是誰把英雄的故事一說再說<br>走馬揚鞭翻山過河 輕生死 重大義 男兒本色<br>&nbsp;&nbsp;&nbsp;  幾番起落 風雨振作 趕他個天時地利與人和<br>++++++++++++++++++++++++++++++++++++++++++++++<br><br>※ 来源:·飘渺水云间 freecity.cn·[FROM: YellowRiver]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <br>–<br>※ 转载:·飘渺水云间 freecity.cn·[FROM: lalpha]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <br>–<br>※ 转载:·飘渺水云间 freecity.cn·[FROM: gusumurong]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <br>–<br>※ 转载:·飘渺水云间 freecity.cn·[FROM: lomavler]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <br> </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/03/29/【zz】兰德公司评中国/" class="archive-article-date">
+  	<time datetime="2008-03-29T13:32:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-03-29</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Life/">Life</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-cygwin中文乱码" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2008/03/25/cygwin中文乱码/">cygwin中文乱码</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> </p><p><strong>cygwin中文乱码</strong></p><p> </p><p>.bash_profile<br># 让ls和dir命令显示中文和颜色 <br>alias ls=<strong>‘</strong>ls –show-control-chars –color<strong>‘</strong><br>alias dir=<strong>‘</strong>dir -N –color<strong>‘</strong><br># 设置为中文环境，使提示成为中文 <br><strong>export</strong> LANG<strong>=&quot;</strong>zh_CN.GBK<strong>&quot;</strong><br># 输出为中文编码 <br><strong>export</strong> OUTPUT_CHARSET<strong>=&quot;</strong>GBK<strong>&quot;</strong></p>.inputrc <br># 关闭bash命令行8字节字符转义符的转换 <br><strong>set</strong> <strong>convert-meta</strong> off<br><br># 使bash命令行支持8字节字符输入 <br><strong>set</strong> <strong>input-meta</strong> on<br><br># 使bash命令行支持8字节字符输出 <br><strong>set</strong> <strong>output-meta</strong> on<br><br><strong>set</strong> <strong>meta-flag</strong> on<br><br><strong>set</strong> <strong>completion-ignore-case</strong> on <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/03/25/cygwin中文乱码/" class="archive-article-date">
+  	<time datetime="2008-03-25T14:59:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-03-25</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux-App/">Linux App</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Nokia-E51-wifi通过笔记本无线网卡上网" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2008/03/25/Nokia-E51-wifi通过笔记本无线网卡上网/">Nokia E51 wifi通过笔记本无线网卡上网</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> 首先我们需要一台带无线网卡的笔记本，并且连接了有线宽带，可以联通网络。<br>先将笔记本的无线开关打开 <br>1 查看本地连接的状态，在本地连接上面右键选择&ldquo;状态&rdquo;，在第二栏的&ldquo;支持&rdquo;选项中点击&ldquo;详细信息&rdquo;，纪录下DNS服务器的地址 <br>2 然后在第一栏的&ldquo;常规&rdquo;选项中点击&ldquo;属性&rdquo;，选择第三项&ldquo;高级&rdquo;，在&ldquo;允许其他网络用户通过此计算机的internet连接来连接&rdquo;前面打上勾，然后点&ldquo;确定&rdquo; <br>3 在无线网络连接上面右键选择&ldquo;属&rdquo;，在&ldquo;常规&rdquo;选项中双击&ldquo;TCP/IP协议&rdquo;，点击&ldquo;使用下面的IP地址&rdquo;，IP地址输入：192.168.0.1 子网掩码：255.255.255.0 点&ldquo;确定&rdquo; <br>4 然后在第二栏的&ldquo;无线网络配置&rdquo;中，将&ldquo;使用Windows配置我的无线网络设置&rdquo;前面打勾，然后点击下面的&ldquo;高级&rdquo;，选择&ldquo;仅计算机到计算机（特定）&rdquo;然后点&ldquo;关闭&rdquo;，再选择&ldquo;添加&rdquo;选项，将下面的&ldquo;自动为我提供密钥&rdquo;前面的勾去掉，然后在&ldquo;网络名&rdquo;那里输入你要设置的无线网络名称，在&ldquo;网络密钥&rdquo;那里输入要设置的密钥，然后点&ldquo;确定&rdquo; 好了，笔记本上的设置完成了。<br>现在进入手机上的设置 <br>1 依次是： 功能表－工具－设置－连接－接入点－选项－新增接入，&ldquo;连接名称&rdquo;这里自己取名，&ldquo;数据承载方式&rdquo;选无线局域网，&ldquo;WLAN网络名称&rdquo;这里输入刚才在笔记本上面设置的无线网络名称，&ldquo;网络状态&rdquo;公开，&ldquo;WLAN网络模式&rdquo;选特殊，&ldquo;WLAN安全模式&rdquo;选WEP,&ldquo;WLAN安全设置&rdquo;里面选择&ldquo;WEP密钥设置&rdquo;,在&ldquo;WEP密钥&rdquo;这一栏里面输入笔记本上面设置的无线网络密码，其他选项默认，不用管，然后点击&ldquo;返回&rdquo; <br>2 在&ldquo;连接名称&rdquo;的界面上左键&ldquo;选项&rdquo;－高级设置－IPv4设置－<br>手机IP地址：192.168.0.2 <br>子网掩码：255.255.255.0 <br>默认网关：192.168.0.1 <br>主DNS地址：192.168.0.1 <br>在&ldquo;次DNS地址&rdquo;这里填入刚才纪录下的DNS服务器地址，然后确认，这样就大功告成了<br>打开E51的WLAN扫描，应该可以搜索到笔记本的无线信号，连接上以后就可以WIFI上网了<br><br><br><br> </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/03/25/Nokia-E51-wifi通过笔记本无线网卡上网/" class="archive-article-date">
+  	<time datetime="2008-03-25T05:53:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-03-25</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Mobile/">Mobile</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-表情象形程序，汗" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2008/03/23/表情象形程序，汗/">表情象形程序，汗</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> #include &lt;stdio.h&gt;<br>main()<br>{<br>&nbsp;&nbsp;&nbsp;  int <em>,<em>__</em></em>,bbb,T_T,o,O,I;<br>&nbsp;&nbsp;&nbsp;  int a,b,c,d,e;<br>&nbsp;&nbsp;&nbsp;  I=(O=(o=(T<em>T=(bbb=(<em>__</em></em>=(<em>=1)<em>2)</em>2)<em>2)</em>2)<em>2)</em>2;<br>&nbsp;&nbsp;&nbsp;  a=-</em>-bbb;<br>&nbsp;&nbsp;&nbsp;  b=-<em>||bbb;<br>&nbsp;&nbsp;&nbsp;  c=-<em>__</em></em>-bbb;<br>&nbsp;&nbsp;&nbsp;  d=T<em>T;<br>&nbsp;&nbsp;&nbsp;  e=~~~I&gt;</em>&lt;~~~!bbb;<br>&nbsp;&nbsp;&nbsp;  printf(&quot;%d %d %d %d %dn&quot;,a,b,c,d,e);<br>&nbsp;&nbsp;&nbsp;  printf(&quot;%dn&quot;,I&lt;O&gt;<em>&lt;O&gt;I==O^</em>^O?<em>-</em>:-<em>-bbb^</em>^o);<br>}<br><br>程序输出：<br>-5 1 -6 8 0<br>0<br><br><br> </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/03/23/表情象形程序，汗/" class="archive-article-date">
+  	<time datetime="2008-03-23T01:59:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-03-23</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/40/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/39/">39</a><a class="page-number" href="/page/40/">40</a><span class="page-number current">41</span><a class="page-number" href="/page/42/">42</a><a class="page-number" href="/page/43/">43</a><span class="space">&hellip;</span><a class="page-number" href="/page/60/">60</a><a class="extend next" rel="next" href="/page/42/">Next &raquo;</a>
+    </nav>
+  
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: true,
+		isPost: false,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

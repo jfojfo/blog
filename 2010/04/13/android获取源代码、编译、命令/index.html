@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>android获取源代码、编译、命令 | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="http://source.android.com/porting/build_system.htmlhttp://source.android.com/porting/build_cookbook.html （Build Cookbook，Android.mk中变量含义）http://source.android.com/source/git-repo.html（using git and r">
+<meta property="og:type" content="article">
+<meta property="og:title" content="android获取源代码、编译、命令">
+<meta property="og:url" content="http://blog.pickbox.me/2010/04/13/android获取源代码、编译、命令/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="http://source.android.com/porting/build_system.htmlhttp://source.android.com/porting/build_cookbook.html （Build Cookbook，Android.mk中变量含义）http://source.android.com/source/git-repo.html（using git and r">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/3d6dfe033d99fecdd53f7cd6.jpg">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="android获取源代码、编译、命令">
+<meta name="twitter:description" content="http://source.android.com/porting/build_system.htmlhttp://source.android.com/porting/build_cookbook.html （Build Cookbook，Android.mk中变量含义）http://source.android.com/source/git-repo.html（using git and r">
+<meta name="twitter:image" content="http://img.pickbox.me/wp-content/uploads/pic/3d6dfe033d99fecdd53f7cd6.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-android获取源代码、编译、命令" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      android获取源代码、编译、命令
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> </p><p></p><p><strong><a target="_blank" href="http://source.android.com/porting/build_system.html">http://source.android.com/porting/build_system.html</a><br></strong></p><p><strong><a href="http://source.android.com/porting/build_cookbook.html" target="_blank">http://source.android.com/porting/build_cookbook.html （Build Cookbook，Android.mk中变量含义）</a><br></strong></p><p><strong><a target="_blank" href="http://source.android.com/source/git-repo.html">http://source.android.com/source/git-repo.html（using git and repo）</a><br></strong></p><p><strong><br></strong></p><p><strong>～～～my～～～</strong></p><p>1. 新建一个目录下载源码：<br>mkdir eclair-dev &amp;&amp; cd eclair-dev<br>repo init -u git://192.168.3.120/android2.1/platform/manifest.git -b eclair-dev<br>repo sync<br><br>2. 取出开发分支<br>repo forall -c git checkout korg/eclair-0901 -b eclair-0901</p><p></p><p><strong>～～～my～～～</strong></p><p>正确的编译android sdk：</p><p>cd myandroid<br>.&nbsp; ./build/envsetup.sh<br>lunch sdk-eng<br>make sdk<br><br>//或者：<br>make PRODUCT-sdk-sdk<br><br>这样就会在out/host/linux-x86/sdk/目录下生成跟google 发布的sdk包一样的目录，就可以使用自己的sdk开发包了。</p><p>make snod&nbsp; //生成system.img</p><p>make sdk showcommands&nbsp; //显示编译时的详细信息</p><p>make systemimage&nbsp;&nbsp;&nbsp; //会编译framework和package</p><p>运行模拟器：<br>. build/envsetup.sh <br>lunch 1 或者 lunch sdk-eng&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//加载运行环境<br>export PATH=/home/vnify/software/jdk1.5.0_04/bin/:$PATH&nbsp;//设置java，我的默认为1.6<br>export ANDROID_SDK_ROOT=./out/host/linux-x86/sdk/android-sdk_eng.vnify_linux-x86/<br>emulator -avd wvga800 -skin WVGA800&nbsp; //运行指定的虚拟设备和皮肤<br><br>调试：<br>ddms &amp;</p><p></p><p>加速编译：export USE_CCACHE=1</p><p>参考<a target="_blank" href="http://source.android.com/porting/build_system.html#androidSourceSetupBuildingCodeBase">http://source.android.com/porting/build_system.html#androidSourceSetupBuildingCodeBase</a></p><p></p><br><br>You can also import android source code into eclipse:<br>cd android_src &amp;&amp; cp cp development/ide/eclipse/.classpath ./<br>Then import existing project.<br><br><br>Ctrl-Shift-o = Organize imports <br>Ctrl-Shift-t = load class by name <br>Ctrl-Shift-r = load non-class resource by name <br>Ctrl-1 = quick fix <br>Ctrl-e = Recently viewed files <br>Ctrl-space = auto complete <br>Shift-Alt-r = refactor:rename <br>Shift-Alt-v = refactor:move<p><strong>～～～my～～～</strong></p><p><strong><br></strong></p><p><strong>1、Git的安装</strong><br>在Ubuntu 8.04上安装git只要设定了正确的更新源，然后使用apt-get就可以了，有什么依赖问题，就让它自己解决吧。其中cURL是一个利用URL语法在命令行下工作的文件传输工具，会在后面安装Repo的时候用到。<br><strong>sudo apt-get install git-core curl</strong></p><p><strong>2、安装Repo</strong><br>首先确保在当前用户的主目录下创建一个/bin目录（如果没有的话），然后把它(~/bin)加到PATH环境变量中<br>接下来通过cURL来下载Repo脚本，保存到~/bin/repo文件中<br><strong>curl <a href="http://android.git.kernel.org/repo" target="_blank" rel="external">http://android.git.kernel.org/repo</a> &gt;~/bin/repo</strong></p><p>别忘了给repo可执行权限<br><strong>chmod a+x ~/bin/repo</strong></p><p><strong>3、初始化版本库</strong><br>如果是想把Android当前主线上最新版本的所有的sourcecode拿下来，我们需要repo的帮助。<br>先建立一个目录，比如~/android，进去以后用repo init命令即可。<br><strong>repo init -u git://android.git.kernel.org/platform/manifest.git</strong><br>这个过程会持续很长的时间（至少可以好好睡一觉），具体要多少时间就取决于网络条件了<br>最后会看到 repo initialized in /android这样的提示，就说明本地的版本库已经初始化完毕，并且包含了当前最新的sourcecode。</p><p>如果想拿某个branch而不是主线上的代码，我们需要用-b参数制定branch名字，比如：<br><strong>repo init -u git://android.git.kernel.org/platform/manifest.git -b cupcake</strong></p><p>另一种情况是，我们只需要某一个project的代码，比如kernel/common，就不需要repo了，直接用Git即可。<br><strong>git clone git://android.git.kernel.org/kernel/common.git</strong><br>这也需要不少的时间，因为它会把整个Linux Kernel的代码复制下来。</p><p>如果需要某个branch的代码，用git checkout即可。比如我们刚刚拿了kernel/common.get的代码，那就先进入到common目录，然后用下面的命令：<br><strong>git checkout origin/android-goldfish-2.6.27 -b goldfish</strong><br>这样我们就在本地建立了一个名为goldfish的android-goldfish-2.6.27分支，代码则已经与android-goldgish-2.6.27同步。我们可以通过git branch来列出本地的所有分支。</p><p><strong>4、同步版本库</strong><br>使用<strong>r</strong><strong>erpo sync</strong>命令，我们把整个Android代码树做同步到本地，同样，我们可以用类似<br><strong>repo sync project1 project2 … </strong><br>这样的命令来同步某几个项目</p><p>如果是同步Android中的单个项目，只要在项目目录下执行简单的<br><strong>git pull</strong><br>即可。</p><p><strong>5、通过GitWeb下载代码</strong><br>另外，如果只是需要主线上某个项目的代码，也可以通过<a href="http://android.git.kernel.org/" target="_blank" rel="external">GitWeb</a>下载，在shortlog利用关键字来搜索特定的版本，或者找几个比较新的tag来下载还是很容易的。</p><p></p><p>－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－</p><a target="_blank" href="http://hi.baidu.com/garnetttt/blog/item/13426d222f72b3ae4623e8f3.html">android编译全过程</a><br>2009-11-05  15:00本 文主要参考官方文档（<a href="http://source.android.com/download）和网上相关资料（http" target="_blank" rel="external">http://source.android.com/download）和网上相关资料（http</a>: //blog.csdn.net/HKjinzhao/archive/2009/03/18/4002326.aspx，http: //www.williamhua.com/2009/04/30/how-to-build-android-15-kernel-image/）。网 上的资料对于andorid的最新代码有的已经过时，或者有错误，这份文档本人亲自实验，保证可行。另本人没有使用eclipse的习惯，所以并没有做 eclipse的相关配置。<br><br>编译环境：ubuntu9.10，widnows平台目前不被支持。<br><br>1）安装必要的软件环境<br>$ sudo apt-get install git-core gnupg sun-java5-jdk flex bison gperf libsdl-dev libesd0-dev libwxgtk2.6-dev build-essential zip curl libncurses5-dev zlib1g-dev<br>官方推荐的就是上面这些，如果在编译过程中发现某些命令找不到，就apt-get它。可能需要的包还有：<br>$ sudo apt-get install make<br>$ sudo apt-get install gcc<br>$ sudo apt-get install g++<br>$ sudo apt-get install libc6-dev<br><br>$ sudo apt-get install patch<br>$ sudo apt-get install texinfo<br><br>$ sudo apt-get install zlib1g-dev<br>$ sudo apt-get install valgrind<br>$ sudo apt-get install python2.5（或者更高版本）<br>需要注意的是，官方文档说如果用sun-java6-jdk可出问题，得要用sun-java5- jdk。经测试发现，如果仅仅make（make不包括make sdk），用sun-java6-jdk是没有问题的。而make sdk，就会有问题，严格来说是在make doc出问题，它需要的javadoc版本为1.5。<br>因此，我们安装完sun-java6-jdk后最好再安装sun-java5-jdk，或者只安装sun-java5-jdk。这里sun-java6- jdk和sun-java5-jdk都安装，并只修改javadoc.1.gz和javadoc。因为只有这两个是make sdk用到的。这样的话，除了javadoc工具是用1.5版本，其它均用1.6版本：<br>$ sudo apt-get install sun-java6-jdk<br>修改javadoc的link<br>$ cd /etc/alternatives<br>$ sudo rm javadoc.1.gz<br>$ sudo ln -s /usr/lib/jvm/java-1.5.0-sun/man/man1/javadoc.1.gz javadoc.1.gz<br>$ sudo rm javadoc<br>$ sudo ln -s /usr/lib/jvm/java-1.5.0-sun/bin/javadoc javadoc<br><br>2）设置环境变量<br>$ emacs ~/.bashrc<br>在.bashrc中新增或整合PATH变量，如下：<br>#java 程序开发/运行的一些环境变量<br>JAVA_HOME=/usr/lib/jvm/java-6-sun<br>JRE_HOME=${JAVA_HOME}/jre<br>export ANDROID_JAVA_HOME=$JAVA_HOME<br>export CLASSPATH=.:${JAVA_HOME}/lib:$JRE_HOME/lib:$CLASSPATH<br>export JAVA_PATH=${JAVA_HOME}/bin:${JRE_HOME}/bin<br>export JAVA_HOME;<br>export JRE_HOME;<br>export CLASSPATH;<br>HOME_BIN=~/bin/<br>export PATH=${PATH}:${JAVA_PATH}:${HOME_BIN};<br>保存后，同步更新：<br>source ~/.bashrc<br><br>3）安装repo（用来更新android源码）<br>创建~/bin目录，用来存放repo程序，如下：<br>$ cd ~<br>$ mkdir bin<br>并加到环境变量PATH中，在第2步中已经加入<br>下载repo脚本并使其可执行：<br>$ curl <a href="http://android.git.kernel.org/repo" target="_blank" rel="external">http://android.git.kernel.org/repo</a> &gt;~/bin/repo<br>$ chmod a+x ~/bin/repo<br><br>4）初始化repo<br>repo是android对git的一个封装，简化了一些git的操作。<br>创建工程目录：<br>$ mkdir android<br>$ cd android<br>repo初始化<br>$ repo init -u git://android.git.kernel.org/platform/manifest.git<br>在此过程中需要输入名字和email地址。初始化成功后，会显示：<br>repo initialized in /android<br>在~/android下会有一个.repo的隐藏目录。<br><br>5）同步源代码<br>$ repo sync<br>这一步要很久很久<br><br>6）编译android源码,并得到~/android/out目录<br>$ cd ~/andoird<br>$ make PRODUCT-sdk-sdk<br>这一过程很久<br>或者：<br>.&nbsp; ./build/envsetup.sh<br>lunch sdk-eng<br>make sdk<br><br>7）在模拟器上运行编译好的android<br>编译好android之后，emulator在~/android/out/host/linux-x86/bin 下，ramdisk.img，system.img和userdata.img则在~/android/out/target/product /generic下<br>$ cd ~/android/out/host/linux-x86/bin<br>增加环境变量<br>$ emacs ~/.bashrc<br>在.bashrc中新增环境变量，如下<br>#java 程序开发/运行的一些环境变量<br>export ANDROID_PRODUCT_OUT=~/android/out/target/product/generic<br>ANDROID_PRODUCT_OUT_BIN=~/android/out/host/linux-x86/bin<br>export PATH=${PATH}:${ANDROID_PRODUCT_OUT_BIN}:${ANDROID_PRODUCT_OUT};<br><br>最后，同步这些变化：<br>$ source ~/.bashrc<br>$ cd ~/android/out/target/product/generic<br>$ emulator -system system.img -data userdata.img -ramdisk ramdisk.img<br>最后进入android桌面，就说明成功了。<br><br>8）编译模块<br>android中的一个应用程序可以单独编译，编译后要重新生成system.img<br>在源码目录下执行<br>$ . build/envsetup.sh （.后面有空格）<br>就多出一些命令：<br>- croot:&nbsp;&nbsp; Changes directory to the top of the tree.<br>- m:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Makes from the top of the tree.<br>- mm:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Builds all of the modules in the current directory.<br>- mmm:&nbsp;&nbsp;&nbsp;&nbsp; Builds all of the modules in the supplied directories.<br>- cgrep:&nbsp;&nbsp; Greps on all local C/C++ files.<br>- jgrep:&nbsp;&nbsp; Greps on all local Java files.<br>- resgrep: Greps on all local res/<em>.xml files.<br>- godir:&nbsp;&nbsp; Go to the directory containing a file.<br>可以加—help查看用法<br>我们可以使用mmm来编译指定目录的模块，如编译联系人：<br>$ mmm packages/apps/Contacts/<br>编完之后生成两个文件：<br>out/target/product/generic/data/app/ContactsTests.apk<br>out/target/product/generic/system/app/Contacts.apk<br>可以使用<br>$ make snod<br>重新生成system.img，再运行模拟器<br><br>9）编译SDK<br>直接执行make是不包括make sdk的。make sdk用来生成SDK，这样，我们就可以用与源码同步的SDK来开发android了。<br><br>a）修改/frameworks/base/include/utils/Asset.h<br>‘UNCOMPRESS_DATA_MAX = 1 </em> 1024 <em> 1024’ 改为 ‘UNCOMPRESS_DATA_MAX = 2 </em> 1024 <em> 1024’<br>原因是eclipse编译工程需要大于1.3M的buffer；<br><br>b）编译ADT。<br>由于本人不使用eclipse，所以没有进行这步；<br><br>c）执行make sdk。<br>注意，这里需要的javadoc版本为1.5，所以你需要在步骤1中同时安装sun-java5-jdk<br>$ make sdk<br>编译很慢。编译后生成的SDK存放在out/host/linux-x86/sdk/，此目录下有android-sdk_eng.xxx_linux- x86.zip和android-sdk_eng.xxx_linux-x86目录。android-sdk_eng.xxx_linux-x86就是 SDK目录<br>实际上，当用mmm命令编译模块时，一样会把SDK的输出文件清除，因此，最好把android-sdk_eng.xxx_linux-x86移出来<br>此后的应用开发，就在该SDK上进行，所以把7）对于~/.bashrc的修改注释掉，增加如下一行：<br>export PATH=${PATH}:~/android/out/host/linux-x86/sdk/android-sdk_eng.xxx_linux-x86/tools<br>注意要把xxx换成真实的路径；<br><br># make PRODUCT-sdk-sdk<br><br><br>d）关于环境变量、android工具的选择<br>目前的android工具有：<br>A、我们从网上下载的SDK，如果你下载过的话（ tools下有许多android工具，lib/images下有img映像）<br>B、我们用make sdk编译出来的SDK（ tools下也有许多android工具，lib/images下有img映像）<br>C、我们用make编译出来的out目录（ tools下也有许多android工具，lib/images下有img映像）<br>那么我们应该用那些工具和img呢？<br>首先，我们一般不会用A选项的工具和img，因为一般来说它比较旧，也源码不同步。其次，也不会用C选项的工具和img，因为这些工具和img没有经过 SDK的归类处理，会有工具和配置找不到的情况；事实上，make sdk产生的很多工具和img，在make编译出来out目录的时候，已经编译产生了，make sdk只是做了copy而已。<br><br>e）安装、配置ADT<br>略过；<br><br>f）创建Android Virtual Device<br>编译出来的SDK是没有AVD（Android Virtual Device）的，我们可以通过android工具查看：<br>$ android list<br>创建AVD：<br>$ android create avd -t 1 -n myavd<br>可以android –help来查看上面命令选项的用法。创建中有一些选项，默认就行了<br>再执行android list，可以看到AVD存放的位置<br>以后每次运行emulator都要加-avd myavd或@myavd选项：<br>$ emulator -avd myavd<br><br>10）编译linux内核映像<br>a）准备交叉编译工具链<br>android代码树中有一个prebuilt项目，包含了我们编译内核所需的交叉编译工具。<br><br>b）设定环境变量<br>$ emacs ~/.bashrc<br>增加如下两行：<br>export PATH=$PATH:~/android/prebuilt/linux-x86/toolchain/arm-eabi-4.4.0/bin<br>export ARCH=arm<br>保存后，同步变化：<br>$ source ~/.bashrc<br><br>c）获得合适的内核源代码<br>$ cd ~/android<br>获得内核源代码仓库<br>$ git clone git://android.git.kernel.org/kernel/common.git&nbsp;&nbsp; kernel<br>$ cd kernel<br>$ git branch<br>显示<br></em> android-2.6.27<br>说明你现在在android-2.6.27这个分支上，也是kernel/common.git的默认主分支。<br>显示所有head分支：<br>$ git branch -a<br>显示<br><em> android-2.6.27<br>remotes/origin/HEAD -&gt; origin/android-2.6.27<br>remotes/origin/android-2.6.25<br>remotes/origin/android-2.6.27<br>remotes/origin/android-2.6.29<br>remotes/origin/android-goldfish-2.6.27<br>remotes/origin/android-goldfish-2.6.29<br>我们选取最新的android-goldfish-2.6.29，其中goldfish是android的模拟器模拟的CPU。<br>$ git checkout -b android-goldfish-2.6.29 origin/android-goldfish-2.6.29<br>$ git branch<br>显示<br>android-2.6.27<br></em> android-goldfish-2.6.29<br>我们已经工作在android-goldfish-2.6.29分支上了。<br><br>d）设定交叉编译参数<br>打开kernel目录下的Makefile文件，把CROSS_COMPILE指向刚才下载的prebuilt中的arm-eabi编译器<br>CROSS_COMPILE ?= arm-eabi-<br>把<br>LDFLAGS_BUILD_ID = $(patsubst -Wl$(comma)%,%,<br>$(call ld-option, -Wl$(comma)–build-id,))<br>这一行注释掉，并且添加一个空的LDFLAGS_BUILD_ID定义，如下:<br>LDFLAGS_BUILD_ID =<br><br>e）编译内核映像<br>$ cd ~/android/kernel<br>$ make goldfish_defconfig<br>$ make<br><br>f）测试生成的内核映像<br>$ emulator -avd myavd -kernel ~/android/kernel/arch/arm/boot/zImage<br><br><br>－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－－<br>Android tools<br><br>======= adb =======<br>#运行monkey程序，进行随机输入测试<br>$ adb shell monkey -v -p com.android.email 500<br><br>#查看system’s log buffers<br>$ adb logcat<br><br>#Viewing stdout and stderr<br>$ adb shell stop<br>$ adb shell setprop log.redirect-stdio true<br>$ adb shell start<br><br>#view a log buffer containing radio and telephony messages<br>$ adb logcat -b radio&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; # radio, events, main is default<br><br>#Filtering Log Output<br>$ adb logcat ActivityManager:I MyApp:D <em>:S<br><br># 向当前activity中的EditText输入文字<br>$ adb shell input text &quot;stringtoinput…&quot;<br><br><br><br>======= emulator =======<br>#运行模拟器<br>$ emulator -system system.img.orig -data userdata.img -ramdisk ramdisk.img @my_avd<br>$ emulator @my_avd<br><br>#运行模拟器，并显示Linux kernel启动时的message<br>$ emulator -show-kernel @my_avd<br><br>#enable root shell on current terminal<br>$ emulator -shell @my_avd<br><br># -wipe-data delete the emulator’s user-data partition<br>emulator -wipe-data @my_avd<br><br><br>emulator -partition-size 256 -system D:romsystem.img -data<br>d:romuserdata.img -kernel d:romkernel-qemu -ramdisk<br>d:romramdisk.img -sdcard D:androidsdk1.6sd64.img -cpu-delay 0<br>-scale 160dpi -dpi-device 240 -skin WVGA800 -skindir<br>D:androidsdk1.6platformsandroid-2.1skins -memory 512 -prop<br>dalvik.vm.heapsize=32m<br><br>具体解释一下：<br>-partition-size 可以设置分区的大小，是system和data两个分区，一起设置<br>-cpu-delay 可以模拟速度慢的cpu<br>-scale 可以缩小或扩大其显示dpi<br>-dpi-device 可以设置hdpi或者mdpi等<br>-skin必须配合-skindir使用<br>-memory是设置内存大小，缺省是96m，如果不设置大一些，大家都很看到不停地kill and start<br>-prop dalvik.vm.heapsize=32m 这个是非常重要的设置，在我们的hdpi下，不设置成24m+就会系统无法启动<br><br><br><br>======= trace =======<br># tracing<br>// start tracing to &quot;/sdcard/calc.trace&quot;, onCreate()<br>Debug.startMethodTracing(&quot;calc&quot;);<br>// …<br>// stop tracing, onDestroy()<br>Debug.stopMethodTracing();<br><br>adb pull /sdcard/calc.trace /tmp<br>traceview /tmp/calc<br><br><br><br># 按F9启动/停止trace记录，在~/.android/avd/my_avd.avd/traces/目录下可以找到trace文件<br>$ emulator -trace trace_log<br># 进入android源代码目录<br>$ cd $ANDROID_HOME<br>$ source build/envsetup.sh<br># 运行envsetup.sh中的tracedmdump函数<br>$ tracedmdump ~/.android/avd/my_avd.avd/traces/trace_log<br>会在~/.android/avd/my_avd.avd/traces/trace_log下产生dmtrace和dmtrace.html文件<br><br><br>======= apk =======<br># 将apk/目录下的所有文件打包成apk<br>$ apkbuilder jfo.apk -rf apk/<br># 或者使用aapt<br>$ aapt p -F jfo2.apk apk/<br><br># 打印APK包信息<br>$ aapt dump badging jfo.apk<br><br># add a file<br>$ aapt a jfo.apk libcharset.so<br># remove a file<br>$ aapt r jfo.apk libcharset.so<br><br><br>=======<strong></strong><strong>hierarchyviewer</strong><strong></strong>=======<br># provides a visual representation of the layout’s View hierarchy  (the Layout View)<br>$ hierarchyviewer<br><br><br><br>======= astyle =======<br># 代码格式化工具 astyle<br>find ./ -name </em>.java -exec astyle–style=ansi {} ;<br><br><br><br><br>======= repo&nbsp; =======<br><br><img small="0" src="http://img.pickbox.me/wp-content/uploads/pic/3d6dfe033d99fecdd53f7cd6.jpg"><br><br><br><p>$ repo&nbsp; forall&nbsp; -c &quot;echo&quot;</p><p>$ repo init -u git://192.168.1.1/android2.2/platform/manifest.git -b froyo-dev<br>$ repo sync&nbsp; -j5<br>$ repo start&nbsp; froyo-dev&nbsp; –all&nbsp;&nbsp;&nbsp; # checkout froyo-dev branch for all projects, froyo-dev branch will track remote branch</p><p>$ repo start&nbsp; froyo-dev&nbsp; frameworks/base</p><p>&nbsp;</p><br><br>======= git&nbsp; =======<br><p>git push ssh://test@192.168.1.100:29418/android2.2/platform/packages/apps/Settings HEAD:refs/for/froyo-dev<br>git config remote.origin.uri git://192.168.1.100/android2.1/platform/manifest.git</p><p>git remote add remote_repo git://192.168.1.100/android2.1/platform/packages/apps/Settings</p><p>git fetch remote_repo</p><p>git push remote_repo master:new_remote_branch&nbsp;&nbsp;&nbsp; #将本地的master分支push到远程的new_remote_branch（新建）分支</p><p>git push remote_repo&nbsp; :new_remote_branch&nbsp;&nbsp;&nbsp; #将删除远程的new_remote_branch分支</p><p></p><p>&nbsp;</p>How to edit incorrect commit messages?<br>$ git rebase –interactive &lt;after-this-commit-id&gt;<br>在跳出界面选择需要修改的commit（将pick改为edit）<br><br>$ git commit –amend<br>修改相应commit<br><br>$ git rebase –continue<br><p>———————-</p><p>$ git cherry -v korg/gingerbread</p><p>列出当前分支与korg/gingerbread的差异</p><p>git cherry [-v] [&lt;upstream&gt; [&lt;head&gt; [&lt;limit&gt;]]]</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Every commit that doesn’t exist in the &lt;upstream&gt; branch has its id (sha1) reported, prefixed by a symbol. The ones that<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; have equivalent change already in the &lt;upstream&gt; branch are prefixed with a minus (-) sign, and those that only exist in<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; the &lt;head&gt; branch are prefixed with a plus (+) symbol:</p><p>&nbsp;</p>======= fastboot&nbsp; =======<br>$fastboot flash system system.img<br>$fastboot flash userdata data.img<br><p>$fastboot flash boot boot.img</p><p>$fastboot -w&nbsp;&nbsp;&nbsp;&nbsp; # erase userdata and cache</p>$fastboot reboot<br><br><br><p>&nbsp;</p><p>======= 其他&nbsp; =======</p><p>列出包名和目录的对应关系</p><p>adb shell pm list packages -f</p><p>eg:&nbsp;package:/data/app/xcxin.filexpert-1.apk=xcxin.filexpert</p><p>&nbsp;</p>~~~~ <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2010/04/13/android获取源代码、编译、命令/" class="archive-article-date">
+  	<time datetime="2010-04-13T10:56:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2010-04-13</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2010/04/20/jni-Java下调用native-C函数/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          jni -- Java下调用native C函数
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2010/04/13/git-reference/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">git reference</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

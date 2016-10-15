@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="jfo planet">
+<meta property="og:url" content="http://blog.pickbox.me/page/43/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jfo planet">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        
+  
+    <article id="post-IPC-programming-：message-queues" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2008/03/05/IPC-programming-：message-queues/">IPC programming ：message queues</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <a href="http://hi.baidu.com/j%5Ffo/blog/item/95f3f424c721aa328744f9b0.html" target="_blank">http://hi.baidu.com/j%5Ffo/blog/item/95f3f424c721aa328744f9b0.html</a><br><br>/<em> Message queue control operation.  </em>/<br>int msgctl (int <strong>msqid, int </strong>cmd, struct msqid_ds <em>__buf);<br><br>/</em> Get messages queue.  <em>/<br>int msgget (key_t <strong>key, int </strong>msgflg);<br><br>/</em> Receive message from message queue.  <em>/<br>int msgrcv (int __msqid, void </em><strong>msgp, size_t </strong>msgsz, long int <strong>msgtyp, int </strong>msgflg);<br><br>/<em> Send message to message queue.  </em>/<br>int msgsnd (int <strong>msqid, </strong>const void <em><strong>msgp, size_t </strong>msgsz, int __msgflg);<br><br><br>ipcs<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   -t&nbsp;&nbsp;&nbsp;&nbsp;   time<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   -p&nbsp;&nbsp;&nbsp;&nbsp;   pid<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   -c&nbsp;&nbsp;&nbsp;&nbsp;   creator<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   -l&nbsp;&nbsp;&nbsp;&nbsp;   limits<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   -u&nbsp;&nbsp;&nbsp;&nbsp;   summary<br>&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;    -i&nbsp;&nbsp;    &nbsp;&nbsp;   id<br><br>ipcrm<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   -M shmkey<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   removes the shared memory segment created with shmkey after  the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   last detach is performed.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   -m shmid<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   removes  the shared memory segment identified by shmid after the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   last detach is performed.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   -Q msgkey<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   removes the message queue created with msgkey.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   -q msgid<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   removes the message queue identified by msgid.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   -S semkey<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   removes the semaphore created with semkey.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   -s semid<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   removes the semaphore identified by semid.<br><br><br> <hr><br><br>/</em><br><em> private-queue-hello-world.c - a &quot;hello world&quot; example in which a single<br></em> process creates a message queue and sends<br><em> itself a &quot;hello world&quot; message via this queue.<br></em>/<br>#include &lt;stdio.h&gt;<br>#include &lt;sys/types.h&gt;<br>#include &lt;sys/ipc.h&gt;<br>#include &lt;sys/msg.h&gt;<br>int main(int argc, char<em> argv[])<br>{<br>&nbsp;&nbsp;&nbsp;      /</em><br>&nbsp;&nbsp;&nbsp;      Creating A Message Queue - msgget()<br>&nbsp;&nbsp;&nbsp;      In order to use a message queue, it has to be created first. The msgget() system call is used to do just that. This system call accepts two parameters - a queue key, and flags. The key may be one of:<br>&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      1. IPC_PRIVATE (0) - used to create a private message queue.<br>&nbsp;&nbsp;&nbsp;      &nbsp;&nbsp;&nbsp;      2. a positive integer - used to create (or access) a publicly-accessible message queue.<br>&nbsp;&nbsp;&nbsp;      The second parameter contains flags that control how the system call is to be processed. It may contain flags like IPC_CREAT or IPC_EXCL, which behave similar to O_CREAT and O_EXCL in the open() system call.<br>&nbsp;&nbsp;&nbsp;      <em>/<br>&nbsp;&nbsp;        /</em> create a private message queue, with access only to the owner. <em>/<br>&nbsp;&nbsp;        int queue_id = msgget(IPC_PRIVATE, 0600);<br><br>&nbsp;&nbsp;&nbsp;       /</em><br>&nbsp;&nbsp;&nbsp;       struct msgbuf {<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       long mtype; / <em> message type, a positive number (cannot be zero). </em> /<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       char mtext[1]; / <em> message body array. usually larger then one byte. </em> /<br>&nbsp;&nbsp;&nbsp;       };<br>&nbsp;&nbsp;&nbsp;       <em>/<br>&nbsp;&nbsp;&nbsp;       struct msgbuf</em> msg;<br>&nbsp;&nbsp;        struct msgbuf<em> recv_msg;<br>&nbsp;&nbsp;        int rc;<br>&nbsp;&nbsp;        if (queue_id == -1) {<br>&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;        perror(&quot;main: msgget&quot;);<br>&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;        exit(1);<br>&nbsp;&nbsp;        }<br>&nbsp;&nbsp;        printf(&quot;message queue created, queue id ‘%d’.n&quot;, queue_id);<br>&nbsp;&nbsp;        msg = (struct msgbuf</em>)malloc(sizeof(struct msgbuf)+strlen(&quot;hello world&quot;));<br><br>&nbsp;&nbsp;&nbsp;       /<em> set the message type. for example - set it to ‘1’. </em>/<br>&nbsp;&nbsp;        msg-&gt;mtype = 1;<br>&nbsp;&nbsp;        strcpy(msg-&gt;mtext, &quot;hello world&quot;);<br>&nbsp;&nbsp;&nbsp;       /<em><br>&nbsp;&nbsp;&nbsp;       Writing Messages Onto A Queue - msgsnd()<br>&nbsp;&nbsp;&nbsp;       Once we created the message queue, and a message structure, we can place it on the message queue, using the<br>&nbsp;&nbsp;&nbsp;       msgsnd() system call. This system call copies our message structure and places that as the last message on the queue.<br>&nbsp;&nbsp;&nbsp;       It takes the following parameters:<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       1. int msqid  - id of message queue, as returned from the msgget() call.<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       2. struct msgbuf</em> msg - a pointer to a properly initializes message structure, such as the one we prepared in<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       the previous section.<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       3. int msgsz - the size of the data part (mtext) of the message, in bytes.<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       4. int msgflg - flags specifying how to send the message. may be a logical &quot;or&quot; of the following:<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       IPC_NOWAIT - if the message cannot be sent immediately, without blocking the process, return ‘-1’, and<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       set errno to EAGAIN.<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       to set no flags, use the value ‘0’.<br>&nbsp;&nbsp;&nbsp;       <em>/<br>&nbsp;&nbsp;        rc = msgsnd(queue_id, msg, strlen(msg-&gt;mtext)+1, 0);<br>&nbsp;&nbsp;        if (rc == -1) {<br>&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;        perror(&quot;main: msgsnd&quot;);<br>&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;        exit(1);<br>&nbsp;&nbsp;        }<br>&nbsp;&nbsp;        free(msg);<br>&nbsp;&nbsp;        printf(&quot;message placed on the queue successfully.n&quot;);<br><br>&nbsp;&nbsp;&nbsp;       recv_msg = (struct msgbuf</em>)malloc(sizeof(struct msgbuf)+strlen(&quot;hello<br>&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;        world&quot;));<br><br>&nbsp;&nbsp;&nbsp;       /<em><br>&nbsp;&nbsp;&nbsp;       int msgtyp - Type of message we wish to read. may be one of:<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       1. 0 - The first message on the queue will be returned.<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       2. a positive integer - the first message on the queue whose type (mtype) equals this integer (unless a certain flag is set in msgflg, see below).<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       3. a negative integer - the first message on the queue whose type is less then or equal to the absolute value of this integer.<br>&nbsp;&nbsp;&nbsp;       </em>/<br>&nbsp;&nbsp;&nbsp;       /<em><br>&nbsp;&nbsp;&nbsp;       int msgflg - a logical ‘or’ combination of any of the following flags:<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       IPC_NOWAIT - if there is no message on the queue matching what we want to read, return ‘-1’, and set errno to ENOMSG.<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       MSG_EXCEPT - if the message type parameter is a positive integer, then return the first message whose type is NOT equal to the given integer.<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       MSG_NOERROR - If a message with a text part larger then ‘msgsz’ matches what we want to read, then truncate the text when copying the message to our msgbuf structure. If this flag is not set and the message text is too large, the system call returns ‘-1’, and errno is set to E2BIG.<br>&nbsp;&nbsp;&nbsp;       </em>/<br>&nbsp;&nbsp;&nbsp;       /<em> use ‘0’ in the message type parameter, and use no flags (0). </em>/<br>&nbsp;&nbsp;&nbsp;       rc = msgrcv(queue_id, recv_msg, strlen(&quot;hello world&quot;)+1, 0, 0);<br>&nbsp;&nbsp;        if (rc == -1) {<br>&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;        perror(&quot;main: msgrcv&quot;);<br>&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;        exit(1);<br>&nbsp;&nbsp;        }<br>&nbsp;&nbsp;        printf(&quot;msgrcv: received message: mtype ‘%d’; mtext ‘%s’n&quot;,<br>&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;        recv_msg-&gt;mtype, recv_msg-&gt;mtext);<br>&nbsp;&nbsp;        return 0;<br>}<br><br><br> <hr><br><br>/<em><br></em> queue_sender.c - a program that reads messages with one of 3 identifiers<br><em> to a message queue.<br></em>/<br>#include &lt;stdio.h&gt; /<em> standard I/O functions. </em>/<br>#include &lt;stdlib.h&gt; /<em> malloc(), free() etc. </em>/<br>#include &lt;sys/types.h&gt; /<em> various type definitions. </em>/<br>#include &lt;sys/ipc.h&gt; /<em> general SysV IPC structures </em>/<br>#include &lt;sys/msg.h&gt; /<em> message queue functions and structs. </em>/<br>#include &quot;queue_defs.h&quot; /<em> definitions shared by both programs </em>/<br>int main(int argc, char<em> argv[])<br>{<br>&nbsp;&nbsp;&nbsp;       int queue_id; /</em> ID of the created queue. <em>/<br>&nbsp;&nbsp;&nbsp;       struct msgbuf</em> msg; /<em> structure used for sent messages. </em>/<br>&nbsp;&nbsp;&nbsp;       /<em>struct msgbuf</em> recv_msg;<em>/<br>&nbsp;&nbsp;&nbsp;       int i; /</em> loop counter <em>/<br>&nbsp;&nbsp;&nbsp;       int rc; /</em> error code retuend by system calls. <em>/<br>&nbsp;&nbsp;&nbsp;       /</em> create a public message queue, with access only to the owning user. <em>/<br>&nbsp;&nbsp;&nbsp;       queue_id = msgget(QUEUE_ID, IPC_CREAT | IPC_EXCL | 0600);<br>&nbsp;&nbsp;&nbsp;       if (queue_id == -1) {<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       perror(&quot;main: msgget&quot;);<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       exit(1);<br>&nbsp;&nbsp;&nbsp;       }<br>&nbsp;&nbsp;&nbsp;       printf(&quot;message queue created, queue id ‘%d’.n&quot;, queue_id);<br>&nbsp;&nbsp;&nbsp;       msg = (struct msgbuf</em>)malloc(sizeof(struct msgbuf)+MAX_MSG_SIZE);<br>&nbsp;&nbsp;&nbsp;       /<em> form a loop of creating messages and sending them. </em>/<br>&nbsp;&nbsp;&nbsp;       for (i=1; i &lt;= NUM_MESSAGES; i++) {<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       msg-&gt;mtype = (i % 3) + 1; /<em> create message type between ‘1’ and ‘3’ </em>/<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       sprintf(msg-&gt;mtext, &quot;hello world - %d&quot;, i);<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;   rc = msgsnd(queue_id, msg, strlen(msg-&gt;mtext)+1, 0);<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       if (rc == -1) {<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       perror(&quot;main: msgsnd&quot;);<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       exit(1);<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       }<br>&nbsp;&nbsp;&nbsp;       }<br>&nbsp;&nbsp;&nbsp;       /<em> free allocated memory. </em>/<br>&nbsp;&nbsp;&nbsp;       free(msg);<br>&nbsp;&nbsp;&nbsp;       printf(&quot;generated %d messages, exiting.n&quot;, NUM<em>MESSAGES);<br>&nbsp;&nbsp;&nbsp;       return 0;<br>}<br><br><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong>__</strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></em><br><br>/<em><br></em> queue_reader.c - a program that reads messages with a given identifier<br><em> off of a message queue.<br></em>/<br>#include &lt;stdio.h&gt; /<em> standard I/O functions. </em>/<br>#include &lt;stdlib.h&gt; /<em> malloc(), free() etc. </em>/<br>#include &lt;unistd.h&gt; /<em> sleep(), etc. </em>/<br>#include &lt;sys/types.h&gt; /<em> various type definitions. </em>/<br>#include &lt;sys/ipc.h&gt; /<em> general SysV IPC structures </em>/<br>#include &lt;sys/msg.h&gt; /<em> message queue functions and structs. </em>/<br>#include &quot;queue_defs.h&quot; /<em> definitions shared by both programs </em>/<br>void main(int argc, char<em> argv[])<br>{<br>&nbsp;&nbsp;&nbsp;       int queue_id; /</em> ID of the created queue. <em>/<br>&nbsp;&nbsp;&nbsp;       struct msgbuf</em> msg; /<em> structure used for received messages. </em>/<br>&nbsp;&nbsp;&nbsp;       int rc; /<em> error code returned by system calls. </em>/<br>&nbsp;&nbsp;&nbsp;       int msg_type; /<em> type of messages we want to receive. </em>/<br>&nbsp;&nbsp;&nbsp;       /<em> read message type from command line </em>/<br>&nbsp;&nbsp;&nbsp;       if (argc != 2) {<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       fprintf(stderr, &quot;Usage: %s &lt;message type&gt;n&quot;, argv[0]);<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       fprintf(stderr, &quot; &lt;message type&gt; must be between 1 and 3.n&quot;);<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       exit(1);<br>&nbsp;&nbsp;&nbsp;       }<br>&nbsp;&nbsp;&nbsp;       msg_type = atoi(argv[1]);<br>&nbsp;&nbsp;&nbsp;       if (msg_type &lt; 1 || msg_type &gt; 3) {<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       fprintf(stderr, &quot;Usage: %s &lt;message type&gt;n&quot;, argv[0]);<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       fprintf(stderr, &quot; &lt;message type&gt; must be between 1 and 3.n&quot;);<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       exit(1);<br>&nbsp;&nbsp;&nbsp;       }<br>&nbsp;&nbsp;&nbsp;       /<em> access the public message queue that the sender program created. </em>/<br>&nbsp;&nbsp;&nbsp;       queue_id = msgget(QUEUE_ID, 0);<br>&nbsp;&nbsp;&nbsp;       if (queue_id == -1) {<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       perror(&quot;main: msgget&quot;);<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       exit(1);<br>&nbsp;&nbsp;&nbsp;       }<br>&nbsp;&nbsp;&nbsp;       printf(&quot;message queue opened, queue id ‘%d’.n&quot;, queue_id);<br>&nbsp;&nbsp;&nbsp;       msg = (struct msgbuf<em>)malloc(sizeof(struct msgbuf)+MAX_MSG_SIZE);<br>&nbsp;&nbsp;&nbsp;       /</em> form a loop of receiving messages and printing them out. <em>/<br>&nbsp;&nbsp;&nbsp;       while (1) {<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       rc = msgrcv(queue_id, msg, MAX_MSG_SIZE+1, msg_type, 0);<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       if (rc == -1) {<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       perror(&quot;main: msgrcv&quot;);<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       exit(1);<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       }<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       printf(&quot;Reader ‘%d’ read message: ‘%s’n&quot;, msg_type, msg-&gt;mtext);<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       /</em> slow down a little… <em>/<br>&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       sleep(1);<br>&nbsp;&nbsp;&nbsp;       }<br>&nbsp;&nbsp;&nbsp;       /</em> NOT REACHED */<br>}<br> </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/03/05/IPC-programming-：message-queues/" class="archive-article-date">
+  	<time datetime="2008-03-05T14:41:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-03-05</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux/">Linux</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-GDB调试" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2008/03/04/GDB调试/">GDB调试</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> gdb [options] –args executable-file [inferior-arguments …]<br>p array[0]@100  打印数组前100个元素<br>p /x var  以16进制打印<br>break … if COND<br>call printf(&ldquo;abcd&rdquo;)<br>display /x addr<br>undisplay 1<br>set var varname = value<br>whatis varname  //显示变量varname的类型，如double,int,…<br>set print pretty<br>set {int}0x83040 = 4 //向地址0x83040写入4<br>until 结束当前循环<br>ptype 显示一个数据结构（如一个结构或C++类）的内容<br>checkpoint<br>x /40xw 0x20000<br>x /10i 0x312000<br>disassemble 0xbff00800 0x10 ：address:len<br><br>finish － Execute until selected stack frame returns<br>display /i $pc － 单步跟踪会在打出程序代码的同时打出机器指令（也就是汇编代码）<br>layout src：显示源代码窗口<br>layout asm：显示反汇编窗口<br>layout regs：显示源代码/反汇编和CPU寄存器窗口<br>layout split：显示源代码和反汇编窗口<br>Ctrl + L：刷新窗口<br>layout prev|next<br>focus src|asm|regs|cmd|prev|next<br><br>add-symbol-file<br><br><br><br>qemu控制终端输入gdbserver后<br>gdb -ex &quot;target remote localhost:1234&quot; -ex &quot;layout split&quot; -ex &quot;symbol-file vmlinux&quot;<br><br><br>gdbserver运行在目标机(板)上<br><img class="blogimg" small="0" src="http://img.pickbox.me/wp-content/uploads/pic/2818d63ffacbf9d07c1e7166.jpg">在调试机上运行gdb调试<br><img class="blogimg" small="0" src="http://img.pickbox.me/wp-content/uploads/pic/e545af6e59450cc880cb4a40.jpg">同步调试：target remote …<br>异步调试：target async …<br><br><br>============================================================================================<br><a href="http://sources.redhat.com/gdb/current/onlinedocs/gdb_5.html#SEC27" target="_blank">http://sources.redhat.com/gdb/current/onlinedocs/gdb_5.html#SEC27</a><br><br>1.break FUNCTION <br>  在某个函数上设置断点。函数重载时，有可能同时在几个重载的函数上设置了断点<br> <br>  break +OFFSET <br>  break -OFFSET<br>  在当前程序运行到的前几行或后几行设置断点 <br><br>  break LINENUM<br>  在行号为LINENUM的行上设置断点<br><br>  break FILENAME:LINENUM <br>  在文件名为FILENAME的原文件的第LINENUM行设置断点 <br><br>  break FILENAME:FUNCTION <br>  在文件名为FILENAME的FUNCTION函数上设置断点 <br>  当你的多个文件中可能含有相同的函数名时必须给出文件名。 <br><br>  break <em>ADDRESS <br>  在地址ADDRESS上设置断点，这个命令允许你在没有调试信息的程序中设置断点<br> <br>  break<br>  当break命令不包含任何参数时，break命令在当前执行到的程序运行栈中的<br>  下一条指令上设置一个断点。除了栈底以外，这个命令使程序在一旦从当前<br>  函数返回时停止。相似的命令是finish，但finish并不设置断点。这一点在<br>  循环语句中很有用。gdb在恢复执行时，至少执行一条指令。 <br><br>  break … if COND <br>  这个命令设置一个条件断点，条件由COND指定；在gdb每次执行到此断点时<br>  COND都被计算当COND的值为非零时，程序在断点处停止<br> <br>  ignore BNUM COUNT’ <br>  设置第BNUM号断点的被忽略的次数为’COUNT’，即断点BNUM再执行到第COUNT+1<br>  次时程序停止<br><br>  tbreak ARGS 或者简写为 tb<br>  设置断点为只有效一次。ARGS的使用同break中的参量的使用<br> <br>  hbreak ARGS <br>  设置一个由硬件支持的断点。这个命令的主要目的是用于对EPROM/ROM程序的调试<br>  因为这条命令可以在不改变代码的情况下设置断点。这可以同SPARCLite DSU一起<br>  使用。当程序访问某些变量和代码时，DSU将设置&ldquo;陷井&rdquo;。注意：你只能一次使用<br>  一个断点，在新设置断点时，先删除原断点<br> <br>  thbreak ARGS’ <br>  设置只有一次作用的硬件支持断点<br> <br>  rbreak REGEX<br>  在所有满足表达式REGEX的函数上设置断点。这个命令在所有相匹配的函数上设置无<br>  条件断点，当这个命令完成时显示所有被设置的断点信息。这个命令设置的断点和<br>  break命令设置的没有什么不同。当调试C++程序时这个命令在重载函数上设置断点时<br>  非常有用。 <br><br>  info breakpoints [N]<br>  info break [N] <br>  info watchpoints [N] <br>  显示所有的断点和观察点的设置表，有下列一些列 <br>  </em>Breakpoint Numbers<em>—-断点号 <br>  </em>Type<em>—-断点类型(断点或是观察点) <br>  </em>Disposition<em>—显示断点的状态<br>  </em>Enabled or Disabled<em>—使能或不使能。’y’表示使能，’n’表示不使能。 <br>  </em>Address<em>—-地址，断点在你程序中的地址(内存地址) <br>  </em>What<em>—地址，断点在你程序中的行号。 <br>  如果断点是条件断点，此命令还显示断点所需要的条件。 <br>  带参数N的’info break’命令只显示由N指定的断点的信息。 <br>  此命令还显示断点的运行信息(被执行过几次)，这个功能在使用’ignore’ <br>  命令时很有用。你可以’ignore’一个断点许多次。使用这个命令可以查看断点 <br>  被执行了多少次。这样可以更快的找到错误。 <br><br>  maint info breakpoints<br>  显示所有的断点，无论是你设置的还是gdb自动设置的。 <br>  断点的含义：<br>  breakpoint：断点，普通断点<br>  watchpoint：普通观察点<br>  longjmp：内部断点，用于处理’longjmp’调用<br>  longjmp resume：内部断点，设置在’longjmp’调用的目标上<br>  until：’until’命令所使用的内部断点<br>  finish：finish’命令所使用的内部断点<br> <br>2.watch EXPR<br>  为表达式（变量）expr设置一个观察点。一量表达式值有变化时，马上停住程序。<br>  这个命令使用EXPR作为表达式设置一个观察点。GDB将把表达式加入到程序中并监<br>  视程序的运行，当表达式的值被改变时GDB就使程序停止。这个也可以被用在SPARClite<br>  DSU提供的新的自陷工具中。当程序存取某个地址或某条指令时(这个地址在调试寄<br>  存器中指定),DSU将产生自陷。对于数据地址DSU支持’watch’命令,然而硬件断点寄<br>  存器只能存储两个断点地址，而且断点的类型必须相同。就是两个’rwatch’型断点<br>  或是两个’awatch’型断点。 <br><br>  rwatch EXPR’ <br>  设置一个观察点，当EXPR被程序读时，程序被暂停。 <br><br>  awatch EXPR’ <br>  设置一个观察点,当EXPR被读出然后被写入时程序被暂停。<br> <br>  info watchpoints<br>  在多线程的程序中，观察点的作用很有限，GDB只能观察在一个线程中的表达式的值<br>  如果你确信表达式只被当前线程所存取，那么使用观察点才有效。GDB不能注意一个<br>  非当前线程对表达式值的改变。<br> <br>    rwatch &lt;expr&gt;<br>        当表达式（变量）expr被读时，停住程序。<br> <br>    awatch &lt;expr&gt;当表达式（变量）的值被读或被写时，停住程序。<br> <br>    info watchpoints<br>        列出当前所设置了的所有观察点。3.cont N<br>  第N次经过该断点时才停止程序运行<br> <br>4.enable 断点编号<br>  恢复暂时失活的断点，要恢复多个编号的断点，可用空格将编号分开<br> <br>5.disable 断点编号<br>  使断点失效，但是断点还在<br> <br>6.delete 断点编号或者表达式<br>   删除某断点<br><br>7.clear 断点所在行号<br>   清除某断点<br> <br>8.查看断点列表<br>  info break9.watch counter&gt;15<br>  当counter&gt;15的时候程序终止<br> <br>10.当程序崩溃的时候linux会生成一个core文件，可以用<br>   gdb a.out core<br>   where<br>   查看导致崩溃的原因<br><dl><dt><code>11.checkpoint</code> </dt><dd>Save a snapshot of the debugged program’s current execution state. The <code>checkpoint</code> command takes no arguments, but each checkpoint is assigned a small integer id, similar to a breakpoint id. </dd><dt><code>info checkpoints</code> </dt><dd>List the checkpoints that have been saved in the current debugging session.  For each checkpoint, the following information will be listed:<p><code>Checkpoint ID</code></p><code>Process ID</code><dl><dt> <br></dt><dt><code>Code Address</code> </dt><dd><br></dd><dt><code>Source line, or label</code> </dt></dl> </dd><dt><code>restart <var>checkpoint-id</var></code> </dt><dd>Restore the program state that was saved as checkpoint number <var>checkpoint-id</var>.  All program variables, registers, stack frames etc.  will be returned to the values that they had when the checkpoint was saved.  In essence, gdb will &quot;wind back the clock&quot; to the point in time when the checkpoint was saved.<p>Note that breakpoints, GDB variables, command history etc. are not affected by restoring a checkpoint.  In general, a checkpoint only restores things that reside in the program being debugged, not in the debugger.</p></dd><dt><code>delete checkpoint <var>checkpoint-id</var></code> </dt><dd>Delete the previously-saved checkpoint identified by <var>checkpoint-id</var>.</dd></dl>A Non-obvious Benefit of Using Checkpoints<br>On some systems such as GNU/Linux, address space randomization is performed on new processes for security reasons.  This makes it  difficult or impossible to set a breakpoint, or watchpoint, on an absolute address if you have to restart the program, since the  absolute location of a symbol will change from one execution to the next.<br>A checkpoint, however, is an <em>identical</em> copy of a process.  Therefore if you create a checkpoint at (eg.) the start of main,  and simply return to that checkpoint instead of restarting the  process, you can avoid the effects of address randomization and your symbols will all stay in the same place. <br><br><br><br><br><br><br>                                    GDB调试精粹及使用实例                                        <small> 来源:不详 (2006-07-14 11:18:05)</small> <br>                                           一：列文件清单 <br>            1． List <br>            (gdb) list line1,line2 <br> <br>            二：执行程序 <br>            要想运行准备调试的程序，可使用run命令，在它后面可以跟随发给该程序的任何参数，包括标准输入和标准输出说明符(&lt;和&gt;)和外壳通配符（</em>、？、[、]）在内。 <br>            如果你使用不带参数的run命令，gdb就再次使用你给予前一条run命令的参数，这是很有用的。 <br>            利用set args 命令就可以修改发送给程序的参数，而使用show args 命令就可以查看其缺省参数的列表。 <br>                         (gdb) set args &ndash;b &ndash;x <br>            (gdb) show args <br>            backtrace命令为堆栈提供向后跟踪功能。 <br>            Backtrace 命令产生一张列表，包含着从最近的过程开始的所以有效过程和调用这些过程的参数。 <br> <br>            三：显示数据 <br>            利用print 命令可以检查各个变量的值。 <br>            (gdb) print p (p为变量名) <br>            whatis 命令可以显示某个变量的类型 <br>            (gdb) whatis p <br>            type = int <em> <br> <br>            print 是gdb的一个功能很强的命令，利用它可以显示被调试的语言中任何有效的表达式。表达式除了包含你程序中的变量外，还可以包含以下内容： <br>            l 对程序中函数的调用 <br>            (gdb) print find_entry(1,0) <br>            l 数据结构和其他复杂对象 <br>            (gdb) print </em>table_start <br>            $8={e=reference=&rsquo; 00&rsquo;,location=0x0,next=0x0} <br>            l 值的历史成分 <br>            (gdb)print $1 ($1为历史记录变量,在以后可以直接引用 $1 的值) <br>            l 人为数组 <br>            人为数组提供了一种去显示存储器块（数组节或动态分配的存储区）内容的方法。早期的调试程序没有很好的方法将任意的指针换成一个数组。就像对待参数一样，让我们查看内存中在变量h后面的10个整数，一个动态数组的语法如下所示： <br>            base@length <br>            因此，要想显示在h后面的10个元素，可以使用h@10： <br>            (gdb)print h@10 <br>            $13=(-1,345,23,-234,0,0,0,98,345,10) <br> <br>            四：断点(breakpoint) <br>            break命令（可以简写为b）可以用来在调试的程序中设置断点，该命令有如下四种形式： <br>            l break line-number 使程序恰好在执行给定行之前停止。 <br>            l break function-name 使程序恰好在进入指定的函数之前停止。 <br>            l break line-or-function if condition 如果condition（条件）是真，程序到达指定行或函数时停止。 <br>            l break routine-name 在指定例程的入口处设置断点 <br> <br>            如果该程序是由很多原文件构成的，你可以在各个原文件中设置断点，而不是在当前的原文件中设置断点，其方法如下： <br>            (gdb) break filename:line-number <br>            (gdb) break filename:function-name <br> <br>            要想设置一个条件断点，可以利用break if命令，如下所示： <br>            (gdb) break line-or-function if expr <br>            例： <br>            (gdb) break 46 if testsize==100 <br> <br>            从断点继续运行：countinue 命令 <br>            五．断点的管理 <br> <br>            1． 显示当前gdb的断点信息： <br>            (gdb) info break <br>            他会以如下的形式显示所有的断点信息： <br>            Num Type Disp Enb Address What <br>            1 breakpoint keep y 0x000028bc in init_random at qsort2.c:155 <br>            2 breakpoint keep y 0x0000291c in init_organ at qsort2.c:168 <br>            (gdb) <br>            2.删除指定的某个断点： <br>            (gdb) delete breakpoint 1 <br>            该命令将会删除编号为1的断点，如果不带编号参数，将删除所有的断点 <br>            (gdb) delete breakpoint <br>            3.禁止使用某个断点 <br>            (gdb) disable breakpoint 1 <br>            该命令将禁止断点 1,同时断点信息的 (Enb)域将变为 n <br>            4．允许使用某个断点 <br>            (gdb) enable breakpoint 1 <br>            该命令将允许断点 1,同时断点信息的 (Enb)域将变为 y <br>            5．清除原文件中某一代码行上的所有断点 <br>            (gdb)clean number <br>            注：number 为原文件的某个代码行的行号 <br>            六．变量的检查和赋值 <br>            l whatis:识别数组或变量的类型 <br>            l ptype:比whatis的功能更强，他可以提供一个结构的定义 <br>            l set variable:将值赋予变量 <br>            l print 除了显示一个变量的值外，还可以用来赋值 <br> <br>            七．单步执行 <br>            l next <br>            不进入的单步执行 <br>            l step <br>            进入的单步执行 <br>            如果已经进入了某函数，而想退出该函数返回到它的调用函数中，可使用命令finish <br>            八．函数的调用 <br>            l call name 调用和执行一个函数 <br>            (gdb) call gen_and_sork( 1234,1,0 ) <br>            (gdb) call printf(&ldquo;abcd&rdquo;) <br>            $1=4 <br>            l finish 结束执行当前函数，显示其返回值（如果有的话） <br> <br>            九．机器语言工具 <br>            有一组专用的gdb变量可以用来检查和修改计算机的通用寄存器，gdb提供了目前每一台计算机中实际使用的4个寄存器的标准名字： <br>            l $pc ： 程序计数器 <br>            l $fp ： 帧指针（当前堆栈帧） <br>            l $sp ： 栈指针 <br>            l $ps ： 处理器状态 <br> <br>            十．信号 <br>            gdb 通常可以捕捉到发送给它的大多数信号，通过捕捉信号，它就可决定对于正在运行的进程要做些什么工作。例如，按CTRL-C将中断信号发送给gdb，通常就 会终止gdb。但是你或许不想中断gdb，真正的目的是要中断gdb正在运行的程序，因此，gdb要抓住该信号并停止它正在运行的程序，这样就可以执行某 些调试操作。 <br> <br>            Handle命令可控制信号的处理，他有两个参数，一个是信号名，另一个是接受到信号时该作什么。几种可能的参数是： <br>            l nostop 接收到信号时，不要将它发送给程序，也不要停止程序。 <br>            l stop 接受到信号时停止程序的执行，从而允许程序调试；显示一条表示已接受到信号的消息（禁止使用消息除外） <br>            l print 接受到信号时显示一条消息 <br>            l noprint 接受到信号时不要显示消息（而且隐含着不停止程序运行） <br>            l pass 将信号发送给程序，从而允许你的程序去处理它、停止运行或采取别的动作。 <br>            l nopass 停止程序运行，但不要将信号发送给程序。 <br>            例如，假定你截获SIGPIPE信号，以防止正在调试的程序接受到该信号，而且只要该信号一到达，就要求该程序停止，并通知你。要完成这一任务，可利用如下命令： <br>            (gdb) handle SIGPIPE stop print <br>            请注意，UNIX的信号名总是采用大写字母！你可以用信号编号替代信号名 <br>            如 果你的程序要执行任何信号处理操作，就需要能够测试其信号处理程序，为此，就需要一种能将信号发送给程序的简便方法，这就是signal命令的任务。该 命令的参数是一个数字或者一个名字，如SIGINT。假定你的程序已将一个专用的SIGINT（键盘输入，或CTRL-C；信号2）信号处理程序设置成采 取某个清理动作，要想测试该信号处理程序，你可以设置一个断点并使用如下命令： <br>            （gdb） signal 2 <br>            continuing with signal SIGINT(2) <br>            该程序继续执行，但是立即传输该信号，而且处理程序开始运行. <br> <br>            十一. 原文件的搜索 <br>            search text:该命令可显示在当前文件中包含text串的下一行。 <br>            Reverse-search text:该命令可以显示包含text 的前一行。 <br> <br>            十二.UNIX接口 <br>            shell 命令可启动UNIX外壳，CTRL-D退出外壳，返回到 gdb. <br> <br>            十三.命令的历史 <br>            为了允许使用历史命令，可使用 set history expansion on 命令 <br>            (gdb) set history expansion on <br> <br>            小结：常用的gdb命令 <br>            backtrace 显示程序中的当前位置和表示如何到达当前位置的栈跟踪（同义词：where） <br>            breakpoint 在程序中设置一个断点 <br>            cd 改变当前工作目录 <br>            clear 删除刚才停止处的断点 <br>            commands 命中断点时，列出将要执行的命令 <br>            continue 从断点开始继续执行 <br>            delete 删除一个断点或监测点；也可与其他命令一起使用 <br>            display 程序停止时显示变量和表达时 <br>            down 下移栈帧，使得另一个函数成为当前函数 <br>            frame 选择下一条continue命令的帧 <br>            info 显示与该程序有关的各种信息 <br>            jump 在源程序中的另一点开始运行 <br>            kill 异常终止在gdb 控制下运行的程序 <br>            list 列出相应于正在执行的程序的原文件内容 <br>            next 执行下一个源程序行，从而执行其整体中的一个函数 <br>            print 显示变量或表达式的值 <br>            pwd 显示当前工作目录 <br>            ptype 显示一个数据结构（如一个结构或C++类）的内容 <br>            quit 退出gdb <br>            reverse-search 在源文件中反向搜索正规表达式 <br>            run 执行该程序 <br>            search 在源文件中搜索正规表达式 <br>            set variable 给变量赋值 <br>            signal 将一个信号发送到正在运行的进程 <br>            step 执行下一个源程序行，必要时进入下一个函数 <br>            undisplay display命令的反命令，不要显示表达式 <br>            until 结束当前循环 <br>            up 上移栈帧，使另一函数成为当前函数 <br>            watch 在程序中设置一个监测点（即数据断点） <br>            whatis 显示变量或函数类型 <br>            <strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong> <br>            GNU的调试器称为gdb，该程序是一个交互式工具，工作在字符模式。在 X Window 系统中，有一个gdb的前端图形工具，称为xxgdb。gdb 是功能强大的调试程序，可完成如下的调试任务： <br>            <em> 设置断点； <br>            </em> 监视程序变量的值； <br>            <em> 程序的单步执行； <br>            </em> 修改变量的值。 <br>            在可以使用 gdb 调试程序之前，必须使用 -g 选项编译源文件。可在 makefile 中如下定义 CFLAGS 变量： <br>            CFLAGS = -g <br>            运行 gdb 调试程序时通常使用如下的命令： <br>            gdb progname <br> <br>            在 gdb 提示符处键入help，将列出命令的分类，主要的分类有： <br>            <em> aliases：命令别名 <br>            </em> breakpoints：断点定义； <br>            <em> data：数据查看； <br>            </em> files：指定并查看文件； <br>            <em> internals：维护命令； <br>            </em> running：程序执行； <br>            <em> stack：调用栈查看； <br>            </em> statu：状态查看； <br>            <em> tracepoints：跟踪程序执行。 <br>            键入 help 后跟命令的分类名，可获得该类命令的详细清单。 <br> <br> <br>            gdb 的常用命令 <br>            命令 解释 <br>            break NUM 在指定的行上设置断点。 <br>            bt 显示所有的调用栈帧。该命令可用来显示函数的调用顺序。 <br>            clear 删除设置在特定源文件、特定行上的断点。其用法为clear FILENAME:NUM <br>            continue 继续执行正在调试的程序。该命令用在程序由于处理信号或断点而 导致停止运行时。 <br>            display EXPR 每次程序停止后显示表达式的值。表达式由程序定义的变量组成。 <br>            file FILE 装载指定的可执行文件进行调试。 <br>            help NAME 显示指定命令的帮助信息。 <br>            info break 显示当前断点清单，包括到达断点处的次数等。 <br>            info files 显示被调试文件的详细信息。 <br>            info func 显示所有的函数名称。 <br>            info local 显示当函数中的局部变量信息。 <br>            info prog 显示被调试程序的执行状态。 <br>            info var 显示所有的全局和静态变量名称。 <br>            kill 终止正被调试的程序。 <br>            list 显示源代码段。 <br>            make 在不退出 gdb 的情况下运行 make 工具。 <br>            next 在不单步执行进入其他函数的情况下，向前执行一行源代码。 <br>            print EXPR 显示表达式 EXPR 的值。 <br> <br>            <strong>**</strong>gdb 使用范例<strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong> <br>            —————– <br>            清单 一个有错误的 C 源程序 bugging.c <br>            代码: <br> <br>            —————– <br>            1　＃i nclude <br>            2 <br>            3　static char buff [256]; <br>            4　static char</em> string; <br>            5　int main () <br>            6　{ <br>            7　　　printf (&quot;Please input a string: &quot;); <br>            8　　　gets (string);　　 <br>            9　　 printf (&quot;nYour string is: %sn&quot;, string); <br>            10 } <br> <br> <br>            —————– <br>            上面这个程序非常简单，其目的是接受用户的输入，然后将用户的输入打印出来。该程序使用了一个未经过初始化的字符串地址 string，因此，编译并运行之后，将出现 Segment Fault 错误： <br>            $ gcc -o bugging -g bugging.c <br>            $ ./bugging <br>            Please input a string: asfd <br>            Segmentation fault (core dumped) <br>            为了查找该程序中出现的问题，我们利用 gdb，并按如下的步骤进行： <br>            1．运行 gdb bugging 命令，装入 bugging 可执行文件； <br>            2．执行装入的 bugging 命令 run； <br>            3．使用 where 命令查看程序出错的地方； <br>            4．利用 list 命令查看调用 gets 函数附近的代码； <br>            5．唯一能够导致 gets 函数出错的因素就是变量 string。用print命令查看 string 的值； <br>            6．在 gdb 中，我们可以直接修改变量的值，只要将 string 取一个合法的指针值就可以了，为此，我们在第8行处设置断点 break 8； <br>            7．程序重新运行到第 8行处停止，这时，我们可以用 set variable 命令修改 string 的取值； <br>            8．然后继续运行，将看到正确的程序运行结果。  <br>            (<a href="http://www.fanqiang.com" target="_blank" rel="external">http://www.fanqiang.com</a>) </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/03/04/GDB调试/" class="archive-article-date">
+  	<time datetime="2008-03-04T14:01:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-03-04</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux-Debug/">Linux Debug</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-CSS参考" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2008/03/01/CSS参考/">CSS参考</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&nbsp;</p>
+<hr>
+<p><a href="http://blog.pickbox.me/2012/05/10/%E5%A6%82%E4%BD%95%E4%BD%BFinline%E5%85%83%E7%B4%A0%E5%9E%82%E7%9B%B4%E5%B1%85%E4%B8%AD%EF%BC%88line-height%E5%92%8Cvertical-align%EF%BC%89/" target="_blank">如何使inline元素垂直居中（line-height和vertical-align）</a></p>
+<hr>
+<p>display属性：block, inline, inline-block，提供了一个playground示例，很方便进行试验~</p>
+<p><a href="http://www.quirksmode.org/css/display.html" target="_blank" rel="external">http://www.quirksmode.org/css/display.html</a></p>
+<hr>
+<p><a href="http://www.oschina.net/news/23129/fresh-powerful-css3-tutorials?from=20111120" target="_blank" rel="external">http://www.oschina.net/news/23129/fresh-powerful-css3-tutorials?from=20111120</a></p>
+<p>15 个最新的 CSS3 教程 （<a href="http://webdesign.tutsplus.com/tutorials/htmlcss-tutorials/quick-tip-create-pure-css3-ticket-like-tags/" target="_blank" rel="external">创建纯CSS3的票式标签</a>，<a href="http://tympanus.net/codrops/2011/11/07/animated-buttons-with-css3/" target="_blank" rel="external">用CSS3来创建具有动画效果的按钮</a>，<a href="http://tympanus.net/codrops/2011/10/24/creative-css3-animation-menus/" target="_blank" rel="external">用CSS3创建动态菜单</a>，<a href="http://tympanus.net/codrops/2011/11/02/original-hover-effects-with-css3/" target="_blank" rel="external">原始的鼠标浮动效果</a>）</p>
+<p><a href="http://blog.pickbox.me/2012/04/30/css3%20%E5%92%8C%20javascript%20%E7%89%B9%E6%95%88/" target="_blank">CSS3 和 JavaScript 特效</a>（<a href="https://developer.mozilla.org/en-US/demos/detail/paperfold-css/launch" target="_blank" rel="external">Paperfold</a>, <a href="https://developer.mozilla.org/en-US/demos/detail/3d-flip-list-menu/launch" target="_blank" rel="external">3D Flip list menu</a>, <a href="https://developer.mozilla.org/en-US/demos/detail/animated-menu-icons/launch" target="_blank" rel="external">Animated Menu Icons</a>, <a href="https://developer.mozilla.org/en-US/demos/detail/animated-css3-gallery/launch" target="_blank" rel="external">Animated CSS3 Gallery</a>）</p>
+<p><a href="http://neteye.github.com/touch-gallery.html" target="_blank">Touch Gallery</a>（Touch Gallery 可在智能手机的浏览器上实现类似本地相册应用的图片展示效果。支持 iPhone、Android、iPad 等）</p>
+<p><a href="http://indamix.github.com/real-shadow/" target="_blank">Real Shadow</a>（可以创建非常真实的阴影效果。非常适合做 demo 或者首页。）</p>
+<p><a href="http://www.oschina.net/p/nailthumb" target="_blank">NailThumb</a>（jQuery NailThumb 可让你轻松创建高分辨率图像的无损缩略图，只需一行代码搞定。你可以通过 CSS 来设定缩略图的尺寸。）</p>
+<hr>
+<p><strong>子串匹配属性选择器</strong></p>
+<p>[abc^=”def”]选择 abc 属性值以 “def” 开头的所有元素[abc$=”def”]选择 abc 属性值以 “def” 结尾的所有元素[abc*=”def”]选择 abc 属性值中包含子串 “def” 的所有元素</p>
+<p>可以想到，这些选择有很多用途。</p>
+<p>举例来说，如果希望对指向 W3School 的所有链接应用样式，不必为所有这些链接指定 class，再根据这个类编写样式，而只需编写以下规则：</p>
+<p>a[href*=”w3school.com.cn”] {color: red;}</p>
+<p>&nbsp;</p>
+<p><strong>特定属性选择类型</strong></p>
+<p><strong>最后为您介绍特定属性选择器。请看下面的例子：</strong></p>
+<p>*[lang|=”en”] {color: red;}</p>
+<p>上面这个规则会选择 lang 属性等于 en 或以 en- 开头的所有元素。因此，以下示例标记中的前三个元素将被选中，而不会选择后两个元素：</p>
+<p>&lt;p lang=”en”&gt;Hello!&lt;/p&gt;</p>
+<p>&lt;p lang=”en-us”&gt;Greetings!&lt;/p&gt;</p>
+<p>&lt;p lang=”en-au”&gt;G’day!&lt;/p&gt;</p>
+<p>&lt;p lang=”fr”&gt;Bonjour!&lt;/p&gt;</p>
+<p>&lt;p lang=”cy-en”&gt;Jrooana!&lt;/p&gt;</p>
+<p>&nbsp;</p>
+<p><strong> 部分值属性选择器</strong></p>
+<p>img[title~=”Figure”] {border: 1px solid gray;}</p>
+<p>这个规则会选择 title 文本包含 “Figure” 的所有图像。没有 title 属性或者 title 属性中不包含 “Figure” 的图像都不会匹配。</p>
+<p>&nbsp;</p>
+<hr>
+<p><strong>From BBS</strong></p>
+<p>&lt;HTML&gt;</p>
+<p>&lt;HEAD&gt;<br>&lt;STYLE&gt;<br>A {color: red}<br>P {background-color:blue; color:white}<br>&lt;/STYLE&gt;<br>&lt;/HEAD&gt;<br>&lt;BODY&gt;<br>&lt;A href=”<a href="http://www.nease.net/~haidian&quot;&gt;动态网页制作&lt;/A&amp;gt" target="_blank" rel="external">http://www.nease.net/~haidian&quot;&gt;动态网页制作&lt;/A&amp;gt</a>;<br>&lt;P&gt;你注意到这一段文字的颜色和背景颜色了吗?&lt;/P&gt; 怎么样?<br>&lt;/BODY&gt;<br>&lt;/HTML&gt;</p>
+<h2 id="CSS-第二节-CSS-Selector"><a href="#CSS-第二节-CSS-Selector" class="headerlink" title="CSS 第二节: CSS Selector"></a>CSS 第二节: CSS Selector</h2><hr>
+<p>上一节开始我们讨论 CSS (Cascading Style Sheet) 的基础.<br>告诉你有三种 Selector. 但只介绍了其中的 HTML selector.<br>这一节我们把三种都详细介绍给你<br>HTML selector<br>class selector:<br>ID selector:<br>HTML selector<br>HTML selector 就是 HTML 的 tags, 比如 P, DIV, TD 等. 如<br>你用 CSS 定义了它们, 在整页中, 这个 Tag 的性质就按照你<br>的定义来显示了. HTML selector 的语法如下<br>tag {property:value}<br>比如我们想叫 H1 的颜色是红的<br>H1 {color: red}<br>这里还要告诉你 CSS 的一个特点, 它可定义好几个 selector<br>在一个 rule 里. 比如<br>H1, H2, TD {color: red}<br>这个定义就能让所有的 H1, H2, 和 TD 的颜色都为红色.<br>Class selector<br>Class selector 有两种, 一种叫相关 class selector, 它跟一<br>个 HTML 的 tag 有关系. 它的语法是<br>tag.Classname {property:value}<br>比如我们想叫一些而不是全部 H2 的颜色是红的<br>&lt;style&gt;<br>H2.redone {color: red}<br>&lt;/style&gt;<br>&lt;H2&gt;This is H2&lt;/H2&gt;<br>&lt;H2 class=redone&gt;This is red H2&lt;/H2&gt;<br>This is H2<br>This is red H2<br>第二种是独立 class selector . 它可被任何 HTML tag 所应用.<br>它的语法如下<br>.Classname {property:value}<br>假如我们有下面这个定义<br>.blueone {color: blue}<br>那么我们可以把他应用到不同的 Tag 当中去. 比如<br>&lt;style&gt;<br>.blueone {color:blue}<br>&lt;/style&gt;<br>&lt;H2 class=”blueone”&gt;Blue H2&lt;/H2&gt;<br>&lt;P class=”blueone”&gt;Blue paragraph&lt;/P&gt;<br>Blue H2<br>Blue paragraph<br>显然 class selector 给了我们更多的自由.<br>ID selector<br>ID selector 其实跟独立 class selector 的功能一样. 而区别<br>在于它们的语法和用法不同, 以及对于 Javascript 操纵 HTML<br>元素有帮助. 它的语法如下</p>
+<p>#IDname {property:value}<br>假如我们有下面的定义</p>
+<p>#yelowone {color: yellow}<br>我们可以运用这个定义到任何的有同样 ID 名字的 tag, 比如<br>&lt;style&gt;</p>
+<p>#redone {color: red}<br>&lt;/style&gt;<br>&lt;P ID=”redone”&gt;text here&lt;/P&gt;<br>text here<br>你可能觉得既然 ID selector 和独立 class selector 功能一<br>样, 为什么两者都存在呢. 如果你知道用 CSS-P 来定位的话,<br>你就明白它们的区别了. 有 ID 的 HTML 元素可以被 CSS-P<br>和 JavaScript 来操纵.<br>到现在为止, 你已经大概知道如何来写 CSS 的定义了, 下面<br>七节我们将会告诉你如何用 CSS 来操纵或修改<br>字体<br>文字间的空间<br>列表<br>颜色<br>背景<br>Margin<br>位置</p>
+<h2 id="CSS-第三节-CSS-控制字体"><a href="#CSS-第三节-CSS-控制字体" class="headerlink" title="CSS 第三节: CSS 控制字体"></a>CSS 第三节: CSS 控制字体</h2><hr>
+<p>这一节我们将讨论如何用 CSS 来控制元素中字体的形状, 大<br>小, 风格.<br>字形<br>CSS 用来控制字形的性质是 font-family. 你可以用它来决定任何一个元素中文字的字<br>形. 比如<br>P.v {font-family: Verdana}<br>H2.a {font-family: arial}<br>This H2’s font is “Times New Roman”<br>This paragraph is using “Verdana” font<br>有的时候， 你所给的字体浏览器不见得有，你可以多给几种比如<br>P {font-family: Verdana, Forte, “Times New Roman”}<br>上面这个定义可以使得浏览器先用Verdana, 如果没有就用Forte…<br>记住每个字形之间要用逗号隔开.<br>大小<br>用来控制字体大小的性质是 font-size 比如<br>P.f12 {font-size: 12pt}<br>P.f18 {font-size: 18pt}<br>This paragraph’s font is 12pt<br>This paragraph’s font is 18pt<br>你可以自己慢慢调整字体的大小直到满意为止. 一般来说, 字<br>体的大小没什么限制, 但 500 以下比较安全.<br>斜体<br>如果想让字体成为斜体, 要用 font-style 性质, 比如<br>P {font-style: italic}<br>This paragraph’s font is italic<br>加重<br>用 font-weight 来调节文字的粗细, 比如<br>P.bold {font-weight: bold}<br>This paragraph’s font is normal<br>This paragraph’s font is bold<br>font-style 的可能的值是 lighter, normal, bold, bolder<br>我们只介绍在 Netscape 和 IE 上都通用的性质. 下一节我们讨</p>
+<h2 id="论文字的定位"><a href="#论文字的定位" class="headerlink" title="论文字的定位."></a>论文字的定位.</h2><h2 id="第四节-CSS-控制文字定位"><a href="#第四节-CSS-控制文字定位" class="headerlink" title="第四节: CSS 控制文字定位"></a>第四节: CSS 控制文字定位</h2><hr>
+<p>这一节我们将讨论如何用 CSS 来控制网页中文字定位, 这些性质是<br>line-height: 行距<br>text-align: 向那个方向看齐<br>vertical-align: 向上还是向下看齐<br>text-indent: 段落第一行空格<br>text-transform: 字母的大小写<br>text-decoration: 给文字加装饰, 比如下滑线<br>行距<br>我们有时候可能会想把行距加大点使得文字看的清楚一些. CSS<br>中的 line-height 可以取得这种调节<br>P.double {line-height: 2}<br>请看下面的比较. 这 一 段 的 行 距 是 正常 的. 这 一 段 的 行 距 是 正常 的.<br>这 乙?段 的 行 距 是 正常 的. 这 一 段 的 行 距 是 正常 的.<br>这 一 段 的 行 距 是 双 倍 的. 这 一 段 的 行 距 是 双 倍 的. 这 一 段 的 行<br>距 是 双 倍 的. 这 一 段 的 行 距 是 双 倍 的.<br>你要让 line-height 等于 3 的话, 那行距就更大了.<br>看齐<br>一般来说我们都是向左边看齐. 但有的时候也有其他的选择,<br>比如说向右边看齐.<br>P.right {text-align: right}<br>P.center {text-align: center}<br>P.justify {text-align: justify}<br>请看下面的比较. 这 一 行 左 边 看 齐<br>这 一 行 右 边 看 齐<br>这 一 行 在 中 间<br>text-align 可以有 left, right, center, 和 justify<br>段落的首行空格<br>如果我们想让第一行的开头空几格, 可以用 text-indent, 比如<br>P {text-indent: 1cm}<br>请看下面的例子. 这 一 段 开 头 空 了 1 厘 米. 这 一 段 开 头 空 了 1 厘 米.<br>这 ?<br>段 开 头 空 了 1 厘 米. 这 一 段 开 头 空 了 1 厘 米.<br>字母的大小写<br>这个性质显然跟中文没关系, 但如果我们要处理英文, 你可以<br>用 text-transform 来改变英文的大小写. 比如, 让每个字的<br>第一个字母大写<br>P.capitalize {text-transform: capitalize}<br>P.up {text-transform: uppercase}<br>P.low {text-transform: lowercase}<br>请看下面的比较. All the words’ first letter have been capitalized in this li<br>ne<br>All the letters are uppercase in this line<br>ALL THE LETTERS ARE UPPERCASE IN THIS LINE<br>all the letters are lowercase in this line<br>文字的装饰<br>就是在文字上加下滑线, 或中间加条线的. 比如<br>P.underline {text-decoration: underline}<br>P.line-through {text-decoration: line-through}<br>请看下面的比较. Underline line<br>line-through line<br>其实最常用的是我们想去掉联接下面的下滑线.<br>A {text-decoration: none}</p>
+<h2 id="第五节-CSS-列表的标识"><a href="#第五节-CSS-列表的标识" class="headerlink" title="第五节: CSS 列表的标识"></a>第五节: CSS 列表的标识</h2><p>这一节唯一我们将要讨论的是如何用 CSS 来改变列表<br>前的标识。我们知道有两种列表：有序和无序。有序<br>列表用阿拉伯数字为标识， 无序列表用黑色小圆圈来<br>做标识。用 CSS 的 list-style-type 这两种列表的标<br>识都可以有四种选择：</p>
+<p>无序： disc, circle, square, decimal<br>有序： upper-roman, lower-roman, upper-alpha, lower-alpha.<br>假如你想叫有序列表的标识为大小罗马字母</p>
+<p>LI.upperroman {list-style-type: upper-roman}<br>请看下面的比较 disc<br>circle<br>square<br>decimal</p>
+<p>大写罗马<br>小写罗马<br>大写字母<br>小写字母</p>
+<h2 id="第六节-CSS-控制背景"><a href="#第六节-CSS-控制背景" class="headerlink" title="第六节: CSS 控制背景"></a>第六节: CSS 控制背景</h2><p>用 CSS 你不但可以改变整个网页的背景你还可以控<br>制其他元素的的背景，比如 P，DIV 等。这一节我们<br>将要讨论的性质有<br>color: 文字的颜色<br>background-color: 背景颜色<br>background-image: 背景图象<br>background-repeat: 重复背景图象<br>background-attachment: 是否冻结背景图象<br>文字的颜色<br>我们用 color 可以来决定文字，周边，以及横线的颜色<br>P.greentext {color: green}<br>请看下面的例子 这一行文字的颜色是绿色的<br>背景的颜色<br>背景的颜色可以由 background-color 来控制， 比如我们想叫一些文字段落的背景颜色<br>为?<br>绿色的，<br>P.greenbg {background-color: #CCEFCC}<br>请看下面的例子<br>这一行的背景颜色是浅绿色的<br>背景的图象<br>我们不但可以给整个网页加个背景图象，我们还可以给其<br>中一个元素加个背景图象，比如说我们给 P 的背景加上天<br>空的背景<br>P.sky {background-image: url(../image/sky.jpg)}<br>请看下面的例子<br>给元素背景加颜色或加图象使得我们能自由的强调一些我<br>们想让大家注意的文字。而没有 CSS 我们只能改变整个网<br>页的背景颜色或图象<br>我们不但可以决定是否给背景加图象， 还可以确定是否让<br>这个图象重复以及在哪个方向重复。比如我们只让图象在<br>整个网页的竖直方向重复我们就可以去掉左边有个图象条<br>较蛑馗础１热缥颐侵蝗猛枷笤?<br>整个网页的竖直方向重复我们就可以去掉左边有个图象<br>条<br>的效果。<br>body {background-image: url(../image/cdbk009a.jpg);<br>background-repeat: repeat-y}<br>background-repeat 可以有这些可能值：no-repeat, repeat-x, repeat-y<br>我们还可以用 background-attachment 来决定当别人浏览<br>你的网页的是否让背景图象随着内容一起滚动。比如我们<br>如果不让背景图象动，<br>body {background-image: url(../image/cdbk009a.jpg);<br>background-attachment: fixed}<br>这个性质挺有意思的。 如果你的背景图象是你自己网页的<br>logo， 你想让它固定在中间不动， 用这个性质可以<br>达到这个效果</p>
+<h2 id="第七节-CSS-控制边框"><a href="#第七节-CSS-控制边框" class="headerlink" title="第七节: CSS 控制边框"></a>第七节: CSS 控制边框</h2><p>这一节我们讨论如何用 CSS 来控制四周的空格以及边框<br>的设定<br>元素周边的空格 margin<br>性质 margin 可被用来决定周边的空格， 假如我们想让整<br>个网页在左边有 5em 但让标题没有任何空格<br>BODY {margin: 5em}<br>H3 {margin: -5em}<br>H3 的负值 -5em 抵销了 BODY 5em 的空格。<br>另外我们还可以分别用 margin-left, margin-right, margin-top,<br>和 margin-bottom 来设定 左，右，上，下的空格<br>元素内部周边的空格 padding<br>初看起来这个性质跟 margin 好象一样。 其实它们之间有<br>很大的区别。margin 的空格是相对于其他的元素所空的，<br>而 padding 是在元素的周边和内部的内容所空的空格。在<br>下面的例子，我们用有背景颜色的 TABLE 来让你注意这<br>个性质<br>TABLE.pad {padding: 5mm; background-color: #CCEFCC}<br>Petersen was arrested in a modest apartment building in Studio City, Calif.,<br>whi<br>h he had been sharing with three other people. The Marshals entered the apar<br>tmen<br>using a key provided by the building’s manager. When they entered, the Mars<br>hals<br>said, they<br>found Petersen alone – sitting on his bed and using his laptop computer.<br>我们同样可以用 padding-left, padding-right, padding-top, 和<br>padding-bottom 来分别控制左，右，上，下的元素内部<br>的周边空格。<br>元素边框的宽度<br>我们可以用 border-width 性质来调节边框的宽度。 比如<br>P.width5 {border-width: 1px}<br>这个 P 元素的边框宽度是 1 px<br>你可以用 border-left-width, border-right-width, border-top-width,<br>和 border-bottom-width 来分别决定左，右，上，下边的宽度<br>元素边框的颜色<br>我们可以用 border-color 性质来调节边框的颜色。 比如<br>P.colorred {border-color: red}<br>这个 P 元素的边框的颜色是红色的<br>元素边框的形态<br>我们可以用 border-style 性质来调节边框的形态。 比如<br>P.inset {border-style: inset, border-width: 5px}<br>这个 P 元素的边框的形态是 inset<br>这个 P 元素的边框的形态是 outset<br>这个 P 元素的边框的形态是 double<br>这个 P 元素的边框的形态是 groove<br>这个 P 元素的边框的形态是 ridge</p>
+<hr>
+<p><a href="http://hi.baidu.com/cly84920/blog/item/a7337d6e39af20dc80cb4a3d.html" target="_blank">http://hi.baidu.com/cly84920/blog/item/a7337d6e39af20dc80cb4a3d.html</a><br>在div中，文本布局经常出现，换行混乱的情况。<br>问题表现：1.如果是全英文字符串,中间不包含任何符号(包括空格)，不自动换行.<br>2.中英文混写，则在英文字符串的开始处换行（英文长度&gt;div长度），结尾处不换行。<br>3.英文整个单词换行。等等，可能还有一些问题，这里只列出了常见的几个；</p>
+<p>介绍上面几个css属性功能的简单用法；<br>word-wrap:normal | break-word; (内容换行)<br>normal:默认的属性值.（允许内容顶开指定的容器边界）.<br>break-word:内容将在边界内换行(不截断英文单词换行，截断英文单词下面的属性才具备这个功能。)</p>
+<p>word-break:normal | break-all | keep-all (词内换行)<br>normal:如果是中文则到边界处的汉字换行,如果是英文整个词换行,注意:如果出现某个英文字符串长度超过边界,则后面的部分将撑开边框,如果边框为固定属性,则后面部分将无法显示.<br>break-all : 强行换行,将截断英文单词<br>keep-all : 不允许字断开。如果是中文将把前后标点符号内的一个汉字短语整个换行,英文单词也整个换行,注意:如果出现某个英文.字符串长度超过边界,则后面的部分将撑开边框,如果边框为固定属性,则后面部分将无法显示.</p>
+<p>text-overflow:clip | ellipsis (文本溢出)<br>clip : 　不显示省略标记（…），而是简单的裁切<br>ellipsis : 　当对象内文本溢出时（超过width部分）显示省略标记（…）</p>
+<p>white-space: normal | pre | nowrap (内容不换行)<br>normal 默认。空白会被浏览器忽略。<br>pre 空白会被浏览器保留。其行为方式类似 HTML 中的 &lt;pre&gt; 标签。<br>nowrap 文本不会换行，文本会在在同一行上继续，直到遇到 &lt;br&gt; 标签为止。<br>（层中放一个表格，如果层的float：none 则表格和层间会有空隙，这种问题的解决办法是在层的style里面加上white-space: nowrap）</p>
+<p>使用方式: word-break:break-all;</p>
+<p>一般情况下:<br>.body{<br>word-wrap:break-word;<br>word-break:keep-all;<br>overflow:hidden;<br>}</p>
+<p>.css{<br>text-overflow:ellipsis;<br>white-space:nowrap;<br>overflow:hidden;<br>}</p>
+<p>IE与Firefox将它看成是一个长单词了，因此不会自动换行。<br>对于IE，可以通过IE专有的CSS属性word-wrap即可实现自动换行：word-wrap:break-word;</p>
+<p>对于Firefox，CSS2标准并没有定义类似word-wrap的属性，可以通过overflow属性将撑出的部分隐藏：overflow:hidden</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/03/01/CSS参考/" class="archive-article-date">
+  	<time datetime="2008-03-01T14:48:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-03-01</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-算法集合" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2008/03/01/算法集合/">算法集合</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> </p><p>一、如何判断一个单链表是有环的？（注意不能用标志位，最多只能用两个额外指针）<br>struct node { char val; node<em> next;}<br>bool check(const node</em> head) {} //return false : 无环；true: 有环<br>一种O（n）的办法就是（搞两个指针，一个每次递增一步，一个每次递增两步，如果有环的话两者必然重合，反之亦然）：<br>bool check(const node<em> head)<br>{<br>if(head==NULL) <br>return false;&#160;&#160;&#160;<br>node </em>low=head, <em>fast=head-&gt;next;<br>while(fast!=NULL &amp;&amp; fast-&gt;next!=NULL)<br>{<br>low=low-&gt;next;<br>fast=fast-&gt;next-&gt;next;<br>if(low==fast) <br>return true;<br>}<br>return false;<br>}</em></p><p><br></p>  二、删除一个单项链表的最中间的元素，要求时间尽可能短（不能使用两次循环）<br>&#160;&#160;&#160;             一个指针每次在链表中前进一个位置，另一个前进两个。<br>“并行”！<br>/**<br> 得到如下样式的二维数组<br><em> zigzag（jpeg编码里取象素数据的排列顺序）<br></em><br><em>&#160;&#160;             0, 1, 5, 6,14,15,27,28,<br></em>&#160;&#160;             2, 4, 7,13,16,26,29,42,<br><em>&#160;&#160;             3, 8,12,17,25,30,41,43,<br></em>&#160;&#160;             9,11,18,24,31,40,44,53,<br><em>&#160;&#160;             10,19,23,32,39,45,52,54,<br></em>&#160;&#160;             20,22,33,38,46,51,55,60,<br><em>&#160;&#160;             21,34,37,47,50,56,59,61,<br></em>&#160;&#160;             35,36,48,49,57,58,62,63<br><em>/<br>#include &lt;iostream&gt;<br>#include &lt;algorithm&gt;<br>using namespace std;<br>#define DEMENTION 6<br>int main()<br>{<br>int array[DEMENTION][DEMENTION];<br>int i, j, k;<br>int flag = 1;<br>int count = 1;<br><br>for(k=0; k&lt;DEMENTION; ++k) {<br>if(flag) {<br>flag = 0;<br>for(i=0,j=k; i&lt;=k&amp;&amp;j&gt;=0; ++i,–j) {<br>array[j][i] = count++;<br>}<br>}<br>else {<br>flag = 1;<br>for(i=0,j=k; i&lt;=k&amp;&amp;j&gt;=0; ++i, –j) {<br>array[i][j] = count++;<br>}<br>}<br>}<br>for(k=DEMENTION-1; k&gt;=0; –k) {<br>if(flag) {<br>flag = 0;<br>for(i=DEMENTION-k,j=DEMENTION-1; i&lt;DEMENTION&amp;&amp;j&gt;=DEMENTION-k; ++i,–j) {<br>array[j][i] = count++;<br>}<br>}<br>else {<br>flag = 1;<br>for(i=DEMENTION-k,j=DEMENTION-1; i&lt;DEMENTION&amp;&amp;j&gt;=DEMENTION-k; ++i,–j) {<br>array[i][j] = count++;<br>}<br>}<br>}<br><br>for(i=0; i&lt;DEMENTION; ++i) {<br>copy(array[i], array[i]+DEMENTION, ostream_iterator&lt;int&gt;(cout, &quot; &quot;));<br>cout &lt;&lt; endl;<br>}<br><br>return 0;<br>} <br>or<br>/</em> 数组赋值 <em>/<br>squa = N</em>N;&#160;&#160;&#160;             <br>for(i = 0; i &lt; N; i++)<br>for(j = 0; j &lt; N; j++) {<br>s = i + j;<br>if(s &lt; N)<br>a[i][j] = s<em>(s+1)/2 + (((i+j)%2 == 0)? i : j);<br>else {<br>s = (N-1-i) + (N-1-j);<br>a[i][j] = squa - s</em>(s+1)/2 - (N - (((i+j)%2 == 0)? i : j));<br>}<br>}<br><br><br><br>三、给定九个数，例如：1，3，3，5，6，7，8，8，9计算出这九个数的排列的种数。需要考虑重复情况，如果给定9个1，则只有一种结果。 <br>限制：不能使用stl库 <br>要求：完成函数 unsigned int foo(unsigned int <em>arr); <br>输入算法代码，并给出算法复杂度分析。 <br>分析： <br>#include &lt;cstdlib&gt;<br>#include &lt;iostream&gt;<br>using namespace std;<br>unsigned int foo(unsigned int </em>arr)<br>{<br>unsigned int p[] ={1,2,6,24,120,720,5040,40320,362880};<br>unsigned int i,j,c,s=p[8];//first the number is p99<br>for(i = 0; i &lt; 7; i++)<br>for(j = i+1; j &lt; 8; j++)<br>{<br>if(arr[i]&gt;arr[j])  //swap two number<br>{<br>arr[i]^=arr[j];<br>arr[j]^=arr[i];<br>arr[i]^=arr[j];<br>}&#160;&#160;&#160;            <br>}&#160;&#160;&#160;            <br>i = 0;<br>c = 0;<br>while(i&lt;8)<br>{<br>j = i+1;<br>while(arr[i]==arr[j])//compute the number of the repetition <br>{<br>c++;&#160;&#160;            <br>j++;  <br>}&#160;&#160;&#160;            <br>s/=p[c];<br>c=0;<br>i=j;<br>}&#160;&#160;&#160;            <br>return s;<br>}<br><br>int main()<br>{<br>unsigned int a[]={1,3,3,5,6,7,8,8,9};<br>cout&lt;&lt;&quot;The number of permutation is: &quot;&lt;&lt;foo(a)&lt;&lt;endl;<br>system(&quot;pause&quot;);<br>return 0;<br>}&#160;&#160;&#160;&#160;            <br>还可以改进排序那部分。<br><br><br><br>四、有一个数在一个数组中出现50%以上，让你在O(n)的时间内，O(1)的空间复杂度，找出那个数，其中数组内的数都是随机数，但是有范围。<br>一个数超过了50%，那么就每次拿这个数（设为A）和其它数抵消，最后剩下的肯定是它，但是空间复杂度是O(1)，所以只能顺序的读入数组，且不能整个存 储。那么就不能保证每次都是拿A和非A抵消，再一想，只要抵消两个不同的数就行了，那么如果碰到两个相同的数呢，留一个，但是要记录重复的次数，稍加考虑 就能看出，这个次数始终记录的都会是一个数重复的次数，不会出现要同时记录多个数的重复次数，因为遇到不同的就抵消了，这样的话只要开3个数的空间，顺序 扫描一边数组就能得出所要求的数。下面举个简单例子：<br><br>数组内数为：2 2 2 4 4 3 3 2 2 2<br>经过三步处理之后当前数是2，重复次数是3，遇到4，当前数还是2，重复数-1=2，如此下去，当遇到第二个3时，当前数是3，遇到下一个2，抵消，再遇到2，当前数就是2，最后当前数仍是2，重复数是1，则所求是2…<br> <br>五、经典DP：用面值为1、2、5、10、20的纸钞组合出100块钱，一共有多少种可能。 <br>C(n,S)：用前n种纸钞组合出S块钱的组合数，1&lt;=n&lt;=5<br>总可能数 ＝ C(4,100) + C(4,80) + C(4,60) + … + C(4,20) + C(4,0)<br>C(4,100):不用20的纸钞<br>C(4,80) :用1张20的纸钞<br>C(4,0)  :用5张20的纸钞<br><br>C(4,80) = C(3,80) + C(3,70) + … + C(3,10) + C(3,0)<br>C(4,60) = C(3,60) + C(3,50) + … + C(3,10) + C(3,0)<br>…<br>记录重复出现的中间结果，达到优化<br><br>六、另类最大递增子序列问题：一个数组（其中每个元素都互不相同），它的子序列是指从原数组中抠掉若干个元素留下来的序列（因此并不要求连续）。递增子序列是指那些元素递增的子序列。最大递增子序列是指这样的一些递增子序列：无论从原数组中返还哪个元素，都不会使得这个子序列再增长为一个更长的递增子序列了。（注意，最大递增子序列不同于最长递增子序列。）求一个算法，返回一个数组中的最大递增子序列的个数。 <br><br><p>英文描述： <br>A subsequence of a sequence of numbers a is the result of erasing zero or <br>more elements from a. An increasing subsequence is a subsequence in which <br>each element (except the first) is strictly greater than the previous <br>element. An increasing subsequence of a is maximal if unerasing any of the <br>erased elements of a does not result in a longer increasing subsequence.</p>For example, if a={1,3,2,6,4,5} then {1,3,4} is an increasing subsequence <br>but not a maximal increasing subsequence. {1,2,4,5}, {1,3,4,5}, {1,2,6} and <br>{1,3,6}, on the other hand, are maximal increasing subsequences. <br><br><br>第前一个问题的&quot;扩展&quot;版本是&quot;最长递增子序列&quot;问题：最长递增子序列问题要求一个算法返回数组中最长的递增子序列的长度。问题严格描述如下：设L=&lt;a1 <br>,a2,…,an&gt;是n个不同的实数的序列，L的递增子序列是这样一个子序列Lin=&lt;aK1,ak2,…,akm&gt;，其中k1&lt;k2&lt;…&lt;km且aK1&lt;ak2&lt;…&lt;akm。求最大的m值。 <br> <br>二分法，分为两部分，分别找出各自的最大递增子序列，然后合并<br> <br><br><br>七、Write a function to find the two closest points given N points in X-Y <br>coordinates, and analyze the time and space complexity of your function. <br>The input to this funciton is a pointer or reference to an array of <br>points, along with N. The ouput is a pointer or reference to a two-element array that stores <br>the coordinates of the two points closest to each other. <br><br>雕琢分而治之最近点对算法：<a href="http://jcst.ict.ac.cn/content/papere.asp?lg=cn&amp;i=7406" target="_blank">http://jcst.ict.ac.cn/content/papere.asp?lg=cn&amp;i=7406</a><br><br><br>八、Write a function to find any subset of 3 integers from a set of N <br>integers that have a sum with the smallest absolute value, and analyze <br>the time and space complexity of your function. <br>The input to this funciton is pointer or reference to any array of <br>integers, along with the value of N. <br>When N&gt;=3, the ouput is a 3-element array of integers, such that their <br>sum has the smalles absolute value. <br>When N&lt;3, the ouput is null. <br>For example,given the following input:{-99, -66, 0, 2, 3}, your <br>function should return {0,2,3} <br><br>如果有3个0， 那么直接返回。<br>如果有2个0，看最小的正数和最大的负数。<br>如果有1个0或没有0，对正数和负数排序，对每个负数a，在正数数组中查找两个离-a 最近的元素；对每个正数，在负数数组中找两个离-a最近的元素。<br>如何“对每个负数a，在正数数组中查找两个离-a 最近的元素“？<br>将正数序列（已排好序）中每一个数减去|a/2|，问题转化为“在这个新的序列中找两个数，使得和的绝对值最小”，<br>进一步转化为“在新序列中，将所有负数取其绝对值，插入到正数序列中（O(N)）并标记好这些数，然后找距离这些数距离最近的点（O(N)）”<br>因此总的可以在O(N2)解决<br><br><br>九、给出n个石头，每个石头都有一个权值。要求从最左边开始向右敲，再从最右边开始向左敲，每个石头只能敲一次且必须敲一次，求一种敲法，使得敲法序列中相邻两个石头的权值的差之和最小。  <br> <br><a target="_blank" href="http://groups.google.com/group/pongba/msg/5e0a258fc35ca21c">http://groups.google.com/group/pongba/msg/5e0a258fc35ca21c</a><br><br>？？<br><br><br>十、有 A-H 8种颜色，每种颜色有一个分值。给出n个珠子，每个珠子有8个面，每个面上都涂有颜色。把这n个珠子串起来变成一个环，要求相邻两个珠子的接触面颜色必须相同，总分值为每相邻两个珠子的接触面颜色的分值之和。求这n个珠子可以获得的最大分值。<br><br>？？<br><br><br><br><p>十一、只翻转列，使得满足要求的行最多<br></p><p>Jack has bought a rectangular table containing a grid of lamps. Each lamp is initially either &quot;on&quot; or &quot;off&quot;. There is a switch underneath each column, and when the switch is flipped, all the lamps in that column reverse their states (&quot;on&quot; lamps become &quot;off&quot; and vice versa).</p><p>A row in the grid is considered lit if all the lamps in that row are &quot;on&quot;.  Jack must make exactly <strong>K</strong> flips.  The <strong>K</strong> flips do not necessarily have to be performed on <strong>K</strong> distinct switches.  His goal is to have as many lit rows as possible after making those flips.</p><p>You are given a string[] <strong>initial</strong>, where the j-th character of the i-th element is ‘1’ (one) if the lamp in row i, column j is initially &quot;on&quot;, and ‘0’ (zero) otherwise. Return the maximal number of rows that can be lit after performing exactly <strong>K</strong> flips.</p><p>-&#160;&#160;&#160;        initial will contain between 1 and 50 elements, inclusive.<br>-&#160;&#160;&#160;        Each element of initial will contain between 1 and 50 characters, inclusive.<br>-&#160;&#160;&#160;        Each element of initial will contain the same number of characters.<br>-&#160;&#160;&#160;        Each element of initial will contain only the digits ‘0’ and ‘1’.<br>-&#160;&#160;&#160;        K will be between 0 and 1000, inclusive.</p><p>分析：</p><p>Sooner or later you should notice one very important fact: all equal rows remain equal after any number of flips. So, if some row is lit at any moment, all initially equal rows will be lit as well and all other rows will not be lit. Therefore, the solution is to try for each row to make lit, and if it is possible, count the number of rows equal to this one and choose among such rows one with the maximal number of equal rows.</p><p>How to check if the given row can be lit after exactly <strong>K</strong> flips ? Note that the order of flips doesn’t affect on the final result. Also, making 2 flips in the same column doesn’t change row at all. Suppose we have <strong>M</strong>     &quot;off&quot; lamps in this row. To be able to switch all these lamps to the &quot;on&quot; state     we need exactly <strong>M</strong> flips. So, <strong>K</strong> should be no less     than <strong>M</strong>. Now, if <strong>(K-M)</strong> is even, we can flip always     the first column and at the end the row will be lit. If <strong>(K-M)</strong> is     odd, it’s impossible to lit this row after exactly <strong>(K-M)</strong> flips.</p><p>struct LampsGrid { <br>int mostLit( vector &lt;string&gt; initial, int K ) { // caret here <br>int res = 0; <br>for ( int i=0; i&lt;(int)initial.size(); ++i ) { <br>int zeros = count(initial[i].begin(), initial[i].end(), ‘0’); <br>if ( zeros%2 == K%2 &amp;&amp; zeros &lt;= K ) { <br>res = max( res, count(initial.begin(), initial.end(), initial[i]) ); <br>} <br>} <br>return res; <br>} <br>};</p><p> </p><p> </p><p> </p><br><p>十二、<a target="_blank" href="http://blog.163.com/lfw2565295@126/blog/static/1220051620094353252677/"><strong>Tree of Tree</strong></a><br></p><p>You’re given a tree with weights of each node, you need to find the maximum subtree of specified size of this tree. </p><p><strong><em>Tree Definition </em></strong><br>A tree is a connected graph which contains no cycles.</p><p><strong>Input</strong></p><p>There are several test cases in the input.</p><p>The first line of each case are two integers N(1 &lt;= N &lt;= 100), K(1 &lt;= K &lt;= N), where N is the number of nodes of this tree, and K is the subtree’s size, followed by a line with N nonnegative integers, where the k-th integer indicates the weight of k-th node. The following N - 1 lines describe the tree, each line are two integers which means there is an edge between these two nodes. All indices above are zero-base and it is guaranteed that the description of the tree is correct.</p><p><strong>Output</strong></p><p>One line with a single integer for each case, which is the total weights of the maximum subtree.</p><p><strong>Sample Input</strong></p>3 1<br>10 20 30<br>0 1<br>0 2<br>3 2<br>10 20 30<br>0 1<br>0 2<p><strong>Sample Output</strong></p>30<br><br>40<p> </p><hr><p>Author: <strong>LIU, Yaoting</strong><br>Source: <strong>ZOJ Monthly, May 2009</strong></p><p> </p><p>#include&lt;iostream&gt;<br>#include&lt;vector&gt;<br>using namespace std;<br>const int M=105;<br>int n,k;<br>int d[M][M],w[M];<br>vector&lt;int&gt; sun[M];<br>void dp(int x,int y){<br>int i,j,t1[M];<br>memset(t1,0,sizeof(t1));<br>for(i=1; i&lt;=k; i++){<br>for(j=1; j&lt;=i; j++)<br>t1[i]=max(t1[i], d[x][j]+d[y][i-j]);<br>}<br>for(i=1; i&lt;=k; i++) d[x][i]=max(d[x][i],t1[i]);<br>}<br>void dfs(int now,int pre){<br>int len=sun[now].size();<br>int cnt=0;<br>//if(pre!=-1 &amp;&amp; len==1) { d[now][1]=w[now]; return; }<br>for(int i=0; i&lt;len; i++){<br>if(sun[now][i]!=pre) {<br>dfs(sun[now][i],now);<br>d[now][1]=w[now];<br>dp(now,sun[now][i]);<br>cnt++;<br>}<br>}<br>if(cnt==0) d[now][1]=w[now]; //初始化。。 <br>}<br>int main(){<br>while(scanf(&quot;%d%d&quot;,&amp;n,&amp;k) != EOF ){<br>for(int i=0; i&lt;n; i++) {<br>scanf(&quot;%d&quot;,&amp;w[i]);  sun[i].clear();<br>}<br>int l,r;<br>for(int i=1; i&lt;n; i++) {<br>scanf(&quot;%d%d&quot;,&amp;l,&amp;r);<br>sun[l].push_back(r);<br>sun[r].push_back(l);<br>}<br>int res=0;<br>memset(d,0,sizeof(d));<br>dfs(0,-1);<br>for(int i=0; i&lt;n; i++) res=max(res,d[i][k]);<br>printf(&quot;%dn&quot;,res); <br>}<br>return 0;<br>}</p><p> </p><p> </p><p> </p><br>十三、<br>对任意输入的正整数N，编写C程序求N!的尾部连续0的个数，并指出计算复杂度。<br>如：18！＝6402373705728000，尾部连续0的个数是3。&#160; <br><br>int ZeroNumber(int n) <br>{<br>int base = 5;<br>int sum&#160; = 0;<br><br>while (n &gt;= base) {<br>sum += n / base;<br>base *= 5;<br>}<br><br>return sum;<br>}<br><br><br><br><br><br><br><del>continue</del><br> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/03/01/算法集合/" class="archive-article-date">
+  	<time datetime="2008-03-01T11:53:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-03-01</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-MIME-content-types" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2008/02/29/MIME-content-types/">MIME content-types</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> Multipart Internet Mail Extensions (MIME)</p><p><a href="http://www.utoronto.ca/webdocs/HTMLdocs/Book/Book-3ed/appb/mimetype.html" target="_blank" rel="external">http://www.utoronto.ca/webdocs/HTMLdocs/Book/Book-3ed/appb/mimetype.html</a></p><p> <strong>Description of Data Content</strong> <strong>Typical Filename Extensions</strong> <strong>MIME type/subtype</strong> <strong>Text and Text-Related Types</strong>                                                      HTML text data (RFC 1866)            html htm            text/html                            Plain text: documents; program listings            txt c c++ pl cc h            text/plain                            Richtext (obsolete - replaced by text/enriched)                         text/richtext                            Structure enhanced text            (etx?)            text/x-setext                            Enriched text markup (RFC 1896)                         text/enriched                            Tab-separated values (tabular)            (tsv?)            text/tab-separated-values                            SGML documents (RFC 1874)                         text/sgml                            Speech synthesis data (<em>MVP Solutions</em>)            talk            text/x-speech                                                                                   <strong>Document Stylesheet Types</strong>                                                      Cascading Stylesheets            css            text/css                            DSSSL-online stylesheets                         application/dsssl <em>(proposed)</em> <strong>Image Types</strong>                                                      GIF            gif            image/gif                            X-Windows bitmap (b/w)            xbm            image/x-xbitmap                            X-Windows pixelmap (8-bit color)            xpm            image/x-xpixmap                            Portable Network Graphics            png            image/x-png                            Image Exchange Format (RFC 1314)            ief            image/ief                            JPEG            jpeg jpg jpe            image/jpeg                            TIFF            tiff tif            image/tiff                            RGB            rgb            image/rgb                                                      image/x-rgb                            Group III Fax (RFC 1494)            g3f            image/g3fax                            X Windowdump format            xwd            image/x-xwindowdump                            Macintosh PICT format            pict            image/x-pict                            PPM (UNIX PPM package)            ppm            image/x-portable-pixmap                            PGM (UNIX PPM package)            pgm            image/x-portable-graymap                            PBM (UNIX PPM package)            pbm            image/x-portable-bitmap                            PNM (UNIX PPM package)            pnm            image/x-portable-anymap                            Microsoft Windows bitmap            bmp            image/x-ms-bmp                            CMU raster            ras            image/x-cmu-raster                            Kodak Photo-CD            pcd            image/x-photo-cd                            Computer Graphics Metafile            cgm            image/cgm                            North Am. Presentation Layer Protocol                         image/naplps                            CALS Type 1 or 2            mil cal            image/x-cals                            Fractal Image Format (<em>Iterated Systems</em>)            fif            image/fif                            QuickSilver active image (<em>Micrografx</em>)            dsf            image/x-mgx-dsf                            CMX vector image (<em>Corel</em>)            cmx            image/x-cmx                            Wavelet-compressed (<em>Summus</em>)            wi            image/wavelet                            AutoCad Drawing (<em>SoftSource</em>)            dwg            image/vnd.dwg                                                      image/x-dwg                            AutoCad DXF file (<em>SoftSource</em>)            dxf            image/vnd.dxf                                                      image/x-dxf                            Simple Vector Format (<em>SoftSource</em>)            svf            image/vnd.svf                                                      <em>also</em> vector/x-svf                                                                                   <strong>Audio/Voice/Music Related Types</strong>                                                      &quot;basic&quot;audio - 8-bit u-law PCM            au snd            audio/basic                            Macintosh audio format (AIpple)            aif aiff aifc            audio/x-aiff                            <em>Microsoft</em> audio            wav            audio/x-wav                            MPEG audio            mpa abs mpega            audio/x-mpeg                            MPEG-2 audio            mp2a mpa2            audio/x-mpeg-2                            compressed speech (<em>Echo Speech</em> <em>Corp.</em>)            es            audio/echospeech                            Toolvox speech audio (<em>Voxware</em>)            vox            audio/voxware                            RapidTransit compressed audio (<em>Fast Man</em>)            lcc            application/fastman                            Realaudio (<em>Progressive Networks</em>)            ra ram            application/x-pn-realaudio                            NIFF music notation data format                         application/vnd.music-niff                            MIDI music data            mmid            x-music/x-midi                            Koan music data (<em>SSeyo</em>)            skp            application/vnd.koan                                                      application/x-koan                            Speech synthesis data (<em>MVP Solutions</em>)            talk            text/x-speech                                                                                   <strong>Video Types</strong>                                                      MPEG video            mpeg mpg mpe            video/mpeg                            MPEG-2 video            mpv2 mp2v            video/mpeg-2                            Macintosh Quicktime            qt mov            video/quicktime                            Microsoft video            avi            video/x-msvideo                            SGI Movie format            movie            video/x-sgi-movie                            VDOlive streaming video (<em>VDOnet)</em>            vdo            video/vdo                            Vivo streaming video (<em>Vivo software</em>)            viv            video/vnd.vivo                                                      video/vivo                            <strong>Special HTTP/Web Application Types</strong>                                                      Proxy autoconfiguration (<em>Netscape</em> browsers)            pac            application/x-ns-proxy-autoconfig                            See Chapter 6                         application/x-www-form-urlencoded                            See Chapter 9                         application/x-www-local-exec                            See Chapter 9 (<em>Netscape</em> extension)                         multipart/x-mixed-replace                            See Chapter 9 and Appendix B                         multipart/form-data                            Netscape Cooltalk chat data (<em>Netscape</em>)            ice            x-conference/x-cooltalk                            Interactive chat (<em>Ichat</em>)                         application/x-chat                                                                                   <strong>Application Types</strong> <strong>Text-Related</strong>                                                      PostScript            ai eps ps            application/postscript                            <em>Microsoft</em> Rich Text Format            rtf            application/rtf                            <em>Adobe</em> Acrobat PDF            pdf            application/pdf                                                      application/x-pdf                            Maker Interchange Format (<em>FrameMaker</em>)            mif            application/vnd.mif                                                      application/x-mif                            Troff document            t tr roff            application/x-troff                            Troff document with MAN macros            man            application/x-troff-man                            Troff document with ME macros            me            application/x-troff-me                            Troff document with MS macros            ms            application/x-troff-ms                            LaTeX document            latex            application/x-latex                            Tex/LateX document            tex            application/x-tex                            GNU TexInfo document            texinfo texi            application/x-texinfo                            TeX dvi format            dvi            application/x-dvi                            MacWrite document            ??            application/macwriteii                            MS word document            ??            application/msword                            WordPerfect 5.1 document            ??            application/wordperfect5.1                            SGML application (RFC 1874)                         application/sgml                            Office Document Architecture            oda            application/oda                            Envoy Document            evy            application/envoy                            Wang Info. Tranfer Format (<em>Wang</em>)                         application/wita                            DEC Document Transfer Format (<em>DEC</em>)                         application/dec-dx                            IBM Document Content Architecture (<em>IBM</em>)                         application/dca-rft                                                                                   CommonGround Digital Paper (<em>No Hands Software</em>)                         application/commonground                            FrameMaker Documents (<em>Frame</em>)            doc fm frm frame            application/vnd.framemaker                                                      application/x-framemaker                            Remote printing at arbitrary printers (RFC 1486)                         application/remote-printing                                                                                   <strong>Archive/Compressed Archives</strong>                                                      Gnu tar format            gtar            application/x-gtar                            4.3BSD tar format            tar            application/x-tar                            POSIX tar format            ustar            application/x-ustar                            Old CPIO format            bcpio            application/x-bcpio                            POSIX CPIO format            cpio            application/x-cpio                            UNIX sh shell archive            shar            application/x-shar                            DOS/PC - Pkzipped archive            zip            application/zip                            Macintosh Binhexed archive            hqx            application/mac-binhex40                            Macintosh Stuffit Archive            sit sea            application/x-stuffit                            Fractal Image Format            fif            application/fractals                            Binary, UUencoded            bin uu            application/octet-stream                            PC executable            exe            application/octet-stream                            WAIS &quot;sources&quot;            src wsrc            application/x-wais-source                            NCSA HDF data format            hdf            application/hdf                                                                                   <strong>Downloadable Program/Scripts</strong>                                                      Javascript program            js ls mocha            text/javascript                                                      application/x-javascript                            VBScript program                         text/vbscript                            UNIX bourne shell program            sh            application/x-sh                            UNIX c-shell program            csh            application/x-csh                            Perl program            pl            application/x-perl                            Tcl (Tool Control Language) program            tcl            application/x-tcl                            Atomicmail program scripts (obsolete)                         application/atomicmail                            Slate documents - executable enclosures (<em>BBN</em>)                         application/slate                            Undefined binary data (often executable progs)                         application/octet-stream                            RISC OS Executable programs (<em>ANT Limited</em>)                         application/riscos                                                                                   <strong>Animation/Multimedia</strong>                                                      Andrew Toolkit inset                         application/andrew-inset                            FutureSplash vector animation (<em>FutureWave</em>)            spl            application/futuresplash                            mBED multimedia data (<em>mBED</em>)            mbd            application/mbedlet                            Macromedia Shockwave (<em>Macromedia</em>)                         application/x-director                            <em>Sizzler</em> real-time video/animation                         application/x-sprite                            PowerMedia multimedia (<em>RadMedia</em>)            rad            application/x-rad-powermedia                                                                                   <strong>Presentation </strong>                                                      PowerPoint presentation (<em>Microsoft</em>)            ppz            application/mspowerpoint                            PointPlus presentation data (<em>Net Scene</em>)            css            application/x-pointplus                            ASAP WordPower (<em>Software Publishing Corp.</em>)            asp            application/x-asap                            Astound Web Player multimedia data (<em>GoldDisk</em>)            asn            application/astound                            <strong>Special Embedded Object </strong>                                                      OLE script e.g. Visual Basic (<em>Ncompass</em>)            axs            application/x-olescript                            OLE Object (<em>Microsoft/NCompass</em>)            ods            application/x-oleobject                            OpenScape OLE/OCX objects (<em>Business@Web</em>)            opp            x-form/x-openscape                            Visual Basic objects (<em>Amara</em>)            wba            application/x-webbasic                            Specialized data entry forms (<em>Alpha Software</em>)            frm            application/x-alpha-form                            client-server objects (<em>Wayfarer Communications</em>)            wfx            x-script/x-wfxclient                            <strong>General Applications</strong>                                                      Undefined binary data (often executable progs)                         application/octet-stream                            CALS (U.S. D.O.D data format - RFC 1895)                         application/cals-1840                            Pointcast news data (<em>Pointcast</em>)            pcn            application/x-pcn                            Excel spreadsheet (<em>Microsoft</em>)                         application/vnd.ms-excel                                                      application/x-msexcel                                                      application/ms-excel                            PowerPoint (<em>Microsoft</em>)            ppt            application/vnd.ms-powerpoint                                                      application/ms-powerpoint                            Microsoft Project (<em>Microsoft</em>)                         application/vnd.ms-project                            Works data (<em>Microsoft</em>)                         application/vnd.ms-works                            MAPI data (<em>Microsoft</em>)                         application/vnd.ms-tnef                            Artgallery data (Microsoft)                         application/vnd.artgalry                            SourceView document (<em>Dataware Electronics</em>)            svd            application/vnd.svd                            Truedoc (<em>Bitstream</em>)                         application/vnd.truedoc                            Net Install - software install (<em>20/20 Software</em>)            ins            application/x-net-install                            Carbon Copy - remote control/access (<em>Microcom</em>)            ccv            application/ccv                            Spreadsheets (<em>Visual Components</em>)            vts            workbook/formulaone                            Cybercash digital money (<em>Cybercash</em>)                         application/cybercash                            Format for sending generic Macintosh files                         application/applefile                            Active message – connect to active mail app.                         application/activemessage                            X.400 mail message body part (RFC 1494)                         application/x400-bp                            USENET news message id (RFC 1036)                         application/news-message-id                            USENET news message (RFC 1036)                         application/news-transmission                                                                                   <strong>Multipart Types (mostly email)</strong>                                                      Messages with multiple parts                         multipart/mixed                            Messages with multiple, alternative parts                         multipart/alternative                            Message with multiple, related parts                         multipart/related                            Multiple parts are digests                         multipart/digest                            For reporting of email status (admin.)                         multipart/report                            Order of parts does not matter                         multipart/parallel                            Macintosh file data                         multipart/appledouble                            Aggregate messages; descriptor as header                         multipart/header-set                            Container for voice-mail                         multipart/voice-message                            HTML FORM data (see Ch. 9 and App. B)                         multipart/form-data                            Infinite multiparts - See Chapter 9 (<em>Netscape</em>)                         multipart/x-mixed-replace                                                                                   <strong>Message Types (mostly email)</strong>                                                      MIME message                         message/rfc822                            Partial message                         message/partial                            Message containing external references                         message/external-body                            Message containing USENET news                         message/news                            HTTP message                         message/http                                                                                   <strong>2D/3D Data/Virtual Reality Types</strong>                                                      VRML data file            wrl vrml            x-world/x-vrml (changing to model/vrml)                            WIRL - VRML data (<em>VREAM</em>)            vrw            x-world/x-vream                            Play3D 3d scene data (<em>Play3D</em>)            p3d            application/x-p3d                            Viscape Interactive 3d world data (<em>Superscape</em>)            svr            x-world/x-svr                            WebActive 3d data (<em>Plastic</em> <em>Thought</em>)            wvr            x-world/x-wvr                            QuickDraw3D scene data (<em>Apple</em>)            3dmf            x-world/x-3dmf                                                                                   <strong>Scientific/Math/CAD Types</strong>                                                      Chemical types – to communicate information about chemical models                         chemical/* (several subtypes)                            Mathematica notebook            ma            application/mathematica                            Computational meshes for numerical simulations            msh            x-model/x-mesh(evolving to model/mesh)                            Vis5D 5-dimensional data            v5d            application/vis5d                            IGES models – CAD/CAM (CGM) data            igs            application/iges(evolving to model/iges?)                            Autocad WHIP vector drawings            dwf            drawing/x-dwf                                                                                   <strong>Largely Platform-Specific Types</strong> <strong>Silicon Graphics Specific Types</strong>                                                      Showcase Presentations            showcase slides sc sho show            application/x-showcase                            Insight Manual pages            ins insight            application/x-insight                            Iris Annotator data            ano            application/x-annotator                            Directory Viewer            dir            application/x-dirview                            Software License            lic            application/x-enterlicense                            Fax manager file            faxmgr            application/x-fax-manager                            Fax job data file            faxmgrjob            application/x-fax-manager-job                            IconBook data            icnbk            application/x-iconbook                            ?            wb            application/x-inpview                            Installable software in ‘inst’ format            inst            application/x-install                            Mail folder            mail            application/x-mailfolder                            ?            pp ppages            application/x-ppages                            Data for printer (via lpr)            sgi-lpr            application/x-sgi-lpr                            Software in ‘tardist’ format            tardist            application/x-tardist                            Software in compressed ‘tardist’ format            ztardist            application/x-ztardist                            WingZ spreadsheet            wkz            application/x-wingz                            Open Inventor 3-D scenes            iv            graphics/x-inventor            </p> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/02/29/MIME-content-types/" class="archive-article-date">
+  	<time datetime="2008-02-29T15:50:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-02-29</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-【zz】运行CGI程序（exe、bash脚本）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2008/02/29/【zz】运行CGI程序（exe、bash脚本）/">【zz】运行CGI程序（exe、bash脚本）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> Apache中对 cgi 的配置：<br>ScriptAlias /cgi-bin/ &quot;E:/work/Apache2.2/cgi-bin/&quot;<br>&lt;Directory &quot;E:/work/Apache2.2/icons&quot;&gt;<br>&nbsp;&nbsp;&nbsp;  AllowOverride None<br>&nbsp;&nbsp;&nbsp;  Options None<br>&nbsp;&nbsp;&nbsp;  Order allow,deny<br>&nbsp;&nbsp;&nbsp;  Allow from all<br>&lt;/Directory&gt;<br><br> <hr><br>&nbsp;&nbsp;       摘  要  该文通过对CGI程序,特别是Windows CGI程序原理的分析,<br>介绍了用Visual C+ +语言编写CGI程序的方法,并给出了一个用CGI程<br>序使得WWW服务器与系统数据库相连的例子。<br>&nbsp;&nbsp;&nbsp;       关键词  CGI  WWW  HTML  VC++  数据库<br>&nbsp;&nbsp;&nbsp;       近年来,Internet与Intranet迅猛发展,企业纷纷建立自己的Intr<br>anet,以加强企业内部的联系,促进与外部世界的沟通,增强企业的竞<br>争能力。通过建立自己的Internet服务器,企业能在网络上发布广告,<br>介绍本公司的情况与产品,收集顾客意见,以及建立虚拟电子商场等。<br>大家都知道写一个HTML超文本文件放在World Wide Web服务器上,即<br>可通过各种浏览器访问你的主页,但是如何使你的静态主页能响应客<br>户的动作,并与本地的数据库联系,将数据库的相应内容传送给远端的<br>浏览器呢?这就需要通过CGI接口进行联系。<br>&nbsp;&nbsp;&nbsp;       CGI全名是Common Gateway Interface,它是WWW服务器调用外部<br>程序的接口通过CGI,WW W服务器能完成一些本身所力不能及的工作。<br>图1表示了CGI与WWW的关系。图1 CGI接口<br>&nbsp;&nbsp;&nbsp;       在不同操作系统下CGI接口也不相同,可分为Standard CGI接口、<br>DOS CGI接口与Win CG I接口等。Standard CGI接口用于Unix系统,它<br>是通过环境变量来实现WWW Server与CGI应用程序之间的联系。DOS C<br>GI接口与Standard CGI接口原理类同。Win CGI接口则与前两者大不<br>相同。由于越来越多的WWW Server采用Windows系统,而Windows系统<br>又不能有效地传递环境变量,由Bob Denny提出了一种Windows CGI标<br>准,并得以不断推广。<br>&nbsp;&nbsp;&nbsp;       Win CGI是通过.ini文件来进行联系的。在Windows环境下,许多<br>应用程序都是利用.ini 文件,即profile文件来定义一些基本设定,而<br>Win CGI程序与WWW Server之间也正是通过pro file文件来实现联系<br>的。当WWW Client通过WWW Server触发CGI程序时,WWW Server先动态<br>生成几个文件于临时目录下,分别为.ini、.inp、.out等文件。在WWW<br>Server生成CGI程序的进程时,通过命令行参数将.ini文件的绝对路<br>径传给CGI进程。.ini文件中也包含了.inp、.ou t等文件路径信息。<br>这样,CGI程序可读取.ini和.inp文件所提供的信息,了解所有来自WWW<br>S erver端和与WWW Client端的数据。然后,CGI程序可以调用外部程<br>序,或由CGI直接执行外部程序的功能,并将要传给客户端的信息以HTM<br>L文本的形式写在.out文件上。最后,WWW Serve r读取.out文件的HTM<br>L文本,将信息传送给WWW Client端,并删除临时目录下的文件。<br>&nbsp;&nbsp;&nbsp;       那么,CGI的profile文件包含了什么数据呢?与Windows其它.ini<br>文件一样,CGI profile 文件包含了许多session,每个session又包含<br>一些key,以下是一个CGI profile的部份内容<br>&nbsp;&nbsp;&nbsp;       [CGI]<br>&nbsp;&nbsp;&nbsp;       Request Method=POST&nbsp;&nbsp;       //传递方式,即HTML中的Form method有<br>&nbsp;&nbsp;&nbsp;       Request Method=POST&nbsp;&nbsp;       //传递方式,即HTML中的Form method有<br>GET,POST,HEAD等。<br>&nbsp;&nbsp;&nbsp;       Server Software=WebSite/1.1e<br>&nbsp;&nbsp;&nbsp;       //Server的名称与版本。<br>&nbsp;&nbsp;&nbsp;       Server Name=199.199.198.55<br>&nbsp;&nbsp;&nbsp;       //Server的IP地址。<br><br>&nbsp;&nbsp;&nbsp;       Server Port=80//Server的Socket Port。<br>&nbsp;&nbsp;&nbsp;       Server Admin=tomy@vico.bme.zju.edu.cn//Server管理者的E-m<br>ail地址。<br>&nbsp;&nbsp;&nbsp;       Referer=<a href="http://199.199.198.55/" target="_blank" rel="external">http://199.199.198.55/</a><br>&nbsp;&nbsp;&nbsp;       //主页的URL路径。<br>&nbsp;&nbsp;&nbsp;       Remote Address=199.199.198.89<br>&nbsp;&nbsp;&nbsp;       //Client端的IP地址。<br>&nbsp;&nbsp;&nbsp;       [System]<br>&nbsp;&nbsp;&nbsp;       Output File=c:WebSitecgi-temp198ws.out//输出文件的路<br>径名。<br>&nbsp;&nbsp;&nbsp;       Content File=c:WebSitecgi-temp198ws.inp//输入文件的路<br>径名。<br>&nbsp;&nbsp;&nbsp;       [Form Literal]<br>&nbsp;&nbsp;&nbsp;       type=B//接收到的Form data即client端动作的结果信息。<br>&nbsp;&nbsp;&nbsp;       原则上可用来编写CGI程序的语言有:perl, AppleScript, Unix<br>Shell, VB, C/C++等。但在Windows(NT、3x、95)环境下,还是必须借<br>助成熟的Windows编程语言才能编写出精巧的Win CGI程序。C语言是<br>一门深受广大程序员喜爱的语言,尤其是VCi++作为一门面向对象的语<br>言,具备了Windows环境的许多基本功能,如OLE,ODBC等。通过ODBC这<br>项功能,可以非常容易地连接FoxPro, Access, dBASE等多种数据库,<br>而无需考虑各种数据库结构的差异。<br>&nbsp;&nbsp;&nbsp;       以下是笔者用VC++4.0编写的一个用Win CGI连接数据库的范例。<br>使用者可在屏幕上选择,以查询ISP服务商提供的internet服务价格表<br><br>。系统环境采用Windows 95,数据库采用FoxP ro2.5, WWW Server采<br>用Website。<br><br>&nbsp;&nbsp;&nbsp;       1.建立数据库<br>&nbsp;&nbsp;&nbsp;       本例的CGI程序是通过ODBC连接数据库,因此数据库建完后,应用3<br>2位ODBC驱动器加以登记。<br><br>&nbsp;&nbsp;&nbsp;       2.编写HTML程序<br>&nbsp;&nbsp;&nbsp;       使用者可在屏幕上选择一服务类型,再按&quot;提交&quot;键,即可查询这一<br>服务类型的各价格栏目。其HTML文本描述如下:<br>&nbsp;&nbsp;&nbsp;       &lt;HTML&gt;<br>&nbsp;&nbsp;&nbsp;       &lt;HEAD&gt;&lt;TITLE&gt;维科公司internet服务收费标准&lt;/TITLE&gt;&lt;/HEAD&gt;<br>&nbsp;&nbsp;&nbsp;       &lt;pre&gt;&lt;H1&gt;维科公司internet服务收费标准&lt;/H1&gt;<br>&nbsp;&nbsp;&nbsp;       &lt;/P&gt;<br>&nbsp;&nbsp;&nbsp;       &lt;hr&gt;&lt;form method=&quot;POST&quot; action=&quot;cgi-bin/cgi-console.exe&quot;&gt;<br>&nbsp;&nbsp;&nbsp;       您要查询的类型是:<br>&nbsp;&nbsp;&nbsp;       &lt;UL&gt;&lt;LI&gt;A类用户&lt;input name=&quot;usertype&quot; type=radio value=&quot;<br>A&quot;&gt;<br>&nbsp;&nbsp;&nbsp;       &lt;LI&gt;B类用户&lt;input name=&quot;usertype&quot; type=radio value=&quot;B&quot;&gt;<br>&nbsp;&nbsp;&nbsp;       &lt;LI&gt;C类用户&lt;input name=&quot;usertype&quot; type=radio value=&quot;C&quot;&gt;<br>&nbsp;&nbsp;&nbsp;       &lt;LI&gt;D类用户&lt;input name=&quot;usertype&quot; type=radio value=&quot;D&quot;&gt;<br>&lt;/UL&gt;<br>&nbsp;&nbsp;&nbsp;       &lt;center&gt;<br><br>&nbsp;&nbsp;&nbsp;       &lt;input type=submit value=&quot;提交&quot;&gt; &lt;input type=reset value<br>=&quot;取消&quot;&gt;&lt;/center&gt;<br>&nbsp;&nbsp;&nbsp;       &lt;/pre&gt;&lt;/form&gt;&lt;hr&gt;<br>&nbsp;&nbsp;&nbsp;       &lt;/HTML&gt;<br><br>&nbsp;&nbsp;&nbsp;       3.编写VC++CGI程序（实际上用一个console程序就行了！）<br>输入参数从环境变量和stdin中取得,输出数据到stdout<br> #include &lt;stdio.h&gt;<br>int main()<br>{<br>&nbsp;&nbsp;&nbsp;    printf(&quot;Content-Type:&nbsp;&nbsp;    text/htmlnn&quot;);&nbsp;&nbsp;    //&nbsp;&nbsp;    这里一定要有两个回车  <br>&nbsp;&nbsp;&nbsp;    printf(&quot;&lt;html&gt;&lt;body&gt;&lt;h1&gt;&quot;);<br>&nbsp;&nbsp;&nbsp;    printf(&quot;Hello World&quot;);<br>&nbsp;&nbsp;&nbsp;    printf(&quot;&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;&quot;);<br>}<br>编译后生成cgi-console.exe<br><br>或者也可以直接运行脚本，如<br><a href="http://localhost/cgi-bin/sh.bash" target="_blank" rel="external">http://localhost/cgi-bin/sh.bash</a><br><br>#! E:/work/Cygwin/bin/bash.exe<br>echo -e &quot;Content-Type:&nbsp;&nbsp;   text/htmln&quot;&nbsp;&nbsp;&nbsp;   # ‘-e’ enables backslash reinterpreter<br>echo &quot;&lt;html&gt;&lt;body&gt;&lt;h1&gt;&quot;<br>echo &quot;Hello World&quot;<br>echo &quot;&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;<br><br><br><br>&nbsp;&nbsp;&nbsp;       4.结论<br>&nbsp;&nbsp;&nbsp;       将程序编译后,把wincgi.exe拷入website/cgi-win/目录下,用浏<br>览器查询结果。至此简单地阐述了用VC++编写Win CGI程序的整个过<br>程,C程序员也可以用自己熟悉的语言编写CGI程序了。利用VC++的强<br>大功能,你的WWW Server将无所不能。 </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/02/29/【zz】运行CGI程序（exe、bash脚本）/" class="archive-article-date">
+  	<time datetime="2008-02-29T14:08:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-02-29</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-chm帮助文件制作" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2008/02/25/chm帮助文件制作/">chm帮助文件制作</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> CHMmaker287.zip<br>CHMmaker 2.87 <br>相关网站 <a href="http://elsesoft.home.sohu.com/" target="_blank" rel="external">http://elsesoft.home.sohu.com/</a> <br>真正的傻瓜式chm制作工具，做一部电子书最少只要点击六次，而且有两次是在资源管理器中！以前曾有很多用户说不懂CHM的基础知识，不懂什么主题、索引，因而仅管有CHM帮助编辑器，还是做不出满意的E书。现在可好解决了，只要您知道怎么用属标，你就能做出一部E书！ <br><br>whdpro3.exe<br>Window Help Designer V3.1.18 <br>相关网站 <a href="http://www.visagesoft.com/whd/" target="_blank" rel="external">http://www.visagesoft.com/whd/</a> <br>Windows Help Designer 是一款非常优秀的帮助系统制作开发工具，其所见即所得的特性让你非常轻松地上手，强大的宏功能，简便的图片、AVI、表格插入，可视化窗口、按钮定制，屏幕捕获、拼写检查、模板管理等，对开发帮助系统的专业人员和翻译帮助的汉化人来说都是非常好的选择。 <br><br>wwhelp_rt.exe<br>相关网站 <a href="http://www.west-wind.com/wwhelp/" target="_blank" rel="external">http://www.west-wind.com/wwhelp/</a> <br>West Wind HTML Help Builder 2.15 <br>HTML帮助文件制作工具，支持HTML模板及脚本，输出文件可以还生成HMTL文本和WORD2000文档。<br><br><br>hmsetup.exe<br>Help &amp; Manual 2.70.1270<br>相关网站 <a href="http://www.ec-software.com/hmpage.htm" target="_blank" rel="external">http://www.ec-software.com/hmpage.htm</a> <br>Help &amp; Manual是一个所见即所得的 HELP 文件制作工具,Help &amp; Manual可以很容易的创建Windows 3.x及Windows 95下的帮助文件并支持HTML帮助文件格式。Help &amp; Manual能让你容易的创建和管理帮助文件内容包括标题、图像、宏、OLE对象和链接。利用的同样的数据，您还可以创建普通的HTML页面和RTF文件。 <br><br><br>SetupHelpScribbleDemo.exe<br>HelpScribble 6.02<br>相关网站 <a href="http://www.jgsoft.com/helpscr.shtml" target="_blank" rel="external">http://www.jgsoft.com/helpscr.shtml</a> <br>是一个在Win95/98/NT4下运行的创建帮助文件的程序，你可以用它来创建FOR Win3X和Win95/98/NT4的帮助文件。内建了Win95目录文件、SHG文件、浏览顺序、Windows帮助文件宏语言的编辑器，它可以将所创建的文件导出为HPJ和RTF格式的文件。 <br><br><br> </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/02/25/chm帮助文件制作/" class="archive-article-date">
+  	<time datetime="2008-02-25T11:54:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-02-25</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Windows/">Windows</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-mysql-command" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2008/02/23/mysql-command/">mysql command</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <br>net start mysql&nbsp;&nbsp;  在Windows安装mysql服务后，启动mysql服务<br><br>mysql  –install-maunual<br>mysql  –remove<br><br>mysqladmin -u root shutdown<br>mysql -u root -p -h host<br>mysql&gt; show databases;<br>mysql&gt; use mysql<br>mysql&gt; show tables;<br>mysql&gt; describe host;<br><br>mysqladmin -u user_name -h host_name password &quot;newpwd&quot;<br>mysql&gt; SET PASSWORD FOR ‘jeffrey’@’%’ = PASSWORD(‘biscuit’);<br><br>mysql&gt; CREATE DATABASE db;<br>mysql&gt; CREATE TABLE pet (name VARCHAR(20), owner VARCHAR(20),<br>&nbsp;&nbsp;&nbsp;      -&gt; species VARCHAR(20), sex CHAR(1), birth DATE, death DATE);<br>mysql&gt; LOAD DATA LOCAL INFILE ‘/path/pet.txt’ INTO TABLE pet;<br>mysql&gt; LOAD DATA LOCAL INFILE ‘/path/pet.txt’ INTO TABLE pet<br>&nbsp;&nbsp;&nbsp;      -&gt; LINES TERMINATED BY ‘rn’;<br>mysql&gt; UPDATE pet SET birth = ‘1989-08-31’ WHERE name = ‘Bowser’;<br>mysql&gt; SELECT COUNT(*) FROM pet;<br><br></p><p>mysql&gt; TRUNCATETABLE’sinfo’<br></p><p>从sql_cmd.sql中导入数据库，（sql_cmd.sql可由sql导出）</p><p>mysql&gt;&nbsp;source sql_cmd.sql</p><p><br></p><br><br><br> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/02/23/mysql-command/" class="archive-article-date">
+  	<time datetime="2008-02-23T11:06:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-02-23</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-【zz】Shell脚本调试技术" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2008/02/23/【zz】Shell脚本调试技术/">【zz】Shell脚本调试技术</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> Shell脚本调试技术（转自IBM网站）<br><br>曹 羽中 (), 软件工程师, IBM中国开发中心<br><br>2007 年 7 月 26 日<br><br>本文全面系统地介绍了shell脚本调试技术，包括使用echo, tee, trap等命令输出关键信息，跟踪变量的值，在脚本中植入调试钩子，使用&ldquo;-n&rdquo;选项进行shell脚本的语法检查，使用&ldquo;-x&rdquo;选项实现shell脚本 逐条语句的跟踪，巧妙地利用shell的内置变量增强&ldquo;-x&rdquo;选项的输出信息等。 <br><br>一. 前言<br><br>shell编程在unix/linux世界中使用得非常广泛，熟练掌握shell编程也是成为一名优秀的unix/linux开发者和系统管理员的必经之 路。脚本调试的主要工作就是发现引发脚本错误的原因以及在脚本源代码中定位发生错误的行，常用的手段包括分析输出的错误信息，通过在脚本中加入调试语句， 输出调试信息来辅助诊断错误，利用调试工具等。但与其它高级语言相比，shell解释器缺乏相应的调试机制和调试工具的支持，其输出的错误信息又往往很不 明确，初学者在调试脚本时，除了知道用echo语句输出一些信息外，别无它法，而仅仅依赖于大量的加入echo语句来诊断错误，确实令人不胜其繁，故常见 初学者抱怨shell脚本太难调试了。本文将系统地介绍一些重要的shell脚本调试技术，希望能对shell的初学者有所裨益。<br><br>本文的目标读者是unix/linux环境下的开发人员，测试人员和系统管理员，要求读者具有基本的shell编程知识。本文所使用范例在Bash3.1 +Redhat Enterprise Server 4.0下测试通过，但所述调试技巧应也同样适用于其它shell。<br><br>二. 在shell脚本中输出调试信息<br><br>通过在程序中加入调试语句把一些关键地方或出错的地方的相关信息显示出来是最常见的调试手段。Shell程序员通常使用echo(ksh程序员常使用 print)语句输出信息，但仅仅依赖echo语句的输出跟踪信息很麻烦，调试阶段在脚本中加入的大量的echo语句在产品交付时还得再费力一一删除。针 对这个问题，本节主要介绍一些如何方便有效的输出调试信息的方法。<br><br>1. 使用trap命令<br><br>trap命令用于捕获指定的信号并执行预定义的命令。<br>其基本的语法是:<br>trap ‘command’ signal<br>其中signal是要捕获的信号，command是捕获到指定的信号之后，所要执行的命令。可以用kill &ndash;l命令看到系统中全部可用的信号名，捕获信号后所执行的命令可以是任何一条或多条合法的shell语句，也可以是一个函数名。<br>shell脚本在执行时，会产生三个所谓的&ldquo;伪信号&rdquo;，(之所以称之为&ldquo;伪信号&rdquo;是因为这三个信号是由shell产生的，而其它的信号是由操作系统产生的)，通过使用trap命令捕获这三个&ldquo;伪信号&rdquo;并输出相关信息对调试非常有帮助。<br><br>表 1. shell伪信号<br>信号名        何时产生<br>EXIT        从一个函数中退出或整个脚本执行完毕<br>ERR        当一条命令返回非零状态时(代表命令执行不成功)<br>DEBUG        脚本中每一条命令执行之前<br><br>通过捕获EXIT信号,我们可以在shell脚本中止执行或从函数中退出时，输出某些想要跟踪的变量的值，并由此来判断脚本的执行状态以及出错原因,其使用方法是：<br>trap ‘command’ EXIT　或　trap ‘command’ 0<br>trap ‘command’ INT &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   Ctrl+C<br><br>trap - EXIT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    取消对EXIT的捕获<br><br><br>通过捕获ERR信号,我们可以方便的追踪执行不成功的命令或函数，并输出相关的调试信息，以下是一个捕获ERR信号的示例程序，其中的$LINENO是一个shell的内置变量，代表shell脚本的当前行号。<br><br>$ cat -n exp1.sh<br>&nbsp;&nbsp;&nbsp;     1&nbsp;&nbsp;     ERRTRAP()<br>&nbsp;&nbsp;&nbsp;     2&nbsp;&nbsp;     {<br>&nbsp;&nbsp;&nbsp;     3    echo &quot;[LINE:$1] Error: Command or function exited with status $?&quot;<br>&nbsp;&nbsp;&nbsp;     4&nbsp;&nbsp;     }<br>&nbsp;&nbsp;&nbsp;     5&nbsp;&nbsp;     foo()<br>&nbsp;&nbsp;&nbsp;     6&nbsp;&nbsp;     {<br>&nbsp;&nbsp;&nbsp;     7    return 1;<br>&nbsp;&nbsp;&nbsp;     8&nbsp;&nbsp;     }<br>&nbsp;&nbsp;&nbsp;     9&nbsp;&nbsp;     trap ‘ERRTRAP $LINENO’ ERR<br>10&nbsp;&nbsp;     abc<br>11&nbsp;&nbsp;     foo<br>&nbsp;&nbsp;       <br><br><br>其输出结果如下：<br><br>$ sh exp1.sh<br>exp1.sh: line 10: abc: command not found<br>[LINE:10] Error: Command or function exited with status 127<br>[LINE:11] Error: Command or function exited with status 1<br>&nbsp;&nbsp;       <br><br><br>在调试过程中，为了跟踪某些变量的值，我们常常需要在shell脚本的许多地方插入相同的echo语句来打印相关变量的值，这种做法显得烦琐而笨拙。而通过捕获DEBUG信号，我们只需要一条trap语句就可以完成对相关变量的全程跟踪。<br><br>以下是一个通过捕获DEBUG信号来跟踪变量的示例程序:<br><br>$ cat &ndash;n exp2.sh<br>&nbsp;&nbsp;&nbsp;     1&nbsp;&nbsp;     #!/bin/bash<br>&nbsp;&nbsp;&nbsp;     2&nbsp;&nbsp;     trap ‘echo &ldquo;before execute line:$LINENO, a=$a,b=$b,c=$c&rdquo;’ DEBUG<br>&nbsp;&nbsp;&nbsp;     3&nbsp;&nbsp;     a=1<br>&nbsp;&nbsp;&nbsp;     4&nbsp;&nbsp;     if [ &quot;$a&quot; -eq 1 ]<br>&nbsp;&nbsp;&nbsp;     5&nbsp;&nbsp;     then<br>&nbsp;&nbsp;&nbsp;     6  &nbsp;&nbsp;&nbsp;     b=2<br>&nbsp;&nbsp;&nbsp;     7&nbsp;&nbsp;     else<br>&nbsp;&nbsp;&nbsp;     8  &nbsp;&nbsp;&nbsp;     b=1<br>&nbsp;&nbsp;&nbsp;     9&nbsp;&nbsp;     fi<br>10&nbsp;&nbsp;     c=3<br>11&nbsp;&nbsp;     echo &quot;end&quot;<br><br><br>其输出结果如下：<br><br>$ sh exp2.sh<br>before execute line:3, a=,b=,c=<br>before execute line:4, a=1,b=,c=<br>before execute line:6, a=1,b=,c=<br>before execute line:10, a=1,b=2,c=<br>before execute line:11, a=1,b=2,c=3<br>end<br><br><br>从运行结果中可以清晰的看到每执行一条命令之后，相关变量的值的变化。同时，从运行结果中打印出来的行号来分析，可以看到整个脚本的执行轨迹，能够判断出哪些条件分支执行了，哪些条件分支没有执行。<br><br>2. 使用tee命令<br><br>在shell脚本中管道以及输入输出重定向使用得非常多，在管道的作用下，一些命令的执行结果直接成为了下一条命令的输入。如果我们发现由管道连接起来的 一批命令的执行结果并非如预期的那样，就需要逐步检查各条命令的执行结果来判断问题出在哪儿，但因为使用了管道，这些中间结果并不会显示在屏幕上，给调试 带来了困难，此时我们就可以借助于tee命令了。<br><br>tee命令会从标准输入读取数据，将其内容输出到标准输出设备,同时又可将内容保存成文件。例如有如下的脚本片段，其作用是获取本机的ip地址：<br><br>ipaddr=<code>/sbin/ifconfig | grep &#39;inet addr:&#39; | grep -v &#39;127.0.0.1&#39;&lt;br /&gt;| cut -d : -f3 | awk &#39;{print $1}&#39;</code> <br>#注意=号后面的整句是用反引号(数字1键的左边那个键)括起来的。<br>echo $ipaddr<br><br><br>运行这个脚本，实际输出的却不是本机的ip地址，而是广播地址,这时我们可以借助tee命令，输出某些中间结果，将上述脚本片段修改为：<br><br>ipaddr=<code>/sbin/ifconfig | grep &#39;inet addr:&#39; | grep -v &#39;127.0.0.1&#39;&lt;br /&gt;| tee temp.txt | cut -d : -f3 | awk &#39;{print $1}&#39;</code><br>echo $ipaddr<br><br><br>之后，将这段脚本再执行一遍，然后查看temp.txt文件的内容：<br><br>$ cat temp.txt<br>inet addr:192.168.0.1&nbsp;&nbsp;     Bcast:192.168.0.255&nbsp;&nbsp;     Mask:255.255.255.0<br><br><br>我们可以发现中间结果的第二列(列之间以:号分隔)才包含了IP地址，而在上面的脚本中使用cut命令截取了第三列，故我们只需将脚本中的cut -d : -f3改为cut -d : -f2即可得到正确的结果。<br><br>具体到上述的script例子，我们也许并不需要tee命令的帮助，比如我们可以分段执行由管道连接起来的各条命令并查看各命令的输出结果来诊断错误，但 在一些复杂的shell脚本中，这些由管道连接起来的命令可能又依赖于脚本中定义的一些其它变量，这时我们想要在提示符下来分段运行各条命令就会非常麻烦 了，简单地在管道之间插入一条tee命令来查看中间结果会更方便一些。<br><br>3. 使用&quot;调试钩子&quot;<br><br>在C语言程序中，我们经常使用DEBUG宏来控制是否要输出调试信息，在shell脚本中我们同样可以使用这样的机制，如下列代码所示：<br><br>if [ &ldquo;$DEBUG&rdquo; = &ldquo;true&rdquo; ]; then<br>echo &ldquo;debugging&rdquo;&nbsp;&nbsp;     #此处可以输出调试信息<br>fi<br><br><br>这样的代码块通常称之为&ldquo;调试钩子&rdquo;或&ldquo;调试块&rdquo;。在调试钩子内部可以输出任何您想输出的调试信息，使用调试钩子的好处是它是可以通过DEBUG变量来控 制的，在脚本的开发调试阶段，可以先执行 export DEBUG=true命令打开调试钩子，使其输出调试信息，而在把脚本交付使用时，也无需再费事把脚本中的调试语句一一删除。<br><br>如果在每一处需要输出调试信息的地方均使用if语句来判断DEBUG变量的值，还是显得比较繁琐，通过定义一个DEBUG函数可以使植入调试钩子的过程更简洁方便，如下面代码所示:<br><br>$ cat &ndash;n exp3.sh<br>&nbsp;&nbsp;&nbsp;     1&nbsp;&nbsp;     DEBUG()<br>&nbsp;&nbsp;&nbsp;     2&nbsp;&nbsp;     {<br>&nbsp;&nbsp;&nbsp;     3&nbsp;&nbsp;     if [ &quot;$DEBUG&quot; = &quot;true&quot; ]; then<br>&nbsp;&nbsp;&nbsp;     4  &nbsp;&nbsp;       $@　　<br>&nbsp;&nbsp;&nbsp;     5&nbsp;&nbsp;     fi<br>&nbsp;&nbsp;&nbsp;     6&nbsp;&nbsp;     }<br>&nbsp;&nbsp;&nbsp;     7&nbsp;&nbsp;     a=1<br>&nbsp;&nbsp;&nbsp;     8&nbsp;&nbsp;     DEBUG echo &quot;a=$a&quot;<br>&nbsp;&nbsp;&nbsp;     9&nbsp;&nbsp;     if [ &quot;$a&quot; -eq 1 ]<br>10&nbsp;&nbsp;     then<br>11  &nbsp;&nbsp;        b=2<br>12&nbsp;&nbsp;     else<br>13  &nbsp;&nbsp;        b=1<br>14&nbsp;&nbsp;     fi<br>15&nbsp;&nbsp;     DEBUG echo &quot;b=$b&quot;<br>16&nbsp;&nbsp;     c=3<br>17&nbsp;&nbsp;     DEBUG echo &quot;c=$c&quot;<br><br><br>在上面所示的DEBUG函数中，会执行任何传给它的命令，并且这个执行过程是可以通过DEBUG变量的值来控制的，我们可以把所有跟调试有关的命令都作为DEBUG函数的参数来调用，非常的方便。<br><br><br><br><br><br>三. 使用shell的执行选项<br><br>上一节所述的调试手段是通过修改shell脚本的源代码，令其输出相关的调试信息来定位错误的，那有没有不修改源代码来调试shell脚本的方法呢？答案就是使用shell的执行选项，本节将介绍一些常用选项的用法：<br><br> -n 只读取shell脚本，但不实际执行<br> -x 进入跟踪方式，显示所执行的每一条命令<br>-c &quot;string&quot; 从strings中读取命令<br></p><p>-e：如果一个命令失败就立即退出</p><p>-n：读入命令但是不执行它们</p><p>-u：置换时把未设置的变量看作出错</p><p>-v：当读入shell输入行时把它们显示出来</p><p>-x：执行命令时把命令和它们的参数显示出来</p><br><br>&ldquo;- n&rdquo;可用于测试shell脚本是否存在语法错误，但不会实际执行命令。在shell脚本编写完成之后，实际执行之前，首先使用&ldquo;-n&rdquo;选项来测试脚本是否 存在语法错误是一个很好的习惯。因为某些shell脚本在执行时会对系统环境产生影响，比如生成或移动文件等，如果在实际执行才发现语法错误，您不得不手 工做一些系统环境的恢复工作才能继续测试这个脚本。<br><br>&ldquo;-c&rdquo;选项使shell解释器从一个字符串中而不是从一个文件中读取并执行shell命令。当需要临时测试一小段脚本的执行结果时，可以使用这个选项，如下所示：<br>sh -c ‘a=1;b=2;let c=$a+$b;echo &quot;c=$c&quot;’<br><br>&quot;-x&quot;选项可用来跟踪脚本的执行，是调试shell脚本的强有力工具。&ldquo;-x&rdquo;选项使shell在执行脚本的过程中把它实际执行的每一个命令行显示出 来，并且在行首显示一个&quot;+&quot;号。 &quot;+&quot;号后面显示的是经过了变量替换之后的命令行的内容，有助于分析实际执行的是什么命令。 &ldquo;-x&rdquo;选项使用起来简单方便，可以轻松对付大多数的shell调试任务,应把其当作首选的调试手段。<br><br>如果把本文前面所述的trap &lsquo;command&rsquo; DEBUG机制与&ldquo;-x&rdquo;选项结合起来，我们就可以既输出实际执行的每一条命令，又逐行跟踪相关变量的值，对调试相当有帮助。<br><br>仍以前面所述的exp2.sh为例，现在加上&ldquo;-x&rdquo;选项来执行它：<br><br>$ sh &ndash;x exp2.sh<br>+ trap ‘echo &quot;before execute line:$LINENO, a=$a,b=$b,c=$c&quot;’ DEBUG<br>++ echo ‘before execute line:3, a=,b=,c=’<br>before execute line:3, a=,b=,c=<br>+ a=1<br>++ echo ‘before execute line:4, a=1,b=,c=’<br>before execute line:4, a=1,b=,c=<br>+ ‘[‘ 1 -eq 1 ‘]’<br>++ echo ‘before execute line:6, a=1,b=,c=’<br>before execute line:6, a=1,b=,c=<br>+ b=2<br>++ echo ‘before execute line:10, a=1,b=2,c=’<br>before execute line:10, a=1,b=2,c=<br>+ c=3<br>++ echo ‘before execute line:11, a=1,b=2,c=3’<br>before execute line:11, a=1,b=2,c=3<br>+ echo end<br>end<br><br><br>在上面的结果中，前面有&ldquo;+&rdquo;号的行是shell脚本实际执行的命令，前面有&ldquo;++&rdquo;号的行是执行trap机制中指定的命令，其它的行则是输出信息。<br><br>shell的执行选项除了可以在启动shell时指定外，亦可在脚本中用set命令来指定。 &quot;set -参数&quot;表示启用某选项，&quot;set +参数&quot;表示关闭某选项。有时候我们并不需要在启动时用&quot;-x&quot;选项来跟踪所有的命令行，这时我们可以在脚本中使用set命令，如以下脚本片段所示：<br><br>set -x　　　 #启动&quot;-x&quot;选项 <br>要跟踪的程序段 <br>set +x　　　　 #关闭&quot;-x&quot;选项<br><br><br>set命令同样可以使用上一节中介绍的调试钩子&mdash;DEBUG函数来调用，这样可以避免脚本交付使用时删除这些调试语句的麻烦，如以下脚本片段所示：<br><br>DEBUG set -x　　　 #启动&quot;-x&quot;选项 <br>要跟踪的程序段 <br>DEBUG set +x　　　 #关闭&quot;-x&quot;选项<br><br><br><br><br>四. 对&quot;-x&quot;选项的增强<br><br>&quot;-x&quot;执行选项是目前最常用的跟踪和调试shell脚本的手段，但其输出的调试信息仅限于进行变量替换之后的每一条实际执行的命令以及行首的一个&quot;+&quot; 号提示符，居然连行号这样的重要信息都没有，对于复杂的shell脚本的调试来说，还是非常的不方便。幸运的是，我们可以巧妙地利用shell内置的一些 环境变量来增强&quot;-x&quot;选项的输出信息，下面先介绍几个shell内置的环境变量：<br><br>$LINENO<br>代表shell脚本的当前行号，类似于C语言中的内置宏<strong>LINE</strong><br><br>$FUNCNAME<br>函数的名字，类似于C语言中的内置宏<strong>func</strong>,但宏<strong>func</strong>只能代表当前所在的函数名，而$FUNCNAME的功能更强大，它是一个数组 变量，其中包含了整个调用链上所有的函数的名字，故变量${FUNCNAME [0]}代表shell脚本当前正在执行的函数的名字，而变量${FUNCNAME[1]}则代表调用函数${FUNCNAME[0]}的函数的名字，余 者可以依此类推。<br><br> $PS4<br>主提示符变量$PS1和第二级提示符变量$PS2比较常见，但很少有人注意到第四级提示符变量$PS4的作用。我们知道使用&ldquo;-x&rdquo;执行选项将会显示 shell脚本中每一条实际执行过的命令，而$PS4的值将被显示在&ldquo;-x&rdquo;选项输出的每一条命令的前面。在Bash Shell中，缺省的$PS4的值是&quot;+&quot;号。(现在知道为什么使用&quot;-x&quot;选项时，输出的命令前面有一个&quot;+&quot;号了吧？)。<br><br>利用$PS4这一特性，通过使用一些内置变量来重定义$PS4的值，我们就可以增强&quot;-x&quot;选项的输出信息。例如先执行export PS4=’+{$LINENO:${FUNCNAME[0]}} ‘, 然后再使用&ldquo;-x&rdquo;选项来执行脚本，就能在每一条实际执行的命令前面显示其行号以及所属的函数名。<br><br>以下是一个存在bug的shell脚本的示例，本文将用此脚本来示范如何用&ldquo;-n&rdquo;以及增强的&ldquo;-x&rdquo;执行选项来调试shell脚本。这个脚本中定义了一个函数isRoot(),用于判断当前用户是不是root用户，如果不是，则中止脚本的执行<br><br>$ cat &ndash;n exp4.sh<br>&nbsp;&nbsp;&nbsp;     1&nbsp;&nbsp;     #!/bin/bash<br>&nbsp;&nbsp;&nbsp;     2&nbsp;&nbsp;     isRoot()<br>&nbsp;&nbsp;&nbsp;     3&nbsp;&nbsp;     {<br>&nbsp;&nbsp;&nbsp;     4  &nbsp;&nbsp;      &nbsp;&nbsp;        if [ &quot;$UID&quot; -ne 0 ]<br>&nbsp;&nbsp;&nbsp;     5  &nbsp;&nbsp;      &nbsp;&nbsp;      &nbsp;&nbsp;      &nbsp;&nbsp;      &nbsp;&nbsp;       return 1<br>&nbsp;&nbsp;&nbsp;     6  &nbsp;&nbsp;      &nbsp;&nbsp;        else<br>&nbsp;&nbsp;&nbsp;     7  &nbsp;&nbsp;      &nbsp;&nbsp;      &nbsp;&nbsp;      &nbsp;&nbsp;      &nbsp;&nbsp;       return 0<br>&nbsp;&nbsp;&nbsp;     8  &nbsp;&nbsp;      &nbsp;&nbsp;        fi<br>&nbsp;&nbsp;&nbsp;     9&nbsp;&nbsp;     }<br>10&nbsp;&nbsp;     isRoot<br>11&nbsp;&nbsp;     if [&quot;$?&quot; -ne 0 ]<br>12&nbsp;&nbsp;     then<br>13  &nbsp;&nbsp;      &nbsp;&nbsp;        echo &quot;Must be root to run this script&quot;<br>14  &nbsp;&nbsp;      &nbsp;&nbsp;        exit 1<br>15&nbsp;&nbsp;     else<br>16  &nbsp;&nbsp;      &nbsp;&nbsp;        echo &quot;welcome root user&quot;<br>17  &nbsp;&nbsp;      &nbsp;&nbsp;        #do something<br>18&nbsp;&nbsp;     fi<br><br><br>首先执行sh &ndash;n exp4.sh来进行语法检查，输出如下：<br><br>$ sh &ndash;n exp4.sh<br>exp4.sh: line 6: syntax error near unexpected token <code>else&#39;&lt;br /&gt;exp4.sh: line 6:</code>  &nbsp;&nbsp;       else’<br><br><br>发现了一个语法错误，通过仔细检查第6行前后的命令，我们发现是第4行的if语句缺少then关键字引起的(写惯了C程序的人很容易犯这个错误)。我们可 以把第4行修改为if [ &quot;$UID&quot; -ne 0 ]; then来修正这个错误。再次运行sh &ndash;n exp4.sh来进行语法检查，没有再报告错误。接下来就可以实际执行这个脚本了，执行结果如下：<br><br>$ sh exp4.sh<br>exp2.sh: line 11: [1: command not found<br>welcome root user<br><br><br>尽管脚本没有语法错误了，在执行时却又报告了错误。错误信息还非常奇怪&ldquo;[1: command not found&rdquo;。现在我们可以试试定制$PS4的值，并使用&ldquo;-x&rdquo;选项来跟踪：<br><br>$ export PS4=’+{$LINENO:${FUNCNAME[0]}} ‘<br>$ sh &ndash;x exp4.sh<br>+{10:} isRoot<br>+{4:isRoot} ‘[‘ 503 -ne 0 ‘]’<br>+{5:isRoot} return 1<br>+{11:} ‘[1’ -ne 0 ‘]’<br>exp4.sh: line 11: [1: command not found<br>+{16:} echo ‘welcome root user’<br>welcome root user<br><br><br>从输出结果中，我们可以看到脚本实际被执行的语句，该语句的行号以及所属的函数名也被打印出来，从中可以清楚的分析出脚本的执行轨迹以及所调用的函数的内部执行情况。由于执行时是第11行报错，这是一个if语句，我们对比分析一下同为if语句的第4行的跟踪结果：<br><br>+{4:isRoot} ‘[‘ 503 -ne 0 ‘]’<br>+{11:} ‘[1’ -ne 0 ‘]’<br><br><br>可知由于第11行的[号后面缺少了一个空格，导致[号与紧挨它的变量$?的值1被shell解释器看作了一个整体，并试着把这个整体视为一个命令来执行，故有&ldquo;[1: command not found&rdquo;这样的错误提示。只需在[号后面插入一个空格就一切正常了。<br><br>shell中还有其它一些对调试有帮助的内置变量，比如在Bash Shell中还有BASH_SOURCE, BASH_SUBSHELL等一批对调试有帮助的内置变量，您可以通过man sh或man bash来查看，然后根据您的调试目的,使用这些内置变量来定制$PS4，从而达到增强&ldquo;-x&rdquo;选项的输出信息的目的。<br><br><br><br>五. 总结<br><br>现在让我们来总结一下调试shell脚本的过程：<br>首先使用&ldquo;-n&rdquo;选项检查语法错误，然后使用&ldquo;-x&rdquo;选项跟踪脚本的执行，使用&ldquo;-x&rdquo;选项之前，别忘了先定制PS4变量的值来增强&ldquo;-x&rdquo;选项的输出信 息，至少应该令其输出行号信息(先执行export PS4=’+[$LINENO]’，更一劳永逸的办法是将这条语句加到您用户主目录的.bash_profile文件中去)，这将使你的调试之旅更轻松。 也可以利用trap,调试钩子等手段输出关键调试信息，快速缩小排查错误的范围，并在脚本中使用&ldquo;set -x&rdquo;及&ldquo;set +x&rdquo;对某些代码块进行重点跟踪。这样多种手段齐下，相信您已经可以比较轻松地抓出您的shell脚本中的臭虫了。如果您的脚本足够复杂，还需要更强的调 试能力，可以使用shell调试器bashdb，这是一个类似于GDB的调试工具，可以完成对shell脚本的断点设置，单步执行，变量观察等许多功能， 使用bashdb对阅读和理解复杂的shell脚本也会大有裨益。关于bashdb的安装和使用，不属于本文范围，您可参阅http: //bashdb.sourceforge.net/上的文档并下载试用。 <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/02/23/【zz】Shell脚本调试技术/" class="archive-article-date">
+  	<time datetime="2008-02-23T04:36:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-02-23</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux-Debug/">Linux Debug</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-【zz】自动ssh登录的几种方法-解决公钥验证无法登陆的问题" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2008/02/23/【zz】自动ssh登录的几种方法-解决公钥验证无法登陆的问题/">【zz】自动ssh登录的几种方法(解决公钥验证无法登陆的问题)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> // by jfo<br>修改远程机器配置文件 /etc/ssh/sshd_config ：<br>PubkeyAuthentication yes<br>AuthorizedKeysFile&nbsp;&nbsp;     .ssh/authorized_keys<br>PasswordAuthentication&nbsp;&nbsp;     no<br><br>在本地机器产生密钥对：<br>cd ~/.ssh<br>ssh-keygen -t rsa&nbsp;&nbsp;     //生成 id_rsa 和 id_rsa.pub<br><br>在远程机器上：<br>touch ~/.ssh/authorized_keys<br>cat id_rsa.pub &gt;&gt; ~/.ssh/authorized_keys<br>chmod 600 ~/.ssh/authorized_keys&nbsp;&nbsp;     //这一步非常关键，如果权限为664，会拒绝登录！！！<br>&nbsp;&nbsp;&nbsp;    &nbsp;&nbsp;     &nbsp;&nbsp;     &nbsp;&nbsp;     &nbsp;&nbsp;     &nbsp;&nbsp;     &nbsp;&nbsp;     &nbsp;&nbsp;     &nbsp;&nbsp;     &nbsp;&nbsp;     &nbsp;&nbsp;     &nbsp;&nbsp;     &nbsp;&nbsp;     &nbsp;&nbsp;     &nbsp;&nbsp;     &nbsp;&nbsp;     &nbsp;&nbsp;     &nbsp;&nbsp;&nbsp;&nbsp;       // 产生如下错误：Permission denied (publickey,gssapi-with-mic).<br><a target="_blank" href="http://bbs.linuxpk.com/viewthread.php?tid=9327&amp;highlight=">http://bbs.linuxpk.com/viewthread.php?tid=9327&amp;highlight=</a>自动ssh登录的几种方法<strong>1. 自动ssh/scp方法==</strong><br><br>A为本地主机(即用于控制其他主机的机器) ;<br>B为远程主机(即被控制的机器Server), 假如ip为192.168.60.110;<br>A和B的系统都是Linux<br><br>在A上运行命令:<br># ssh-keygen -t rsa (连续三次回车,即在本地生成了公钥和私钥,不设置密码)<br># ssh  &quot;mkdir .ssh&quot; (需要输入密码)<br># scp ~/.ssh/id_rsa.pub :.ssh/id_rsa.pub (需要输入密码)<br><br>在B上的命令:<br># touch /root/.ssh/authorized_keys (如果已经存在这个文件, 跳过这条)<br># cat /root/.ssh/id_rsa.pub &gt;&gt; /root/.ssh/authorized_keys (将id_rsa.pub的内容追加到authorized_keys 中)<br><br>回到A机器:<br># ssh  (不需要密码, 登录成功) <br><br><br><strong>2. 控制n个机器如上所述自动登录</strong><br>那就需要n对钥匙(密钥和公钥), ssh-keygen 命令可以随意更改钥匙对的名字, 比如:<br># ssh-keygen -t rsa<br>Generating public/private rsa key pair.<br>Enter file in which to save the key (/root/.ssh/id_rsa): /root/.ssh/id_rsa_192.168.60.110<br><br>这样私钥和公钥的名字分别就是: id_rsa_192.168.60.110和 id_rsa_192.168.60.110.pub;然后将 id_rsa_192.168.60.110.pub 文件的内容, 追加到sever的 ~/.ssh/authorized_keys文件中,最后, 在本地用ssh命令的 -i 参数指定本地密钥, 并登录:<br># ssh -i /root/.ssh/id_rsa_192.168.60.110 <br><br>scp也是一样的<br># scp -i /root/.ssh/id_rsa_192.168.60.110 filename :/home/someone<br><br>在文件.bashrc中加下两行，每次做同样的操作就不用敲入这样长的命令了：<br>alias sshcell=’ssh -i /root/.ssh/id_rsa_192.168.60.110 ‘<br>alias scpcell=’scp -i /root/.ssh/id_rsa_192.168.60.110 filename :/home/someone’<br><br>这样，直接键入一下指令实现ssh和scp自动登录：<br># sshcell<br># scpcell<br><br><br><strong>3. 自动ssh/scp脚本</strong><br>如果需要从A，到B，然后才能够到C，那么需要ssh和scp两次，是比较麻烦的。<br>ssh自动登录：<br>#!/usr/bin/expect -f<br>set timeout 30<br>spawn ssh weiqiong@B<br>expect &quot;password:&quot;<br>send &quot;ppppppr&quot;<br>expect &quot;]<em>&quot;<br>send &quot;ssh weiqiong@Cr&quot;<br>expect &quot;password:&quot;<br>send &quot;ppppppr&quot;<br>interact<br><br><br>scp从A拷贝文件到C：<br>#!/usr/bin/expect -f<br>set timeout 300<br>set file [lindex $argv 0]<br>spawn scp $file weiqiong@B:/home/weiqiong<br>expect &quot;password:&quot;<br>send &quot;ppppppr&quot;<br>expect &quot;]</em>&quot;<br>spawn ssh weiqiong@B<br>expect &quot;password:&quot;<br>send &quot;ppppppr&quot;<br>expect &quot;]<em>&quot;<br>send &quot;scp $file weiqiong@C:/home/weiqiongr&quot;<br>expect &quot;password:&quot;<br>send &quot;ppppppr&quot;<br>expect &quot;]</em>&quot;<br>exit<br>interact<br><br>scp从C拷贝文件到A：<br>#!/usr/bin/expect -f<br>set timeout 300<br>set file [lindex $argv 0]<br>spawn ssh weiqiong@B<br>expect &quot;password:&quot;<br>send &quot;ppppppr&quot;<br>expect &quot;]<em>&quot;<br>send &quot;scp weiqiong@C:/home/weiqiong/$file .r&quot;<br>expect &quot;password:&quot;<br>send &quot;ppppppr&quot;<br>expect &quot;]</em>&quot;<br>send &quot;exitr&quot;<br>expect &quot;]*&quot;<br>spawn scp weiqiong@B:/home/weiqiong/$file .<br>expect &quot;password:&quot;<br>send &quot;ppppppr&quot;<br>interact<br><br><strong>4. 建立ssh/scp通道</strong><br>比如说我的机器是A，中间服务器为B，目标服务器是C&lt;br&gt;<br>从A可以ssh到B，从B可以ssh到C，但是A不能直接ssh到C&lt;br&gt;<br>现在展示利用ssh通道技术从A直接传输文件到C&lt;br&gt;<br>1. ssh -L1234:C:22 userid@B&lt;br&gt;<br>input B’s password&lt;br&gt;<br>(1234是本机A的空闲端口，该指令需要A机器上的root用户权限，实际上是在本机1234端口建立了一个通道)&lt;br&gt;<br><br>2. 打开一个新的console，键入：&lt;br&gt;<br>scp -P1234 filename userid@localhost:&lt;br&gt;<br>input C’s password </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/02/23/【zz】自动ssh登录的几种方法-解决公钥验证无法登陆的问题/" class="archive-article-date">
+  	<time datetime="2008-02-23T03:28:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-02-23</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux-App/">Linux App</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/42/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/41/">41</a><a class="page-number" href="/page/42/">42</a><span class="page-number current">43</span><a class="page-number" href="/page/44/">44</a><a class="page-number" href="/page/45/">45</a><span class="space">&hellip;</span><a class="page-number" href="/page/60/">60</a><a class="extend next" rel="next" href="/page/44/">Next &raquo;</a>
+    </nav>
+  
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: true,
+		isPost: false,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

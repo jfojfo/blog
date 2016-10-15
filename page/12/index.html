@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="jfo planet">
+<meta property="og:url" content="http://blog.pickbox.me/page/12/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jfo planet">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        
+  
+    <article id="post-JQuery参考" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/11/25/JQuery参考/">JQuery参考</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+         <p>&nbsp;</p><p>=================================================================</p><p><a href="http://www.oschina.net/news/23240/jquery-skills?from=20111120" target="_blank" rel="external">http://www.oschina.net/news/23240/jquery-skills?from=20111120</a></p><p></p>3. 数组方式使用jQuery对象<p>运行选择器的结果是一个jQuery对象。然而，jQuery类库让你感觉你正在使用一个定义了index和长度的数组。</p>// Selecting all the navigation buttons:var buttons = $(‘#navigation a.button’);// We can loop though the collection:for(var i=0;i&lt;buttons.length;i++){    console.log(buttons[i]);    // A DOM element, not a jQuery object}// We can even slice it:var firstFour = buttons.slice(0,4);<p>如果性能是你关注的，那么使用简单for或者while循环来处理，而不是$.each()，这样能使<a href="http://jsfiddle.net/martinaglv/NcRsV/" target="_blank">你的代码更快</a>。</p><p>检查长度也是一个检查你的collection是否含有元素的方式。</p>if(buttons){    // This is always true    // Do something}if(buttons.length){ // True only if buttons contains elements    // Do something}9.&nbsp;$.proxy()<p>使用callback方法的缺点之一是当执行类库中的方法后，context被设置到另外一个元素，例如：</p>&lt;div id=&quot;panel&quot; style=&quot;display:none&quot;&gt;    &lt;button&gt;Close&lt;/button&gt;&lt;/div&gt;<p>执行下面代码：</p>$(‘#panel’).fadeIn(function(){    // this points to #panel    $(‘#panel button’).click(function(){        // this points to the button        $(this).fadeOut();    });});<p>你将遇到问题，button会消失，不是panel。使用$.proxy方法，你可以这样书写代码：</p>$(‘#panel’).fadeIn(function(){    // Using $.proxy to bind this:    $(‘#panel button’).click($.proxy(function(){        // this points to #panel        $(this).fadeOut();    },this));});<p>这样才正确的执行。$.proxy方法接受两个参数，你最初的方法，还有context。这里阅读更多<a href="http://api.jquery.com/jQuery.proxy/" target="_blank">$.proxy in the docs</a>.。</p>10. 判断页面是否太过复杂<p>一个非常简单的道理，约复杂的页面，加载的速度越慢。你可以使用下面代码检查一下你的页面内容：</p>console.log( $(‘*’).length );<p>以上代码返回的数值越小，网页加载速度越快。你可以考虑通过删除无用多余的元素来优化你的代码</p>11. 将你的代码转化成jQuery插件<p>如果你要花一定得时间去开发一段jQuery代码，那么你可以考虑将代码变成插件。这将能够帮助你重用代码，并且能够有效的帮助你组织代码。创建一个插件代码如下：</p>(function($){    $.fn.yourPluginName = function(){        // Your code goes here        return this;    };})(jQuery);<p></p>13. 在动画中使用delay()方法<p>链式的动画效果是jQuery的强大之处。但是有一个忽略了的细节就是你可以在动画之间加上delays，如下：</p>// This is wrong:$(‘#elem’).animate({width:200},function(){&nbsp;&nbsp; &nbsp;setTimeout(function(){&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;$(‘#elem’).animate({marginTop:100});&nbsp;&nbsp; &nbsp;},2000);});// Do it like this:$(‘#elem’).animate({width:200}).delay(2000).animate({marginTop:100});<p>jQuery动画帮了我们大忙，否则我们得自己处理一堆的细节，设置timtout，处理属性值，跟踪动画变化等等。</p><p>大家可以参考这个文章：<a href="http://api.jquery.com/category/effects/" target="_blank">jQuery animations</a></p><br><p></p><p></p> 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2011/11/25/JQuery参考/" class="archive-article-date">
+  	<time datetime="2011-11-25T02:58:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2011-11-25</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Using-Ant-to-Automate-Building-Android-Applications" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/10/09/Using-Ant-to-Automate-Building-Android-Applications/">Using Ant to Automate Building Android Applications</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+         <p></p><p><del></del></p><p>keytool.exe -list -keystore key.store -v</p><p>keytool.exe -genkey -keystore key.store -alias dicewars -validity 222222</p><p>keytool.exe -importkeystore -srckeystore ../../MyControlWidget/config/mycontrol.keystore -destkeystore key.store</p><p>keytool.exe -export -file dice.cer -keystore key.store -alias dicewars</p><p></p><p>&nbsp;</p><p><a href="http://www.androidengineer.com/2010/06/using-ant-to-automate-building-android.html" target="_blank" rel="external">http://www.androidengineer.com/2010/06/using-ant-to-automate-building-android.html</a></p><p>&nbsp;</p><p>The standard way to develop and deploy Android applications is using Eclipse. This is great because it is free, easy to use, and many Java developers already use Eclipse. To deploy your applications using Eclipse, you simply right-click on the on the project, choose to export the application, and follow the prompts</p><br>There are a few things we cannot easily do with this system, though. Using the Eclipse GUI does not allow one to easily:<br>Add custom build steps.Use an automated build system.Use build configurations.Build the&nbsp;<i>release</i>&nbsp;project with one command.Fortunately, the Android SDK comes equipped with support for&nbsp;<a href="http://ant.apache.org/" target="_blank" rel="external">Ant</a>, which is a common build script system popular among Java developers. It is how you can develop Android applications&nbsp;<a href="http://developer.android.com/guide/developing/other-ide.html" target="_blank" rel="external">without using Eclipse</a>, if you so desire. This tutorial will show you how to incorporate an Ant build script into your Android projects (even if you still develop with Eclipse), create your release package ready for Marketplace deployment in one step, create a build configuration using a properties file, and alter your source files based on the configuration.<br><br>You can use the Ant build script to solve all of the problems listed above. &nbsp;This tutorial expects you to already have your&nbsp;<a href="http://developer.android.com/index.html" target="_blank" rel="external">Android SDK</a>&nbsp;setup correctly, and to have&nbsp;<a href="http://ant.apache.org/bindownload.cgi" target="_blank" rel="external">Ant installed</a>. &nbsp;It will also help to know a little about Ant if you want to add custom build steps, but you don’t really need to know anything to follow the tutorial here.<br><br>Although I don’t personally use an automated build system for my projects, I do use it to create configuration files and to run custom build scripts. I also believe that it is very important to have a one-step build system, which means that there is only one command to create your final release package&nbsp;(I’ll explain why later). You can already run your application in debug mode with Eclipse with one step, but I feel it is important to be able to create the release package in one step as well.<br><br>Finally, if this is too much reading for your taste, you can jump straight into the summary for a few simple steps, and download the sample application at the end of the tutorial.<br>Ant in a nutshellA build script in Ant is an XML file. &nbsp;The default filename for a Ant build file isbuild.xml. Build steps in Ant are called&nbsp;<i><a href="http://ant.apache.org/manual/tasksoverview.html" target="_blank" rel="external">tasks</a></i>, which are defined by&nbsp;<i>targets</i>&nbsp;in the build file. When you build your Android application with the default build script, you would type&nbsp;ant release&nbsp;at the command line. In this case, Ant looks for the default filename&nbsp;build.xml, and&nbsp;release&nbsp;is the target which it builds. The&nbsp;releasetarget builds the application ready for release (as opposed to for debugging). Another example would be&nbsp;ant clean, which cleans the project binaries.<br>You can do pretty much anything you can imagine with more custom build scripts, from copying files to making network calls. More detail about how to use Ant is beyond the scope of this tutorial, but I will show you some useful tricks.<br><i>One custom script which I enjoy very much uses&nbsp;</i><a href="http://proguard.sourceforge.net/" target="_blank" rel="external"><i>ProGuard</i></a><i>&nbsp;to obfuscate and shrink the code. I see the code size of my applications drop by a whopping 50% using it. It helps for users who may think your application is taking too much space on their device. I’ll explain how to do this in a future tutorial.</i>Adding build.xml to an existing projectIf you already have a project that you’d like to add the Ant build script to, then there is an easy command line tool you can use. Open up a command prompt and navigate to the base directory of your project. From there, use the command:<br>android update project –path .<br><br>Here is an example of successful output:<br>&gt;android update project –path .<br>Updated local.properties<br>Added file C:devblogantbuildbuild.xml<br>If the&nbsp;android&nbsp;command is not found, then you need to update your path to include the Android tools. &nbsp;On Windows, you can use something like&nbsp;set path=%PATH%;C:devandroid-sdk-windowstools&nbsp;(substituting your actual Android installation directory), or even better add it to your path persistently by updating the environment variables through your system properties.<br><br>Now you will have a working ant build script in&nbsp;build.xml. &nbsp;You can test your setup by typing&nbsp;ant&nbsp;at the command prompt, and you should receive something similar to the following boilerplate help:<br><br>&gt;ant<br>Buildfile: C:devblogantbuildbuild.xml<br>&nbsp;&nbsp; &nbsp;[setup] Android SDK Tools Revision 6<br>&nbsp;&nbsp; &nbsp;[setup] Project Target: Android 1.5<br>&nbsp;&nbsp; &nbsp;[setup] API level: 3<br>&nbsp;&nbsp; &nbsp;[setup] WARNING: No minSdkVersion value set. Application will install on all Android versions.<br>&nbsp;&nbsp; &nbsp;[setup] Importing rules file: platformsandroid-3antant_rules_r2.xml<br><br>help:<br>&nbsp;&nbsp; &nbsp; [echo] Android Ant Build. Available targets:<br>&nbsp;&nbsp; &nbsp; [echo] &nbsp; &nbsp;help: &nbsp; &nbsp; &nbsp;Displays this help.<br>&nbsp;&nbsp; &nbsp; [echo] &nbsp; &nbsp;clean: &nbsp; &nbsp; Removes output files created by other targets.<br>&nbsp;&nbsp; &nbsp; [echo] &nbsp; &nbsp;compile: &nbsp; Compiles project’s .java files into .class files.<br>&nbsp;&nbsp; &nbsp; [echo] &nbsp; &nbsp;debug: &nbsp; &nbsp; Builds the application and signs it with a debug key.<br>&nbsp;&nbsp; &nbsp; [echo] &nbsp; &nbsp;release: &nbsp; Builds the application. The generated apk file must be<br>&nbsp;&nbsp; &nbsp; [echo] &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; signed before it is published.<br>&nbsp;&nbsp; &nbsp; [echo] &nbsp; &nbsp;install: &nbsp; Installs/reinstalls the debug package onto a running<br>&nbsp;&nbsp; &nbsp; [echo] &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; emulator or device.<br>&nbsp;&nbsp; &nbsp; [echo] &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; If the application was previously installed, the<br>&nbsp;&nbsp; &nbsp; [echo] &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; signatures must match.<br>&nbsp;&nbsp; &nbsp; [echo] &nbsp; &nbsp;uninstall: Uninstalls the application from a running emulator or<br>&nbsp;&nbsp; &nbsp; [echo] &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; device.<br><br>BUILD SUCCESSFUL<br>If the&nbsp;ant&nbsp;command is not found, then you need to update your path. Like above, on Windows use&nbsp;set path=%PATH%;C:devapache-ant-1.8.1bin&nbsp;(substituting your actual Ant installation directory), or even better update your environment variables.<br><br>At this point you should be able to type&nbsp;ant release&nbsp;at the command prompt, which will build the project, placing the unsigned .apk file inside of the&nbsp;bin/directory.<br><br><i>Note that the output from Ant will show further instructions under&nbsp;-release-nosign:&nbsp;which says to sign the apk manually and to run zipalign. &nbsp;We’ll get to these steps later in the signing section below.</i><br>Creating a new project with build.xmlIf you’ve already created your project and followed the above instructions, you can skip this section. If not, you can may either create a new Android project using the regular Eclipse method (via New &gt; Other… &gt; Android Project), and follow the instructions in the above section, or you can use the command line as described here.<br><br>android create project –name YourProjectName –path C:devYourProject –target android-3&nbsp;–package com.company.testproject –activity MainActivity<br><br>Here is an example of successful output:<br><br>&gt;android create project –name YourTestProject –path c:tempTestProject –target android-3 –package com.company.testproject –activity MainActivity<br><br>Created project directory: c:tempTestProject<br>Created directory C:tempTestProjectsrccomcompanytestproject<br>Added file c:tempTestProjectsrccomcompanytestprojectMainActivity.java<br>Created directory C:tempTestProjectres<br>Created directory C:tempTestProjectbin<br>Created directory C:tempTestProjectlibs<br>Created directory C:tempTestProjectresvalues<br>Added file c:tempTestProjectresvaluesstrings.xml<br>Created directory C:tempTestProjectreslayout<br>Added file c:tempTestProjectreslayoutmain.xml<br>Added file c:tempTestProjectAndroidManifest.xml<br>Added file c:tempTestProjectbuild.xml<br><b>Note</b><i>:</i>&nbsp;To see the available targets, use&nbsp;android list target&nbsp;and you should see something like:<br><br>&gt;android list target<br>id: 1 or &quot;android-3&quot;<br>&nbsp;&nbsp; &nbsp; Name: Android 1.5<br>&nbsp;&nbsp; &nbsp; Type: Platform<br>&nbsp;&nbsp; &nbsp; API level: 3<br>&nbsp;&nbsp; &nbsp; Revision: 4<br>&nbsp;&nbsp; &nbsp; Skins: HVGA (default), HVGA-L, HVGA-P, QVGA-L, QVGA-PIn the above case, you can use either&nbsp;1&nbsp;or&nbsp;android-3&nbsp;as the target ID. &nbsp;In the sample project, I chose&nbsp;android-4, which corresponds to Android 1.6.<br><br>Once the project is created, you can test if your project build is setup correctly by typing&nbsp;ant&nbsp;at the command line. &nbsp;See the above section for further instructions.<br>Synchronizing&nbsp;with EclipseIf you open the Ant build script,&nbsp;build.xml, in Eclipse, you will see an error on the second line of the file at this line:&nbsp;&lt;project name=&quot;MainActivity&quot; default=&quot;help&quot;&gt;. &nbsp;The problem with this line is that it is saying that the default Ant target is &quot;help&quot;, but the actual Ant targets used in the build file are imported from another location, which the Eclipse editor does not recognize. The import is done at the line&nbsp;&lt;taskdef name=&quot;setup&quot;, which imports Ant files from the Android SDK.<br><br>Unfortunately, while this error is active in your project, you cannot debug your project from Eclipse, even though the Ant&nbsp;build.xml&nbsp;is not needed. There are two solutions. You can remove&nbsp;default=&quot;help&quot;&nbsp;from the file, which will remove the error in Eclipse. If you do this, and type&nbsp;ant&nbsp;at a command prompt without any targets (as opposed to &quot;ant release&quot;), you won’t get the default help. &nbsp;Or, you can copy the imported Ant files directly into your code, which is exactly what you must do if you would like to customize your build. If you follow this tutorial, you won’t have to worry about this error. See the&nbsp;<i>Customizing the build</i>&nbsp;section for more information.<br>Automatically signing your applicationBefore an application can be delivered to a device, the package must be signed. When debugging using Eclipse, the package is technically signed with a debugging key. (Alternatively, you can build a debug package using&nbsp;ant debug) For actual applications delivered to the Android Marketplace, you need to sign them with a real key. It is useful to put this step into the build process. On top of the ease of automating the process, it allows you to build your application in one step. (<a href="http://www.seattle20.com/blog/Tech-Startups-101-The-One-Click-Build.aspx" target="_blank" rel="external">One-step</a>&nbsp;<a href="http://www.joelonsoftware.com/articles/fog0000000043.html" target="_blank" rel="external">builds</a>&nbsp;are a Good IdeaTM)<br><br>If you have not already created a key, you can do so automatically using Eclipse (Right click project &gt;&nbsp;<i>Android Tools</i>&nbsp;&gt;&nbsp;<i>Export Signed Application Package…</i>), or follow the instructions&nbsp;<a href="http://developer.android.com/guide/publishing/app-signing.html" target="_blank" rel="external">here</a>.<br><br>Now we must tell the build script about our keystore. Create a file calledbuild.properties&nbsp;in your project’s base directory (in the same directory asbuild.xml&nbsp;and the other properties files), if it does not already exist. Add the following lines:<br>key.store=keystore<br>key.alias=www.androidengineer.com<br>Where&nbsp;keystore&nbsp;is the name of your keystore file and change the value ofkey.alias&nbsp;to your keystore’s alias. Now when you run&nbsp;ant release, you will be prompted for your passwords, and the build will automatically sign and zipalign your package.<br><br>Of course, having to enter your password doesn’t make for a one-step build process. So you could not use this for an automated build machine, for one thing. It also has the disadvantage of requiring you to type the password, which it will display clearly on the screen, which may be a security issue in some circumstances. &nbsp;We can put the passwords into&nbsp;build.properties&nbsp;as well, which will solve the issue:<br>key.store.password=password<br>key.alias.password=password<br><b>Caution:</b>&nbsp;There can be several issues with storing the keystore and passwords. Depending on your organization’s security policies, you may not be able to store the passwords in version control, or you may not be able to give out the information to all developers who have access to the source. If you want to check in the keystore and the&nbsp;build.properties&nbsp;file, but not the passwords, you can create a separate properties file which could only be allowed on certain machines but not checked in to version control. For example, you could create asecure.properties&nbsp;file which goes on the build machine, but not checked in to version control so all developers wouldn’t have access to it; import the extra properties file by adding&nbsp;&lt;property file=&quot;secure.properties&quot; /&gt;&nbsp;to&nbsp;build.xml. Finally, you could always build the APKs unsigned with&nbsp;ant release&nbsp;by not adding any information to the properties files. &nbsp;The package built using this method will need to be&nbsp;<a href="http://developer.android.com/guide/publishing/app-signing.html" target="_blank" rel="external">signed and aligned</a>.<br>Customizing the buildNow that we’ve got a working Ant build script, we can create a one-step build. But if we want to customize the build further, we’ll have to do a few extra steps. You can do anything with your build that you can do with&nbsp;<a href="http://ant.apache.org/manual/index.html" target="_blank" rel="external">Ant</a>. There are a few things we’ll have to do first.<br><br>The Ant&nbsp;<i>targets</i>&nbsp;are actually located in the Android SDK. &nbsp;The&nbsp;<i>targets</i>&nbsp;are what you type after&nbsp;ant&nbsp;on the command line, such as&nbsp;release,&nbsp;clean, etc. &nbsp;To customize the build&nbsp;further, we need to copy the imported targets into our own build file.<br><br>If you look in&nbsp;build.xml, you can see the instructions for how to customize your build steps:<br><br>The rules file is imported from<br>&lt;SDK&gt;/platforms/&lt;target_platform&gt;/templates/android_rules.xml<br>To customize some build steps for your project:<br>&nbsp; - copy the content of the main node&nbsp;&lt;project&gt; from android_rules.xml<br>&nbsp; - paste it in this build.xml below the&nbsp;&lt;setup /&gt; task.<br>&nbsp; - disable the import by changing the setup task below to&nbsp;&lt;setup import=&quot;false&quot; /&gt;<br>Find the&nbsp;android_rules.xml&nbsp;file in your Android SDK. For example, mine is located at&nbsp;C:devandroid-sdk-windowsplatformsandroid-4templates. There, copy almost the entire file, excluding the project node (copy below&nbsp;&lt;project name=&quot;MainActivity&quot;&gt;&nbsp;to above&nbsp;&lt;/project&gt;), and paste it in your&nbsp;build.xml&nbsp;file. Also, change the line&nbsp;&lt;setup /&gt;&nbsp;to&nbsp;&lt;setup import=&quot;false&quot;/&gt;.<br><br>Now you can change around the build as you please. Test that the build file is still working properly by running a build. &nbsp;For an example of what you can do with the custom build script, see the next section.<br>Using a Java configuration fileThis is a great way to use a build property to affect the source code of your Android application. Imagine a configuration class in your project which sets some variables, such as a debugging flag or a URL string. You probably have a different set of these values when developing than when you release your application. For example, you may turn the logging flag off, or change the URL from a debugging server to a production server.<br><br>public&nbsp;class&nbsp;Config<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;/<strong>&nbsp;Whether&nbsp;or&nbsp;not&nbsp;to&nbsp;include&nbsp;logging&nbsp;statements&nbsp;in&nbsp;the&nbsp;application.&nbsp;*/<br>&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;final&nbsp;static&nbsp;boolean&nbsp;LOGGING&nbsp;=&nbsp;true;<br>}<br>It would be nice to have the above&nbsp;LOGGING&nbsp;flag be set from your build. That way, you can be sure that when you create your release package, all of the code you used for debugging won’t be included. For example, you may have debugging log statements like this:<br><br>if&nbsp;(Config.LOGGING)<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;Log.d(TAG,&nbsp;&quot;[onCreate]&nbsp;Success&quot;);<br>}<br>You will probably want to leave these statements on during development, but remove them at release. &nbsp;In fact, it is good practice to leave logging statements in your source code. It helps with later&nbsp;maintenance&nbsp;when you, and especially others, need to know how your code works. On the other hand, it is bad practice for an application to litter the Android log with your debugging statements. Using these configuration variables allows you to turn the logging on and off, while still leaving the source code intact.<br><br><i>Another great advantage of using this method of logging is that the bytecode contained within the logging statement can be completely removed by a Java bytecode shrinker such as ProGuard, which can be integrated into your build script. &nbsp;I’ll discuss how to do this in a later blog post.</i><br><br>A nice way to set the&nbsp;Config.LOGGING&nbsp;flag is in your build properties. &nbsp;Add the following to&nbsp;build.properties:<br># Turn on or off logging.<br>config.logging=true<br>To have this build property be incorporated into our source code, I will use the Ant type&nbsp;<a href="http://ant.apache.org/manual/Types/filterset.html" target="_blank" rel="external">filterset</a>&nbsp;with the&nbsp;<a href="http://ant.apache.org/manual/Tasks/copy.html" target="_blank" rel="external">copy</a>&nbsp;task. What we can do is create a Java template file which has tokens such as&nbsp;@CONFIG.LOGGING@&nbsp;and copy it to our source directory, replacing the tokens with whatever the build properties values are. &nbsp;For example, in the sample application I have a file called&nbsp;Config.java&nbsp;in the&nbsp;config/directory.<br><br>public&nbsp;class&nbsp;Config<br>{<br>&nbsp;&nbsp;&nbsp;&nbsp;/</strong>&nbsp;Whether&nbsp;or&nbsp;not&nbsp;to&nbsp;include&nbsp;logging&nbsp;statements&nbsp;in&nbsp;the&nbsp;application.&nbsp;*/<br>&nbsp;&nbsp;&nbsp;&nbsp;public&nbsp;final&nbsp;static&nbsp;boolean&nbsp;LOGGING&nbsp;=&nbsp;@CONFIG.LOGGING@;<br>}<br>Please note that this is&nbsp;<i>not</i>&nbsp;a source file, and that&nbsp;config/Config.java&nbsp;is notthe actual file used when compiling the project. The filesrc/com/yourpackage/Config.java, which is the copied file destination, is what will be used as a source file.<br><br>Now I will alter the build file to copy the template file to the source path, but replace&nbsp;@CONFIG.LOGGING&nbsp;with the value of the property&nbsp;config.logging, which istrue. I will create an Ant target called&nbsp;config&nbsp;which will copy the above template to the source directory. This will be called before the&nbsp;compile&nbsp;target.<br><br>&nbsp;&nbsp; &nbsp;&lt;!–&nbsp;Copy Config.java to our source tree, replacing custom tokens with&nbsp;values in build.properties. The configuration depends on &quot;clean&quot;&nbsp;because otherwise the build system will not detect changes in the&nbsp;configuration.&nbsp;–&gt;<br>&lt;target name=&quot;config&quot;&gt;<br><br>&lt;property name=&quot;config-target-path&quot; value=&quot;${source.dir}/com/androidengineer/antbuild&quot;/&gt;<br><br>&lt;!– Copy the configuration file, replacing tokens in the file. –&gt;<br>&lt;copy file=&quot;config/Config.java&quot; todir=&quot;${config-target-path}&quot;<br>&nbsp;&nbsp; &nbsp; &nbsp;overwrite=&quot;true&quot; encoding=&quot;utf-8&quot;&gt;<br>&lt;filterset&gt;<br>&lt;filter token=&quot;CONFIG.LOGGING&quot; value=&quot;${config.logging}&quot;/&gt;<br>&lt;/filterset&gt;<br>&lt;/copy&gt;<br><br>&lt;!– Now set it to read-only, as we don’t want people accidentally<br>&nbsp;&nbsp; &nbsp; editing the wrong one. NOTE: This step is unnecessary, but I do<br>&nbsp;&nbsp; &nbsp; it so the developers remember that this is not the original file. –&gt;<br>&lt;chmod file=&quot;${config-target-path}/Config.java&quot; perm=&quot;-w&quot;/&gt;<br>&lt;attrib file=&quot;${config-target-path}/Config.java&quot; readonly=&quot;true&quot;/&gt;<br><br>&lt;/target&gt;<br><br>To make this Ant target execute before the&nbsp;compile&nbsp;target, we simply add&nbsp;configto the dependency of&nbsp;compile:&nbsp;&lt;target name=&quot;compile&quot; depends=&quot;config, -resource-src, -aidl&quot;.&nbsp;We also make the&nbsp;config&nbsp;target call&nbsp;clean, because otherwise the build system will not detect changes in the configuration, and may not recompile the proper classes.<br><br><b>Note</b>: The above Ant task sets the target file (in your source directory) to read-only. &nbsp;This is not necessary, but I add it as a precaution to remind me that it is not the original file that I need to edit. &nbsp;When developing, I will change the configuration sometimes without using the build, and Eclipse will automatically change the file from read-only for me. &nbsp;I also do not check in the target file into version control; only the original template and&nbsp;build.properties.<br>Version controlDo not check in the&nbsp;local.properties&nbsp;file which is generated by the Android build tools. This is noted in the file itself; it sets paths based on the local machine.<i>Do</i>&nbsp;check in the&nbsp;default.properties&nbsp;file, which is used by the Android tools, andbuild.properties, which is the file which you edit to customize your project’s build.<br><br>I also don’t check in the target&nbsp;Config.java&nbsp;in the source directory, nor anything else is configured by the build. I don’t want local changes to propagate to other developers, so I only check in the original template file in the&nbsp;config/&nbsp;directory.<br><br>In my projects, when I release a new version of a project I always check in the properties file and tag it in the source repository with a tag name such as &quot;VERSION_2.0&quot;. That way we are certain of what properties the application was built with, and we can reproduce the application exactly as it was released, if we later need to.<br>Summary1. At the command line run&nbsp;android create project, or&nbsp;android update project&nbsp;in your project base directory if it already exists.<br>2. (<i>Optional</i>) Add&nbsp;key.store&nbsp;and&nbsp;key.alias&nbsp;to&nbsp;build.properties&nbsp;if you want to include the signing step in your build.<br>3. (<i>Optional</i>) Add&nbsp;key.store.password&nbsp;and&nbsp;key.alias.password&nbsp;to&nbsp;build.propertiesif you want to include the keystore passwords, to make the build run without any further input needed.<br>4.&nbsp;(<i>Optional</i>)&nbsp;If you would like to further customize the build, copy the SDK Ant build code from&nbsp;&lt;SDK&gt;/platforms/&lt;target_platform&gt;/templates/android_rules.xmlto your local&nbsp;build.xml&nbsp;and change&nbsp;&lt;setup /&gt;&nbsp;to&nbsp;&lt;setup import=&quot;false&quot;/&gt;.<br>5. Use&nbsp;ant release&nbsp;to build your project. It will create the package in&nbsp;bin/.<br>Sample ApplicationThe sample application is a simple Hello World application, but it also includes the custom build script as described in this tutorial. &nbsp;It also includes the&nbsp;Config.java&nbsp;which is configurable by the build. First, you must run &quot;android update project -p .&quot; from the command line in the project’s directory to let the tools set the SDK path in&nbsp;local.properties. Then you can turn on and off logging by changing the value of&nbsp;config.logging&nbsp;in&nbsp;build.properties. Finally,&nbsp;run&nbsp;ant release&nbsp;to build the application, which will create the signed&nbsp;bin/MainActivity-release.apk&nbsp;file ready to be released.<br><p></p> 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2011/10/09/Using-Ant-to-Automate-Building-Android-Applications/" class="archive-article-date">
+  	<time datetime="2011-10-09T09:59:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2011-10-09</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-重复导入联系人的问题（Contact-AGGREGATION）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/09/28/重复导入联系人的问题（Contact-AGGREGATION）/">重复导入联系人的问题（Contact AGGREGATION）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+         <p>&nbsp;</p><p></p><p>重复导入联系人时，android会把相同的联系人放在一个联系人名片夹中，通过编辑联系人界面可以看到。这样可能会带来编辑的bug，同时看着也不爽。</p><p>研究了下代码，原来，android导入时，会调用合并的功能。通过设置RawContacts.AGGREGATION_MODE可以达到导入不合并的效果。</p><p>RawContacts.AGGREGATION_MODE可以设置为：</p><p>RawContacts.AGGREGATION_MODE_DEFAULT;</p><p>RawContacts.AGGREGATION_MODE_IMMEDIATE;</p><p>RawContacts.AGGREGATION_MODE_SUSPENED;</p><p>RawContacts.AGGREGATION_MODE_DISABLED;</p><p>(详见android.provider.ContactsContract.java)</p><p>&nbsp;</p><p>在导入联系人时insert的地方(frameworks/base/core/java/android/pim/vcard/VCardEntry.java&nbsp;:&nbsp;pushIntoContentResolver())加入</p><strong>builder.withValue(RawContacts.AGGREGATION_MODE,&nbsp;RawContacts.AGGREGATION_MODE_SUSPENDED);</strong>&nbsp;<p><br></p><p>————————-android doc for&nbsp;<strong>RawContacts———————</strong></p><p><strong>Aggregation</strong></p><p>As soon as a raw contact is inserted or whenever its constituent data changes, the provider will check if the raw contact matches other existing raw contacts and if so will aggregate it with those. The aggregation is reflected in the&nbsp;&nbsp;table by the change of the&nbsp;&nbsp;field, which is the reference to the aggregate contact.</p><p>Changes to the structured name, organization, phone number, email address, or nickname trigger a re-aggregation.</p><p>&nbsp;</p><p><strong>public static final int&nbsp;AGGREGATION_MODE_SUSPENDEDSince:&nbsp;</strong></p><p></p><p>Aggregation mode: aggregation suspended temporarily, and is likely to be resumed later. Changes to the raw contact will update the associated aggregate contact but will not result in any change in how the contact is aggregated. Similar to&nbsp;, but maintains a link to the corresponding&nbsp;&nbsp;aggregate.</p><p>This can be used to postpone aggregation until after a series of updates, for better performance and/or user experience.</p><p>Note that changing&nbsp;&nbsp;from&nbsp;&nbsp;to&nbsp;&nbsp;does not trigger an aggregation pass, but any subsequent change to the raw contact’s data will.</p><p></p>Constant Value:&nbsp;2 (0x00000002)<p><strong>public static final int&nbsp;AGGREGATION_MODE_DISABLEDSince:&nbsp;</strong></p><p></p><p>Aggregation mode: never aggregate this raw contact. The raw contact will not have a corresponding&nbsp;&nbsp;aggregate and therefore will not be included in&nbsp;&nbsp;query results.</p><p>For example, this mode can be used for a raw contact that is marked for deletion while waiting for the deletion to occur on the server side.</p><p></p>See AlsoConstant Value:&nbsp;3 (0x00000003)<p><br></p><p><br></p><p></p> 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2011/09/28/重复导入联系人的问题（Contact-AGGREGATION）/" class="archive-article-date">
+  	<time datetime="2011-09-28T11:39:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2011-09-28</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-联系人批量插入实例（VCardEntry-java）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/09/28/联系人批量插入实例（VCardEntry-java）/">联系人批量插入实例（VCardEntry.java）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+         <p>frameworks/base/core/java/android/pim/vcard/VCardEntry.java</p><p>&nbsp; &nbsp; &nbsp; &nbsp; public Uri pushIntoContentResolver(ContentResolver resolver);</p><p>&nbsp;</p><p></p><p>&nbsp; &nbsp; public Uri pushIntoContentResolver(ContentResolver resolver) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; ArrayList&lt;ContentProviderOperation&gt; operationList =</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; new ArrayList&lt;ContentProviderOperation&gt;();</p><p>&nbsp; &nbsp; &nbsp; &nbsp; // After applying the batch the first result’s Uri is returned so it is important that</p><p>&nbsp; &nbsp; &nbsp; &nbsp; // the RawContact is the first operation that gets inserted into the list</p><p>&nbsp; &nbsp; &nbsp; &nbsp; ContentProviderOperation.Builder builder =</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ContentProviderOperation.newInsert(RawContacts.CONTENT_URI);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; String myGroupsId = null;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; if (mAccount != null) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(RawContacts.ACCOUNT_NAME, mAccount.name);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(RawContacts.ACCOUNT_TYPE, mAccount.type);</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // Assume that caller side creates this group if it does not exist.</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (ACCOUNT_TYPE_GOOGLE.equals(mAccount.type)) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; final Cursor cursor = resolver.query(Groups.CONTENT_URI, new String[] {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Groups.SOURCE_ID },</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Groups.TITLE + &quot;=?&quot;, new String[] {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; GOOGLE_MY_CONTACTS_GROUP }, null);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; try {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (cursor != null &amp;&amp; cursor.moveToFirst()) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; myGroupsId = cursor.getString(0);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; } finally {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (cursor != null) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; cursor.close();</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; } else {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(RawContacts.ACCOUNT_NAME, null);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(RawContacts.ACCOUNT_TYPE, null);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; operationList.add(builder.build());</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; if (!nameFieldsAreEmpty()) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder = ContentProviderOperation.newInsert(Data.CONTENT_URI);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValueBackReference(StructuredName.RAW_CONTACT_ID, 0);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Data.MIMETYPE, StructuredName.CONTENT_ITEM_TYPE);</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(StructuredName.GIVEN_NAME, mGivenName);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(StructuredName.FAMILY_NAME, mFamilyName);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(StructuredName.MIDDLE_NAME, mMiddleName);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(StructuredName.PREFIX, mPrefix);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(StructuredName.SUFFIX, mSuffix);</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (!(TextUtils.isEmpty(mPhoneticGivenName)</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &amp;&amp; TextUtils.isEmpty(mPhoneticFamilyName)</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &amp;&amp; TextUtils.isEmpty(mPhoneticMiddleName))) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(StructuredName.PHONETIC_GIVEN_NAME, mPhoneticGivenName);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(StructuredName.PHONETIC_FAMILY_NAME, mPhoneticFamilyName);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(StructuredName.PHONETIC_MIDDLE_NAME, mPhoneticMiddleName);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; } else if (!TextUtils.isEmpty(mPhoneticFullName)) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(StructuredName.PHONETIC_GIVEN_NAME, mPhoneticFullName);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(StructuredName.DISPLAY_NAME, getDisplayName());</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; operationList.add(builder.build());</p><p>&nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; if (mNickNameList != null &amp;&amp; mNickNameList.size() &gt; 0) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; for (String nickName : mNickNameList) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder = ContentProviderOperation.newInsert(Data.CONTENT_URI);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValueBackReference(Nickname.RAW_CONTACT_ID, 0);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Data.MIMETYPE, Nickname.CONTENT_ITEM_TYPE);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Nickname.TYPE, Nickname.TYPE_DEFAULT);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Nickname.NAME, nickName);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; operationList.add(builder.build());</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; if (mPhoneList != null) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; for (PhoneData phoneData : mPhoneList) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder = ContentProviderOperation.newInsert(Data.CONTENT_URI);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValueBackReference(Phone.RAW_CONTACT_ID, 0);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Data.MIMETYPE, Phone.CONTENT_ITEM_TYPE);</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Phone.TYPE, phoneData.type);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (phoneData.type == Phone.TYPE_CUSTOM) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Phone.LABEL, phoneData.label);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Phone.NUMBER, phoneData.data);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (phoneData.isPrimary) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Phone.IS_PRIMARY, 1);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; operationList.add(builder.build());</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; if (mOrganizationList != null) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; for (OrganizationData organizationData : mOrganizationList) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder = ContentProviderOperation.newInsert(Data.CONTENT_URI);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValueBackReference(Organization.RAW_CONTACT_ID, 0);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Data.MIMETYPE, Organization.CONTENT_ITEM_TYPE);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Organization.TYPE, organizationData.type);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (organizationData.companyName != null) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Organization.COMPANY, organizationData.companyName);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (organizationData.departmentName != null) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Organization.DEPARTMENT, organizationData.departmentName);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (organizationData.titleName != null) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Organization.TITLE, organizationData.titleName);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (organizationData.phoneticName != null) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Organization.PHONETIC_NAME, organizationData.phoneticName);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (organizationData.isPrimary) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Organization.IS_PRIMARY, 1);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; operationList.add(builder.build());</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; if (mEmailList != null) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; for (EmailData emailData : mEmailList) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder = ContentProviderOperation.newInsert(Data.CONTENT_URI);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValueBackReference(Email.RAW_CONTACT_ID, 0);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Data.MIMETYPE, Email.CONTENT_ITEM_TYPE);</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Email.TYPE, emailData.type);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (emailData.type == Email.TYPE_CUSTOM) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Email.LABEL, emailData.label);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Email.DATA, emailData.data);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (emailData.isPrimary) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Data.IS_PRIMARY, 1);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; operationList.add(builder.build());</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; if (mPostalList != null) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; for (PostalData postalData : mPostalList) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder = ContentProviderOperation.newInsert(Data.CONTENT_URI);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; VCardUtils.insertStructuredPostalDataUsingContactsStruct(</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; mVCardType, builder, postalData);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; operationList.add(builder.build());</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; if (mImList != null) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; for (ImData imData : mImList) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder = ContentProviderOperation.newInsert(Data.CONTENT_URI);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValueBackReference(Im.RAW_CONTACT_ID, 0);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Data.MIMETYPE, Im.CONTENT_ITEM_TYPE);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Im.TYPE, imData.type);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Im.PROTOCOL, imData.protocol);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Im.DATA, imData.data);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (imData.protocol == Im.PROTOCOL_CUSTOM) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Im.CUSTOM_PROTOCOL, imData.customProtocol);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (imData.isPrimary) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Data.IS_PRIMARY, 1);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; operationList.add(builder.build());</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; if (mNoteList != null) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; for (String note : mNoteList) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder = ContentProviderOperation.newInsert(Data.CONTENT_URI);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValueBackReference(Note.RAW_CONTACT_ID, 0);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Data.MIMETYPE, Note.CONTENT_ITEM_TYPE);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Note.NOTE, note);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; operationList.add(builder.build());</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; if (mPhotoList != null) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; for (PhotoData photoData : mPhotoList) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder = ContentProviderOperation.newInsert(Data.CONTENT_URI);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValueBackReference(Photo.RAW_CONTACT_ID, 0);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Data.MIMETYPE, Photo.CONTENT_ITEM_TYPE);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Photo.PHOTO, photoData.photoBytes);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (photoData.isPrimary) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Photo.IS_PRIMARY, 1);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; operationList.add(builder.build());</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; if (mWebsiteList != null) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; for (String website : mWebsiteList) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder = ContentProviderOperation.newInsert(Data.CONTENT_URI);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValueBackReference(Website.RAW_CONTACT_ID, 0);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Data.MIMETYPE, Website.CONTENT_ITEM_TYPE);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Website.URL, website);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // There’s no information about the type of URL in vCard.</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // We use TYPE_HOMEPAGE for safety.</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Website.TYPE, Website.TYPE_HOMEPAGE);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; operationList.add(builder.build());</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; if (!TextUtils.isEmpty(mBirthday)) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder = ContentProviderOperation.newInsert(Data.CONTENT_URI);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValueBackReference(Event.RAW_CONTACT_ID, 0);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Data.MIMETYPE, Event.CONTENT_ITEM_TYPE);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Event.START_DATE, mBirthday);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Event.TYPE, Event.TYPE_BIRTHDAY);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; operationList.add(builder.build());</p><p>&nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; if (!TextUtils.isEmpty(mAnniversary)) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder = ContentProviderOperation.newInsert(Data.CONTENT_URI);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValueBackReference(Event.RAW_CONTACT_ID, 0);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Data.MIMETYPE, Event.CONTENT_ITEM_TYPE);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Event.START_DATE, mAnniversary);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Event.TYPE, Event.TYPE_ANNIVERSARY);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; operationList.add(builder.build());</p><p>&nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; if (mAndroidCustomPropertyList != null) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; for (List&lt;String&gt; customPropertyList : mAndroidCustomPropertyList) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; int size = customPropertyList.size();</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (size &lt; 2 || TextUtils.isEmpty(customPropertyList.get(0))) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; continue;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; } else if (size &gt; VCardConstants.MAX_DATA_COLUMN + 1) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; size = VCardConstants.MAX_DATA_COLUMN + 1;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; customPropertyList =</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; customPropertyList.subList(0, VCardConstants.MAX_DATA_COLUMN + 2);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; int i = 0;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; for (final String customPropertyValue : customPropertyList) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (i == 0) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; final String mimeType = customPropertyValue;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder = ContentProviderOperation.newInsert(Data.CONTENT_URI);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValueBackReference(GroupMembership.RAW_CONTACT_ID, 0);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Data.MIMETYPE, mimeType);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; } else { &nbsp;// 1 &lt;= i &amp;&amp; i &lt;= MAX_DATA_COLUMNS</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (!TextUtils.isEmpty(customPropertyValue)) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(&quot;data&quot; + i, customPropertyValue);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; i++;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; operationList.add(builder.build());</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; if (myGroupsId != null) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder = ContentProviderOperation.newInsert(Data.CONTENT_URI);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValueBackReference(GroupMembership.RAW_CONTACT_ID, 0);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(Data.MIMETYPE, GroupMembership.CONTENT_ITEM_TYPE);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; builder.withValue(GroupMembership.GROUP_SOURCE_ID, myGroupsId);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; operationList.add(builder.build());</p><p>&nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; try {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ContentProviderResult[] results = resolver.applyBatch(</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ContactsContract.AUTHORITY, operationList);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // the first result is always the raw_contact. return it’s uri so</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // that it can be found later. do null checking for badly behaving</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; // ContentResolvers</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return (results == null || results.length == 0 || results[0] == null)</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ? null</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; : results[0].uri;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; } catch (RemoteException e) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Log.e(LOG_TAG, String.format(&quot;%s: %s&quot;, e.toString(), e.getMessage()));</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return null;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; } catch (OperationApplicationException e) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Log.e(LOG_TAG, String.format(&quot;%s: %s&quot;, e.toString(), e.getMessage()));</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; return null;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; }</p><br><p></p> 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2011/09/28/联系人批量插入实例（VCardEntry-java）/" class="archive-article-date">
+  	<time datetime="2011-09-28T11:21:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2011-09-28</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-json-libs：Jackson-gson" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/09/16/json-libs：Jackson-gson/">json libs：Jackson/gson</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+         <p>&nbsp;</p><p><a href="http://wiki.fasterxml.com/JacksonInFiveMinutes" target="_blank" rel="external">http://wiki.fasterxml.com/JacksonInFiveMinutes</a></p><p><a href="http://jackson.codehaus.org/" target="_blank" rel="external">Jackson</a>&nbsp;is a multi-purpose Java library for processing&nbsp;<a href="http://json.org/" target="_blank" rel="external">JSON</a>.&nbsp;</p><p>&nbsp;</p><p>经比较，发现</p><p>google的gson更好用！！！</p><p></p><p></p> 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2011/09/16/json-libs：Jackson-gson/" class="archive-article-date">
+  	<time datetime="2011-09-16T15:52:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2011-09-16</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Java/">Java</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-【转】JVM内存回收时根节点的枚举（安全点与安全区域）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/09/08/【转】JVM内存回收时根节点的枚举（安全点与安全区域）/">【转】JVM内存回收时根节点的枚举（安全点与安全区域）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+         <p>原文<a href="http://icyfenix.iteye.com/blog/1166660" target="_blank" rel="external">http://icyfenix.iteye.com/blog/1166660</a></p><p>　　在上一篇《HotSpot虚拟机对象探秘》中，我们讨论了在HotSpot里对象是如何创建的、有怎样的内存布局、如何查找和使用。在本篇中，我们将继续探讨虚拟机自动内存管理系统的最重要一块职能：虚拟机如何对死亡的对象进行内存回收。&nbsp;</p>　　本篇里面，所有涉及到具体JVM实现的内容，仍然默认为基于HotSpot虚拟机的实现，后文不再单独说明。&nbsp;<br><br><strong>对象存活的判定</strong>&nbsp;<br>　　当一个对象不会再被使用的时候，我们会说这对象已经死亡。对象何时死亡，写程序的人应当是最清楚的。如果计算机也要弄清楚这件事情，就需要使用一些方法来进行对象存活判定，常见的方法有引用计数（Reference Counting）有可达性分析（Reachability Analysis）两种。&nbsp;<br>　　引用计数算法的大致思想是给对象中添加一个引用计数器，每当有一个地方引用它时，计数器值就加1；当引用失效时，计数器值就减1；任何时刻计数器为0的对象就是不可能再被使用的。它的实现简单，判定效率也很高，在大部分情况下它都是一个不错的算法，也有一些比较著名的应用案例，例如微软COM（Component Object Model）技术、使用ActionScript 3的FlashPlayer、Python语言和在游戏脚本领域得到许多应用的Squirrel中都使用了引用计数算法进行内存管理。但是，至少Java语言（这里指HotSpot等主流的JVM）里面没有选用引用计数算法来管理内存，其中最主要原因是它没有一个优雅的方案去对象之间相互循环引用的问题：当两个对象互相引用，即使它们都无法被外界使用时，它们的引用计数器也不会为0。&nbsp;<br>　　许多主流程序语言中（如Java、C#、Lisp），都是使用可达性分析来判定对象是否存活的。这个算法的基本思路就是通过一系列的称为GC根节点（GC Roots）的对象作为起始点，从这些节点开始进行向下搜索，搜索所走过的路径成为引用链（Reference Chain），当一个对象到GC Roots没有任何引用链相连（用图论的话来说就是从GC Roots到这个对象不可达）时，则证明此对象是不可用的。如图1所示，对象object 5、object 6、object 7虽然互相有关联，它们的引用并不为0，但是它们到GC Roots是不可达的，因此它们将会被判定为是可回收的对象。&nbsp;<br><br><img src="http://img.pickbox.me/wp-content/uploads/pic/4d89e9c4c1b8d2c48326ac98.jpg" small="0" class="blogimg"><br>&nbsp;<br><strong>图1 可达性分析算法判定对象是否可回收</strong><br><strong>枚举根节点</strong>&nbsp;<br>　　在Java语言里面，可作为GC Roots的节点主要在全局性的引用（例如常量或类静态属性）与执行上下文（例如栈帧中的本地变量表）中。如果要使用可达性分析来判断内存是否可回收的，那分析工作必须在一个能保障一致性的快照中进行——这里“一致性”的意思是整个分析期间整个执行系统看起来就像被冻结在某个时间点上，不可以出现分析过程中，对象引用关系还在不断变化的情况，这点不满足的话分析结果准确性就无法保证。这点也是导致GC进行时必须“Stop The World”的其中一个重要原因，即使是号称（几乎）不会发生停顿的CMS收集器中，枚举根节点时也是必须要停顿的。&nbsp;<br>　　由于目前的主流JVM使用的都是准确式GC（这个概念在第一篇中介绍过），所以当执行系统停顿下来之后，并不需要一个不漏地检查完所有执行上下文和全局的引用位置，虚拟机应当是有办法直接得到哪些地方存放着对象引用。在HotSpot的实现中，是使用一组称为OopMap的数据结构来达到这个目的，在类加载完成的时候，HotSpot就把对象内什么偏移量上是什么类型的数据计算出来，在JIT编译过程中，也会在特定的位置记录下栈里和寄存器里哪些位置是引用。这样GC在扫描时就就可以直接得知这些信息了。下面的代码清单1是HotSpot Client VM生成的一段String.hashCode()方法的本地代码，可以看到在0x026eb7a9处的call指令有OopMap记录，它指明了EBX寄存器和栈中偏移量为16的内存区域中各有一个普通对象指针（Ordinary Object Pointer）的引用，有效范围为从call指令开始直到0x026eb730（指令流的起始位置）+142（OopMap记录的偏移量）=0x026eb7be，即hlt指令为止。&nbsp;<br><br><strong>代码清单1 String.hashCode()方法的编译后的本地代码</strong>&nbsp;<br><p>Asm代码&nbsp;&nbsp;<a href="http://icyfenix.iteye.com/blog/1166660" target="_blank" rel="external"><img class="star" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/icyfenix_iteye_icon_star.png"></a></p><p>[Verified Entry Point] &nbsp;</p><p>0x026eb730: mov &nbsp; &nbsp;%eax,-0x8000(%esp) &nbsp;</p><p>………… &nbsp;</p><p>;; ImplicitNullCheckStub slow case &nbsp;</p><p>0x026eb7a9: call &nbsp; 0x026e83e0 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ; OopMap{ebx=Oop [16]=Oop off=142} &nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ;<em>caload &nbsp;</em></p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ; - java.lang.String::hashCode@48 (line 1489) &nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ; &nbsp; {runtime_call} &nbsp;</p><p>&nbsp; 0x026eb7ae: push &nbsp; $0x83c5c18 &nbsp; &nbsp; &nbsp; &nbsp; ; &nbsp; {external_word} &nbsp;</p><p>&nbsp; 0x026eb7b3: call &nbsp; 0x026eb7b8 &nbsp;</p><p>&nbsp; 0x026eb7b8: pusha &nbsp; &nbsp;</p><p>&nbsp; 0x026eb7b9: call &nbsp; 0x0822bec0 &nbsp; &nbsp; &nbsp; &nbsp; ; &nbsp; {runtime_call} &nbsp;</p><p>&nbsp; 0x026eb7be: hlt &nbsp; &nbsp; &nbsp;</p><br><p></p><p><strong>安全点</strong>&nbsp;</p>　　在OopMap的协助下，HotSpot可以快速准确地地完成GC Roots枚举，但一个很现实的问题随之而来：可能导致引用关系变化，或者说OopMap内容变化的指令非常多，如果为每一条指令都生成对应的OopMap，那将会需要大量的额外空间，这样GC的空间成本将会变得很高。&nbsp;<br>　　实际上HotSpot也的确没有为每条指令都生成OopMap，前面已经提到，只是在“特定的位置”记录了这些信息，这些位置被称为安全点（Safepoint），即程序执行时并非在所有的地方都能停顿下来开始GC，只有在到达安全点时才能暂停。Safepoint的选定既不能太少以至于让GC等待时间太长，也不能过于频繁以至于过分增大运行时的负荷。所以安全点的选定基本上是以程序“是否具有让程序长时间执行的特征”为标准进行选定的——因为每条指令执行的时间都非常短暂，程序不太可能因为指令流长度太长这个原因而过长时间运行，“长时间执行”的最明显特征就是指令序列复用，例如方法调用、循环跳转、异常跳转等，所以具有这些功能的指令才会产生Safepoint。&nbsp;<br>　　对于Sefepoint，另外一个需要考虑的问题是如何让GC发生时，让所有线程（这里不包括执行JNI调用的线程）都跑到最近的安全点上再停顿下来。我们有两种方案可供选择：抢先式中断（Preemptive Suspension）和主动式中断（Voluntary Suspension），抢先式中断不需要线程的执行代码主动去配合，在GC发生时，首先把所有线程全部中断，如果发现有线程中断的地方不在安全点上，就恢复线程，让它跑到安全点上。现在几乎没有虚拟机实现采用抢先式中断来暂停线程响应GC事件。&nbsp;<br>　　而主动式中断的思想是当GC需要中断线程的时候，不直接对线程操作，仅仅简单地设置一个标志，各个线程执行时主动去轮询这个标志，发现中断标志为真时就自己中断挂起。轮询标志的地方和安全点是重合的，另外再加上创建对象需要分配内存的地方。下面的代码清单2中的test指令是HotSpot生成的轮询指令，当需要暂停线程时，虚拟机把0x160100的内存页设置为不可读，那线程执行到test指令时就会停顿等待，这样一条指令便完成线程中断了。&nbsp;<br><br><strong>代码清单2 轮询指令</strong>&nbsp;<br><p>Asm代码&nbsp;&nbsp;<a href="http://icyfenix.iteye.com/blog/1166660" target="_blank" rel="external"><img class="star" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/icyfenix_iteye_icon_star.png"></a></p><p></p><p></p><p>0x01b6d627: call &nbsp; 0x01b2b210 &nbsp; &nbsp; &nbsp; &nbsp; ; OopMap{[60]=Oop off=460} &nbsp; &nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;;invokeinterface size &nbsp; &nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;; - Client1::main@113 (line 23) &nbsp; &nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;; &nbsp; {virtual_call} &nbsp; &nbsp;</p><p>&nbsp;0x01b6d62c: nop &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ; OopMap{[60]=Oop off=461} &nbsp; &nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;;*if_icmplt &nbsp; &nbsp;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;; - Client1::main@118 (line 23) &nbsp; &nbsp;</p><p>&nbsp;0x01b6d62d: test &nbsp; %eax,0x160100 &nbsp; &nbsp; &nbsp;; &nbsp; {poll} &nbsp; &nbsp;</p><p>&nbsp;0x01b6d633: mov &nbsp; &nbsp;0x50(%esp),%esi &nbsp; &nbsp;</p><p>&nbsp;0x01b6d637: cmp &nbsp; &nbsp;%eax,%esi &nbsp; &nbsp;</p><p></p><strong>安全区域</strong>&nbsp;<br>　　使用Safepoint似乎已经完美解决如何进入GC的问题了，但实际情况却并不一定。Safepoint机制保证了程序执行时，在不太长的时间内就会遇到可进入GC的Safepoint。但是，程序“不执行”的时候呢？所谓的程序不执行就是没有分配CPU时间，典型的例子就是线程处于Sleep状态或者Blocked状态，这时候线程无法响应JVM的中断请求，走到安全的地方去中断挂起，JVM也显然不太可能等待线程重新被分配CPU时间。对于这种情况，就需要安全区域（Safe Region）来解决。&nbsp;<br>　　安全区域是指在一段代码片段之中，引用关系不会发生变化。在这个区域中任意地方开始GC都是安全的。我们也可以把Safe Region看作是被扩展了的Safepoint。&nbsp;<br>　　在线程执行到Safe Region里面的代码时，首先标识自己已经进入了Safe Region，那样当这段时间里JVM要发起GC，就不用管标识自己为Safe Region状态的线程了。在线程要离开Safe Region时，它要检查系统是否已经完成了根节点枚举（或者是整个GC过程），如果完成了，那线程就继续执行，否则它就必须等待直到收到可以安全离开Safe Region的信号为止。&nbsp;<br>　　到这里，我们简单介绍了虚拟机如何去发起内存回收的问题，但是虚拟机如何具体地进行内存回收动作仍然未涉及到。因为内存回收如何进行是由虚拟机所采用的GC收集器所决定的，而通常虚拟机中往往不止有一种GC收集器，像目前（JDK 7时代）的HotSpot里面就包含有Serial、Serial Old、ParNew、Parallel Scavenge、Parallel Old、Concurrent Mark Sweep和Garbage First七种收集器，在下一篇中，我们将以最新最先进的Garbage First（G1）收集器为例，介绍内存回收的具体过程。&nbsp;<br><br><strong>参考资料</strong>&nbsp;<br>　　本文撰写时主要参考了以下资料：&nbsp;<br><p><a href="http://icyfenix.iteye.com/blog/1095132" target="_blank">http://icyfenix.iteye.com/blog/1095132</a></p><p><a href="http://xiao-feng.blogspot.com/2008/01/gc-safe-point-and-safe-region.html" target="_blank">http://xiao-feng.blogspot.com/2008/01/gc-safe-point-and-safe-region.html</a></p><p><a href="http://rednaxelafx.iteye.com/blog/1044951" target="_blank">http://rednaxelafx.iteye.com/blog/1044951</a></p><p><strong>声明：</strong>&nbsp;</p><p>　　本文已经首发于<a href="http://www.infoq.com/cn" target="_blank">InfoQ中文站</a>，版权所有，原文为<a href="http://www.infoq.com/cn/articles/jvm-memory-collection" target="_blank">《JVM内存回收理论与实现》</a>，如需转载，请务必附带本声明，谢谢。</p><p>&nbsp;</p><p></p> 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2011/09/08/【转】JVM内存回收时根节点的枚举（安全点与安全区域）/" class="archive-article-date">
+  	<time datetime="2011-09-08T02:13:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2011-09-08</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Java/">Java</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-html-如何响应touch事件" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/09/08/html-如何响应touch事件/">html 如何响应touch事件</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+         <p>使用document.addEventListener添加touch事件</p><p></p><p>&lt;!DOCTYPE html&gt;</p><p>&lt;html&gt;</p><p>&nbsp; &nbsp; &lt;head&gt;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &lt;title&gt;touch test &lt;/title&gt;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &lt;style type=&quot;text/css&quot;&gt;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; .item {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; float: left;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; width: 25%;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &lt;/style&gt;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &lt;script type=&quot;text/javascript&quot;&gt;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; function log(name, value){</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; var dd = document.createElement(‘dd’);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; var text = document.createTextNode(value);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; dd.appendChild(text);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; document.getElementById(name).appendChild(dd);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; function expandObject(obj){</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; var html = [];</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; html.push(‘&lt;ul&gt;’);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; for (var i in obj) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; html.push(‘&lt;li&gt;’ + i + ‘:’ + obj[i] + ‘&lt;/li&gt;’);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; html.push(‘&lt;/ul&gt;’);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; document.getElementById(‘obj-expand’).innerHTML = html.join(‘’);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; document.addEventListener(‘click’, function(ev){</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; log(‘click’, ev.pageX + ‘,’ + ev.pageY + ‘/‘ + (ev.timeStamp - 0));</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }, false);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; document.addEventListener(‘touchstart’, function(ev){</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; log(‘touchstart’, ev.touches[0].pageX + ‘,’ + ev.touches[0].pageY + ‘/‘ + (ev.timeStamp - 0));</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }, false);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; document.addEventListener(‘touchend’, function(ev){</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; log(‘touchend’, ev.changedTouches[0].pageX + ‘,’ + ev.changedTouches[0].pageY + ‘/‘ + (ev.timeStamp - 0));</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }, false);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; document.addEventListener(‘touchmove’, function(ev){</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; log(‘touchmove’, ev.touches[0].pageX + ‘,’ + ev.touches[0].pageY + ‘/‘ + (ev.timeStamp - 0));</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }, false);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &lt;/script&gt;</p><p>&nbsp; &nbsp; &lt;/head&gt;</p><p>&nbsp; &nbsp; &lt;body&gt;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &lt;div id=&quot;obj-expand&quot;&gt;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &lt;/div&gt;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &lt;div class=&quot;item&quot;&gt;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;dl id=&quot;click&quot;&gt;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;dt&gt;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; click event</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;/dt&gt;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;/dl&gt;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &lt;/div&gt;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &lt;div class=&quot;item&quot;&gt;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;dl id=&quot;touchstart&quot;&gt;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;dt&gt;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; touchstart event</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;/dt&gt;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;/dl&gt;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &lt;/div&gt;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &lt;div class=&quot;item&quot;&gt;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;dl id=&quot;touchend&quot;&gt;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;dt&gt;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; touchend event</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;/dt&gt;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;/dl&gt;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &lt;/div&gt;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &lt;div class=&quot;item&quot;&gt;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;dl id=&quot;touchmove&quot;&gt;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;dt&gt;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; touchmove event</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;/dt&gt;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;/dl&gt;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &lt;/div&gt;</p><p>&nbsp; &nbsp; &lt;/body&gt;</p><p>&lt;/html&gt;</p><p>&nbsp;</p><p>用JS添加ontouch*&nbsp;函数</p><p></p><p></p><p></p><p>$(&quot;.normal-btn&quot;).each(function() {</p><p>&nbsp; &nbsp; this.ontouchstart = function(e) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; $(this).css(&quot;background-image&quot;, &quot;url(images/btn_pressed.png)&quot;);</p><p>&nbsp; &nbsp; }</p><p>&nbsp; &nbsp; this.ontouchend = function(e) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; $(this).css(&quot;background-image&quot;, &quot;url(images/btn_normal.png)&quot;);</p><p>&nbsp; &nbsp; }</p><p>});</p><br><p></p><p></p><p></p><p></p><p></p><p></p> 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2011/09/08/html-如何响应touch事件/" class="archive-article-date">
+  	<time datetime="2011-09-08T02:04:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2011-09-08</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Customize-Android-Browser-Scaling-with-target-densityDpi" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/09/07/Customize-Android-Browser-Scaling-with-target-densityDpi/">Customize Android Browser Scaling with target-densityDpi</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+         <p>WebSettings webSettings = mWebView.getSettings();</p><p>webSettings.setDefaultZoom(ZoomDensity.FAR);</p><p></p><p>ZoomDensity：Enum for specifying the WebView’s desired density. FAR makes 100% looking like in 240dpi MEDIUM makes 100% looking like in 160dpi CLOSE makes 100% looking like in 120dpi</p><p>&nbsp;</p><p>~~ OR ~~</p><p>&nbsp;</p><p></p><p>It was hard to find this little gem, so I thought I’d share it with the world: the Android team has implemented a custom meta viewport property to allow you to customize browser scaling for high resolution (HDPI) screens, like the WVGA 480x854 Motorola Droid and 480x800 Nexus One.  [This is as opposed to medium resolution (MDPI) HVGA 320x480 T-Mobile G1 or myTouch 3G.]</p><p></p><p>You can use it like this, for example:  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, target-densityDpi=device-dpi&quot;&gt;</p>What’s Browser Scaling?<p>Here, <a href="http://www.quirksmode.org/blog/archives/2010/04/a_pixel_is_not.html" target="_blank" rel="external">ppk explains why a pixel is not a pixel</a>.  The CSS &quot;px&quot; unit may differ from a device’s actual pixels, as the browser &quot;scales&quot; images and fonts to a larger size than you requested.  (The browser just naturally assumes you didn’t really mean &quot;pixels&quot; when you said &quot;px,&quot; and helpfully tries to resize your content to make it readable on high-resolution phone screens.)</p><p>The Nexus One and Motorola Droid (and any other WVGA devices) will scale pixels even if you use the <a href="http://developer.apple.com/safari/library/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html#//apple_ref/doc/uid/TP40008193-SW6" target="_blank" rel="external">&lt;meta name=&quot;viewport&quot;&gt; tag</a> to instruct it not to do this.  Worse, they using a non-integer scaling factor (e.g. 1.5x zoom, to scale 320px to 480px) which makes images look really weird.</p>target-densityDpi to the rescue!<p>Use this new undocumented &lt;meta name=&quot;viewport&quot;&gt; property: .  The only existing documentation is in the :</p>Add dpi support for WebView.In the &quot;viewport&quot; meta tag, you can specify &quot;target-densityDpi&quot;.If it is not specified, it uses the default, 160dpi as of today.Then the 1.0 scale factor specified in the viewport tag means 100%on G1 and 150% on Sholes. If you set &quot;target-densityDpi&quot; to&quot;device-dpi&quot;, then the 1.0 scale factor means 100% on both G1 and Sholes.Implemented Safari’s window.devicePixelRatio and css media querydevice-pixel-ratio.So if you use &quot;device-dpi&quot; and modify the css for font-size and imagesrc depending on window.devicePixelRatio, you can get a better page onSholes/Passion.Here is a list of options for &quot;target-densityDpi&quot;.device-dpi:    Use the device’s native dpi as target dpi.low-dpi:       120dpimedium-dpi:    160dpi, which is also the default as of todayhigh-dpi:      240dpi&lt;number&gt;:      We take any number between 70 and 400 as a valid target dpi.Fix <a href="http://b/issue?id=2071943" target="_blank" rel="external">http://b/issue?id=2071943</a><p></p>So how do I use it?<p>Like this, for example:  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, target-densityDpi=device-dpi&quot;&gt;</p><p>You may also want to add the &quot;user-scalable=no&quot; property to prevent the user from zooming in/out and to guarantee that your images are exactly as you designed them.  You can read more about other viewport properties in <a href="http://developer.apple.com/safari/library/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html#//apple_ref/doc/uid/TP40008193-SW6" target="_blank" rel="external">Apple’s documentation</a> which originally defines the&nbsp;</p><p></p> 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2011/09/07/Customize-Android-Browser-Scaling-with-target-densityDpi/" class="archive-article-date">
+  	<time datetime="2011-09-07T03:08:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2011-09-07</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-AlarmManager-and-Timer" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/08/25/AlarmManager-and-Timer/">AlarmManager and Timer</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <b>AlarmManager and Timer</b><br>1. The Alarm Manager holds a CPU wake lock as long as the alarm receiver’s onReceive() method is executing. This guarantees that the phone will not sleep until you have finished handling the broadcast.<br>2.&nbsp;If your alarm receiver called&nbsp;<a href="http://file:///E:/work/android-sdk-windows/docs/reference/android/content/Context.html#startService(android.content.Intent)" target="_blank" rel="external">Context.startService()</a>, it is possible that the phone will sleep before the requested service is launched. To prevent this, your BroadcastReceiver and Service will need to implement a separate wake lock policy to ensure that the phone continues running until the service becomes available.3.&nbsp;If an alarm is delayed (by system sleep, for example, for non _WAKEUP alarm types), a skipped repeat will be delivered as soon as possible.&nbsp;For example, if you have set a recurring alarm for the top of every hour but the phone was asleep from 7:45 until 8:45, an alarm will be sent as soon as the phone awakens, then the next alarm will be sent at 9:00.<b>Sample:</b>Intent intent = new Intent(AlarmActivity.this, AlarmReceiver.class);PendingIntent pi = PendingIntent.getBroadcast(AlarmActivity.this, 0, intent, 0);AlarmManager am = (AlarmManager) getSystemService(Activity.ALARM_SERVICE);am.setRepeating(AlarmManager.RTC_WAKEUP, c.getTimeInMillis(), (10 * 1000), pi);<br>4. Each timer has one thread on which tasks are executed sequentially.5（1）schedule方法：下一次执行时间相对于<strong></strong>&nbsp;<strong>上一次</strong>&nbsp;<strong>实际执行完成的时间点</strong>&nbsp;<strong></strong><strong></strong>，因此执行时间会不断延后<br>（2）scheduleAtFixedRate方法：下一次执行时间相对于<strong>上一次开始的</strong>&nbsp;<strong>时间点</strong>&nbsp;，因此执行时间不会延后，<strong>存在并发性&nbsp;</strong>6. 手机SleepTimer依然执行<br>Sample:&nbsp; &nbsp; &nbsp; &nbsp; TimerTask task = new SyncContactsTimerTask();&nbsp; &nbsp; &nbsp; &nbsp; delay = genDelay();<br>&nbsp; &nbsp; &nbsp; &nbsp; mTimer.schedule(new BackupContactsTimerTask(), delay, TIMER_TASK_PERIOD);<br>&nbsp; &nbsp; private final class BackupContactsTimerTask extends TimerTask {&nbsp; &nbsp; &nbsp; &nbsp; public void run() {&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (DBG) {&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; LogUtil.i(ContactBackupRestore.TAG, &quot;BackupContactsTimerTask run() begin&quot;);&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (ContactBackupRestore.getAutoSyncPref(ContactsService.this) != 0) {&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ContactBackupRestore.setIsAutoBackingUp(ContactsService.this, 1);&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; backupContacts();&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }&nbsp; &nbsp; &nbsp; &nbsp; }&nbsp; &nbsp; }<br></p><p></p> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2011/08/25/AlarmManager-and-Timer/" class="archive-article-date">
+  	<time datetime="2011-08-25T13:22:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2011-08-25</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-HttpEntity-consumeContent" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/08/25/HttpEntity-consumeContent/">HttpEntity.consumeContent()</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+         <p>HttpEntity.consumeContent():</p><p>&nbsp;</p><p>TODO: The name of this method is misnomer. It will be renamed to #finish() in the next major release.&nbsp;</p><p>This method is called to indicate that the content of this entity is no longer required. All entity implementations are expected to release all allocated resources as a result of this method invocation. Content streaming entities are also expected to dispose of the remaining content, if any. Wrapping entities should delegate this call to the wrapped entity.&nbsp;</p><p>This method is of particular importance for entities being received from a connection. The entity needs to be consumed completely in order to re-use the connection with keep-alive.</p><p>&nbsp;</p><p><a href="http://groups.google.com/group/android-developers/browse_thread/thread/31c1f93af393c5ff/a0354af5b7559db1#a0354af5b7559db1" target="_blank">http://groups.google.com/group/android-developers/browse_thread/thread/31c1f93af393c5ff/a0354af5b7559db1#a0354af5b7559db1</a></p><p>especially if keep-alive is on, calling consumeContent() can prevent&nbsp;</p><p>a lot of trouble</p><p>the trouble I saw when not calling ‘consumeContent()’, was that the&nbsp;</p><p>response of a previous request was ‘bleeding’ into the response of the next&nbsp;</p><p>request.</p><p>&nbsp;</p><p></p> 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2011/08/25/HttpEntity-consumeContent/" class="archive-article-date">
+  	<time datetime="2011-08-25T02:50:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2011-08-25</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/11/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><span class="space">&hellip;</span><a class="page-number" href="/page/60/">60</a><a class="extend next" rel="next" href="/page/13/">Next &raquo;</a>
+    </nav>
+  
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: true,
+		isPost: false,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

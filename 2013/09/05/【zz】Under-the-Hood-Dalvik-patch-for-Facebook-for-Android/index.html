@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>【zz】Under the Hood: Dalvik patch for Facebook for Android | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Facebook is one of the most feature-rich apps available for Android. With features likepush notifications, news feed, and an embedded version of Facebook Messenger (a complete app in its own right) al">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【zz】Under the Hood: Dalvik patch for Facebook for Android">
+<meta property="og:url" content="http://blog.pickbox.me/2013/09/05/【zz】Under-the-Hood-Dalvik-patch-for-Facebook-for-Android/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="Facebook is one of the most feature-rich apps available for Android. With features likepush notifications, news feed, and an embedded version of Facebook Messenger (a complete app in its own right) al">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【zz】Under the Hood: Dalvik patch for Facebook for Android">
+<meta name="twitter:description" content="Facebook is one of the most feature-rich apps available for Android. With features likepush notifications, news feed, and an embedded version of Facebook Messenger (a complete app in its own right) al">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-【zz】Under-the-Hood-Dalvik-patch-for-Facebook-for-Android" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      【zz】Under the Hood: Dalvik patch for Facebook for Android
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Facebook is one of the most feature-rich apps available for Android. With features likepush notifications, news feed, and an embedded version of Facebook Messenger (a complete app in its own right) all working together in real-time, the complexity and volume of code creates technical challenges that few, if any, other Android developers face–especially on older versions of the platform. (Our latest apps support Android versions as old as Froyo–Android version 2.2–which is almost three years old.)</p>
+<p>One of these challenges is related to the way Android’s runtime engine, the Dalvik Virtual Machine, handles Java methods. Late last year we completed a  major rebuildof our Android app (<a href="https://www.facebook.com/notes/facebook-engineering/under-the-hood-rebuilding-facebook-for-android/10151189598933920" target="_blank" rel="external">https://www.facebook.com/notes/facebook-engineering/under-the-hood-rebuilding-facebook-for-android/10151189598933920</a>), which involved moving a lot of our code from JavaScript to Java, as well as using newer abstractions that encouraged large numbers of small methods (generally considered a good programming practice). Unfortunately, this caused the number of Java methods in our app to drastically increase.</p>
+<p>As we were testing, the problem first showed up as described in this bug(<a href="http://code.google.com/p/android/issues/detail?id=22586" target="_blank" rel="nofollow">http://code.google.com/p/android/issues/detail?id=22586</a>) , which caused our app installation to fail on older Android phones. During standard installation, a program called “dexopt” runs to prepare your app for the specific phone it’s being installed on. Dexopt uses a fixed-size buffer (called the “LinearAlloc” buffer) to store information about all of the methods in your app. Recent versions of Android use an 8 or 16 MB buffer, but Froyo and Gingerbread (versions 2.2 and 2.3) only have 5 MB. Because older versions of Android have a relatively small buffer, our large number of methods was exceeding the buffer size and causing dexopt to crash.</p>
+<p>After a bit of panic, we realized that we could work around this problem by breaking our app into multiple dex files, using the technique described here (<a href="http://android-developers.blogspot.com/2011/07/custom-class-loading-in-dalvik.html" target="_blank" rel="nofollow">http://android-developers.blogspot.com/2011/07/custom-class-loading-in-dalvik.html</a>), which focuses on using secondary dex files for extension modules, not core parts of the app.</p>
+<p>However, there was no way we could break our app up this way–too many of our classes are accessed directly by the Android framework. Instead, we needed to inject our secondary dex files directly into the system class loader. This isn’t normally possible, but we examined the Android source code and used Java reflection to directly modify some of its internal structures. We were certainly glad and grateful that Android is open source—otherwise, this change wouldn’t have been possible.</p>
+<p>But as we came closer to launching our redesigned app, we ran into another problem. The LinearAlloc buffer doesn’t just exist in dexopt–it exists within every running Android program. While dexopt uses LinearAlloc to to store information about all of the methods in your dex file, the running app only needs it for methods in classes that you are actually using. Unfortunately, we were now using too many methods for Android versions up to Gingerbread, and our app was crashing shortly after startup.</p>
+<p>There was no way to work around this with dex files since all of our classes were being loaded into one process, and we weren’t able to find any information about anyone who had faced this problem before (since it is only possible once you are already using multiple dex files, which is a difficult technique in itself).  We were on our own.</p>
+<p>We tried various techniques to reclaim space, including aggressive use of ProGuard and source code transformations to reduce our method count. We even built a profiler for LinearAlloc usage to figure out what the biggest consumers were. Nothing we tried had a significant impact, and we still needed to write many more methods to support all of the rich content types in our new and improved news feed and timeline.</p>
+<p>As it stood, the release of the much-anticipated Facebook for Android 2.0 was at risk. It seemed like we would have to choose between cutting significant features from the app or only shipping our new version to the newest Android phones (ICS and up). Neither seemed acceptable. We needed a better solution.</p>
+<p>Once again, we looked to the Android source code. Looking at the definition of the LinearAlloc buffer (<a href="https://github.com/android/platform_dalvik/blob/android-2.3.7_r1/vm/LinearAlloc.h#L33" target="_blank" rel="nofollow">https://github.com/android/platform_dalvik/blob/android-2.3.7_r1/vm/LinearAlloc.h#L33</a>), we realized that if we could only increase that buffer from 5 MB to 8 MB, we would be safe!</p>
+<p>That’s when we had the idea of using a JNI extension to replace the existing buffer with a larger one. At first, this idea seemed completely insane. Modifying the internals of the Java class loader is one thing, but modifying the internals of the Dalvik VM while it was running our code is incredibly dangerous. But as we pored over the code, analyzing all the uses of LinearAlloc, we began to realize that it should be safe as long as we did it at the start of our program. All we had to do was find the LinearAllocHdr object, lock it, and replace the buffer.</p>
+<p>Finding it turned out to be the hard part. Here’s where it’s stored(<a href="https://github.com/android/platform_dalvik/blob/android-2.3.7_r1/vm/Globals.h#L519" target="_blank" rel="nofollow">https://github.com/android/platform_dalvik/blob/android-2.3.7_r1/vm/Globals.h#L519</a>), buried within the DvmGlobals object, over 700 bytes from the start. Searching the entire object would be risky at best, but fortunately, we had an anchor point: the vmList object just a few bytes before. This contained a value that we could compare to the JavaVM pointer available through JNI.</p>
+<p>The plan was finally coming together: find the proper value for vmList, scan the DvmGlobals object to find a match, jump a few more bytes to the LinearAlloc header, and replace the buffer. So we built the JNI extension, embedded it in our app, started it up, and…we saw the app running on a Gingerbread phone for the first time in weeks.The plan had worked.</p>
+<p>But for some reason it failed on the Samsung Galaxy S II…<br>The most popular Gingerbread phone…<br>Of all time…<br>It seems that Samsung made a small change to Android that was confusing our code. Other manufacturers might have done the same, so we realized we needed to make our code more robust.</p>
+<p>Manual inspection of the GSII revealed that the LinearAlloc buffer was only 4 bytes from where we expected it, so we adjusted our code to look a few bytes to each side if it failed to find the LinearAlloc buffer in the expected location. This required us to parse our process’s memory map to ensure we didn’t make any invalid memory references (which would crash the app immediately) and also build some strong heuristics to make sure we would recognize the LinearAlloc buffer when we found it. As a last resort, we found a (mostly) safe way to scan the entire process heap to search for the buffer.</p>
+<p>Now we had a version of the code that worked on a few popular phones–but we needed more than just a few. So we bundled our code up into a test app that would run the same procedure we were using for the Facebook app, then just display a large green or red box, indicating success or failure.</p>
+<p>We used manual testing, DeviceAnywhere, and a test lab that Google let us borrow to run our test app on 70 different phone models, and fortunately, it worked on every single one!</p>
+<p>We released this code with Facebook for Android 2.0 in December. It’s now running on hundreds of different phone models, and we have yet to find one where it doesn’t work. The great speed improvements in that release would not have been possible without this crazy hack. And needless to say, without Android’s open platform, we wouldn’t have had the opportunity to ship our best version of the app. There’s a lot of opportunity for building on Android, and we’re excited to keep bringing the Facebook experience to more people and devices.</p>
+<p>Refer “<a href="https://www.facebook.com/notes/facebook-engineering/under-the-hood-dalvik-patch-for-facebook-for-android/10151345597798920" target="_blank">Under the Hood: Dalvik patch for Facebook for Android</a>”</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/09/05/【zz】Under-the-Hood-Dalvik-patch-for-Facebook-for-Android/" class="archive-article-date">
+  	<time datetime="2013-09-05T11:50:27.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-09-05</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2013/09/07/TP-Link-TL-WR703n将串口引出到Micro-USB供电口/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          TP-Link TL-WR703n将串口引出到Micro USB供电口
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2013/09/05/TP-Link-TL-WR703n增加一个GPIO控制按钮/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">TP-Link TL-WR703n增加一个GPIO控制按钮</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

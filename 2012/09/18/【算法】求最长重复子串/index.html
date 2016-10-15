@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>【算法】求最长重复子串 | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="http://hi.baidu.com/qwertlooker/item/44f3fe52ad772cdbd58bacfd求最长重复子串&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;对于类似从给定的文本中，查找其中最长的重复子字符串的问题，可以采用“后缀数组”来高效地完成此任务。后缀数组使用文本本身和n个附加指针（与文本数组相应的指针数组）来表示输入文本中的n个字符的每个子字符串。&amp;nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【算法】求最长重复子串">
+<meta property="og:url" content="http://blog.pickbox.me/2012/09/18/【算法】求最长重复子串/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="http://hi.baidu.com/qwertlooker/item/44f3fe52ad772cdbd58bacfd求最长重复子串&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;对于类似从给定的文本中，查找其中最长的重复子字符串的问题，可以采用“后缀数组”来高效地完成此任务。后缀数组使用文本本身和n个附加指针（与文本数组相应的指针数组）来表示输入文本中的n个字符的每个子字符串。&amp;nbsp;">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【算法】求最长重复子串">
+<meta name="twitter:description" content="http://hi.baidu.com/qwertlooker/item/44f3fe52ad772cdbd58bacfd求最长重复子串&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;对于类似从给定的文本中，查找其中最长的重复子字符串的问题，可以采用“后缀数组”来高效地完成此任务。后缀数组使用文本本身和n个附加指针（与文本数组相应的指针数组）来表示输入文本中的n个字符的每个子字符串。&amp;nbsp;">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-【算法】求最长重复子串" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      【算法】求最长重复子串
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+         <p><a href="http://hi.baidu.com/qwertlooker/item/44f3fe52ad772cdbd58bacfd" target="_blank">http://hi.baidu.com/qwertlooker/item/44f3fe52ad772cdbd58bacfd</a><br></p><p><br></p><div>求最长重复子串&nbsp;&nbsp;&nbsp;&nbsp;对于类似从给定的文本中，查找其中最长的重复子字符串的问题，可以采用“后缀数组”来高效地完成此任务。后缀数组使用文本本身和n个附加指针（与文本数组相应的指针数组）来表示输入文本中的n个字符的每个子字符串。<br>&nbsp;&nbsp;&nbsp;&nbsp;首先,如果输入字符串存储在c[0..n-1]中，那么就可以使用类似于下面的代码比较每对子字符串：<br>&nbsp;&nbsp;&nbsp;&nbsp;maxlen&nbsp;=&nbsp;-1<br>&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;i&nbsp;=&nbsp;[0,&nbsp;n)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;j&nbsp;=&nbsp;(i,&nbsp;n)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(thislen&nbsp;=&nbsp;comlen(&amp;c[i],&nbsp;&amp;c[j]))&nbsp;&gt;&nbsp;maxlen<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;maxlen&nbsp;=&nbsp;thislen<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;maxi&nbsp;=&nbsp;i<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;maxj&nbsp;=&nbsp;j<br>&nbsp;&nbsp;&nbsp;&nbsp;当作为comlen函数参数的两个字符串长度相等时，该函数便返回这个长度值，从第一个字符开始：<br>&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;comlen(char&nbsp;<em>p,&nbsp;char</em>&nbsp;q)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i&nbsp;=&nbsp;0<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;while&nbsp;<em>p&nbsp;&amp;&amp;&nbsp;(</em>p++&nbsp;=&nbsp;<em>q++)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i++<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;i<br>&nbsp;&nbsp;&nbsp;&nbsp;由于该算法查看所有的字符串对，所以它的时间和n的平方成正比。下面便是使用“后缀数组”的解决办法。<br>&nbsp;&nbsp;&nbsp;&nbsp;如果程序至多可以处理MAXN个字符，这些字符被存储在数组c中：<br>&nbsp;&nbsp;&nbsp;&nbsp;#define&nbsp;MAXN&nbsp;5000000<br>&nbsp;&nbsp;&nbsp;&nbsp;char&nbsp;c[MAXN],&nbsp;</em>a[MAXN];<br>&nbsp;&nbsp;&nbsp;&nbsp;在读取输入时，首先初始化a,这样，每个元素就都指向输入字符串中的相应字符：<br>&nbsp;&nbsp;&nbsp;&nbsp;while&nbsp;(ch&nbsp;=&nbsp;getchar())&nbsp;!=&nbsp;EOF<br>a[n]&nbsp;=&nbsp;&amp;c[n];<br>c[n++]&nbsp;=&nbsp;ch;<br>c[n]&nbsp;=&nbsp;0&nbsp;//将数组c中的最后一个元素设为空字符，以终止所有字符串。<br>这样，元素a[0]指向整个字符串，下一个元素指向以第二个字符开始的数组的后缀，等等。如若输入字符串为&quot;banana&quot;,该数组将表示这些后缀：<br>a[0]:banana<br>a[1]:anana<br>a[2]:nana<br>a[3]:ana<br>a[4]:na<br>a[5]:a<br>由于数组a中的指针分别指向字符串中的每个后缀，所以将数组a命名为&quot;后缀数组&quot;<br>第二，对后缀数组进行快速排序，以将后缀相近的（变位词）子串集中在一起<br>qsort(a,&nbsp;n,&nbsp;sizeof(char<em>),&nbsp;pstrcmp)后<br>a[0]:a<br>a[1]:ana<br>a[2]:anana<br>a[3]:banana<br>a[4]:na<br>a[5]:nana<br>第三，使用以下comlen函数对数组进行扫描比较邻接元素，以找出最长重复的字符串：<br>for&nbsp;i&nbsp;=&nbsp;[0,&nbsp;n)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;comlen(a[i],&nbsp;a[i+1])&nbsp;&gt;&nbsp;maxlen<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;maxlen&nbsp;=&nbsp;comlen(a[i],&nbsp;a[i+1])<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;maxi&nbsp;=&nbsp;i<br>printf(&quot;%.</em>sn&quot;,&nbsp;maxlen,&nbsp;a[maxi])<br>由于少了内层循环，只是多了一次排序，因此该算法的运行时间为O(n&nbsp;logn).&nbsp;<br><br>完整代码如下：<br>#include&nbsp;&lt;stdio.h&gt;<br>#include&nbsp;&lt;stdlib.h&gt;<br>#include&nbsp;&lt;string.h&gt;<br><br>#define&nbsp;MAXCHAR&nbsp;5000&nbsp;//最长处理5000个字符<br><br>char&nbsp;c[MAXCHAR],&nbsp;<em>a[MAXCHAR];<br><br>int&nbsp;comlen(&nbsp;char&nbsp;</em>p,&nbsp;char&nbsp;<em>q&nbsp;){<br>&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;i&nbsp;=&nbsp;0;<br>&nbsp;&nbsp;&nbsp;&nbsp;while(&nbsp;</em>p&nbsp;&amp;&amp;&nbsp;(<em>p++&nbsp;==&nbsp;</em>q++)&nbsp;)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;++i;<br>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;i;<br>}<br><br>int&nbsp;pstrcmp(&nbsp;const&nbsp;void&nbsp;<em>p1,&nbsp;const&nbsp;void&nbsp;</em>p2&nbsp;){<br>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;strcmp(&nbsp;<em>(char</em>&nbsp;const&nbsp;<em>)p1,&nbsp;</em>(char<em>&nbsp;const</em>)p2&nbsp;);<br>}<br><br>int&nbsp;main(&nbsp;){<br>&nbsp;&nbsp;&nbsp;&nbsp;char&nbsp;ch;<br>&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;n=0;<br>&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;i,&nbsp;temp;<br>&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;maxlen=0,&nbsp;maxi=0;<br>&nbsp;&nbsp;&nbsp;&nbsp;printf(&quot;Please&nbsp;input&nbsp;your&nbsp;string:n&quot;);<br>&nbsp;&nbsp;&nbsp;&nbsp;while(&nbsp;(ch=getchar())!=&#39;n&#39;&nbsp;){<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;a[n]=&amp;c[n];<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c[n++]=ch;<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;c[n]=&#39; &#39;;<br>&nbsp;&nbsp;&nbsp;&nbsp;qsort(&nbsp;a,&nbsp;n,&nbsp;sizeof(char<em>),&nbsp;pstrcmp&nbsp;);<br>&nbsp;&nbsp;&nbsp;&nbsp;for(i=0;&nbsp;i&lt;n-1;&nbsp;++i&nbsp;){<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;temp=comlen(&nbsp;a[i],&nbsp;a[i+1]&nbsp;);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(&nbsp;temp&gt;maxlen&nbsp;){<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;maxlen=temp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;maxi=i;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;printf(&quot;%.</em>sn&quot;,maxlen,&nbsp;a[maxi]);<br>&nbsp;&nbsp;&nbsp;&nbsp;system(&quot;PAUSE&quot;);<br>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;0;<br>}<br><br>原文链接：<a href="http://blog.csdn.net/baiwen1979/archive/2008/03/24/2212147.aspx" target="_blank" rel="external">http://blog.csdn.net/baiwen1979/archive/2008/03/24/2212147.aspx</a></div><p><br></p> 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2012/09/18/【算法】求最长重复子串/" class="archive-article-date">
+  	<time datetime="2012-09-18T09:49:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2012-09-18</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2012/09/24/【zz】算法面试题总结/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          【zz】算法面试题总结
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2012/09/18/【算法】找出数组中两个只出现一次的数/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">【算法】找出数组中两个只出现一次的数</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Android Sync Provider | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="&amp;nbsp;
+http://www.c99.org/2010/01/23/writing-an-android-sync-provider-part-1/
+http://www.c99.org/2010/01/23/writing-an-android-sync-provider-part-2/
+&amp;nbsp;
+Custom Account / Sync adapter: inability to">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android Sync Provider">
+<meta property="og:url" content="http://blog.pickbox.me/2011/08/01/Android-Sync-Provider/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="&amp;nbsp;
+http://www.c99.org/2010/01/23/writing-an-android-sync-provider-part-1/
+http://www.c99.org/2010/01/23/writing-an-android-sync-provider-part-2/
+&amp;nbsp;
+Custom Account / Sync adapter: inability to">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/b152d7628535e5dd1487069076c6a7efcf1b6263.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/42aeb33533fa828bc168e2acfd1f4134960a5a42.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/4fa531fa828ba61ec0a5b7604134970a314e5942.jpg">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android Sync Provider">
+<meta name="twitter:description" content="&amp;nbsp;
+http://www.c99.org/2010/01/23/writing-an-android-sync-provider-part-1/
+http://www.c99.org/2010/01/23/writing-an-android-sync-provider-part-2/
+&amp;nbsp;
+Custom Account / Sync adapter: inability to">
+<meta name="twitter:image" content="http://img.pickbox.me/wp-content/uploads/pic/b152d7628535e5dd1487069076c6a7efcf1b6263.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-Android-Sync-Provider" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android Sync Provider
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&nbsp;</p>
+<p><a href="http://www.c99.org/2010/01/23/writing-an-android-sync-provider-part-1/" target="_blank">http://www.c99.org/2010/01/23/writing-an-android-sync-provider-part-1/</a></p>
+<p><a href="http://www.c99.org/2010/01/23/writing-an-android-sync-provider-part-2/" target="_blank">http://www.c99.org/2010/01/23/writing-an-android-sync-provider-part-2/</a></p>
+<p>&nbsp;</p>
+<p>Custom Account / Sync adapter: inability to edit contacts?</p>
+<p><a href="http://groups.google.com/group/android-developers/browse_thread/thread/c4003febfe3a5690" target="_blank" rel="external">http://groups.google.com/group/android-developers/browse_thread/thread/c4003febfe3a5690</a></p>
+<p><a href="http://code.google.com/p/android/issues/detail?id=5988" target="_blank" rel="external">http://code.google.com/p/android/issues/detail?id=5988</a></p>
+<p>&nbsp;</p>
+<p>Writing an Android Sync Provider: Part 1January 23rd, 2010 <a title="Posts by Sam Steele" href="http://www.c99.org/author/admin/" rel="external" target="_blank">Sam Steele</a></p>
+<p>One of the highlights of the Android 2.0 SDK is that you can write custom sync providers to integrate with the system contacts, calendars, etc. The only problem is that there’s very little documentation on how it all fits together. And worse, if you mess up in certain places, the Android system will crash and reboot! Always up for a challenge, I’ve navigated through the sparse documentation, vague mailing list posts, and the Android source code itself to build a sync provider for our Last.fm app. Want to know how to build your own? Read on!</p>
+<p>Account Authenticators</p>
+<p>The first piece of the puzzle is called an <a href="http://developer.android.com/reference/android/accounts/AbstractAccountAuthenticator.html" target="_blank" rel="external">Account Authenticator</a>, which defines how the user’s account will appear in the “Accounts &amp; Sync” settings. Implementing an Account Authenticator requires 3 pieces: a service that returns a subclass of AbstractAccountAuthenticator from the onBind method, an activity to prompt the user to enter their credentials, and an xml file describing how your account should look when displayed to the user. You’ll also need to add the <b>android.permission.AUTHENTICATE_ACCOUNTS</b> permission to your AndroidManifest.xml.</p>
+<p>The Service</p>
+<p>The authenticator service is expected to return a subclass of AbstractAccountAuthenticator from the onBind method — if you don’t, Android will crash and reboot when you try to add a new account to the system. The only method in AbstractAccountAuthenticator we really need to implement is addAccount, which returns an Intent that the system will use to display the login dialog to the user. The implementation below will launch our app’s main launcher activity with an action of “fm.last.android.sync.LOGIN” and an extra containing the AccountAuthenticatorResponse object we use to pass data back to the system after the user has logged in.</p>
+<p>AccountAuthenticatorService.java</p>
+<p><ol><br>    <li>import fm.last.android.LastFm;</li><br>    <li>import android.accounts.AbstractAccountAuthenticator;</li><br>    <li>import android.accounts.Account;</li><br>    <li>import android.accounts.AccountAuthenticatorResponse;</li><br>    <li>import android.accounts.AccountManager;</li><br>    <li>import android.accounts.NetworkErrorException;</li><br>    <li>import android.app.Service;</li><br>    <li>import android.content.Context;</li><br>    <li>import android.content.Intent;</li><br>    <li>import android.os.Bundle;</li><br>    <li>import android.os.IBinder;</li><br>    <li>import android.util.Log;</li><br>    <li></li><br>    <li>/<em>*</em></li><br>    <li>  Authenticator service that returns a subclass of AbstractAccountAuthenticator in onBind()</li><br>    <li> <em>/</em></li><br>    <li>public class AccountAuthenticatorService extends Service {</li><br>    <li> private static final String TAG = “AccountAuthenticatorService”;</li><br>    <li> private static AccountAuthenticatorImpl sAccountAuthenticator = null;</li><br>    <li></li><br>    <li> public AccountAuthenticatorService() {</li><br>    <li>  super();</li><br>    <li> }</li><br>    <li></li><br>    <li> public IBinder onBind(Intent intent) {</li><br>    <li>  IBinder ret = null;</li><br>    <li>  if (intent.getAction().equals(android.accounts.AccountManager.ACTION_AUTHENTICATOR_INTENT))</li><br>    <li>   ret = getAuthenticator().getIBinder();</li><br>    <li>  return ret;</li><br>    <li> }</li><br>    <li></li><br>    <li> private AccountAuthenticatorImpl getAuthenticator() {</li><br>    <li>  if (sAccountAuthenticator == null)</li><br>    <li>   sAccountAuthenticator = new AccountAuthenticatorImpl(this);</li><br>    <li>  return sAccountAuthenticator;</li><br>    <li> }</li><br>    <li></li><br>    <li> private static class AccountAuthenticatorImpl extends AbstractAccountAuthenticator {</li><br>    <li>  private Context mContext;</li><br>    <li></li><br>    <li>  public AccountAuthenticatorImpl(Context context) {</li><br>    <li>   super(context);</li><br>    <li>   mContext = context;</li><br>    <li>  }</li><br>    <li></li><br>    <li>  /</li><br>    <li>   <em>  The user has requested to add a new account to the system.  We return an intent that will launch our login screen if the user has not logged in yet,</em></li><br>    <li>     otherwise our activity will just pass the user’s credentials on to the account manager.</li><br>    <li>   */</li><br>    <li>  @Override</li><br>    <li>  public Bundle addAccount(AccountAuthenticatorResponse response, String accountType, String authTokenType,String[] requiredFeatures, Bundle options)</li><br>    <li>    throws NetworkErrorException {</li><br>    <li>   Bundle reply = new Bundle();</li><br>    <li></li><br>    <li>   Intent i = new Intent(mContext, LastFm.class);</li><br>    <li>   i.setAction(“fm.last.android.sync.LOGIN”);</li><br>    <li>   i.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);</li><br>    <li>   reply.putParcelable(AccountManager.KEY_INTENT, i);</li><br>    <li></li><br>    <li>   return reply;</li><br>    <li>  }</li><br>    <li></li><br>    <li>  @Override</li><br>    <li>  public Bundle confirmCredentials(AccountAuthenticatorResponse response, Account account, Bundle options) {</li><br>    <li>   return null;</li><br>    <li>  }</li><br>    <li></li><br>    <li>  @Override</li><br>    <li>  public Bundle editProperties(AccountAuthenticatorResponse response, String accountType) {</li><br>    <li>   return null;</li><br>    <li>  }</li><br>    <li></li><br>    <li>  @Override</li><br>    <li>  public Bundle getAuthToken(AccountAuthenticatorResponse response, Account account, String authTokenType, Bundle options) throws NetworkErrorException {</li><br>    <li>   return null;</li><br>    <li>  }</li><br>    <li></li><br>    <li>  @Override</li><br>    <li>  public String getAuthTokenLabel(String authTokenType) {</li><br>    <li>   return null;</li><br>    <li>  }</li><br>    <li></li><br>    <li>  @Override</li><br>    <li>  public Bundle hasFeatures(AccountAuthenticatorResponse response, Account account, String[] features)throws NetworkErrorException {</li><br>    <li>   return null;</li><br>    <li>  }</li><br>    <li></li><br>    <li>  @Override</li><br>    <li>  public Bundle updateCredentials(AccountAuthenticatorResponse response, Account account, StringauthTokenType, Bundle options) {</li><br>    <li>   return null;</li><br>    <li>  }</li><br>    <li> }</li><br>    <li>}</li><br></ol><br>The account authenticator service should be defined in your AndroidManifest.xml, with a meta-data tag referencing an xml definition file, as follows:</p>
+<p>Snippet from AndroidManifest.xml</p>
+<p><ol><br>    <li>&lt;service android:name=”AccountAuthenticatorService”</li><br>    <li> android:exported=”true” android:process=”:auth”&gt;</li><br>    <li> &lt;intent-filter&gt;</li><br>    <li>  &lt;action android:name=”android.accounts.AccountAuthenticator” /&gt;</li><br>    <li> &lt;/intent-filter&gt;</li><br>    <li> &lt;meta-data android:name=”android.accounts.AccountAuthenticator”</li><br>    <li>  android:resource=”@xml/authenticator” /&gt;</li><br>    <li>&lt;/service&gt;</li><br></ol><br>The Activity</p>
+<p>If you don’t already have a login screen, there’s a convenience class <a href="http://developer.android.com/reference/android/accounts/AccountAuthenticatorActivity.html" target="_blank" rel="external">AccountAuthenticatorActivity</a> you can subclass that will pass your response back to the authentication manager for you, however if you already have a login activity in place you may find it easier to just pass the data back yourself, as I have done here. When the user has successfully been authenticated, we create an Account object for the user’s credentials. An account has an account name, such as the username or email address, and an account type, which you will define in your xml file next. You may find it easier to store your account type in strings.xml and use getString() to fetch it, as it is used in multiple places.</p>
+<p>Snippet from the Last.fm login activity</p>
+<p><ol><br>    <li>Account account = new Account(username, getString(R.string.ACCOUNT_TYPE)));</li><br>    <li>AccountManager am = AccountManager.get(this);</li><br>    <li>boolean accountCreated = am.addAccountExplicitly(account, password, null);</li><br>    <li></li><br>    <li>Bundle extras = getIntent.getExtras();</li><br>    <li>if (extras != null) {</li><br>    <li> if (accountCreated) {  //Pass the new account back to the account manager</li><br>    <li>  AccountAuthenticatorResponse response = extras.getParcelable(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE);</li><br>    <li>  Bundle result = new Bundle();</li><br>    <li>  result.putString(AccountManager.KEY_ACCOUNT_NAME, username);</li><br>    <li>  result.putString(AccountManager.KEY_ACCOUNT_TYPE, getString(R.string.ACCOUNT_TYPE));</li><br>    <li>  response.onResult(result);</li><br>    <li> }</li><br>    <li> finish();</li><br>    <li>}</li><br></ol><br>The XML definition file</p>
+<p>The account xml file defines what the user will see when they’re interacting with your account. It contains a user-readable name, the system account type you’re defining, various icons, and a reference to an xml file containing PreferenceScreens the user will see when modifying your account.</p>
+<p>authenticator.xml</p>
+<p><ol><br>    <li>&lt;account-authenticator xmlns:android=”<a href="http://schemas.android.com/apk/res/android" target="_blank" rel="external">http://schemas.android.com/apk/res/android</a>“</li><br>    <li>    android:accountType=”fm.last.android.account”</li><br>    <li>    android:icon=”@drawable/icon”</li><br>    <li>    android:smallIcon=”@drawable/icon”</li><br>    <li>    android:label=”@string/app_name”</li><br>    <li>    android:accountPreferences=”@xml/account_preferences”/&gt;</li><br></ol><br>account_preferences.xml</p>
+<p><ol><br>    <li>&lt;PreferenceScreen</li><br>    <li>  xmlns:android=”<a href="http://schemas.android.com/apk/res/android&quot;&amp;gt" target="_blank" rel="external">http://schemas.android.com/apk/res/android&quot;&amp;gt</a>;</li><br>    <li>    &lt;PreferenceCategory</li><br>    <li>            android:title=”General Settings” /&gt;</li><br>    <li></li><br>    <li>    &lt;PreferenceScreen</li><br>    <li>        android:key=”account_settings”</li><br>    <li>        android:title=”Account Settings”</li><br>    <li>        android:summary=”Sync frequency, notifications, etc.”&gt;</li><br>    <li>        &lt;intent</li><br>    <li>            android:action=”fm.last.android.activity.Preferences.ACCOUNT_SETUP”</li><br>    <li>            android:targetPackage=”fm.last.android”</li><br>    <li>            android:targetClass=”fm.last.android.activity.Preferences” /&gt;</li><br>    <li>    &lt;/PreferenceScreen&gt;</li><br>    <li>&lt;/PreferenceScreen&gt;</li><br></ol><br>Putting it all together</p>
+<p>Now we’re ready for testing! The Android accounts setting screen doesn’t handle exceptions very well — if something goes wrong, your device will reboot! A better way to test is to launch the emulator, run the “Dev Tools” app, and pick “AccountsTester”.<br><a href="http://www.c99.org/wp-content/uploads/2010/01/accountstester1.png" rel="external" target="_blank"><img alt="" src="http://img.pickbox.me/wp-content/uploads/pic/b152d7628535e5dd1487069076c6a7efcf1b6263.jpg" width="211" height="300"></a><br>You should see your new account type in the list, along with the built-in “Corporate” account type. Go ahead and select your account type from the drop-down list, and then press the “Add” button, and you should be presented with your login activity. After authenticating, your account should appear in a list below the buttons. At this point, it should be safe to use the system “Accounts &amp; Sync” settings screen to remove or modify your account.<br><a href="http://www.c99.org/wp-content/uploads/2010/01/accountsandsync1.png" rel="external" target="_blank"><img alt="" src="http://img.pickbox.me/wp-content/uploads/pic/42aeb33533fa828bc168e2acfd1f4134960a5a42.jpg" width="210" height="300"></a> <a href="http://www.c99.org/wp-content/uploads/2010/01/accountsandsync2.png" rel="external" target="_blank"><img alt="" src="http://img.pickbox.me/wp-content/uploads/pic/4fa531fa828ba61ec0a5b7604134970a314e5942.jpg" width="210" height="300"></a></p>
+<p>Ready to fill in that section below “Data &amp; synchronization”? Let’s move on to <a href="http://blog.pickbox.me/archives/500" target="_blank">part 2</a>!</p>
+<p>The source code for the implementation referenced here is available in my <a href="http://github.com/c99koder/lastfm-android/" target="_blank" rel="external">Last.fm github project</a> under the terms of the GNU General Public License. A standalone sample project is also available <a href="http://github.com/c99koder/AndroidSyncProviderDemo" target="_blank" rel="external">here</a> under the terms of the Apache License 2.0. Google has also released their own sample sync provider on the <a href="http://developer.android.com/resources/samples/SampleSyncAdapter/index.html" target="_blank" rel="external">Android developer portal</a>that’s a bit more complete than mine.</p>
+<p>Categories: <a title="View all posts in Android" href="http://www.c99.org/category/android/" rel="external" target="_blank">Android</a></p>
+<p><a href="http://blog.pickbox.me/archives/500" target="_blank">Writing an Android Sync Provider: Part 2</a></p>
+<p>&nbsp;</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2011/08/01/Android-Sync-Provider/" class="archive-article-date">
+  	<time datetime="2011-08-01T14:34:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2011-08-01</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2011/08/05/解析Unicode编码和Java-char/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          解析Unicode编码和Java char
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2011/07/26/Property-Animation-in-Honeycomb/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Property Animation in Honeycomb</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

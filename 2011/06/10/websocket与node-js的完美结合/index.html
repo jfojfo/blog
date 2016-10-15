@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>websocket与node.js的完美结合 | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="原文：http://cnodejs.org/blog/?p=273之所以写下此文，是我觉得越是简单的技术往往能发挥越重要的作用，随着各种新的技术的诞生，实时web技术已经走进我们。websocket和node.js使开发实时应用非常简单，同时性能也非常高。关于websocketwebsocket是html5的重要feature，它直接在浏览器上对与socket的支持，这给了web开发无限的想象，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="websocket与node.js的完美结合">
+<meta property="og:url" content="http://blog.pickbox.me/2011/06/10/websocket与node-js的完美结合/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="原文：http://cnodejs.org/blog/?p=273之所以写下此文，是我觉得越是简单的技术往往能发挥越重要的作用，随着各种新的技术的诞生，实时web技术已经走进我们。websocket和node.js使开发实时应用非常简单，同时性能也非常高。关于websocketwebsocket是html5的重要feature，它直接在浏览器上对与socket的支持，这给了web开发无限的想象，">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/f9982a38e24ace7ab9998f0e.jpg">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="websocket与node.js的完美结合">
+<meta name="twitter:description" content="原文：http://cnodejs.org/blog/?p=273之所以写下此文，是我觉得越是简单的技术往往能发挥越重要的作用，随着各种新的技术的诞生，实时web技术已经走进我们。websocket和node.js使开发实时应用非常简单，同时性能也非常高。关于websocketwebsocket是html5的重要feature，它直接在浏览器上对与socket的支持，这给了web开发无限的想象，">
+<meta name="twitter:image" content="http://img.pickbox.me/wp-content/uploads/pic/f9982a38e24ace7ab9998f0e.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-websocket与node-js的完美结合" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      websocket与node.js的完美结合
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+         <p>原文：<a target="_blank" href="http://cnodejs.org/blog/?p=273">http://cnodejs.org/blog/?p=273</a></p><p>之所以写下此文，是我觉得越是简单的技术往往能发挥越重要的作用，随着各种新的技术的诞生，实时web技术已经走进我们。websocket和node.js使开发实时应用非常简单，同时性能也非常高。</p><p><strong>关于websocket</strong></p><p>websocket是html5的重要feature，它直接在浏览器上对与socket的支持，这给了web开发无限的想象，虽然以前也有flashsocket+js的实现，不过毕竟不稳定，而且兼容性有很多问题，当然websocket的普及也依赖于支持html5标准的浏览器的更新，目前只有chrome、safari、firefox4.0等少数浏览器可以支持，不过大势所驱，加上智能移动设备的普及，websocket可以有更大的作为。</p><p>他解决了web实时化的问题，相比传统http有如下好处：</p>一个WEB客户端只建立一个TCP连接 Websocket服务端可以推送(push)数据到web客户端.有更加轻量级的头，减少数据传送量<p>本文来重点来分析下。</p>websocket的原理和应用<p>在继续本文之前，让我们了解下websocket的原理：</p><p>websocket通信协议实现的是基于浏览器的原生socket，这样原先只有在c/s模式下的大量开发模式都可以搬到web上来了，基本就是通过浏览器的支持在web上实现了与服务器端的socket通信。</p><p>WebSocket没有试图在HTTP之上模拟server推送，而是直接在TCP之上定义了帧协议，因此WebSocket能够支持双向的通信。</p><p>首先来介绍下websocket客户端与服务端建立连接的过程：</p><p>先用js创建一个WebSocket实例，使用ws协议建立服务器连接，ws://www.cnodejs.org:8088</p><p>ws开头是普通的websocket连接，wss是安全的websocket连接，类似于https。</p><p>客户端与服务端建立握手，发送如下信息：<br>GET /echo HTTP/1.1<br>Upgrade: WebSocket<br>Connection: Upgrade<br>Host: <a href="http://www.cnodejs.org:8088/" target="_blank" rel="external">http://www.cnodejs.org:8088</a><br>Origin: <a href="http://www.cnodejs.com/" target="_blank" rel="external">http://www.cnodejs.com</a><br>服务端会发回如下：<br>HTTP/1.1 101 Web Socket Protocol Handshake<br>Upgrade: WebSocket<br>Connection: Upgrade<br>WebSocket-Origin: <a href="http://www.cnodejs.org/" target="_blank" rel="external">http://www.cnodejs.org</a><br>WebSocket-Location: ws://www.cnodejs.org:8088/echo</p><p>具体的ws协议，可以参考： <a href="http://tools.ietf.org/html/draft-hixie-thewebsocketprotocol-76" target="_blank" rel="external">http://tools.ietf.org/html/draft-hixie-thewebsocketprotocol-76</a></p><p>我们在开发过程中不需要考虑协议的细节，因为websocket API已经帮我们封装好了。</p><p>需要注意的是所有的通信数据都是以”x00″开头以”xFF”结尾的，并且都是UTF-8编码的。</p><p>这个过程类似于http的建立连接过程，不同的是，建立连接之后，接下来客户端和服务端的任何交互都需要再有这个动作。客户端通过websocket API提供的如下4个事件进行编程：</p>onopen 建立连接后触发onmessage 收到消息后触发onerror 发生错误时触发onclose 关闭连接时触发<p>让我们全面了解一下websocket API，他其实非常简单，下面是所有的API：</p>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>[Constructor(in DOMString url,in optional DOMString protocols)]<br>[Constructor(in DOMString url,in optional DOMString[] protocols)]<br>interface WebSocket {<br>  readonly attribute DOMString url;<br>&nbsp;<br>// ready state<br>const unsigned short CONNECTING =0;<br>const unsigned short OPEN=1;<br>const unsigned short CLOSING =2;<br>const unsigned short CLOSED =3;<br>  readonly attribute unsigned short readyState;<br>  readonly attribute unsigned long bufferedAmount;<br>&nbsp;<br>// networking<br>           attribute Function onopen;<br>           attribute Function onmessage;<br>           attribute Functiononerror;<br>           attribute Function onclose;<br>  readonly attribute DOMString protocol;<br>void send(in DOMString data);<br>voidclose();<br>};<br>WebSocket implements EventTarget;<p>详细的websocket API，可以参考此文： <a href="http://dev.w3.org/html5/websockets/" target="_blank" rel="external">http://dev.w3.org/html5/websockets/</a></p>node.js与websocket的结合<p>终于讲到了正题了，node.js如何与websocket结合，websocket API是基于事件的，他是对于客户端而言，而对于服务端来说，如何来处理呢？其实可以简单的理解为实现websocket协议的socket server开发。</p><p>node.js天生就是一个高效的服务端语言，可以直接使用javascript直接来处理来自客户端的请求，这样如果服务端这边需要大量的业务逻辑开发，则可以直接使用node开发。通过node和websocket的结合可以开发出很多实时性要求很高的web应用，如游戏、直播、股票、监控、IM等等。</p><p>而node.js如何实现websocket的支持，已经有一个比较成熟的开源系统node-websocket-server： </p><p><a href="https://github.com/miksago/node-websocket-server" target="_blank" rel="external">https://github.com/miksago/node-websocket-server</a>&nbsp; ，让我们来探究一二：</p><p>其实原理也是很简单就是用node实现了websocket draft-76的协议，同时他对外提供了api，可以方便其他应用程序简化编程。</p><p>它继承了node的http.Server的事件和方法，这样它简化了服务端的编程，同时可以处理http的请求。</p><p>为了实现连接之间的通信和消息的广播，它实现了一个manager类，给每一个连接创建一个id，然后在内存中维护一个连接链表，并提供了上线和下线的自动管理。</p><p>它还提供对以下几个事件的接口：</p>listening 当服务器准备好接受客户端请求时request 当一个http 请求发生时触发streamcloseclientErrorerror<p>让我们看看一个node-websocket-server提供的一个server的例子：</p>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>16<br>17<br>18<br>19<br>20<br>21<br>22<br>23<br>24<br>25<br>26<br>27<br>var sys = require(&quot;sys&quot;)<br>, ws = require(‘../lib/ws/server’);<br>&nbsp;<br>var server = ws.createServer({debug:true});<br>&nbsp;<br>// Handle WebSocket Requests<br>server.addListener(&quot;connection&quot;,function(conn){<br>  conn.send(&quot;Connection: &quot;+conn.id);<br>&nbsp;<br>  conn.addListener(&quot;message&quot;,function(message){<br>    conn.broadcast(&quot;&lt;&quot;+conn.id+&quot;&gt; &quot;+message);<br>&nbsp;<br>if(message ==&quot;error&quot;){<br>      conn.emit(&quot;error&quot;,&quot;test&quot;);<br>}<br>});<br>});<br>&nbsp;<br>server.addListener(&quot;error&quot;,function(){<br>  console.log(Array.prototype.join.call(arguments,&quot;, &quot;));<br>});<br>&nbsp;<br>server.addListener(&quot;disconnected&quot;,function(conn){<br>  server.broadcast(&quot;&lt;&quot;+conn.id+&quot;&gt; disconnected&quot;);<br>});<br>&nbsp;<br>server.listen(8000);这个例子非常的简单，可以看到对于websocket的server端开发，我们已经不需要考虑websocket协议的实现，他几乎有着和客户端浏览器上websocketAPI一样的事件，只有对连接、断开连接、消息、错误等事件进行处理，这样应用的开发就非常的灵活了。实例：用websocket和node.js搭建实时监控系统<p>通过websocket打通了浏览器和服务端之后，我们就可以尝试搭建一个实际的应用，这里以实时监控系统为例。</p><p><a href="http://cnodejs.org/blog/wp-content/uploads/2011/02/mon_nodejs1.png" target="_blank" rel="external"><img class="alignnone size-full wp-image-299" src="http://img.pickbox.me/wp-content/uploads/pic/f9982a38e24ace7ab9998f0e.jpg" height="246" width="498"></a></p><p>直接与linux自身监控工具的结合，将监控结果通过websocket直接更到网页上，由于建立了socket长连接，绑定iostat的标准输出的事件，做到了真正的实时。同时可以支持对监控结果的讨论，增加了一个简单的chat，基于事件的通讯中，chat和监控同时发送完全不受影响，所以还可以把更多的事件加入进来。</p><p>让我们来看看这个过程：</p><p>首先是用node.js捕获iostat的输出：</p>1<br>2<br>3<br>4<br>5<br>6<br>var sys = require(&quot;sys&quot;)<br>, ws = require(‘../lib/ws/server’);<br>&nbsp;<br>var sys = require(‘sys’);<br>var spawn = require(‘child_process’).spawn;<br>var mon = spawn(&quot;iostat&quot;,[&quot;-I&quot;,&quot;5&quot;]);<p>spawn可以根据参数启动一个进程，同时可以对stdout, stderr, exit code进行捕获，当这些事件触发时，可以绑定我们的函数，同时捕获其输出。<br>这里是iostat的标准输出：<br><br>disk0       cpu     load average<br>KB/t tps  MB/s  us sy id   1m   5m   15m<br>14.64   4  0.06   7  5 88  0.76 0.95 0.90<br><br>我们捕获他的输出，将其发送到客户端去：</p>1<br>2<br>3<br>4<br>5<br>  mon.stdout.on(‘data’,function(data){<br>    data = format<em>string(data);<br>    sys.puts(data);<br>    conn.send(&quot;#mon:&quot;+data+&quot;&quot;);<br>});<p>客户端也就是浏览器，在收到消息后，对其进行简单的字符串处理，然后就可以直接在网页中输出了。</p>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9<br>10<br>11<br>12<br>13<br>14<br>15<br>w.onmessage=function(e){<br>var msg = e.data;<br>if(msg.match(/#mon:/)){<br>var monarr = msg.split(&quot;:&quot;)[1].split(&quot; &quot;);<br>var body =&quot;&quot;;<br>for(varitemin monarr){<br>            body +=&quot;&lt;td id=’io</em>&quot;+item+&quot;’&gt;&quot;+monarr[item]+&quot;&lt;/td&gt;&quot;<br>}<br>        $(&quot;#iobody&quot;).html(body);<br>//log(monarr[0]);<br>&nbsp;<br>}<br>else<br>        log(e.data);<br>}<p>这里自定义了一个#mon的简单协议，这样可以对更多类型的输出分开处理。</p><p>服务端和客户端总共100多行的代码，就已经实现了一个实时服务器性能监控系统。<br>全部代码下载地址： <a href="http://cnodejs.googlecode.com/svn/trunk/monsocket/examples/" target="_blank" rel="external">http://cnodejs.googlecode.com/svn/trunk/monsocket/examples/</a><br>（注：本程序仅在mac osx下测试通过）</p><p>如果加上RGraph(基于html5)，则可以打造更加精美的实时展现: &nbsp;<a href="http://www.rgraph.net/docs/dynamic.html" target="_blank" rel="external">http://www.rgraph.net/docs/dynamic.html</a></p>总结<p>这篇文章适合node.js的初学者或者对于websocket不够了解的人，总结起来，就是以下几个点：</p>使用websocket API可以开发<strong>实时</strong>web应用websocket api和 node.js可以很完美的配合node-websocket-server 封装了websocket协议，使服务端进行websocket的开发，非常的简单node的易用性，使其在服务端略加编程，即可以打造一个完美的后台服务node的事件驱动的机制保证了系统的高效，可以使用EventEmitter定义自己的事件触发对于命令行输出可以使用spawn来捕获，通过在web应用中充分利用linux的各种系统工具<p><strong>参考资料</strong></p><p><a href="http://nodejs.org/" target="_blank" rel="external">http://nodejs.org/</a></p><p><a href="http://dev.w3.org/html5/websockets/" target="_blank" rel="external">http://dev.w3.org/html5/websockets/</a></p><p><a href="http://tools.ietf.org/html/draft-hixie-thewebsocketprotocol-76" target="_blank" rel="external">http://tools.ietf.org/html/draft-hixie-thewebsocketprotocol-76</a></p><p><a href="https://github.com/miksago/node-websocket-server" target="_blank" rel="external">https://github.com/miksago/node-websocket-server</a></p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p><a href="https://github.com/miksago/node-websocket-server" target="_blank" rel="external"><br></a></p><p></p> 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2011/06/10/websocket与node-js的完美结合/" class="archive-article-date">
+  	<time datetime="2011-06-10T09:57:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2011-06-10</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2011/06/11/JavaScript-Equality-and-Identity/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          JavaScript Equality (==) and Identity (===)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2011/06/10/关于JavaScript的单线程模型/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">关于JavaScript的单线程模型</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

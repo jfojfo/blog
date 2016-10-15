@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>利用core文件调试 | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="首先用-g选项编译程序，然后用ulimit -c unlimited打开core文件限制to make the changes permanent, add the following line to /etc/sysctl.conf:kernel.core_pattern = core.%e.%psysctl is a similar tool to ulimit: It allows to">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用core文件调试">
+<meta property="og:url" content="http://blog.pickbox.me/2007/11/20/利用core文件调试/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="首先用-g选项编译程序，然后用ulimit -c unlimited打开core文件限制to make the changes permanent, add the following line to /etc/sysctl.conf:kernel.core_pattern = core.%e.%psysctl is a similar tool to ulimit: It allows to">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="利用core文件调试">
+<meta name="twitter:description" content="首先用-g选项编译程序，然后用ulimit -c unlimited打开core文件限制to make the changes permanent, add the following line to /etc/sysctl.conf:kernel.core_pattern = core.%e.%psysctl is a similar tool to ulimit: It allows to">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-利用core文件调试" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      利用core文件调试
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> 首先用-g选项编译程序，然后用<br>ulimit -c unlimited<br>打开core文件限制<br>to make the changes permanent, add the following line to /etc/sysctl.conf:<br>kernel.core_pattern = core.%e.%p<br>sysctl is a similar tool to ulimit: It allows to configure kernel<br>parameters at runtime. If you wish to keep settings persistent across<br>reboots you should edit /etc/sysctl.conf - be aware that wrong settings<br>may break things in unforeseen ways.<br><br>用/proc/sys/kernel/core_pattern控制core文件产生的地方<br>在测试站上<br>root: cat /proc/sys/kernel/core<em>pattern<br>/tmp/core.%p</em>%e<br>也就是说，所有core文件都在/tmp文件夹，文件名是<br>core.pid_execFileName<br>这时，启动任何程序，只要是非正常退出，都会产生一个core文件<br><br>echo &quot;/tmp/core-%e-%p-%t&quot; &gt; core_pattern<br>将会控制所产生的core文件会存放到/tmp目录下，产生的文件名为core-命令名-pid-时间戳<br>以下是参数列表:<br>&nbsp;&nbsp;&nbsp;  %p - insert pid into filename 添加pid<br>&nbsp;&nbsp;&nbsp;  %u - insert current uid into filename 添加当前uid<br>&nbsp;&nbsp;&nbsp;  %g - insert current gid into filename 添加当前gid<br>&nbsp;&nbsp;&nbsp;  %s - insert signal that caused the coredump into the filename 添加导致产生core的信号<br>&nbsp;&nbsp;&nbsp;  %t - insert UNIX time that the coredump occurred into filename 添加core文件生成时的unix时间<br>&nbsp;&nbsp;&nbsp;  %h - insert hostname where the coredump happened into filename 添加主机名<br>&nbsp;&nbsp;&nbsp;  %e - insert coredumping executable name into filename 添加命令名<br><br>然后用<br>gdb -f execfile -c corefile打开core文件，比如<br><br>gdb -c /tmp/core.24281_fweb  -f /home/bbs/bbshome/httpd/fweb<br>GNU gdb 5.3-debian<br>Copyright 2002 Free Software Foundation, Inc.<br>GDB is free software, covered by the GNU General Public License, and you are<br>welcome to change it and/or distribute copies of it under certain conditions.<br>Type &quot;show copying&quot; to see the conditions.<br>There is absolutely no warranty for GDB.  Type &quot;show warranty&quot; for details.<br>This GDB was configured as &quot;i386-linux&quot;…<br>Core was generated by `/home/bbs/bbshome/httpd/fweb’.<br>Program terminated with signal 11, Segmentation fault.<br>Reading symbols from /usr/local/lib/libglib-2.0.so.0…done.<br>Loaded symbols for /usr/local/lib/libglib-2.0.so.0<br>Reading symbols from /usr/local/lib/libfcgi.so.0…done.<br>Loaded symbols for /usr/local/lib/libfcgi.so.0<br>Reading symbols from /lib/libdl.so.2…done.<br>Loaded symbols for /lib/libdl.so.2<br>Reading symbols from /lib/libc.so.6…done.<br>Loaded symbols for /lib/libc.so.6<br>Reading symbols from /lib/libnsl.so.1…done.<br>Loaded symbols for /lib/libnsl.so.1<br>Reading symbols from /lib/ld-linux.so.2…done.<br>Loaded symbols for /lib/ld-linux.so.2<br>Reading symbols from /home/bbs/bbshome/httpd/pages/bbsqry.so…done.<br>Loaded symbols for /home/bbs/bbshome/httpd/pages/bbsqry.so<br>Reading symbols from /home/bbs/bbshome/httpd/pages/bbsgetmsg.so…done.<br>Loaded symbols for /home/bbs/bbshome/httpd/pages/bbsgetmsg.so<br>Reading symbols from /home/bbs/bbshome/httpd/pages/bbslogin.so…done.<br>Loaded symbols for /home/bbs/bbshome/httpd/pages/bbslogin.so<br>#0  FCGI_fprintf (fp=0x0, format=0x40e9929e &quot;%d&quot;) at fcgi_stdio.c:602<br>/root/fcgi-2.4.0/libfcgi/fcgi_stdio.c:602:15672:beg:0x400a1850<br><br>这个时候，你可以看是哪一步让进程死掉，比如先用<br>(gdb) backtrace<br>#0  FCGI_fprintf (fp=0x0, format=0x40e9929e &quot;%d&quot;) at fcgi_stdio.c:602<br>#1  0x40e990ad in check_login_limit (x=0x805d5a0) at bbslogin.c:303<br>#2  0x40e988d5 in bbslogin_main () at bbslogin.c:127<br>#3  0x0804ca1c in do_invoke (p=0x8087408) at module.c:162<br>#4  0x0804ca80 in invoke_module (name=0x8083d59 &quot;bbslogin&quot;) at module.c:192<br>#5  0x0804cb70 in process_request () at dispatcher.c:44<br>#6  0x0804cbf5 in cgiMain () at dispatcher.c:82<br>#7  0x0804cfb5 in serv_request () at cgic.c:322<br>#8  0x08050ae3 in main () at main.c:44<br>打印frames，然后用<br>(gdb) frame 1<br>#1  0x40e990ad in check_login_limit (x=0x805d5a0) at bbslogin.c:303<br>/home/jawahh/bbs/fweb/pages/bbslogin.c:303:6735:beg:0x40e990ad<br>选择你要看的frame，现在选择了#1 frame，然后就可以用如<br>(gdb) info locals<br>fp = (FCGI_FILE <em>) 0x0<br>filename = &quot;home/C/clickbeetle/logincheck  05b診001  塞&quot;<br>num = 0<br>察看本地变量<br>(gdb) list<br>298             sethomefile(filename, x-&gt;userid, &quot;logincheck&quot;);<br>299             if (!file_exist(filename)<br>300                 || abs(file_time(filename) - time(0)) &gt; 86400)<br>301             {<br>302                     fp = fopen(filename, &quot;w&quot;);<br>303                     fprintf(fp, &quot;%d&quot;, x-&gt;numlogins);<br>304                     fclose(fp);<br>305                     return;<br>306             }<br>307             fp = fopen(filename, &quot;r&quot;);<br>察看程序代码<br>(gdb) p fp<br>$5 = (FCGI_FILE </em>) 0x0<br>察看变量<br><br>等等等等很多方法，这样调试会简单多 </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/11/20/利用core文件调试/" class="archive-article-date">
+  	<time datetime="2007-11-19T16:13:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-11-20</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux-Debug/">Linux Debug</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2007/11/20/gprof、mkgraph、Graphviz-可视化函数调用/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          gprof、mkgraph、Graphviz 可视化函数调用
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2007/11/19/【zz】-cyg-profile-func-enter、pvtrace、Graphviz-可视化函数调用/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">【zz】__cyg_profile_func_enter、pvtrace、Graphviz 可视化函数调用</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

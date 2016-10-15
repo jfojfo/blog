@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Ubuntu上安装和配置FreeRadius和DaloRadius | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="按照后面的那篇文章的步骤做就行了，由于我使用的是xampp作为mysql server和apache  server，php5相关包就不需要安装了，但是需要如下设置：
+
+使用的xampp版本是xampp-linux-x64-5.5.19，需要下载php-db，将其中的usr/share/php/{DB.php,DB}目录拷贝至lampp/lib/php目录
+
+ln -sv /opt/lampp/v">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ubuntu上安装和配置FreeRadius和DaloRadius">
+<meta property="og:url" content="http://blog.pickbox.me/2014/12/22/Ubuntu上安装和配置FreeRadius和DaloRadius/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="按照后面的那篇文章的步骤做就行了，由于我使用的是xampp作为mysql server和apache  server，php5相关包就不需要安装了，但是需要如下设置：
+
+使用的xampp版本是xampp-linux-x64-5.5.19，需要下载php-db，将其中的usr/share/php/{DB.php,DB}目录拷贝至lampp/lib/php目录
+
+ln -sv /opt/lampp/v">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Ubuntu上安装和配置FreeRadius和DaloRadius">
+<meta name="twitter:description" content="按照后面的那篇文章的步骤做就行了，由于我使用的是xampp作为mysql server和apache  server，php5相关包就不需要安装了，但是需要如下设置：
+
+使用的xampp版本是xampp-linux-x64-5.5.19，需要下载php-db，将其中的usr/share/php/{DB.php,DB}目录拷贝至lampp/lib/php目录
+
+ln -sv /opt/lampp/v">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-Ubuntu上安装和配置FreeRadius和DaloRadius" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Ubuntu上安装和配置FreeRadius和DaloRadius
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>按照后面的那篇文章的步骤做就行了，由于我使用的是xampp作为mysql server和apache  server，php5相关包就不需要安装了，但是需要如下设置：</p>
+<ol>
+<li><p>使用的xampp版本是xampp-linux-x64-5.5.19，需要下载php-db，将其中的usr/share/php/{DB.php,DB}目录拷贝至lampp/lib/php目录</p>
+</li>
+<li><p>ln -sv /opt/lampp/var/mysql/mysql.sock /var/run/mysqld/mysqld.sock<br>否则freeradius服务启动报错，无法连接mysql server</p>
+</li>
+<li><p>配置lampp/apache2/conf/httpd.conf，添加</p>
+<pre>&lt;VirtualHost *:80&gt;
+ DocumentRoot "/opt/www/daloradius"
+ ServerName "your.server.domain"
+ ServerAlias "your.server.domain"
+ &lt;Directory "/opt/www/daloradius"&gt;
+     Options Indexes FollowSymLinks Includes ExecCGI
+     AllowOverride All
+     Require all granted
+ &lt;/Directory&gt;
+ ErrorLog "logs/daloradius-error_log"
+ CustomLog "logs/daloradius-access_log" common
+&lt;/VirtualHost&gt;</pre>
+</li>
+<li><p>为了能显示Reports/Logs下的log内容<br>修改/opt/www/daloradius/daloradius.conf.php</p>
+<pre>
+$configValues['CONFIG_LOG_FILE'] = '/opt/lampp/logs/daloradius-access_log';
+</pre>
+
+</li>
+</ol>
+<p>修改/etc/default/freeradius，添加</p>
+<pre>
+if [ ! -e /var/run/mysqld/mysqld.sock ]; then
+    mkdir -p /var/run/mysqld
+    ln -sv /opt/lampp/var/mysql/mysql.sock /var/run/mysqld/mysqld.sock
+fi
+
+if [ ! -e /var/log/freeradius ]; then
+    mkdir -p /var/log/freeradius
+    touch /var/log/freeradius/radius.log
+    chown -R freerad.freerad /var/log/freeradius
+fi
+
+if [ -e /var/log/freeradius/radius.log ]; then
+    chmod 644 /var/log/freeradius/radius.log
+fi
+</pre>
+
+<p>做完这些 基本就可以了，从网页打开daloradius服务，创建完用户，然后用VPN连接</p>
+<p>如果有问题，可以 freeradius -X 查看更多出错信息</p>
+<p><hr></p>
+<p></p><h4>配置流量控制</h4><p></p>
+<ol>
+<li><p>在/etc/freeradius/dictionary中添加：<br>ATTRIBUTE Max-Monthly-Traffic 3003 integer<br>ATTRIBUTE Monthly-Traffic-Limit 3004 integer</p>
+</li>
+<li><p>在/etc/freeradius/sql/mysql/counter.conf末尾添加：</p>
+<pre>
+sqlcounter monthlytrafficcounter {
+ counter-name = Monthly-Traffic
+ check-name = Max-Monthly-Traffic
+ reply-name = Monthly-Traffic-Limit
+ sqlmod-inst = sql
+ key = User-Name
+ reset = monthly
+ query = &quot;SELECT SUM(acctinputoctets + acctoutputoctets) FROM radacct WHERE UserName='%{&#69;k}' AND UNIX_TIMESTAMP(AcctStartTime) &gt; '%b'&quot;
+}
+</pre>
+</li>
+<li><p>在/etc/freeradius/sites-enabled/default的authorize里添加monthlytrafficcounter</p>
+<pre>
+authorize {
+ ...
+ monthlytrafficcounter
+}
+</pre>
+</li>
+<li><p>在数据库中插入以下数据：</p>
+<pre>
+INSERT INTO radgroupreply (groupname,attribute,op,VALUE) VALUES ('user','Auth-Type',':=','Local');
+INSERT INTO radgroupreply (groupname,attribute,op,VALUE) VALUES ('user','Service-Type',':=','Framed-User');
+INSERT INTO radgroupreply (groupname,attribute,op,VALUE) VALUES ('user','Framed-IP-Address',':=','255.255.255.255');
+INSERT INTO radgroupreply (groupname,attribute,op,VALUE) VALUES ('user','Framed-IP-Netmask',':=','255.255.255.0');
+INSERT INTO radgroupreply (groupname,attribute,op,VALUE) VALUES ('user','Acct-Interim-Interval',':=','600');
+INSERT INTO radgroupcheck (groupname,attribute,op,VALUE) VALUES ('user','Max-Monthly-Traffic',':=','5368709120');
+INSERT INTO radgroupcheck (groupname,attribute,op,VALUE) VALUES ('user','Simultaneous-Use',':=','1');
+</pre>
+
+
+</li>
+</ol>
+<p>另外参考：<br><a href="http://www.zhukun.net/archives/7455" target="_blank">《CentOS 6安装lnmp+pptp+freeradius+daloradius》</a> <a href="http://img.pickbox.me/wp-content/uploads/CentOS-6安装lnmp+pptp+freeradius+daloradius.pdf" target="_blank" rel="external">下载</a><br><a href="http://www.zhukun.net/archives/7406" target="_blank">《CentOS下给pptp限速》</a> <a href="http://img.pickbox.me/wp-content/uploads/CentOS下给pptp限速.pdf" target="_blank" rel="external">下载</a></p>
+<p><hr><br><span style="line-height: 1.5em;">【zz】</span><a style="line-height: 1.5em;" href="http://blog.atime.me/note/freeradius_daloradius_install_config_on_ubuntu.html" target="_blank">http://blog.atime.me/note/freeradius_daloradius_install_config_on_ubuntu.html</a></p>
+<p>总结我在Ubuntu上安装FreeRadius和DaloRadius的步骤及遇到的问题，以供日后查询，系统为Ubuntu 12.04.3 X86_64，本文的FreeRadius配置使用MySQL作为后端存储相关数据。</p>
+<p>FreeRadius可以为pptp和l2tp提供验证和统计等功能，DaloRadius为FreeRadius提供一个网页界面。阅读本文前确保已经正确安装了pptpd或xl2tpd服务器。相关安装配置教程可参考<a title="blog.atime.me/note/pptpd.html" href="http://blog.atime.me/note/pptpd.html" target="_blank" rel="external">使用pptpd搭建VPN</a>和<a title="blog.atime.me/note/l2tp_ipsec_installation_on_ubuntu.html" href="http://blog.atime.me/note/l2tp_ipsec_installation_on_ubuntu.html" target="_blank" rel="external">在Ubuntu12.04上安装l2tp/ipsec VPN服务器</a>。</p>
+<p>开始安装前建议先通读一下<a title="http://en.wikipedia.org/wiki/RADIUS" href="http://en.wikipedia.org/wiki/RADIUS" target="_blank" rel="external">wikipedia:RADIUS</a>和<a title="http://blog.csdn.net/liang13664759/article/details/1574367" href="http://blog.csdn.net/liang13664759/article/details/1574367" target="_blank" rel="external">radius介绍</a>，了解一些radius的概念。</p>
+<p></p><h2 id="44eb7">安装必要的软件</h2><p></p>
+<p><div></div></p>
+<p><pre>sudo apt-get install freeradius freeradius-mysql radiusclient1 php5 php5-mysql php5-gd php5-cgi php5-fpm php-pear php-db mysql-server-5.5</pre><br></p>
+<p></p><h2 id="eb471">配置FreeRadius</h2><br>FreeRadius的配置文件位于<code>/etc/freeradius</code>目录。<p></p>
+<p></p><h3 id="8fa25">添加client</h3><br>修改<code>/etc/freeradius/clients.conf</code>，添加如下内容，注意将<code>IP_ADDRESS</code>和<code>SHARED_SECRET</code>换为你的服务器IP和你的共享密钥。<p></p>
+<p><div></div></p>
+<p><pre>client IP_ADDRESS {<br>    ipaddr = IP_ADDRESS<br>    secret = SHARED_SECRET<br>    require_message_authenticator = no<br>}</pre><br></p>
+<p></p><h3 id="23c75">启用MySQL支持</h3><p></p>
+<p></p><h4 id="603b5">/etc/freeradius/radiusd.conf</h4><br>取消如下一行的注释来包含FreeRadius的sql配置文件<code>/etc/freeradius/sql.conf</code>。<p></p>
+<p><div></div></p>
+<p><pre>$INCLUDE sql.conf</pre><br></p>
+<p></p><h4 id="41674">/etc/freeradius/sql.conf</h4><br>修改<code>/etc/freeradius/sql.conf</code>，设置MySQL数据库的端口，radius数据库的用户名密码等内容。取消如下一行的注释，使FreeRadius从数据库读取客户端信息。<p></p>
+<p><div></div></p>
+<p><pre>readclients = yes</pre><br><br><code>/etc/freeradius/sql/mysql</code>文件夹下的众多sql脚本文件用于构建FreeRadius的数据库，首先在admin.sql里修改数据库名称，用户名和密码等内容，这些内容必须和<code>/etc/freeradius/sql.conf</code>的设置相同。</p>
+<p></p><h4 id="0f570">/etc/freeradius/sql/mysql/dialup.conf</h4><br>修改<code>/etc/freeradius/sql/mysql/dialup.conf</code>，取消如下几行的注释来提供在线人数统计功能。<p></p>
+<p><div></div></p>
+<p><pre>simul_verify_query  = “SELECT radacctid, acctsessionid, username, \<br>                       nasipaddress, nasportid, framedipaddress, \<br>                       callingstationid, framedprotocol \<br>                       FROM ${acct_table1} \<br>                       WHERE username = ‘%{SQL-User-Name}’ \<br>                       AND acctstoptime IS NULL”</pre><br></p>
+<p></p><h4 id="8d18b">创建FreeRadius数据库radius</h4><br>登录mysql<p></p>
+<p><div></div></p>
+<p><pre>cd /etc/freeradius/sql/mysql<br>mysql -u root -p</pre><br><br>输入以下命令</p>
+<p><div></div></p>
+<p><pre>create database radius;</pre></p>
+<p>source admin.sql;<br>source cui.sql;<br>source ippool.sql;<br>source nas.sql;<br>source schema.sql;<br>source wimax.sql;<br></p>
+<p></p><h4 id="20736">/etc/freeradius/sites-enabled</h4><br>对<code>/etc/freeradius/sites-enabled/default</code>做如下修改<p></p>
+<p><blockquote>找到authorize {}模块，注释掉files，去掉sql前的#号</blockquote></p>
+<p>找到accounting {}模块，注释掉radutmp,注释掉去掉sql前面的#号。</p>
+<p>找到session {}模块，注释掉radutmp，去掉sql前面的#号。</p>
+<p>找到post-auth {}模块，去掉sql前的#号，去掉sql前的#号（Post-Auth-Type REJECT内）。<br>对<code>/etc/freeradius/sites-enabled/inner-tunnel</code>做如下修改</p>
+<p><blockquote>找到authorize {}模块，注释掉files，去掉sql前的#号。</blockquote></p>
+<p>找到session {}模块，注释掉radutmp，去掉sql前面的#号。</p>
+<p>找到post-auth {}模块，去掉sql前的#号，去掉sql前的#号（Post-Auth-Type REJECT内）。</p>
+<p></p><h2 id="0c7c1">配置RadiusClient</h2><br>RadiusClient用于将pptpd和xl2tpd的radius插件的验证请求发送给FreeRadius服务器，充当nas的角色，其配置文件位于<code>/etc/radiusclient</code>内。<p></p>
+<p></p><h3 id="91c87">添加字典</h3><br>RadiusClient的字典主要负责参数的映射，默认配置没有包含dictionary.microsoft，因此无法处理使用mschapv2加密的请求头。下载dictionary.microsoft并包含到主dictonary文件中。<p></p>
+<p><div></div></p>
+<p><pre>cd /etc/radiusclient<br>sudo wget <a href="http://blog.atime.me/static/resource/dictionary.microsoft" target="_blank" rel="external">http://blog.atime.me/static/resource/dictionary.microsoft</a></pre><br><br>在<code>/etc/radiusclient/dictionary</code>文件的最后添加如下一行以包含dictionary.microsoft</p>
+<p><div></div></p>
+<p><pre>INCLUDE /etc/radiusclient/dictionary.microsoft</pre><br><br>为解决FreeRadius的<code>radacct</code>表不更新的问题，需要在<code>/etc/radiusclient/dictionary</code>中加入如下一行，以保证RadiusClient能够识别Acct-Interim-Interval。</p>
+<p><div></div></p>
+<p><pre>ATTRIBUTE Acct-Interim-Interval 85 integer</pre><br><br>另外，记得在daloRadius里为用户添加<code>Acct-Interim-Interval</code> reply attribute（对应MySQL的radgroupreply表）。</p>
+<p></p><h3 id="0f7d4">设置共享密钥</h3><br>修改’/etc/radiusclient/servers’文件，添加如下一行，注意SHARED_SECRET必须和你在<code>/etc/freeradius/clients.conf</code>里设置的<a title="添加client" href="http://blog.atime.me/note/freeradius_daloradius_install_config_on_ubuntu.html#8fa25" target="_blank" rel="external">共享密钥</a>相同。<p></p>
+<p><div></div></p>
+<p><pre>localhost   SHARED_SECRET</pre><br></p>
+<p></p><h2 id="3bade">配置VPN服务器</h2><br>为pptpd和xl2tpd启用radius插件，首先查找插件的位置。<p></p>
+<p><div></div></p>
+<p><pre>sudo updatedb<br>locate radius.so</pre><br><br>插件通常位于<code>/usr/lib/pppd/2.4.5/radius.so</code>。</p>
+<p></p><h3 id="c1568">配置pptpd</h3><br>查看<code>/etc/pptpd.conf</code>，获取pptpd的ppp配置文件位置<p></p>
+<p><div></div></p>
+<p><pre>option /etc/ppp/pptpd-options</pre><br><br>修改<code>/etc/ppp/pptpd-options</code>文件，在最后添加如下两行，注意修改插件的具体位置。</p>
+<p><div></div></p>
+<p><pre>plugin /usr/lib/pppd/2.4.5/radius.so<br>radius-config-file /etc/radiusclient/radiusclient.conf</pre><br><br>重启pptpd</p>
+<p><div></div></p>
+<p><pre>sudo service pptpd restart</pre><br></p>
+<p></p><h3 id="e1ef2">配置xl2tpd</h3><br>查看<code>/etc/xl2tpd/xl2tpd.conf</code>，获取xl2tpd的ppp配置文件位置<p></p>
+<p><div></div></p>
+<p><pre>pppoptfile = /etc/ppp/xl2tpd-options</pre><br><br>修改<code>/etc/ppp/xl2tpd-options</code>，在最后添加如下两行，注意修改插件的具体位置。</p>
+<p><div></div></p>
+<p><pre>plugin  /usr/lib/pppd/2.4.5/radius.so<br>radius-config-file /etc/radiusclient/radiusclient.conf</pre><br><br>重启xl2tpd</p>
+<p><div></div></p>
+<p><pre>sudo service xl2tpd restart</pre><br></p>
+<p></p><h2 id="b61ca">配置DaloRadius</h2><p></p>
+<p></p><h3 id="69a9a">下载并配置daloRadius</h3><br>daloRadius的项目托管在<a title="http://sourceforge.net/projects/daloradius/" href="http://sourceforge.net/projects/daloradius/" target="_blank" rel="external">sourceforge</a>上，下载并解压。<p></p>
+<p><div></div></p>
+<p><pre># 下载并解压<br>cd /tmp<br>sudo wget <a href="http://sourceforge.net/projects/daloradius/files/daloradius/daloradius0.9-9/daloradius-0.9-9.tar.gz" target="_blank" rel="external">http://sourceforge.net/projects/daloradius/files/daloradius/daloradius0.9-9/daloradius-0.9-9.tar.gz</a><br>cd /var/www<br>sudo tar -xvf /tmp/daloradius-0.9-9.tar.gz<br>sudo mv daloradius-0.0.9 daloradius</pre></p>
+<h1 id="修改权限"><a href="#修改权限" class="headerlink" title="修改权限"></a>修改权限</h1><p>sudo chown -R www-data:www-data daloradius<br>sudo chmod 644 daloradius/library/daloradius.conf.php<br><br>修改<code>/var/www/daloradius/library/daloradius.conf.php</code>，设置关于FreeRadius数据库的各个变量，注意和<code>/etc/freeradius/sql.conf</code>的配置相同。</p>
+<p><div></div></p>
+<p><pre>$configValues[‘FREERADIUS_VERSION’] = ‘2’;<br>$configValues[‘CONFIG_DB_ENGINE’] = ‘mysql’;<br>$configValues[‘CONFIG_DB_HOST’] = ‘localhost’;<br>$configValues[‘CONFIG_DB_PORT’] = ‘3306’;<br>$configValues[‘CONFIG_DB_USER’] = ‘radius’;<br>$configValues[‘CONFIG_DB_PASS’] = ‘raduser’;</pre><br><br>其他需要修改的变量，其中<code>SHARED_SECRET</code>要和<code>/etc/freeradius/clients.conf</code>设置的<a title="添加client" href="http://blog.atime.me/note/freeradius_daloradius_install_config_on_ubuntu.html#8fa25" target="_blank" rel="external">共享密钥</a>相同。</p>
+<p><div></div></p>
+<p><pre>$configValues[‘CONFIG_PATH_DALO_VARIABLE_DATA’] = ‘/var/www/daloradius/var’;<br>$configValues[‘CONFIG_MAINT_TEST_USER_RADIUSSECRET’] = ‘SHARED_SECRET’;</pre><br></p>
+<p></p><h3 id="7486e">为daloRadius创建MySQL数据表</h3><br>由于之前已经为FreeRadius创建了相应的表结构，这里只需要为daloRadius创建表即可<p></p>
+<p><div></div></p>
+<p><pre>cd /var/www/daloradius/contrib/db/<br>mysql -u root -p radius &lt; mysql-daloradius.sql</pre><br><br>由于daloRadius向FreeRadius的数据库<code>radius</code>添加了若干新表，我们需要为FreeRadius的数据库用户添加这几张表的访问权限。 FreeRadius的数据库名称和用户可查看<code>/etc/freeradius/sql.conf</code>，这里使用默认数据库radius和默认用户radius。</p>
+<p>登录MySQL数据库</p>
+<p><div></div></p>
+<p><pre>mysql -u root -p</pre><br><br>输入如下命令</p>
+<p><div></div></p>
+<p><pre>revoke all privileges on <em>.</em> from ‘radius’@’localhost’;<br>grant all privileges on radius.* to ‘radius’@’localhost’;<br>flush privileges;<br>exit</pre><br></p>
+<p></p><h3 id="5f33f">配置nginx</h3><br>首先在dns服务商添加一条新的A记录<code>daloradius</code>，然后添加新的nginx配置文件<code>/etc/nginx/sites-available/daloradius.conf</code>，确定已正确安装并启动了php5-fpm。<p></p>
+<p>注意将server_name中的<code>your.domain</code>改为你自己的域名。</p>
+<p><div></div></p>
+<p><pre>server {<br>    listen 80;<br>    server_name  daloradius.your.domain;<br>    root /home/wilbur/www/daloradius;</pre></p>
+<pre><code>access_log  /var/log/nginx/daloradius.access.log main;
+error_log   /var/log/nginx/daloradius.error.log warn;
+
+location / {
+    index index.php;
+    try_files $uri $uri/ /index.php;
+}
+
+location ~ \.php$ {
+    fastcgi_pass   127.0.0.1:9000;
+    fastcgi_index  index.php;
+    fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    include        fastcgi_params;
+}
+
+location ~ /\.ht {
+    deny all;
+}
+</code></pre><p>}<br><br>链接到<code>/etc/nginx/sites-enabled/</code>目录后重启相关服务程序。</p>
+<p><div></div></p>
+<p><pre>cd /etc/nginx/sites-enabled/<br>sudo ln -s ../sites-available/daloradius.conf .</pre></p>
+<p>#sudo service php5-fpm restart<br>sudo service nginx restart<br>sudo service freeradius restart<br><br>dns更改生效后，访问<a href="http://daloradius.your.domain即可配置FreeRadius，默认的用户名是administrator，密码是radius。" target="_blank" rel="external">http://daloradius.your.domain即可配置FreeRadius，默认的用户名是administrator，密码是radius。</a></p>
+<p></p><h3 id="a73a1">daloRadius界面指南</h3><br>daloRadius的管理账户存储在MySQL的<code>radius.operators</code>表中，密码使用明文存储。<p></p>
+<p><div></div></p>
+<p><pre>Management =&gt; Users 管理VPN用户，注意添加新用户时，应选择Cleartext-Password（默认）密码类型</pre></p>
+<p>Config =&gt; Operators 管理daloRadius的登录账户，包括修改密码和权限设置等<br>Config =&gt; Interface Settings =&gt; Enable Password Hiding 设为yes可以将界面上的明文密码改为点号隐藏<br></p>
+<p></p><h2 id="a52f4">排查错误</h2><p></p>
+<p></p><h3 id="a556b">使用调试模式启动FreeRadius</h3><p></p>
+<p><div></div></p>
+<p><pre>freeradius -X</pre><br></p>
+<p></p><h3 id="39d18">使用radtest</h3><br>radtest可以向freeradius服务器发送请求，不过目前不支持mschapv2加密模式，详情见<code>man radtest</code>。<p></p>
+<p><div></div></p>
+<p><pre>radtest user password localhost 0 shared_secret</pre><br></p>
+<p></p><h3 id="f1c09">异常掉线的用户在daloRadius显示为在线用户</h3><br>异常掉线的client无法在退出时更新<code>radius.radacct</code>表的<code>acctstoptime</code>，这些client在daloRadius里会被显示为在线用户。使用如下的命令可修复该问题，最好使用cron定期执行该任务。<p></p>
+<p><div></div></p>
+<p><pre>mysql -uroot -p -e “UPDATE radius.radacct SET acctstoptime = acctstarttime + acctsessiontime WHERE ((UNIX_TIMESTAMP(acctstarttime) + acctsessiontime + 240 - UNIX_TIMESTAMP())&lt;0) AND acctstoptime IS NULL;”</pre><br></p>
+<p></p><h2 id="81f5d">阅读资料</h2><p></p>
+<p><ol><br>    <li><a href="http://wangyan.org/blog/freeradius-pptp-l2tp-html.html" target="_blank" rel="external">PPTP/L2TP + FreeRADIUS + MySQL 安装与配置</a></li><br>    <li><a href="http://blog.dayanjia.com/2011/03/configure-freeradius-and-daloradius-on-pptp-vpn-server/" target="_blank" rel="external">在PPTP VPN服务器上配置FreeRADIUS+daloRADIUS实现用户跟踪管理</a></li><br>    <li><a title="http://poptop.sourceforge.net/dox/skwok/poptop_ads_howto_a5.htm" href="http://poptop.sourceforge.net/dox/skwok/poptop_ads_howto_a5.htm" target="_blank" rel="external">RadiusClient配置</a></li><br>    <li><a title="https://help.ubuntu.com/community/CategoryNetworking/daloRADIUS" href="https://help.ubuntu.com/community/CategoryNetworking/daloRADIUS" target="_blank" rel="external">daloRADIUS Ubuntu help</a></li><br></ol><br>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/12/22/Ubuntu上安装和配置FreeRadius和DaloRadius/" class="archive-article-date">
+  	<time datetime="2014-12-22T12:33:22.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-12-22</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux-App/">Linux App</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2014/12/27/iptables-NAT/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          iptables NAT
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/12/13/websocket协议/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">websocket协议</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

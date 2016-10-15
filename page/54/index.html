@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="jfo planet">
+<meta property="og:url" content="http://blog.pickbox.me/page/54/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jfo planet">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        
+  
+    <article id="post-绕过Copy-On-Write机制安装全局Hook" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2007/05/15/绕过Copy-On-Write机制安装全局Hook/">绕过Copy-On-Write机制安装全局Hook</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> 绕过Copy-On-Write机制安装全局Hook<br>创建时间：2005-10-22<br>文章属性：原创<br>文章提交：<a href="https://www.xfocus.net/bbs/index.php?lang=cn&amp;act=Profile&amp;do=03&amp;MID=64388" target="_blank" rel="external">Addylee</a> (Addylee2004_at_163.com)<br><br>Jeffrey Richter在他的&lt;&lt;widows核心编程&gt;&gt;一书中对Ring 3级的API Hook方法做了详细的介绍，但是一般的Ring 3无论是修改IAT，还是插入JMP XXX都将导致Copy-On-Write的发生，如果，要在系统范围内安装一个全局的Hook的话，就不得不枚举系统中所有进程，对所有进程中的相应模 块做同样的修改，这样以来，对系统性能，是有一定的负面影响的。另一方面，如果要做系统范围内的全局Hook的话，可以直接在Ring 0级通过Hook系统调，修改目标API的指令等方法实现。但是，代码在Ring 0的地址空间中，Ring 3环境下的程序无法直接调用。<br>&nbsp;&nbsp; 由于Windows利用了PTE中的第9位用于Copy-On-Write机制。而Ring 3的代码无法访问PTE的，因此要绕过Copy-On-Write的话，该程序还是无法避免的要工作在Ring 0环境下。本文将以修改Kernel32.dll内存映象中的CreateProcessW为例，介绍绕过Copy-On-Write实现全局Hook的 一种方法。我的实验环境是Windows 2000 SP4 内部版本2195。因为EProcess的未公开原因，本例在其它版本的Windows不能保证正确运行。<br>&nbsp;&nbsp; 一般情况下，每个进程都加载了Kernel32.dll这个模块，并且绝大多数情况下Kernel32在每个进程中所加载的基址都一样，在物理内存 中，也只有一份Kernel32的映象，所以可以让用户程序LoadLibrary后，把Kernel32的基地址发到Ring 0的驱动程序中，让驱动程序来修改相应PTE，禁了Copy-On-Write后再修改相应的API指令就行了，但是，为了防止某种可能，比如：之前有一 个进程也对它进行了写操作，让系统中有了两份或多份Kernel32的映象，而在用户级LoadLibrary，最多只可能修改到某一个映象，所以，我从 内核中枚举了所有的EPROCESS结构，再根据PEB_LDR_DATA结构中找到它的所加载的模信息，对其修改。 直接操作各个进程地址空间的数据，很不方便，可以用Windows 未公开API，KeAttachProcess， 函数来切换到指定进程的内存上下文环境。把CreateProcessW的入口处改成了JMP XXX，但是，跳到哪去呢？程序工作在<br>Ring 0下，CreateProcessW不可能直接那里边的一个函数中的，但是，PE文件中每个节都会存在一些&ldquo;空洞&rdquo;，kernel32也不例外，就把代码 Copy到Kernel32的某个节区的&ldquo;空洞&rdquo;中去吧。如果&ldquo;空洞&rdquo;太小，怎么办呢？可以把我们的代码写成一个DLL，在那个&ldquo;空洞&rdquo;中放上一小段代码 来Load这个DLL，当然，也有可能在某种极端的情况下，这点&ldquo;空洞&rdquo;还是不够 就:(<br>struct&nbsp;&nbsp;  _hardware_pte_x86 (sizeof=4)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  +0 bits0-0 valid<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  +0 bits1-1 write<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  +0 bits2-2 owner<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  +0 bits3-3 writethrough<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  +0 bits4-4 cachedisable<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  +0 bits5-5 accessed<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  +0 bits6-6 dirty<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  +0 bits7-7 largepage<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  +0 bits8-8 global<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  +0 bits9-9 copyonwrite<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  +0 bits10-10 prototype<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  +0 bits11-11 reserved<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  +0 bits12-31 pageframenumber<br>从上面可以看出，bits 9 被用于Copy-On-Write机制，以下这段内容摘自&lt;&lt;Undocumented Windows NT&gt;&gt;<br>&nbsp;&nbsp; The VirtualProtect() function does not mark the page as read-write&ndash;it keeps the page as<br>read-only. Nevertheless, to distinguish this page from normal read-only pages, it is marked for copy-on-write. Windows NT uses one of the available PTE bits for doing this. When this page is written onto, because it is a read-only page, the processor raises a page fault exception. The page fault handler makes a copy of the page and modifies the page table of the faulting process accordingly. The new copy is marked as read-write so that the process can write to it. <br>所以只要把Read-Only属性去掉，再对这个DLL进行写入，就可以绕过Copy-On-Write机制了。:)<br><br>#include &lt;ntddk.h&gt;<br>#include &quot;proc.h&quot;&nbsp;&nbsp;  // 进程块的结构信息<br>#include &quot;PE.h&quot;&nbsp;&nbsp;&nbsp;&nbsp;  // PE文件的一些结构信息<br>#include &quot;Page.h&quot;&nbsp;&nbsp;  // 页表，页目录操作<br><br>#define PEBOFFSET 0x1B0&nbsp;&nbsp;  // PEB指针位于EPPROCESS中偏移0x1B0处<br>#define FLINKOFFSET 0xA0&nbsp;&nbsp; // 进程的链表指针。这些信息可以通过kd得到。<br><br>// 为了突出重点，节省篇幅，硬编码了两个未公开API的地址，其实也可以通过操作PE<br>// 的导出表来得到这些信息。<br>typedef NTSTATUS (NTAPI <em>KEATTACHPROCESS)(PPEB);<br>typedef NTSTATUS (NTAPI </em>KEDETACHPROCESS)();<br>KEATTACHPROCESS KeAttachProcess = 0x8042bd32;<br>KEDETACHPROCESS KeDetachProcess = 0x8042beca;<br><br>NTSTATUS DriverEntry(IN PDRIVER_OBJECT pDriverObject, IN PUNICODE_STRING pRegistryPath)<br>{<br>&nbsp;&nbsp; UNICODE_STRING Kernel32;<br>&nbsp;&nbsp; RtlInitUnicodeString(&amp;Kernel32, L&quot;C:\WINNT\SYSTEM32\KERNEL32.dll&quot;);<br>&nbsp;&nbsp; <strong>try<br>{&nbsp;&nbsp;  <br>&nbsp;&nbsp;&nbsp;&nbsp; Hook(&amp;Kernel32, &quot;CreateProcessW&quot;, NewCreateProcessW); <br>}<br></strong>except(EXCEPTION_EXECUTE_HANDLER)<br>{<br>&nbsp;&nbsp;  DbgPrint(&quot;Error&quot;);<br>}<br>RtlFreeUnicodeString(&amp;Kernel32);<br>return STATUS_SUCCESS;<br>}<br><br>VOID Hook(PUNICODE_STRING pModuleName, PCHAR pFunctionName, PVOID pfnNewFunction)<br>{<br>&nbsp;&nbsp; PLIST_ENTRY pCurrentList = NULL, pTempList = NULL, pLoadOrderModuleList, list;<br>&nbsp;&nbsp; PPEB pPeb = NULL;<br>&nbsp;&nbsp; PHYSICAL_ADDRESS paOld,&nbsp;&nbsp; paCurrent;<br>&nbsp;&nbsp; ULONG hModule, temp, pEProcess;<br>&nbsp;&nbsp; paOld.QuadPart = 0;<br>&nbsp;&nbsp; paCurrent.QuadPart = 0;<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp; pEProcess = (ULONG)IoGetCurrentProcess();<br>&nbsp;&nbsp; pCurrentList = (PLIST_ENTRY)(pEProcess + FLINKOFFSET);<br>&nbsp;&nbsp; pTempList = pCurrentList;<br>&nbsp;&nbsp; // 对所有进程进行枚举。<br>&nbsp;&nbsp; do<br>&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp; pEProcess = (ULONG)pTempList - FLINKOFFSET;<br>&nbsp;&nbsp;&nbsp;&nbsp; pPeb = (PPEB)(<em>(PULONG)(pEProcess + PEBOFFSET));<br>&nbsp;&nbsp;&nbsp;&nbsp; if (pPeb != NULL)<br>&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; KeAttachProcess(pEProcess);&nbsp;&nbsp; // 切换内存上下文到指定的进程<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pLoadOrderModuleList = pPeb-&gt;LoaderData-&gt;InLoadOrderModuleList.Flink;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; list = pLoadOrderModuleList;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; do&nbsp;&nbsp;  // 遍历进程所加载模块中，直到找到kernel32<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(0==RtlCompareUnicodeString(&amp;(((PLDR_MODULE)list)-&gt;FullDllName), pModuleName, TRUE)))<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; hModule = ((PLDR_MODULE)list)-&gt;BaseAddress;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //Kernel32可能被调出,对它进行一次读操作，由于KeAttachProcess切换到了该进程的地址空间<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //所以让Windows自动处理缺页，把它调入吧，以免它&ldquo;漏网&rdquo;:)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; temp = </em>(PULONG)hModule; <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; paCurrent = MmGetPhysicalAddress(hModule);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // 如果上次处理过的，和现在的在同一物理地址上，就不处理了，当然如果，在内存中，有两个<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // 以上的映像的话，这种处理方法不是很有效(还是造成了重复的工作)不过，在我实验中，<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // 似乎总是只有一份Kernel32的内存映象，做个循环，只不过是为了以防万一。:)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (paOld.QuadPart != paCurrent.QuadPart)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; paOld.QuadPart = paCurrent.QuadPart;<br>&nbsp;&nbsp;&nbsp;&nbsp;  Patch(hModule, pFunctionName, pfnNewFunction);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  } <br>&nbsp;&nbsp;&nbsp;&nbsp; break;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; list = list-&gt;Flink;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  } while(list != pLoadOrderModuleList);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  KeDetachProcess();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pTempList = pTempList-&gt;Flink;<br>&nbsp;&nbsp; } while(pTempList != pCurrentList);<br>}<br><br>VOID Patch(PVOID hModule, PCHAR pFunctionName, PVOID pfnNewFunction)<br>{<br>&nbsp;&nbsp; ULONG len, n;<br>&nbsp;&nbsp; PVOID pfnOrig, SectionGapStart;<br>&nbsp;&nbsp; pfnOrig = GetFunctionAddress(hModule, pFunctionName);<br>&nbsp;&nbsp; len = GetMyFunctionLen(pfnNewFunction);<br>&nbsp;&nbsp; SectionGapStart = GetSectionGap(hModule, len);<br>&nbsp;&nbsp; if (SectionGapStart == NULL)<br>&nbsp;&nbsp;&nbsp;&nbsp; return NULL;<br><br>&nbsp;&nbsp; PTE_ENTRY((ULONG)SectionGapStart) |= 2; // Read-Only 位。<br>&nbsp;&nbsp; for (n = 0; n &lt; len; n++)<br>&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp; <em>(PUCHAR)((PUCHAR)SectionGapStart + n) = </em>(PUCHAR)((PUCHAR)pfnNewFunction + n);<br>&nbsp;&nbsp; }<br>&nbsp;&nbsp; /<em> 我的机器上的CreateProcessW的代码，是这样了。<br>&nbsp;&nbsp;&nbsp;&nbsp; KERNEL32!CreateProcessW<br>&nbsp;&nbsp;&nbsp;&nbsp; 001B:77E6B252&nbsp;&nbsp;&nbsp;&nbsp; 55&nbsp;&nbsp;&nbsp;&nbsp; PUSH &nbsp;&nbsp;&nbsp;&nbsp; EBP<br>&nbsp;&nbsp;&nbsp;&nbsp; 001B:77E6B253&nbsp;&nbsp;&nbsp;&nbsp; 8BEC&nbsp;&nbsp;&nbsp;&nbsp; MOV&nbsp;&nbsp;&nbsp;&nbsp; EBP, ESP<br>&nbsp;&nbsp;&nbsp;&nbsp; 001B:77E6B255&nbsp;&nbsp;&nbsp;&nbsp; FF752C&nbsp;&nbsp;&nbsp;&nbsp; PUSH&nbsp;&nbsp;&nbsp;&nbsp; DWORD PTR [EBP+2C]<br>&nbsp;&nbsp;&nbsp;&nbsp; 第二条和第三条指令正好是5Byte的长度，所以，我选择把第二条和第三条改成跳转指令。<br>&nbsp;&nbsp;&nbsp;&nbsp; 跳转指令码为0xE9，位移计算：目的地址 - 起始地址 - 跳转指令本身的长度。<br>&nbsp;&nbsp; </em>/<br>&nbsp;&nbsp; for (len = 1; len &lt;= 5; len++, n++)<br>&nbsp;&nbsp;&nbsp;&nbsp; <em>(PUCHAR)((PUCHAR)SectionGapStart + n) = </em>(PUCHAR)((PUCHAR)pfnOrig + len);<br>&nbsp;&nbsp; <em>(PUCHAR)((PUCHAR)SectionGapStart + n) = 0xE9;<br>&nbsp;&nbsp; </em>(PULONG)((PUCHAR)SectionGapStart+n+1) = (ULONG)(((PUCHAR)pfnOrig + 6) <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - (ULONG)((PUCHAR)SectionGapStart + n) - 5);<br>&nbsp;&nbsp; PTE_ENTRY((ULONG)SectionGapStart) &amp;= 0xFFD;<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp; PTE_ENTRY((ULONG)pfnOrig) |= 2;&nbsp;&nbsp;<br>&nbsp;&nbsp; n += 6;<br>&nbsp;&nbsp; <strong>asm CLI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp; <em>(PUCHAR)((PUCHAR)pfnOrig + 1) = 0xE9;<br>&nbsp;&nbsp; </em>(PULONG)((PCHAR)pfnOrig + 2) = ((ULONG)SectionGapStart - (ULONG)((PUCHAR)pfnOrig+1) - 5);<br>&nbsp;&nbsp; </strong>asm STI<br>&nbsp;&nbsp; PTE_ENTRY((ULONG)pfnOrig) &amp;= 0xFFD;<br>}<br>// 根据指定的模块获取代码节的&ldquo;空洞&rdquo;偏移地址。<br>PVOID GetSectionGap(PVOID hModule, USHORT GapSize)<br>{<br>&nbsp;&nbsp; PIMAGE_DOS_HEADER pDosHeader = hModule;<br>&nbsp;&nbsp; PIMAGE_NT_HEADERS pNtHeader;<br>&nbsp;&nbsp; PIMAGE_SECTION_HEADER pSectionHeader;<br>&nbsp;&nbsp; ULONG n = 0;<br><br>&nbsp;&nbsp; if (pDosHeader-&gt;e_magic != ‘ZM’)<br>&nbsp;&nbsp;&nbsp;&nbsp; return NULL;<br>&nbsp;&nbsp; pNtHeader = (PIMAGE_NT_HEADERS)((PCHAR)hModule + pDosHeader-&gt;e_lfanew);<br>&nbsp;&nbsp; if (pNtHeader-&gt;Signature != ‘EP’)<br>&nbsp;&nbsp;&nbsp;&nbsp; return NULL;<br>&nbsp;&nbsp; pSectionHeader = (PCHAR)pNtHeader + sizeof(IMAGE_NT_HEADERS);<br>&nbsp;&nbsp; for (n = 0; n &lt; pNtHeader-&gt;FileHeader.NumberOfSections; n++)<br>&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp; pSectionHeader += n;<br>&nbsp;&nbsp;&nbsp;&nbsp; // 找到代码节，该法不总是有效，Borland编译器好像代码节为.CODE<br>&nbsp;&nbsp;&nbsp;&nbsp; if (IsStringEqual(pSectionHeader-&gt;Name, &quot;.text&quot;)) <br>&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if ((PAGE_SIZE - (pSectionHeader-&gt;Misc.VirtualSize &amp; PAGE_SIZE)) &gt; GapSize)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return (ULONG)((PCHAR)hModule + pSectionHeader-&gt;VirtualAddress <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; + pSectionHeader-&gt;Misc.VirtualSize);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp; return NULL;<br>}<br>// 从指定模块根据导出表获取导出函数地址。<br>PVOID GetFunctionAddress(PVOID hModule, PCHAR pFunctionName)<br>{<br>&nbsp;&nbsp; PIMAGE_DOS_HEADER pDosHeader = hModule;<br>&nbsp;&nbsp; PIMAGE_NT_HEADERS pNtHeader;<br>&nbsp;&nbsp; PIMAGE_EXPORT_DIRECTORY pExportDirectory;<br>&nbsp;&nbsp; ULONG n;<br>&nbsp;&nbsp; PULONG pExportFunction;<br>&nbsp;&nbsp; PULONG pFunctionAddress;<br>&nbsp;&nbsp; PUSHORT pAddressOridinals;<br><br>&nbsp;&nbsp; if (pDosHeader-&gt;e_magic != ‘ZM’)<br>&nbsp;&nbsp;&nbsp;&nbsp; return NULL;<br>&nbsp;&nbsp; pNtHeader = (PIMAGE_NT_HEADERS)((PCHAR)hModule + pDosHeader-&gt;e_lfanew);<br>&nbsp;&nbsp; if (pNtHeader-&gt;Signature != ‘EP’)<br>&nbsp;&nbsp;&nbsp;&nbsp; return NULL;<br>&nbsp;&nbsp; pExportDirectory = (PCHAR)hModule + <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pNtHeader-&gt;OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT].VirtualAddress;<br>&nbsp;&nbsp; pExportFunction = (PCHAR)hModule + pExportDirectory-&gt;AddressOfNames;<br>&nbsp;&nbsp; pFunctionAddress = (PCHAR)hModule + pExportDirectory-&gt;AddressOfFunctions;<br>&nbsp;&nbsp; pAddressOridinals = (PCHAR)hModule + pExportDirectory-&gt;AddressOfNameOrdinals;<br><br>&nbsp;&nbsp; for (n = 0; n &lt; pExportDirectory-&gt;NumberOfNames; n++)<br>&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp; if (IsStringEqual(((PCHAR)hModule + <em>(pExportFunction + n)), pFunctionName) == TRUE)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return&nbsp;&nbsp; (PVOID)((PCHAR)hModule + </em>(pFunctionAddress + <em>(pAddressOridinals + n)));<br>&nbsp;&nbsp; }<br>}<br>这个函数是最晦涩的了。这段代码将被Copy到Kernel32的一个&ldquo;空洞&rdquo;中执行，既要处理重定位， 又要在那里，手工获取LoadLibrary和GetProcAddress的地址，而且VC中inline asm也没有masm32那么直接，更可恨的是 naked 函数中申明局部变量，好像会破坏了堆栈平衡，本来，想申明一两个register变量，加强程序的可读性，但是，又不能保证编译器，总是成功分配 register变量，然后，又想，在一个<strong>forceinline函数中，写所有的代码，在这个</strong>forceinline函数，使用局部变量，加强 可读性，而这个naked函数只要调用<strong>forceinline函数就好了，但是，似乎也没办法让编译器总是inline成功。就只有全部自己写了 :(<br>这个函数从PEB中取kernel32的基地址，再根据导出表获取LoadLibrary和GetProcAddress的地址，然后加载User32.dll，关获取MessageBoxW的地址，再调用它。最后，再Free User32.dll。<br></strong>declspec(naked) NewCreateProcessW()<br>{<br>&nbsp;&nbsp; __asm<br>&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp; PUSHAD<br>&nbsp;&nbsp;&nbsp;&nbsp; MOV EAX, DWORD PTR FS:[0x30]<br>&nbsp;&nbsp;&nbsp;&nbsp; MOV EAX, DWORD PTR [EAX+0xC]<br>&nbsp;&nbsp;&nbsp;&nbsp; MOV ESI,&nbsp;&nbsp; DWORD PTR [EAX+0x1C]<br>&nbsp;&nbsp;&nbsp;&nbsp; LODSD<br>&nbsp;&nbsp;&nbsp;&nbsp; MOV EBX,&nbsp;&nbsp; DWORD PTR [EAX+0x8]&nbsp;&nbsp; // EBX: KERNEL32.DLL的基址<br>&nbsp;&nbsp;&nbsp;&nbsp; MOV EAX,&nbsp;&nbsp; EBX <br>&nbsp;&nbsp;&nbsp;&nbsp; ADD EAX,&nbsp;&nbsp; 0x3C<br>&nbsp;&nbsp;&nbsp;&nbsp; MOV EAX,&nbsp;&nbsp; [EAX]<br>&nbsp;&nbsp;&nbsp;&nbsp; ADD EAX,&nbsp;&nbsp; EBX &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp; // EAX 定位到 IMAGE_DIRECTORY_ENTRY_EXPORT<br>&nbsp;&nbsp;&nbsp;&nbsp; ADD EAX, ((TYPE IMAGE_NT_HEADERS) - ((TYPE IMAGE_DATA_DIRECTORY)</em>16))<br>&nbsp;&nbsp;&nbsp;&nbsp; MOV EAX, [EAX]<br>&nbsp;&nbsp;&nbsp;&nbsp; ADD EAX, EBX&nbsp;&nbsp;&nbsp;&nbsp; // EAX -&gt; 导出表&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp; MOV ESI, [EAX + 0x20]<br>&nbsp;&nbsp;&nbsp;&nbsp; ADD ESI, EBX&nbsp;&nbsp;&nbsp;&nbsp; // ESI -&gt; 导出函数名字的 RVA 数组<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp; PUSH ESI<br>&nbsp;&nbsp;&nbsp;&nbsp; // int 3<br>&nbsp;&nbsp;&nbsp;&nbsp; MOV ECX, 0xB<br>&nbsp;&nbsp;&nbsp;&nbsp; CALL a0<br>a0:<br>&nbsp;&nbsp;&nbsp;&nbsp; POP EBP<br>&nbsp;&nbsp;&nbsp;&nbsp; LEA EDI, a0<br>&nbsp;&nbsp;&nbsp;&nbsp; SUB EBP, EDI<br>&nbsp;&nbsp;&nbsp;&nbsp; LEA EDI, pFreeLibrary<br>&nbsp;&nbsp;&nbsp;&nbsp; ADD EDI, EBP<br>&nbsp;&nbsp;&nbsp;&nbsp; CALL GetProcAddr&nbsp;&nbsp; // GetProcAddr 在 EDX 中返回 FreeLibrary 的地址<br>&nbsp;&nbsp;&nbsp;&nbsp; POP ESI<br>&nbsp;&nbsp;&nbsp;&nbsp; PUSH EDX&nbsp;&nbsp;  // EDX = FreeLibrary 的地址, 保存起来<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp; PUSH ESI<br>&nbsp;&nbsp;&nbsp;&nbsp; MOV ECX, 0xE <br>&nbsp;&nbsp;&nbsp;&nbsp; CALL a1<br>a1:<br>&nbsp;&nbsp;&nbsp;&nbsp; POP EBP<br>&nbsp;&nbsp;&nbsp;&nbsp; LEA EDI, a1<br>&nbsp;&nbsp;&nbsp;&nbsp; SUB EBP, EDI<br>&nbsp;&nbsp;&nbsp;&nbsp; LEA&nbsp;&nbsp; EDI, pGetProcAddress<br>&nbsp;&nbsp;&nbsp;&nbsp; ADD&nbsp;&nbsp; EDI, EBP&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp; CALL GetProcAddr&nbsp;&nbsp; // GetProcAddr 在 EDX 中返回 GetProcAddress 的地址<br>&nbsp;&nbsp;&nbsp;&nbsp; POP ESI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <br>&nbsp;&nbsp;&nbsp;&nbsp; PUSH EDX&nbsp;&nbsp; // 保存 EDX = GetProcAddress 的地址, 保存起来<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp; MOV ECX, 0xC<br>&nbsp;&nbsp;&nbsp;&nbsp; CALL a2<br>a2:<br>&nbsp;&nbsp;&nbsp;&nbsp; POP&nbsp;&nbsp; EBP<br>&nbsp;&nbsp;&nbsp;&nbsp; LEA&nbsp;&nbsp; EDI, a2<br>&nbsp;&nbsp;&nbsp;&nbsp; SUB&nbsp;&nbsp; EBP, EDI<br>&nbsp;&nbsp;&nbsp;&nbsp; LEA&nbsp;&nbsp; EDI, pLoadLibraryA<br>&nbsp;&nbsp;&nbsp;&nbsp; ADD&nbsp;&nbsp; EDI, EBP&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp; CALL GetProcAddr&nbsp;&nbsp; // GetProcAddr 在 EDX 中返回 LoadLibraryA 的地址<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp; CALL a3<br>a3:<br>&nbsp;&nbsp;&nbsp;&nbsp; POP EBP<br>&nbsp;&nbsp;&nbsp;&nbsp; LEA EDI, a3<br>&nbsp;&nbsp;&nbsp;&nbsp; SUB EBP, EDI<br>&nbsp;&nbsp;&nbsp;&nbsp; LEA EDI, pUser32dll<br>&nbsp;&nbsp;&nbsp;&nbsp; ADD EBP, EDI<br>&nbsp;&nbsp;&nbsp;&nbsp; PUSH EBP<br>&nbsp;&nbsp;&nbsp;&nbsp; CALL EDX&nbsp;&nbsp; // 调用 LoadLibraryA<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp; POP EDX&nbsp;&nbsp;  // EDX = GetProcAddress 的地址<br>&nbsp;&nbsp;&nbsp;&nbsp; CALL a4<br>a4: <br>&nbsp;&nbsp;&nbsp;&nbsp; POP EBP<br>&nbsp;&nbsp;&nbsp;&nbsp; LEA EDI, a4<br>&nbsp;&nbsp;&nbsp;&nbsp; SUB EBP, EDI<br>&nbsp;&nbsp;&nbsp;&nbsp; LEA EDI, pMessageBoxW<br>&nbsp;&nbsp;&nbsp;&nbsp; ADD EBP, EDI<br>&nbsp;&nbsp;&nbsp;&nbsp; PUSH EAX<br>&nbsp;&nbsp;&nbsp;&nbsp; PUSH EBP<br>&nbsp;&nbsp;&nbsp;&nbsp; PUSH EAX&nbsp;&nbsp; // EAX = user32.dll的模块句柄<br>&nbsp;&nbsp;&nbsp;&nbsp; CALL EDX&nbsp;&nbsp; // 调用 GetProcAddress<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp; PUSH 0<br>&nbsp;&nbsp;&nbsp;&nbsp; PUSH [esp + 0x38]<br>&nbsp;&nbsp;&nbsp;&nbsp; PUSH [esp + 0x3C]<br>&nbsp;&nbsp;&nbsp;&nbsp; PUSH 0<br>&nbsp;&nbsp;&nbsp;&nbsp; CALL EAX&nbsp;&nbsp; // 调用MessageBoxW<br>&nbsp;&nbsp;&nbsp;&nbsp; POP EAX<br>&nbsp;&nbsp;&nbsp;&nbsp; POP EDX&nbsp;&nbsp; // FreeLibrary 的地址<br>&nbsp;&nbsp;&nbsp;&nbsp; PUSH EAX<br>&nbsp;&nbsp;&nbsp;&nbsp; CALL EDX<br>&nbsp;&nbsp;&nbsp;&nbsp; JMP over<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>GetProcAddr:&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp; MOV EDX, [EAX+0x18] //以名字导出的函数个数<br>&nbsp;&nbsp;&nbsp;&nbsp; FindNext:<br>&nbsp;&nbsp;&nbsp;&nbsp; PUSH EDI<br>&nbsp;&nbsp;&nbsp;&nbsp; PUSH ECX<br>&nbsp;&nbsp;&nbsp;&nbsp; PUSH EDX<br>&nbsp;&nbsp;&nbsp;&nbsp; PUSH ESI<br>&nbsp;&nbsp;&nbsp;&nbsp; MOV ESI, [ESI]<br>&nbsp;&nbsp;&nbsp;&nbsp; ADD ESI, EBX<br>&nbsp;&nbsp;&nbsp;&nbsp; CLD<br>&nbsp;&nbsp;&nbsp;&nbsp; REPE CMPSB<br>&nbsp;&nbsp;&nbsp;&nbsp; POP ESI<br>&nbsp;&nbsp;&nbsp;&nbsp; POP EDX<br>&nbsp;&nbsp;&nbsp;&nbsp; POP ECX<br>&nbsp;&nbsp;&nbsp;&nbsp; POP EDI<br>&nbsp;&nbsp;&nbsp;&nbsp; JZ Found<br>&nbsp;&nbsp;&nbsp;&nbsp; ADD ESI, 4<br>&nbsp;&nbsp;&nbsp;&nbsp; DEC EDX<br>&nbsp;&nbsp;&nbsp;&nbsp; JNZ FindNext<br><br>Found:&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp; MOV ECX, [EAX+0x18]<br>&nbsp;&nbsp;&nbsp;&nbsp; SUB ECX, EDX<br>&nbsp;&nbsp;&nbsp;&nbsp; SAL ECX, 1<br>&nbsp;&nbsp;&nbsp;&nbsp; MOV EDX, [EAX+0x24] // 导出函数序号表 的 RVA<br>&nbsp;&nbsp;&nbsp;&nbsp; ADD EDX, EBX<br>&nbsp;&nbsp;&nbsp;&nbsp; ADD EDX, ECX<br>&nbsp;&nbsp;&nbsp;&nbsp; XOR ECX, ECX<br>&nbsp;&nbsp;&nbsp;&nbsp; MOV CX, WORD PTR [EDX]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // ECX &lt;= 编号<br>&nbsp;&nbsp;&nbsp;&nbsp; SAL ECX, 1<br>&nbsp;&nbsp;&nbsp;&nbsp; SAL ECX, 1<br>&nbsp;&nbsp;&nbsp;&nbsp; MOV EDX, [EAX+0x1C]<br>&nbsp;&nbsp;&nbsp;&nbsp; ADD EDX, EBX<br>&nbsp;&nbsp;&nbsp;&nbsp; ADD EDX, ECX<br>&nbsp;&nbsp;&nbsp;&nbsp; MOV EDX, [EDX]<br>&nbsp;&nbsp;&nbsp;&nbsp; ADD EDX, EBX<br>&nbsp;&nbsp;&nbsp;&nbsp; RET&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>pLoadLibraryA:<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘L’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘o’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘a’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘d’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘L’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘i’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘b’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘r’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘a’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘r’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘y’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘A’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit 0<br>pGetProcAddress:<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘G’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘e’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘t’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘P’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘r’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘o’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘c’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘A’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘d’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘d’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘r’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘e’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘s’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘s’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit 0<br>pMessageBoxW:<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘M’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘e’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘s’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘s’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘a’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘g’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘e’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘B’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘o’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘x’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘W’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit 0<br>pUser32dll:<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘U’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘s’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘e’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘r’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘3’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘2’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘.’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘d’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘l’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘l’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit 0<br>pFreeLibrary:<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘F’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘r’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘e’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘e’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘L’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘i’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘b’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘r’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘a’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘r’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit ‘y’<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit 0<br>over:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp; POPAD<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit 0x90<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit 0x90<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit 0x90<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit 0x90<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit 0x90<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit 0x90<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit 0x90<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit 0x90<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit 0x90<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit 0x90<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit 0x90<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit 0x90<br>&nbsp;&nbsp;&nbsp;&nbsp; _emit 0x90<br>&nbsp;&nbsp; }<br>}<br>要把代码Copy到指别的地方，就要知道要Copy的字节数，本来，在masm32中很简单的一件事，定义两个标号就OK了，在这VC里确变得麻烦起来。<br>ULONG GetMyFunctionLen(PULONG pfn)<br>{<br>&nbsp;&nbsp; ULONG res = 0;<br>&nbsp;&nbsp; <strong>asm<br>&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp; MOV EAX, 0x90909090&nbsp;&nbsp;&nbsp;&nbsp;  // 新的函数以0x90909090作为结束的标志<br>&nbsp;&nbsp;&nbsp;&nbsp; MOV ECX, 0xFFFFFFFF<br>&nbsp;&nbsp;&nbsp;&nbsp; MOV EDI, pfn<br>&nbsp;&nbsp;&nbsp;&nbsp; CLD<br>&nbsp;&nbsp;&nbsp;&nbsp; REPNZ SCASD<br>&nbsp;&nbsp;&nbsp;&nbsp; NOT ECX<br>&nbsp;&nbsp;&nbsp;&nbsp; DEC ECX<br>&nbsp;&nbsp;&nbsp;&nbsp; MOV res, ECX<br>&nbsp;&nbsp; }<br>&nbsp;&nbsp; return res * 4;<br>}<br>自己写了一段代码比较两个字符串。<br>BOOLEAN IsStringEqual(PCHAR psrc, PCHAR pdest)<br>{<br>&nbsp;&nbsp; BOOLEAN res = FALSE;<br>&nbsp;&nbsp; </strong>asm<br>&nbsp;&nbsp; {<br>&nbsp;&nbsp;&nbsp;&nbsp; XOR EAX, EAX<br>&nbsp;&nbsp;&nbsp;&nbsp; MOV ECX, EAX<br>&nbsp;&nbsp;&nbsp;&nbsp; DEC ECX<br>&nbsp;&nbsp;&nbsp;&nbsp; MOV EDI, psrc<br>&nbsp;&nbsp;&nbsp;&nbsp; CLD<br>&nbsp;&nbsp;&nbsp;&nbsp; REPNZ SCASB<br>&nbsp;&nbsp;&nbsp;&nbsp; NOT ECX<br>&nbsp;&nbsp;&nbsp;&nbsp; DEC ECX<br>&nbsp;&nbsp;&nbsp;&nbsp; MOV EDX, ECX<br><br>&nbsp;&nbsp;&nbsp;&nbsp; MOV ECX, EAX<br>&nbsp;&nbsp;&nbsp;&nbsp; DEC ECX<br>&nbsp;&nbsp;&nbsp;&nbsp; MOV EDI, pdest<br>&nbsp;&nbsp;&nbsp;&nbsp; REPNZ SCASB<br>&nbsp;&nbsp;&nbsp;&nbsp; NOT ECX<br>&nbsp;&nbsp;&nbsp;&nbsp; DEC ECX<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp; CMP ECX, EDX<br>&nbsp;&nbsp;&nbsp;&nbsp; JNE over<br><br>&nbsp;&nbsp;&nbsp;&nbsp; MOV ESI, psrc<br>&nbsp;&nbsp;&nbsp;&nbsp; MOV EDI, pdest&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp; REPE CMPSB<br>&nbsp;&nbsp;&nbsp;&nbsp; JNZ over<br>&nbsp;&nbsp;&nbsp;&nbsp; MOV res, TRUE<br>over:<br>&nbsp;&nbsp;&nbsp;&nbsp; }<br>&nbsp;&nbsp; return res;<br>}<br><br>水平有限，纰漏之处难免，希望诸位大虾斧正。<br>以上几个头文件都是一些结构和宏的定义，就没有帖出来了。<br>若有不正确的地方，欢迎交流，QQ: 22517257<br><br>参考资料：<br>Windows 环境下32位汇编语言程序设计 罗云彬 著<br>Rootkits: Subverting the Windows Kernel By Greg Hoglund, James Butler <br>Undocumented Windows NT<br>Undocumented Windows 2000 Secrets </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/05/15/绕过Copy-On-Write机制安装全局Hook/" class="archive-article-date">
+  	<time datetime="2007-05-15T14:49:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-05-15</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Windows/">Windows</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-hotkey-collections" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2007/05/15/hotkey-collections/">hotkey collections</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <br><br><strong>HotKey collections<br><br></strong><strong>notepad++<br></strong>&nbsp;&nbsp;&nbsp;                  ctrl+alt+shift+x : open in firefox<br>&nbsp;&nbsp;&nbsp;                  ctrl+alt+shift+i : open in IE<br>&nbsp;&nbsp;&nbsp;                  Ctrl-D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                  : 复制当前行<br>&nbsp;&nbsp;&nbsp;                  Ctrl-L&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                  : 删除当前行<br>&nbsp;&nbsp;&nbsp;                  Ctrl-Space&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                  : 下拉提示信息<br>&nbsp;&nbsp;&nbsp;                  Ctrl-Shift-Space : complete word<br>&nbsp;&nbsp;&nbsp;                  F11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                  : 全屏显示<br>&nbsp;&nbsp;&nbsp;                  Ctrl-Tab&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                  : 下一个文档<br>&nbsp;&nbsp;&nbsp;                  Ctrl-Shift-Tab&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                  : 上一个文档<br>&nbsp;&nbsp;&nbsp;                  Ctrl-U&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                  : 转换为小写<br>&nbsp;&nbsp;&nbsp;                  Ctrl-Shift-U&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                  : 转换为大写<br>&nbsp;&nbsp;&nbsp;                  Ctrl-Shift-R&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                  : 开始/结束录制宏<br>&nbsp;&nbsp;&nbsp;                  Ctrl-Shift-P&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                  : 执行宏 <br><br><strong>bash</strong>&nbsp;&nbsp;&nbsp;                                              ctrl+w : delete a word backward (alt+Backspace )<br>&nbsp;&nbsp;&nbsp;                                              ctrl+u : delete to the begin of cmdline from current cursor<br>&nbsp;&nbsp;&nbsp;                                              ctrl+k : delete to the end of cmdline from current cursor<br>&nbsp;&nbsp;&nbsp;                                             ctrl+h : delete a character backward<br>&nbsp;&nbsp;&nbsp;                                   ctrl+d : delete a character forward<br>&nbsp;&nbsp;&nbsp;                                              ctrl+a : move to begin of cmdline<br>&nbsp;&nbsp;&nbsp;                                              ctrl+e : move to end of cmdline<br>&nbsp;&nbsp;&nbsp;                                             ctrl+l : clear whole screen<br>&nbsp;&nbsp;&nbsp;                                             ctrl+r : reverse complement history cmd<br><br>&nbsp;&nbsp;&nbsp;                                             ctrl+j : like enter<br>&nbsp;&nbsp;&nbsp;                                             ctrl+b : move back a character<br>&nbsp;&nbsp;&nbsp;                                             ctrl+f : move forward a character<br>&nbsp;&nbsp;&nbsp;                                             alt+u : uppercase next word<br>&nbsp;&nbsp;&nbsp;                                             alt+l : lowercase next word<br><br><br><strong>firefox</strong><strong> &nbsp;&nbsp;&nbsp;                                          </strong>ctrl/alt+num : switch to the num-th tab<br>&nbsp;&nbsp;&nbsp;                                              ctrl+j : show/hide download dialog window<br>&nbsp;&nbsp;&nbsp;                                             ctrl+l : go to the address link lineeditor<br>&nbsp;&nbsp;&nbsp;                                            ctrl+k/e : go to the search lineeditor<br>&nbsp;&nbsp;&nbsp;                                             ctrl+n : open a new firefox window<br>&nbsp;&nbsp;&nbsp;                                             ctrl+t : new tab<br>&nbsp;&nbsp;&nbsp;                                             ctrl+w : close current firefox tab/window<br><br>&nbsp;&nbsp;&nbsp;                                             ctrl+u : show http source code<br>&nbsp;&nbsp;&nbsp;                                             ctrl+h : show history<br>&nbsp;&nbsp;&nbsp;                                             <br><br><strong>vi  （vimtutor is helpful）</strong><strong> </strong><br>（.vimrc配置<strong> </strong><a target="_blank" href="http://hi.baidu.com/gzhejj/blog/item/29fca91be4bc6e198718bfb8.html">http://hi.baidu.com/gzhejj/blog/item/29fca91be4bc6e198718bfb8.html</a> ）<strong><br></strong>&nbsp;&nbsp;&nbsp;            ref: <a href="http://www.linuxdiyf.com/blog?68518/action_viewspace_itemid_1322.html" target="_blank">http://www.linuxdiyf.com/blog?68518/action_viewspace_itemid_1322.html</a><strong><br><br><br>&nbsp;&nbsp;&nbsp;                                        </strong>?pattern :&nbsp;&nbsp;                         向前寻找指定的pattern ,若遇到文件头，则从尾再开始。 <strong><br></strong>&nbsp;&nbsp;&nbsp;                                        nx : &nbsp;&nbsp;&nbsp;                                          &nbsp;&nbsp;&nbsp;                                          删除由光标位置起始的n个字符<br>&nbsp;&nbsp;&nbsp;                                        ndw :  &nbsp;&nbsp;                         &nbsp;&nbsp;                         &nbsp;&nbsp;                                          删除光标位置其实的n个字符组（dw删除到字的末尾)<br>&nbsp;&nbsp;&nbsp;                          db :  &nbsp;&nbsp;&nbsp;                          &nbsp;&nbsp;&nbsp;&nbsp;                            从字的开始删除<br>&nbsp;&nbsp;&nbsp;                                        d0 : &nbsp;&nbsp;&nbsp;                                        &nbsp;&nbsp;                                            将行的开始到光标位置的字符全部删除<br>&nbsp;&nbsp;&nbsp;                                        d$ 或D :   &nbsp;&nbsp;&nbsp;                         将光标位置起始到行尾的字符全部删除<br>&nbsp;&nbsp;&nbsp;                                        dd : &nbsp;&nbsp;                                           &nbsp;&nbsp;                                             &nbsp;&nbsp;                         删除一行<br>&nbsp;&nbsp;&nbsp;                                        :start,endd :&nbsp;&nbsp;&nbsp;                                        删除文件的第start到end行<br>&nbsp;&nbsp;&nbsp;                                        R :&nbsp;&nbsp;&nbsp;                                        &nbsp;&nbsp;&nbsp;                                        &nbsp;&nbsp;                                        覆盖本行内容<br>&nbsp;&nbsp;&nbsp;                                        u : &nbsp;&nbsp;&nbsp;                                        &nbsp;&nbsp;&nbsp;                                        &nbsp;&nbsp;                                        恢复上一次的修改 (undo)<br>&nbsp;&nbsp;&nbsp;                              U :&nbsp;&nbsp;                               &nbsp;&nbsp;                               &nbsp;&nbsp;                               &nbsp;&nbsp;                              恢复对整行修改之前的状态<br>&nbsp;&nbsp;&nbsp;                                    ctrl+r :&nbsp;&nbsp;                                     &nbsp;&nbsp;                                    与u相反&nbsp;&nbsp;                                    (redo)<br>&nbsp;&nbsp;&nbsp;                                        o : &nbsp;&nbsp;&nbsp;                                        &nbsp;&nbsp;&nbsp;                                        &nbsp;&nbsp;                                        在光标所在行后插入一空行<br>&nbsp;&nbsp;&nbsp;                                        O :&nbsp;&nbsp;                                                  &nbsp;&nbsp;&nbsp;                              &nbsp;&nbsp;&nbsp;                              在光标所在行前插入一空行<br>&nbsp;&nbsp;&nbsp;                                        yy :&nbsp;&nbsp;&nbsp;&nbsp;                                        &nbsp;&nbsp;&nbsp;&nbsp;                                把当前行放入缓冲区<br>&nbsp;&nbsp;&nbsp;                                        yw :&nbsp;&nbsp;&nbsp;                                        &nbsp;&nbsp;&nbsp;&nbsp;                                        把光标所在的单词放入缓冲区<br>&nbsp;&nbsp;&nbsp;                                        p :&nbsp;&nbsp;&nbsp;                                        &nbsp;&nbsp;&nbsp;                                        &nbsp;&nbsp;                                        将缓冲区内容取到光标所在行的下面一行<br>&nbsp;&nbsp;&nbsp;                                        P :&nbsp;&nbsp;&nbsp;                                        &nbsp;&nbsp;&nbsp;                                        &nbsp;&nbsp;                                        将缓冲区内容取到光标所在行的上面一行<br>&nbsp;&nbsp;&nbsp;                                        e! : &nbsp;&nbsp;&nbsp;                                        &nbsp;&nbsp;&nbsp;&nbsp;                                        重新装入当前文件，若当前文件有改动，则丢弃以前的改动<br>&nbsp;&nbsp;&nbsp;       guw :&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;       将当前单词转化为小写（gUw则为大写)<br> &nbsp;&nbsp;&nbsp;       guu :&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;       将当前行单词转化为小写（gUU则为大写）<br><br><br>&nbsp;&nbsp;&nbsp;                                    f+char :&nbsp;&nbsp;                                    jump to the next character (分号(;)将重复执行最后一个f、F、t或者T命令)<br>&nbsp;&nbsp;&nbsp;                                    F+char :   jump to the previous character<br>&nbsp;&nbsp;&nbsp;                                       ctrl+d :&nbsp;&nbsp;&nbsp;                                     page down (half page)<br>&nbsp;&nbsp;&nbsp;                                       ctrl+u:&nbsp;&nbsp;&nbsp;&nbsp;                                       page up (half page)<br>&nbsp;&nbsp;&nbsp;                                       ctrl+f:&nbsp;&nbsp;                                     &nbsp;&nbsp;                                     page down<br>&nbsp;&nbsp;&nbsp;                                       ctrl+b:&nbsp;&nbsp;&nbsp;&nbsp;                                       page up<br>&nbsp;&nbsp;&nbsp;                                    j :&nbsp;&nbsp;                                     &nbsp;&nbsp;                                     &nbsp;&nbsp;                                     &nbsp;&nbsp;                                    move down<br>&nbsp;&nbsp;&nbsp;                                    k :&nbsp;&nbsp;                                     &nbsp;&nbsp;                                     &nbsp;&nbsp;&nbsp;&nbsp;                         move up<br>&nbsp;&nbsp;&nbsp;                                    h :&nbsp;&nbsp;                                     &nbsp;&nbsp;                                     &nbsp;&nbsp;&nbsp;&nbsp;                                       move left<br>&nbsp;&nbsp;&nbsp;                                    l :&nbsp;&nbsp;                                     &nbsp;&nbsp;                                     &nbsp;&nbsp;                                     &nbsp;&nbsp;                                     move right<br><br>&nbsp;&nbsp;&nbsp;                                    H :&nbsp;&nbsp;                                     &nbsp;&nbsp;                                     &nbsp;&nbsp;&nbsp;&nbsp;                                    jump to the beginning of the first line in current page<br>&nbsp;&nbsp;&nbsp;                                    L :&nbsp;&nbsp;                                     &nbsp;&nbsp;                                     &nbsp;&nbsp;&nbsp;&nbsp;                                     jump to the beginning of the last line in current page<br>&nbsp;&nbsp;&nbsp;                           M :&nbsp;&nbsp;                            &nbsp;&nbsp;                            &nbsp;&nbsp;&nbsp;                            jump to the beginning of the middle line in current page<br> &nbsp;&nbsp;&nbsp;                                    J :&nbsp;&nbsp;                                     &nbsp;&nbsp;                                     &nbsp;&nbsp;&nbsp;&nbsp;                                    delete the ‘n’ of current line (join)<br>&nbsp;&nbsp;&nbsp;                                    K :&nbsp;&nbsp;                                     &nbsp;&nbsp;                                     &nbsp;&nbsp;&nbsp;                                    go to the manual of current word<br>&nbsp;&nbsp;&nbsp;             z-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             把当前行作为屏幕的最后一行，并重新显示屏幕。<br>&nbsp;&nbsp;&nbsp;             z.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             把当前行作为屏幕的中间一行，并重新显示屏幕。 <br><br>&nbsp;&nbsp;&nbsp;                                    ctrl+e :&nbsp;&nbsp;&nbsp;                                  move the whole page up one line<br>&nbsp;&nbsp;&nbsp;                                    ctrl+y :&nbsp;&nbsp;&nbsp;                                     move the whole page down one line<br>&nbsp;&nbsp;&nbsp;                                    gg :  &nbsp;&nbsp;                                                        jump to the beginning of the first line<br>&nbsp;&nbsp;&nbsp;                                    G : &nbsp;&nbsp;&nbsp;&nbsp;                                                        jump to the beginning of the last line<br>&nbsp;&nbsp;&nbsp;                              # G:&nbsp;&nbsp;                                 &nbsp;&nbsp;                                 jump to line number #<br>&nbsp;&nbsp;&nbsp;                                    $ : &nbsp;&nbsp;                                     &nbsp;&nbsp;&nbsp;&nbsp;                                                 jump to the end of current line<br>&nbsp;&nbsp;&nbsp;                                    ^/0 :&nbsp;&nbsp;                                                         jump to the beginning of current line<br><br>&nbsp;&nbsp;&nbsp;                                    ctrl+g :&nbsp;&nbsp;&nbsp;                                     show line info &amp; file name<br>&nbsp;&nbsp;&nbsp;                             :f&nbsp;&nbsp;                              &nbsp;&nbsp;&nbsp;&nbsp;                              :&nbsp;&nbsp;&nbsp;                             同 ctrl+g<br>&nbsp;&nbsp;&nbsp;                                         ctrl+t : &nbsp;&nbsp;&nbsp;                                        对行增加一个级别的缩进 (insert mode)<br>&nbsp;&nbsp;&nbsp;                                         ctrl+d : &nbsp;&nbsp;                                        对行取消一个级别的缩进 (insert mode)<br>&nbsp;&nbsp;&nbsp;                                         &lt;&lt; : &nbsp;&nbsp;&nbsp;                                                           将行向左移动8个空格 (cmd mode)<br>&nbsp;&nbsp;&nbsp;                                         &gt;&gt; : &nbsp;&nbsp;&nbsp;                                                           将行向右移动8个空格 (cmd mode)<br>&nbsp;&nbsp;&nbsp;                                         n&lt;&lt; 或 n&gt;&gt; : &nbsp;&nbsp;&nbsp;                                        将连续n行向左或向右缩进8个空格<br>&nbsp;&nbsp;&nbsp;                                         % : &nbsp;&nbsp;&nbsp;                                        &nbsp;&nbsp;                         &nbsp;&nbsp;                                        匹配括号(、[、{、&lt;  (cmd mode)<br>&nbsp;&nbsp;&nbsp;              gd：到达光标所在处函数或者变量的定义处。<br><br>&nbsp;&nbsp;&nbsp;                                ctrl+w+v : 垂直方向分割窗口<br>&nbsp;&nbsp;&nbsp;                                ctrl+w+s : 水平方向分割窗口<br>&nbsp;&nbsp;&nbsp;                                ctrl+w+n : 水平方向产生一个新窗口<br>&nbsp;&nbsp;&nbsp;                                ctrl+w+&lt; : 垂直分割线左移<br>&nbsp;&nbsp;&nbsp;                                ctrl+w+ - : 水平分割线上移<br>&nbsp;&nbsp;&nbsp;                                ctrl+w+w : 切换窗口<br>&nbsp;&nbsp;&nbsp;                                ctrl+w+c :  关闭窗口<br>&nbsp;&nbsp;&nbsp;                                ctrl+w+o :  仅保留当前窗口，关闭其他所有窗口<br>&nbsp;&nbsp;&nbsp;                    :split filename : open a file in a new window<br>&nbsp;&nbsp;&nbsp;                                ref：<a target="_blank" href="http://vimcdoc.sourceforge.net/doc/index.html#CTRL-W">http://vimcdoc.sourceforge.net/doc/index.html#CTRL-W</a><br><br><br>&nbsp;&nbsp;&nbsp;                                           :#1,#2s/text1/textx2/g :  在两行#1和#2之间，replace text1 to text2<br>&nbsp;&nbsp;&nbsp;                                        :%s/old/new/g : &nbsp;&nbsp;&nbsp;                                        &nbsp;&nbsp;&nbsp;                                        &nbsp;&nbsp;&nbsp;                                        在整个文件中，查找所有old并替换为new<br>&nbsp;&nbsp;&nbsp;                            :%s/old/new/gc :&nbsp;&nbsp;                             &nbsp;&nbsp;                             &nbsp;&nbsp;&nbsp;&nbsp;                               在替换之前会询问yes or no<br>&nbsp;&nbsp;&nbsp;                                        :first,last co dest 　　&nbsp;&nbsp;                                        将first 到last行的数据复制到目标行(dest）下面<br>&nbsp;&nbsp;&nbsp;                                        :Start,end　m dest　　将start 到 end行的数据移动到目标行（dest)下<br>&nbsp;&nbsp;&nbsp;                                        :r filename　　　　　&nbsp;&nbsp;                               将指定文件的内容读入光标所在行下<br>&nbsp;&nbsp;&nbsp;            :1，5 copy 7 　　　　　块拷贝<br>&nbsp;&nbsp;&nbsp;            :1，5 del 　　　　　　　块删除<br>&nbsp;&nbsp;&nbsp;            :1，5 move 7 　　　　　块移动<br><br>&nbsp;&nbsp;&nbsp;                          d)&nbsp;&nbsp;                          : &nbsp;&nbsp;&nbsp;                          &nbsp;&nbsp;&nbsp;                          删除到句子的末尾<br>&nbsp;&nbsp;&nbsp;                          d4) :   &nbsp;&nbsp;&nbsp;                            &nbsp;&nbsp;&nbsp;                         删除到第4个句子的末尾<br>&nbsp;&nbsp;&nbsp;                          d(&nbsp;&nbsp;                          : &nbsp;&nbsp;&nbsp;                          &nbsp;&nbsp;&nbsp;                          从句子的首字符开始删除<br>&nbsp;&nbsp;&nbsp;                          d}&nbsp;&nbsp;                          : &nbsp;&nbsp;&nbsp;                          &nbsp;&nbsp;&nbsp;                          删除到段落末尾<br>&nbsp;&nbsp;&nbsp;                          d{&nbsp;&nbsp;                          : &nbsp;&nbsp;&nbsp;                          &nbsp;&nbsp;&nbsp;                          从段落的开始删除<br>&nbsp;&nbsp;&nbsp;                          d/text :&nbsp;&nbsp;                          &nbsp;&nbsp;                          一直删除到text单词的下一次出现<br>&nbsp;&nbsp;&nbsp;                         dL  :&nbsp;&nbsp;&nbsp;                         &nbsp;&nbsp;&nbsp;&nbsp;                         删除到屏幕的最后一行(包括最后一行)<br>&nbsp;&nbsp;&nbsp;                         dH  :  &nbsp;&nbsp;&nbsp;                         &nbsp;&nbsp;                         从屏幕的第1行开始删除<br><br>&nbsp;&nbsp;&nbsp;                                         :set showmatch 或 :set sm : 当我们输入)或}时，光标在返回当前位置之前将短暂地移回到相匹配的(或{处<br>&nbsp;&nbsp;&nbsp;                                         :set autoindent 或 :set ai : 使用自动缩进功能<br><br>&nbsp;&nbsp;&nbsp;                                 :set tags=../../tags<br><br>&nbsp;&nbsp;&nbsp;                                tags设置好后，在~/.vimrc里加入 &ldquo;filetype plugin indent on&rdquo; 后<br>&nbsp;&nbsp;&nbsp;                                <u><em><strong>ctrl+x</strong></em></u>, ctrl+o : 代码补齐<br>&nbsp;&nbsp;&nbsp;                                ctrl+e : 撤销当前补齐<br><br>&nbsp;&nbsp;&nbsp;                       在插入模式下<em><strong> ctrl+x, ctrl+?</strong></em><br>&nbsp;&nbsp;&nbsp;                       ctrl+x, ctrl+e : 向上scroll<br>&nbsp;&nbsp;&nbsp;                       ctrl+x, ctrl+y : 向下scroll<br>&nbsp;&nbsp;&nbsp;                       ctrl+x, ctrl+i  : path pattern 补全<br>&nbsp;&nbsp;&nbsp;                       ctrl+x, ctrl+v :  补全<br>&nbsp;&nbsp;&nbsp;                       ctrl+p :  补全<br>&nbsp;&nbsp;&nbsp;                       ctrl+n :  补全<br><br><strong> &nbsp;&nbsp;&nbsp;                        </strong>命令.(句点)将重复执行最近一次的修改命令<strong><br></strong> &nbsp;&nbsp;&nbsp;                                    f+char :&nbsp;&nbsp;                                    jump to the next character (分号(;)将重复执行最后一个f、F、t或者T命令)<br>&nbsp;&nbsp;&nbsp;                      <em> : 搜索下一个当前光标处单词<br>&nbsp;&nbsp;&nbsp;                      # : 搜索前一个当前光标处单词<br><br><br>可视选择模式<br><p>&nbsp;&nbsp;&nbsp;&nbsp;             v：按字符选择。<br>&nbsp;&nbsp;&nbsp;&nbsp;             V：按行选择。<br>&nbsp;&nbsp;&nbsp;&nbsp;             Ctrl-V：按块选择。</p><p>对高亮选区的操作：<br>&nbsp;&nbsp;&nbsp;&nbsp;             d：剪贴选择的内容到剪贴板。<br>&nbsp;&nbsp;&nbsp;&nbsp;             y：拷贝选择的内容到剪贴板。<br>&nbsp;&nbsp;&nbsp;&nbsp;             c：剪贴选择的内容到剪贴板并且进入插入模式。</p><br><a href="http://greenisland.csie.nctu.edu.tw/wp/2005/09/10/328/" target="_blank">register － 暂存寄存器</a><br><strong><br>:h registers</strong> 帮助<br><strong>  &quot;+yy</strong> 拷贝到寄存器&nbsp;&nbsp;&nbsp;<strong> <br>&quot;+p</strong> 从寄存器粘贴出来&nbsp;&nbsp;&nbsp;          <br><strong>:di</strong> 列出各个寄存器内容<br><strong>&quot;1p</strong> 贴出寄存器1的内容，继续按下<strong>「.」</strong>的時候 vim 就會把 <strong>&quot;2</strong> 的內容貼出來，依此類推<br><strong>:let @a=&quot;Hello, world&quot;</strong> 设置寄存器a的内容<br><strong>:g/pattern/y a</strong> 每次比對到的那行都 yank 複製到 &quot;a 這裡面去，只會记录到最後一行的結果<br><strong>:g/pattern/y A</strong> 与a不同，A会append内容到 &quot;a<br> <strong>:g/pattern/. w &gt;&gt; filename</strong> 把這些東西寫到某個檔案去<br> <strong>&quot;+和&quot;</strong></em> 系统全局的剪贴板<br><strong>&quot;:</strong> 就是指打的命令的暫存器<br><strong>&quot;/</strong> 就是放搜尋的字串<br> <strong>&quot;</strong><strong>.</strong> 放最近 insert 插入的文字<br> <strong>&quot;</strong><strong>-</strong> 放砍掉但不超過一行的文字<br> <strong>&quot;</strong><strong>%</strong> 指現在編輯的檔名<br><strong>:w %.bak</strong> 将当前文件另存为current<em>filename.bak<br><ol> <li>The unnamed register &ldquo;&rdquo;</li> <li>10 numbered registers &ldquo;0 to &ldquo;9</li> <li>The small delete register &ldquo;-</li> <li>26 named registers &ldquo;a to &ldquo;z or &ldquo;A to &ldquo;Z</li> <li>four read-only registers &ldquo;:, &ldquo;., &ldquo;% and &ldquo;#</li> <li>the expression register &ldquo;=</li> <li>The selection and drop registers &ldquo;*, &ldquo;+ and &ldquo;~</li> <li>The black hole register &ldquo;</li></ol></em> <li>Last search pattern register &ldquo;/</li><br> others<br><br> <strong>  :digraph</strong><br>显示unicode符号，例如 (&quot; 【 12304，第一部分表示用户输入的字符组合，中间是显示的符号，最后是该字符的unicode编码<br>输入<strong>ctrl＋K＋(＋&quot;</strong>即可显示出【<br><br><strong>ctags<br>&nbsp;&nbsp;&nbsp;                                      </strong>ctags -R * :&nbsp;&nbsp;                                       &nbsp;&nbsp;                                      generate tags file recursively<br><strong> <br>cscope</strong><br>&nbsp;&nbsp;&nbsp;                       cscope -Rbkq :&nbsp;&nbsp;                        建立索引<br><br><strong>taglist</strong><br>&nbsp;&nbsp;&nbsp;         :Tlist&nbsp;&nbsp;         显示当前.c文件中的变量、函数等<br><br><strong>fold</strong><br>&nbsp;&nbsp;&nbsp;         :help fold<br>&nbsp;&nbsp;&nbsp;         :set foldmarker={,}<br>&nbsp;&nbsp;&nbsp;         :set foldmethod=marker<br>&nbsp;&nbsp;&nbsp;         :set foldmethod=syntax<br>&nbsp;&nbsp;&nbsp;         :set foldlevel=100&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        &quot; Don’t autofold anything (but I can still fold manually)<br>&nbsp;&nbsp;&nbsp;         :set foldopen-=search&nbsp;&nbsp;&nbsp;        &quot; don’t open folds when you search into them<br>&nbsp;&nbsp;&nbsp;         :set foldopen-=undo&nbsp;&nbsp;&nbsp;          &quot; don’t open folds when you undo stuff<br>&nbsp;&nbsp;&nbsp;         zc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        Close one fold under the cursor.<br>&nbsp;&nbsp;&nbsp;         zC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        Close all folds under the cursor recursively.<br>&nbsp;&nbsp;&nbsp;         zo&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        Open one fold under the cursor.<br>&nbsp;&nbsp;&nbsp;         zO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        Open all folds under the cursor recursively.<br>&nbsp;&nbsp;&nbsp;         zM&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        Close all folds: set ‘foldlevel’ to 0.<br>&nbsp;&nbsp;&nbsp;         zR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        Open all folds.<br><br> <strong>加密</strong><br>&nbsp;&nbsp;&nbsp;         :X&nbsp;&nbsp;&nbsp;      然后输入密码（直接输入回车则撤销密码）<br><br><strong>mark</strong><br>&nbsp;&nbsp;&nbsp;     m{a-zA-Z} &nbsp;&nbsp;     将当前光标位置设置为mark<br>&nbsp;&nbsp;&nbsp;     ‘a &nbsp;&nbsp;     跳转到mark a的位置<br><br><strong>:set sm</strong>&nbsp;&nbsp;&nbsp;   在用户敲)、]、}时显示出对应匹配的{、[、(<br><br><strong>缩写文本</strong><br>&nbsp;&nbsp;&nbsp;   :ab myurl <a href="http://www.mykms.org/kms/myproject/index.php?" target="_blank" rel="external">http://www.mykms.org/kms/myproject/index.php?</a> id=0023<br>&nbsp;&nbsp;&nbsp;   在插入模式下输入&ldquo;myurl&rdquo;后，&ldquo;myurl&rdquo;就会自动变成刚才定义URL<br>&nbsp;&nbsp;&nbsp;   :una myurl&nbsp;&nbsp;&nbsp;   取消myurl这个缩写<br><br><br></p><p>set encoding=utf-8 &quot; set default encoding as UTF-8</p><p>set fileencodings=ucs-bom,utf-8,cp936,latin1 &quot; fileconding detection order</p><p>set termencoding=utf-8 &quot; support Chinese display in rxvt-unicode</p><br><br><br><br><br>=============================================================================<br><strong><br></strong> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/05/15/hotkey-collections/" class="archive-article-date">
+  	<time datetime="2007-05-15T07:55:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-05-15</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux-App/">Linux App</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-网卡驱动－－内核数据包处理流程" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2007/05/15/网卡驱动－－内核数据包处理流程/">网卡驱动－－内核数据包处理流程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <a href="http://jjfo.bokee.com/viewdiary.16025104.html" target="_blank" rel="external">网卡驱动－－内核数据包处理流程</a><br><a href="http://www.cublog.cn/u/2108/showart_223258.html" target="_blank">http://www.cublog.cn/u/2108/showart_223258.html</a> </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/05/15/网卡驱动－－内核数据包处理流程/" class="archive-article-date">
+  	<time datetime="2007-05-15T07:42:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-05-15</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux/">Linux</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Linux-Kernel-Thread-的讨论" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2007/05/14/Linux-Kernel-Thread-的讨论/">Linux Kernel Thread 的讨论</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <strong>kernel thread</strong><br></p><p> </p><p>Gearheads Written by Sreekrishnan Venkateswaran &nbsp;&nbsp;   Thursday, 15 September 2005</p><p> </p><p>Threads are programming abstractions used in concurrent processing. A kernel thread is a way to implement background tasks inside the kernel. A background task can be busy handling asynchronous events or can be asleep, waiting for an event to occur. Kernel threads are similar to user processes, except that they live in kernel space and have access to kernel functions and data structures. Like user processes, kernel threads appear to monopolize the processor because of preemptive scheduling.</p><p>In this month&rsquo;s &ldquo;Gearheads,&rdquo; let&rsquo;s discuss kernel threads and develop an example that also demonstrates such as process states, wait queues, and user-mode helpers.</p><p>Built-in Kernel Threads</p><p>To see the kernel threads (also called kernel processes) running on your system, run the command ps &ndash;ef. You should see something similar to Figure One.</p><p>FIGURE ONE: A typical list of Linux kernel threads</p><p>$ ps  &ndash;ef <br><br>UID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   PID  PPID  C STIME TTY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   TIME CMD<br>root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   1&nbsp;&nbsp;&nbsp;&nbsp;   0  0 22:36 ?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   00:00:00 init [3]<br>root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   2&nbsp;&nbsp;&nbsp;&nbsp;   1  0 22:36 ?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   00:00:00 [ksoftirqd/0]<br>root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   3&nbsp;&nbsp;&nbsp;&nbsp;   1  0 22:36 ?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   00:00:00 [events/0]<br>root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   38&nbsp;&nbsp;&nbsp;&nbsp;   3  0 22:36 ?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   00:00:00 [pdflush]<br>root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   39&nbsp;&nbsp;&nbsp;&nbsp;   3  0 22:36 ?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   00:00:00 [pdflush]<br>root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   29&nbsp;&nbsp;&nbsp;&nbsp;   1  0 22:36 ?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   00:00:00 [khubd]<br>root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   695&nbsp;&nbsp;&nbsp;&nbsp;   1  0 22:36 ?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   00:00:00 [kjournald]<br>&hellip;<br>root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   3914&nbsp;&nbsp;&nbsp;&nbsp;   1  0 22:37 ?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   00:00:00 [nfsd]<br>root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   3915&nbsp;&nbsp;&nbsp;&nbsp;   1  0 22:37 ?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   00:00:00 [nfsd]<br>&hellip;<br>root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   4015  3364  0 22:55 tty3&nbsp;&nbsp;&nbsp;&nbsp;   00:00:00 -bash<br>root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   4066  4015  0 22:59 tty3&nbsp;&nbsp;&nbsp;&nbsp;   00:00:00 ps -ef</p><p>The output of ps &ndash;ef is a list of user and kernel processes running on your system. Kernel process names are surrounded by square brackets ([]).</p><p>The [ksoftirqd/0] kernel thread is an aid to implement soft IRQs. Soft IRQs are raised by interrupt handlers to request &ldquo;bottom half&rdquo; processing of portions of the interrupt handler whose execution can be deferred. The idea is to minimize the code inside interrupt handlersm which results in reduced interrupt-off times in the system, thus resulting in lower latencies. ksoftirqd ensures that a high load of soft IRQs neither starves the soft IRQs nor overwhelms the system. (On Symmetric Multi-Processing (SMP) machines, where multiple thread instances can run on different processors in parallel, one instance of ksoftirqd is created per processor to improve throughput. On SMP machines, the kernel processes are named ksoftirqd/ n, where n is the processor number.)</p><p>The events/n threads (where n is the processor number) help implement work queues, which are another way of deferring work in the kernel. If a part of the kernel wants to defer execution of work, it can either create its own work queue or make use of the default events/ n worker thread.</p><p>The pdflush kernel thread flushes dirty pages from the page cache. The page cache buffers accesses to the disk. To improve performance, actual writes to the disk are delayed until the pdflush daemon writes out dirtied data to disk. This is done if the available free memory dips below a threshold or if the page has remained dirty for a sufficiently long time. In the 2.4.<em> kernels, these two tasks were respectively performed by separate kernel threads, bdflush and kupdated.</em></p><p>You may have noticed that there are two instances of pdflush in the ps output. A new instance is created if the kernel senses that existing instances are becoming intolerably busy servicing disk queues. Launching new instances of pdflush improves throughput, especially if your system has multiple disks and many of them are busy.</p><p>The khubd thread, part of the Linux USB core, monitors the machine&rsquo;s USB hub and configures USB devices when they are hot-plugged into the system. kjournald is the generic kernel journaling thread, which is used by file systems like ext3. The Linux Network File System (NFS) server is implemented using a set of kernel threads named nfsd.</p><p>Creating a Kernel Thread</p><p>To illustrate kernel threads, let&rsquo;s implement a simple example. Assume that you&rsquo;d like the kernel to asynchronously invoke a user-mode program to send you a page or an email alert whenever it senses that the health of certain kernel data structures is unsatisfactory &mdash; for instance, free space in network receive buffers has dipped below a low watermark.</p><p>This is a candidate for a kernel thread because:</p><p>It&rsquo;s a background task, since it has to wait for asynchronous events.</p><p><em>It needs access to kernel data structures, since the actual detection of events must be done by other parts of the kernel.</em></p><p>It has to invoke a user-mode helper program, which is a time consuming operation.</p><p> </p><p>The kernel thread relinquishes the processor till it gets woken up by parts of the kernel that are responsible for monitoring the data structures of interest. It then invokes the user-mode helper program and passes on the appropriate identity code to the program&rsquo;s environment. The user-mode program is registered with the kernel via the /proc file system.</p><p>Listing One creates the kernel thread.</p><p>Listing One: Creating a Linux kernel thread</p><p>ret = kernel_thread (mykthread, NULL, <br>CLONE_FS | CLONE_FILES | CLONE_SIGHAND | SIGCHLD);</p><p>The thread can be created in an appropriate place, for example, in init/main.c. The flags specify the resources to be shared between the parent and child threads: CLONE_FILES specifies that open files are to be shared, while CLONE_SIGHAND requests that signal handlers be shared.</p><p>Listing Two is the actual kernel thread. daemonize() creates the thread without attached user resources, while reparent_to_init() changes the parent of the calling thread to the init task.</p><p>Each Linux thread has a single parent. If a parent process dies without waiting for its child to exit, the child becomes a zombie process and wastes resources. Re-parenting the child to the init task avoids this. In the 2.6 kernel, the daemonize() function itself internally invokes reparent_to_init.</p><p>Since daemonize() blocks all signals by default, you have to call allow_signal() to enable delivery if your thread desires to handle a particular signal. There are no signal handlers inside the kernel, so use signal_pending() to check for signals and perform the appropriate action. For debugging purposes, the code in Listing Two requests delivery of SIGKILL and dies if it&rsquo;s received.</p><p>Listing Two: Implementing the Kernel Thread</p><p>static DECLARE_WAIT_QUEUE_HEAD (myevent_waitqueue);<br>rwlock_t myevent_lock;<br><br>static int mykthread (void <em>unused)<br>{<br>unsigned int event_id = 0; <br><br>DECLARE_WAITQUEUE (wait, current);<br><br>/</em> The stuff required to become a kernel thread <br><em> without attached user resources </em>/<br>daemonize (&quot;mykthread&quot;);<br>reparent_to_init (); /<em> In 2.4 kernels </em>/<br><br>/<em> Request delivery of SIGKILL </em>/<br>allow_signal (SIGKILL);<br><br>/<em> The thread will sleep on this wait queue till it is <br></em> woken up by parts of the kernel in charge of sensing<br><em> the health of data structures of interest </em>/<br>add_wait_queue (&amp;myevent_waitqueue, &amp;wait);<br><br>for (;;) {<br><br>/<em> Relinquish the processor till the event occurs </em>/<br>set_current_state (TASK_INTERRUPTIBLE);<br>schedule ();<br><br>/<em> Die if I receive SIGKILL </em>/<br>if (signal_pending (current)) break;<br><br>/<em> Control gets here when the thread is woken up </em>/<br><br>read_lock (&amp;myevent_lock); /<em> Critical section starts </em>/<br><br>if (myevent_id) { /<em> Guard against spurious wakeups </em>/<br>event_id = myevent_id;<br>read_unlock (&amp;myevent_lock); /<em> Critical section ends </em>/<br><br>/<em> Invoke the registered user-mode helper and<br></em> pass the identity code in its environment <em>/<br>run_umode_handler (event_id); /</em> See Listing Five <em>/<br>} else {<br>read_unlock (&amp;myevent_lock); <br>} <br>}<br><br>set_current_state (TASK_RUNNING);<br>remove_wait_queue (&amp;myevent_waitqueue, &amp;wait);<br>return 0;<br>}</em></p><p>If you compile this as part of the kernel, you can see the newly created thread, mykthread, in the ps output, as shown in Figure Two.</p><p> </p><p>FIGURE TWO: The new thread, mykthread, is a child of init</p><p>$ ps &ndash;ef<br><br>UID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   PID  PPID  C STIME TTY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   TIME CMD<br>root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   1&nbsp;&nbsp;&nbsp;&nbsp;   0  0 21:56 ?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   00:00:00 init [3]<br>root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   2&nbsp;&nbsp;&nbsp;&nbsp;   1  0 22:36 ?&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   00:00:00 [ksoftirqd/0]<br>&hellip;<br>root&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   111&nbsp;&nbsp;   1  0 21:56 ?&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;00:00:00 [mykthread]<br>&hellip;</p><p> </p><p>Before delving further into the thread implementation, let&rsquo;s look at a code snippet that detects the event and awakens mykthread. Refer to Listing Three.</p><p>Listing Three: Waking up the kernel thread</p><p>/ Executed by parts of the kernel that own the <br>data structures whose health you want to monitor <em>/<br><br>/</em> … <em>/<br><br>if (my_key_datastructure looks troubled) {<br>write_lock (&amp;myevent_lock); <br>/</em> Fill in the identity of the data structure <em>/<br>myevent_id = datastructure_id;<br>write_unlock (&amp;myevent_lock);<br><br>/</em> Wake up mykthread <em>/<br>wake_up_interruptible (&amp;myevent_waitqueue); <br>}<br><br>/</em> … <em>/</em></p><p> </p><p>The kernel accomplishes useful work using a combination of process contexts and interrupt contexts. Process contexts aren&rsquo;t tied to any interrupt context and vice versa. Listing Two executes in a process context, while Listing Three can run from both process and interrupt contexts.</p><p>Process and interrupt contexts communicate via kernel data structures. In the example, myevent_id and myevent_waitqueue are used for this communication. myevent_id contains the identity of the data structure that&rsquo;s in trouble. Access to myevent_id is serialized using spin locks.</p><p>(Kernel threads are preemptible only if CONFIG_PREEMPT is turned on during compile time. If CONFIG_PREEMPT is off or if you are running a 2.4 kernel without the preemption patch, your thread will freeze the system if it doesn&rsquo;t go to sleep. If you comment out schedule() in Listing Two and disable CONFIG_PREEMPT in your kernel configuration, your system will lock up, too.)</p><p>Process States and Wait Queues</p><p>Let&rsquo;s take a closer look at the code snippet that puts mykthread to sleep while waiting for events. The snippet is shown in Listing Four.</p><p> </p><p>LISTING FOUR: How to put a thread to sleep</p><p>add_wait_queue (&amp;myevent_waitqueue, &amp;wait); <br>for (;;) {<br>/ .. <em>/<br>set_current_state (TASK_INTERRUPTIBLE);<br>schedule ();<br>/</em> Point A <em>/<br><br>/</em> .. <em>/<br>}<br><br>set_current_state (TASK_RUNNING);<br>remove_wait_queue (&amp;myevent_waitqueue, &amp;wait);</em></p><p>Wait queues hold threads that need to wait for an event or a system resource. A thread in a wait queue sleeps until it&rsquo;s woken by another thread or an interrupt handler that&rsquo;s responsible for detecting the event. Queuing and de-queuing are done using the add_wait_queue() and remove_wait_queue() functions, while waking up queued tasks is accomplished via the wake_up_interruptible() routine.</p><p>In the above code snippet, set_current_state() is used to set the run state of the kernel thread. A kernel thread (or a normal process) can be in either of the following states: running, interruptible, uninterruptible, zombie, stopped, traced, or dead. These states are defined in include/linux/sched.h.</p><p>A process in the running state (TASK_RUNNING) is in the scheduler run queue and is a candidate for CPU time according to the scheduling algorithm.</p><p><em>A task in the interruptible state (TASK_INTERRUPTIBLE) is waiting for an event to occur and isn&rsquo;t in the scheduler run queue. When the task gets woken up or if a signal is delivered to it, it re-enters the run queue.</em></p><p>The uninterruptible state (TASK_UNINTERRUPTIBLE) is similar to the interruptible state except that receipt of a signal won&rsquo;t put the task back into the run queue.</p><p><em>A task in the zombie state (EXIT_ZOMBIE) has terminated, but its parent did not wait for the task to complete.</em></p><p>A stopped task (TASK_STOPPED) has stopped execution due to receipt of certain signals.</p><p>mykthread sleeps on a wait queue (myevent_waitqueue) and changes its state to TASK_INTERRUPTIBLE, signaling that it desires to opt out of the scheduler run queue. The call to schedule() asks the scheduler to choose and run a new task from its run queue.</p><p> </p><p>When another part of the kernel awakens mykthread using wake_up_interruptible() as shown in Listing Three, the thread is put back into the scheduler run queue. The process state also gets changed to TASK_RUNNING, so there&rsquo;s no race condition even if the wake up occurs between the time the task state is set to TASK_INTERRUPTIBLE and the schedule() function is called. The thread also gets back into the run queue if a SIGKILL signal is delivered to it. When the scheduler subsequently picks mykthread from the run queue, execution resumes at Point A.</p><p>User-Mode Helpers</p><p>The kernel supports a mechanism for invoking user-mode programs to help perform certain functions. For example, if module auto-loading is enabled, the kernel dynamically loads necessary modules on demand using a user-mode module loader. The default loader is /sbin/modprobe, but you can change it by registering your own loader in /proc/sys/kernel/modprobe. Similarly, the kernel notifies user space about hot-plug events by invoking the program registered in /proc/sys/kernel/hotplug, which is by default /sbin/hotplug.</p><p>Listing Four contains the function used by mykthread to notify user space about detected events. The user-mode program to invoke can be registered via the sysctl interface in the /proc file system. To do this, make sure that CONFIG_SYSCTL is enabled in your kernel configuration and add an entry to the kern_table array in kernel/sysctl.c:</p><p>{KERN_MYEVENT_HANDLER, &quot;myevent_handler&quot;, <br>  &amp;myevent_handler, 256,<br>  0644, NULL, &amp;proc_dostring, <br>  &amp;sysctl_string}</p><p>This creates an entry /proc/sys/kernel/myevent_handler in the /proc file system. To register your user-mode helper, do the following:</p><p>$ echo /path/to/helper &gt; <br>  /proc/sys/kernel/myevent_handler</p><p>This makes /path/to/helper execute when the function in Listing Five runs.</p><p>Listing Five: Invoking User Mode Helpers</p><p>/<em> Called from Listing Two </em>/<br>static void run_umode_handler (int event_id)<br>{<br>int i = 0;<br>char <em>argv[2], </em>envp[4], <em>buffer = NULL;<br>int value;<br><br>argv[i++] = myevent_handler; /</em> Defined earlier in kernel/sysctl.c <em>/<br><br>/</em> Fill in the id corresponding to the data structure in trouble <em>/<br>if (!(buffer = kmalloc (32, GFP_KERNEL))) return;<br>sprintf (buffer, &quot;TROUBLED_DS=%d&quot;, event_id); <br><br>/</em> If no user-mode handlers are found, return <em>/ <br>if (!argv[0]) return;<br>argv[i] = 0;<br><br>/</em> Prepare the environment for /path/to/helper <em>/<br>i = 0;<br>envp[i++] = &quot;HOME=/&quot;;<br>envp[i++] = &quot;PATH=/sbin:/bin:/usr/sbin:/usr/bin&quot;;<br>envp[i++] = buffer;<br>envp[i] = 0;<br><br>/</em> Execute the user-mode program, /path/to/helper <em>/<br>value = call_usermodehelper (argv[0], argv, envp, 0);<br><br>/</em> Check return values <em>/<br>&hellip;<br><br>kfree (buffer);<br>}</em></p><p>The identity of the troubled kernel data structure is passed as an environment variable (TROUBLED_DS) to the user-mode helper. The helper can be a simple script like the following that sends you an email alert containing the information that it gleaned from its environment:</p><p>#!/bin/bash<br>echo Kernel datastructure $TROUBLED_DS  <br>  is in trouble | mail &ndash;s Alert root</p><p>call_usermodehelper() has to be executed from a process context and runs with root capabilities. It&rsquo;s implemented using a work queue in 2.6 kernels.</p><p> </p><p>Looking at the Sources</p><p>In the 2.6 source tree, the ksoftirqd, pdflush, and khubd kernel threads live in kernel/softirq.c, mm/pdflush.c, and drivers/usb/core/hub.c, respectively.</p><p>The daemonize() function can be found in kernel/exit.c in the 2.6 sources and in kernel/sched.c in the 2.4 sources. For the implementation of invoking user-mode helpers, look at kernel/kmod.c.</p><p>Sreekrishnan Venkateswaran has been working for IBM India since 1996. His recent Linux projects include putting Linux onto a wristwatch, a PDA, and a pacemaker programmer. You can reach Krishnan at .</p><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/05/14/Linux-Kernel-Thread-的讨论/" class="archive-article-date">
+  	<time datetime="2007-05-14T03:45:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-05-14</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux/">Linux</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Rules-for-the-Good-Life" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2007/05/12/Rules-for-the-Good-Life/">Rules for the Good Life</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <br>Nothing is troublesome that we do willingly. <br><br>Don’t let the evils which have never happened cost you pain. <br><br>When angry, count to ten before you speak; if very angry, count to one hundred. <br><br> </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/05/12/Rules-for-the-Good-Life/" class="archive-article-date">
+  	<time datetime="2007-05-12T05:20:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-05-12</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/English/">English</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-VIM教程" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2007/05/11/VIM教程/">VIM教程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> VIM教程（3）2007-01-19  11:03&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   各种 set 功能说明<br><br>autoindent(ai)<br>自动缩排，也就是说如果本行是从第五个字元开始写的，您按 Enter<br>后游标就会停在次行第五个字元处。预设是不打开的。<br><br>autowrite(aw)<br>档案一有更动就会自动存档。预设不打开。<br><br>background(bg)&nbsp;&nbsp;&nbsp;   &lt;vim 才有&gt;<br>可设成 dark 或 light，这是两种不同的 highlight 颜色设定，详见<br>$VIMRUNTIME/syntax/synload.vim。不过您要更动颜色的设定，最好<br>是设在 ~/.vimrc 或 ~/.gvimrc 中，原始档最好不要去动她。<br>&nbsp;&nbsp;&nbsp;&nbsp;   <em> ㄟㄟㄟ，你从没提过 $VIMRUNTIME 好不好！其实这是最近版本的 vim 为了<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   不至安装新版本时把旧版本的一些设定或 macro 档干掉，所以<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   $VIMRUNTIME 就是 $VIM/vimxx，xx 就是版本号码啦！例如您使用的是 vim<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   5.6 版，那么就是 $VIM/vim56。<br><br>backup(bk)<br>是否要 backup file。预设不打开。<br><br>writebackup(wb)&nbsp;&nbsp;&nbsp;   &lt;vim 才有&gt;<br>在写入档案前先备份一份，和 backup 的作用不尽相同，请<br>:h backup-table。预设是打开的，所以您如果不要 backup，那要关<br>掉的是这个项目，而不是 backup。但请先检查一下您编译时是不是<br>有编译进去，请 :ver。<br><br>backupdir(bdir)&nbsp;&nbsp;&nbsp;   &lt;vim 才有&gt;<br>设定存放 backup file 的目录。预设在所编辑的档案之所在目录。<br><br>binary(bin)&nbsp;&nbsp;&nbsp;   &lt;vim 才有&gt;<br>设在编辑二进位档状态，这是防止存二进位档时把 EOL 也写进二进位<br>档，那就会悔不当初，如果是图档将会无法再观看，如果是可执行档就<br>无法执行了！因此预设是 off。<br>&nbsp;&nbsp;&nbsp;&nbsp;   </em> elvis 会自动判断是否为二进位档，而且会分成左右两半，左半部会以 16<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   进位的方式显示，右半部则是以 ASCII 的方式来显示。<br><br>browsedir(bsdir)&nbsp;&nbsp;&nbsp;   &lt;vim 才有&gt;<br>浏览档案的目录，GUI 版本始有。预设是上一次浏览的目录。就是 GUI<br>版本功能表上的 [File] -&gt; [Open] 会打开的目录。<br><br>cindent(cin)&nbsp;&nbsp;&nbsp;   &lt;vim 才有&gt;<br>写 C 时很好用，indent 比一般敏感，专为 C 程式码而设。预设 off。<br>编辑 C/C++ code 时会自动打开。<br><br>cmdheight(ch)&nbsp;&nbsp;&nbsp;   &lt;vim 才有&gt;<br>状态列的行数，预设一行，建议设成两行。<br><br>compatible(cp)&nbsp;&nbsp;&nbsp;   &lt;vim 才有&gt;<br>设为和原始 vi 相容的状态，vim 的扩充功能会被抑制。预设 off。<br><br>confirm(cf)&nbsp;&nbsp;&nbsp;   &lt;vim 才有&gt;<br>各种确认动作。预设 off。<br><br>directory(dir)<br>swap 档存放的目录。前面单元已有说明。<br><br>fileformat(ff)&nbsp;&nbsp;   &lt;vim 才有&gt;<br>这是写入档案时置放 EOL(end of line) 的形式<br>dos 是以 0D 0A 来断行。<br>unix 是以 0A 来断行。<br>mac 是以 0D 来断行。<br>预设以各系统平台而定，在 Linux 当然是 unix 形式。<br><br>fileformats(ffs)&nbsp;&nbsp;&nbsp;   &lt;vim 才有&gt;<br>可指定多个，会依载入的档案形式来调整 ff。<br>例如 :set ffs=unix,dos ff=unix<br>则预设为 unix 格式，但如读入的是 dos 格式的档案，会自动调整<br>为 dos 格式，这样存档时就会以 dos 格式存档（状态列会显示）。<br>。此时如要改成 unix 格式，可 set ff=unix 然后存档就会转成<br>unix 格式，反之亦然。<br>&nbsp;&nbsp;&nbsp;&nbsp;   <em> 如果不这样设，也就是您不管 ff 或 ffs 都设成 unix，那读入 dos 格式<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   的档案时在每行尾会出现 ^M 这个字元（就是 0D 啦！）这时纵使 :set<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   ff=unix 也来不及了！只好 :%s/^M//g 来消去这个 ^M。ㄟ，还记得怎么替<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   换吗？就是把 ^M 换成没有啦！而且 ^M 怎么打出来的还记得吧！翻一翻前<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   面的单元吧！<br>&nbsp;&nbsp;&nbsp;&nbsp;   </em> Hey，你怎么知道是 0D 呀！好吧！告诉您一个密秘，您把游标移到 ^M 那<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   个位置，然后按 ga 在状态列就会显示 10，16，8 进位的值。其它的字元<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   也是可以如此显示。a 就是 ascii 的意思。但这是 vim 的扩充功能<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   ，elvis 没有。<br>&nbsp;&nbsp;&nbsp;&nbsp;   <em> elvis 纵使载入 dos 格式的档案，也是会自动把 ^M 隐藏起来。<br><br>ignorecase(ic)<br>寻找时不分大小写，这对中文会造成困扰。预设 off。<br><br>incsearch(is)&nbsp;&nbsp;&nbsp;   &lt;vim 才有&gt;<br>加强式寻找功能，在键入 patern 时会立即反应移动至目前键入之<br>patern 上。预设 off。<br><br>hlsearch(hls)&nbsp;&nbsp;&nbsp;   &lt;vim 才有&gt;<br>寻找时，符合字串会反白表示。预设 off。如果您是使用 vim 的<br>预设的 vimrc 档的话，会设在 F8 键来切换。<br><br>textwidth(tw)<br>是一种 word wrap 的功能，从左起算之固定每行的最大字元宽度。<br>超过此宽度就会自动折行，这可是真的折行，也就是说在折行处会插<br>入 EOL。预设是 0，也就是没有 word wrap 的功能。<br><br>wrapmargin(wm)<br>和 textwidth 作用相同，只是是从右视窗边向左算起要几个字元起<br>折行。预设是 0。textwidth 与 wrapmargin 的功能目前并不适用於<br>中文，打中文还是您自行按 Enter 吧！<br><br>wrap<br>这也是折行功能，可是只是萤幕效果的折行，实际上并没有插入 EOL。<br><br>wrapscan(ws)<br>这和折行没有关系，是指寻找时，找至档尾时，是否要从档首继续找。<br>预设是要。<br><br>paste&nbsp;&nbsp;&nbsp;   &lt;vim 才有&gt;<br>这是防止在做剪贴时位置会不正确，前面单元已有说明。<br><br>ruler(ru)&nbsp;&nbsp;&nbsp;   &lt;vim 才有&gt;<br>会在状态列显示游标所在处之行列状态，预设不打开，但建议打开。<br>最右边之代号的意义如下：<br>Top  档案第一行在萤幕可见范围。<br>Bot  档案最后一行在萤幕可见范围。<br>All  档案首尾皆在一个萤幕范围内。<br>如非以上三种情形，则会显示相对百分比位置。<br><br>statusline(stl)&nbsp;&nbsp;&nbsp;   &lt;vim 才有&gt;<br>状态列显示的格式，使用预设就可以了，如果您想骚包一下的话，那<br>就请您 :h stl。<br><br>shiftwidth(sw)<br>指由 &gt;&gt; 移动整行内容时，一次移动的字元宽度，一般是使用 Tab 的<br>值，但可由这个设定来改变。<br><br>tabstop(ts)<br>一个 Tab 键宽度。预设是 8 个字元宽度。最好不要随便改，以免您写<br>的东西由其它编辑器来阅读时造成困扰，为解决这个问题，vim 有一种<br>softtabstop 的机制，在下一节会详细说明。<br><br>showcmd(sc)<br>在状态列显示目前所执行的指令。<br><br>showmode(smd)<br>在状态列显示目前的模式，例如是 Insert mode 或是 Visual mode。<br>当然平常的 normal mode(commond mode)是不显示的。<br><br>viusalbell(vb)&nbsp;&nbsp;&nbsp;   &lt;vim 才有&gt;<br>以萤幕闪动代替 beep 声。<br><br>number(nu)<br>显示行号。注意，冒号命令也有 :nu 这是显示游标所在行的行号，您<br>嫌多打一个字的话，:# 也行。不过如果 ruler 打开的话，在状态列本<br>就会显示门前游标所在处的行列值。<br><br>list<br>这也可以算是一种模式，list mode。就是 Tab 的地方会以 ^I 显示，<br>而行尾之 EOL 会显示成 $。可以让您清楚的知道 Tab 在哪里，折行是<br>不是真的。<br><br>swapfile(swf)&nbsp;&nbsp;&nbsp;   &lt;vim 才有&gt;<br>是否需 swap 至磁碟。如果设为 noswf 的话，那将不会有 swapfile<br>产生，通通会载入在记忆体中。预设是要 swapfile。<br><br>fileencoding(fe)&nbsp;&nbsp;&nbsp;   &lt;vim 才有&gt;<br>首先先鼓掌一下，啪啪啪…，因为有支援 taiwan，也支援 XIM，也<br>就是说可以使用 xcin-2.5x 来作输入，当然您用 xcin-2.3x 配合<br>XA 也是可以啦！目前支援简繁中文、日文、韩文，unicode 尚未植<br>入。但前提是您要把 multi<em>byte 编译进去，这在一开始就讲过了。<br>预设是使用 ansi。set guifont 及 set guifontset 已在一开始讲<br>过，在此就不重复了。<br><br>history(hi)<br>记录冒号命令的历史纪录档，就是可以用上下方向键叫出来的那锅。<br>预设是 20 笔。<br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   关於 softtabstop(sts)<br><br>&nbsp;&nbsp;   几乎所有的 OS 及软体都设定 Tab 就是 8 个字元长，这已经是个公认值，您硬<br>&nbsp;&nbsp;   要去改变它的话恐怕带来许多不便，但实际上关於程式风格，许多人又认为 8<br>&nbsp;&nbsp;   个字元太长了，几个巢状回圈下来就需折行，反而不方便。因此 vim 体贴您，<br>&nbsp;&nbsp;   内建了 softtabstop 的功能，就是由 vim 来代您制造出一个假的 Tab，实际上<br>&nbsp;&nbsp;   是空白字元组成的 Tab。<br><br>&nbsp;&nbsp;   举个例子来说明比较清楚。<br>set softtabstop=4<br>set shiftwidth=4<br><br>&nbsp;&nbsp;   这样会由 4 个空白字元取代一个 Tab，您按 Tab 键 vim 就跳 4 格，需注意的<br>&nbsp;&nbsp;   是，如果您按了三次 Tab 键，那就是一个实际的 Tab 加上四个空白字元，可不<br>&nbsp;&nbsp;   是 12 个空白字元喔！是混合 Tab 及 space 的。<br><br>&nbsp;&nbsp;   问题来了！那我要按真正的 8 字元的 Tab 时怎么办？简单，还记得怎么按特殊<br>&nbsp;&nbsp;   字元吗？ Ctrl-v Tab 或 Ctrl-v I 就可以了，那就是如假包换的 8 字元长之<br>&nbsp;&nbsp;   Tab。当然，您按两次 Tab 不就得了！:-)<br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   关於折行<br><br>&nbsp;&nbsp;   前面已说过 set wrap 就可以造成萤幕折行，可是却会把一个英文单字折成两半<br>&nbsp;&nbsp;   ，实在很不雅观。好了，vim 再体贴您一次，set linebreak(lbr) 就会避免这<br>&nbsp;&nbsp;   种问题发生，会在空白或标点符号的地方来折行，但也仍属萤幕折行，并不会插<br>&nbsp;&nbsp;   入 EOL。这个功能目前在中文判断上还是会出槌！:-(<br><br>&nbsp;&nbsp;   [4]前单元 [5]次单元 [6]目　录<br><br>&nbsp;&nbsp;&nbsp;&nbsp;   <strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>__</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></em><br><br>&nbsp;&nbsp;   最后修订日期：2000.04.06<br>&nbsp;&nbsp;   [7]Edward Lee<br><br><br><br><br>&nbsp;&nbsp;   [1]前单元 [2]目　录<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   大家来学VIM（一个历久弥新的编辑器）[十]<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   规则表示式的运用<br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   在本系列文章一开始就说明了学 vi(m) 可以顺便学规则表示式（regular<br>&nbsp;&nbsp;   expression，以下简称 regexp），那为什么到现在才来讲呢？因为 regexp 说<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   简单也算不很难，但您要深入去使用的话，有时会马上看不出一个复杂的<br>&nbsp;&nbsp;   regexp 在说些什么的，就曾有人形容 regexp 为「有字天书」！而且在 vi(m)<br>&nbsp;&nbsp;&nbsp;   整体都还没一个概念就加入 regexp 的话，那后面的单元恐怕就没人看了！而<br>&nbsp;&nbsp;   regexp 各家有各家的 extensions，这也是大家视为畏途的原因之一，不过总是<br>&nbsp;&nbsp;   大同小异，只需注意一下就可以了。目前先不必管别家怎么说，就让 vim 暂时<br>&nbsp;&nbsp;   先成为我们的「标准」，以后碰到其它程式的 regexp 应该就可以触类旁通。以<br>&nbsp;&nbsp;   下我们尽量由实例去了解。当然，小小的一篇文章是没有办法详尽介绍，只能捡<br>&nbsp;&nbsp;   重点来说明了。如有疑问，可 :h pattern 或在 Un</em>x 系统中可 man 7 regex，<br>&nbsp;&nbsp;&nbsp;&nbsp;   甚至 man ed，man sed，man grep，man awk，man perlre 里面也是会说些<br>&nbsp;&nbsp;   regexp，但要注意和 vim 差异的地方！其中 perl 的 regexp 应该是最完整的<br>&nbsp;&nbsp;   了，如果您的系统没有 perl 那应该是「稀有动物」了！:-) ㄟㄟㄟ！vim 只是<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   一个编辑器，可不是独立的程式语言！<br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   基本的匹配<br><br><em>  指前所绑住的字元或字元集合，出现 0 次或 0 次以上。<br>+ 和 </em> 作用相同，但不包括出现 0 次。<br>= 指前所绑住的字元恰好出现 0 或 1 次。<br>| 这是多选，就是 or 的意思，被 | 隔开的 pattern，任一个符<br>&nbsp;&nbsp;   合的话就算符合。<br>&nbsp;&nbsp;&nbsp;&nbsp;   <em> +, =, | 会加上一个 ，是因原字元在 vi(m) 就具有特殊意义，在一般<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   的 regexp 中是 +，?，| 就可以了，只是提醒您一下，以免搞混了！<br>&nbsp;&nbsp;&nbsp;&nbsp;   </em> 记住 <em>　+ 是不可数的！用辞不是是精确，只是帮助您记忆啦！<br>&nbsp;&nbsp;&nbsp;&nbsp;   </em> 在 elvis 及 ed 中是使用 ? 来匹配出现 0 或 1 次，而不是 =，这里要<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   非常小心！<br><br>&nbsp;&nbsp;   [实例] dg<em><br>&nbsp;&nbsp;   指 </em> 前所绑住的字元 g 出现 0 次或 0 次以上。也就是说 d(出现 0 次)，dg<br>&nbsp;&nbsp;   ，dgggg，dgggggggg 都是符合这个 pattern。如果您下寻找指令 /dg<em>，那符合<br>&nbsp;&nbsp;   这个 pattern 的字串都会被找出来。如果用在代换就要非常小心了，像<br>&nbsp;&nbsp;   extended 中的 d 也是会被置换掉的。例如您下 :%s/dg</em>/test/g 的话，那<br>&nbsp;&nbsp;   extended 这个字会换成 extentestetest。<br><br>&nbsp;&nbsp;&nbsp;&nbsp;   <em> shell 中使用的通用字元为 pattern matching notation 和 regexp 不同<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   的。dg</em> 在 shell 中是解为以 dg 开头的任意字串，这就不包括 d 在内了<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   ，也就是说在 shell 中，<em> 是代表任一字元或字串。<br><br>&nbsp;&nbsp;   [实例] dg+<br>&nbsp;&nbsp;   dg, dgg, dgggggg 皆符合，但 d 则不符合。如果是 dg= 的话，就只有 d、dg<br>&nbsp;&nbsp;   这两个符合了。<br><br>&nbsp;&nbsp;   [实例] :%s/The|All/test/g<br>&nbsp;&nbsp;   全文中只要是 The 或 All 都会被替换成 test。注意，如果文中有 There 也是<br>&nbsp;&nbsp;   会被替换成 testre！要如何避免这种情形呢？下面会另述及限定使用法。<br><br>&nbsp;&nbsp;   [实例] /123-=4567<br>&nbsp;&nbsp;   这样会找出，123-4567 及 1234567。当然 123-456789 也是会被找出来。<br><br>[…]  字元集合，表示中括号中所有字元中的其中一个。<br>[^..]  这是上述 […] 的补集，表非中括号内字元的其中一个。<br>.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   除换行字元外的任一单一字元。指本身，非指前所绑之字元。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   就好像 shell 中的 ? 一样。如果要指定真正的英文句点，要<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   用  来 escape，就是说 . 这时的 . 是代表真正句点，而不<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   是 regexp 中的特殊意义。其他如 </em> 亦同。<br><br>&nbsp;&nbsp;   [实例]<br><br>&nbsp;&nbsp;   [Aa]<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   A 或 a 其中的一个。<br><br>&nbsp;&nbsp;   [12345]<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   12345 其中的一个数目字。可用 [1-5] 来表示。连续性的数目字或字元<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   可用 - 来隔开，写出头尾来代表就可以了。[0-9] 就表 0 到 9 的数目<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   字，[a-d] 就代表 abcd 四个英文字母<br><br>&nbsp;&nbsp;   [实例] W[0-9]<em>.cc<br>&nbsp;&nbsp;   这个例子是说以 W 开头，后接 0-9 其中一个或多个数目字或不接什么，然后是<br>&nbsp;&nbsp;   一个句点，最后是 cc。所以 W.cc，W1.cc，W2.cc，W345.cc，W8976543287.cc<br>&nbsp;&nbsp;   皆符合。如果要表示 W 及 .cc 间夹一个以上的数目字，要写成<br>&nbsp;&nbsp;   W[0-9][0-9]</em>.cc。<br><br>&nbsp;&nbsp;   [实例] .<em><br>&nbsp;&nbsp;   这代表任意字元或字串，或什么都没有，脑筋急转弯，对照前面的定义想一下。<br>&nbsp;&nbsp;   当然这是不包括换行字元的。<br><br>&nbsp;&nbsp;   [实例]<br>&nbsp;&nbsp;   [^M]　表除 M 以外的任意字元。<br>&nbsp;&nbsp;   [^Tt]　表 T 及 t 以外的任意字元。<br>&nbsp;&nbsp;   [^0-9]　表非数目字之字元。<br>&nbsp;&nbsp;   [^a-zA-Z]　表非英文字母之字元。<br><br>&nbsp;&nbsp;&nbsp;&nbsp;   </em> 注意，^ 要在中括号内，且在最开头的地方，否则另有含意。<br><br>^  匹配行首，指其后绑住的字串，出现在行首才符合。<br>$  匹配行尾，指其前绑住的字串，出现在行尾才符合。含换行字元。<br>&nbsp;&nbsp;&nbsp;&nbsp;   <em> 不是在行首的 ^ 指的是 ^ 这个字元。不是在行尾的 $ 是指 $ 本身这个字<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   元。<br><br>&nbsp;&nbsp;   [实例] /^What<br>&nbsp;&nbsp;   这样只有在行首的 What 才会被找出来。注意！ Whatever, What’s 也是会被找<br>&nbsp;&nbsp;   出来。如果是 /What$ 则是在行尾的 What 才会被找出来。<br><br>&nbsp;&nbsp;   [实例] ^$<br>&nbsp;&nbsp;   这是什么东东？行首也是行尾的行。ㄚ，就是空白行嘛！当然也不能说这个行是<br>&nbsp;&nbsp;   没有什么东东啦！空白行至少也是会有个换行字元。在后面会详述如何消除全文<br>&nbsp;&nbsp;   的空白行。<br><br>(…)  记忆 pattern，可由 1, 2…9 来叫出。<br><br>&nbsp;&nbsp;   [实例] :%s/([a-z])1/test/g<br>&nbsp;&nbsp;   这样 aa, bb, cc, dd, …, zz 都会被 test 替换掉。这和<br>&nbsp;&nbsp;   :%s/[a-z][a-z]/test/g 是不一样的意思，后者会把 aa, ab, ac… ba, bb,<br>&nbsp;&nbsp;   bc…zz 都换成 test。也就是说 (…) 由 1 叫出时会有对称性的配对出现<br>&nbsp;&nbsp;   。<br><br>&nbsp;&nbsp;   [实例] :%s/(.)(.)r21/test/g<br>&nbsp;&nbsp;   会将中间为 r，前有二个任一字元，后有两个具对称性的字元所组成的字串替换<br>&nbsp;&nbsp;   成 test。2 是呼叫第二组 (.)，而 1 是呼叫第一组 (.)。例如：12r21<br>&nbsp;&nbsp;   ，cfrfc，7grg7 等都会被替换成 test。<br><br>&lt;  匹配字（word）首。所谓 word 包括文数字及底线。<br>&gt;  匹配字尾。这就是前所提及的限定用法，被 &lt;，或 &gt; 括住的<br>&nbsp;&nbsp;&nbsp;   pattern 就会被限制住，使 regexp 不能再向右（左）扩充解释。<br>&nbsp;&nbsp;&nbsp;&nbsp;   </em> ed 及 perl 中可以 b 来表示这两个符号，perl 中只支援 b，ed 则 b<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   及 &lt;, &gt;皆支援。但在 perl 可多加个 ? 来限制 regexp 的扩充解译。<br>&nbsp;&nbsp;&nbsp;&nbsp;   <em> 功能上而言，这是和 ^ $ 一样的定位样式（anchor pattern）指所绑住的<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   字串必须是单字边界（word boundary），前或后或前后除了空白字元及标<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   点符号外不可再有其它字元。<br>&nbsp;&nbsp;&nbsp;&nbsp;   </em> 在 vim 中 b 是表示 &lt;BS&gt; 即 backspace 键。<br><br>&nbsp;&nbsp;   [实例] :%s/&lt;abbbc&gt;/test/g<br>&nbsp;&nbsp;   这样只有 abbbc 才会被替换成 test。如果没有这样限定，:%s/abbbc/test/g，<br>&nbsp;&nbsp;   那 deabbbcly 中的 &quot;abbbc&quot; 亦会被替换成 test。所以前面<br>&nbsp;&nbsp;   :%s/The|All/test/g 可换成 :%s/&lt;The&gt;|&lt;All&gt;/test/g 这样一来，There<br>&nbsp;&nbsp;   就不会被替换成 testre 了！<br><br>&nbsp;&nbsp;   [实例] :%s/&lt;abbbc/test/g<br>&nbsp;&nbsp;   这样的话，只要是以 abbbc 为首的字(word)，其中的 abbbc 的部份都会被<br>&nbsp;&nbsp;   test 所替换。注意！是指字首，而不是指行首。所以 abbbc，abbbcerd<br>&nbsp;&nbsp;   ，abbbckijuds 都符合。<br><br>{n,m}  指前所绑住的字元或字元集合最少出现 n 次，最多出现 m 次。<br>&nbsp;&nbsp;&nbsp;&nbsp;   <em> 这在一般的 regexp 表示成 {n,m}。vim 及 elvis 两种表示法皆支援<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   。perl 则直接使用 {}。以下会举四种不同的例子，请大家发挥一下想像力<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   。:-)<br><br>&nbsp;&nbsp;   [实例] {最小值，最大值}<br>&nbsp;&nbsp;   如 [0-9]{3,4} 匹配至少三位数，但不可多於四位数的数目字。如：<br>123<br>12<br>1<br>123456<br>1234567<br>12345678<br>1234<br>12345<br><br>&nbsp;&nbsp;   如果下 :%s/[0-9]{3,4}/test/g 的话，那 1，12 这两组不会被替换，因为不<br>&nbsp;&nbsp;   满 3 位数。而 12345，则会换成 test5。123456，则会换成 test56。12345678<br>&nbsp;&nbsp;   ，则会换成 testtest。1234567 也是会换成 testtest。123，1234 这两组则会<br>&nbsp;&nbsp;   被替换成 test。您可以亲自操作一次就知道怎么一回事了。操作时最后加 gc<br>&nbsp;&nbsp;   来 confirm，这样您会更了解实际替换的内容。ㄟ，别忘了 u 可以回复您的编<br>&nbsp;&nbsp;   辑动作。<br><br>&nbsp;&nbsp;   [实例] {数目字}<br>&nbsp;&nbsp;   xy{20}　表示 x 后接 20 个 y。<br>&nbsp;&nbsp;   e[x-z]{4}　表示 e 后接有四个字元，是 x,y,z 的其中一个的<br>&nbsp;&nbsp;   　　　　　 组合。如：exxxx, exyyz, ezzyz, exyzz 皆符合。<br><br>&nbsp;&nbsp;   [实例] {最小值，}<br>&nbsp;&nbsp;   xy{2,}　表 x 后接至少二个的 y。相当於 xyyy</em> 或 xyy+ 。<br><br>&nbsp;&nbsp;   [实例] {，最大值}<br>&nbsp;&nbsp;   xy{,4}　表 x 后接至多四个或更少的 y （可能没有）。<br>&nbsp;&nbsp;   　　　　 因此 x, xy, xyy ,xyyy, xyyyy 皆符合。<br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   中介字元（metacharacter, or character classes）<br><br>&nbsp;&nbsp;   主要是简化 regexp 的书写。<br>s  表空白字元，即 &lt;Space&gt; 或 &lt;Tab&gt;。<br>&nbsp;&nbsp;&nbsp;&nbsp;   <em> 不含换行字元，这是编辑器的特性使然。在 perl 的 s 是包含换行字元的<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   。而且 vim 及 elvis 皆不支援 n 这种换行中介字元。<br><br>S  表非空白字元。<br>d  表数目字（digits），即 [0-9]。<br>D  表非数目字，即 [^0-9]。<br>w  表一般字元（word character），包括底线。即 [0-9a-zA-Z<em>]。<br>W  表非一般字元，即 [^0-9a-zA-Z</em>]。<br>a  表英文字母（alphabetic character），即 [a-zA-Z]。<br>A  表非英文字母，即 [^a-zA-Z]。<br>l  表小写字母（lowercase character），即 [a-z]。<br>L  表非小写字母，即 [^a-z]。<br>u  表大写字母（uppercase），即 [A-Z]。<br>U  表非大写字母，即 [^A-Z]。<br>&nbsp;&nbsp;&nbsp;&nbsp;   </em> 原始 vi 不支援此种中介字元。<br>&nbsp;&nbsp;&nbsp;&nbsp;   <em> 使用中介字元的比对速度将会比使用字元集合 [] 的快。<br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   全域性的指令<br><br>:[range]g/pattern/[cmd]<br><br>&nbsp;&nbsp;   cmd 是 ed 可用的指令，预设是 p(print)，您可查一下 man ed，就可以知道有<br>&nbsp;&nbsp;   什么指令可用。这个小节里主要是说明 d(delete) 的功能。因为是要说明如何<br>&nbsp;&nbsp;   消除空白行。需注意的是，d 是行删除指令，凡含 pattern 的整行都会被删掉<br>&nbsp;&nbsp;   ，而且 range 不指定的话，预设是全篇文章，因为 g 就是代表 globe。<br>&nbsp;&nbsp;&nbsp;&nbsp;   </em> 在 vim 的 help 档里说的是 ex 指令，但 ex 实际上是和 vim 连结的，因<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   此这里特别指出 ed。但 ed 的指令少数可能会和 vim 的 ex 不同，这是因<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   为 ed 和 vim 并非同步在发展，作者也非同一人。<br><br>:g/^$/d<br><br>&nbsp;&nbsp;   这样就会删除全文的空白行。前面已提过 ^$ 代表的是空白行。但这里有个问题<br>&nbsp;&nbsp;   ，如果空白行里包含了其它空白字元（即 Space 或 Tab）的话。表面看起来是<br>&nbsp;&nbsp;   和一般空白行一模一样，但却暗藏玄机，用上面的方法就无法删除这种空白行了<br>&nbsp;&nbsp;   ！怎么办？来！看招！<br>:g/^[&lt;Space&gt;&lt;Tab&gt;]<em>$/d<br><br>&nbsp;&nbsp;   在 vim 或 elvis 里您可以如此照打，也就是 &lt;Space&gt; 代表空白字元，&lt;Tab&gt;<br>&nbsp;&nbsp;   代表按 Tab 键的结果。在原始 vi 则不行，得自行按出特殊字元出来，就是<br>&nbsp;&nbsp;   Ctrl-v Space 及 Ctrl-v Tab。或采更简单的打法：<br>:g/^s</em>$/d<br><br>&nbsp;&nbsp;   还记得中介中元吗？好用吧！少打了不少字。:-) 意思就是删除含 0 或 1 个以<br>&nbsp;&nbsp;   上空白字元的行。<br><br>&nbsp;&nbsp;   有些书中写成 :%s/^$//g 可以删除空白行，这是错误的，因为 :s 这 个指令只<br>&nbsp;&nbsp;   更动一行里的内容物，但不会做删除一行的动作。<br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   &amp; 替代变数<br><br>&nbsp;&nbsp;   代表置换时合於 patern 的字元或字串。<br><br>&nbsp;&nbsp;   [实例] :%s/uddddddddd&gt;/ID:&amp;/g<br>&nbsp;&nbsp;   这样全文中的身份证字号前就会加上 ID: 字样，也就是说 T123456789 会被换<br>&nbsp;&nbsp;   成 ID:T123456789。还记得吗？ d 就是 [0-9]，u 代表大写的英文字母。加<br>&nbsp;&nbsp;   个 &gt; 是防止 T12345678999 也被换掉。当然前面再加个 &lt; 更保险。ID: 字样<br>&nbsp;&nbsp;   您用中文也行！<br>&nbsp;&nbsp;   另一个好用的例子是电话号码前加上 TeL:，就请您自行练习了！<br><br>&nbsp;&nbsp;   [实例] 将档案 3 至 7 行的资料向右移 2 个空白<br>:3,7s/.<em>/  &amp;/<br><br>&nbsp;&nbsp;   但这样连空白行也是会插入空白字元，较高明的做法是：<br>:3,7s/.+/  &amp;/<br><br>&nbsp;&nbsp;   这样空白行就不会去动它了！想通了 .</em> 及 .+ 的意思了吗？往前翻一下 . <em><br>&nbsp;&nbsp;   + 的定义。<br><br>&nbsp;&nbsp;   [实例] 将档案 3 至 7 行的资料向左移 2 个空白<br>:3,7s/^  //<br><br>&nbsp;&nbsp;   就是删去行首的二个空白啦！<br><br>&nbsp;&nbsp;   [实例] 将全文的 Edward 这个单字，前后加上中括号<br>:%s/&lt;Edward&gt;/[&amp;]/g<br><br>&nbsp;&nbsp;   [实例] 将全文的 Edward 这个单字，改成大写的。<br>:%s/&lt;Edward&gt;/U&amp;/g<br><br>&nbsp;&nbsp;&nbsp;&nbsp;   </em> ㄟ！U 不是代表非大写字母吗？喔！您搞错位置了。U 在 pattern 的位<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   置的时候是指非大写字母的样式，即 [^A-Z]，但如果是在置换字串位置的<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   时候是指将其后的字串通通改成大写。与其相对的是 L，会将其后的字串<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   改为小写。详细请 :h sub-replace-special。<br><br>&nbsp;&nbsp;   [实例] 将全文每行最后加上 &lt;BR&gt; 这个 HTML tag。<br>:%s/.<em>/&amp;&lt;BR&gt;/g<br><br>&nbsp;&nbsp;   怎么样，是否已感觉到 regexp 威力无穷了呢？还是您已经快睡著了呢？:-) 不<br>&nbsp;&nbsp;   过也请您想想，如果是在没有 regexp 功能的编辑器里，范例中的一些动作您会<br>&nbsp;&nbsp;   怎么做呢？一个一个去改？<br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   greedy 陷阱<br><br>&nbsp;&nbsp;   regexp 会有贪心的倾向，什么意思呢？就是说在同一行内，如果有多个符合<br>&nbsp;&nbsp;   pattern 的情形，会找最长的那一个。<br>&nbsp;&nbsp;&nbsp;&nbsp;   </em> 注意！greedy 的特性是针对会反覆比对的 regexp 而言，例如：<em>, =,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   +, {} 等。前面所举的 .</em> 的例子，由於 greedy 的关系，在整篇文章中<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   做替换时，会被当成是每一行整行，因为 regexp 会去找每一行最长符合的<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   那一个。<br><br>&nbsp;&nbsp;   [实例] This is a test. Test for regexp.<br>&nbsp;&nbsp;   如果您下 :%s/[Tt].*t/program/g 原意是想把所有的 Test 或 test 换成<br>&nbsp;&nbsp;   program 的，结果由於 regexp 的贪心，整个 &quot;This is a test. Test&quot; 会换成<br>&nbsp;&nbsp;   program。结果原文就变成了 program for regexp. 因此在全文替换时要非常小<br>&nbsp;&nbsp;   心，避免使用弹性太大的 regexp。像此例，只要下<br>&nbsp;&nbsp;   :%s/&lt;[Tt]est&gt;/program/g 就可以了！<br><br><br>&nbsp;&nbsp;   最后提醒您，这可不是 regexp 的全部，碍於篇幅及在下功力的问题，当然是没<br>&nbsp;&nbsp;   办法全面详尽的向各位做介绍，在下只是将各位领进门，修行就得看各位了！如<br>&nbsp;&nbsp;   果还想更深入的研究 regexp，可参考： Mastering Regular<br>&nbsp;&nbsp;   Expressions(O’Reilly &amp; Associates) 一书。<br><br>&nbsp;&nbsp;   [3]前单元 [4]目　录 </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/05/11/VIM教程/" class="archive-article-date">
+  	<time datetime="2007-05-11T08:48:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-05-11</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux-App/">Linux App</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Words-Of-Truth" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2007/05/10/Words-Of-Truth/">Words Of Truth</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> Words Of Truth <br><br>    To the world you might be one person, but to one person<br>you might be the world. <br><br>    Going to church does not make you a Christian anymore<br>than going to McDonalds makes you a hamburger. <br><br>    Real friends are those who, when you feel you’ve made<br>a fool of yourself, don’t feel you’ve done a permanent job. <br><br>    A coincidence is when God performs a miracle, and decides<br>to remain anonymous. <br><br>    Sometimes the majority only means that all the fools are<br>on the same side. <br><br>    I don’t have to attend every argument I’m invited to. <br><br>    Lead your life so you won’t be ashamed to sell the family<br>parrot to the town gossip. <br><br>    People gather bundles of sticks to build bridges they<br>never cross. <br><br>    Life is 10% of what happens to you, and 90% of how you<br>respond to it. <br><br>    Did it ever occur to you that nothing occurs to God? <br><br>    Life is like an onion, you peel off one layer at a time<br>and sometimes you weep. <br><br>    Learn from the mistakes of others. You can’t live long<br>enough to make them all yourself. <br><br>    There are two things I’ve learned: There is a God.<br>And, I’m not Him. <br><br>    Following the path of least resistance is what makes<br>rivers and men crooked. <br><br>    Your worst days are never so bad that you are beyond<br>the reach of God’s grace and your best days are never so<br>good that you are beyond the need of God’s grace. <br><br>    When it comes time to die…make sure all you got to<br>do is die. <br><br>    Don’t be afraid to learn. Knowledge is weightless,<br>a treasure you can always carry easily. </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/05/10/Words-Of-Truth/" class="archive-article-date">
+  	<time datetime="2007-05-10T04:02:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-05-10</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/English/">English</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-A-Creed-To-Live" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2007/05/10/A-Creed-To-Live/">A Creed To Live</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> A Creed To Live By <br>By Nancye Sims <br><br>    Don’t undermine your worth by comparing yourself with others.<br>It is because we are different that each of us is special.<br><br>    Don’t set your goals by what other people deem important.<br>Only you know what is best for you.<br><br>    Don’t take for granted the things closest to your heart.<br>Cling to them as you would your life, for without them life is meaningless. <br><br>    Don’t let your life slip through your fingers by living in the past<br>or for the future. By living your life one day at a time, you live all<br>the days of your life. <br><br>    Don’t give up when you still have something to give.<br>Nothing is really over until the moment you stop trying.<br><br>    Don’t be afraid to admit that you are less than perfect.<br>It is this fragile thread that binds us to each other.<br><br>    Don’t be afraid to encounter risks.<br>It is by taking chances that we learn how to be brave.<br><br>    Don’t shut love out of your life by saying it’s impossible to find.<br>The quickest way to receive love is to give love.<br>The fastest way to lose love is to hold it too tightly;<br>and the best way to keep love is to give it wings.<br><br>    Don’t dismiss your dreams.<br>To be without dreams is to be without hope;<br>to be without hope is to be without purpose.<br><br>    Don’t run through life so fast that you forget not only where<br>you’ve been, but also where you’re going. Life is not a race, but<br>a journey to be savored each step of the way. </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/05/10/A-Creed-To-Live/" class="archive-article-date">
+  	<time datetime="2007-05-10T03:57:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-05-10</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/English/">English</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Sentences" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2007/05/07/Sentences/">Sentences</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <br><br>===July.1.2009===<br></p><p>The Statue of Liberty has stood in New York Harbor for more than one hundred years. It was a gift from the people of France in eighteen eighty-four. Its full name is &quot;Liberty Enlightening the World&quot;.</p><p>The Statue of Liberty is forty-six meters tall from its base. It is made mostly of copper. Throughout history, images of liberty have been represented as a woman. The statue is sometimes called &quot;Lady Liberty.&quot;</p><p>The Statue of Liberty’s face was created to look like the sculptor’s mother. Her right arm holds a torch with a flame high in the air. Her left arm holds a tablet with the date of the Declaration of Independence – July fourth, seventeen seventy-six. On her head she wears a crown of seven points. Each is meant to represent the light of freedom as it shines on the seven seas and seven continents of the world.  Twenty-five windows in the crown represent gemstones found on Earth. A chain that represents oppression lies broken at her feet.</p><br>I’m nuts about Zhang Manyu.<br>我对张曼玉很迷恋。<br>1. I really go for swimming in a river. 2. I am keen on dancing. 3. I fancy that girl. 我喜欢那个女孩。<br><br>===June.10.2009===<br><br>MICHELLE OBAMA: &quot;There are few things that are more rewarding than to watch young people recognize that they have the power to make their dreams come true. You did just that. Your perseverance and creativity were on full display in your efforts to bring me here to Merced for this wonderful occasion.&quot;<br>That was part of a speech First Lady Michelle Obama gave last month at a graduation ceremony at the University of California, Merced.<br><br>The last flu pandemic was in nineteen sixty-eight, caused by the so-called Hong Kong flu. Scientists say the common name for the new disease, swine flu, is misleading. The virus combines human, bird and pig viruses. But, as Doctor Fukuda pointed out, eating meat from pigs has not been a danger.<br><br>pandemic:<br>(疾病)流行全国[全世界]的,(疾病)流行性的<br>a pandemic outbreak of malaria<br>疟疾流行全国<br><br>&quot;Chicago Bears faces long odds in beating the Colts.&quot;<br>芝加哥熊队不太可能打败印第安那波利斯小马队<br>&quot;The Democrats face long odds in passing the legislation.&quot;<br>对民主党人来说，议案通过的可能性不大<br><br>===June.9.2009===<p>The sociologist says she was looking for individuals who reported becoming jobless for reasons out of their control, such as a factory closing. She found that such individuals who did not have health problems were eighty percent more likely to report a new health problem after losing their job.</p><p>The most common problems were high blood pressure or other conditions linked to heart disease. Among all workers, the possibility of someone reporting fair or poor health rose forty-four percent after job loss and workplace closure.</p><br>&quot;2007 is likely to be the warmest year on record.&quot; <br>2007可能是有记录以来最暖和的一年<br>&quot;The winter was the warmest on record worldwide.&quot;<br><br><br>===June.8.2009===<p>&quot;As easy as falling off a log&quot; is one such expression. It describes a job that does not take much effort.</p><p>If you ever tried to walk on a fallen tree log, you understand what the expression means. It is easier to fall off the log than to stay on it.</p><p> </p><p><br>===June.5.2009===</p><p>It is not easy to become a doctor in the United States. The first step is getting into a medical college. More than one hundred twenty American schools offer study programs for people wanting to be doctors.</p><p>People can get advice about medical schools from many resources. One of these is the Princeton Review. The publication provides information about colleges, study programs and jobs.</p><p>The Princeton Review says competition to enter medical schools is strong. American medical schools have only about sixteen thousand openings for students.  But more than two times this many seek entry. Many of those seeking to be  admitted are women.</p><p>Most people seeking admission contact more than one medical school. Some applicants contact many. An important part of the application usually is the Medical College Admission Test, or MCAT.</p><p>The applicant is rated on reasoning, physical and biological sciences and an example of writing. Applicants for medical school need to do well on the MCAT. They also need a good record in their college studies.</p>A medical education can cost a lot. One year at a private medical college can cost forty thousand dollars or more. The average cost at a public medical school is more than fifteen thousand dollars. Most students need loans to pay for medical school. Many finish their education heavily in debt. <br><p>Doctors are among the highest paid people in the United States. Big-city doctors who work in specialties like eye care usually earn the most money. But some other doctors earn far less. That is especially true in poor communities.</p><p>Most medical students spend their first two years mainly in classroom study. They learn about the body and all its systems. They also begin studying how to recognize and treat disease.</p><p>By the third year, students begin working with patients in hospitals. Experienced doctors who have treated many patients guide them as they work. As the students learn, they think about the kind of medical skills they will need to work as doctors.</p><p>During the fourth year, students begin contacting hospital programs for the additional training they will need after medical school. Competition to work at a top hospital can be fierce.</p>There are many medical specialties. Some people become cardiologists and care for the heart. Others become oncologists and treat cancer patients. Still others become pediatricians and take care of children. And some doctors go into medical  research, either at a university or with a private company.<br><br><br>&quot;They were subjected to constant psychological pressure.&quot;<br>他们受到很大的心理压力<br>&quot;The plan was subjected to careful scrutiny.&quot;<br>计划受到严密的审查<br>&quot;The Iranians denied that the British soldiers were subjected to inhuman treatment.&quot;<br>伊朗人则否认对他们有不人道的待遇<br><br>&quot;The government should not lose its credibility with the people.&quot; <br>政府不要失去民众的信任<br><br>&quot;Somebody is pounding at the door&quot;<br>有人在砰砰地敲门<br>&quot;A powerful storm has pounded the eastern coast of the United States, causing severe flooding in some areas&quot;<br>美国东海岸地区四月份连续几天遭遇暴风雨袭击，一些地区洪水泛滥。<br><br>&quot;His car stalled at an intersection.&quot;<br>他的车在十字路口抛锚了<br>&quot;They were stalled in a traffic jam for an hour.&quot;<br><br>===June.4.2009===<br>&quot;Industrialization of Africa without ecological conscious will bring ruin to the African continent,&quot; Ona said. &quot;Africa still has vegetation to protect us from disasters like the tsunami and Katrina hurricane. If we destroy the African forest, the second largest forest in the world, we are heading to catastrophe.&quot;<br>In 2007, a Chinese company began building a road through the national park. Ona exposed the company’s secret agreement with the government to build a hydroelectric dam and expand iron mining operations within the park. There had been no environmental impact assessment.<br><br>a junk market<br>旧货市场<br>junk food<br>垃圾食品<br>&quot;They urged the government to ban soft drinks and other junk food from schools.&quot;<br>他们敦促政府禁止在学校内出售含糖量很高的饮料等垃圾食品<br><br>&quot;They will have three exams in a row.&quot;<br>学生接连有三场考试<br>&quot;Cancer deaths in the United States dropped for the second year in a row.&quot;<br>美国的癌症死亡率连续两年下降<br>&quot;Iraq remains the most dangerous place for journalists for the fourth year in a row.&quot;<br>伊拉克对记者来说是最危险的地方，这种情况已经持续了四年<br><br>They are taking steps to prevent campus shootings.&quot;<br>采取步骤、措施<br><br>Plead:辩护，抗辩<br>Plead for:请求、恳求<br>plead guilty或是plead not guilty<br>意思是被告表示服罪， 或是不服罪。<br>&quot;He pleaded not guilty to the charges.&quot;<br><br> ===June.3.2009===<br><br>On June 6, 1944 over 150,000 Allied troops landed on the beaches of Normandy, in northern France, <br>in a push to liberate Europe from Hitler’s Nazi forces. Now, 65 years later, the memories of that day <br>linger along that windswept coast and its quiet villages.  <br><br>U.S. Secretary of State Condoleezza Rice is in Russia to patch up the strained relationship between the two countries.<br>美国国务卿赖斯正在俄罗斯访问，努力修补紧张关系。 <br>&quot;Relations between the two brothers have become strained over the inheritance&quot;<br>遗产让兄弟两人的关系出现紧张。<br>&quot;There was a strained atmosphere throughout the negotiation&quot;<br>谈判自始至终气氛都很紧张。<br><br>&quot;Iran is locked in a standoff with the West over its nuclear program.&quot; <br>由于核项目问题，伊朗一直跟西方国家僵持不下<br>&quot;the standoff between the police and the kidnappers ended peacefully.&quot; <br>警察跟绑匪之间的僵局终于和平解决<br>&quot;The strike has entered the eighth day as the standoff between the union and the management continues.&quot;<br>大罢工已经进入第八天了，劳资双方还是互不相让<br><br>&quot;His health has turned the corner&quot;<br>他的健康出现了好转<br>&quot;The team has finally turned the corner offensively.&quot;<br>一支球队终于走出了进攻乏力的低谷<br><br>&quot;The explosion shattered the windows&quot;<br>爆炸震碎了窗玻璃。<br>&quot;<em>Spiderman 3 </em>shattered global box-office records.&quot;<br>上周末新上映的电影蜘蛛人的第三部打破了全球票房纪录，媒体报道说<br>&quot;the silence was shattered.&quot;<br>打破沉默<br>&quot;The scandal shattered his reputation&quot;<br>意思是这起丑闻破坏了他的声誉。<br>&quot;Although the disease shattered his health&quot;<br>虽然疾病损害了他的健康<br>&quot;nothing could shatter his dream of becoming a writer,&quot;<br>没有任何事情能够动摇他成为作家的梦想。<br><br><br><br><br><br><br><br><del>continue</del> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/05/07/Sentences/" class="archive-article-date">
+  	<time datetime="2007-05-07T13:49:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-05-07</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/English/">English</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-宽容-靠自己-鲨鱼与鱼-神迹-钓竿-诚信" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2007/05/07/宽容-靠自己-鲨鱼与鱼-神迹-钓竿-诚信/">宽容/靠自己/鲨鱼与鱼/神迹/钓竿/诚信</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> 1、 宽容 <br><br>　　<br><br>　　　　一只小猪、一只绵羊和一头乳牛，被关在同一个畜栏里。有一次，牧人捉<br>住小猪，牠大声号叫，猛烈地抗拒。绵羊和乳牛讨厌牠的号叫，便说：「他常常捉<br>我们，我们并不大呼小叫。小猪听了回答道：「捉你们和捉我完全是两回事，他捉<br>你们，只是要你们的毛和乳汁，但是捉住我，却是要我的命呢! <br><br>　　　　立场不同、所处环境不同的人，很难了解对方的感受；因此对别人的失意<br>、挫折、伤痛，不宜幸灾乐祸，而应要有关怀、了解的心情。要有宽容的心！ <br><br>　　<br><br>　　2、 靠自己 <br><br>　　<br><br>　　　　小蜗牛问妈妈：为什么我们从生下来，就要背负这个又硬又重的壳呢？ <br><br>　　　　妈妈：因为我们的身体没有骨骼的支撑，只能爬，又爬不快。所以要这个<br>壳的保护！ <br><br>　　　　小蜗牛：毛虫姊姊没有骨头，也爬不快，为什么她却不用背这个又硬又重<br>的壳呢？ <br><br>　　　　妈妈：因为毛虫姊姊能变成蝴蝶，天空会保护她啊。 <br><br>　　　　小蜗牛：可是蚯蚓弟弟也没骨头爬不快，也不会变成蝴蝶他什么不背这个<br>又硬又重的壳呢？ <br><br>　　　　妈妈：因为蚯蚓弟弟会钻土, 大地会保护他啊。 <br><br>　　　　小蜗牛哭了起来：我们好可怜，天空不保护，大地也不保护。 <br><br>　　　　蜗牛妈妈安慰他：「所以我们有壳啊！」 <br><br>　　　　我们不靠天，也不靠地，我们靠自己。 <br><br>　　<br><br>　　3、 鲨鱼与鱼 <br><br>　　<br><br>　　　　曾有人做过实验，将一只最凶猛的鲨鱼和一群热带鱼放在同一个池子，然<br>后用强化玻璃隔开，最初，鲨鱼每天不断冲撞那块看不到的玻璃，耐何这只是徒劳<br>，它始终不能过到对面去，而实验人员每天都有放一些鲫鱼在池子里，所以鲨鱼也<br>没缺少猎物，只是它仍想到对面去，想尝试那美丽的滋味，每天仍是不断的冲撞那<br>块玻璃，它试了每个角落，每次都是用尽全力，但每次也总是弄的伤痕累累，有好<br>几次都浑身破裂出血，持续了好一些日子，每当玻璃一出现裂痕，实验人员马上加<br>上一块更厚的玻璃。 <br><br>　　　　后来，鲨鱼不再冲撞那块玻璃了，对那些斑斓的热带鱼也不再在意，好像<br>他们只是墙上会动的壁画，它开始等着每天固定会出现的鲫鱼，然后用他敏捷的本<br>能进行狩猎，好像回到海中不可一世的凶狠霸气，但这一切只不过是假像罢了，实<br>验到了最后的阶段，实验人员将玻璃取走，但鲨鱼却没有反应，每天仍是在固定的<br>区域游着它不但对那些热带鱼视若无睹，甚至于当那些鲫鱼逃到那边去，他就立刻<br>放弃追逐，说什么也不愿再过去，实验结束了，实验人员讥笑它是海里最懦弱的鱼<br>。 <br><br>　　　　可是失恋过的人都知道为什么，它怕痛。 <br><br>　　<br><br>　　4、 神迹 <br><br>　　<br><br>　　　　法国一个偏僻的小镇，据传有一个特别灵验的水泉，常会出现神迹，可以<br>医治各种疾病。有一天，一个拄着拐杖，少了一条腿的退伍军人，一跛一跛的走过<br>镇上的马路，旁边的镇民带着同情的回吻说：&ldquo;可怜的家伙，难道他要向上帝祈求<br>再有一条腿吗??&rdquo;这一句话被退伍的军人听到了，他转过身对他们说：&ldquo;我不是要<br>向上帝祈求有一条新的腿，而是要祈求祂帮助我，叫我没有一条腿后，也知道如何<br>过日子。&rdquo; <br><br>　　　　试想：学习为所失去的感恩，也接纳失去的事实，不管人生的得与失，总<br>是要让自已的生命充满了亮丽与光彩，不再为过去掉泪，努力的活出自己的生命。<br> <br><br>　　<br><br>　　5、 钓竿 <br><br>　　<br><br>　　　　有个老人在河边钓鱼，一个小孩走过去看他钓鱼，老人技巧纯熟，所以没<br>多久就钓上了满篓的鱼，老人见小孩很可爱，要把整篓的鱼送给他，小孩摇摇头，<br>老人惊异的问道：「你为何不要？」小孩回答：「我想要你手中的钓竿。」老人问<br>：「你要钓竿做什么？」小孩说：「这篓鱼没多久就吃完了，要是我有钓竿，我就<br>可以自己钓，一辈子也吃不完。」 <br><br>　　　　我想你一定会说：好聪明的小孩。错了，他如果只要钓竿，那他一条鱼也<br>吃不到。因为，他不懂钓鱼的技巧，光有鱼竿是没用的，因为钓鱼重要的不在&ldquo;钓<br>竿&rdquo;，而在&ldquo;钓技&rdquo;。 <br><br>　　　　有太多人认为自己拥有了人生道上的钓竿，再也无惧于路上的风雨，如此<br>，难免会跌倒于泥泞地上。就如小孩看老人，以为只要有钓竿就有吃不完的鱼，像<br>职员看老板，以为只要坐在办公室，就有滚进的财源。 <br><br>　　<br><br>　　6、诚信 <br><br>　　<br><br>　　此帖是好不容易搞到的，历经千辛万苦。请看完的同志珍惜楼主的劳动成果帮<br>忙顶一下，只要轻轻的顶一下不会浪费你超过3秒钟时间的！做人要有诚信，要厚道<br>，同时也为了让更多人能看到此帖，从中能学到或感悟到些什么就达到我的目的了 </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/05/07/宽容-靠自己-鲨鱼与鱼-神迹-钓竿-诚信/" class="archive-article-date">
+  	<time datetime="2007-05-07T13:43:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-05-07</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Life/">Life</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/53/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/52/">52</a><a class="page-number" href="/page/53/">53</a><span class="page-number current">54</span><a class="page-number" href="/page/55/">55</a><a class="page-number" href="/page/56/">56</a><span class="space">&hellip;</span><a class="page-number" href="/page/60/">60</a><a class="extend next" rel="next" href="/page/55/">Next &raquo;</a>
+    </nav>
+  
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: true,
+		isPost: false,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

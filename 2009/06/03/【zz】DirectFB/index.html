@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>【zz】DirectFB | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="http://blog.chinaunix.net/u/30686/showart.php?id=1946188DirectFB在Davinci平台上的应用分析报告1.概述根据目前ＳＴＢ的媒体表现形式不足和将来的功能扩展需求，需要有一套稳定、灵活的显示设备、输入设备适配层。 DirectFB（以下简称DFB）是针对嵌入式系统资源和性能特点而设计的一套图形库。我们在这里对DFB在Davinci平台">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【zz】DirectFB">
+<meta property="og:url" content="http://blog.pickbox.me/2009/06/03/【zz】DirectFB/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="http://blog.chinaunix.net/u/30686/showart.php?id=1946188DirectFB在Davinci平台上的应用分析报告1.概述根据目前ＳＴＢ的媒体表现形式不足和将来的功能扩展需求，需要有一套稳定、灵活的显示设备、输入设备适配层。 DirectFB（以下简称DFB）是针对嵌入式系统资源和性能特点而设计的一套图形库。我们在这里对DFB在Davinci平台">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【zz】DirectFB">
+<meta name="twitter:description" content="http://blog.chinaunix.net/u/30686/showart.php?id=1946188DirectFB在Davinci平台上的应用分析报告1.概述根据目前ＳＴＢ的媒体表现形式不足和将来的功能扩展需求，需要有一套稳定、灵活的显示设备、输入设备适配层。 DirectFB（以下简称DFB）是针对嵌入式系统资源和性能特点而设计的一套图形库。我们在这里对DFB在Davinci平台">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-【zz】DirectFB" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      【zz】DirectFB
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <a href="http://blog.chinaunix.net/u/30686/showart.php?id=1946188" target="_blank">http://blog.chinaunix.net/u/30686/showart.php?id=1946188</a><br></p><p><strong>DirectFB在Davinci平台上的应用分析报告</strong></p><p></p>1.概述<p>根据目前ＳＴＢ的媒体表现形式不足和将来的功能扩展需求，需要有一套稳定、灵活的显示设备、输入设备适配层。 DirectFB（以下简称DFB）是针对嵌入式系统资源和性能特点而设计的一套图形库。我们在这里对DFB在Davinci平台上的可用性做一次分析。</p><p>分析的主要内容有：</p><p>1)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   代码的编译选项</p><p>2)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   图形库主要特性</p><p>3)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   典型应用程序启动、画图显示过程分析</p><p>4)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   分析DFB在Davinci平台上应用的可行性</p>2.编译选项<p>./configure  CC=arm_v5t_le-gcc CXX=arm_v5t_le-g++  AR=arm_v5t_le-ar   RANLIB=arm_v5t_le-ranlib LD=arm_v5t_le-ld CFLAGS=&quot;-O2 -ffast-math -pipe&quot;  CPPFLAGS=-I/home/cnc/devkit/arm/v5t_le/target/usr/include&nbsp;&nbsp;   LDFLAGS=&quot;-L/home/cnc/devkit/arm/v5t_le/target/lib  -L/home/cnc/devkit/arm/v5t_le/target/usr/lib&quot;   –host=arm-linux –build=i386   –prefix=/home/cnc/root-nfs/usr/local   –exec-prefix=/usr/local –enable-debug   –enable-trace&nbsp;&nbsp;&nbsp;  –enable-static  –enable-multi –enable-fbdev –without-tools&nbsp;&nbsp;   –with-gfxdrivers=davinci</p><p>上面的编译选项中：&nbsp;&nbsp;&nbsp;</p><p>–enable-multi   允许多进程间共享显示设备（下面的分析都是基于此编译条件）<br>  &nbsp;&nbsp;  &nbsp;&nbsp;&nbsp; –enable-debug   允许调试信息与断言<br>  &nbsp;&nbsp;   &nbsp;&nbsp;&nbsp; –enable-trace   允许运行时堆栈跟踪</p><p> </p><p>当DFB图形库编译安装成功后，我们需要编写DFB在目标系统上的运行配置。</p><p>directfbrc是DFB图形库启动的配置文件，配置方式分为：</p><p>系统级配置：a system-wide one stored in  /etc/directfbrc </p><p>用户级配置：a per-user $HOME/.directfbrc which may  override system settings. </p><p>也可以通过应用程序（basename of argv[0])）传入：/etc/directfbrc.$0 或$HOME/.directfbrc.$0</p><p>下面是配置文件的具体示例，更详细的配置方式请参阅文档Man page of  DIRECTFBRC.mht：</p><p>system=fbdev</p><p>fbdev=/dev/fb0</p><p>mode=720x576</p><p>depth=16</p><p>pixelformat=RGB16</p><p> </p><p>systems指定显示系统接口，目前可选接口有：</p><p>dvevm:直接操作硬件地址空间适配层代码</p><p>fbdev: 输出到frame buffer。</p><p>osx:&nbsp;&nbsp;  输出到mac os上。</p><p>vnc： 输出到Virtual Network  Computing（类似于微软远程桌面的一个协议）。</p><p>x11： 输出到X Window上</p><p>sdl：   输出到Simple DirectMedia  Layer。</p><p>这里我们使用framebuffer接口。</p><p>mode指定显示设备的分辨率；</p><p>depth为像素位数；</p><p>pixelformat指定显示设备像素格式。</p><p> </p><p> </p>3.DFB图形库关键模块－fusion<p>在介绍DFB之前先介绍一下DFB多进程共享同一显示资源的核心模块fusion。在传统的DFB应用中，所有的应用程序都在一个进程中，在性能上，有一些优势，然而一个应用程序不稳定会造成整个系统的不稳定。若采用C/S模型，无疑是重蹈X Widnow的覆辙，会丧失性能上的优势。所以DirectFB采用了另外一种方式，与C/S相区别，称之为主从模型（Master/Slave）。它加了一个称之为fusion的内核模块。Fusion是熔化的意思，多个应用程序在不同的进程空间里，通过这个内核模块通信，在这里，一切都溶为一体。Master应用程序负责初始化一个称为竟技场(Arena)的东西，其它Slave应用程序可以加入(join)或者退出(leave)竟技场。当Master退出时，则其它所有Slave都必须退出。Fusion里采用了Reactor模式，每个应用程序可以通过ioctl向reactor注册事件处理器，当有事件发生时，reactor会把事件写入到所注册了的应用程序的fusion文件描述符时，之后应用程序可以从fusion文件描述符里读取到事件数据。当然，应用程序也可以通过ioctl发送事件给其它应用程序，reactor也会把事件分发给其它应用程序。</p><p> </p><p> </p><p>/<em>关于fusion的调用函数定义都是通过FUSION_OBJECT_METHODS这个宏定义实现的</em>/</p><p><strong>消息分发线程的创建</strong><strong></strong></p><p>DirectFBCreate</p><p>fusion_enter&gt;&gt;&gt;Master应用程序初始化或join Arena，挂在/dev/fusionN</p><p>direct_thread_create( DTT_MESSAGING, fusion_dispatch_loop, world, &quot;Fusion  Dispatch&quot; );</p><p>fusion_dispatch_loop&gt;&gt;&gt;启动消息分发线程</p><p> </p><p><strong>以注册Surface</strong><strong>对象的Flip</strong><strong>事件为例说明fusion</strong><strong>注册事件流程</strong></p><p>IDirectFB_CreateSurface&gt;&gt;&gt;创建一个surface对象</p><p>IDirectFBSurface_Construct&gt;&gt;&gt;</p><p>dfb_surface_attach( surface,IDirectFBSurface_listener, thiz,  &amp;data-&gt;reaction ); &gt;&gt;注册surface </p><p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   listener</p><p>fusion_reactor_attach&gt;&gt;注册surface 相关的回调函数</p><p>ioctl( _fusion_fd( reactor-&gt;shared ), FUSION_REACTOR_ATTACH,  &amp;attach )</p><p><strong>发送Surface Flip</strong><strong>事件</strong></p><p>dfb_surface_flip( data-&gt;surface, false  );&gt;&gt;&gt; 改变surface buffer  index</p><p>dfb_surface_notify( surface,  CSNF_FLIP );&gt;&gt;&gt;</p><p>dfb_surface_dispatch(  surface, &amp;notification, dfb_surface_globals );&gt;&gt;&gt; 通过fusion通知进行surface_listener flip操作</p><p> </p><p> </p><p> </p><p>下面以触摸屏为例介绍笔点事件的过程：</p><p>1）初始化时，driver_open_device创建一个进程，挂在/dev/input/event0上，等待笔点事件。</p><p>2）初始化时，应用程序创建另外一个线程，挂在/dev/fusionN(不同的应用程序N值不同)上。</p><p>3) 当有笔点事件时，通过函数调用dfb_input_dispatch–&gt;fusion_reactor_dispatch-&gt;ioctl  (FUSION_REACTOR_DISPATCH)把消息丢给内核模块。</p><p>4) 内核模块中的Reactor把事件数据写入到各个所注册的事件处理器的/dev/fusionN里。</p><p>5) 应用程序从/dev/fusionN文件中取得事件数据，并调用应用程序内部的reactor处理函数，一般是IDirectFBEventBuffer_InputReact/IDirectFBEventBuffer_WindowReact两个函数。</p><p>6) 然后，在IDirectFBEventBuffer_InputReact/IDirectFBEventBuffer_WindowReact两个函数中，调用IDirectFBEventBuffer_AddItem把事件加入到窗口的事件队列中。</p><p>7) 在应用程序的主线程中，就可以通过调用窗口的GetEvent函数从事件队列中获取事件了，最后，把获取的事件分发到各个窗口事件处理函数中。</p><p> </p><p> </p><br><br>更多内容，请参见原文链接<br><br><br><br><br><br><br><del>end</del><br><br><br> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2009/06/03/【zz】DirectFB/" class="archive-article-date">
+  	<time datetime="2009-06-03T07:56:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2009-06-03</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/linux-图形/">linux 图形</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2009/07/15/Linux-kernel-memory-distribution/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Linux kernel memory distribution
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2009/06/03/【zz】Linux的X窗口系统结构说明/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">【zz】Linux的Ｘ窗口系统结构说明</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

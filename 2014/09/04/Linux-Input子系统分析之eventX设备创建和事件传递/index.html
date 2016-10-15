@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>Linux Input子系统分析之eventX设备创建和事件传递 | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Linux Input子系统整体架构
+&amp;nbsp;
+注册eventX设备注册过程大致如下：input_register_device -&amp;gt; input_attach_handler -&amp;gt; input_match_device -&amp;gt; connect
+input_register_device对input_handler_list中的每一个handler尝试input_attach_">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux Input子系统分析之eventX设备创建和事件传递">
+<meta property="og:url" content="http://blog.pickbox.me/2014/09/04/Linux-Input子系统分析之eventX设备创建和事件传递/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="Linux Input子系统整体架构
+&amp;nbsp;
+注册eventX设备注册过程大致如下：input_register_device -&amp;gt; input_attach_handler -&amp;gt; input_match_device -&amp;gt; connect
+input_register_device对input_handler_list中的每一个handler尝试input_attach_">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/Linux-Input子系统的架构图.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/The-input-subsystem.gif">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/每个eventX都对应一对input_dev和input_handler由input_handle绑定在一起，一个input_dev可以对应多个input_handler，一个input_handler也可以对应多个input_dev.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/每个eventX都对应一个evdevinput_device_registe调用evdev_connect产生，每次open-eventX都会分配一个evdev_client挂在evdev的client_list上.jpg">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux Input子系统分析之eventX设备创建和事件传递">
+<meta name="twitter:description" content="Linux Input子系统整体架构
+&amp;nbsp;
+注册eventX设备注册过程大致如下：input_register_device -&amp;gt; input_attach_handler -&amp;gt; input_match_device -&amp;gt; connect
+input_register_device对input_handler_list中的每一个handler尝试input_attach_">
+<meta name="twitter:image" content="http://img.pickbox.me/wp-content/uploads/Linux-Input子系统的架构图.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-Linux-Input子系统分析之eventX设备创建和事件传递" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux Input子系统分析之eventX设备创建和事件传递
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p></p><h2>Linux Input子系统整体架构</h2><br><a href="http://img.pickbox.me/wp-content/uploads/Linux-Input子系统的架构图.jpg" target="_blank" rel="external"><img class="alignnone size-full wp-image-999" alt="Linux Input子系统的架构图" src="http://img.pickbox.me/wp-content/uploads/Linux-Input子系统的架构图.jpg" width="644" height="594"></a><br><br><br><a href="http://img.pickbox.me/wp-content/uploads/The-input-subsystem.gif" target="_blank" rel="external"><img class="alignnone size-full wp-image-1000" alt="The input subsystem" src="http://img.pickbox.me/wp-content/uploads/The-input-subsystem.gif" width="500" height="597"></a><p></p>
+<p>&nbsp;</p>
+<p></p><h2>注册eventX设备</h2><br>注册过程大致如下：<br>input_register_device -&gt; input_attach_handler -&gt; input_match_device -&gt; connect<p></p>
+<p>input_register_device对input_handler_list中的每一个handler尝试input_attach_handler</p>
+<pre>list_for_each_entry(handler, &amp;input_handler_list, node)
+    input_attach_handler(dev, handler);</pre>
+input_attach_handler调用input_match_device，如果match，则调用该handler的connect
+
+evdev默认match所有的input_dev设备，evdev_handler的connect为evdev_handler
+它会分配一个evdev，初始化handle的dev和handler，将input_dev和input_handler绑定在一起，并将该handle分别挂到input_dev的h_list和input_handler的h_list上
+<pre>static int evdev_connect(struct input_handler *handler, 
+            struct input_dev *dev,
+            const struct input_device_id *id)
+{
+    struct evdev *evdev;
+    ...
+    // 寻找可用minor值
+    for (minor = 0; minor &lt; EVDEV_MINORS; minor++)
+        if (!evdev_table[minor])
+            break;
+
+    // 分配evdev
+    evdev = kzalloc(sizeof(struct evdev), GFP_KERNEL);
+
+    // 初始化evdev
+    INIT_LIST_HEAD(&amp;evdev-&gt;client_list);
+    spin_lock_init(&amp;evdev-&gt;client_lock);
+    mutex_init(&amp;evdev-&gt;mutex);
+    init_waitqueue_head(&amp;evdev-&gt;wait);
+
+    dev_set_name(&amp;evdev-&gt;dev, "event%d", minor);
+    evdev-&gt;exist = true;
+    evdev-&gt;minor = minor;
+    evdev-&gt;hw_ts_sec = -1;
+    evdev-&gt;hw_ts_nsec = -1;
+
+    // 初始化evdev-&gt;handle
+    evdev-&gt;handle.dev = input_get_device(dev);
+    evdev-&gt;handle.name = dev_name(&amp;evdev-&gt;dev);
+    evdev-&gt;handle.handler = handler;
+    evdev-&gt;handle.private = evdev;
+
+    // 初始化evdev-&gt;dev
+    evdev-&gt;dev.devt = MKDEV(INPUT_MAJOR, EVDEV_MINOR_BASE + minor);
+    evdev-&gt;dev.class = &amp;input_class;
+    evdev-&gt;dev.parent = &amp;dev-&gt;dev;
+    evdev-&gt;dev.release = evdev_free;
+    device_initialize(&amp;evdev-&gt;dev);
+
+    // 将handle分别挂到input_dev的h_list和input_handler的h_list上
+    error = input_register_handle(&amp;evdev-&gt;handle);
+
+    // 保存evdev到evdev_table数组
+    error = evdev_install_chrdev(evdev);
+
+    // 创建/dev/input/eventX文件
+    error = device_add(&amp;evdev-&gt;dev);
+   ...
+}
+
+int input_register_handle(struct input_handle *handle)
+{
+    ...
+    list_add_tail_rcu(&amp;handle-&gt;d_node, &amp;dev-&gt;h_list);
+    list_add_tail_rcu(&amp;handle-&gt;h_node, &amp;handler-&gt;h_list);
+    ...
+}
+
+// 保存evdev到evdev_table数组
+static int evdev_install_chrdev(struct evdev *evdev)
+{
+    evdev_table[evdev-&gt;minor] = evdev;
+    return 0;
+}</pre>
+最后在/dev/input/目录下创建出eventX设备
+
+需要注意的是evdev和input_dev各自拥有自己的struct device dev成员，调用device_add创建eventX设备时使用的是evdev->dev
+evdev->dev.parent = dev->dev
+两个dev的class都是input_class
+
+每个eventX都对应一对input_dev和input_handler(由input_handle绑定在一起)，一个input_dev可以对应多个input_handler，一个input_handler也可以对应多个input_dev
+<a href="http://img.pickbox.me/wp-content/uploads/每个eventX都对应一对input_dev和input_handler由input_handle绑定在一起，一个input_dev可以对应多个input_handler，一个input_handler也可以对应多个input_dev.jpg" target="_blank" rel="external"><img class="alignnone size-full wp-image-995" alt="每个eventX都对应一对input_dev和input_handler(由input_handle绑定在一起)，一个input_dev可以对应多个input_handler，一个input_handler也可以对应多个input_dev" src="http://img.pickbox.me/wp-content/uploads/每个eventX都对应一对input_dev和input_handler由input_handle绑定在一起，一个input_dev可以对应多个input_handler，一个input_handler也可以对应多个input_dev.jpg" width="764" height="503"></a>
+
+注：与eventX对应的input_dev包含多个handler：sysrq、rfkill、kbd、evdev，evdev只是其中之一
+<pre>
+<3>handler: c0817300, sysrq    drivers/tty/sysrq.c
+<3>handler: c084a7e0, rfkill   net/rfkill/input.c
+<3>handler: c081752c, kbd      drivers/tty/vt/keyboard.c
+<3>handler: c08215d4, evdev    drivers/input/evdev.c
+</3></3></3></3></pre>
+其他handler，如kbd在kbd_connect时并没有创建设备文件
+
+&nbsp;
+
+<h2>通过/dev/input/eventX注入和接收输入事件</h2>
+直接写/dev/input/eventX，或者通过uinput创建完eventX设备后直接写/dev/uinput，
+都能让eventX产生输入事件，进而Android通过EventHub从eventX中收到新的key或者motion事件
+
+调用流程如下：
+<pre>input_inject_event -&gt; input_handle_event -&gt; input_pass_event
+
+drivers/input/input.c
+void input_inject_event(struct input_handle *handle,
+            unsigned int type, unsigned int code, int value);
+static void input_handle_event(struct input_dev *dev,
+                   unsigned int type, unsigned int code, int value);
+static void input_pass_event(struct input_dev *dev,
+                 unsigned int type, unsigned int code, int value);</pre>
+从dev的h_list中取出每一个handle，进而取出handle中的handler，调用handler-&gt;event
+<pre>list_for_each_entry_rcu(handle, &amp;dev-&gt;h_list, d_node) {
+    if (!handle-&gt;open)
+        continue;
+
+    handler = handle-&gt;handler;
+    if (!handler-&gt;filter) {
+        if (filtered)
+            break;
+
+        handler-&gt;event(handle, type, code, value);
+
+    } else if (handler-&gt;filter(handle, type, code, value))
+        filtered = true;
+}</pre>
+对于eventX，handler为evdev_handler，event为evdev_event，
+<pre>drivers/input/evdev.c
+list_for_each_entry_rcu(client, &amp;evdev-&gt;client_list, node)
+    evdev_pass_event(client, &amp;event, time_mono, time_real);</pre>
+对evdev上每一个evdev_client调用evdev_pass_event，注意，每次open eventX都会分配一个evdev_client挂在evdev的client_list上
+
+evdev_pass_event将新event事件加入到evdev_client的buffer中，并唤醒buffer上所有读等待的任务
+
+这样，每一个open eventX的进程都能从buffer中读出事件
+
+从以上流程可以看到，对evdev创建的eventX设备write时，会导致所有的handler的event被调用，而不仅仅是evdev的evdev_event
+<br>
+每个eventX都对应一个evdev(input_device_registe调用evdev_connect产生)，每次open eventX都会分配一个evdev_client挂在evdev的client_list上
+<a href="http://img.pickbox.me/wp-content/uploads/每个eventX都对应一个evdevinput_device_registe调用evdev_connect产生，每次open-eventX都会分配一个evdev_client挂在evdev的client_list上.jpg" target="_blank" rel="external"><img class="alignnone size-full wp-image-997" alt="每个eventX都对应一个evdev(input_device_registe调用evdev_connect产生)，每次open eventX都会分配一个evdev_client挂在evdev的client_list上" src="http://img.pickbox.me/wp-content/uploads/每个eventX都对应一个evdevinput_device_registe调用evdev_connect产生，每次open-eventX都会分配一个evdev_client挂在evdev的client_list上.jpg" width="745" height="304"></a>
+<br>
+<h2>Input Kernel Driver Example</h2>
+<a href="http://img.pickbox.me/wp-content/uploads/event-injector-kmod.rar" target="_blank" rel="external">event-injector-kmod</a>是一个内核驱动demo，insmod后会注册一个/dev/input/eventX设备
+
+假设我们创建出的设备为/dev/input/event2，在Android中可以通过以下脚本模拟调节音量键
+<pre>
+$ cat event.sh
+sendevent /dev/input/event2 1 $1 1
+sendevent /dev/input/event2 0 0 0
+sendevent /dev/input/event2 1 $1 0
+sendevent /dev/input/event2 0 0 0
+</pre>
+执行adb shell后执行sh event.sh 114，就会让Android系统收到音量调节按键事件
+
+也可以通过Android jni代码向eventX写入事件（需要root，先chmod 666 /dev/input/event2）
+<pre>
+#include &lt;linux/input.h&gt;
+
+/* struct input_event {
+    struct timeval time;
+    __u16 type;
+    __u16 code;
+    __s32 value;
+}; */
+
+void send_event(int fd, uint16_t type, uint16_t code, int32_t value) {
+    debug(&quot;SendEvent call (%d,%d,%d,%d)&quot;, fd, type, code, value);
+    if (fd &lt;= fileno(stderr)) return;
+
+    struct input_event event;
+    int len;
+
+    memset(&event, 0, sizeof(event));
+    gettimeofday(&event.time, NULL);
+
+    // event (type, code, value)
+    event.type = type;
+    event.code = code;
+    event.value = value;
+    if (write(fd, &event, sizeof(event)) &lt; 0) {
+        debug(&quot;send_event error&quot;);
+    }
+
+    // sync (0,0,0)
+    event.type = EV_SYN;
+    event.code = SYN_REPORT;
+    event.value = 0;
+    if (write(fd, &event, sizeof(event)) &lt; 0) {
+        debug(&quot;send_event error&quot;);
+    }
+}
+
+void inject()
+{
+    int fd = open("/dev/input/event2", O_RDWR | O_NDELAY);
+    send_event(fd, 1, 114, 1);  // send volume-down key down event
+    send_event(fd, 1, 114, 0);  // send volume-down key up event
+    close(fd);
+}
+</pre>
+
+<p><br><br><br></p>
+<p></p><h3>参考</h3><br><a href="http://blog.csdn.net/ielife/article/details/7814108" target="_blank">input子系统整体流程全面分析</a><br><a href="http://www.cnblogs.com/lknlfy/p/3275781.html" target="_blank">Linux设备驱动剖析之Input（一）（二）（三）（四）</a><br><a href="http://blog.csdn.net/droidphone/article/details/8432151" target="_blank">Linux输入子系统：输入设备编程指南 – input-programming.txt</a><br><a href="http://www.embeddedlinux.org.cn/EssentialLinuxDeviceDrivers/final/ch07lev1sec1.html#ch07lev1sec1" target="_blank">Input Event Drivers (Virtual Mouse)</a><p></p>
+<p>PDF格式：<br><a href="http://img.pickbox.me/wp-content/uploads/linux-input子系统整体流程分析.pdf" target="_blank" rel="external">linux input子系统整体流程分析</a><br><a href="http://img.pickbox.me/wp-content/uploads/设备驱动程序实例_Button.pdf" target="_blank" rel="external">设备驱动程序实例_Button</a><br><a href="http://img.pickbox.me/wp-content/uploads/设备驱动程序实例_VirtualMouse.pdf" target="_blank" rel="external">设备驱动程序实例_VirtualMouse</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/09/04/Linux-Input子系统分析之eventX设备创建和事件传递/" class="archive-article-date">
+  	<time datetime="2014-09-04T12:41:26.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-09-04</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux/">Linux</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2014/09/08/Linux-uhid分析之创建HID设备/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Linux uhid分析之创建HID设备
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/08/06/Android读取USB-Descriptor获取manufacture和product信息/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android读取USB Descriptor获取manufacture和product信息</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>【zz】Shell脚本调试技术 | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Shell脚本调试技术（转自IBM网站）曹 羽中 (), 软件工程师, IBM中国开发中心2007 年 7 月 26 日本文全面系统地介绍了shell脚本调试技术，包括使用echo, tee, trap等命令输出关键信息，跟踪变量的值，在脚本中植入调试钩子，使用&amp;ldquo;-n&amp;rdquo;选项进行shell脚本的语法检查，使用&amp;ldquo;-x&amp;rdquo;选项实现shell脚本 逐条语句的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【zz】Shell脚本调试技术">
+<meta property="og:url" content="http://blog.pickbox.me/2008/02/23/【zz】Shell脚本调试技术/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="Shell脚本调试技术（转自IBM网站）曹 羽中 (), 软件工程师, IBM中国开发中心2007 年 7 月 26 日本文全面系统地介绍了shell脚本调试技术，包括使用echo, tee, trap等命令输出关键信息，跟踪变量的值，在脚本中植入调试钩子，使用&amp;ldquo;-n&amp;rdquo;选项进行shell脚本的语法检查，使用&amp;ldquo;-x&amp;rdquo;选项实现shell脚本 逐条语句的">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【zz】Shell脚本调试技术">
+<meta name="twitter:description" content="Shell脚本调试技术（转自IBM网站）曹 羽中 (), 软件工程师, IBM中国开发中心2007 年 7 月 26 日本文全面系统地介绍了shell脚本调试技术，包括使用echo, tee, trap等命令输出关键信息，跟踪变量的值，在脚本中植入调试钩子，使用&amp;ldquo;-n&amp;rdquo;选项进行shell脚本的语法检查，使用&amp;ldquo;-x&amp;rdquo;选项实现shell脚本 逐条语句的">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-【zz】Shell脚本调试技术" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      【zz】Shell脚本调试技术
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> Shell脚本调试技术（转自IBM网站）<br><br>曹 羽中 (), 软件工程师, IBM中国开发中心<br><br>2007 年 7 月 26 日<br><br>本文全面系统地介绍了shell脚本调试技术，包括使用echo, tee, trap等命令输出关键信息，跟踪变量的值，在脚本中植入调试钩子，使用&ldquo;-n&rdquo;选项进行shell脚本的语法检查，使用&ldquo;-x&rdquo;选项实现shell脚本 逐条语句的跟踪，巧妙地利用shell的内置变量增强&ldquo;-x&rdquo;选项的输出信息等。 <br><br>一. 前言<br><br>shell编程在unix/linux世界中使用得非常广泛，熟练掌握shell编程也是成为一名优秀的unix/linux开发者和系统管理员的必经之 路。脚本调试的主要工作就是发现引发脚本错误的原因以及在脚本源代码中定位发生错误的行，常用的手段包括分析输出的错误信息，通过在脚本中加入调试语句， 输出调试信息来辅助诊断错误，利用调试工具等。但与其它高级语言相比，shell解释器缺乏相应的调试机制和调试工具的支持，其输出的错误信息又往往很不 明确，初学者在调试脚本时，除了知道用echo语句输出一些信息外，别无它法，而仅仅依赖于大量的加入echo语句来诊断错误，确实令人不胜其繁，故常见 初学者抱怨shell脚本太难调试了。本文将系统地介绍一些重要的shell脚本调试技术，希望能对shell的初学者有所裨益。<br><br>本文的目标读者是unix/linux环境下的开发人员，测试人员和系统管理员，要求读者具有基本的shell编程知识。本文所使用范例在Bash3.1 +Redhat Enterprise Server 4.0下测试通过，但所述调试技巧应也同样适用于其它shell。<br><br>二. 在shell脚本中输出调试信息<br><br>通过在程序中加入调试语句把一些关键地方或出错的地方的相关信息显示出来是最常见的调试手段。Shell程序员通常使用echo(ksh程序员常使用 print)语句输出信息，但仅仅依赖echo语句的输出跟踪信息很麻烦，调试阶段在脚本中加入的大量的echo语句在产品交付时还得再费力一一删除。针 对这个问题，本节主要介绍一些如何方便有效的输出调试信息的方法。<br><br>1. 使用trap命令<br><br>trap命令用于捕获指定的信号并执行预定义的命令。<br>其基本的语法是:<br>trap ‘command’ signal<br>其中signal是要捕获的信号，command是捕获到指定的信号之后，所要执行的命令。可以用kill &ndash;l命令看到系统中全部可用的信号名，捕获信号后所执行的命令可以是任何一条或多条合法的shell语句，也可以是一个函数名。<br>shell脚本在执行时，会产生三个所谓的&ldquo;伪信号&rdquo;，(之所以称之为&ldquo;伪信号&rdquo;是因为这三个信号是由shell产生的，而其它的信号是由操作系统产生的)，通过使用trap命令捕获这三个&ldquo;伪信号&rdquo;并输出相关信息对调试非常有帮助。<br><br>表 1. shell伪信号<br>信号名        何时产生<br>EXIT        从一个函数中退出或整个脚本执行完毕<br>ERR        当一条命令返回非零状态时(代表命令执行不成功)<br>DEBUG        脚本中每一条命令执行之前<br><br>通过捕获EXIT信号,我们可以在shell脚本中止执行或从函数中退出时，输出某些想要跟踪的变量的值，并由此来判断脚本的执行状态以及出错原因,其使用方法是：<br>trap ‘command’ EXIT　或　trap ‘command’ 0<br>trap ‘command’ INT &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   Ctrl+C<br><br>trap - EXIT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    取消对EXIT的捕获<br><br><br>通过捕获ERR信号,我们可以方便的追踪执行不成功的命令或函数，并输出相关的调试信息，以下是一个捕获ERR信号的示例程序，其中的$LINENO是一个shell的内置变量，代表shell脚本的当前行号。<br><br>$ cat -n exp1.sh<br>&nbsp;&nbsp;&nbsp;     1&nbsp;&nbsp;     ERRTRAP()<br>&nbsp;&nbsp;&nbsp;     2&nbsp;&nbsp;     {<br>&nbsp;&nbsp;&nbsp;     3    echo &quot;[LINE:$1] Error: Command or function exited with status $?&quot;<br>&nbsp;&nbsp;&nbsp;     4&nbsp;&nbsp;     }<br>&nbsp;&nbsp;&nbsp;     5&nbsp;&nbsp;     foo()<br>&nbsp;&nbsp;&nbsp;     6&nbsp;&nbsp;     {<br>&nbsp;&nbsp;&nbsp;     7    return 1;<br>&nbsp;&nbsp;&nbsp;     8&nbsp;&nbsp;     }<br>&nbsp;&nbsp;&nbsp;     9&nbsp;&nbsp;     trap ‘ERRTRAP $LINENO’ ERR<br>10&nbsp;&nbsp;     abc<br>11&nbsp;&nbsp;     foo<br>&nbsp;&nbsp;       <br><br><br>其输出结果如下：<br><br>$ sh exp1.sh<br>exp1.sh: line 10: abc: command not found<br>[LINE:10] Error: Command or function exited with status 127<br>[LINE:11] Error: Command or function exited with status 1<br>&nbsp;&nbsp;       <br><br><br>在调试过程中，为了跟踪某些变量的值，我们常常需要在shell脚本的许多地方插入相同的echo语句来打印相关变量的值，这种做法显得烦琐而笨拙。而通过捕获DEBUG信号，我们只需要一条trap语句就可以完成对相关变量的全程跟踪。<br><br>以下是一个通过捕获DEBUG信号来跟踪变量的示例程序:<br><br>$ cat &ndash;n exp2.sh<br>&nbsp;&nbsp;&nbsp;     1&nbsp;&nbsp;     #!/bin/bash<br>&nbsp;&nbsp;&nbsp;     2&nbsp;&nbsp;     trap ‘echo &ldquo;before execute line:$LINENO, a=$a,b=$b,c=$c&rdquo;’ DEBUG<br>&nbsp;&nbsp;&nbsp;     3&nbsp;&nbsp;     a=1<br>&nbsp;&nbsp;&nbsp;     4&nbsp;&nbsp;     if [ &quot;$a&quot; -eq 1 ]<br>&nbsp;&nbsp;&nbsp;     5&nbsp;&nbsp;     then<br>&nbsp;&nbsp;&nbsp;     6  &nbsp;&nbsp;&nbsp;     b=2<br>&nbsp;&nbsp;&nbsp;     7&nbsp;&nbsp;     else<br>&nbsp;&nbsp;&nbsp;     8  &nbsp;&nbsp;&nbsp;     b=1<br>&nbsp;&nbsp;&nbsp;     9&nbsp;&nbsp;     fi<br>10&nbsp;&nbsp;     c=3<br>11&nbsp;&nbsp;     echo &quot;end&quot;<br><br><br>其输出结果如下：<br><br>$ sh exp2.sh<br>before execute line:3, a=,b=,c=<br>before execute line:4, a=1,b=,c=<br>before execute line:6, a=1,b=,c=<br>before execute line:10, a=1,b=2,c=<br>before execute line:11, a=1,b=2,c=3<br>end<br><br><br>从运行结果中可以清晰的看到每执行一条命令之后，相关变量的值的变化。同时，从运行结果中打印出来的行号来分析，可以看到整个脚本的执行轨迹，能够判断出哪些条件分支执行了，哪些条件分支没有执行。<br><br>2. 使用tee命令<br><br>在shell脚本中管道以及输入输出重定向使用得非常多，在管道的作用下，一些命令的执行结果直接成为了下一条命令的输入。如果我们发现由管道连接起来的 一批命令的执行结果并非如预期的那样，就需要逐步检查各条命令的执行结果来判断问题出在哪儿，但因为使用了管道，这些中间结果并不会显示在屏幕上，给调试 带来了困难，此时我们就可以借助于tee命令了。<br><br>tee命令会从标准输入读取数据，将其内容输出到标准输出设备,同时又可将内容保存成文件。例如有如下的脚本片段，其作用是获取本机的ip地址：<br><br>ipaddr=<code>/sbin/ifconfig | grep &#39;inet addr:&#39; | grep -v &#39;127.0.0.1&#39;&lt;br /&gt;| cut -d : -f3 | awk &#39;{print $1}&#39;</code> <br>#注意=号后面的整句是用反引号(数字1键的左边那个键)括起来的。<br>echo $ipaddr<br><br><br>运行这个脚本，实际输出的却不是本机的ip地址，而是广播地址,这时我们可以借助tee命令，输出某些中间结果，将上述脚本片段修改为：<br><br>ipaddr=<code>/sbin/ifconfig | grep &#39;inet addr:&#39; | grep -v &#39;127.0.0.1&#39;&lt;br /&gt;| tee temp.txt | cut -d : -f3 | awk &#39;{print $1}&#39;</code><br>echo $ipaddr<br><br><br>之后，将这段脚本再执行一遍，然后查看temp.txt文件的内容：<br><br>$ cat temp.txt<br>inet addr:192.168.0.1&nbsp;&nbsp;     Bcast:192.168.0.255&nbsp;&nbsp;     Mask:255.255.255.0<br><br><br>我们可以发现中间结果的第二列(列之间以:号分隔)才包含了IP地址，而在上面的脚本中使用cut命令截取了第三列，故我们只需将脚本中的cut -d : -f3改为cut -d : -f2即可得到正确的结果。<br><br>具体到上述的script例子，我们也许并不需要tee命令的帮助，比如我们可以分段执行由管道连接起来的各条命令并查看各命令的输出结果来诊断错误，但 在一些复杂的shell脚本中，这些由管道连接起来的命令可能又依赖于脚本中定义的一些其它变量，这时我们想要在提示符下来分段运行各条命令就会非常麻烦 了，简单地在管道之间插入一条tee命令来查看中间结果会更方便一些。<br><br>3. 使用&quot;调试钩子&quot;<br><br>在C语言程序中，我们经常使用DEBUG宏来控制是否要输出调试信息，在shell脚本中我们同样可以使用这样的机制，如下列代码所示：<br><br>if [ &ldquo;$DEBUG&rdquo; = &ldquo;true&rdquo; ]; then<br>echo &ldquo;debugging&rdquo;&nbsp;&nbsp;     #此处可以输出调试信息<br>fi<br><br><br>这样的代码块通常称之为&ldquo;调试钩子&rdquo;或&ldquo;调试块&rdquo;。在调试钩子内部可以输出任何您想输出的调试信息，使用调试钩子的好处是它是可以通过DEBUG变量来控 制的，在脚本的开发调试阶段，可以先执行 export DEBUG=true命令打开调试钩子，使其输出调试信息，而在把脚本交付使用时，也无需再费事把脚本中的调试语句一一删除。<br><br>如果在每一处需要输出调试信息的地方均使用if语句来判断DEBUG变量的值，还是显得比较繁琐，通过定义一个DEBUG函数可以使植入调试钩子的过程更简洁方便，如下面代码所示:<br><br>$ cat &ndash;n exp3.sh<br>&nbsp;&nbsp;&nbsp;     1&nbsp;&nbsp;     DEBUG()<br>&nbsp;&nbsp;&nbsp;     2&nbsp;&nbsp;     {<br>&nbsp;&nbsp;&nbsp;     3&nbsp;&nbsp;     if [ &quot;$DEBUG&quot; = &quot;true&quot; ]; then<br>&nbsp;&nbsp;&nbsp;     4  &nbsp;&nbsp;       $@　　<br>&nbsp;&nbsp;&nbsp;     5&nbsp;&nbsp;     fi<br>&nbsp;&nbsp;&nbsp;     6&nbsp;&nbsp;     }<br>&nbsp;&nbsp;&nbsp;     7&nbsp;&nbsp;     a=1<br>&nbsp;&nbsp;&nbsp;     8&nbsp;&nbsp;     DEBUG echo &quot;a=$a&quot;<br>&nbsp;&nbsp;&nbsp;     9&nbsp;&nbsp;     if [ &quot;$a&quot; -eq 1 ]<br>10&nbsp;&nbsp;     then<br>11  &nbsp;&nbsp;        b=2<br>12&nbsp;&nbsp;     else<br>13  &nbsp;&nbsp;        b=1<br>14&nbsp;&nbsp;     fi<br>15&nbsp;&nbsp;     DEBUG echo &quot;b=$b&quot;<br>16&nbsp;&nbsp;     c=3<br>17&nbsp;&nbsp;     DEBUG echo &quot;c=$c&quot;<br><br><br>在上面所示的DEBUG函数中，会执行任何传给它的命令，并且这个执行过程是可以通过DEBUG变量的值来控制的，我们可以把所有跟调试有关的命令都作为DEBUG函数的参数来调用，非常的方便。<br><br><br><br><br><br>三. 使用shell的执行选项<br><br>上一节所述的调试手段是通过修改shell脚本的源代码，令其输出相关的调试信息来定位错误的，那有没有不修改源代码来调试shell脚本的方法呢？答案就是使用shell的执行选项，本节将介绍一些常用选项的用法：<br><br> -n 只读取shell脚本，但不实际执行<br> -x 进入跟踪方式，显示所执行的每一条命令<br>-c &quot;string&quot; 从strings中读取命令<br></p><p>-e：如果一个命令失败就立即退出</p><p>-n：读入命令但是不执行它们</p><p>-u：置换时把未设置的变量看作出错</p><p>-v：当读入shell输入行时把它们显示出来</p><p>-x：执行命令时把命令和它们的参数显示出来</p><br><br>&ldquo;- n&rdquo;可用于测试shell脚本是否存在语法错误，但不会实际执行命令。在shell脚本编写完成之后，实际执行之前，首先使用&ldquo;-n&rdquo;选项来测试脚本是否 存在语法错误是一个很好的习惯。因为某些shell脚本在执行时会对系统环境产生影响，比如生成或移动文件等，如果在实际执行才发现语法错误，您不得不手 工做一些系统环境的恢复工作才能继续测试这个脚本。<br><br>&ldquo;-c&rdquo;选项使shell解释器从一个字符串中而不是从一个文件中读取并执行shell命令。当需要临时测试一小段脚本的执行结果时，可以使用这个选项，如下所示：<br>sh -c ‘a=1;b=2;let c=$a+$b;echo &quot;c=$c&quot;’<br><br>&quot;-x&quot;选项可用来跟踪脚本的执行，是调试shell脚本的强有力工具。&ldquo;-x&rdquo;选项使shell在执行脚本的过程中把它实际执行的每一个命令行显示出 来，并且在行首显示一个&quot;+&quot;号。 &quot;+&quot;号后面显示的是经过了变量替换之后的命令行的内容，有助于分析实际执行的是什么命令。 &ldquo;-x&rdquo;选项使用起来简单方便，可以轻松对付大多数的shell调试任务,应把其当作首选的调试手段。<br><br>如果把本文前面所述的trap &lsquo;command&rsquo; DEBUG机制与&ldquo;-x&rdquo;选项结合起来，我们就可以既输出实际执行的每一条命令，又逐行跟踪相关变量的值，对调试相当有帮助。<br><br>仍以前面所述的exp2.sh为例，现在加上&ldquo;-x&rdquo;选项来执行它：<br><br>$ sh &ndash;x exp2.sh<br>+ trap ‘echo &quot;before execute line:$LINENO, a=$a,b=$b,c=$c&quot;’ DEBUG<br>++ echo ‘before execute line:3, a=,b=,c=’<br>before execute line:3, a=,b=,c=<br>+ a=1<br>++ echo ‘before execute line:4, a=1,b=,c=’<br>before execute line:4, a=1,b=,c=<br>+ ‘[‘ 1 -eq 1 ‘]’<br>++ echo ‘before execute line:6, a=1,b=,c=’<br>before execute line:6, a=1,b=,c=<br>+ b=2<br>++ echo ‘before execute line:10, a=1,b=2,c=’<br>before execute line:10, a=1,b=2,c=<br>+ c=3<br>++ echo ‘before execute line:11, a=1,b=2,c=3’<br>before execute line:11, a=1,b=2,c=3<br>+ echo end<br>end<br><br><br>在上面的结果中，前面有&ldquo;+&rdquo;号的行是shell脚本实际执行的命令，前面有&ldquo;++&rdquo;号的行是执行trap机制中指定的命令，其它的行则是输出信息。<br><br>shell的执行选项除了可以在启动shell时指定外，亦可在脚本中用set命令来指定。 &quot;set -参数&quot;表示启用某选项，&quot;set +参数&quot;表示关闭某选项。有时候我们并不需要在启动时用&quot;-x&quot;选项来跟踪所有的命令行，这时我们可以在脚本中使用set命令，如以下脚本片段所示：<br><br>set -x　　　 #启动&quot;-x&quot;选项 <br>要跟踪的程序段 <br>set +x　　　　 #关闭&quot;-x&quot;选项<br><br><br>set命令同样可以使用上一节中介绍的调试钩子&mdash;DEBUG函数来调用，这样可以避免脚本交付使用时删除这些调试语句的麻烦，如以下脚本片段所示：<br><br>DEBUG set -x　　　 #启动&quot;-x&quot;选项 <br>要跟踪的程序段 <br>DEBUG set +x　　　 #关闭&quot;-x&quot;选项<br><br><br><br><br>四. 对&quot;-x&quot;选项的增强<br><br>&quot;-x&quot;执行选项是目前最常用的跟踪和调试shell脚本的手段，但其输出的调试信息仅限于进行变量替换之后的每一条实际执行的命令以及行首的一个&quot;+&quot; 号提示符，居然连行号这样的重要信息都没有，对于复杂的shell脚本的调试来说，还是非常的不方便。幸运的是，我们可以巧妙地利用shell内置的一些 环境变量来增强&quot;-x&quot;选项的输出信息，下面先介绍几个shell内置的环境变量：<br><br>$LINENO<br>代表shell脚本的当前行号，类似于C语言中的内置宏<strong>LINE</strong><br><br>$FUNCNAME<br>函数的名字，类似于C语言中的内置宏<strong>func</strong>,但宏<strong>func</strong>只能代表当前所在的函数名，而$FUNCNAME的功能更强大，它是一个数组 变量，其中包含了整个调用链上所有的函数的名字，故变量${FUNCNAME [0]}代表shell脚本当前正在执行的函数的名字，而变量${FUNCNAME[1]}则代表调用函数${FUNCNAME[0]}的函数的名字，余 者可以依此类推。<br><br> $PS4<br>主提示符变量$PS1和第二级提示符变量$PS2比较常见，但很少有人注意到第四级提示符变量$PS4的作用。我们知道使用&ldquo;-x&rdquo;执行选项将会显示 shell脚本中每一条实际执行过的命令，而$PS4的值将被显示在&ldquo;-x&rdquo;选项输出的每一条命令的前面。在Bash Shell中，缺省的$PS4的值是&quot;+&quot;号。(现在知道为什么使用&quot;-x&quot;选项时，输出的命令前面有一个&quot;+&quot;号了吧？)。<br><br>利用$PS4这一特性，通过使用一些内置变量来重定义$PS4的值，我们就可以增强&quot;-x&quot;选项的输出信息。例如先执行export PS4=’+{$LINENO:${FUNCNAME[0]}} ‘, 然后再使用&ldquo;-x&rdquo;选项来执行脚本，就能在每一条实际执行的命令前面显示其行号以及所属的函数名。<br><br>以下是一个存在bug的shell脚本的示例，本文将用此脚本来示范如何用&ldquo;-n&rdquo;以及增强的&ldquo;-x&rdquo;执行选项来调试shell脚本。这个脚本中定义了一个函数isRoot(),用于判断当前用户是不是root用户，如果不是，则中止脚本的执行<br><br>$ cat &ndash;n exp4.sh<br>&nbsp;&nbsp;&nbsp;     1&nbsp;&nbsp;     #!/bin/bash<br>&nbsp;&nbsp;&nbsp;     2&nbsp;&nbsp;     isRoot()<br>&nbsp;&nbsp;&nbsp;     3&nbsp;&nbsp;     {<br>&nbsp;&nbsp;&nbsp;     4  &nbsp;&nbsp;      &nbsp;&nbsp;        if [ &quot;$UID&quot; -ne 0 ]<br>&nbsp;&nbsp;&nbsp;     5  &nbsp;&nbsp;      &nbsp;&nbsp;      &nbsp;&nbsp;      &nbsp;&nbsp;      &nbsp;&nbsp;       return 1<br>&nbsp;&nbsp;&nbsp;     6  &nbsp;&nbsp;      &nbsp;&nbsp;        else<br>&nbsp;&nbsp;&nbsp;     7  &nbsp;&nbsp;      &nbsp;&nbsp;      &nbsp;&nbsp;      &nbsp;&nbsp;      &nbsp;&nbsp;       return 0<br>&nbsp;&nbsp;&nbsp;     8  &nbsp;&nbsp;      &nbsp;&nbsp;        fi<br>&nbsp;&nbsp;&nbsp;     9&nbsp;&nbsp;     }<br>10&nbsp;&nbsp;     isRoot<br>11&nbsp;&nbsp;     if [&quot;$?&quot; -ne 0 ]<br>12&nbsp;&nbsp;     then<br>13  &nbsp;&nbsp;      &nbsp;&nbsp;        echo &quot;Must be root to run this script&quot;<br>14  &nbsp;&nbsp;      &nbsp;&nbsp;        exit 1<br>15&nbsp;&nbsp;     else<br>16  &nbsp;&nbsp;      &nbsp;&nbsp;        echo &quot;welcome root user&quot;<br>17  &nbsp;&nbsp;      &nbsp;&nbsp;        #do something<br>18&nbsp;&nbsp;     fi<br><br><br>首先执行sh &ndash;n exp4.sh来进行语法检查，输出如下：<br><br>$ sh &ndash;n exp4.sh<br>exp4.sh: line 6: syntax error near unexpected token <code>else&#39;&lt;br /&gt;exp4.sh: line 6:</code>  &nbsp;&nbsp;       else’<br><br><br>发现了一个语法错误，通过仔细检查第6行前后的命令，我们发现是第4行的if语句缺少then关键字引起的(写惯了C程序的人很容易犯这个错误)。我们可 以把第4行修改为if [ &quot;$UID&quot; -ne 0 ]; then来修正这个错误。再次运行sh &ndash;n exp4.sh来进行语法检查，没有再报告错误。接下来就可以实际执行这个脚本了，执行结果如下：<br><br>$ sh exp4.sh<br>exp2.sh: line 11: [1: command not found<br>welcome root user<br><br><br>尽管脚本没有语法错误了，在执行时却又报告了错误。错误信息还非常奇怪&ldquo;[1: command not found&rdquo;。现在我们可以试试定制$PS4的值，并使用&ldquo;-x&rdquo;选项来跟踪：<br><br>$ export PS4=’+{$LINENO:${FUNCNAME[0]}} ‘<br>$ sh &ndash;x exp4.sh<br>+{10:} isRoot<br>+{4:isRoot} ‘[‘ 503 -ne 0 ‘]’<br>+{5:isRoot} return 1<br>+{11:} ‘[1’ -ne 0 ‘]’<br>exp4.sh: line 11: [1: command not found<br>+{16:} echo ‘welcome root user’<br>welcome root user<br><br><br>从输出结果中，我们可以看到脚本实际被执行的语句，该语句的行号以及所属的函数名也被打印出来，从中可以清楚的分析出脚本的执行轨迹以及所调用的函数的内部执行情况。由于执行时是第11行报错，这是一个if语句，我们对比分析一下同为if语句的第4行的跟踪结果：<br><br>+{4:isRoot} ‘[‘ 503 -ne 0 ‘]’<br>+{11:} ‘[1’ -ne 0 ‘]’<br><br><br>可知由于第11行的[号后面缺少了一个空格，导致[号与紧挨它的变量$?的值1被shell解释器看作了一个整体，并试着把这个整体视为一个命令来执行，故有&ldquo;[1: command not found&rdquo;这样的错误提示。只需在[号后面插入一个空格就一切正常了。<br><br>shell中还有其它一些对调试有帮助的内置变量，比如在Bash Shell中还有BASH_SOURCE, BASH_SUBSHELL等一批对调试有帮助的内置变量，您可以通过man sh或man bash来查看，然后根据您的调试目的,使用这些内置变量来定制$PS4，从而达到增强&ldquo;-x&rdquo;选项的输出信息的目的。<br><br><br><br>五. 总结<br><br>现在让我们来总结一下调试shell脚本的过程：<br>首先使用&ldquo;-n&rdquo;选项检查语法错误，然后使用&ldquo;-x&rdquo;选项跟踪脚本的执行，使用&ldquo;-x&rdquo;选项之前，别忘了先定制PS4变量的值来增强&ldquo;-x&rdquo;选项的输出信 息，至少应该令其输出行号信息(先执行export PS4=’+[$LINENO]’，更一劳永逸的办法是将这条语句加到您用户主目录的.bash_profile文件中去)，这将使你的调试之旅更轻松。 也可以利用trap,调试钩子等手段输出关键调试信息，快速缩小排查错误的范围，并在脚本中使用&ldquo;set -x&rdquo;及&ldquo;set +x&rdquo;对某些代码块进行重点跟踪。这样多种手段齐下，相信您已经可以比较轻松地抓出您的shell脚本中的臭虫了。如果您的脚本足够复杂，还需要更强的调 试能力，可以使用shell调试器bashdb，这是一个类似于GDB的调试工具，可以完成对shell脚本的断点设置，单步执行，变量观察等许多功能， 使用bashdb对阅读和理解复杂的shell脚本也会大有裨益。关于bashdb的安装和使用，不属于本文范围，您可参阅http: //bashdb.sourceforge.net/上的文档并下载试用。 <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/02/23/【zz】Shell脚本调试技术/" class="archive-article-date">
+  	<time datetime="2008-02-23T04:36:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-02-23</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux-Debug/">Linux Debug</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2008/02/23/mysql-command/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          mysql command
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2008/02/23/【zz】自动ssh登录的几种方法-解决公钥验证无法登陆的问题/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">【zz】自动ssh登录的几种方法(解决公钥验证无法登陆的问题)</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

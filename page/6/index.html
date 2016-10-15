@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="jfo planet">
+<meta property="og:url" content="http://blog.pickbox.me/page/6/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jfo planet">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        
+  
+    <article id="post-为什么从CCSpriteFrameCache创建的sprite能添加到CCSpriteBatchNode" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/12/05/为什么从CCSpriteFrameCache创建的sprite能添加到CCSpriteBatchNode/">为什么从CCSpriteFrameCache创建的sprite能添加到CCSpriteBatchNode</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在《<a href="http://blog.csdn.net/akof1314/article/details/9922581" target="_blank">如何使用动画和精灵表单 Cocos2d-x 2.1.4 </a>》中介绍了如何使用plist文件创建精灵和动画，<br>使用方法直接参考如下代码：</p>
+<p><pre>bool HelloWorld::init()<br>{<br>    bool bRet = false;<br>    do<br>    {<br>        CC_BREAK_IF(!CCLayer::init());</pre></p>
+<pre><code>    //1) Cache the sprite frames and texture
+    CCSpriteFrameCache::sharedSpriteFrameCache()-&amp;gt;addSpriteFramesWithFile(&quot;AnimBear.plist&quot;);
+
+    //2) Create a sprite batch node
+    CCSpriteBatchNode *spriteSheet = CCSpriteBatchNode::create(&quot;AnimBear.png&quot;);
+    this-&amp;gt;addChild(spriteSheet);
+
+    //3) Gather the list of frames
+    CCArray *walkAnimFrames = CCArray::create();
+    for (int i = 1; i &amp;lt;= 8; ++i)         {             walkAnimFrames-&amp;gt;addObject(CCSpriteFrameCache::sharedSpriteFrameCache()-&amp;gt;spriteFrameByName(
+            CCString::createWithFormat(&quot;bear%d.png&quot;, i)-&amp;gt;getCString()));
+    }
+
+    //4) Create the animation object
+    CCAnimation *walkAnim = CCAnimation::createWithSpriteFrames(walkAnimFrames, 0.1f);
+
+    //5) Create the sprite and run the animation action
+    CCSize winSize = CCDirector::sharedDirector()-&amp;gt;getWinSize();
+    this-&amp;gt;setBear(CCSprite::createWithSpriteFrameName(&quot;bear1.png&quot;));
+    this-&amp;gt;getBear()-&amp;gt;setPosition(ccp(winSize.width / 2, winSize.height / 2));
+    this-&amp;gt;setWalkAction(CCRepeatForever::create(CCAnimate::create(walkAnim)));
+    this-&amp;gt;getBear()-&amp;gt;runAction(this-&amp;gt;getWalkAction());
+    spriteSheet-&amp;gt;addChild(this-&amp;gt;getBear());
+
+    bRet = true;
+} while (0);
+return bRet;
+</code></pre><p>}<br>有个疑问就是，CCSprite::createWithSpriteFrameName(“bear1.png”)通过SpriteFrameCache中缓存的frame创建出sprite，然后加入到spriteSheet这个CCSpriteBatchNode中去，那么CCSpriteBatchNode是如何知道新添加的这个sprite使用的就是CCSpriteBatchNode::create(“AnimBear.png”)在创建时使用的同一纹理文件呢？（如果不相同在添加时CCSpriteBatchNode会报错的）</p>
+<p>可以看看addSpriteFramesWithFile()和initWithFile()的实现方式：</p>
+<p><pre>bool CCSpriteBatchNode::initWithFile(const char<em> fileImage, unsigned int capacity)<br>{<br>    CCTexture2D </em>pTexture2D = CCTextureCache::sharedTextureCache()-&gt;addImage(fileImage);<br>    return initWithTexture(pTexture2D, capacity);<br>}</pre></p>
+<p>void CCSpriteFrameCache::addSpriteFramesWithFile(const char <em>pszPlist)<br>{<br>  …<br>        CCTexture2D </em>pTexture = CCTextureCache::sharedTextureCache()-&gt;addImage(texturePath.c_str());<br>  …<br>}<br>可以看到两个函数实际上都是调用CCTextureCache::sharedTextureCache()获取纹理的，同样的文件名会使用同样的纹理，initWithFile参数直接就是纹理图片AnimBear.png，addSpriteFramesWithFile参数是plist文件，plist文件中的metadata部分记录了纹理图片的文件名AnimBear.png，两者是同一张图片。</p>
+<p>因此通过CCSpriteFrameCache中的frame创建出的sprite，可以正常添加到CCSpriteBatchNode中。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/12/05/为什么从CCSpriteFrameCache创建的sprite能添加到CCSpriteBatchNode/" class="archive-article-date">
+  	<time datetime="2013-12-05T09:58:59.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-12-05</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-【zz】有一种幸福，叫做平凡" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/11/07/【zz】有一种幸福，叫做平凡/">【zz】有一种幸福，叫做平凡</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>有一种幸福，叫做平凡</p>
+<p>&nbsp;</p>
+<p>我是个小人物，要多平凡就有多平凡的小人物。没有什么太大的理想，没有什么太多的追求，仅仅只是喜欢这么安安静静简简单单的生活着。</p>
+<p>&nbsp;</p>
+<p>附图地址：<a href="http://img.liunianbanxia.com/usr/uploads/2013/11/1938651504.jpg" target="_blank" rel="external">http://img.liunianbanxia.com/usr/uploads/2013/11/1938651504.jpg</a></p>
+<p>&nbsp;</p>
+<p>我有一间暂时属于自己的小房子，从毕了业到现在为止一直是一个人租房子过着日子，广州是个偌大的钢铁城市，大部分的蚁族都租住在城中村里我也不例外。房子很小大概也就10个平方左右，即拥挤又潮湿。可是麻雀虽小五脏俱全，我的小屋子里基本的生活用品都备齐了，锅碗瓢盆样样都有，下班回家了以后可以自己煮菜做点可口的饭菜吃。没事儿的时候就看看书、听听歌、点上一柱檀香安安静静地喝喝茶。每天我都会坚持拜佛，虽然时常坚持不下去，可还是咬着牙挺着不让自己放弃。想来迄今为止能够被我坚持下去的唯一的一件事儿就是我的信仰了。</p>
+<p>&nbsp;</p>
+<p>我有一份目前来说算是稳定的工作，每天按时上班按时下班。偶尔也会加加班，累，并快乐着。和同事友好的相处，善待身边的每一个生命，安安静静的做着自己接到的各种工作任务和设计方案。每个月会有属于我工作的小小回报，虽然收入不多但是保持独立自主的生活确是已经够了。公司放假的时候我会到寺庙里去做义工，享受在那里忙碌而又充实的生活，听着那里的风声、雨声、蛙声一片，声声入耳，透彻心扉。</p>
+<p>&nbsp;</p>
+<p>我有一个爱我的他，他不算帅气，也并不高大，可他却是我心中最美的钻石。他没有钱也没有闲，可我依旧愿意不离不弃相依相伴的和他在一起。因为他的心，像水晶一样干净而又透明，因为他的心善良的柔软的可以将所有的冰雪融化。我们安安静静的过着属于自己的生活，我们常常一起拜佛、一起看书、一起工作、一起计划好要去哪里的孤儿院或者养老院干活，我们有同样的理想和目标，那就是将我们所有的爱给予除我们以外的所有众生。无论我们身在何时何地何方。</p>
+<p>&nbsp;</p>
+<p>我没有花哨的衣服，昂贵的鞋子；我没有金银首饰也没有名牌手机；我没有大大的房子，也没有稳定的属于自己的房子；我没有有钱的丈夫，也没有可以让我依赖一辈子的爸爸妈妈。</p>
+<p>&nbsp;</p>
+<p>可是，我有家。</p>
+<p>&nbsp;</p>
+<p>曾经我也渴望有个大大的房子，然后我再去把它填满各式各样我喜欢的家具，阳台上放个毛绒绒的地毯，这样我就可以边晒着太阳边看书了，客厅里放上我的小音箱，床边要有两个床头柜，还要有可爱的小台灯，我想有个大大的书房，书房里全部铺上木地板，然后我就可以坐在干干净净的地板上喝着茶看着书，晒着太阳听着歌儿。</p>
+<p>&nbsp;</p>
+<p>曾经我也渴望有个赚钱的工作，当个销售经理什么的，每天穿着高跟鞋职业装穿梭在各种商业场合，谈笑风生，吃吃喝喝，仿似电视上的事业女强人一般，不辞辛苦加班加点，然后每个月发工资的时候看着自己卡里的五位数两只眼睛笑得眯成一条线。</p>
+<p>&nbsp;</p>
+<p>曾经我也渴望有个又有钱又有闲的丈夫，开着兰博基尼带着我满世界的旅游，我可以不用工作，不用劳苦的度过我的生活，我可以像个米虫一样张一张嘴就能衣食无忧的过我下半生的生活，我可以背着LV的包包，拿着Iphon4s,穿梭在各种高档场合(liunianbanxia.com)。</p>
+<p>&nbsp;</p>
+<p>也许，那是我曾经认为的快乐。然而，幸福好像就是很简单的事儿。</p>
+<p>&nbsp;</p>
+<p>房子的大小对于我来说不重要，重要的是和什么人住在一起；工作赚钱多少对我来说不重要，重要的是我做的开不开心；背什么牌子的包包对我来说不重要，重要的是我60块钱买来的包包用了一年依旧觉得那么的好看，背起来那么舒服。用什么牌子的手机不重要，重要的是，我的手机总会接到爸爸妈妈和姐姐的短信，那是他们给予我温暖的爱和关怀，总会接到他关心的电话，我知道对于他而言我若安好，便是晴天。</p>
+<p>&nbsp;</p>
+<p>不知不觉我才发现，原来我一直拥有着，而且还拥有着这么多。很幸福，很快乐。也许，现在的我才真正的体会到了那句话的含义：幸福，不是得到的多，而是渴望的少。</p>
+<p>&nbsp;</p>
+<p>曾经，我是个平凡的人，过着平凡的生活。现在，我还是个平凡的小人物，依旧过着平凡而又简单的生活。幸福着，快乐着。</p>
+<p>&nbsp;</p>
+<p>——文/小米</p>
+<p>&nbsp;</p>
+<p>查看原文:</p>
+<p><a href="http://igo.li/BEoJYM" target="_blank" rel="external">http://igo.li/BEoJYM</a></p>
+<p>&nbsp;</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/11/07/【zz】有一种幸福，叫做平凡/" class="archive-article-date">
+  	<time datetime="2013-11-07T10:03:58.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-11-07</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Life/">Life</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Example-for-Custom-Class-Loading-in-Dalvik" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/09/09/Example-for-Custom-Class-Loading-in-Dalvik/">Example for Custom Class Loading in Dalvik</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>依照《<a href="http://android-developers.blogspot.com/2011/07/custom-class-loading-in-dalvik.html" target="_blank">Custom Class Loading in Dalvik</a>》文章中所写方法，写了一个测试project和ant build脚本，成功build出第二个dex并动态加载运行，贴出代码和脚本</p>
+<p>总共有这么几个源文件，其中lib目录下的内容是要放到第二个Dex中去的
+        <p class="article-more-link">
+          <a class="article-more-a"  href="/2013/09/09/Example-for-Custom-Class-Loading-in-Dalvik/#more">more >></a>
+        </p>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/09/09/Example-for-Custom-Class-Loading-in-Dalvik/" class="archive-article-date">
+  	<time datetime="2013-09-09T07:17:55.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-09-09</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-TP-Link-TL-WR703n将串口引出到Micro-USB供电口" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/09/07/TP-Link-TL-WR703n将串口引出到Micro-USB供电口/">TP-Link TL-WR703n将串口引出到Micro USB供电口</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在《<a href="http://blog.pickbox.me/2013/08/23/tplink_tl-wr703n%e5%88%b0%e6%89%8b%ef%bc%8c%e6%8b%86%e6%9c%ba%e5%bc%95%e5%87%barx%e3%80%81tx%e3%80%815v%e3%80%81gnd%e4%bf%a1%e5%8f%b7/" target="_blank">tplink_TL-WR703N到手，拆机引出RX、TX、+5V、GND信号</a>》中已经成功引出了wr703n路由器的Rx、Tx，但使用起来还是不方便，网上有给wr703n钻一个耳机孔将Rx、Tx引到耳机头的，也有将Rx、Tx引出到供电的micro USB口的，如下图所示，虽然有挑战（飞线不好焊啊），但便利性确实很吸引人，于是决定尝试一把。</p>
+<p><a href="http://img.pickbox.me/wp-content/uploads/引出RxTx至micro-USB口2.jpg" target="_blank" rel="external"><img class="alignnone size-full wp-image-757" alt="引出RxTx至micro USB口" src="http://img.pickbox.me/wp-content/uploads/引出RxTx至micro-USB口2.jpg" width="960" height="675"></a></p>
+<p>昨天在taobao上订的CP2102串口转TTL到货，体积很小，适合放进wr703n中，可惜使用的是mini usb母座（也是买来才发现的），所幸手头上找出了几根mini usb线。个人比较偏向于micro usb，毕竟使用更广泛，手机数据线可以直接使用</p>
+<p><a href="http://img.pickbox.me/wp-content/uploads/CP2102串口转TTL_正面.jpg" target="_blank" rel="external"><img class="alignnone size-large wp-image-758" alt="CP2102串口转TTL_正面" src="http://img.pickbox.me/wp-content/uploads/CP2102串口转TTL_正面-1024x740.jpg" width="1000" height="722"></a> <a href="http://img.pickbox.me/wp-content/uploads/CP2102串口转TTL_背面.jpg" target="_blank" rel="external"><img class="alignnone size-large wp-image-759" alt="CP2102串口转TTL_背面" src="http://img.pickbox.me/wp-content/uploads/CP2102串口转TTL_背面-1024x701.jpg" width="1000" height="684"></a></p>
+<p>唯一让我担心的是CP2102芯片引脚有两处的焊锡似乎没有焊好，连接在一起了：</p>
+<p><a href="http://img.pickbox.me/wp-content/uploads/CP2102串口转TTL_CP2102芯片焊接引脚相连2.jpg" target="_blank" rel="external"><img class="alignnone size-large wp-image-760" alt="CP2102串口转TTL_CP2102芯片焊接引脚相连2" src="http://img.pickbox.me/wp-content/uploads/CP2102串口转TTL_CP2102芯片焊接引脚相连2-1013x1024.jpg" width="1000" height="1010"></a> <a href="http://img.pickbox.me/wp-content/uploads/CP2102串口转TTL_CP2102芯片焊接引脚相连.jpg" target="_blank" rel="external"><img class="alignnone size-large wp-image-761" alt="CP2102串口转TTL_CP2102芯片焊接引脚相连" src="http://img.pickbox.me/wp-content/uploads/CP2102串口转TTL_CP2102芯片焊接引脚相连-1024x957.jpg" width="1000" height="934"></a></p>
+<p>查过CP2102芯片手册，第一张图左下方的引脚为22，NC，未使用，可以忽略；第二张图很明显两个引脚连在一起，分别为11、12引脚，SUSPEND，跟挂起状态有关，不知道有没有影响。</p>
+<p><a href="http://img.pickbox.me/wp-content/uploads/CP2102芯片引脚.jpg" target="_blank" rel="external"><img class="alignnone size-full wp-image-762" alt="CP2102芯片引脚" src="http://img.pickbox.me/wp-content/uploads/CP2102芯片引脚.jpg" width="536" height="512"></a></p>
+<p>货到手了下面就剩连线了，由于Rx、Tx、+5V、GND已经引出了，所以只需给CP2102板焊上排针连线即可，头疼的是要把CP2102的mini usb母座的D-/D+ 连接到wr703n的micro usb母座的D-/D+</p>
+<p>拆了一根坏掉的mini usb线，把usb公头剪下来，打算直接插到CP2102板的mini usb母座进行连接，既牢固又省事。弄了半天把两根导线焊到了mini usb公头尾部的D-/D+，接下来又将导线的另一头焊到wr703n micro usb母座的D-/D+，终于都连上了，准备通电测试，这时，突然发现mini usb公头插不进CP2102板子mini usb母座，泪奔啊！可能焊接时把里面的朔胶熔变形了，只好依依不舍的将mini usb公头拆掉，所幸wr703n micro usb母座的D-/D+已经焊好</p>
+<p>由于用的是4cm短导线，另一头又已经连上了体积相对较大的wr703n，很难焊到CP2102板，没办法，用另外一对导线焊接连到CP2102板的mini usb母座D-/D+（体积较大，焊起来比较顺利），然后用焊锡将导线互连，最后用塑料薄膜将导线焊接连接处包了一圈（没有热缩管。。。），中途wr703n那头的线掉了，来回焊了好几次，还虚焊过一次</p>
+<p>经过一晚上的不懈尝试，终于焊接完毕，祈祷一切正常。先用电池5V电源通电查看，没有冒烟，运行正常，再连接上笔记本，安装好CP2102驱动，打开串口查看软件，正常输出启动log信息！松了一口气唉，贴一张焊好后的图吧</p>
+<p><a href="http://img.pickbox.me/wp-content/uploads/焊接USB的D-D+信号线.jpg" target="_blank" rel="external"><img class="alignnone size-large wp-image-763" alt="焊接USB的D-D+信号线" src="http://img.pickbox.me/wp-content/uploads/焊接USB的D-D+信号线-577x1024.jpg" width="577" height="1024"></a></p>
+<p><a href="http://img.pickbox.me/wp-content/uploads/焊接wr703n的micro-usb-D-D+信号线.jpg" target="_blank" rel="external"><img class="alignnone size-large wp-image-764" alt="焊接wr703n的micro usb D-D+信号线" src="http://img.pickbox.me/wp-content/uploads/焊接wr703n的micro-usb-D-D+信号线-1024x577.jpg" width="1000" height="563"></a> <a href="http://img.pickbox.me/wp-content/uploads/焊接CP2102板的mini-usb-D-D+信号线.jpg" target="_blank" rel="external"><img class="alignnone size-large wp-image-765" alt="焊接CP2102板的mini usb D-D+信号线" src="http://img.pickbox.me/wp-content/uploads/焊接CP2102板的mini-usb-D-D+信号线-1024x577.jpg" width="1000" height="563"></a></p>
+<p>装进盒子里，为了防止wr703n的micro usb焊线掉落，点了一坨松香固定导线（没有熔胶）。盒子里面放一块硬纸板作隔离，最后盖上盒盖，大功告成！</p>
+<p><a href="http://img.pickbox.me/wp-content/uploads/焊接USB的D-D+信号线_装进盒子.jpg" target="_blank" rel="external"><img class="alignnone size-large wp-image-766" alt="焊接USB的D-D+信号线_装进盒子" src="http://img.pickbox.me/wp-content/uploads/焊接USB的D-D+信号线_装进盒子-577x1024.jpg" width="577" height="1024"></a></p>
+<p><a href="http://img.pickbox.me/wp-content/uploads/引出串口线的wr703n.jpg" target="_blank" rel="external"><img class="alignnone size-large wp-image-769" alt="引出串口线的wr703n" src="http://img.pickbox.me/wp-content/uploads/引出串口线的wr703n-577x1024.jpg" width="577" height="1024"></a></p>
+<p>又回到了路由刚买来时候的摸样，外壳稍微有些痕迹，但是内部已经改造过</p>
+<p>&nbsp;</p>
+<hr>
+
+<p>2013-09-08更新：</p>
+<p>虽然串口信息能正常输出，但是系统不稳定。使用时间稍长一点（10分钟）时，CP2102芯片发烫，路由不稳定，经常重启，怀疑跟CP2102的11、12引脚（suspend）短路有关，重新焊了一下这两个引脚，mini USB母座上的线也补焊了一下，通电启动路由，还是发烫。无奈将CP2102板子拆下来，插进笔记本连上arduino，过一段时间还是有点烫，看来是这块CP2102板子的问题了，因为换另外一块CP2102板子连接电脑时并没有发烫</p>
+<p>找到原因了，换上好的CP2102板，重新焊接D-/D+，接上wr703n路由，通电启动，这次一切正常了，wr703n可以长时间稳定工作，ssh过去也不会掉线。（ps：工作时CP2102微热，在笔记本连接测试中是完全不热，还是有点隐患啊）</p>
+<p>换下来的这块瑕疵CP2102板，虽然有点烫，但是串口数据传输都正常，以后就拿来短时间使用吧</p>
+<p>&nbsp;</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/09/07/TP-Link-TL-WR703n将串口引出到Micro-USB供电口/" class="archive-article-date">
+  	<time datetime="2013-09-07T08:32:45.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-09-07</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-【zz】Under-the-Hood-Dalvik-patch-for-Facebook-for-Android" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/09/05/【zz】Under-the-Hood-Dalvik-patch-for-Facebook-for-Android/">【zz】Under the Hood: Dalvik patch for Facebook for Android</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Facebook is one of the most feature-rich apps available for Android. With features likepush notifications, news feed, and an embedded version of Facebook Messenger (a complete app in its own right) all working together in real-time, the complexity and volume of code creates technical challenges that few, if any, other Android developers face–especially on older versions of the platform. (Our latest apps support Android versions as old as Froyo–Android version 2.2–which is almost three years old.)</p>
+<p>One of these challenges is related to the way Android’s runtime engine, the Dalvik Virtual Machine, handles Java methods. Late last year we completed a  major rebuildof our Android app (<a href="https://www.facebook.com/notes/facebook-engineering/under-the-hood-rebuilding-facebook-for-android/10151189598933920" target="_blank" rel="external">https://www.facebook.com/notes/facebook-engineering/under-the-hood-rebuilding-facebook-for-android/10151189598933920</a>), which involved moving a lot of our code from JavaScript to Java, as well as using newer abstractions that encouraged large numbers of small methods (generally considered a good programming practice). Unfortunately, this caused the number of Java methods in our app to drastically increase.</p>
+<p>As we were testing, the problem first showed up as described in this bug(<a href="http://code.google.com/p/android/issues/detail?id=22586" target="_blank" rel="nofollow">http://code.google.com/p/android/issues/detail?id=22586</a>) , which caused our app installation to fail on older Android phones. During standard installation, a program called “dexopt” runs to prepare your app for the specific phone it’s being installed on. Dexopt uses a fixed-size buffer (called the “LinearAlloc” buffer) to store information about all of the methods in your app. Recent versions of Android use an 8 or 16 MB buffer, but Froyo and Gingerbread (versions 2.2 and 2.3) only have 5 MB. Because older versions of Android have a relatively small buffer, our large number of methods was exceeding the buffer size and causing dexopt to crash.</p>
+<p>After a bit of panic, we realized that we could work around this problem by breaking our app into multiple dex files, using the technique described here (<a href="http://android-developers.blogspot.com/2011/07/custom-class-loading-in-dalvik.html" target="_blank" rel="nofollow">http://android-developers.blogspot.com/2011/07/custom-class-loading-in-dalvik.html</a>), which focuses on using secondary dex files for extension modules, not core parts of the app.</p>
+<p>However, there was no way we could break our app up this way–too many of our classes are accessed directly by the Android framework. Instead, we needed to inject our secondary dex files directly into the system class loader. This isn’t normally possible, but we examined the Android source code and used Java reflection to directly modify some of its internal structures. We were certainly glad and grateful that Android is open source—otherwise, this change wouldn’t have been possible.</p>
+<p>But as we came closer to launching our redesigned app, we ran into another problem. The LinearAlloc buffer doesn’t just exist in dexopt–it exists within every running Android program. While dexopt uses LinearAlloc to to store information about all of the methods in your dex file, the running app only needs it for methods in classes that you are actually using. Unfortunately, we were now using too many methods for Android versions up to Gingerbread, and our app was crashing shortly after startup.</p>
+<p>There was no way to work around this with dex files since all of our classes were being loaded into one process, and we weren’t able to find any information about anyone who had faced this problem before (since it is only possible once you are already using multiple dex files, which is a difficult technique in itself).  We were on our own.</p>
+<p>We tried various techniques to reclaim space, including aggressive use of ProGuard and source code transformations to reduce our method count. We even built a profiler for LinearAlloc usage to figure out what the biggest consumers were. Nothing we tried had a significant impact, and we still needed to write many more methods to support all of the rich content types in our new and improved news feed and timeline.</p>
+<p>As it stood, the release of the much-anticipated Facebook for Android 2.0 was at risk. It seemed like we would have to choose between cutting significant features from the app or only shipping our new version to the newest Android phones (ICS and up). Neither seemed acceptable. We needed a better solution.</p>
+<p>Once again, we looked to the Android source code. Looking at the definition of the LinearAlloc buffer (<a href="https://github.com/android/platform_dalvik/blob/android-2.3.7_r1/vm/LinearAlloc.h#L33" target="_blank" rel="nofollow">https://github.com/android/platform_dalvik/blob/android-2.3.7_r1/vm/LinearAlloc.h#L33</a>), we realized that if we could only increase that buffer from 5 MB to 8 MB, we would be safe!</p>
+<p>That’s when we had the idea of using a JNI extension to replace the existing buffer with a larger one. At first, this idea seemed completely insane. Modifying the internals of the Java class loader is one thing, but modifying the internals of the Dalvik VM while it was running our code is incredibly dangerous. But as we pored over the code, analyzing all the uses of LinearAlloc, we began to realize that it should be safe as long as we did it at the start of our program. All we had to do was find the LinearAllocHdr object, lock it, and replace the buffer.</p>
+<p>Finding it turned out to be the hard part. Here’s where it’s stored(<a href="https://github.com/android/platform_dalvik/blob/android-2.3.7_r1/vm/Globals.h#L519" target="_blank" rel="nofollow">https://github.com/android/platform_dalvik/blob/android-2.3.7_r1/vm/Globals.h#L519</a>), buried within the DvmGlobals object, over 700 bytes from the start. Searching the entire object would be risky at best, but fortunately, we had an anchor point: the vmList object just a few bytes before. This contained a value that we could compare to the JavaVM pointer available through JNI.</p>
+<p>The plan was finally coming together: find the proper value for vmList, scan the DvmGlobals object to find a match, jump a few more bytes to the LinearAlloc header, and replace the buffer. So we built the JNI extension, embedded it in our app, started it up, and…we saw the app running on a Gingerbread phone for the first time in weeks.The plan had worked.</p>
+<p>But for some reason it failed on the Samsung Galaxy S II…<br>The most popular Gingerbread phone…<br>Of all time…<br>It seems that Samsung made a small change to Android that was confusing our code. Other manufacturers might have done the same, so we realized we needed to make our code more robust.</p>
+<p>Manual inspection of the GSII revealed that the LinearAlloc buffer was only 4 bytes from where we expected it, so we adjusted our code to look a few bytes to each side if it failed to find the LinearAlloc buffer in the expected location. This required us to parse our process’s memory map to ensure we didn’t make any invalid memory references (which would crash the app immediately) and also build some strong heuristics to make sure we would recognize the LinearAlloc buffer when we found it. As a last resort, we found a (mostly) safe way to scan the entire process heap to search for the buffer.</p>
+<p>Now we had a version of the code that worked on a few popular phones–but we needed more than just a few. So we bundled our code up into a test app that would run the same procedure we were using for the Facebook app, then just display a large green or red box, indicating success or failure.</p>
+<p>We used manual testing, DeviceAnywhere, and a test lab that Google let us borrow to run our test app on 70 different phone models, and fortunately, it worked on every single one!</p>
+<p>We released this code with Facebook for Android 2.0 in December. It’s now running on hundreds of different phone models, and we have yet to find one where it doesn’t work. The great speed improvements in that release would not have been possible without this crazy hack. And needless to say, without Android’s open platform, we wouldn’t have had the opportunity to ship our best version of the app. There’s a lot of opportunity for building on Android, and we’re excited to keep bringing the Facebook experience to more people and devices.</p>
+<p>Refer “<a href="https://www.facebook.com/notes/facebook-engineering/under-the-hood-dalvik-patch-for-facebook-for-android/10151345597798920" target="_blank">Under the Hood: Dalvik patch for Facebook for Android</a>”</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/09/05/【zz】Under-the-Hood-Dalvik-patch-for-Facebook-for-Android/" class="archive-article-date">
+  	<time datetime="2013-09-05T11:50:27.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-09-05</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-TP-Link-TL-WR703n增加一个GPIO控制按钮" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/09/05/TP-Link-TL-WR703n增加一个GPIO控制按钮/">TP-Link TL-WR703n增加一个GPIO控制按钮</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://forum.openwrt.org/viewtopic.php?id=39811" target="_blank" rel="external">https://forum.openwrt.org/viewtopic.php?id=39811</a></p>
+<p>修改target/linux/ar71xx/files/arch/mips/ath79/mach-tl-wr703n.c</p>
+<pre>#define TL_WR703N_GPIO_LED_SYSTEM    27
+#define SENSOR_BTN_29            29
+
+static struct gpio_keys_button tl_wr703n_gpio_keys[] __initdata = {
+    {
+        .desc        = "reset",
+        .type        = EV_KEY,
+        .code        = KEY_RESTART,
+        .debounce_interval = TL_WR703N_KEYS_DEBOUNCE_INTERVAL,
+        .gpio        = TL_WR703N_GPIO_BTN_RESET,
+        .active_low    = 0,
+    },{
+        .desc        = "sensor",
+        .type        = EV_KEY,
+        .code        = BTN_1,
+        .debounce_interval = TL_WR703N_KEYS_DEBOUNCE_INTERVAL,
+        .gpio        = SENSOR_BTN_29,
+        .active_low    = 1,
+    }
+};</pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/09/05/TP-Link-TL-WR703n增加一个GPIO控制按钮/" class="archive-article-date">
+  	<time datetime="2013-09-05T06:09:30.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-09-05</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-TP-Link-TL-WR703n-Reset按钮功能扩展——wifi模式切换" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/09/05/TP-Link-TL-WR703n-Reset按钮功能扩展——wifi模式切换/">TP-Link TL-WR703n Reset按钮功能扩展——wifi模式切换</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>首先参考openwrt官网文档：《<a href="http://wiki.openwrt.org/doc/howto/hardware.button" target="_blank">Attach functions to a push button</a>》<a href="http://wiki.openwrt.org/doc/howto/hardware.button" target="_blank" rel="external"><br></a></p>
+<p>缘由：我的openwrt无线配置成客户端模式，在家自动连接家里的路由（配置一），在公司自动连接公司路由（配置二），但是如果在配置文件/etc/config/wireless同时指定这两种客户端模式配置，openwrt不会在其中一个配置连接失败后自动尝试另外一个配置连接。也就是说两种客户端模式配置，实际上只有其中一个有效（貌似谁写在前面谁生效）。这样，每次更换环境，都要先用一根网线连接到wr703n的LAN口，配置好笔记本的LAN网卡IP地址为192.168.1.2，以root ssh登陆进192.168.1.1，编辑wireless配置文件，禁用其中一种客户端模式（<code>option disabled ‘1’</code>），再重启网络才能让wr703n连接到主路由。整个过程太繁琐了。</p>
+<p>另一种方式可以省去网线连接LAN口，就是让wr703n每次都以AP模式启动，笔记本电脑再通过无线连接wr703n，连上之后就可以ssh登陆进去，然后改配置并重启网络，过程也不简洁。</p>
+<p>先贴出目前openwrt的网络配置：</p>
+<p><pre># cat /etc/config/wireless</pre></p>
+<p>config wifi-device ‘radio0’<br>        option type ‘mac80211’<br>        option channel ‘11’<br>        option macaddr ‘1c:fa:68:f9:f3:4a’<br>        option hwmode ‘11ng’<br>        option htmode ‘HT20’<br>        list ht_capab ‘SHORT-GI-20’<br>        list ht_capab ‘SHORT-GI-40’<br>        list ht_capab ‘RX-STBC1’<br>        list ht_capab ‘DSSS_CCK-40’</p>
+<p>config wifi-iface ‘ap’<br>        option device ‘radio0’<br>        option network ‘wlan’<br>        option mode ‘ap’<br>        option ssid ‘OpenWrt’<br>        option encryption ‘none’<br>        option disabled ‘0’</p>
+<p>config wifi-iface ‘company’<br>        option network ‘wwan’<br>        option ssid ‘company_ssid’<br>        option encryption ‘psk2’<br>        option device ‘radio0’<br>        option mode ‘sta’<br>        option bssid ‘00:13:10:41:69:EE’<br>        option key ‘xxxxxxxx’<br>        option disabled ‘0’</p>
+<p>config wifi-iface ‘home’<br>        option network ‘wwan’<br>        option ssid ‘home_ssid’<br>        option encryption ‘psk2’<br>        option device ‘radio0’<br>        option mode ‘sta’<br>        option bssid ‘00:21:29:74:33:EB’<br>        option key ‘xxxxxxxx’<br>        option wds ‘1’<br>        option disabled ‘1’</p>
+<h1 id="cat-etc-config-network"><a href="#cat-etc-config-network" class="headerlink" title="cat /etc/config/network"></a>cat /etc/config/network</h1><p>config interface ‘loopback’<br>        option ifname ‘lo’<br>        option proto ‘static’<br>        option ipaddr ‘127.0.0.1’<br>        option netmask ‘255.0.0.0’</p>
+<p>config interface ‘lan’<br>        option ifname ‘eth0’<br>        option type ‘bridge’<br>        option proto ‘static’<br>        option ipaddr ‘192.168.1.1’<br>        option netmask ‘255.255.255.0’</p>
+<p>config interface ‘wwan’<br>        option proto ‘dhcp’</p>
+<p>config interface ‘wlan’<br>        option proto ‘static’<br>        option ipaddr ‘192.168.2.1’<br>        option netmask ‘255.255.255.0’</p>
+<p>/etc/config/dhcp加上：<br>config dhcp lan<br>        option interface        lan<br>        option ignore   1</p>
+<p>config dhcp wan<br>        option interface        wan<br>        option ignore   1</p>
+<p>config dhcp wlan<br>        option start ‘100’<br>        option leasetime ‘12h’<br>        option limit ‘150’<br>        option interface ‘wlan’</p>
+<p>/etc/config/firewall加上：<br>config zone<br>        option name             lan<br>        option network          ‘lan wlan’<br>        option input            ACCEPT<br>        option output           ACCEPT<br>        option forward          REJECT</p>
+<p>config zone<br>        option name             wan<br>        option network          ‘wan wwan’<br>        option input            ACCEPT<br>        option output           ACCEPT<br>        option forward          ACCEPT<br>        option masq             1<br>        option mtu_fix          1</p>
+<p>config forwarding<br>        option src              lan<br>        option dest             wan<br>从网上看到reset button复用的例子后，决定用reset按钮实现切换wifi。初步打算是这样的：</p>
+<p><ul><br>    <li>按一下reset，切换客户端模式的配置（切换连接家里的路由还是连接公司的路由）；</li><br>    <li>按住reset 2~5秒，打开/关闭AP模式切换；</li><br>    <li>按住reset 6秒以上，禁用所有客户端模式，重置为AP模式。</li><br></ul></p>
+<p><pre># cat /etc/hotplug2.rules<br>$include /etc/hotplug2-common.rules</pre></p>
+<p>SUBSYSTEM ~~ (^net$|^input$|^button$|^usb$|^ieee1394$|^block$|^atm$|^zaptel$|^tty$) {<br>exec /sbin/hotplug-call %SUBSYSTEM%<br>}</p>
+<p>DEVICENAME == watchdog {<br>exec /sbin/watchdog -t 5 /dev/watchdog<br>next-event<br>}<br>可以看到hotplug已经监听button了，我们只用创建button对应的响应脚本就行了，在<code>/etc/hotplug.d/button</code>目录下创建的脚本会被自动执行</p>
+<p><pre># mkdir -p /etc/hotplug.d/button</pre></p>
+<h1 id="cd-etc-hotplug-d-button"><a href="#cd-etc-hotplug-d-button" class="headerlink" title="cd /etc/hotplug.d/button"></a>cd /etc/hotplug.d/button</h1><h1 id="vi-buttons"><a href="#vi-buttons" class="headerlink" title="vi buttons"></a>vi buttons</h1><p><pre>#!/bin/sh<br>logger $BUTTON $ACTION<br>logger “”</pre><br>保存退出</p>
+<p><pre># logread -f<br>Sep 4 13:53:34 OpenWrt user.notice root: reset pressed<br>Sep 4 13:53:34 OpenWrt user.notice root:<br>Sep 4 13:53:34 OpenWrt user.notice root: reset released<br>Sep 4 13:53:34 OpenWrt user.notice root:</pre><br>这时按一下reset，可以看到上面的log输出<br>&nbsp;</p>
+<p></p><h4>通过system进行配置</h4><br>首先创建如下脚本：<p></p>
+<p><pre># cat /etc/hotplug.d/button/00-button</pre></p>
+<p><pre>#!/bin/sh<br>. /lib/functions.sh<br>do_button () {<br>        local button<br>        local action<br>        local handler<br>        local min<br>        local max</pre></p>
+<pre><code>config_get button $1 button
+config_get action $1 action
+config_get handler $1 handler
+config_get min $1 min
+config_get max $1 max
+
+[ &quot;$ACTION&quot; = &quot;$action&quot; -a &quot;$BUTTON&quot; = &quot;$button&quot; -a -n &quot;$handler&quot; ] &amp;amp;&amp;amp; {
+        [ -z &quot;$min&quot; -o -z &quot;$max&quot; ] &amp;amp;&amp;amp; eval $handler
+        [ -n &quot;$min&quot; -a -n &quot;$max&quot; ] &amp;amp;&amp;amp; {
+                [ $min -le $SEEN -a $max -ge $SEEN ] &amp;amp;&amp;amp; eval $handler
+        }
+}
+</code></pre><p>}</p>
+<p>config_load system<br>config_foreach do_button button<br>该脚本会读取system配置，对所有的button配置部分调用相应的handler<br>system配置如下：</p>
+<p><pre># cat /etc/config/system<br>config system<br>        option hostname OpenWrt<br>        option timezone UTC</pre></p>
+<p>config timeserver ntp<br>        list server     0.openwrt.pool.ntp.org<br>        list server     1.openwrt.pool.ntp.org<br>        list server     2.openwrt.pool.ntp.org<br>        list server     3.openwrt.pool.ntp.org<br>        option enable_server 0</p>
+<p>config button<br>        option button   reset<br>        option action   released<br>        option handler  “/opt/bin/toggle_wifi_client”<br>        option min      0<br>        option max      1</p>
+<p>config button<br>        option button   reset<br>        option action   released<br>        option handler  “/opt/bin/toggle_ap”<br>        option min      2<br>        option max      5</p>
+<p>config button<br>        option button   reset<br>        option action   released<br>        option handler  “/opt/bin/reset_to_ap”<br>        option min      6<br>        option max      20<br>可以看到， 按下reset按钮会调用toggle_wifi_client，按住reset 2~5秒调用toggle_ap，按住6秒以上调用reset_to_ap</p>
+<p><pre># cat toggle_wifi_client</pre></p>
+<p>#!/bin/sh<br>logger toggle_wifi_client “&lt;===================”</p>
+<p>st=$(uci -q get wireless.home.disabled)<br>if [ “$st” == “1” ]; then<br>    uci set wireless.company.disabled=1<br>    uci set wireless.home.disabled=0<br>else<br>    uci set wireless.home.disabled=1<br>    uci set wireless.company.disabled=0<br>fi<br>/etc/init.d/network restart</p>
+<p><pre># cat toggle_ap</pre></p>
+<p>#!/bin/sh<br>logger toggle_ap “&lt;===================”</p>
+<p>st=$(uci -q get wireless.ap.disabled)<br>if [ “$st” == “1” ]; then<br>    uci set wireless.ap.disabled=0<br>else<br>    uci set wireless.ap.disabled=1<br>fi<br>/etc/init.d/network restart<br>/etc/init.d/network restart</p>
+<p><pre># cat reset_to_ap</pre></p>
+<p>#!/bin/sh<br>logger reset_to_ap “&lt;===================”</p>
+<p>uci set wireless.ap.disabled=0<br>uci set wireless.home.disabled=1<br>uci set wireless.company.disabled=1<br>/etc/init.d/network restart<br>以上配置+脚本全部准备好之后，wifi切换功能就ready了</p>
+<p>看看系统配置，已经生效：</p>
+<p><pre># uci show system<br>system.@system[0]=system<br>system.@system[0].hostname=OpenWrt<br>system.@system[0].timezone=UTC<br>system.ntp=timeserver<br>system.ntp.server=0.openwrt.pool.ntp.org 1.openwrt.pool.ntp.org 2.openwrt.pool.ntp.org 3.openwrt.pool.ntp.org<br>system.ntp.enable_server=0<br>system.@button[0]=button<br>system.@button[0].button=reset<br>system.@button[0].action=released<br>system.@button[0].handler=/opt/bin/toggle_wifi_client<br>system.@button[0].min=0<br>system.@button[0].max=1<br>system.@button[1]=button<br>system.@button[1].button=reset<br>system.@button[1].action=released<br>system.@button[1].handler=/opt/bin/toggle_ap<br>system.@button[1].min=2<br>system.@button[1].max=5<br>system.@button[2]=button<br>system.@button[2].button=reset<br>system.@button[2].action=released<br>system.@button[2].handler=/opt/bin/reset_to_ap<br>system.@button[2].min=6<br>system.@button[2].max=20</pre><br>看看wireless配置：</p>
+<p><pre># uci show wireless<br>wireless.radio0=wifi-device<br>wireless.radio0.type=mac80211<br>wireless.radio0.channel=11<br>wireless.radio0.macaddr=1c:fa:68:f9:f3:4a<br>wireless.radio0.hwmode=11ng<br>wireless.radio0.htmode=HT20<br>wireless.radio0.ht_capab=SHORT-GI-20 SHORT-GI-40 RX-STBC1 DSSS_CCK-40<br>wireless.ap=wifi-iface<br>wireless.ap.device=radio0<br>wireless.ap.network=wlan<br>wireless.ap.mode=ap<br>wireless.ap.ssid=OpenWrt<br>wireless.ap.encryption=none<br>wireless.ap.disabled=0<br>wireless.company=wifi-iface<br>wireless.company.network=wwan<br>wireless.company.ssid=company_ssid<br>wireless.company.encryption=psk2<br>wireless.company.device=radio0<br>wireless.company.mode=sta<br>wireless.company.bssid=00:13:10:41:69:EE<br>wireless.company.key=xxxxxxxx<br>wireless.company.disabled=0<br>wireless.home=wifi-iface<br>wireless.home.network=wwan<br>wireless.home.ssid=home_ssid<br>wireless.home.encryption=psk2<br>wireless.home.device=radio0<br>wireless.home.mode=sta<br>wireless.home.bssid=00:21:29:74:33:EB<br>wireless.home.key=xxxxxxxx<br>wireless.home.wds=1<br>wireless.home.disabled=1</pre><br>可以看到ap模式开启，company配置开启，home配置关闭，与/etc/config/wireless中的配置一致</p>
+<p>长按reset 2秒后松开，可以看到如下log：</p>
+<p><pre>Sep  4 13:53:34 OpenWrt user.notice root: reset pressed<br>Sep  4 13:53:34 OpenWrt user.notice root:<br>Sep  4 13:53:37 OpenWrt user.notice root: toggle_ap &lt;===================<br>Sep  4 13:53:37 OpenWrt daemon.notice netifd: Interface ‘lan’ is now down<br>Sep  4 13:53:37 OpenWrt kern.info kernel: [  186.810000] br-lan: port 1(eth0) entered disabled state<br>Sep  4 13:53:37 OpenWrt kern.info kernel: [  186.810000] device eth0 left promiscuous mode<br>Sep  4 13:53:37 OpenWrt kern.info kernel: [  186.810000] br-lan: port 1(eth0) entered disabled state<br>Sep  4 13:53:37 OpenWrt kern.info kernel: [  186.830000] eth0: link down<br>Sep  4 13:53:37 OpenWrt daemon.notice netifd: Interface ‘loopback’ is now down<br>Sep  4 13:53:37 OpenWrt daemon.notice netifd: Interface ‘wlan’ is now down<br>Sep  4 13:53:37 OpenWrt daemon.notice netifd: wwan (1467): Sending select for 10.228.208.196…<br>Sep  4 13:53:37 OpenWrt daemon.notice netifd: wwan (1467): Received SIGTERM<br>Sep  4 13:53:37 OpenWrt daemon.notice netifd: Interface ‘wwan’ is now down<br>Sep  4 13:53:38 OpenWrt user.info firewall: removing lan (br-lan) from zone lan<br>Sep  4 13:53:39 OpenWrt kern.info kernel: [  188.950000] device eth0 entered promiscuous mode<br>Sep  4 13:53:39 OpenWrt daemon.notice netifd: Interface ‘lan’ is now up<br>Sep  4 13:53:39 OpenWrt daemon.notice netifd: Interface ‘loopback’ is now up<br>Sep  4 13:53:40 OpenWrt daemon.warn dnsmasq-dhcp[1893]: DHCP packet received on wlan0-1 which has no address<br>Sep  4 13:53:40 OpenWrt kern.info kernel: [  189.700000] eth0: link up (100Mbps/Full duplex)<br>Sep  4 13:53:40 OpenWrt kern.info kernel: [  189.700000] br-lan: port 1(eth0) entered forwarding state<br>Sep  4 13:53:40 OpenWrt kern.info kernel: [  189.710000] br-lan: port 1(eth0) entered forwarding state<br>Sep  4 13:53:40 OpenWrt user.notice ifup: Enabling Router Solicitations on lan (br-lan)<br>Sep  4 13:53:41 OpenWrt user.info firewall: adding lan (br-lan) to zone lan<br>Sep  4 13:53:42 OpenWrt kern.info kernel: [  191.710000] br-lan: port 1(eth0) entered forwarding state<br>Sep  4 13:53:42 OpenWrt user.notice ifup: Enabling Router Solicitations on loopback (lo)<br>Sep  4 13:53:44 OpenWrt kern.info kernel: [  193.400000] wlan0-1: deauthenticating from 00:13:10:41:69:ee by local choice (reason=3)<br>Sep  4 13:53:46 OpenWrt daemon.notice netifd: Interface ‘lan’ is now down<br>Sep  4 13:53:46 OpenWrt kern.info kernel: [  195.710000] br-lan: port 1(eth0) entered disabled state<br>Sep  4 13:53:46 OpenWrt kern.info kernel: [  195.740000] wlan0: authenticate with 00:13:10:41:69:ee<br>Sep  4 13:53:46 OpenWrt kern.info kernel: [  195.750000] wlan0: send auth to 00:13:10:41:69:ee (try 1/3)<br>Sep  4 13:53:46 OpenWrt kern.info kernel: [  195.750000] device eth0 left promiscuous mode<br>Sep  4 13:53:46 OpenWrt kern.info kernel: [  195.760000] br-lan: port 1(eth0) entered disabled state<br>Sep  4 13:53:46 OpenWrt kern.info kernel: [  195.760000] wlan0: authenticated<br>Sep  4 13:53:46 OpenWrt kern.info kernel: [  195.780000] eth0: link down<br>Sep  4 13:53:46 OpenWrt kern.info kernel: [  195.790000] wlan0: associate with 00:13:10:41:69:ee (try 1/3)<br>Sep  4 13:53:46 OpenWrt kern.info kernel: [  195.800000] wlan0: RX AssocResp from 00:13:10:41:69:ee (capab=0x411 status=0 aid=9)<br>Sep  4 13:53:46 OpenWrt kern.info kernel: [  195.800000] wlan0: associated<br>Sep  4 13:53:46 OpenWrt daemon.notice netifd: Interface ‘loopback’ is now down<br>Sep  4 13:53:46 OpenWrt daemon.notice netifd: Interface ‘wwan’ is now down<br>Sep  4 13:53:47 OpenWrt user.info firewall: removing lan (br-lan) from zone lan<br>Sep  4 13:53:48 OpenWrt kern.info kernel: [  197.950000] device eth0 entered promiscuous mode<br>Sep  4 13:53:48 OpenWrt daemon.notice netifd: Interface ‘lan’ is now up<br>Sep  4 13:53:48 OpenWrt daemon.notice netifd: Interface ‘loopback’ is now up<br>Sep  4 13:53:49 OpenWrt user.notice ifup: Enabling Router Solicitations on lan (br-lan)<br>Sep  4 13:53:49 OpenWrt kern.info kernel: [  198.700000] eth0: link up (100Mbps/Full duplex)<br>Sep  4 13:53:49 OpenWrt kern.info kernel: [  198.700000] br-lan: port 1(eth0) entered forwarding state<br>Sep  4 13:53:49 OpenWrt kern.info kernel: [  198.710000] br-lan: port 1(eth0) entered forwarding state<br>Sep  4 13:53:50 OpenWrt user.info firewall: adding lan (br-lan) to zone lan<br>Sep  4 13:53:51 OpenWrt kern.info kernel: [  200.710000] br-lan: port 1(eth0) entered forwarding state<br>Sep  4 13:53:51 OpenWrt user.notice ifup: Enabling Router Solicitations on loopback (lo)<br>Sep  4 13:53:53 OpenWrt kern.info kernel: [  202.350000] wlan0: deauthenticating from 00:13:10:41:69:ee by local choice (reason=3)<br>Sep  4 13:53:55 OpenWrt user.notice root: reset released<br>Sep  4 13:53:55 OpenWrt user.notice root:<br>Sep  4 13:53:55 OpenWrt kern.info kernel: [  204.660000] wlan0: authenticate with 00:13:10:41:69:ee<br>Sep  4 13:53:55 OpenWrt kern.info kernel: [  204.670000] wlan0: send auth to 00:13:10:41:69:ee (try 1/3)<br>Sep  4 13:53:55 OpenWrt daemon.notice netifd: wwan (3065): udhcpc (v1.19.4) started<br>Sep  4 13:53:55 OpenWrt daemon.notice netifd: wwan (3065): Sending discover…<br>Sep  4 13:53:55 OpenWrt kern.info kernel: [  204.880000] wlan0: send auth to 00:13:10:41:69:ee (try 2/3)<br>Sep  4 13:53:55 OpenWrt kern.info kernel: [  204.880000] wlan0: authenticated<br>Sep  4 13:53:55 OpenWrt kern.info kernel: [  204.910000] wlan0: associate with 00:13:10:41:69:ee (try 1/3)<br>Sep  4 13:53:55 OpenWrt kern.info kernel: [  205.120000] wlan0: associate with 00:13:10:41:69:ee (try 2/3)<br>Sep  4 13:53:55 OpenWrt kern.info kernel: [  205.150000] wlan0: RX AssocResp from 00:13:10:41:69:ee (capab=0x411 status=0 aid=9)<br>Sep  4 13:53:55 OpenWrt kern.info kernel: [  205.160000] wlan0: associated<br>Sep  4 13:53:58 OpenWrt daemon.notice netifd: wwan (3065): Sending discover…<br>Sep  4 13:54:01 OpenWrt daemon.notice netifd: wwan (3065): Sending discover…<br>Sep  4 13:54:04 OpenWrt daemon.notice netifd: wwan (3065): Sending select for 10.228.208.194…<br>Sep  4 13:54:04 OpenWrt daemon.notice netifd: wwan (3065): Lease of 10.228.208.194 obtained, lease time 86400<br>Sep  4 13:54:04 OpenWrt daemon.notice netifd: Interface ‘wwan’ is now up<br>Sep  4 13:54:05 OpenWrt user.notice ifup: Allowing Router Advertisements on wwan (wlan0)<br>Sep  4 13:54:06 OpenWrt user.info firewall: adding wwan (wlan0) to zone wan<br>Sep  4 13:54:11 OpenWrt daemon.info dnsmasq[1893]: reading /tmp/resolv.conf.auto<br>Sep  4 13:54:11 OpenWrt daemon.info dnsmasq[1893]: using nameserver 192.168.100.10#53<br>Sep  4 13:54:11 OpenWrt daemon.info dnsmasq[1893]: using nameserver 192.168.100.11#53<br>Sep  4 13:54:11 OpenWrt daemon.info dnsmasq[1893]: using nameserver 202.106.0.20#53<br>Sep  4 13:54:11 OpenWrt daemon.info dnsmasq[1893]: using local addresses only for domain lan</pre><br>可以看到<code>toggle_ap &lt;===================</code>，toggle_ap脚本被执行</p>
+<p><pre># uci show wireless<br>wireless.radio0=wifi-device<br>wireless.radio0.type=mac80211<br>wireless.radio0.channel=11<br>wireless.radio0.macaddr=1c:fa:68:f9:f3:4a<br>wireless.radio0.hwmode=11ng<br>wireless.radio0.htmode=HT20<br>wireless.radio0.ht_capab=SHORT-GI-20 SHORT-GI-40 RX-STBC1 DSSS_CCK-40<br>wireless.ap=wifi-iface<br>wireless.ap.device=radio0<br>wireless.ap.network=wlan<br>wireless.ap.mode=ap<br>wireless.ap.ssid=OpenWrt<br>wireless.ap.encryption=none<br>wireless.ap.disabled=1<br>wireless.company=wifi-iface<br>wireless.company.network=wwan<br>wireless.company.ssid=company_ssid<br>wireless.company.encryption=psk2<br>wireless.company.device=radio0<br>wireless.company.mode=sta<br>wireless.company.bssid=00:13:10:41:69:EE<br>wireless.company.key=xxxxxxxx<br>wireless.company.disabled=0<br>wireless.home=wifi-iface<br>wireless.home.network=wwan<br>wireless.home.ssid=home_ssid<br>wireless.home.encryption=psk2<br>wireless.home.device=radio0<br>wireless.home.mode=sta<br>wireless.home.bssid=00:21:29:74:33:EB<br>wireless.home.key=xxxxxxxx<br>wireless.home.wds=1<br>wireless.home.disabled=1</pre><br>可以看到AP模式被禁用了，<code>wireless.ap.disabled=1</code></p>
+<p>reset按钮功能扩展完成，昨晚在家里试验，按了一下reset按钮，成功切换连接到家里的主无线路由，并且AP模式也正常工作。今天早上在公司试验，开启路由默认就连接上公司路由，不过长按2秒后关闭AP模式时系统挂了（自动重启了），ssh半天连不上，重试后正常了，还是有些不稳定</p>
+<p>&nbsp;</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/09/05/TP-Link-TL-WR703n-Reset按钮功能扩展——wifi模式切换/" class="archive-article-date">
+  	<time datetime="2013-09-05T05:11:26.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-09-05</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-编译OpenWrt固件，Build-your-custom-OpenWrt-firmware" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/08/30/编译OpenWrt固件，Build-your-custom-OpenWrt-firmware/">编译OpenWrt固件，Build your custom OpenWrt firmware</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>首先参考官方文档：<a href="http://wiki.openwrt.org/doc/howto/build" target="_blank">http://wiki.openwrt.org/doc/howto/build</a></p>
+<p></p><h3>1.下载源码</h3><br>wr703n要下载attitude adjustment分支（对应12.09），下载到12.09目录<p></p>
+<p><pre>$ git clone git://git.openwrt.org/12.09/openwrt.git 12.09</pre></p>
+<p></p><h3>2.更新feeds</h3><p></p>
+<p><pre>$ cd 12.09<br>$ ./scripts/feeds update -a<br>$ ./scripts/feeds install -a</pre></p>
+<p></p><h3>3.配置</h3><p></p>
+<p><pre>$ make menuconfig</pre><br>配置文件也可以从openwrt下一个</p>
+<p><pre>$ wget <a href="http://downloads.openwrt.org/attitude_adjustment/12.09/ar71xx/generic/config.ar71xx_generic" target="_blank" rel="external">http://downloads.openwrt.org/attitude_adjustment/12.09/ar71xx/generic/config.ar71xx_generic</a><br>$ ln -sv config.ar71xx_generic .config</pre></p>
+<p></p><h3>4.编译</h3><p></p>
+<p><pre>$ make V=s</pre><br>&nbsp;</p>
+<hr>
+
+<p>另外，可以用make defconfig先生成一个默认配置，然后make download下载各个包的源代码（保存在dl目录），以后每次make distclean的时候先重命名一下dl目录，不要删除了，可以节省时间</p>
+<p>select a target before “make defconfig” or default broadcom is selected:</p>
+<p><pre><code>echo CONFIG_TARGET_ar71xx=y &gt; .config<br>make defconfig</code></pre><br>Then is advisable to run make without any further modification to menuconfig for test and debug purposes. If fail at this point must fill a bug and wait another revision…<br>BUT, before any make is advisable to download sources at once:</p>
+<p><pre><code>echo CONFIG_TARGET_ar71xx=y &gt; .config<br>make defconfig<br>make download</code></pre><br>This fill up “dl” directory, so the real time saver is keep “dl” away from distclean reach:</p>
+<p><pre><code>echo CONFIG_TARGET_ar71xx=y &gt; .config<br>make defconfig<br>ln -sf ../../dl<br>make download<br>make</code></pre><br>Finally if all goes well you are free to issue “make menuconfig” and go on.</p>
+<p>&nbsp;</p>
+<hr>
+
+<p></p><h3>Cleaning Up</h3><br>You might need to clean your <em>build environment</em> every now and then. The following <code>make</code>-targets are useful for that job:<p></p>
+<p></p><h4>Clean</h4><p></p>
+<p><pre>make clean</pre><br>deletes contents of the directories <code>/bin</code> and <code>/build_dir</code>.</p>
+<p></p><h4>Dirclean</h4><p></p>
+<p><pre>make dirclean</pre><br>deletes contents of the directories <code>/bin</code> and <code>/build_dir</code> and additionally <code>/staging_dir</code> and <code>/toolchain</code> (=the cross-compile tools) and<code>/logs</code>. ‘Dirclean’ is your basic “Full clean” operation.</p>
+<p></p><h4>Distclean</h4><p></p>
+<p><pre>make distclean</pre><br>nukes everything you have compiled or configured and also deletes all downloaded feeds contents and package sources.</p>
+<p><strong>CAUTION</strong>: In addition to all else, this will <strong>erase your build configuration (<code>&lt;buildroot_dir&gt;/.config</code>)</strong>, your toolchain and all other sources. Use with care!</p>
+<p>There are numerous other functionalities in the OpenWrt build system, but the above should have covered some of the fundamentals.</p>
+<p></p><h4>Clean small part</h4><br>In more time, you may not want to clean so many objects, then you can use some of the commands below to do it.<p></p>
+<p>Clean linux objects.</p>
+<p><pre>make target/linux/clean</pre><br>Clean package base-files objects.</p>
+<p><pre>make package/base-files/clean</pre><br>Clean luci.</p>
+<p><pre>make package/feeds/luci/luci/clean</pre><br>&nbsp;</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/08/30/编译OpenWrt固件，Build-your-custom-OpenWrt-firmware/" class="archive-article-date">
+  	<time datetime="2013-08-30T05:05:11.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-08-30</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-UDP穿透NAT原理（UDP打洞）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/08/29/UDP穿透NAT原理（UDP打洞）/">UDP穿透NAT原理（UDP打洞）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>首先先介绍一些基本概念：<br>NAT(Network Address Translators)，网络地址转换：网络地址转换是在IP地址日益缺乏的情况下产生的，它的主要目的就是为了能够地址重用。NAT分为两大类，基本的NAT和NAPT(Network Address/Port Translator)。<br>最开始NAT是运行在路由器上的一个功能模块。<br>最先提出的是基本的NAT，它的产生基于如下事实：一个私有网络（域）中的节点中只有很少的节点需要与外网连接（呵呵，这是在上世纪90年代中期提出的）。那么这个子网中其实只有少数的节点需要全球唯一的IP地址，其他的节点的IP地址应该是可以重用的。<br>因此，基本的NAT实现的功能很简单，在子网内使用一个保留的IP子网段，这些IP对外是不可见的。子网内只有少数一些IP地址可以对应到真正全球唯一的IP地址。如果这些节点需要访问外部网络，那么基本NAT就负责将这个节点的子网内IP转化为一个全球唯一的IP然后发送出去。<strong>(基本的NAT会改变IP包中的原IP地址，但是不会改变IP包中的端口)</strong><br>关于基本的NAT可以参看RFC 1631<br>另外一种NAT叫做NAPT，从名称上我们也可以看得出，NAPT不但会改变经过这个NAT设备的IP数据报的IP地址，还会改变IP数据报的TCP/UDP端口。基本NAT的设备可能我们见的不多（呵呵，我没有见到过），NAPT才是我们真正讨论的主角。看下图：</p>
+<p><pre>                                Server S1<br>                         18.181.0.31:1235<br>                                      |<br>          ^  Session 1 (A-S1)  ^      |<br>          |  18.181.0.31:1235  |      |<br>          v 155.99.25.11:62000 v      |<br>                                      |<br>                                     NAT<br>                                 155.99.25.11<br>                                      |<br>          ^  Session 1 (A-S1)  ^      |<br>          |  18.181.0.31:1235  |      |<br>          v   10.0.0.1:1234    v      |<br>                                      |<br>                                   Client A<br>                                10.0.0.1:1234</pre><br>有一个私有网络10.<em>.</em>.*，Client A是其中的一台计算机，这个网络的网关（一个NAT设备）的外网IP是155.99.25.11(应该还有一个内网的IP地址，比如10.0.0.10)。如果Client A中的某个进程（这个进程创建了一个UDP Socket,这个Socket绑定1234端口）想访问外网主机18.181.0.31的1235端口，那么当数据包通过NAT时会发生什么事情呢？<br>首先NAT会改变这个数据包的原IP地址，改为155.99.25.11。接着NAT会为这个传输创建一个Session（Session是一个抽象的概念，如果是TCP，也许Session是由一个SYN包开始，以一个FIN包结束。而UDP呢，以这个IP的这个端口的第一个UDP开始，结束呢，呵呵，也许是几分钟，也许是几小时，这要看具体的实现了）并且给这个Session分配一个端口，比如62000，然后改变这个数据包的源端口为62000。所以本来是（10.0.0.1:1234-&gt;18.181.0.31:1235）的数据包到了互联网上变为了（155.99.25.11:62000-&gt;18.181.0.31:1235）。<br>一旦NAT创建了一个Session后，NAT会记住62000端口对应的是10.0.0.1的1234端口，以后从18.181.0.31发送到62000端口的数据会被NAT自动的转发到10.0.0.1上。（注意：这里是说18.181.0.31发送到62000端口的数据会被转发，其他的IP发送到这个端口的数据将被NAT抛弃）这样Client A就与Server S1建立以了一个连接。</p>
+<p>呵呵，上面的基础知识可能很多人都知道了，那么下面是关键的部分了。<br>看看下面的情况：</p>
+<p><pre>    Server S1                                     Server S2<br> 18.181.0.31:1235                              138.76.29.7:1235<br>        |                                             |<br>        |                                             |<br>        +———————-+———————-+<br>                               |<br>   ^  Session 1 (A-S1)  ^      |      ^  Session 2 (A-S2)  ^<br>   |  18.181.0.31:1235  |      |      |  138.76.29.7:1235  |<br>   v 155.99.25.11:62000 v      |      v 155.99.25.11:62000 v<br>                               |<br>                            Cone NAT<br>                          155.99.25.11<br>                               |<br>   ^  Session 1 (A-S1)  ^      |      ^  Session 2 (A-S2)  ^<br>   |  18.181.0.31:1235  |      |      |  138.76.29.7:1235  |<br>   v   10.0.0.1:1234    v      |      v   10.0.0.1:1234    v<br>                               |<br>                            Client A<br>                         10.0.0.1:1234</pre><br>接上面的例子，如果Client A的原来那个Socket(绑定了1234端口的那个UDP Socket)又接着向另外一个Server S2发送了一个UDP包，那么这个UDP包在通过NAT时会怎么样呢？<br>这时可能会有两种情况发生，一种是NAT再次创建一个Session，并且再次为这个Session分配一个端口号（比如：62001）。另外一种是NAT再次创建一个Session，但是不会新分配一个端口号，而是用原来分配的端口号62000。前一种NAT叫做Symmetric NAT，后一种叫做Cone NAT。我们期望我们的NAT是第二种，呵呵，如果你的NAT刚好是第一种，那么很可能会有很多P2P软件失灵。（可以庆幸的是，现在绝大多数的NAT属于后者，即Cone NAT）</p>
+<p>好了，我们看到，通过NAT,子网内的计算机向外连结是很容易的（NAT相当于透明的，子网内的和外网的计算机不用知道NAT的情况）。<br>但是如果外部的计算机想访问子网内的计算机就比较困难了（而这正是P2P所需要的）。<br>那么我们如果想从外部发送一个数据报给内网的计算机有什么办法呢？首先，我们必须在内网的NAT上打上一个“洞”（也就是前面我们说的在NAT上建立一个Session），这个洞不能由外部来打，只能由内网内的主机来打。而且这个洞是有方向的，比如从内部某台主机（比如：192.168.0.10）向外部的某个IP(比如：219.237.60.1)发送一个UDP包，那么就在这个内网的NAT设备上打了一个方向为219.237.60.1的“洞”，（这就是称为UDP Hole Punching的技术）以后219.237.60.1就可以通过这个洞与内网的192.168.0.10联系了。（但是其他的IP不能利用这个洞）。</p>
+<p>呵呵，现在该轮到我们的正题P2P了。有了上面的理论，实现两个内网的主机通讯就差最后一步了：那就是鸡生蛋还是蛋生鸡的问题了，两边都无法主动发出连接请求，谁也不知道谁的公网地址，那我们如何来打这个洞呢？我们需要一个中间人来联系这两个内网主机。<br>现在我们来看看一个P2P软件的流程，以下图为例：</p>
+<p><pre>                       Server S （219.237.60.1）<br>                          |<br>                          |<br>   +———————-+———————-+<br>   |                                             |<br> NAT A (外网IP:202.187.45.3)                 NAT B (外网IP:187.34.1.56)<br>   |   (内网IP:192.168.0.1)                      | (内网IP:192.168.0.1)<br>   |                                             |<br>Client A  (192.168.0.20:4000)             Client B (192.168.0.10:40000)</pre><br>首先，Client A登录服务器，NAT A为这次的Session分配了一个端口60000，那么Server S收到的Client A的地址是202.187.45.3:60000，这就是Client A的外网地址了。同样，Client B登录Server S，NAT B给此次Session分配的端口是40000，那么Server S收到的B的地址是187.34.1.56:40000。<br>此时，Client A与Client B都可以与Server S通信了。如果Client A此时想直接发送信息给Client B，那么他可以从Server S那儿获得B的公网地址187.34.1.56:40000，是不是Client A向这个地址发送信息Client B就能收到了呢？答案是不行，因为如果这样发送信息，NAT B会将这个信息丢弃（因为这样的信息是不请自来的，为了安全，大多数NAT都会执行丢弃动作）。现在我们需要的是在NAT B上打一个方向为202.187.45.3（即Client A的外网地址）的洞，那么Client A发送到187.34.1.56:40000的信息,Client B就能收到了。这个打洞命令由谁来发呢，呵呵，当然是Server S。<br>总结一下这个过程：如果Client A想向Client B发送信息，那么Client A发送命令给Server S，请求Server S命令Client B向Client A方向打洞。呵呵，是不是很绕口，不过没关系，想一想就很清楚了，何况还有源代码呢（侯老师说过：在源代码面前没有秘密 8）），然后Client A就可以通过Client B的外网地址与Client B通信了。</p>
+<p>注意：以上过程只适合于Cone NAT的情况，如果是Symmetric NAT，那么当Client B向Client A打洞的端口已经重新分配了，Client B将无法知道这个端口（如果Symmetric NAT的端口是顺序分配的，那么我们或许可以猜测这个端口号，可是由于可能导致失败的因素太多，我们不推荐这种猜测端口的方法）。</p>
+<p>原文参考：<a href="http://www.cnblogs.com/yrh2847189/archive/2007/06/20/790013.html" target="_blank">P2P之UDP穿透NAT原理并有UDP打洞的源码</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/08/29/UDP穿透NAT原理（UDP打洞）/" class="archive-article-date">
+  	<time datetime="2013-08-29T09:49:15.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-08-29</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Network/">Network</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-通过wifi给Arduino板烧写程序" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/08/28/通过wifi给Arduino板烧写程序/">通过wifi给Arduino板烧写程序</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在《<a href="http://blog.pickbox.me/2013/08/26/tp-link-tl-wr703n%e8%b7%af%e7%94%b1usb%e5%8f%a3%e7%94%a8%e9%80%941-%e4%b8%b2%e5%8f%a3/" target="_blank">TP-Link TL-WR703n路由USB口用途1——串口</a>》中介绍了通过USB口与Arduino串口通讯，更进一步也可以通过USB串口将程序烧写到Arduino，再配一个web服务实现上传程序到wr703n，就实现了通过wifi给arduino烧写程序。</p>
+<p>参考：<a href="http://www.elcojacobs.com/programming-my-arduino-over-wifi/" target="_blank">http://www.elcojacobs.com/programming-my-arduino-over-wifi/</a></p>
+<p>&nbsp;</p>
+<p></p><h3>第一步：编译烧写工具avrdude</h3><br>烧写程序需要用到avrdude这个工具， 由于openwrt没有现成可用包，我们需要自己编译<p></p>
+<p><em>（不想麻烦的同学可以直接下载已经编译好的<a href="http://img.pickbox.me/wp-content/uploads/avrdude-6.0rc1-bin-openwrt.rar" target="_blank">avrdude包</a>）</em></p>
+<p>前面参考文章的做法是直接在路由器的linux系统中下载编译工具进行编译，但是编译工具一般体积庞大（30M+），在wr703n可怜的4M Flash + 32M RAM配置下，除非外挂USB存储卡，否则肯定行不通。</p>
+<p>这里我们用另外一种方法：交叉编译。首先在一台普通的Linux系统（Ubuntu、Debian、Fedora都可以，我用的是Arch，比较小众，但是够简洁速度快），下载openwrt编译工具链<a href="http://downloads.openwrt.org/attitude_adjustment/12.09/ar71xx/generic/OpenWrt-Toolchain-ar71xx-for-mips_r2-gcc-4.6-linaro_uClibc-0.9.33.2.tar.bz2" target="_blank">OpenWrt-Toolchain-ar71xx-for-mips_r2-gcc-4.6-linaro_uClibc-0.9.33.2.tar.bz2</a>，解压</p>
+<p><pre>$ tar xvf OpenWrt-Toolchain-ar71xx-for-mips_r2-gcc-4.6-linaro_uClibc-0.9.33.2.tar.bz2<br>$ ls<br>OpenWrt-Toolchain-ar71xx-for-mips_r2-gcc-4.6-linaro_uClibc-0.9.33.2<br>OpenWrt-Toolchain-ar71xx-for-mips_r2-gcc-4.6-linaro_uClibc-0.9.33.2.tar.bz2<br>$ ls OpenWrt-Toolchain-ar71xx-for-mips_r2-gcc-4.6-linaro_uClibc-0.9.33.2<br>LICENSE           toolchain-mips_r2_gcc-4.6-linaro_uClibc-0.9.33.2<br>README.TOOLCHAIN  version.mk<br>$ ls OpenWrt-Toolchain-ar71xx-for-mips_r2-gcc-4.6-linaro_uClibc-0.9.33.2/toolchain-mips_r2_gcc-4.6-linaro_uClibc-0.9.33.2/<br>bin      info.mk  lib    libexec             mips-openwrt-linux-uclibc  share<br>include  initial  lib64  mips-openwrt-linux  sbin                       usr<br>$ ls OpenWrt-Toolchain-ar71xx-for-mips_r2-gcc-4.6-linaro_uClibc-0.9.33.2/toolchain-mips_r2_gcc-4.6-linaro_uClibc-0.9.33.2/bin/<br>g++-uc                               mips-openwrt-linux-uclibc-as.bin<br>g++-uc+std                           mips-openwrt-linux-uclibc-c++<br>ldd                                  mips-openwrt-linux-uclibc-c++.bin<br>mips-openwrt-linux-addr2line         mips-openwrt-linux-uclibc-c++filt<br>mips-openwrt-linux-ar                mips-openwrt-linux-uclibc-cc<br>mips-openwrt-linux-as                mips-openwrt-linux-uclibc-cpp<br>mips-openwrt-linux-c++               mips-openwrt-linux-uclibc-cpp.bin<br>mips-openwrt-linux-c++filt           mips-openwrt-linux-uclibc-elfedit<br>mips-openwrt-linux-cpp               mips-openwrt-linux-uclibc-g++<br>mips-openwrt-linux-elfedit           mips-openwrt-linux-uclibc-g++.bin<br>mips-openwrt-linux-g++               mips-openwrt-linux-uclibc-gcc<br>mips-openwrt-linux-gcc               mips-openwrt-linux-uclibc-gcc-4.6.3<br>mips-openwrt-linux-gcc-4.6.3         mips-openwrt-linux-uclibc-gcc.bin<br>mips-openwrt-linux-gcov              mips-openwrt-linux-uclibc-gcov<br>mips-openwrt-linux-gdb               mips-openwrt-linux-uclibc-gdb<br>mips-openwrt-linux-gprof             mips-openwrt-linux-uclibc-gprof<br>mips-openwrt-linux-ld                mips-openwrt-linux-uclibc-ld<br>mips-openwrt-linux-ld.bfd            mips-openwrt-linux-uclibc-ld.bfd<br>mips-openwrt-linux-nm                mips-openwrt-linux-uclibc-ld.bin<br>mips-openwrt-linux-objcopy           mips-openwrt-linux-uclibc-nm<br>mips-openwrt-linux-objdump           mips-openwrt-linux-uclibc-objcopy<br>mips-openwrt-linux-ranlib            mips-openwrt-linux-uclibc-objdump<br>mips-openwrt-linux-readelf           mips-openwrt-linux-uclibc-ranlib<br>mips-openwrt-linux-size              mips-openwrt-linux-uclibc-readelf<br>mips-openwrt-linux-strings           mips-openwrt-linux-uclibc-size<br>mips-openwrt-linux-strip             mips-openwrt-linux-uclibc-strings<br>mips-openwrt-linux-uclibc-addr2line  mips-openwrt-linux-uclibc-strip<br>mips-openwrt-linux-uclibc-ar         mips-openwrt-linux-uclibc-wrapper.sh<br>mips-openwrt-linux-uclibc-as</pre><br>在bin目录下看到了mips-openwrt-linux-gcc</p>
+<p>接下来下载<a href="http://download.savannah.gnu.org/releases/avrdude/" target="_blank">avrdude源代码</a>， 我们选择最新版本<a href="http://download.savannah.gnu.org/releases/avrdude/avrdude-6.0rc1.tar.gz" target="_blank">avrdude-6.0rc1.tar.gz</a>，解压</p>
+<p><pre>$ tar xvf avrdude-6.0rc1.tar.gz<br>$ cd avrdude-6.0rc1<br>/<em> 创建一个软链接指向前面的toolchain-mips_r2_gcc-4.6-linaro_uClibc-0.9.33.2目录 </em>/<br>$ ln -sv ../OpenWrt-Toolchain-ar71xx-for-mips_r2-gcc-4.6-linaro_uClibc-0.9.33.2/toolchain-mips_r2_gcc-4.6-linaro_uClibc-0.9.33.2 toolchain<br>$ ll -l toolchain<br>lrwxrwxrwx 1 jfo users 123 Aug 25 13:03 toolchain -&gt; ../OpenWrt-Toolchain-ar71xx-for-mips_r2-gcc-4.6-linaro_uClibc-0.9.33.2/toolchain-mips_r2_gcc-4.6-linaro_uClibc-0.9.33.2//</pre><br>下面开始编译，编译之前参考<a href="http://wiki.openwrt.org/doc/devel/crosscompile" target="_blank">Openwrt官网介绍的如何交叉编译</a>，稍作修改</p>
+<p><pre>$ export PATH=<code>pwd</code>/toolchain/bin:$PATH<br>$ export STAGING_DIR=<code>pwd</code>/toolchain<br>$ ./configure –prefix=/opt –host=mips-openwrt-linux<br>$ make<br>$ make install<br>$ find /opt<br>/opt<br>/opt/etc<br>/opt/etc/avrdude.conf<br>/opt/share<br>/opt/share/man<br>/opt/share/man/man1<br>/opt/share/man/man1/avrdude.1<br>/opt/bin<br>/opt/bin/avrdude</pre><br>运行./configure时–host=mips-openwrt-linux-uclibc出错，改为mips-openwrt-linux，–host指定编译出的程序将要在什么系统中运行，编译安装之后在/opt/bin下可以看到avrdude，以及它的配置文件/opt/etc/avrdude.conf</p>
+<p>&nbsp;</p>
+<p></p><h3>第二步：通过USB串口烧写程序</h3><br>在Arduino IDE中写好程序之后，编译生成二进制程序（File &gt; Preferences 中勾上compilation可以在log中看到编译成功的hex文件位置）<p></p>
+<p>这里我们用的还是在《<a href="http://blog.pickbox.me/2013/08/26/tp-link-tl-wr703n%E8%B7%AF%E7%94%B1usb%E5%8F%A3%E7%94%A8%E9%80%941-%E4%B8%B2%E5%8F%A3/" target="_blank">tp-link-tl-wr703n路由usb口用途1-串口</a>》中的程序，每秒钟打印一次接在pin 2上的pushbutton的状态，编译生成的二进制文件为sketch_aug25b.cpp.hex</p>
+<p>将sketch_aug25b.cpp.hex和前面编译出的avrdude、avrdude.conf传到wr703n的Openwrt上（怎么传方法多种多样，我用的scp），avrdude保存至/opt/bin/avrdude，avrdude.conf保存至/opt/etc/avrdue.conf，运行下面命令：</p>
+<p><pre>$ /opt/bin/avrdude -p m328p -c arduino -b 115200 -P /dev/ttyUSB0 -C /opt/etc/avrdude.conf -U flash:w:sketch_aug25b.cpp.hex</pre></p>
+<p>avrdude: AVR device initialized and ready to accept instructions</p>
+<p>Reading | ################################################## | 100% 0.00s</p>
+<p>avrdude: Device signature = 0x1e950f<br>avrdude: NOTE: “flash” memory has been specified, an erase cycle will be performed<br>         To disable this feature, specify the -D option.<br>avrdude: erasing chip<br>avrdude: reading input file “sketch_aug25b.cpp.hex”<br>avrdude: input file sketch_aug25b.cpp.hex auto detected as Intel Hex<br>avrdude: writing flash (3044 bytes):</p>
+<p>Writing | ################################################## | 100% 0.47s</p>
+<p>avrdude: 3044 bytes of flash written<br>avrdude: verifying flash memory against sketch_aug25b.cpp.hex:<br>avrdude: load data flash data from input file sketch_aug25b.cpp.hex:<br>avrdude: input file sketch_aug25b.cpp.hex auto detected as Intel Hex<br>avrdude: input file sketch_aug25b.cpp.hex contains 3044 bytes<br>avrdude: reading on-chip flash data:</p>
+<p>Reading | ################################################## | 100% 0.39s</p>
+<p>avrdude: verifying …<br>avrdude: 3044 bytes of flash verified</p>
+<p>avrdude: safemode: Fuses OK</p>
+<p>avrdude done.  Thank you.<br>可以看到烧写成功！到这里我们已经成功一半了，剩下就是搭建一个web服务，上传需要烧写的程序了</p>
+<p>&nbsp;</p>
+<p></p><h3>第三步：通过Web界面烧写程序</h3><br>关键部分代码包含一个上传文件的form、上传文件成功后服务器在后台调用shell_exec avrdude烧写程序两部分<p></p>
+<p><pre>&lt;div class=”tool-programer”&gt;<br>    &lt;span class=”label label-warning”&gt;Choose file to upload:&lt;/span&gt;<br>    &lt;div style=”margin-top: 10px;”&gt;<br>        &lt;form action=”” method=”post” enctype=”multipart/form-data”&gt;<br>            &lt;input type=”file” name=”file”&gt;<br>            &lt;input type=”submit” name=”upload” value=”Go!”&gt;<br>        &lt;/form&gt;<br>    &lt;/div&gt;<br>    &lt;div&gt;<br>&lt;?php<br>if (isset($_POST[‘upload’])) {<br>    $file = $_FILES[“file”];<br>    if ($file[“error”] &gt; 0) {<br>        $upload_error_strings = array( false,<br>            “The uploaded file exceeds the upload_max_filesize directive in php.ini.”,<br>            “The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.”,<br>            “The uploaded file was only partially uploaded.”,<br>            “No file was uploaded.”,<br>            ‘’,<br>            “Missing a temporary folder.”,<br>            “Failed to write file to disk.”,<br>            “File upload stopped by extension.”<br>        );<br>        echo “Error: “ . $upload_error_strings[$file[“error”]];<br>    } else {<br>        $name = $file[“name”];<br>        $tmp_name = $file[“tmp_name”];<br>        $tmp_name = escapeshellcmd($tmp_name);<br>        $size = $file[“size”];<br>        $output = shell_exec(“/opt/bin/avrdude -p m328p -c arduino -b 115200 -P /dev/ttyUSB0 -C /opt/etc/avrdude.conf -U flash:w:”.trim($tmp_name) . “ 2&gt;&amp;1”);<br>        $output = htmlspecialchars($output);<br>?&gt;<br>        &lt;div class=’alert’&gt;<br>            &lt;span&gt;Successfully uploaded &lt;b&gt;&lt;?php echo $name; ?&gt;&lt;/b&gt; to the Arduino with avrdude &lt;/span&gt;<br>            &lt;span&gt;(size: &lt;?php echo round($size/1024, 2); ?&gt;Kb)&lt;/span&gt;<br>        &lt;/div&gt;<br>        &lt;hr&gt;<br>        &lt;span class=”label label-warning”&gt;avrdude output:&lt;/span&gt;<br>        &lt;div class=”pre-container” style=”margin-top: 10px; min-height: 100px;”&gt;<br>          &lt;pre class=”clear-pre”&gt;&lt;?php echo $output; ?&gt;&lt;/pre&gt;<br>        &lt;/div&gt;<br>&lt;?php<br>    }<br>}<br>?&gt;<br>    &lt;/div&gt;<br>&lt;/div&gt;</pre><br>完整的服务器端程序在这里下载<a href="https://github.com/jfojfo/arduino-web-control-panel" target="_blank">https://github.com/jfojfo/arduino-web-control-panel</a>，找到shell_exec这一行，将参数改成自己的开发板型号即可</p>
+<p>如果Openwrt所剩存储空间不够，可以删除js/bootstrap-2.3.2.min.js、js/jquery-1.7.1.min.js、css/bootstrap.min.css、css/bootstrap-responsive.min.css这几个文件，浏览器打开页面时会从baidu服务器拉取这几个文件</p>
+<p>下面在Openwrt上配置uhttpd，可以参考<a href="http://wiki.openwrt.org/doc/uci/uhttpd" target="_blank">http://wiki.openwrt.org/doc/uci/uhttpd</a>，首先安装php模块</p>
+<p><pre>root@OpenWrt:~# opkg install php5 php5-cgi</pre><br>安装这两个模块需要1M+存储空间，4M Flash空间不够用，没有升级8M Flash的，建议制作U盘启动系统，参考《<a href="http://blog.pickbox.me/2013/08/28/tp-link-tl-wr703n%e8%b7%af%e7%94%b1usb%e5%8f%a3%e7%94%a8%e9%80%942-%e6%8c%82%e8%bd%bdu%e7%9b%98%ef%bc%8c%e4%bb%8eu%e7%9b%98%e5%90%af%e5%8a%a8/" target="_blank">TP-Link TL-WR703n路由USB口用途2——挂载U盘，从U盘启动</a>》</p>
+<p>安装成功后配置/etc/config/uhttpd，添加以下内容，home修改为自己的web应用根目录</p>
+<p><pre>config uhttpd web<br>        list listen_http        0.0.0.0:8080<br>        option home             /root/arduino-web-control-panel<br>        option cgi_prefix       /cgi-bin<br>        option index_page       index.php<br>        list interpreter        “.php=/usr/bin/php-cgi”</pre><br>重启uhttpd服务，浏览器登陆<a href="http://192.168.1.1:8080，就可以看到上传程序的web界面了" target="_blank" rel="external">http://192.168.1.1:8080，就可以看到上传程序的web界面了</a></p>
+<p><pre>root@OpenWrt:/etc/config# /etc/init.d/uhttpd restart</pre><br>&nbsp;</p>
+<p>贴一张上传成功界面</p>
+<p><a href="http://img.pickbox.me/wp-content/uploads/program_success.jpg" target="_blank" rel="external"><img class="alignnone size-full wp-image-703" alt="program_success" src="http://img.pickbox.me/wp-content/uploads/program_success.jpg" width="1029" height="888"></a></p>
+<p>Ok，已经成功通过wifi给Arduino板烧写程序。</p>
+<p>除了烧写程序，通过wifi还可干很多事情，比如读/写Arduino的Pin引脚、串口读写、usb camera监控等等，以后在<a href="https://github.com/jfojfo/arduino-web-control-panel" target="_blank">arduino-web-control-panel</a>项目中可以添加更多的web控制模块。</p>
+<p>&nbsp;</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/08/28/通过wifi给Arduino板烧写程序/" class="archive-article-date">
+  	<time datetime="2013-08-28T08:12:16.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-08-28</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/5/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/60/">60</a><a class="extend next" rel="next" href="/page/7/">Next &raquo;</a>
+    </nav>
+  
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: true,
+		isPost: false,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

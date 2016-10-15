@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>TP-Link TL-WR703n Reset按钮功能扩展——wifi模式切换 | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="首先参考openwrt官网文档：《Attach functions to a push button》
+缘由：我的openwrt无线配置成客户端模式，在家自动连接家里的路由（配置一），在公司自动连接公司路由（配置二），但是如果在配置文件/etc/config/wireless同时指定这两种客户端模式配置，openwrt不会在其中一个配置连接失败后自动尝试另外一个配置连接。也就是说两种客户端模式配置">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TP-Link TL-WR703n Reset按钮功能扩展——wifi模式切换">
+<meta property="og:url" content="http://blog.pickbox.me/2013/09/05/TP-Link-TL-WR703n-Reset按钮功能扩展——wifi模式切换/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="首先参考openwrt官网文档：《Attach functions to a push button》
+缘由：我的openwrt无线配置成客户端模式，在家自动连接家里的路由（配置一），在公司自动连接公司路由（配置二），但是如果在配置文件/etc/config/wireless同时指定这两种客户端模式配置，openwrt不会在其中一个配置连接失败后自动尝试另外一个配置连接。也就是说两种客户端模式配置">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TP-Link TL-WR703n Reset按钮功能扩展——wifi模式切换">
+<meta name="twitter:description" content="首先参考openwrt官网文档：《Attach functions to a push button》
+缘由：我的openwrt无线配置成客户端模式，在家自动连接家里的路由（配置一），在公司自动连接公司路由（配置二），但是如果在配置文件/etc/config/wireless同时指定这两种客户端模式配置，openwrt不会在其中一个配置连接失败后自动尝试另外一个配置连接。也就是说两种客户端模式配置">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-TP-Link-TL-WR703n-Reset按钮功能扩展——wifi模式切换" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      TP-Link TL-WR703n Reset按钮功能扩展——wifi模式切换
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>首先参考openwrt官网文档：《<a href="http://wiki.openwrt.org/doc/howto/hardware.button" target="_blank">Attach functions to a push button</a>》<a href="http://wiki.openwrt.org/doc/howto/hardware.button" target="_blank" rel="external"><br></a></p>
+<p>缘由：我的openwrt无线配置成客户端模式，在家自动连接家里的路由（配置一），在公司自动连接公司路由（配置二），但是如果在配置文件/etc/config/wireless同时指定这两种客户端模式配置，openwrt不会在其中一个配置连接失败后自动尝试另外一个配置连接。也就是说两种客户端模式配置，实际上只有其中一个有效（貌似谁写在前面谁生效）。这样，每次更换环境，都要先用一根网线连接到wr703n的LAN口，配置好笔记本的LAN网卡IP地址为192.168.1.2，以root ssh登陆进192.168.1.1，编辑wireless配置文件，禁用其中一种客户端模式（<code>option disabled ‘1’</code>），再重启网络才能让wr703n连接到主路由。整个过程太繁琐了。</p>
+<p>另一种方式可以省去网线连接LAN口，就是让wr703n每次都以AP模式启动，笔记本电脑再通过无线连接wr703n，连上之后就可以ssh登陆进去，然后改配置并重启网络，过程也不简洁。</p>
+<p>先贴出目前openwrt的网络配置：</p>
+<p><pre># cat /etc/config/wireless</pre></p>
+<p>config wifi-device ‘radio0’<br>        option type ‘mac80211’<br>        option channel ‘11’<br>        option macaddr ‘1c:fa:68:f9:f3:4a’<br>        option hwmode ‘11ng’<br>        option htmode ‘HT20’<br>        list ht_capab ‘SHORT-GI-20’<br>        list ht_capab ‘SHORT-GI-40’<br>        list ht_capab ‘RX-STBC1’<br>        list ht_capab ‘DSSS_CCK-40’</p>
+<p>config wifi-iface ‘ap’<br>        option device ‘radio0’<br>        option network ‘wlan’<br>        option mode ‘ap’<br>        option ssid ‘OpenWrt’<br>        option encryption ‘none’<br>        option disabled ‘0’</p>
+<p>config wifi-iface ‘company’<br>        option network ‘wwan’<br>        option ssid ‘company_ssid’<br>        option encryption ‘psk2’<br>        option device ‘radio0’<br>        option mode ‘sta’<br>        option bssid ‘00:13:10:41:69:EE’<br>        option key ‘xxxxxxxx’<br>        option disabled ‘0’</p>
+<p>config wifi-iface ‘home’<br>        option network ‘wwan’<br>        option ssid ‘home_ssid’<br>        option encryption ‘psk2’<br>        option device ‘radio0’<br>        option mode ‘sta’<br>        option bssid ‘00:21:29:74:33:EB’<br>        option key ‘xxxxxxxx’<br>        option wds ‘1’<br>        option disabled ‘1’</p>
+<h1 id="cat-etc-config-network"><a href="#cat-etc-config-network" class="headerlink" title="cat /etc/config/network"></a>cat /etc/config/network</h1><p>config interface ‘loopback’<br>        option ifname ‘lo’<br>        option proto ‘static’<br>        option ipaddr ‘127.0.0.1’<br>        option netmask ‘255.0.0.0’</p>
+<p>config interface ‘lan’<br>        option ifname ‘eth0’<br>        option type ‘bridge’<br>        option proto ‘static’<br>        option ipaddr ‘192.168.1.1’<br>        option netmask ‘255.255.255.0’</p>
+<p>config interface ‘wwan’<br>        option proto ‘dhcp’</p>
+<p>config interface ‘wlan’<br>        option proto ‘static’<br>        option ipaddr ‘192.168.2.1’<br>        option netmask ‘255.255.255.0’</p>
+<p>/etc/config/dhcp加上：<br>config dhcp lan<br>        option interface        lan<br>        option ignore   1</p>
+<p>config dhcp wan<br>        option interface        wan<br>        option ignore   1</p>
+<p>config dhcp wlan<br>        option start ‘100’<br>        option leasetime ‘12h’<br>        option limit ‘150’<br>        option interface ‘wlan’</p>
+<p>/etc/config/firewall加上：<br>config zone<br>        option name             lan<br>        option network          ‘lan wlan’<br>        option input            ACCEPT<br>        option output           ACCEPT<br>        option forward          REJECT</p>
+<p>config zone<br>        option name             wan<br>        option network          ‘wan wwan’<br>        option input            ACCEPT<br>        option output           ACCEPT<br>        option forward          ACCEPT<br>        option masq             1<br>        option mtu_fix          1</p>
+<p>config forwarding<br>        option src              lan<br>        option dest             wan<br>从网上看到reset button复用的例子后，决定用reset按钮实现切换wifi。初步打算是这样的：</p>
+<p><ul><br>    <li>按一下reset，切换客户端模式的配置（切换连接家里的路由还是连接公司的路由）；</li><br>    <li>按住reset 2~5秒，打开/关闭AP模式切换；</li><br>    <li>按住reset 6秒以上，禁用所有客户端模式，重置为AP模式。</li><br></ul></p>
+<p><pre># cat /etc/hotplug2.rules<br>$include /etc/hotplug2-common.rules</pre></p>
+<p>SUBSYSTEM ~~ (^net$|^input$|^button$|^usb$|^ieee1394$|^block$|^atm$|^zaptel$|^tty$) {<br>exec /sbin/hotplug-call %SUBSYSTEM%<br>}</p>
+<p>DEVICENAME == watchdog {<br>exec /sbin/watchdog -t 5 /dev/watchdog<br>next-event<br>}<br>可以看到hotplug已经监听button了，我们只用创建button对应的响应脚本就行了，在<code>/etc/hotplug.d/button</code>目录下创建的脚本会被自动执行</p>
+<p><pre># mkdir -p /etc/hotplug.d/button</pre></p>
+<h1 id="cd-etc-hotplug-d-button"><a href="#cd-etc-hotplug-d-button" class="headerlink" title="cd /etc/hotplug.d/button"></a>cd /etc/hotplug.d/button</h1><h1 id="vi-buttons"><a href="#vi-buttons" class="headerlink" title="vi buttons"></a>vi buttons</h1><p><pre>#!/bin/sh<br>logger $BUTTON $ACTION<br>logger “”</pre><br>保存退出</p>
+<p><pre># logread -f<br>Sep 4 13:53:34 OpenWrt user.notice root: reset pressed<br>Sep 4 13:53:34 OpenWrt user.notice root:<br>Sep 4 13:53:34 OpenWrt user.notice root: reset released<br>Sep 4 13:53:34 OpenWrt user.notice root:</pre><br>这时按一下reset，可以看到上面的log输出<br>&nbsp;</p>
+<p></p><h4>通过system进行配置</h4><br>首先创建如下脚本：<p></p>
+<p><pre># cat /etc/hotplug.d/button/00-button</pre></p>
+<p><pre>#!/bin/sh<br>. /lib/functions.sh<br>do_button () {<br>        local button<br>        local action<br>        local handler<br>        local min<br>        local max</pre></p>
+<pre><code>config_get button $1 button
+config_get action $1 action
+config_get handler $1 handler
+config_get min $1 min
+config_get max $1 max
+
+[ &quot;$ACTION&quot; = &quot;$action&quot; -a &quot;$BUTTON&quot; = &quot;$button&quot; -a -n &quot;$handler&quot; ] &amp;amp;&amp;amp; {
+        [ -z &quot;$min&quot; -o -z &quot;$max&quot; ] &amp;amp;&amp;amp; eval $handler
+        [ -n &quot;$min&quot; -a -n &quot;$max&quot; ] &amp;amp;&amp;amp; {
+                [ $min -le $SEEN -a $max -ge $SEEN ] &amp;amp;&amp;amp; eval $handler
+        }
+}
+</code></pre><p>}</p>
+<p>config_load system<br>config_foreach do_button button<br>该脚本会读取system配置，对所有的button配置部分调用相应的handler<br>system配置如下：</p>
+<p><pre># cat /etc/config/system<br>config system<br>        option hostname OpenWrt<br>        option timezone UTC</pre></p>
+<p>config timeserver ntp<br>        list server     0.openwrt.pool.ntp.org<br>        list server     1.openwrt.pool.ntp.org<br>        list server     2.openwrt.pool.ntp.org<br>        list server     3.openwrt.pool.ntp.org<br>        option enable_server 0</p>
+<p>config button<br>        option button   reset<br>        option action   released<br>        option handler  “/opt/bin/toggle_wifi_client”<br>        option min      0<br>        option max      1</p>
+<p>config button<br>        option button   reset<br>        option action   released<br>        option handler  “/opt/bin/toggle_ap”<br>        option min      2<br>        option max      5</p>
+<p>config button<br>        option button   reset<br>        option action   released<br>        option handler  “/opt/bin/reset_to_ap”<br>        option min      6<br>        option max      20<br>可以看到， 按下reset按钮会调用toggle_wifi_client，按住reset 2~5秒调用toggle_ap，按住6秒以上调用reset_to_ap</p>
+<p><pre># cat toggle_wifi_client</pre></p>
+<p>#!/bin/sh<br>logger toggle_wifi_client “&lt;===================”</p>
+<p>st=$(uci -q get wireless.home.disabled)<br>if [ “$st” == “1” ]; then<br>    uci set wireless.company.disabled=1<br>    uci set wireless.home.disabled=0<br>else<br>    uci set wireless.home.disabled=1<br>    uci set wireless.company.disabled=0<br>fi<br>/etc/init.d/network restart</p>
+<p><pre># cat toggle_ap</pre></p>
+<p>#!/bin/sh<br>logger toggle_ap “&lt;===================”</p>
+<p>st=$(uci -q get wireless.ap.disabled)<br>if [ “$st” == “1” ]; then<br>    uci set wireless.ap.disabled=0<br>else<br>    uci set wireless.ap.disabled=1<br>fi<br>/etc/init.d/network restart<br>/etc/init.d/network restart</p>
+<p><pre># cat reset_to_ap</pre></p>
+<p>#!/bin/sh<br>logger reset_to_ap “&lt;===================”</p>
+<p>uci set wireless.ap.disabled=0<br>uci set wireless.home.disabled=1<br>uci set wireless.company.disabled=1<br>/etc/init.d/network restart<br>以上配置+脚本全部准备好之后，wifi切换功能就ready了</p>
+<p>看看系统配置，已经生效：</p>
+<p><pre># uci show system<br>system.@system[0]=system<br>system.@system[0].hostname=OpenWrt<br>system.@system[0].timezone=UTC<br>system.ntp=timeserver<br>system.ntp.server=0.openwrt.pool.ntp.org 1.openwrt.pool.ntp.org 2.openwrt.pool.ntp.org 3.openwrt.pool.ntp.org<br>system.ntp.enable_server=0<br>system.@button[0]=button<br>system.@button[0].button=reset<br>system.@button[0].action=released<br>system.@button[0].handler=/opt/bin/toggle_wifi_client<br>system.@button[0].min=0<br>system.@button[0].max=1<br>system.@button[1]=button<br>system.@button[1].button=reset<br>system.@button[1].action=released<br>system.@button[1].handler=/opt/bin/toggle_ap<br>system.@button[1].min=2<br>system.@button[1].max=5<br>system.@button[2]=button<br>system.@button[2].button=reset<br>system.@button[2].action=released<br>system.@button[2].handler=/opt/bin/reset_to_ap<br>system.@button[2].min=6<br>system.@button[2].max=20</pre><br>看看wireless配置：</p>
+<p><pre># uci show wireless<br>wireless.radio0=wifi-device<br>wireless.radio0.type=mac80211<br>wireless.radio0.channel=11<br>wireless.radio0.macaddr=1c:fa:68:f9:f3:4a<br>wireless.radio0.hwmode=11ng<br>wireless.radio0.htmode=HT20<br>wireless.radio0.ht_capab=SHORT-GI-20 SHORT-GI-40 RX-STBC1 DSSS_CCK-40<br>wireless.ap=wifi-iface<br>wireless.ap.device=radio0<br>wireless.ap.network=wlan<br>wireless.ap.mode=ap<br>wireless.ap.ssid=OpenWrt<br>wireless.ap.encryption=none<br>wireless.ap.disabled=0<br>wireless.company=wifi-iface<br>wireless.company.network=wwan<br>wireless.company.ssid=company_ssid<br>wireless.company.encryption=psk2<br>wireless.company.device=radio0<br>wireless.company.mode=sta<br>wireless.company.bssid=00:13:10:41:69:EE<br>wireless.company.key=xxxxxxxx<br>wireless.company.disabled=0<br>wireless.home=wifi-iface<br>wireless.home.network=wwan<br>wireless.home.ssid=home_ssid<br>wireless.home.encryption=psk2<br>wireless.home.device=radio0<br>wireless.home.mode=sta<br>wireless.home.bssid=00:21:29:74:33:EB<br>wireless.home.key=xxxxxxxx<br>wireless.home.wds=1<br>wireless.home.disabled=1</pre><br>可以看到ap模式开启，company配置开启，home配置关闭，与/etc/config/wireless中的配置一致</p>
+<p>长按reset 2秒后松开，可以看到如下log：</p>
+<p><pre>Sep  4 13:53:34 OpenWrt user.notice root: reset pressed<br>Sep  4 13:53:34 OpenWrt user.notice root:<br>Sep  4 13:53:37 OpenWrt user.notice root: toggle_ap &lt;===================<br>Sep  4 13:53:37 OpenWrt daemon.notice netifd: Interface ‘lan’ is now down<br>Sep  4 13:53:37 OpenWrt kern.info kernel: [  186.810000] br-lan: port 1(eth0) entered disabled state<br>Sep  4 13:53:37 OpenWrt kern.info kernel: [  186.810000] device eth0 left promiscuous mode<br>Sep  4 13:53:37 OpenWrt kern.info kernel: [  186.810000] br-lan: port 1(eth0) entered disabled state<br>Sep  4 13:53:37 OpenWrt kern.info kernel: [  186.830000] eth0: link down<br>Sep  4 13:53:37 OpenWrt daemon.notice netifd: Interface ‘loopback’ is now down<br>Sep  4 13:53:37 OpenWrt daemon.notice netifd: Interface ‘wlan’ is now down<br>Sep  4 13:53:37 OpenWrt daemon.notice netifd: wwan (1467): Sending select for 10.228.208.196…<br>Sep  4 13:53:37 OpenWrt daemon.notice netifd: wwan (1467): Received SIGTERM<br>Sep  4 13:53:37 OpenWrt daemon.notice netifd: Interface ‘wwan’ is now down<br>Sep  4 13:53:38 OpenWrt user.info firewall: removing lan (br-lan) from zone lan<br>Sep  4 13:53:39 OpenWrt kern.info kernel: [  188.950000] device eth0 entered promiscuous mode<br>Sep  4 13:53:39 OpenWrt daemon.notice netifd: Interface ‘lan’ is now up<br>Sep  4 13:53:39 OpenWrt daemon.notice netifd: Interface ‘loopback’ is now up<br>Sep  4 13:53:40 OpenWrt daemon.warn dnsmasq-dhcp[1893]: DHCP packet received on wlan0-1 which has no address<br>Sep  4 13:53:40 OpenWrt kern.info kernel: [  189.700000] eth0: link up (100Mbps/Full duplex)<br>Sep  4 13:53:40 OpenWrt kern.info kernel: [  189.700000] br-lan: port 1(eth0) entered forwarding state<br>Sep  4 13:53:40 OpenWrt kern.info kernel: [  189.710000] br-lan: port 1(eth0) entered forwarding state<br>Sep  4 13:53:40 OpenWrt user.notice ifup: Enabling Router Solicitations on lan (br-lan)<br>Sep  4 13:53:41 OpenWrt user.info firewall: adding lan (br-lan) to zone lan<br>Sep  4 13:53:42 OpenWrt kern.info kernel: [  191.710000] br-lan: port 1(eth0) entered forwarding state<br>Sep  4 13:53:42 OpenWrt user.notice ifup: Enabling Router Solicitations on loopback (lo)<br>Sep  4 13:53:44 OpenWrt kern.info kernel: [  193.400000] wlan0-1: deauthenticating from 00:13:10:41:69:ee by local choice (reason=3)<br>Sep  4 13:53:46 OpenWrt daemon.notice netifd: Interface ‘lan’ is now down<br>Sep  4 13:53:46 OpenWrt kern.info kernel: [  195.710000] br-lan: port 1(eth0) entered disabled state<br>Sep  4 13:53:46 OpenWrt kern.info kernel: [  195.740000] wlan0: authenticate with 00:13:10:41:69:ee<br>Sep  4 13:53:46 OpenWrt kern.info kernel: [  195.750000] wlan0: send auth to 00:13:10:41:69:ee (try 1/3)<br>Sep  4 13:53:46 OpenWrt kern.info kernel: [  195.750000] device eth0 left promiscuous mode<br>Sep  4 13:53:46 OpenWrt kern.info kernel: [  195.760000] br-lan: port 1(eth0) entered disabled state<br>Sep  4 13:53:46 OpenWrt kern.info kernel: [  195.760000] wlan0: authenticated<br>Sep  4 13:53:46 OpenWrt kern.info kernel: [  195.780000] eth0: link down<br>Sep  4 13:53:46 OpenWrt kern.info kernel: [  195.790000] wlan0: associate with 00:13:10:41:69:ee (try 1/3)<br>Sep  4 13:53:46 OpenWrt kern.info kernel: [  195.800000] wlan0: RX AssocResp from 00:13:10:41:69:ee (capab=0x411 status=0 aid=9)<br>Sep  4 13:53:46 OpenWrt kern.info kernel: [  195.800000] wlan0: associated<br>Sep  4 13:53:46 OpenWrt daemon.notice netifd: Interface ‘loopback’ is now down<br>Sep  4 13:53:46 OpenWrt daemon.notice netifd: Interface ‘wwan’ is now down<br>Sep  4 13:53:47 OpenWrt user.info firewall: removing lan (br-lan) from zone lan<br>Sep  4 13:53:48 OpenWrt kern.info kernel: [  197.950000] device eth0 entered promiscuous mode<br>Sep  4 13:53:48 OpenWrt daemon.notice netifd: Interface ‘lan’ is now up<br>Sep  4 13:53:48 OpenWrt daemon.notice netifd: Interface ‘loopback’ is now up<br>Sep  4 13:53:49 OpenWrt user.notice ifup: Enabling Router Solicitations on lan (br-lan)<br>Sep  4 13:53:49 OpenWrt kern.info kernel: [  198.700000] eth0: link up (100Mbps/Full duplex)<br>Sep  4 13:53:49 OpenWrt kern.info kernel: [  198.700000] br-lan: port 1(eth0) entered forwarding state<br>Sep  4 13:53:49 OpenWrt kern.info kernel: [  198.710000] br-lan: port 1(eth0) entered forwarding state<br>Sep  4 13:53:50 OpenWrt user.info firewall: adding lan (br-lan) to zone lan<br>Sep  4 13:53:51 OpenWrt kern.info kernel: [  200.710000] br-lan: port 1(eth0) entered forwarding state<br>Sep  4 13:53:51 OpenWrt user.notice ifup: Enabling Router Solicitations on loopback (lo)<br>Sep  4 13:53:53 OpenWrt kern.info kernel: [  202.350000] wlan0: deauthenticating from 00:13:10:41:69:ee by local choice (reason=3)<br>Sep  4 13:53:55 OpenWrt user.notice root: reset released<br>Sep  4 13:53:55 OpenWrt user.notice root:<br>Sep  4 13:53:55 OpenWrt kern.info kernel: [  204.660000] wlan0: authenticate with 00:13:10:41:69:ee<br>Sep  4 13:53:55 OpenWrt kern.info kernel: [  204.670000] wlan0: send auth to 00:13:10:41:69:ee (try 1/3)<br>Sep  4 13:53:55 OpenWrt daemon.notice netifd: wwan (3065): udhcpc (v1.19.4) started<br>Sep  4 13:53:55 OpenWrt daemon.notice netifd: wwan (3065): Sending discover…<br>Sep  4 13:53:55 OpenWrt kern.info kernel: [  204.880000] wlan0: send auth to 00:13:10:41:69:ee (try 2/3)<br>Sep  4 13:53:55 OpenWrt kern.info kernel: [  204.880000] wlan0: authenticated<br>Sep  4 13:53:55 OpenWrt kern.info kernel: [  204.910000] wlan0: associate with 00:13:10:41:69:ee (try 1/3)<br>Sep  4 13:53:55 OpenWrt kern.info kernel: [  205.120000] wlan0: associate with 00:13:10:41:69:ee (try 2/3)<br>Sep  4 13:53:55 OpenWrt kern.info kernel: [  205.150000] wlan0: RX AssocResp from 00:13:10:41:69:ee (capab=0x411 status=0 aid=9)<br>Sep  4 13:53:55 OpenWrt kern.info kernel: [  205.160000] wlan0: associated<br>Sep  4 13:53:58 OpenWrt daemon.notice netifd: wwan (3065): Sending discover…<br>Sep  4 13:54:01 OpenWrt daemon.notice netifd: wwan (3065): Sending discover…<br>Sep  4 13:54:04 OpenWrt daemon.notice netifd: wwan (3065): Sending select for 10.228.208.194…<br>Sep  4 13:54:04 OpenWrt daemon.notice netifd: wwan (3065): Lease of 10.228.208.194 obtained, lease time 86400<br>Sep  4 13:54:04 OpenWrt daemon.notice netifd: Interface ‘wwan’ is now up<br>Sep  4 13:54:05 OpenWrt user.notice ifup: Allowing Router Advertisements on wwan (wlan0)<br>Sep  4 13:54:06 OpenWrt user.info firewall: adding wwan (wlan0) to zone wan<br>Sep  4 13:54:11 OpenWrt daemon.info dnsmasq[1893]: reading /tmp/resolv.conf.auto<br>Sep  4 13:54:11 OpenWrt daemon.info dnsmasq[1893]: using nameserver 192.168.100.10#53<br>Sep  4 13:54:11 OpenWrt daemon.info dnsmasq[1893]: using nameserver 192.168.100.11#53<br>Sep  4 13:54:11 OpenWrt daemon.info dnsmasq[1893]: using nameserver 202.106.0.20#53<br>Sep  4 13:54:11 OpenWrt daemon.info dnsmasq[1893]: using local addresses only for domain lan</pre><br>可以看到<code>toggle_ap &lt;===================</code>，toggle_ap脚本被执行</p>
+<p><pre># uci show wireless<br>wireless.radio0=wifi-device<br>wireless.radio0.type=mac80211<br>wireless.radio0.channel=11<br>wireless.radio0.macaddr=1c:fa:68:f9:f3:4a<br>wireless.radio0.hwmode=11ng<br>wireless.radio0.htmode=HT20<br>wireless.radio0.ht_capab=SHORT-GI-20 SHORT-GI-40 RX-STBC1 DSSS_CCK-40<br>wireless.ap=wifi-iface<br>wireless.ap.device=radio0<br>wireless.ap.network=wlan<br>wireless.ap.mode=ap<br>wireless.ap.ssid=OpenWrt<br>wireless.ap.encryption=none<br>wireless.ap.disabled=1<br>wireless.company=wifi-iface<br>wireless.company.network=wwan<br>wireless.company.ssid=company_ssid<br>wireless.company.encryption=psk2<br>wireless.company.device=radio0<br>wireless.company.mode=sta<br>wireless.company.bssid=00:13:10:41:69:EE<br>wireless.company.key=xxxxxxxx<br>wireless.company.disabled=0<br>wireless.home=wifi-iface<br>wireless.home.network=wwan<br>wireless.home.ssid=home_ssid<br>wireless.home.encryption=psk2<br>wireless.home.device=radio0<br>wireless.home.mode=sta<br>wireless.home.bssid=00:21:29:74:33:EB<br>wireless.home.key=xxxxxxxx<br>wireless.home.wds=1<br>wireless.home.disabled=1</pre><br>可以看到AP模式被禁用了，<code>wireless.ap.disabled=1</code></p>
+<p>reset按钮功能扩展完成，昨晚在家里试验，按了一下reset按钮，成功切换连接到家里的主无线路由，并且AP模式也正常工作。今天早上在公司试验，开启路由默认就连接上公司路由，不过长按2秒后关闭AP模式时系统挂了（自动重启了），ssh半天连不上，重试后正常了，还是有些不稳定</p>
+<p>&nbsp;</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/09/05/TP-Link-TL-WR703n-Reset按钮功能扩展——wifi模式切换/" class="archive-article-date">
+  	<time datetime="2013-09-05T05:11:26.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-09-05</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2013/09/05/TP-Link-TL-WR703n增加一个GPIO控制按钮/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          TP-Link TL-WR703n增加一个GPIO控制按钮
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2013/08/30/编译OpenWrt固件，Build-your-custom-OpenWrt-firmware/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">编译OpenWrt固件，Build your custom OpenWrt firmware</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

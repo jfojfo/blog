@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>TP-Link TL-WR703n路由USB口用途1——串口 | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="理论上wr703n的USB口跟普通电脑上的USB口没有任何区别，wr703n就是一台mini pc，在普通PC上能干的事，在wr703n上都能干，只要你拥有对它的完全控制。刷了OpenWrt固件，我们就有了这样的控制。
+下面介绍将wr703n USB口当做串口用。
+将arduino板连接至wr703n的USB口，安装驱动。我自己用的是OCRobot mangoII，USB转ttl用的是FT232R">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TP-Link TL-WR703n路由USB口用途1——串口">
+<meta property="og:url" content="http://blog.pickbox.me/2013/08/26/TP-Link-TL-WR703n路由USB口用途1——串口/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="理论上wr703n的USB口跟普通电脑上的USB口没有任何区别，wr703n就是一台mini pc，在普通PC上能干的事，在wr703n上都能干，只要你拥有对它的完全控制。刷了OpenWrt固件，我们就有了这样的控制。
+下面介绍将wr703n USB口当做串口用。
+将arduino板连接至wr703n的USB口，安装驱动。我自己用的是OCRobot mangoII，USB转ttl用的是FT232R">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TP-Link TL-WR703n路由USB口用途1——串口">
+<meta name="twitter:description" content="理论上wr703n的USB口跟普通电脑上的USB口没有任何区别，wr703n就是一台mini pc，在普通PC上能干的事，在wr703n上都能干，只要你拥有对它的完全控制。刷了OpenWrt固件，我们就有了这样的控制。
+下面介绍将wr703n USB口当做串口用。
+将arduino板连接至wr703n的USB口，安装驱动。我自己用的是OCRobot mangoII，USB转ttl用的是FT232R">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-TP-Link-TL-WR703n路由USB口用途1——串口" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      TP-Link TL-WR703n路由USB口用途1——串口
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>理论上wr703n的USB口跟普通电脑上的USB口没有任何区别，wr703n就是一台mini pc，在普通PC上能干的事，在wr703n上都能干，只要你拥有对它的完全控制。刷了OpenWrt固件，我们就有了这样的控制。</p>
+<p>下面介绍将wr703n USB口当做串口用。</p>
+<p>将arduino板连接至wr703n的USB口，安装驱动。<br>我自己用的是OCRobot mangoII，USB转ttl用的是FT232RL芯片，</p>
+<p><pre class="brush: plain;toolbar:false; prettyprint">opkg intall kmod-usb-serial-ftdi</pre><br>如果是arduino uno r3，USB转换芯片用的是ATmega16U2</p>
+<p><pre class="brush: plain;toolbar:false; prettyprint">opkg install kmod-usb-acm</pre><br>其他USB转ttl芯片如PL2303</p>
+<p><pre class="brush: plain;toolbar:false; prettyprint">opkg install kmod-usb-serial-pl2303</pre><br>CP201x系列：</p>
+<p><pre class="brush: plain;toolbar:false; prettyprint">opkg install kmod-usb-serial-cp210x</pre><br>安装完驱动wr703n就可以识别arduino开发板了，可以看到在/dev/目录下多了一个ttyUSB0</p>
+<p>下面的任务就是在wr703n上显示串口数据了，可以使用在嵌入式开发中经常被用到的minicom<br>不过我们不打算用minicom在wr703n终端显示串口数据</p>
+<p>既然是无线路由，当然要好好利用它的无线功能，ser2net可以将串口数据转换为一个TCP服务，通过无线连接到wr703n就可以查看到串口数据了</p>
+<p><pre class="brush: plain;toolbar:false; prettyprint">opkg install ser2net</pre><br>修改ser2net的配置文件/etc/ser2net.conf，在文件末尾添加一行：</p>
+<p><pre class="brush: plain;toolbar:false; prettyprint">1234:raw:0:/dev/ttyUSB0:115200</pre><br>运行ser2net命令将开启一个TCP 1234端口，以115200波特率读取/dev/ttyUSB0串口<br>波特率根据自己的arduino代码进行设置，这里我设的是115200</p>
+<p>下面是在arduino上运行的代码，每秒钟打印一次接在pin 2上的pushbutton的状态：</p>
+<p><pre class="brush: plain;toolbar:false; prettyprint">/*<br>  DigitalReadSerial<br> Reads a digital input on pin 2, prints the result to the serial monitor </pre></p>
+<p> This example code is in the public domain.<br> */</p>
+<p>// digital pin 2 has a pushbutton attached to it. Give it a name:<br>int pushButton = 2;</p>
+<p>// the setup routine runs once when you press reset:<br>void setup() {<br>  // initialize serial communication at 9600 bits per second:<br>  Serial.begin(115200);<br>  // make the pushbutton’s pin an input:<br>  pinMode(pushButton, INPUT);<br>}</p>
+<p>// the loop routine runs over and over again forever:<br>void loop() {<br>  // read the input pin:<br>  int buttonState = digitalRead(pushButton);<br>  // print out the state of the button:<br>  Serial.print(millis());<br>  Serial.print(“ms: “);<br>  Serial.println(buttonState);<br>  delay(1000);        // delay in between reads for stability<br>}<br>在笔记本上需要一个工具连接到TCP 1234端口，推荐使用<a href="http://www.hw-group.com/products/hercules/index_en.html" target="_blank">Hercules</a>，Hercules还可以连串口、UDP，功能齐全<br>下载：<a href="http://pan.baidu.com/share/link?shareid=543374251&amp;uk=1560615390" target="_blank">http://pan.baidu.com/share/link?shareid=543374251&amp;uk=1560615390</a></p>
+<p>Hercules切换到TCP，填好wr703n的IP地址和端口号，连接就可以看到arduino程序的串口输出了</p>
+<p>这里有篇文章<a href="http://ediy.com.my/index.php/blog/item/6-control-arduino-with-tp-link-tl-wr1043nd-router" target="_blank">Control Arduino with TP-Link TL-WR1043ND Router</a>提到<strong>socat</strong>，说是功能比ser2net更强大，有空可以试试</p>
+<p>另外，不只是读串口数据，我们还可以向串口发送数据，在arduino代码中实现好解析协议，实现对IO端口进行控制</p>
+<p>&nbsp;</p>
+<hr>
+
+<p>2013-09-08更新：</p>
+<p>ser2net使用非常不稳定，连接10多秒就自动断开连接了，改用socat后很稳定，可保持长时间连接不掉线</p>
+<p>配置如下，在/etc/rc.local文件中添加两行（注：命令末尾要加上’&amp;’放到后台运行，如果不加重启路由后LED会闪烁不止，因为脚本在这一行挂起了，后续脚本无法执行）：</p>
+<p><pre>#open a tcp 9600 port &amp; set to baud rate 9600. The usb serial port is /dev/ttyUSB0<br>socat tcp-listen:9600,reuseaddr,fork file:/dev/ttyUSB0,nonblock,raw,echo=0,waitlock=/var/run/tty1,b9600 &amp;</pre></p>
+<p>#open a tcp 115200 port &amp; set to baud rate 115200. The usb serial port is /dev/ttyUSB0<br>socat tcp-listen:115200,reuseaddr,fork file:/dev/ttyUSB0,nonblock,raw,echo=0,waitlock=/var/run/tty2,b115200 &amp;<br>每次通过TCP连接时都会重置一下（打开/dev/ttyUSB0设备时重置），为避免 重置，可以在rc.local开头处加上：</p>
+<p><pre>cat /dev/ttyUSB0</pre><br><a href="http://technostuff.blogspot.com/2008/10/some-useful-socat-commands.html" target="_blank">查看更多socat用法</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/08/26/TP-Link-TL-WR703n路由USB口用途1——串口/" class="archive-article-date">
+  	<time datetime="2013-08-26T03:36:03.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-08-26</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2013/08/28/TP-Link-TL-WR703n路由USB口用途2——挂载U盘，从U盘启动/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          TP-Link TL-WR703n路由USB口用途2——挂载U盘，从U盘启动
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2013/08/25/给WR703n刷OpenWrt，配置无线AP-AP客户端混合模式/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">给WR703n刷OpenWrt，配置无线AP+AP客户端混合模式</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

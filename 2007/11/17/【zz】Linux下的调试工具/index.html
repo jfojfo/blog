@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>【zz】Linux下的调试工具 | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="strace&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;  -c&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;  Count time, calls, and errors for each system call and report a summary on program exit.  &amp;nbsp;&amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【zz】Linux下的调试工具">
+<meta property="og:url" content="http://blog.pickbox.me/2007/11/17/【zz】Linux下的调试工具/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="strace&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;  -c&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;  Count time, calls, and errors for each system call and report a summary on program exit.  &amp;nbsp;&amp;">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/057da9643806bce3f7365489.jpg">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【zz】Linux下的调试工具">
+<meta name="twitter:description" content="strace&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;  -c&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;  Count time, calls, and errors for each system call and report a summary on program exit.  &amp;nbsp;&amp;">
+<meta name="twitter:image" content="http://img.pickbox.me/wp-content/uploads/pic/057da9643806bce3f7365489.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-【zz】Linux下的调试工具" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      【zz】Linux下的调试工具
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> strace<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  -c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Count time, calls, and errors for each system call and report a summary on program exit.  <br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   -e trace=set<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Trace only the specified set of system calls. For example, trace=open,close,read,write means to only trace those four system calls. The default is trace=all.<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    -e read=set Perform a full hexadecimal and ASCII dump of all the data read from file descriptors listed in the specified set.  For example,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    to see all input activity on file descriptors 3 and 5 use -e read=3,5.  Note that this is independent from the  normal  tracing<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    of the read(2) system call which is controlled by the option -e trace=read.<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    -e write=set<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Perform  a  full hexadecimal and ASCII dump of all the data written to file descriptors listed in the specified set.  For exam-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    ple, to see all output activity on file descriptors 3 and 5 use -e write=3,5.  Note that this is independent  from  the  normal<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    tracing of the write(2) system call which is controlled by the option -e trace=write.<br><br><br><br><br><br><br>===================================================================================<br><br></p><p><a target="_blank" href="http://blog.csdn.net/absurd/archive/2006/02/28/612612.aspx">http://blog.csdn.net/absurd/archive/2006/02/28/612612.aspx</a><br></p><p>随着XP的流行，人们越来越注重软件的前期设计、后期的实现，以及贯穿于其中的测试工作，经过这个过程出来的自然是高质量的软件。甚至有人声称XP会淘汰调试器！这当然是有一定道理的，然而就目前的现实来看，这还是一种理想。在日常工作中，调试工具还是必不可少的。在Linux下，调试工具并非只有gdb，还有很多其它调试工具，它们都各有所长，侧重方面也有所不同。本文介绍几种笔者常用的调试工具：</p><p> </p><p>1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       mtrace</p><p>在linux下开发应用程序，用C/C++语言的居多。内存泄露和内存越界等内存错误，无疑是其中最头疼的问题之一。glibc为解决内存错误提供了两种方案：</p><p> </p><p>一种是hook内存管理函数。hook内存管理函数后，你可以通过记下内存分配的历史记录，在程序终止时查看是否有内存泄露，这样就可以找出内存泄露的地方了。你也可以通过在所分配内存的首尾写入特殊的标志，在释放内存时检查该标志是否被破坏了，这样就可以达到检查内存越界问题的目的。</p><p> </p><p>另外一种方法更简单，glibc已经为第一种方案提供了默认的实现，你要做的只是在特定的位置调用mtrace/muntrace两个函数，它们的函数原型如下：</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       #include &lt;mcheck.h&gt;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       void mtrace(void);</p><p>void muntrace(void);</p><p>你可能会问，在哪里调这两种函数最好？这没有固定的答案，要视具体情况而定。对于小程序来说，在进入main时调用mtrace，在退出main函数时调用muntrace。对于大型软件，这样做可能会记录过多的信息，分析这些记录会比较慢，这时可以在你所怀疑代码的两端调用。</p><p> </p><p>另外，还需要设置一个环境变量MALLOC_TRACE，它是一个文件名，要保证当前用户有权限创建和写入该文件。glibc的内存管理器会把内存分配的历史信息写入到MALLOC<em>TRACE指定的文件中。</em></p><p> </p><p>程序运行完毕后，使用mtrace工具分析这些内存分配历史信息，可以查出内存错误的位置（mtrace在glibc-utils软件包里)。</p><p> </p><p>2.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       strace </p><p>在编程时，检查函数的返回值是一种好习惯。对于像glibc等标准C的函数，光检查返回值是不够的，还需要检查errno的值。这样的程序往往显得冗长，不够简洁。同时也可能是出于偷懒的原因，大多数程序里并没有做这样的检查。</p><p> </p><p>这样的程序，一旦出现错误，用调试器一步一步定位错误，然后想法查出错误的原因，也是可以的，不过比较麻烦，对调试器来说有些大材小用，不太可取。这时，用strace命令可能会更方便一点。它可以显示各个系统调用/信号的执行过程和结果。比如文件打开出错，一眼就看出来了，连错误的原因(errno)都知道。</p><p> </p><p>3.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       binutil</p><p>binutil是一系列的工具，你可能根本不知道它们的存在，但是没有它们你却寸步难行。Binutil包括下列工具：</p><ul> <li>ld - the GNU linker. </li> <li>as - the GNU assembler. </li> <li>addr2line - Converts addresses into filenames and line numbers. </li> <li>ar - A utility for creating, modifying and extracting from archives. </li> <li>c++filt - Filter to demangle encoded C++ symbols. </li> <li>gprof - Displays profiling information. </li> <li>nlmconv - Converts object code into an NLM. </li> <li>nm - Lists symbols from object files. </li> <li>objcopy - Copys and translates object files. </li> <li>objdump - Displays information from object files. </li> <li>ranlib - Generates an index to the contents of an archive. </li> <li>readelf - Displays information from any ELF format object file. </li> <li>size - Lists the section sizes of an object or archive file. </li> <li>strings - Lists printable strings from files. </li> <li>strip - Discards symbols. </li> <li>windres - A compiler for Windows resource files. </li></ul><p>其中部分工具对调试极有帮助，如：</p><p>你可以用objdump反汇编，查看目标文件或可执行文件内部信息。</p><p>你可以用addr2line把机器地址转换到代码对应的位置。</p><p>你可以用nm查看目标文件或可执行文件中的各种符号。</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       你可以用gprof分析各个函数的使用情况，找出性能的瓶颈所在(这需要加编译选项)。</p><p> </p><p>4.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       ld-linux</p><p>现在加载ELF可执行文件的工作，已经落到ld-linux.so.2头上了。你可能会问，这与有调试程序有关系吗？有的。比如，在linux中，共享库里所有非static的函数/全局变量都是export的，更糟的是C语言中没有名字空间这个概念，导致函数名极易冲突。在多个共享库中，名字冲突引起的BUG是比较难查的。这时，你可以通过设置LD DEBUG环境变量，来观察ld-linux.so加载可执行文件的过程，从中可以得到不少帮助信息。LD_ DEBUG的取值如下：</p><ul> <li>libs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       display library search paths</li> <li>reloc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       display relocation processing</li> <li>files&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       display progress for input file</li> <li>symbols&nbsp;&nbsp;&nbsp;&nbsp;       display symbol table processing</li> <li>bindings&nbsp;&nbsp;&nbsp;       display information about symbol binding</li> <li>versions&nbsp;&nbsp;&nbsp;       display version dependencies</li> <li>all&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       all previous options combined</li> <li>statistics  display relocation statistics</li> <li>unused&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       determined unused DSOs</li> <li>help&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       display this help message and exit</li></ul><p>5.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       gdb</p><p>对于真正意义的调试器来说，gdb在linux下是独一无二的。它有多种包装，有字符界面的，也有图形界面的，有单独运行的，也有集成到IDE中的。gdb功能强大，图形界面的gdb容易上手一点，但功能无疑受到了一些限制，相信大部分高手还是愿意使用字符界面的。Gdb太常用了，这里不再多说。</p><p> </p><p>6.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       gcc/boundschecker</p><p>相信很多人用过win32下的BoundsChecker(Compuware公司)和Purify(IBM公司)两个工具吧。它们的功能实在太强大了，绝非能通过重载内存管理函数就可以做到，它们在编译时插入了自己的调试代码。</p><p> </p><p>gcc也有个扩展，通过在编译时插入调试代码，来实现更强大的检查功能。当然这要求重新编译gcc，你可以到<a href="http://sourceforge.net/projects/boundschecking/" target="_blank" rel="external">http://sourceforge.net/projects/boundschecking/</a> 下载gcc的补丁。它的可移植性非常好，笔者曾一个ARM 平台项目里使用过，效果不错。</p><p> </p><p>7.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       valgrind</p><p>最好的东西往往最后才见到。Valgrind是我的最爱，用习惯了，写的程序不在valgrind下跑一遍，就像没有写单元测试程序一样，有点放心不下。它有BoundsChecker/Purify的功能，而且速度更快。</p><p> </p><p>有点遗憾的是valgrind目前只支持x86平台，当然，这对大多数情况已经足够了。</p><p> </p><p>你可以到<a href="http://valgrind.org/" target="_blank" rel="external">http://valgrind.org/</a> 下载最新版本。</p><br>8. &nbsp;&nbsp;&nbsp;     DDD<br><p>使用图形模式的调试器相对于命令行调试器的一个优点是，在调试器中单步执行程序的同时可以看到对应的每行源代码。</p><p>GNU DDD（Data Display Debugger）就是一个调试器（例如 GDB 和 JDB）的图形化前端。除了常见的前端特性（例如查看源代码）之外，DDD 还通过将要显示的数据结构以交互式的图形化方式进行显示而闻名。</p><p>对于 SLES 9 来说，用于 PowerPC 的 DDD 二进制文件是在 SUSE Linux SDK CD 中单独提供的，也可以从 Novell 公司的网站上进行下载（参阅 <a href="http://www-128.ibm.com/developerworks/cn/linux/l-pow-debug/#resources" target="_blank" rel="external">参考资料</a>）。RedHat 在 RHEL AS 4 CD 中提供了 DDD 的 rpm 包。</p><img class="blogimg" small="0" src="http://img.pickbox.me/wp-content/uploads/pic/057da9643806bce3f7365489.jpg"><br><br><br><br> <br><br><br><del>end</del><br> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/11/17/【zz】Linux下的调试工具/" class="archive-article-date">
+  	<time datetime="2007-11-17T13:48:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-11-17</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux-Debug/">Linux Debug</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2007/11/18/kprobes-tutorial/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          kprobes tutorial
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2007/11/17/【zz】Linux下共享库（SO）有关的几个环境变量/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">【zz】Linux下共享库（SO）有关的几个环境变量</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

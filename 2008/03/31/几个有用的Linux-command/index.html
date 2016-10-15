@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>几个有用的Linux command | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="==================================================================locale 是 utf-8 的时候 telnet gbk编码的bbs 会出现乱码解决方法 : 使用 luit (belongs to ‘xorg-apps’)luit -encoding gbk telnet zju88.cn===================">
+<meta property="og:type" content="article">
+<meta property="og:title" content="几个有用的Linux command">
+<meta property="og:url" content="http://blog.pickbox.me/2008/03/31/几个有用的Linux-command/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="==================================================================locale 是 utf-8 的时候 telnet gbk编码的bbs 会出现乱码解决方法 : 使用 luit (belongs to ‘xorg-apps’)luit -encoding gbk telnet zju88.cn===================">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="几个有用的Linux command">
+<meta name="twitter:description" content="==================================================================locale 是 utf-8 的时候 telnet gbk编码的bbs 会出现乱码解决方法 : 使用 luit (belongs to ‘xorg-apps’)luit -encoding gbk telnet zju88.cn===================">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-几个有用的Linux-command" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      几个有用的Linux command
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <br>==================================================================<br>locale 是 utf-8 的时候 telnet gbk编码的bbs 会出现乱码<br><br>解决方法 : 使用 luit (belongs to ‘xorg-apps’)<br>luit -encoding gbk telnet zju88.cn<br><br>==================================================================<br>linux shell 列出当前目录的文件树/目录树<br>文件树：<br>find . -print 2&gt;/dev/null|awk ‘!/.$/ {for (i=1;i&lt;NF;i++){d=length($i);if ( d &lt; 5 &amp;&amp; i != 1 )d=5;printf(&quot;%&quot;d&quot;s&quot;,&quot;|&quot;)}print &quot;—&quot;$NF}’ FS=’/‘<br><br>目录树：<br>find . -type d -print 2&gt;/dev/null|awk ‘!/.$/ {for (i=1;i&lt;NF;i++){d=length($i);if ( d &lt; 5 &amp;&amp; i != 1 )d=5;printf(&quot;%&quot;d&quot;s&quot;,&quot;|&quot;)}print &quot;—&quot;$NF}’ FS=’/‘<br><br>==================================================================<br>wget下载整个网站<br>wget -t0 -c -nH -np -b -m -P /localdir <a href="http://freesoft.online.sh.cn/mirrors/ftp.redhat.com" target="_blank" rel="external">http://freesoft.online.sh.cn/mirrors/ftp.redhat.com</a> -o wget.log<br><br>==================================================================<br> 怎样限制一个用户可以启动的进程数<br>先确定一下/etc/pam.d/login 文件中下面一行的存在:<br>session required /lib/security/pam_limits.so<br>然后编辑/etc/security/limits.conf,在里面可以设置限制用户的进程数、CPU 占用率和内存使用率<br>等,如 hard nproc 20 就是指限制 20 个进程,具体可以看 man。<br><br>限制su命令的滥用<br>使用PAM（Pluggable Authentication Modules）可以禁止除在<br>wheel 组以外的任何人su 成root ， 修改/etc/pam.d/su 文件， 除去屏蔽标识# 。使<br>用/usr/sbin/usermod G10 bjecadm将bjecadm这个账号加入gid为10的组，就是wheel组。<br>命令如下：<br>cat /etc/pam.d/su<br>#%PAM-1.0<br>auth&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;    sufficient&#160;&#160;&#160;&#160;&#160;    pam_rootok.so<br># Uncomment the following line to implicitly trust users in the &quot;wheel&quot; group.<br>auth&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;    sufficient&#160;&#160;&#160;&#160;&#160;    pam_wheel.so trust use_uid<br># Uncomment the following line to require a user to be in the &quot;wheel&quot; group.<br>auth&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;    required&#160;&#160;&#160;&#160;&#160;&#160;&#160;    pam_wheel.so use_uid<br>auth&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;    required&#160;&#160;&#160;&#160;&#160;&#160;&#160;    pam_unix.so<br>account&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;    required&#160;&#160;&#160;&#160;&#160;&#160;&#160;    pam_unix.so<br>session&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;    required&#160;&#160;&#160;&#160;&#160;&#160;&#160;    pam_unix.so<br><br>chmod -G10 username<br><br>==================================================================<br>日志维护工具 logrotate<br>在/etc/logrotate.conf 中配置,定义 log 文件达到预定的大小或时间时,自动压缩 log 文件<br><br>==================================================================<br>去掉多余的回车符<br>sed ‘s/^M//‘ test.sh &gt; back.sh， 注意^M是敲ctrl_v ctrl-m得到的<br><br>==================================================================<br>改变redhat的系统语言/字符集<br>修改 /etc/sysconfig/i18n 文件，如<br>LANG=&quot;en_US&quot;，xwindow会显示英文界面，<br>LANG=&quot;zh_CN.GB18030&quot;，xwindow会显示中文界面。<br>还有一种方法<br>cp /etc/sysconfig/i18n $HOME/.i18n<br>vi $HOME/.i18n 文件，如<br>LANG=&quot;en_US&quot;，xwindow会显示英文界面，<br>LANG=&quot;zh_CN.GB18030&quot;，xwindow会显示中文界面。<br>这样就可以改变个人的界面语言，而不影响别的用户<br><br>==================================================================<br>查找权限位为S的文件<br>find . -type f ( -perm -04000 -o -perm -02000 ) -exec ls -lg {} ;<br><br>==================================================================<br>把弹出的光盘收回来<br>eject –t<br><br>==================================================================<br>查找或删除正在使用某文件的进程<br>fuser filename<br>fuser -k filename<br><br>==================================================================<br>让显示器不休眠<br>setterm -blank 0<br>setterm -blank n (n为等待时间)<br><br>==================================================================<br>让用户的密码必须有一定的长度，并且符合复杂度<br>vi /etc/login.defs，修改PASS_MIN_LEN<br><br>==================================================================<br>硬盘iso安装后怎么添加和删除rpm包<br>redhat-config-packages –isodir=&lt; PATH &gt;<br>&lt; PATH &gt;为iso文件所在的目录<br><br>==================================================================<br><u><em>文件名编码转换工具</em></u><br><br><br><br>在linux中各种文件时经常会遇到文件名乱码的情况，用工具convmv可以把文件名从一种编码转换到另一种编码，使之正常显示。<br><br>中文系统中最常见到的是gb2312编码，而debian默认的是utf-8编码，用gnome默认的bt客户端下载的文件中，中文编码大多数都是乱码的，于是，用下面命令可以批量转换：<br>$cd 放置乱码文件的目录下（只有乱码的文件/文件夹的情况下）<br>$convmv -f zh_CN.gb2312 -t UTF-8 -r –notest *<br><br><br><u><em>文件内容编码转换工具</em></u><br>$iconv -f gb2312 -t utf-8 sample.txt -o converted.txt<br>ref：<a target="_blank" href="http://blog.chinaunix.net/u1/39867/showart_320100.html"><strong>convert gb2312 to utf-8</strong></a><br><br><br><em><u>检测文件编码</u></em><br></p><p>a.如果你不知道你所要转换的文件的编码格式，你可以通过 enca 这个工具来检测编<br>码。举例如下：</p><p>bash: ~ &gt; enca foo.txt</p><p>Universal transformation format 8 bits; UTF-8</p><br>==================================================================<br>怎样恢复被删除的文件（使用该文件的进程未退出）<br>jfo@jfo-laptop:~$ ls &gt; myfile<br>jfo@jfo-laptop:~$ less myfile<br>然后按Ctrl+z，使得less进程进入后台<br>jfo@jfo-laptop:~$ rm myfile<br>此时myfile已经被删除～<br>jfo@jfo-laptop:~$ lsof -n | grep myfile<br>less&#160;&#160;&#160;&#160;&#160;&#160;        9833&#160;&#160;&#160;&#160;&#160;&#160;&#160;        jfo&#160;&#160;&#160;        4r&#160;&#160;&#160;&#160;&#160;        REG&#160;&#160;&#160;&#160;&#160;&#160;&#160;        7,0&#160;&#160;&#160;&#160;&#160;&#160;        80 232573 /home/jfo/myfile (deleted)<br>可以看到进程9833仍在使用该文件<br>jfo@jfo-laptop:~$ cd /proc/9833/fd/<br>jfo@jfo-laptop:~$ ls -l<br>lrwx—— 1 jfo jfo 64 2008-10-11 10:59 0 -&gt; /dev/pts/4<br>lrwx—— 1 jfo jfo 64 2008-10-11 10:59 1 -&gt; /dev/pts/4<br>lrwx—— 1 jfo jfo 64 2008-10-11 10:59 2 -&gt; /dev/pts/4<br>lr-x—— 1 jfo jfo 64 2008-10-11 10:59 3 -&gt; /dev/tty<br>lr-x—— 1 jfo jfo 64 2008-10-11 10:59 4 -&gt; /home/jfo/myfile (deleted)<br>jfo@jfo-laptop:~$ cp 4 ~/myfile.recovered<br><br>Ok，文件已恢复！<br><br>==================================================================<br><br><br><br><br><br><br><br><br><br><br><del>continue</del> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/03/31/几个有用的Linux-command/" class="archive-article-date">
+  	<time datetime="2008-03-31T14:18:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-03-31</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux-App/">Linux App</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2008/04/01/解决百阅字挤字的problem/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          解决百阅字挤字的problem
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2008/03/29/【zz】兰德公司评中国/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">【zz】兰德公司评中国</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

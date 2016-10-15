@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>【zz】在Windows中安装Apache2和PHP4 | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="apache-2.2对 httpd.conf 增加如下设置：1.模块方式运行phpLoadModule php4_module&amp;nbsp;&amp;nbsp;&amp;nbsp;       &amp;quot;E:/work/php-4.4.6-Win32/sapi/php4apache2_2.dll&amp;quot;&amp;lt;IfModule php4_module&amp;gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【zz】在Windows中安装Apache2和PHP4">
+<meta property="og:url" content="http://blog.pickbox.me/2008/02/03/【zz】在Windows中安装Apache2和PHP4/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="apache-2.2对 httpd.conf 增加如下设置：1.模块方式运行phpLoadModule php4_module&amp;nbsp;&amp;nbsp;&amp;nbsp;       &amp;quot;E:/work/php-4.4.6-Win32/sapi/php4apache2_2.dll&amp;quot;&amp;lt;IfModule php4_module&amp;gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;">
+<meta property="og:image" content="http://phpe.net/uploads/images/article_aa_3831.jpg">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【zz】在Windows中安装Apache2和PHP4">
+<meta name="twitter:description" content="apache-2.2对 httpd.conf 增加如下设置：1.模块方式运行phpLoadModule php4_module&amp;nbsp;&amp;nbsp;&amp;nbsp;       &amp;quot;E:/work/php-4.4.6-Win32/sapi/php4apache2_2.dll&amp;quot;&amp;lt;IfModule php4_module&amp;gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;">
+<meta name="twitter:image" content="http://phpe.net/uploads/images/article_aa_3831.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-【zz】在Windows中安装Apache2和PHP4" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      【zz】在Windows中安装Apache2和PHP4
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> apache-2.2<br>对 httpd.conf 增加如下设置：<br><br>1.模块方式运行php<br>LoadModule php4_module&nbsp;&nbsp;&nbsp;       &quot;E:/work/php-4.4.6-Win32/sapi/php4apache2_2.dll&quot;<br>&lt;IfModule php4_module&gt;<br>&nbsp;&nbsp;&nbsp;       AddType application/x-httpd-php .php<br>&lt;/IfModule&gt;<br>/<em> this is not needed<br>&lt;Directory &quot;E:/work/php-4.4.6-Win32&quot;&gt;<br>&nbsp;&nbsp;&nbsp;       Options Indexes FollowSymLinks<br>&nbsp;&nbsp;&nbsp;       AllowOverride All<br>&nbsp;&nbsp;&nbsp;       Order allow,deny<br>&nbsp;&nbsp;&nbsp;       Allow from all<br>&lt;/Directory&gt;<br></em>/<br>apache-2.2和php-4.4.6-Win32组合有一个小bug，即不能以模块的方式加载php4apache2.dll，<br>参见<a target="_blank" href="http://www.devside.net/articles/windows/php-apache22">http://www.devside.net/articles/windows/php-apache22</a><br>可以去<a target="_blank" href="http://www.apachelounge.com/download/">http://www.apachelounge.com/download/</a> 下载一个新的php4apache2_2.dll模块<br><br>2.cgi方式运行php<br>&nbsp;&nbsp;&nbsp;  ScriptAlias /php/ &quot;E:/work/php-4.4.6-Win32/&quot;<br>&nbsp;&nbsp;&nbsp;  AddType application/x-httpd-php .php<br>&nbsp;&nbsp;&nbsp;  Action application/x-httpd-php &quot;/php/php.exe&quot;<br> <br> <hr>解决XP sp2下apache不能启动的问题：（折腾了我几个小时，这里给出解决办法，以供参考！）<br>启动apache2.2 service monitor提示错误the requested operation has failed!<br><br>分类:默认栏目 <br>第一步    <br> 在网上邻居–&gt; 本地连接–&gt; Internet   Protocol   (TCP/IP)–&gt; 属性–&gt; 高级–&gt; WINS–&gt; 把启用LMhosts搜寻   关掉!    <br><br>第二步    <br>控制面板–&gt; 安全中心—&gt; windows防火墙中–&gt; 高级–&gt; 网络连接设置–&gt; 设置–&gt; web服务器(HTTP)   选项打上对勾 <br><br><br> <hr>配个自己的www服务器并不难。本文即为我配置的手记，WinXPSP1下配置完成，SP2<br>和Win2003下也没问题，希望对大家有所帮助。<br>所需工具：<br><br>1、apache_2.0.52-win32-x86-no_ssl.msi<br>2、mysql-4.0.22-win.zip<br>3、php-5.0.2-Win32.zip<br><br>下载：缘网有，地址为：<br><br>apache：<a href="http://10.14.91.104/Soft/netsoft/server/200410/425.html" target="_blank" rel="external">http://10.14.91.104/Soft/netsoft/server/200410/425.html</a><br>mysql：<a href="http://10.14.91.104/Soft/database/MySQL/200411/576.html" target="_blank" rel="external">http://10.14.91.104/Soft/database/MySQL/200411/576.html</a><br>php：<a href="http://10.14.91.104/Soft/program/PHP/200410/446.html" target="_blank" rel="external">http://10.14.91.104/Soft/program/PHP/200410/446.html</a><br><br>由于版本更新很快，所以最好是安装最新的版本。另外，apache分1.3和2.0系列，<br>企业级应用推荐用1.3系列，普通应用可以选2.0系列；mysql分4.0和5.0系列，后者<br>善不成熟，所以推荐前者，最新版本为4.0.22；php分4.3和5.0系列，企业级应用推<br>荐用4.3系列。这里用了apache2，mysql4，php5。php4的安装方法跟这个差不多，<br>不过因为php4默认支持mysql，所以就不要配置mysql模块了。后面有说明。<br><br>一、安装Apache<br>&nbsp;&nbsp;&nbsp;     这个比较简单，跟安装一般的软件没什么区别，只要在domain处填上你申请的<br>域名（如diogin.3322.org，两个都填一样，无所谓的，以后可以改），admin处填<br>上你的邮箱就行，80那个默认即可。我安装的路径为X:（X的值随你改），软件自<br>动生成一个目录Apache2，所以安装的绝对路径为X:Apache2。安装过程中如果你有<br>防火墙，注意让Apache永久通行。<br>&nbsp;&nbsp;&nbsp;     接下来在X:下新建一个wwwroot的文件夹，用来存放网页文件。进入Apache2<br>conf目录，配置httpd.conf文件，这个是Apache启动时读取数据的文件，正确配置<br>有助于更有效地利用Apache的性能。先暂时按如下配置（利用查找功能找项，后面<br>的参数已经过我的修改，//部分为解释，不要加。&ldquo;#&rdquo;代表将该行为注释）：<br><br>1) DocumentRoot &quot;X:/wwwroot&quot;  //这里配置网页文件存放目录，默认为htdocs<br>2) &lt;Directory &quot;X:/wwwroot&quot;&gt;  //这项在上一项下不远，配置wwwroot文件夹属性<br>3) DirectoryIndex index.htm index.php  //首页文件定义，按顺序出现<br>4) ServerTokens Prod  //隐藏Apache版本<br>5) ServerSignature Off  //安全起见，关掉Signature<br>//接下来，找到如下一大段（原文中每行未加#号），在每行前加上#号，主要为了<br>减少安全麻烦：（其实是一些虚拟路径，没什么用。如果你要用CGI，注意保留CGI<br>部分设置不注释掉）<br>6)<br>Alias /icons/ &quot;G:/Apache2/icons/&quot;<br>&lt;Directory &quot;G:/Apache2/icons&quot;&gt;<br>&nbsp;&nbsp;&nbsp;     Options Indexes MultiViews<br>&nbsp;&nbsp;&nbsp;     AllowOverride None<br>&nbsp;&nbsp;&nbsp;     Order allow,deny<br>&nbsp;&nbsp;&nbsp;     Allow from all<br>&lt;/Directory&gt;<br>This should be changed to the ServerRoot/manual/.  The alias provides<br>the manual, even if you choose to move your DocumentRoot.  You may comm<br>ent<br>this out if you do not care for the documentation.<br>AliasMatch ^/manual(?:/(?:de|en|es|fr|ja|ko|ru))?(/.<em>)?$ &quot;G:/Apache2/man<br>ual$1&quot;<br>&lt;Directory &quot;G:/Apache2/manual&quot;&gt;<br>&nbsp;&nbsp;&nbsp;     Options Indexes<br>&nbsp;&nbsp;&nbsp;     AllowOverride None<br>&nbsp;&nbsp;&nbsp;     Order allow,deny<br>&nbsp;&nbsp;&nbsp;     Allow from all<br>&nbsp;&nbsp;&nbsp;     &lt;Files </em>.html&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     SetHandler type-map<br>&nbsp;&nbsp;&nbsp;     &lt;/Files&gt;<br>&nbsp;&nbsp;&nbsp;     SetEnvIf Request_URI ^/manual/(de|en|es|fr|ja|ko|ru)/ prefer-languag<br>e=$1<br>&nbsp;&nbsp;&nbsp;     RedirectMatch 301 ^/manual(?:/(de|en|es|fr|ja|ko|ru)){2,}(/.*)?$ /ma<br>nual/$1$2<br>&lt;/Directory&gt;<br>ScriptAlias: This controls which directories contain server scripts.<br>ScriptAliases are essentially the same as Aliases, except that<br>documents in the realname directory are treated as applications and<br>run by the server when requested rather than as documents sent to the c<br>lient.<br>The same rules about trailing &quot;/&quot; apply to ScriptAlias directives as to<br><br>Alias.<br>ScriptAlias /cgi-bin/ &quot;G:/Apache2/cgi-bin/&quot;<br>&quot;G:/Apache2/cgi-bin&quot; should be changed to whatever your ScriptAliased<br>CGI directory exists, if you have that configured.<br>&lt;Directory &quot;G:/Apache2/cgi-bin&quot;&gt;<br>&nbsp;&nbsp;&nbsp;     AllowOverride None<br>&nbsp;&nbsp;&nbsp;     Options None<br>&nbsp;&nbsp;&nbsp;     Order allow,deny<br>&nbsp;&nbsp;&nbsp;     Allow from all<br>&lt;/Directory&gt;<br>7) AddDefaultCharset GB2312  //设置默认编码为gb2312<br><br>至此，基本的服务器配置完成。右击任务栏里的Apache图标，选Open Apache Moni<br>tor，restart一下。进入X:wwwroot，新建一个index.htm文件，写入以下代码：<br><br>&lt;html&gt;<br>&lt;head&gt;<br>&lt;title&gt;test&lt;/title&gt;<br>&lt;/head&gt;<br>&lt;body&gt;<br>测试一下<br>&lt;/body&gt;<br>&lt;/html&gt;<br><br>保存。打开浏览器，输入：<a href="http://你的IP或域名/index.htm，如果显示出&ldquo;测试一" target="_blank" rel="external">http://你的IP或域名/index.htm，如果显示出&ldquo;测试一</a><br>下&rdquo;的页面，则安装成功。此时的Apache只支持静态网页，如果想支持php的话则继<br>续看下去，不想的话可以把此文扔在一边了。<br><br>二、安装PHP<br>&nbsp;&nbsp;&nbsp;     首先解压php-5.0.2-Win32.zip到X:目录下，改文件夹名为php，即解成X:ph<br>p目录。然后将php目录下的php5ts.dll和libmysql.dll（php5不默认带mysql模块，<br>所以需要这个dll文件）复制到X:Apache2bin目录下。返回X:Apache2conf目录<br>，打开httpd.conf，查找&ldquo;ServerRoot &quot;X:/Apache2&quot;&rdquo;，在下一行添加：<br><br>PHPIniDir &quot;X:/php&quot;<br><br>查找&ldquo;#LoadModule ssl_module modules/mod_ssl.so&rdquo;，在下一行添加：<br><br>LoadModule php5_module &quot;X:/php/php5apache2.dll&quot;<br><br>查找&ldquo;AddType application/x-gzip .gz .tgz&rdquo;，在下一行添加：<br><br>AddType application/x-httpd-php .php<br><br>以让Apache能找到php目录下的php.ini并支持php文件。然后回到php目录，把php.<br>ini-recommended改名为php.ini。接下来回到X:wwwroot目录下，新建一个index.<br>php文件，用记事本等文本编辑器打开，写入如下代码：<br><br>&lt;?php<br>echo &quot;hello, world!&quot;;<br>?&gt;<br><br>保存。重新启动apache，然后打开浏览器，输入：<a href="http://你的IP或域名/index.ph" target="_blank" rel="external">http://你的IP或域名/index.ph</a><br>p，如果显示出&ldquo;hello, world!&rdquo;的页面，则安装成功。接下来回到php目录配置p<br>hp.ini文件（注意这里的注释符号是&ldquo;;&rdquo;）：<br><br>1) magic_quotes_gpc = On  //这个功能最好加上，传参数的时候加&ldquo;&rdquo;号<br>2) extension_dir = &quot;X:phpext&quot;  //配置扩展目录<br>3) allow_url_fopen = Off  //禁止以url传参数方式打开文件<br>4) extension=php_mysql.dll  //前面的&ldquo;;&rdquo;号去掉，php5不默认带mysql模块<br>5) session.save_path = &quot;X:phptmp&quot;  //设置session目录，同时在php目录下新<br>建tmp目录<br><br>再重启apache以重载php.ini，php安装并配置完成。<br><br>三、配置MySQL<br>&nbsp;&nbsp;&nbsp;     解压mysql-4.0.22-win.zip到随便一个目录下，运行setup.exe进行安装，以t<br>ypical模式安装在X:mysql目录下。进入X:mysqlbin目录下，运行winmysqladmi<br>n.exe，会要求你输入用户名和密码。这是管理程序的密码，非数据库中root用户的<br>密码。设置过程中防火墙可能会跳出，此时要让mysql通行。完成后，任务栏里出现<br>红绿黄三色的mysql灯，绿色表示正常工作。右击灯选择Show me，弹出管理窗口，<br>点击my.ini setup中的Save Modification生成my.ini文件在windows目录下。然后<br>运行cmd进入命令行模式，输入：<br><br>cd X:mysqlbin<br><br>进入bin目录，再输入：<br><br>mysql -u root -p<br><br>回车，提示输入密码，由于root初始状态密码为空，直接按回车即可。进入mysql，<br>输入：<br><br>use mysql;<br><br>转向mysql库，输入：<br><br>delete from user where user=’’;<br><br>删除空用户。然后退出mysql：<br><br>quit;<br><br>修改root的密码：<br><br>mysqladmin -u root -p password 你的密码<br><br>会提示输入旧密码，回车，密码即改成你设置的密码。期间防火墙只要临时允许即<br>可。至此MySQL安装完成，回到wwwroot目录下，修改index.php文件为：<br><br>&lt;?php<br>$conn=mysql_connect(&quot;localhost&quot;, &quot;root&quot;, &quot;你的密码&quot;);<br>if(!$conn) die(&quot;Errors occured!&quot;);<br>else echo &quot;Success!&quot;;<br>mysql<em>close($conn);<br>?&gt;<br><br>返回浏览器，输入：<a href="http://你的IP或域名/index.php，如果显示出&ldquo;Success!&rdquo;的" target="_blank" rel="external">http://你的IP或域名/index.php，如果显示出&ldquo;Success!&rdquo;的</a><br>页面，则MySQL安装成功。<br>OK，整个过程安装完成。配置比较简单和粗陋，以后逐渐完善后再修改一下这篇文<br>章，如有不妥之处还望大家指出，谢谢^</em>^<br><br><br> <hr><a href="http://www.phpe.net/articles/364.shtml" target="_blank">http://www.phpe.net/articles/364.shtml</a><br><br>Apache 2和PHP是创建交互式网站的流行方案，而且成本很低。在Windows中安装Apache 2是一件轻而易举的事情，但要使PHP 4与Apache 2配合无间地运行，就需要一定的技巧。</p><p>在PHP 4.3手册的Windows安装小节，没有解释如何让PHP与Apache 2配合使用，而有关Apache 2安装的小节缺失了你需要的大量信息。在网上公布的其他安装指南中，也包含了不少错误，使一些安装人员只好不断试验和犯错。例如，有些人甚至将PHP的 DLL替换成其他PHP版本的DLL。OK，为了节省你的宝贵时间，我们准备了这篇最权威的指南文章，帮你扫除一切烦恼。</p>使用正确版本的Windows<p>首先要说一说兼容性：Apache 2不能在Windows 95上运行；在Windows 98上勉强能够运行，但不能作为服务使用。从4.3版本开始，PHP也不再支持Windows 95。所以，你的Windows操作系统必须是Windows NT、2000或者XP。<br><br>Apache 2：源码还是二进制?<br>如果你有Visual C++ 5.0或更高的版本，或者安装了Microsoft Visual Studio，那么虽然可以根据源码来生成Apache，但请绝对不要这样做。在Visual Studio IDE中，<a target="_target" href="http://httpd.apache.org/docs-2.0/platform/win_compiling.html">Windows下的生成过程</a>非常复杂。即使从命令行编译，也绝对不是一件易事。所以，除非你喜欢创建makefile，否则最好获得<a target="_target" href="http://httpd.apache.org/download.cgi">一份Windows Installer二进制发行包</a>，也就是一个.msi文件。等你对Apache有了足够多的认识，知道自己要进行哪些定制操作时，才可考虑亲手生成（编译）Apache。<br><br>如果已经安装好并正在运行老版本的Apache，首先要停止它，卸载它，然后才能开始安装新服务器。多个版本的Apache 2不能共存。<br><br>双击Apache 2 .msi文件。同意许可协议后，会出现如图A所示的对话框。</p><p>图A</p><p><a target="_blank" href="http://phpe.net/uploads/images/article_aa_3831.jpg"><img src="http://phpe.net/uploads/images/article_aa_3831.jpg" alt="点击查看原图"></a></p><p><br>正确地设置Network Domain和Server Name（如果不打算将Apache安装到远程计算机，那么设置localhost就可以了），在Administrator&rsquo;s Email Address区域输入你的电子邮件地址，保持端口80/服务选项单选钮的选中状态。在下一个对话框中如果选择Typical安装，可以快速地获得一个能 实际工作的服务器环境。</p><hr><p>安装提示<br>建议将默认安装目录从C:Program FilesApache Group变成C:Apache或者符合8.3文件名格式的其他名称。这样一来，以后每次输入Apache安装路径时，都不必为其添加引号。</p><hr><p><br>稍候片刻，安装向导会告诉你Apache 2安装成功。接下来惟一要做的事情就是进行测试，请打开浏览器并访问localhost，这样应该看到默认的Apache 2主页。<br><br>然 后可以删除主Web服务器目录中的所有示例文件，它们默认位于C:InstallDirectoryApacheApache2htdocs中。 如果有一个现成的主页Index.html，请把它拷贝到这里；另外，也可以马上创建一个空白主页。对于未初始化的HTML，以下代码就可以了：</p><p><br>&lt;html&gt;<br>&lt;head&gt;title=default server page&lt;/head&gt;<br>&lt;body&gt;Default server page&lt;/body&gt;<br>&lt;/html&gt;</p><br>让Apache 2为PHP做好准备<p>从现在开始，你需要较多地以人工方式进行安装，不能简单地点击和选择几个选项了事。尽快习惯它吧，这才是Apache的方式。你需要编辑文件来设置 不同的配置选项；如果操作不当，你所做的修改就会妨碍Apache的正确加载。如果设置引发错误，那么错误可能被记录到Apache 2错误日志中（默认为C:InstallDirApache2LogsError.log）。但能够像这样进行记录的毕竟是少数，大多数错误只会 记录到Windows事件日志中（开始| 设置| 控制面板|  管理工具| 事件查看器）。</p><p>令人遗憾的是，在你对安装设置进行调试时，Windows事件日志并不是一个方便的工具。更好的做法是在命令行窗口中测试Apache服务器的加 载，这样能立即看到错误报告。所以，在完成了我即将讨论的配置修改后，请打开一个命令行窗口，切换到Apache的binary目录（C: InstallDirApache2bin），在那里启动Apache。</p><p>Apache配置文件是C:ApacheApache2ConfHttpd.conf，可用任何文本编辑器来编辑。查找DirectoryIndex，定位到下面这一行：<br><br>DirectoryIndex index.html index.html.var # index.php<br><br>为了允许Apache处理PHP页，要删除注释字符（<em>#</em>），变成：<br><br>DirectoryIndex index.html index.html.var index.php</p><p>还要允许在任何目录中使用.htaccess文件，所以请在配置文件中查找AllowOverride，把这个设置从None改成All。保存了所做的改动后，可继续在文本编辑器中打开该文件，因为等会儿安装PHP时，要再次编辑这个文件。</p>安装PHP<p>虽然可以下载PHP的源码，但和Apache 2一样，最好直接使用二进制发行包。Apache 2可采取2种方式来运行PHP程序：通过一个CGI接口来运行（外部调用Php.exe），或者使用PHP的DLL文件在Apache的内部运行。后一种 方式的速度较快。所以，针对每个版本的PHP，都会提供2个Windows二进制发行包。较小的是.msi包，它会安装CGI可执行程序Php.exe， 但其中拿掉了通过Apache DLL来运行PHP脚本所需的模块。较大的.zip包则包含了所有这些东西，你可以从snaps.php.net网站的Win32区域<a href="http://snaps.php.net/win32/php4-win32-STABLE-latest.zip" target="_blank" rel="external"><u>下载</u></a>它们。文件下载完毕后，把它解压到C:Php（保留文件夹名称）。除非你有绝对的把握，请同时下载<a target="_target" href="http://www.php.net/download-docs.php"><u>PHP手册</u></a>，它有多种语言的版本可供选择。</p>配置Apache 2来运行PHP4<p>现在来到了最有趣的部分：将Apache和PHP完美地配合起来。首先，请将C:PhpDlls目录中的所有DLL文件拷贝到Windows的 System目录（%windir%System）。接着，在Apache的配置文件（Httpd.conf）中查找包含了大量AddType命令那个 小节，自己添加下面这一行：<br><br>AddType application/x-httpd-php .php<br><br>将C: PhpPhp.ini-recommended拷贝到Windows目录（%windir%），把它重命名为Php.ini，并用文本编辑器打开它。 编辑其中对doc_root、extension_dir和session.save_path进行设置的3行，使其和下面展示的一致，注意要把 InstallDir替换成你的Apache 2的安装目录的名称。<br><br>doc_root = c:apacheapache2htdocs<br>extension_dir = c:phpextensions<br>session.save_path = c:/temp<br><br>在session.save_path中使用正斜杠和反斜杠都是允许的。PHP手册声称这些路径参数需要在最后添加一个反斜杠，但这个说法是不正确的。在PHP 4.3中不需要这样做。另外，如果C:Temp不存在，请自己创建它。<br><br>下 一步是允许Apache将PHP程序作为模块来运行，这要求你采取2个步骤。首先，将C:PhpPhp4ts.dll拷贝到Windows的系统文件 夹（%windir%System）。在Httpd.conf中找到LoadModule小节，自己添加下面这一行： <br><br>LoadModule php4_module &ldquo;c:/php/php4apache2.dll&rdquo;<br><br>如果你出于某种原因而需要在CGI模式中运行PHP程序（使用Php.exe），请将上面这一行变成注释，并在Httpd.conf中添加下面这些行：<br><br>ScriptAlias /php/ &quot;c:/php/&quot;<br>Action application/x-httpd-php &quot;/php/php.exe&quot;</p>一切都搞定了吗?保存所做的更改后，你需要亲自去证明两点，才能确保Apache 2/PHP 4成为一对完美的搭档：Apache能正常加载吗，它能正确处理PHP页吗？<br><br>要知道Apache是否能够正常加载，在你已经打开的命令行窗口中输入以下命令：<br><br>apache ?k start<br><br>另外，如果Apache正在运行，可用以下命令重新启动它：<br><br>apache ?k restart<br><br>从 命令行启动Apache的好处在于，如果出现一个错误，Apache会立即报告它。你可能遇到的最常见的问题在于，Apache可能由于某种原因而无法加 载Php4apache2.dll。如果Apache报告了这个错误，请按前面所述的步骤重新操作一遍，确保一切都没有错误。<br><br>要知道Apache是否能正确地处理PHP页，请用你的文本编辑器创建一个简单的PHP页，命名为Phptest.php，其中只包含下面这一行：<br><br>&lt;? phpinfo(); ?&gt;<br><br>将 文件保存到主Web服务器目录（C:InstallDirectoryApacheApache2Htdocs），用浏览器访问http: //localhost/phptest.php。如果一切正常，应该看到一个含有PHP徽标的网页，其中包含大量设置和其他信息。要知道PHP当前是通 过CGI来运行，还是在Apache内部运行，可以检查一下环境变量<em>orig_script_name</em>。如果PHP通过CGI来运行，这个变量的值就是/Php/Php.exe。如果Apache将PHP脚本作为模块来运行，该变量的值应该是/Phptest.php。<br><br>虽然在Windows上安装Apache 2和PHP并不是一件容易的事情，但也完全没必要采取摸着石头过河的做法。通过本文的说明，你应该可以快速搭建起这个史上最好的、成本最低的Web开发环境。 <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/02/03/【zz】在Windows中安装Apache2和PHP4/" class="archive-article-date">
+  	<time datetime="2008-02-03T10:59:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-02-03</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2008/02/03/【zz】Apache的Order-Allow-Deny心得/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          【zz】Apache的Order Allow Deny心得
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2008/01/27/go-home/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">go home</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

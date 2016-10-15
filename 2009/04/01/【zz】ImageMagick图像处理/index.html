@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>【zz】ImageMagick图像处理 | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="http://mcuos.com/thread-597-1-2.html一、convert：顾名思义就是对图像进行转化，它主要用来对图像进行格式的转化，同时还可以做缩放、剪切、模糊、反转等操作。格式转化如把 foo.jpg 转化为 foo.png：convert foo.jpg foo.png如果要想把目录下所有的jpg文件都转化为gif，我们可借助于shell的强大功能：find ./ -na">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【zz】ImageMagick图像处理">
+<meta property="og:url" content="http://blog.pickbox.me/2009/04/01/【zz】ImageMagick图像处理/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="http://mcuos.com/thread-597-1-2.html一、convert：顾名思义就是对图像进行转化，它主要用来对图像进行格式的转化，同时还可以做缩放、剪切、模糊、反转等操作。格式转化如把 foo.jpg 转化为 foo.png：convert foo.jpg foo.png如果要想把目录下所有的jpg文件都转化为gif，我们可借助于shell的强大功能：find ./ -na">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【zz】ImageMagick图像处理">
+<meta name="twitter:description" content="http://mcuos.com/thread-597-1-2.html一、convert：顾名思义就是对图像进行转化，它主要用来对图像进行格式的转化，同时还可以做缩放、剪切、模糊、反转等操作。格式转化如把 foo.jpg 转化为 foo.png：convert foo.jpg foo.png如果要想把目录下所有的jpg文件都转化为gif，我们可借助于shell的强大功能：find ./ -na">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-【zz】ImageMagick图像处理" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      【zz】ImageMagick图像处理
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <br><a href="http://mcuos.com/thread-597-1-2.html" target="_blank">http://mcuos.com/thread-597-1-2.html</a><br><br><strong>一、convert：顾名思义就是对图像进行转化，它主要用来对图像进行格式的转化，同时还可以做缩放、剪切、模糊、反转等操作。</strong><br><br><strong>格式转化</strong><br><br>如把 foo.jpg 转化为 foo.png：convert foo.jpg foo.png<br><br>如果要想把目录下所有的jpg文件都转化为gif，我们可借助于shell的强大功能：find ./ -name &quot;<em>.jpg&quot; -exec convert {} {}.gif ;<br><br>转化后的gif名称为 </em>.jpg.gif ，这样看起来不太自然，没关系，我们可以再来一步：rename .jpg.gif .gif <em>.jpg.gif<br><br>或者，你也可用shell script来完成上述的操作：for i in </em>.jpgdoconvert $i <code>basename $i .jpg</code>.gif done<br><br>我们还可用mogrify来完成同样的效果：mogrify -format png <em>.jpg<br>上面命令将会把目录下面所有的jpg文件转化为png格式。 <br><br>convert还可以把多张照片转化成pdf格式：convert </em>.jpg foo.pdf<br><br><strong>大小缩放</strong><br><br>比如我们要为一个普通大小的图片做一个缩略图，我们可以这样：convert -resize 100x100 foo.jpg thumbnail.jpg<br><br>也可以使用百分比，这样显的更为直观：convert -resize 50%x50% foo.jpg thumbnail.jpg<br><br>convert会自动地考虑在缩放图像大小时图像的高宽的比例，也就是说着新的图像的高宽比与原图相同。 <br><br>我们还可以批量生成缩略图：mogrify -sample 80x60 <em>.jpg<br>注意，这个命令会覆盖原来的图片，不过你可以在操作前，先把你的图片备份一下。<br><br><strong>添加边框</strong><br><br>在一张照片的四周加上边框，可以用 -mattecolor 参数。<br><br>比如某位同志牺牲了，需要为其做一张黑边框的遗像，可以这样：convert -mattecolor &quot;#000000&quot; -frame 60x60 yourname.jpg rememberyou.png<br>其中，&quot;#000000&quot;是边框的颜色，边框的大小为60x60 <br><br>也可以这样加边框：convert -border 60x60 -bordercolor &quot;#000000&quot; yourname.jpg rememberyou.png<br><br><strong>添加文字</strong><br><br>convert -fill green -pointsize 40 -draw ‘text 10,50 &quot;charry.org&quot;’ foo.png bar.png<br>上面的命令在距离图片的左上角10x50的位置，用绿色的字写下charry.org，如果你要指定别的字体，可以用-font参数。 <br><br><strong>高斯模糊</strong><br><br>convert -blur 80 foo.jpg foo.png<br>-blur参数还可以这样-blur 80x5。后面的那个5表示的是Sigma的值，这个是图像术语，我也不太清楚，总之，它的值对模糊的效果起关键的作用。 <br><br><strong>上下翻转</strong><br><br>convert -flip foo.png bar.png<br><br><strong>左右翻转</strong><br><br>convert -flop foo.png bar.png<br><br><strong>图像反色</strong><br><br>convert -negate foo.png bar.png<br><br><strong>图像单色</strong><br><br>convert -monochrome foo.png bar.png<br><br><strong>添加噪声<br><br></strong>convert -noise 3 foo.png bar.png<br><br><strong>油画效果</strong><br><br>我们可用这个功能，把一张普通的图片，变成一张油画，效果非常的逼真：convert -paint 4 foo.png bar.png<br><br><strong>图像旋转</strong><br><br>把一张图片，旋转一定的角度：convert -rotate 30 foo.png bar.png<br>上面的30，表示向右旋转30度，如果要向左旋转，度数就是负数。 <br><br><strong>炭笔效果</strong><br><br>convert -charcoal 2 foo.png bar.png<br>形成炭笔或者说是铅笔画的效果。 <br><br><strong>毛玻璃效果</strong><br><br>convert -spread 30 foo.png bar.png<br><br><strong>漩涡</strong><strong>效果</strong><br>以图片的中心作为参照，把图片扭转，形成漩涡的效果：convert -swirl 67 foo.png bar.png<br><br><strong>凸起效果</strong><br><br>用-raise来创建凸边：convert -raise 5x5 foo.png bar.png<br>执行后，你会看到，照片的四周会一个5x5的边，如果你要一个凹下去的边，把-raise改为+raise就可以了。其实凸边和凹边看起来区别并不是很大。 <br><br><strong>其他</strong><strong>功能</strong><br><br>其他功能都是不太常用的，如果你感兴趣的话，可以看它的联机文档！<br><br><strong>二、import：一个用于屏幕截图的组件，下面列出的是我们常用的功能，其他的功能，你参考它的man好了。</strong><br><br><strong>截取屏幕的任一矩形区域</strong><br><br>import foo.png<br>在输入上述的命令后，你的鼠标会变成一个十字，这个时候，你只要在想要截取的地方划一个矩形就可以了 <br><br><strong>截取程序的窗口<br><br></strong>import -pause 3 -frame foo.png<br>回车后，用鼠标在你想截的窗口上点一下即可。参数- frame的作用是告诉import，截图的时候把目标窗口的外框架带上，参数-pause的作用很重要，你可以试着把它去掉，对比一下，你会发现，目标 窗口的标题栏是灰色的，pause就是让import稍微延迟一下，等你的目标窗口获得焦点了，才开始截图，这样的图才比较自然。<br><br><strong>截取一个倾斜的窗口</strong><br>如果想让你的截图比较cool，你可以把截取一个倾斜的窗口，方法如下：import -rotate 30 -pause 3 -frame foo.png<br><br><strong>截取整个屏幕<br><br></strong>import -pause 3 -window root screen.png<br>注意，暂停了3秒钟，你需要在3秒钟内切换到需要截取的画面噢。<br><br><strong>三、display：应该是我们使用的最为频繁的图像处理软件了</strong><br><br><strong>显示图片</strong><br><br>display foo.png<br>如果你要显示多个文件，你可以使用</em>通配符：display <em>.png<br><br><strong>幻灯片</strong><br><br>display -delay 5 </em><br>每隔5个百分之秒显示一张图片 <br><br><strong>一些快捷键<br><br></strong><ul> <li>space(空格): 显示下一张图片</li> <li>backspace(回删键):显示上一张图片</li> <li>h: 水平翻转</li> <li>v: 垂直翻转</li> <li>/:顺时针旋转90度</li> <li>:逆时针旋转90度</li> <li>&gt;: 放大</li> <li>&lt;: 缩小</li> <li>F7:模糊图片</li> <li>Alt+s:把图片中间的像素旋转</li> <li>Ctrl+s:图象另存</li> <li>Ctrl+d:删除图片</li> <li>q: 退出</li></ul><br><strong>其他</strong><br><br>ImageMagick还提供有丰富的编程接口，比如，你可以用php来调用它，用ImageMagick来生成验证码图片，效果非常棒。<br><br>ImageMagick还有一个小工具identify，它可以用来显示一个图片文件的详悉信息，比如格式、分辨率、大小、色深等等，你都可用它来帮你的忙。<br><br>如果你对命令行不太熟悉，你也可以在图片上单击，你会发现，通过鼠标你也可以完成图像的编辑。 </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2009/04/01/【zz】ImageMagick图像处理/" class="archive-article-date">
+  	<time datetime="2009-04-01T05:37:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2009-04-01</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux-App/">Linux App</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2009/04/07/【zz】如何在-Cmd-DOS命令列显示彩色文字-使用Windows-API/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          【zz】如何在 Cmd DOS命令列显示彩色文字(使用Windows API)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2009/03/20/【zz】An-introduction-to-lguest/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">【zz】An introduction to lguest</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

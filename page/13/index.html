@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="jfo planet">
+<meta property="og:url" content="http://blog.pickbox.me/page/13/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jfo planet">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        
+  
+    <article id="post-解决Android-Dialog显示位置偏下的问题" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/08/25/解决Android-Dialog显示位置偏下的问题/">解决Android Dialog显示位置偏下的问题</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+         <p>Android-2.3.3</p><p>使用自定义Dialog时，会出现dialog显示位置偏下，没有完全居中的问题，</p><p>可以添加“dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);”试试：</p><p>&nbsp;</p><p>&nbsp; &nbsp; final Dialog dialog = new Dialog(this, R.style.SyncDialogStyle);</p><p>&nbsp; &nbsp; dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);</p><p>&nbsp; &nbsp; dialog.setContentView(R.layout.custom_dialog_layout);</p><p>&nbsp; &nbsp; dialog.findViewById(R.id.ok).setOnClickListener(new View.OnClickListener() {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; @Override</p><p>&nbsp; &nbsp; &nbsp; &nbsp; public void onClick(View v) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; dialog.dismiss();</p><p>&nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; });</p><p>&nbsp; &nbsp; dialog.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener(){</p><p>&nbsp; &nbsp; &nbsp; &nbsp; @Override</p><p>&nbsp; &nbsp; &nbsp; &nbsp; public void onClick(View v) {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; dialog.dismiss();</p><p>&nbsp; &nbsp; &nbsp; &nbsp; }</p><p>&nbsp; &nbsp; });</p><p>&nbsp; &nbsp; dialog.setCancelable(false);</p><p>&nbsp; &nbsp; dialog.show();</p><p>&nbsp;</p><p>&nbsp; &nbsp; &lt;style name=&quot;SyncDialogStyle&quot; parent=&quot;@android:style/Theme.Dialog&quot;&gt;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &lt;item name=&quot;android:windowBackground&quot;&gt;@android:color/transparent&lt;/item&gt;</p><p>&nbsp; &nbsp; &lt;/style&gt;</p><br><p></p> 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2011/08/25/解决Android-Dialog显示位置偏下的问题/" class="archive-article-date">
+  	<time datetime="2011-08-25T02:07:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2011-08-25</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Java内存回收算法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/08/20/Java内存回收算法/">Java内存回收算法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+         <p>标记-清除算法：</p><p>经典方法，网上有很多，这里只说一下finalize。</p><p>1.在finalize()中再次引用自己，可以避免对象被回收掉；</p><p>2.finalize()方法只会被调用一次，如果对象面临下一次回收，finalize是不会执行第二遍的；</p><p>3.需要执行finalize()的对象会被放入一个F-Queue中，由一个优先级比较低的线程去执行。（需注意多线程同步）</p><p>&nbsp;</p><p>复制算法：</p><p>将内存划分为大小相等的两块，每次只使用其中的一块，当这一块用完了，就将还存活着的对象复制到另一块，</p><p>然后清理掉使用过的内存。非活动的对象就被回收了，并且内存分配时也不用考虑内存碎片，只需按顺序分配即可。</p><p>这种实现比较简单、高效。缺点是每次浪费一半内存空间。</p><p>优化：</p><p>1.实践中可以根据每次会被回收的比例，安排一个合适的内存空间比例，比如9:1，90%的内存可被使用，仅有10%的空闲。</p><p>2.向一端移动：有点类似memcpy，将所有存活对象向一端移动，覆盖可回收对象，边界以外的内存空间都是可用内存空间。</p><p><img src="http://img.pickbox.me/wp-content/uploads/pic/c74bb4fda9ea3b7c08244dec.jpg" small="0" class="blogimg"><br></p><p>from《深入理解Java虚拟机 ch3》</p><p>&nbsp;</p><p></p> 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2011/08/20/Java内存回收算法/" class="archive-article-date">
+  	<time datetime="2011-08-20T15:08:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2011-08-20</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Java/">Java</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Exception的性能是差-原因在于ThrowablefillInStackTrace-方法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/08/19/Exception的性能是差-原因在于ThrowablefillInStackTrace-方法/">Exception的性能是差,原因在于ThrowablefillInStackTrace()方法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+         <p>参见：<a href="http://www.blogjava.net/stone2083/archive/2010/07/09/325649.html" target="_blank" rel="external">http://www.blogjava.net/stone2083/archive/2010/07/09/325649.html</a></p><p>根本原因在于:<br>异常基类Throwable.java的public synchronized native Throwable fillInStackTrace()方法<br>方法介绍:<br>Fills in the execution stack trace. This method records within this Throwable object information about the current state of the stack frames for the current thread.<br>性能开销在于:<br>1. 是一个synchronized方法(主因)<br>2. 需要填充线程运行堆栈信息</p><p>&nbsp;</p><p>另外<a href="http://icyfenix.iteye.com/blog/857722" target="_blank" rel="external">透过JVM看Exception本质</a>，可以看看Exception在底层是怎么实现的。</p><p>&nbsp;</p><p></p><p></p><p></p> 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2011/08/19/Exception的性能是差-原因在于ThrowablefillInStackTrace-方法/" class="archive-article-date">
+  	<time datetime="2011-08-19T14:13:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2011-08-19</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Java/">Java</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-NIO使用直接内存" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/08/19/NIO使用直接内存/">NIO使用直接内存</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+         <p>直接内存（Direct Memory）并不是虚拟机运行时数据区的一部分，也不是Java</p><p>虚拟机规范中定义的内存区域，但是这部分内存也被频繁地使用，而且也可能导致</p><p>OutOfMemoryError 异常出现。</p><p>在JDK 1.4 中新加入了NIO（New Input/Output）类，引入了一种基于通道（Channel）</p><p>与缓冲区（Buffer）的I/O 方式，它可以使用Native 函数库直接分配堆外内存，然</p><p>后通过一个存储在Java 堆里面的DirectByteBuffer 对象作为这块内存的引用进行</p><p>操作。这样能在一些场景中显著提高性能，因为避免了在Java 堆和Native 堆中来</p><p>回复制数据。</p><p>&nbsp;</p><p></p> 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2011/08/19/NIO使用直接内存/" class="archive-article-date">
+  	<time datetime="2011-08-19T07:38:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2011-08-19</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Java/">Java</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Custom-Class-Loading-in-Dalvik" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/08/19/Custom-Class-Loading-in-Dalvik/">Custom Class Loading in Dalvik</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+         <p></p><p></p><p></p><p><a href="http://android-developers.blogspot.com/2011/07/custom-class-loading-in-dalvik.html" target="_blank" rel="external">Custom Class Loading in Dalvik&nbsp;</a></p><p>The Dalvik VM provides facilities for developers to perform custom class loading.  Instead of loading Dalvik executable (“dex”) files from the default location, an application can load them from alternative locations such as internal storage or over the network.  </p><p>This technique is not for every application; In fact, most do just fine without it.  However, there are situations where custom class loading can come in handy.  Here are a couple of scenarios:</p><p>Big apps can contain more than 64K method references, which is the maximum number of supported in a dex file.  To get around this limitation, developers can partition part of the program into multiple secondary dex files, and load them at runtime.</p><p>Frameworks can be designed to make their execution logic extensible by dynamic code loading at runtime.</p><p>We have created a <a href="http://code.google.com/p/android-custom-class-loading-sample/" target="_blank" rel="external">sample app</a> to demonstrate the partitioning of dex files and runtime class loading.   (Note that for reasons discussed below, the app cannot be built with the  ADT Eclipse plug-in.  Instead, use the included Ant build script.  See Readme.txt for detail.)  </p><p>The app has a simple Activity that invokes a library component to display a Toast.  The Activity and its resources are kept in the default dex, whereas the library code is stored in a secondary dex bundled in the APK.  This requires a modified build process, which is shown below in detail.  </p><p>Before the library method can be invoked, the app has to first explicitly load the secondary dex file.  Let’s take a look at the relevant moving parts.</p>Code Organization<p>The application consists of 3 classes.</p><p>com.example.dex.MainActivity: UI component from which the library is invoked</p><p>com.example.dex.LibraryInterface: Interface definition for the library</p><p>com.example.dex.lib.LibraryProvider: Implementation of the library</p><p>The library is packaged in a secondary dex, while the rest of the classes are included in the default (primary) dex file.  The “Build process” section below illustrates how to accomplish this.  Of course, the packaging decision is dependent on the particular scenario a developer is dealing with.</p>Class loading and method invocation<p>The secondary dex file, containing LibraryProvider, is stored as an application asset.  First, it has to be copied to a storage location whose path can be supplied to the class loader.  The sample app uses the app’s private internal storage area for this purpose.  (Technically, external storage would also work, but one has to consider the security implications of keeping application binaries there.) </p><p>Below is a snippet from MainActivity where standard file I/O is used to accomplish the copying.</p>&nbsp; // Before the secondary dex file can be processed by the DexClassLoader,<br>&nbsp; // it has to be first copied from asset resource to a storage location.<br>&nbsp; File dexInternalStoragePath =newFile(getDir(&quot;dex&quot;,Context.MODE_PRIVATE),<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; SECONDARY_DEX_NAME);<br>&nbsp; …<br>&nbsp; BufferedInputStream bis =null;<br>&nbsp; OutputStream dexWriter =null;<br><br>&nbsp; staticfinalint BUF_SIZE =8<em>1024;<br>&nbsp; try{<br>&nbsp; &nbsp; &nbsp; bis =newBufferedInputStream(getAssets().open(SECONDARY_DEX_NAME));<br>&nbsp; &nbsp; &nbsp; dexWriter =newBufferedOutputStream(<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; newFileOutputStream(dexInternalStoragePath));<br>&nbsp; &nbsp; &nbsp; byte[] buf =newbyte[BUF_SIZE];<br>&nbsp; &nbsp; &nbsp; int len;<br>&nbsp; &nbsp; &nbsp; while((len = bis.read(buf,0, BUF_SIZE))&gt;0){<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; dexWriter.write(buf,0, len);<br>&nbsp; &nbsp; &nbsp; }<br>&nbsp; &nbsp; &nbsp; dexWriter.close();<br>&nbsp; &nbsp; &nbsp; bis.close();<br>&nbsp; &nbsp; &nbsp; <br>&nbsp; }catch(…){…}<p>Next, a <a href="http://developer.android.com/reference/dalvik/system/DexClassLoader.html" target="_blank" rel="external">DexClassLoader</a> is instantiated to load the library from the extracted secondary dex file.   There are a couple of ways to invoke methods on classes loaded in this manner.  In this sample, the class instance is cast to an interface through which the method is called directly.  </p><p>Another approach is to invoke methods using the reflection API.  The advantage of using reflection is that it doesn’t require the secondary dex file to implement any particular interfaces.  However, one should be aware that reflection is verbose and slow.</p>&nbsp; // Internal storage where the DexClassLoader writes the optimized dex file to<br>&nbsp; finalFile optimizedDexOutputPath = getDir(&quot;outdex&quot;,Context.MODE_PRIVATE);<br><br>&nbsp; DexClassLoader cl =newDexClassLoader(dexInternalStoragePath.getAbsolutePath(),<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;optimizedDexOutputPath.getAbsolutePath(),<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;null,<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;getClassLoader());<br>&nbsp; Class libProviderClazz =null;<br>&nbsp; try{<br>&nbsp; &nbsp; &nbsp; // Load the library.<br>&nbsp; &nbsp; &nbsp; libProviderClazz =<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; cl.loadClass(&quot;com.example.dex.lib.LibraryProvider&quot;);<br>&nbsp; &nbsp; &nbsp; // Cast the return object to the library interface so that the<br>&nbsp; &nbsp; &nbsp; // caller can directly invoke methods in the interface.<br>&nbsp; &nbsp; &nbsp; // Alternatively, the caller can invoke methods through reflection,<br>&nbsp; &nbsp; &nbsp; // which is more verbose. <br>&nbsp; &nbsp; &nbsp; LibraryInterface lib =(LibraryInterface) libProviderClazz.newInstance();<br>&nbsp; &nbsp; &nbsp; lib.showAwesomeToast(this,&quot;hello&quot;);<br>&nbsp; }catch(Exception e){…}Build Process<p>In order to churn out two separate dex files, we need to tweak the standard build process.  To do the trick, we simply modify the “-dex” target in the project’s Ant <a href="http://code.google.com/p/android-custom-class-loading-sample/source/browse/trunk/android-custom-class-loading-sample/build.xml" target="_blank" rel="external">build.xml</a>.</p><p>The modified “-dex” target performs the following operations:</p><p>Create two staging directories to store .class files to be converted to the default dex and the secondary dex.</p><p>Selectively copy .class files from PROJECT_ROOT/bin/classes to the two staging directories.  </p>&nbsp; &nbsp; &nbsp; &lt;!– Primary dex to include everything but the concrete library<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;implementation. –&gt;<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;copytodir=&quot;${out.classes.absolute.dir}.1&quot;&gt;<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;filesetdir=&quot;${out.classes.absolute.dir}&quot;&gt;<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;excludename=&quot;com/example/dex/lib/<em>*&quot;/&gt;<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;/fileset&gt;<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;/copy&gt;<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;!– Secondary dex to include the concrete library implementation. –&gt;<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;copytodir=&quot;${out.classes.absolute.dir}.2&quot;&gt;<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;filesetdir=&quot;${out.classes.absolute.dir}&quot;&gt;<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;includename=&quot;com/example/dex/lib/</em></em>&quot;/&gt;<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;/fileset&gt;<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;/copy&gt; &nbsp; &nbsp; <p>Convert .class files from the two staging directories into two separate dex files.</p><p>Add the secondary dex file to a jar file, which is the expected input format for the DexClassLoader.  Lastly, store the jar file in the “assets” directory of the project.</p>&nbsp; &nbsp; &lt;!– Package the output in the assets directory of the apk. –&gt;<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &lt;jardestfile=&quot;${asset.absolute.dir}/secondary_dex.jar&quot;<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;basedir=&quot;${out.absolute.dir}/secondary_dex_dir&quot;<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;includes=&quot;classes.dex&quot;/&gt;<p>To kick-off the build, you execute ant debug (or release) from the project root directory.</p><p>That’s it!  In the right situations, dynamic class loading can be quite useful.</p><p>&nbsp;</p><p></p><p></p> 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2011/08/19/Custom-Class-Loading-in-Dalvik/" class="archive-article-date">
+  	<time datetime="2011-08-19T02:48:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2011-08-19</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Proguard" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/08/19/Proguard/">Proguard</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+         <p><strong>Proguard混淆介绍：</strong></p><p><a href="http://blog.csdn.net/Zengyangtech/article/details/6127600" target="_blank" rel="external">http://blog.csdn.net/Zengyangtech/article/details/6127600</a></p><p><strong>keep语句语法：</strong></p><p><a href="http://proguard.sourceforge.net/manual/usage.html#classspecification" target="_blank">http://proguard.sourceforge.net/manual/usage.html#classspecification</a></p>A class specification is a template of classes and class members (fields and methods). It is used in the various&nbsp;-keep&nbsp;options and in the&nbsp;-assumenosideeffectsoption. The corresponding option is only applied to classes and class members that match the template.<p>The template was designed to look very Java-like, with some extensions for wildcards. To get a feel for the syntax, you should probably look at the&nbsp;<a href="http://proguard.sourceforge.net/manual/examples.html" style="text-decoration: none;" target="_blank" rel="external">examples</a>, but this is an attempt at a complete formal definition:</p><p></p>[<b>@</b><i>annotationtype</i>] [[<b>!</b>]<b>public</b>|<b>final</b>|<b>abstract</b>|<b>@</b> …] [<b>!</b>]<b>interface</b>|<b>class</b>|<b>enum</b><i>classname</i>    [<b>extends</b>|<b>implements</b> [<b>@</b><i>annotationtype</i>] <i>classname</i>][<b>{</b>    [<b>@</b><i>annotationtype</i>] [[<b>!</b>]<b>public</b>|<b>private</b>|<b>protected</b>|<b>static</b>|<b>volatile</b>|<b>transient</b> …] <b>&lt;fields&gt;</b> |                                                                      (<i>fieldtype fieldname</i>)<b>;</b>    [<b>@</b><i>annotationtype</i>] [[<b>!</b>]<b>public</b>|<b>private</b>|<b>protected</b>|<b>static</b>|<b>synchronized</b>|<b>native</b>|<b>abstract</b>|<b>strictfp</b> …] <b>&lt;methods&gt;</b> |                                                                                           <b>&lt;init&gt;(</b><i>argumenttype,…</i><b>)</b> |                                                                                           <i>classname</i><b>(</b><i>argumenttype,…</i><b>)</b> |                                                                                           (<i>returntype methodname</i><b>(</b><i>argumenttype,…</i><b>)</b>)<b>;</b>    [<b>@</b><i>annotationtype</i>] [[<b>!</b>]<b>public</b>|<b>private</b>|<b>protected</b>|<b>static</b> … ] <b><em>;</em></b>    …<b>}</b>]<p>Square brackets &quot;[]&quot; mean that their contents are optional. Ellipsis dots &quot;…&quot; mean that any number of the preceding items may be specified. A vertical bar &quot;|&quot; delimits two alternatives. Non-bold parentheses &quot;()&quot; just group parts of the specification that belong together. The indentation tries to clarify the intended meaning, but white-space is irrelevant in actual configuration files.</p><p></p>The&nbsp;<b>class</b>&nbsp;keyword refers to any interface or class. The&nbsp;<b>interface</b>&nbsp;keyword restricts matches to interface classes. The&nbsp;<b>enum</b>&nbsp;keyword restricts matches to enumeration classes. Preceding the&nbsp;<b>interface</b>&nbsp;or&nbsp;<b>enum</b>&nbsp;keywords by a&nbsp;<b>!</b>&nbsp;restricts matches to classes that are not interfaces or enumerations, respectively.Every&nbsp;<i>classname</i>&nbsp;must be fully qualified, e.g.&nbsp;java.lang.String. Class names may be specified as regular expressions containing the following wildcards:<b>?</b>matches any single character in a class name, but not the package separator. For example, &quot;mypackage.Test?&quot; matches &quot;mypackage.Test1&quot; and &quot;mypackage.Test2&quot;, but not &quot;mypackage.Test12&quot;.<b></b>matches any part of a class name not containing the package separator. For example, &quot;mypackage.<em>Test</em>&quot; matches &quot;mypackage.Test&quot; and &quot;mypackage.YourTestApplication&quot;, but not &quot;mypackage.mysubpackage.MyTest&quot;. Or, more generally, &quot;mypackage.<em>&quot; matches all classes in &quot;mypackage&quot;, but not in its subpackages.<b><strong></strong></b>matches any part of a class name, possibly containing any number of package separators. For example, &quot;.Test&quot; matches all&nbsp;Test&nbsp;classes in all packages except the root package. Or, &quot;mypackage.**&quot; matches all classes in &quot;mypackage&quot; and in its subpackages.For additional flexibility, class names can actually be comma-separated lists of class names, with optional&nbsp;<b>!</b>&nbsp;negators, just like file name filters. This notation doesn’t look very Java-like, so it should be used with moderation.<p>For convenience and for backward compatibility, the class name&nbsp;<b></b></p></em>&nbsp;refers to any class, irrespective of its package.<p></p>The&nbsp;<b>extends</b>&nbsp;and&nbsp;<b>implements</b>&nbsp;specifications are typically used to restrict classes with wildcards. They are currently equivalent, specifying that only classes extending or implementing the given class qualify. Note that the given class itself is not included in this set. If required, it should be specified in a separate option.The&nbsp;<b>@</b>&nbsp;specifications can be used to restrict classes and class members to the ones that are annotated with the specified annotation types. An<i>annotationtype</i>&nbsp;is specified just like a&nbsp;<i>classname</i>.Fields and methods are specified much like in Java, except that method argument lists don’t contain argument names (just like in other tools like&nbsp;javadocand&nbsp;javap). The specifications can also contain the following catch-all wildcards:<b>&lt;init&gt;</b>matches any constructor.<b>&lt;fields&gt;</b>matches any field.<b>&lt;methods&gt;</b>matches any method.<b><em></em></b>matches any field or method.Note that the above wildcards don’t have return types. Only the&nbsp;<b>&lt;init&gt;</b>&nbsp;wildcard has an argument list.<p>Fields and methods may also be specified using regular expressions. Names can contain the following wildcards:<b>?</b>matches any single character in a method name.<b></b>matches any part of a method name.Types in descriptors can contain the following wildcards:<b>%</b>matches any primitive type (&quot;boolean&quot;, &quot;int&quot;, etc, but not &quot;void&quot;).<b>?</b>matches any single character in a class name.<b><em></em></b>matches any part of a class name not containing the package separator.<b><strong></strong></b>matches any part of a class name, possibly containing any number of package separators.<b></b>matches any type (primitive or non-primitive, array or non-array).<b>…</b>matches any number of arguments of any type.Note that the&nbsp;?,&nbsp;<em>, and&nbsp;<strong>&nbsp;wildcards will never match primitive types. Furthermore, only the&nbsp;</strong></em>&nbsp;wildcards will match array types of any dimension. For example, &quot;<em>* get</em>()&quot; matches &quot;java.lang.Object getObject()&quot;, but not &quot;float getFloat()&quot;, nor &quot;java.lang.Object[] getObjects()&quot;.</p>Constructors can also be specified using their short class names (without package) or using their full class names. As in the Java language, the constructor specification has an argument list, but no return type.The class access modifiers and class member access modifiers are typically used to restrict wildcarded classes and class members. They specify that the corresponding access flags have to be set for the member to match. A preceding&nbsp;<b>!</b>&nbsp;specifies that the corresponding access flag should be unset.<p>Combining multiple flags is allowed (e.g.&nbsp;public static). It means that both access flags have to be set (e.g.&nbsp;public&nbsp;<i>and</i>&nbsp;static), except when they are conflicting, in which case at least one of them has to be set (e.g. at least&nbsp;public&nbsp;<i>or</i>&nbsp;protected).</p><p>ProGuard supports the additional modifiers&nbsp;<b>synthetic</b>,&nbsp;<b>bridge</b>, and&nbsp;<b>varargs</b>, which may be set by compilers.&nbsp;</p><p>&nbsp;</p><p><strong><a style="text-decoration: none;">Restoring a stack trace with line numbers:</a></strong></p><p><a style="text-decoration: none;"></a><a href="http://proguard.sourceforge.net/index.html#/manual/retrace/examples.html" target="_blank" rel="external">http://proguard.sourceforge.net/index.html#/manual/retrace/examples.html</a></p><p>Assume for instance ProGuard itself has been obfuscated using the following extra options:-printmapping proguard.map-renamesourcefileattribute ProGuard-keepattributes SourceFile,LineNumberTable</p><p>Now assume the processed application throws an exception, and we have saved the stack trace in&nbsp;proguard.trace, shown below. Of course, in real life ProGuard rarely throws exceptions, so this is a purposely generated exception. :)</p>Exception in thread &quot;main&quot; java.lang.Error: Random exception        at pro.bY.a(ProGuard:576)        at pro.bO.a(ProGuard:431)        at pro.bj.a(ProGuard:145)        at pro.bY.a(ProGuard:522)        at pro.bj.a(ProGuard:129)        at pro.bN.a(ProGuard:125)        at pro.bY.a(ProGuard:251)        at pro.bY.a(ProGuard:229)        at pro.l.a(ProGuard:55)        at pro.bo.b(ProGuard:405)        at pro.ci.a(ProGuard:51)        at pro.bo.a(ProGuard:356)        at pro.be.a(ProGuard:109)        at pro.bo.a(ProGuard:356)        at pro.be.a(ProGuard:186)        at pro.bg.a(ProGuard:369)        at pro.bY.a(ProGuard:286)        at pro.bh.a(ProGuard:55)        at pro.bg.b(ProGuard:408)        at pro.bY.a(ProGuard:190)        at pro.bg.a(ProGuard:369)        at pro.M.a(ProGuard:110)        at pro.bY.a(ProGuard:449)        at pro.M.a(ProGuard:99)        at pro.bo.a(ProGuard:372)        at pro.bY.a(ProGuard:649)        at pro.bY.a(ProGuard:112)        at pro.P.a(ProGuard:66)        at pro.p.a(ProGuard:83)        at pro.bU.a(ProGuard:69)        at pro.bo.a(ProGuard:356)        at pro.J.a(ProGuard:149)        at pro.I.a(ProGuard:49)        at pro.J.a(ProGuard:105)        at pro.cf.c(ProGuard:370)        at pro.cf.a(ProGuard:317)        at pro.bc.a(ProGuard:55)        at proguard.ProGuard.a(ProGuard:363)        at proguard.ProGuard.c(ProGuard:187)        at proguard.ProGuard.b(ProGuard:385)        at proguard.ProGuard.main(ProGuard:429)<p>We can then use the following command to recover the stack trace:</p><b>java -jar retrace.jar proguard.map proguard.trace</b><p>The output will look as follows:</p><p>Exception in thread &quot;main&quot; java.lang.Error: Random exception        at proguard.shrink.UsageMarker.visitInstruction(ProGuard:576)        at proguard.classfile.instruction.GenericInstruction.accept(ProGuard:431)        at proguard.classfile.CodeAttrInfo.instructionsAccept(ProGuard:145)        at proguard.shrink.UsageMarker.visitCodeAttrInfo(ProGuard:522)        at proguard.classfile.CodeAttrInfo.accept(ProGuard:129)        at proguard.classfile.ProgramMemberInfo.attributesAccept(ProGuard:125)        at proguard.shrink.UsageMarker.visitMemberInfo(ProGuard:251)        at proguard.shrink.UsageMarker.visitProgramMethodInfo(ProGuard:229)        at proguard.classfile.ProgramMethodInfo.accept(ProGuard:55)        at proguard.classfile.ProgramClassFile.methodAccept(ProGuard:405)        at proguard.classfile.visitor.NamedMethodVisitor.visitProgramClassFile(ProGuard:51)        at proguard.classfile.ProgramClassFile.accept(ProGuard:356)        at proguard.classfile.visitor.ClassFileUpDownTraveler.visitProgramClassFile(ProGuard:109)        at proguard.classfile.ProgramClassFile.accept(ProGuard:356)        at proguard.classfile.visitor.ClassFileUpDownTraveler.visitLibraryClassFile(ProGuard:186)        at proguard.classfile.LibraryClassFile.accept(ProGuard:369)        at proguard.shrink.UsageMarker.visitLibraryMethodInfo(ProGuard:286)        at proguard.classfile.LibraryMethodInfo.accept(ProGuard:55)        at proguard.classfile.LibraryClassFile.methodsAccept(ProGuard:408)        at proguard.shrink.UsageMarker.visitLibraryClassFile(ProGuard:190)        at proguard.classfile.LibraryClassFile.accept(ProGuard:369)        at proguard.classfile.ClassCpInfo.referencedClassAccept(ProGuard:110)        at proguard.shrink.UsageMarker.visitClassCpInfo(ProGuard:449)        at proguard.classfile.ClassCpInfo.accept(ProGuard:99)        at proguard.classfile.ProgramClassFile.constantPoolEntryAccept(ProGuard:372)        at proguard.shrink.UsageMarker.markCpEntry(ProGuard:649)        at proguard.shrink.UsageMarker.visitProgramClassFile(ProGuard:112)        at proguard.classfile.visitor.VariableClassFileVisitor.visitProgramClassFile(ProGuard:66)        at proguard.classfile.visitor.MultiClassFileVisitor.visitProgramClassFile(ProGuard:83)        at proguard.classfile.visitor.FilteredClassFileVisitor.visitProgramClassFile(ProGuard:69)        at proguard.classfile.ProgramClassFile.accept(ProGuard:356)        at proguard.classfile.ClassPool.classFileAccept(ProGuard:149)        at proguard.classfile.visitor.NamedClassFileVisitor.visitClassPool(ProGuard:49)        at proguard.classfile.ClassPool.accept(ProGuard:105)        at proguard.KeepCommand.executeShrinkingPhase(ProGuard:370)        at proguard.KeepCommand.execute(ProGuard:317)        at proguard.CompoundCommand.execute(ProGuard:55)        at proguard.ProGuard.executeCommands(ProGuard:363)        at proguard.ProGuard.shrink(ProGuard:187)        at proguard.ProGuard.execute(ProGuard:385)        at proguard.ProGuard.main(ProGuard:429)</p><p>&nbsp;</p><p><a style="text-decoration: none;" href="http://" target="_blank" rel="external"></a></p><p>In the previous example, we could also use the verbose flag:</p><p><b>java -jar retrace.jar -verbose proguard.map proguard.trace</b></p><p>The output will then look as follows:</p>Exception in thread &quot;main&quot; java.lang.Error: Random exception        at proguard.shrink.UsageMarker.void visitInstruction(proguard.classfile.ClassFile,proguard.classfile.instruction.Instruction)(ProGuard:576)        at proguard.classfile.instruction.GenericInstruction.void accept(proguard.classfile.ClassFile,proguard.classfile.instruction.InstructionVisitor)(ProGuard:431)        at proguard.classfile.CodeAttrInfo.void instructionsAccept(proguard.classfile.ClassFile,proguard.classfile.instruction.InstructionVisitor)(ProGuard:145)        at proguard.shrink.UsageMarker.void visitCodeAttrInfo(proguard.classfile.ClassFile,proguard.classfile.CodeAttrInfo)(ProGuard:522)        at proguard.classfile.CodeAttrInfo.void accept(proguard.classfile.ClassFile,proguard.classfile.visitor.AttrInfoVisitor)(ProGuard:129)        at proguard.classfile.ProgramMemberInfo.void attributesAccept(proguard.classfile.ProgramClassFile,proguard.classfile.visitor.AttrInfoVisitor)(ProGuard:125)        at proguard.shrink.UsageMarker.void visitMemberInfo(proguard.classfile.ProgramClassFile,proguard.classfile.ProgramMemberInfo)(ProGuard:251)        at proguard.shrink.UsageMarker.void visitProgramMethodInfo(proguard.classfile.ProgramClassFile,proguard.classfile.ProgramMethodInfo)(ProGuard:229)        at proguard.classfile.ProgramMethodInfo.void accept(proguard.classfile.ProgramClassFile,proguard.classfile.visitor.MemberInfoVisitor)(ProGuard:55)        at proguard.classfile.ProgramClassFile.void methodAccept(proguard.classfile.visitor.MemberInfoVisitor,java.lang.String,java.lang.String)(ProGuard:405)        at proguard.classfile.visitor.NamedMethodVisitor.void visitProgramClassFile(proguard.classfile.ProgramClassFile)(ProGuard:51)        at proguard.classfile.ProgramClassFile.void accept(proguard.classfile.visitor.ClassFileVisitor)(ProGuard:356)        at proguard.classfile.visitor.ClassFileUpDownTraveler.void visitProgramClassFile(proguard.classfile.ProgramClassFile)(ProGuard:109)        at proguard.classfile.ProgramClassFile.void accept(proguard.classfile.visitor.ClassFileVisitor)(ProGuard:356)        at proguard.classfile.visitor.ClassFileUpDownTraveler.void visitLibraryClassFile(proguard.classfile.LibraryClassFile)(ProGuard:186)        at proguard.classfile.LibraryClassFile.void accept(proguard.classfile.visitor.ClassFileVisitor)(ProGuard:369)        at proguard.shrink.UsageMarker.void visitLibraryMethodInfo(proguard.classfile.LibraryClassFile,proguard.classfile.LibraryMethodInfo)(ProGuard:286)        at proguard.classfile.LibraryMethodInfo.void accept(proguard.classfile.LibraryClassFile,proguard.classfile.visitor.MemberInfoVisitor)(ProGuard:55)        at proguard.classfile.LibraryClassFile.void methodsAccept(proguard.classfile.visitor.MemberInfoVisitor)(ProGuard:408)        at proguard.shrink.UsageMarker.void visitLibraryClassFile(proguard.classfile.LibraryClassFile)(ProGuard:190)        at proguard.classfile.LibraryClassFile.void accept(proguard.classfile.visitor.ClassFileVisitor)(ProGuard:369)        at proguard.classfile.ClassCpInfo.void referencedClassAccept(proguard.classfile.visitor.ClassFileVisitor)(ProGuard:110)        at proguard.shrink.UsageMarker.void visitClassCpInfo(proguard.classfile.ClassFile,proguard.classfile.ClassCpInfo)(ProGuard:449)        at proguard.classfile.ClassCpInfo.void accept(proguard.classfile.ClassFile,proguard.classfile.visitor.CpInfoVisitor)(ProGuard:99)        at proguard.classfile.ProgramClassFile.void constantPoolEntryAccept(proguard.classfile.visitor.CpInfoVisitor,int)(ProGuard:372)        at proguard.shrink.UsageMarker.void markCpEntry(proguard.classfile.ClassFile,int)(ProGuard:649)        at proguard.shrink.UsageMarker.void visitProgramClassFile(proguard.classfile.ProgramClassFile)(ProGuard:112)        at proguard.classfile.visitor.VariableClassFileVisitor.void visitProgramClassFile(proguard.classfile.ProgramClassFile)(ProGuard:66)        at proguard.classfile.visitor.MultiClassFileVisitor.void visitProgramClassFile(proguard.classfile.ProgramClassFile)(ProGuard:83)        at proguard.classfile.visitor.FilteredClassFileVisitor.void visitProgramClassFile(proguard.classfile.ProgramClassFile)(ProGuard:69)        at proguard.classfile.ProgramClassFile.void accept(proguard.classfile.visitor.ClassFileVisitor)(ProGuard:356)        at proguard.classfile.ClassPool.void classFileAccept(proguard.classfile.visitor.ClassFileVisitor,java.lang.String)(ProGuard:149)        at proguard.classfile.visitor.NamedClassFileVisitor.void visitClassPool(proguard.classfile.ClassPool)(ProGuard:49)        at proguard.classfile.ClassPool.void accept(proguard.classfile.visitor.ClassPoolVisitor)(ProGuard:105)        at proguard.KeepCommand.void executeShrinkingPhase(proguard.classfile.ClassPool,proguard.classfile.ClassPool)(ProGuard:370)        at proguard.KeepCommand.void execute(int,proguard.classfile.ClassPool,proguard.classfile.ClassPool)(ProGuard:317)        at proguard.CompoundCommand.void execute(int,proguard.classfile.ClassPool,proguard.classfile.ClassPool)(ProGuard:55)        at proguard.ProGuard.void executeCommands(int)(ProGuard:363)        at proguard.ProGuard.void shrink()(ProGuard:187)        at proguard.ProGuard.void execute(java.lang.String[])(ProGuard:385)        at proguard.ProGuard.void main(java.lang.String[])(ProGuard:429)<br><br><p></p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p></p> 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2011/08/19/Proguard/" class="archive-article-date">
+  	<time datetime="2011-08-19T02:01:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2011-08-19</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-关于REST的一点想法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/08/18/关于REST的一点想法/">关于REST的一点想法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>看了下面这篇《深入浅出REST》，REST有几点特性值得学习：</p>
+<ol>
+<li>所有资源都有唯一ID（类似Android的URI）</li>
+</ol>
+<p>以数据为中心的思想，传统是面向对象思想，如定义一个服务对象，暴露一些服务接口。</p>
+<p>仅仅围绕数据定义一系列操作方法（get, post …）还是有一些缺陷的，比如数据之间的关系，表现起来不够直观。</p>
+<p>例如网游中一个角色攻击另一个角色，“攻击”这种行为，</p>
+<p>当然，也可以把这种关系再定义为一种资源，用唯一ID来标识，英语里不是把动词加上 er 就变成名词了吗？</p>
+<ol>
+<li><p>它使你的应用成为Web的一部分——应用程序为Web变成Internet上最成功的应用所做的贡献，与它添加到Web中的资源数量成比例</p>
+</li>
+<li><p>无状态约束使服务器的变化对客户端是不可见的，这意味着更方便的分布式服务器搭建</p>
+</li>
+</ol>
+<p>文中提到幂等性，详情可以参见<a href="http://blog.pickbox.me/2011/06/16/HTTP幂等性概念和应用" target="_blank">这里</a>。</p>
+<p>&nbsp;</p>
+<p><a href="http://www.infoq.com/cn/articles/rest-introduction" target="_blank" rel="external">http://www.infoq.com/cn/articles/rest-introduction</a></p>
+<p>REST关键原则</p>
+<p>大部分对REST的介绍是以其正式的定义和背景作为开场的。但这儿且先按下不表，我先提出一个简单扼要的定义：REST定义了应该如何正确地使用（这和大多数人的实际使用方式有很大不同）Web标准，例如HTTP和URI。如果你在设计应用程序时能坚持REST原则，那就预示着你将会得到一个使用了优质Web架构（这将让你受益）的系统。总之，五条关键原则列举如下：</p>
+<p>为所有“事物”定义ID将所有事物链接在一起使用标准方法资源多重表述无状态通信</p>
+<p>下面让我们进一步审视这些原则。</p>
+<p>为所有“事物”定义ID</p>
+<p>在这里我使用了“事物”来代替更正式准确的术语“资源”，因为一条如此简单的原则，不应该被淹没在术语当中。思考一下人们构建的系统，通常会找到一系列值得被标识的关键抽象。每个事物都应该是可标识的，都应该拥有一个明显的ID——在Web中，代表ID的统一概念是：URI。URI构成了一个全局命名空间，使用URI标识你的关键资源意味着它们获得了一个唯一、全局的ID。</p>
+<p>对事物使用一致的命名规则（naming scheme）最主要的好处就是你不需要提出自己的规则——而是依靠某个已被定义，在全球范围中几乎完美运行，并且能被绝大多数人所理解的规则。想一下你构建的上一个应用（假设它不是采用RESTful方式构建的）中的任意一个高级对象（high-level object），那就很有可能看到许多从使用唯一标识中受益的用例。比如，如果你的应用中包含一个对顾客的抽象，那么我可以相当肯定，用户会希望将一个指向某个顾客的链接，能通过电子邮件发送到同事那里，或者加入到浏览器的书签中，甚至写到纸上。更透彻地讲：如果在一个类似于Amazon.com的在线商城中，没有用唯一的ID（一个URI）标识它的每一件商品，可想而知这将是多么可怕的业务决策。</p>
+<p>当面对这个原则时，许多人惊讶于这是否意味着需要直接向外界暴露数据库记录（或者数据库记录ID）——自从多年以来面向对象的实践告诫我们，要将持久化的信息作为实现细节隐藏起来之后，哪怕是刚有点想法都常会使人惊恐。但是这条原则与隐藏实现细节两者之间并没有任何冲突：通常，值得被URI标识的事物——资源——要比数据库记录抽象的多。例如，一个定单资源可以由定单项、地址以及许多其它方面（可能不希望作为单独标识的资源暴露出来）组成。标识所有值得标识的事物，领会这个观念可以进一步引导你创造出在传统的应用程序设计中不常见的资源：一个流程或者流程步骤、一次销售、一次谈判、一份报价请求——这都是应该被标识的事物的示例。同样，这也会导致创建比非RESTful设计更多的持久化实体。</p>
+<p>下面是一些你可能想到的URI的例子：</p>
+<p><a href="http://example.com/customers/1234http://example.com/orders/2007/10/776654http://example.com/products/4554http://example.com/processes/salary-increase-234" target="_blank" rel="external">http://example.com/customers/1234http://example.com/orders/2007/10/776654http://example.com/products/4554http://example.com/processes/salary-increase-234</a></p>
+<p>正如我选择了创建便于阅读的URI——这是个有用的观点，尽管不是RESTful设计所必须的——应该能十分容易地推测出URI的含义：它们明显地标识着单一“数据项”。但是再往下看：</p>
+<p><a href="http://example.com/orders/2007/11http://example.com/products?color=green" target="_blank" rel="external">http://example.com/orders/2007/11http://example.com/products?color=green</a></p>
+<p>首先，这两个URI看起来与之前的稍有不同——毕竟，它们不是对一件事物的标识，而是对一类事物集合的标识（假定第一个URI标识了所有在2007年11月份提交的定单，第二个则是绿颜色产品的集合）。但是这些集合自身也是事物（资源），也应该被标识。</p>
+<p>注意，使用唯一、全局统一的命名规则的好处，既适用于浏览器中的Web应用，也适用于机对机（machine-to-machine，m2m）通信。</p>
+<p>来对第一个原则做下总结：使用URI标识所有值得标识的事物，特别是应用中提供的所有“高级”资源，无论这些资源代表单一数据项、数据项集合、虚拟亦或实际的对象还是计算结果等。</p>
+<p>将所有事物链接在一起</p>
+<p>接下来要讨论的原则有一个有点令人害怕的正式描述：“超媒体被当作应用状态引擎（Hypermedia as the engine of application state）”，有时简写为HATEOAS。（严格地说，这不是我说的。）这个描述的核心是<strong>超媒体</strong>概念，换句话说：是<strong>链接</strong>的思想。链接是我们在HTML中常见的概念，但是它的用处绝不局限于此（用于人们网络浏览）。考虑一下下面这个虚构的XML片段：</p>
+<p>&lt;order self=”<a href="http://example.com/customers/1234&quot;&amp;gt" target="_blank" rel="external">http://example.com/customers/1234&quot;&amp;gt</a>; &lt;amount&gt;23&lt;/amount&gt; &lt;product ref=”<a href="http://example.com/products/4554&quot;&amp;gt" target="_blank" rel="external">http://example.com/products/4554&quot;&amp;gt</a>; &lt;customer ref=”<a href="http://example.com/customers/1234&quot;&amp;gt" target="_blank" rel="external">http://example.com/customers/1234&quot;&amp;gt</a>; &lt;/customer&gt; &lt;/product&gt;&lt;/order&gt;</p>
+<p>如果你观察文档中product和customer的链接，就可以很容易地想象到，应用程序（已经检索过文档）如何“跟随”链接检索更多的信息。当然，如果使用一个遵守专用命名规范的简单“id”属性作为链接，也是可行的——<strong>但是仅限于应用环境之内</strong>。使用URI表示链接的优雅之处在于，链接可以指向由不同应用、不同服务器甚至位于另一个大陆上的不同公司提供的资源——因为URI命名规范是全球标准，构成Web的所有资源都可以互联互通。</p>
+<p>超媒体原则还有一个更重要的方面——应用“状态”。简而言之，实际上服务器端（如果你愿意，也可以叫服务提供者）为客户端（服务消费者）提供一组链接，使客户端能通过链接将应用从一个状态改变为另一个状态。稍后我们会在另一篇文章中探究这个方面的影响；目前，只需要记住：链接是构成动态应用的非常有效的方式。</p>
+<p>对此原则总结如下：任何可能的情况下，使用链接指引可以被标识的事物（资源）。也正是超链接造就了现在的Web。</p>
+<p>使用标准方法</p>
+<p>在前两个原则的讨论中暗含着一个假设：接收URI的应用程序可以通过URI明确地<strong>做</strong>一些有意义的事情。如果你在公共汽车上看到一个URI，你可以将它输入浏览器的地址栏中并回车——但是你的浏览器如何知道需要对这个URI做些什么呢？</p>
+<p>它知道如何去处理URI的原因在于所有的资源都支持同样的接口，一套同样的方法（只要你乐意，也可以称为操作）集合。在HTTP中这被叫做动词（verb），除了两个大家熟知的（GET和POST）之外，标准方法集合中还包含PUT、DELETE、HEAD和OPTIONS。这些方法的含义连同行为许诺都一起定义在HTTP规范之中。如果你是一名OO开发人员，就可以想象到RESTful HTTP方案中的所有资源都继承自类似于这样的一个类（采用类Java、C#的伪语法描述，请注意关键的方法）：</p>
+<p>class Resource { Resource(URI u); Response get(); Response post(Request r); Response put(Request r); Response delete();}</p>
+<p>由于所有资源使用了同样的接口，你可以依此使用GET方法检索一个<strong>表述</strong>（representation）——也就是对资源的描述。因为规范中定义了GET的语义，所以可以肯定当你调用它的时候不需要对后果负责——这就是为什么可以“安全”地调用此方法。GET方法支持非常高效、成熟的缓存，所以在很多情况下，你甚至不需要向服务器发送请求。还可以肯定的是，GET方法具有<strong>幂等性</strong>[译注：指多个相同请求返回相同的结果]——如果你发送了一个GET请求没有得到结果，你可能不知道原因是请求未能到达目的地，还是响应在反馈的途中丢失了。幂等性保证了你可以简单地再发送一次请求解决问题。幂等性同样适用于PUT（基本的含义是“更新资源数据，如果资源不存在的话，则根据此URI创建一个新的资源”）和DELETE（你完全可以一遍又一遍地操作它，直到得出结论——删除不存在的东西没有任何问题）方法。POST方法，通常表示“创建一个新资源”，也能被用于调用任意过程，因而它既不安全也不具有幂等性。</p>
+<p>如果你采用RESTful的方式暴露应用功能（如果你乐意，也可以称为服务功能），<strong>那这条原则和它的约束同样也适用于你</strong>。如果你已经习惯于另外的设计方式，则很难去接受这条原则——毕竟，你很可能认为你的应用包含了超出这些操作表达范围的逻辑。请允许我花费一些时间来让你相信不存在这样的情况。</p>
+<p>来看下面这个简单的采购方案例子：</p>
+<p><img alt="" src="http://img.pickbox.me/wp-content/uploads/pic/c417eb50d85aba361138c208.jpg" width="200"></p>
+<p>可以看到，例子中定义了两个服务程序（没有包含任何实现细节）。这些服务程序的接口都是为了完成任务（正是我们讨论的OrderManagement和CustomerManagement服务）而定制的。如果客户端程序试图使用这些服务，那它必须针对这些特定接口进行编码——不可能在这些接口定义之前，使用客户程序去有目的地和接口协作。这些接口定义了服务程序的应用协议（application protocol）。</p>
+<p>在RESTful HTTP方式中，你将通过组成<strong>HTTP应用协议</strong>的通用接口访问服务程序。你可能会想出像这样的方式：</p>
+<p><img alt="" src="http://img.pickbox.me/wp-content/uploads/pic/357f74094861d0c52fddd436.jpg" width="400"></p>
+<p>可以看到，服务程序中的特定操作被映射成为标准的HTTP方法——为了消除歧义，我创建了一组全新的资源。“这是骗人的把戏”，我听见你叫嚷着。不，这不是欺骗。标识一个顾客的URI上的GET方法正好相当于getCustomerDetails操作。有人用三角形形象化地说明了这一点：</p>
+<p><img alt="" src="http://img.pickbox.me/wp-content/uploads/pic/17c0372a282c6c525243c108.jpg" width="200"></p>
+<p>把三个顶点想象为你可以调节的按钮。可以看到在第一种方法中，你拥有许多操作，许多种类的数据以及固定数量的“实例”（本质上和你拥有的服务程序数量一致）。在第二种方法中，你拥有固定数量的操作，许多种类的数据和许多调用固定方法的对象。它的意义在于，证明了通过这两种方式，你基本上可以表示任何你喜欢的事情。</p>
+<p>为什么使用标准方法如此重要？从根本上说，它使你的应用成为Web的一部分——应用程序为Web变成Internet上最成功的应用所做的贡献，与它添加到Web中的资源数量成比例。采用RESTful方式，一个应用可能会向Web中添加数以百万计的客户URI；如果采用CORBA技术并维持应用的原有设计方式，那它的贡献大抵只是一个“端点（endpoint）”——就好比一个非常小的门，仅仅允许有钥匙的人进入其中的资源域。</p>
+<p>统一接口也使得所有理解HTTP应用协议的组件能与你的应用交互。通用客户程序（generic client）就是从中受益的组件的例子，例如curl、wget、代理、缓存、HTTP服务器、网关还有Google、Yahoo!、MSN等等。</p>
+<p>总结如下：为使客户端程序能与你的资源相互协作，资源应该正确地实现默认的应用协议（HTTP），也就是使用标准的GET、PUT、POST和DELETE方法。</p>
+<p>资源多重表述</p>
+<p>到目前为止我们一直忽略了一个稍微复杂的问题：客户程序如何知道该怎样处理检索到的数据，比如作为GET或者POST请求的结果？原因是，HTTP采取的方式是允许数据处理和操作调用之间关系分离的。换句话说，如果客户程序知道如何处理一种特定的数据格式，那就可以与所有提供这种表述格式的资源交互。让我们再用一个例子来阐明这个观点。利用HTTP内容协商（content negotiation），客户程序可以请求一种特定格式的表述：</p>
+<p>GET /customers/1234 HTTP/1.1Host: example.com Accept: application/vnd.mycompany.customer+xml</p>
+<p>请求的结果可能是一些由公司专有的XML格式表述的客户信息。假设客户程序发送另外一个不同的请求，就如下面这样：</p>
+<p>GET /customers/1234 HTTP/1.1Host: example.com Accept: text/x-vcard</p>
+<p>结果则可能是VCard格式的客户地址。（在这里我没有展示响应的内容，在其HTTP Content-type头中应该包含着关于数据类型的元数据。）这说明为什么理想的情况下，资源表述应该采用标准格式——如果客户程序对HTTP应用协议和一组数据格式都有所“了解”，那么它就可以用一种有意义的方式<strong>与世界上任意一个RESTful HTTP应用交互</strong>。不幸的是，我们不可能拿到所有东西的标准格式，但是，或许我们可以想到在公司或者一些合作伙伴中使用标准格式来营造一个小环境。当然以上情况不仅适用于从服务器端到客户端的数据，反之既然——倘若从客户端传来的数据符合应用协议，那么服务器端就可以使用特定的格式处理数据，而不去关心客户端的类型。</p>
+<p>在实践中，资源多重表述还有着其它重要的好处：如果你为你的资源提供HTML和XML两种表述方式，那这些资源不仅可以被你的应用所用，还可以被任意标准Web浏览器所用——也就是说，你的应用信息可以被所有会使用Web的人获取到。</p>
+<p>资源多重表述还有另外一种使用方式：你可以将应用的Web UI纳入到Web API中——毕竟，API的设计通常是由UI可以提供的功能驱动的，而UI也是通过API执行动作的。将这两个任务合二为一带来了令人惊讶的好处，这使得使用者和调用程序都能得到更好的Web接口。</p>
+<p>总结：针对不同的需求提供资源多重表述。</p>
+<p>无状态通信</p>
+<p><strong>无状态通信</strong>是我要讲到的最后一个原则。首先，需要着重强调的是，虽然REST包含无状态性（statelessness）的观念，但这并不是说暴露功能的应用不能有状态——<br>事实上，在大部分情况下这会导致整个做法没有任何用处。REST要求状态要么被放入资源状态中，要么保存在客户端上。或者换句话说，服务器端不能保持除了单次请求之外的，任何与其通信的客户端的通信状态。这样做的最直接的理由就是可伸缩性—— 如果服务器需要保持客户端状态，那么大量的客户端交互会严重影响服务器的内存可用空间（footprint）。（注意，要做到无状态通信往往需要需要一些重新设计——不能简单地将一些session状态绑缚在URI上，然后就宣称这个应用是RESTful。）</p>
+<p>但除此以外，其它方面可能显得更为重要：无状态约束使服务器的变化对客户端是不可见的，因为在两次连续的请求中，客户端并不依赖于同一台服务器。一个客户端从某台服务器上收到一份包含链接的文档，当它要做一些处理时，这台服务器宕掉了，可能是硬盘坏掉而被拿去修理，可能是软件需要升级重启——如果这个客户端访问了从这台服务器接收的链接，它不会察觉到后台的服务器已经改变了。</p>
+<p>理论上的REST</p>
+<p>我承认：以上我所说的REST不是真正的REST，而且我可能有点过多地热衷于简单化。但因为我想有一个与众不同的开场，所以没有在一开始就介绍其正式的定义和背景。现在就让我们稍微简要地介绍一下这方面的内容。</p>
+<p>首先，先前我并没有明确地区分HTTP、RESTful HTTP和REST。要理解这些不同方面之间的关系，我们要先来看看REST的历史。</p>
+<p><a href="http://www.ics.uci.edu/~fielding/" target="_blank" rel="external">Roy T. Fielding</a>在他的<a href="http://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm" target="_blank" rel="external">博士学位论文</a>（实际上你应该访问这个链接——至少对于一篇学术论文来说，它是相当易读的。此论文已被翻译成<a href="http://www.redsaga.com/opendoc/REST_cn.pdf" target="_blank" rel="external">中文</a>）中定义了术语REST。Roy曾是许多基本Web协议的主要设计者，其中包括HTTP和URIs，并且他在论文中对这些协议提出了很多想法。（这篇论文被誉为“REST圣经”，这是恰当的——毕竟，是作者发明了这个术语，所以在定义上，他写的任何内容都被认为是权威的。）在论文中，Roy首先定义一种方法论来谈论<strong>架构风格</strong>——高级、抽象的模式，来表达架构方法背后的核心理念。每一个架构风格由一系列的<strong>约束</strong>（constraints）定义形成。架构风格的例子包括“没有风格”（根本没有任何约束）、管道和过滤器（pipe and filter）、客户端/服务器、分布式对象以及——你猜到它了——REST。</p>
+<p>如果对你来说这些听起来都太抽象了，那就对了——REST在本质上是一个可以被许多不同技术实现的高层次的风格，而且可以被实例化——通过为它的抽象特性赋上不同的值。比如，REST中包含资源和统一接口的概念——也就是说，所有资源都应该对这些相同的方法作出反应。但是REST并没有说明是哪些方法，或者有多少方法。</p>
+<p>REST风格的一个“化身”便是HTTP（以及一套相关的一套标准，比如URI），或者稍微抽象一些：Web架构自身。接着上面的例子，HTTP使用HTTP动词作为REST统一接口的“实例”。由于Fielding是在Web已经（或者至少是大部分）“完善”了之后才定义的REST风格，有人可能会争论两者是不是100%的匹配。但是无论如何，整体上来说Web、HTTP和URI仅仅是REST风格的一个主要实现。不过，由于Roy Fielding即是REST论文的作者，又对Web架构设计有过深远的影响，两者相似也在情理之中。</p>
+<p>最后，我在前面一次又一次地使用着术语“RESTful HTTP”，原因很简单：许多使用HTTP的应用因为一些理由并没有遵循REST原则，有人会说使用HTTP而不遵循REST原则就等同于滥用HTTP。当然这听起来有点狂热——事实上违反REST约束的原因通常是，仅仅因为每个约束带来的设计权衡可能不适合于一些特殊情况。但通常，违背REST约束的原因可归咎于对其好处认知的缺乏。来看一个明显的反面案例：使用HTTP GET调用类似于删除对象的操作，这违反了REST的安全约束和一般性常识（客户程序不应为此负责，服务器端开发人员大概不是有意而为之）。但在随后的文章中，我会提及更多这样或那样的对HTTP的滥用。</p>
+<p>总结</p>
+<p>本文试图对REST（Web架构）背后的概念提供快速的介绍。RESTful HTTP暴露功能的方式与RPC、分布式对象以及Web Services是不相同的；要真正理解这些不同是需要一些心态的转变。不管你构建的应用是仅仅想暴露Web UI还是想把API变成Web的一份子，了解下REST的原则还是有好处的。</p>
+<p><strong>查看英文原文</strong>：<a href="http://www.infoq.com/articles/rest-introduction" target="_blank" rel="external">A Brief Introduction to REST</a></p>
+<p>&nbsp;</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2011/08/18/关于REST的一点想法/" class="archive-article-date">
+  	<time datetime="2011-08-18T07:31:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2011-08-18</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-java多线程设计wait、notify、notifyall、synchronized的使用机制" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/08/15/java多线程设计wait、notify、notifyall、synchronized的使用机制/">java多线程设计wait、notify、notifyall、synchronized的使用机制</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+         <p>wait、notify、notifyall、synchronized的使用机制：</p><p>&nbsp;</p><p>synchronized(obj) {<br>while(!condition) {<br>obj.<strong>wait()</strong>;<br>}<br>obj.doSomething();<br>}</p><p>当线程A获得了obj锁后，发现条件condition不满足，无法继续下一处理，于是线程A就wait() , 放弃对象锁.</p><p>之后在另一线程B中，如果B更改了某些条件，使得线程A的condition条件满足了，就可以唤醒线程A：</p><p>synchronized(obj) {<br>condition = true;<br>obj.notify();<br>}</p><p><strong>需要注意的概念是：</strong></p><p># 调用obj的wait(), notify()方法前，必须获得obj锁，也就是必须写在synchronized(obj) {…} 代码段内。</p><p># 调用obj.wait()后，线程A就释放了obj的锁，否则线程B无法获得obj锁，也就无法在synchronized(obj) {…} 代码段内唤醒A。</p><p># 当obj.wait()方法返回后，线程A需要再次获得obj锁，才能继续执行。</p><p># 如果A1,A2,A3都在obj.wait()，则B调用obj.notify()只能唤醒A1,A2,A3中的一个（具体哪一个由JVM决定）。</p><p># obj.notifyAll()则能全部唤醒A1,A2,A3，但是要继续执行obj.wait()的下一条语句，必须获得obj锁，因此，A1,A2,A3只有一个有机会获得锁继续执行，例如A1，其余的需要等待A1释放obj锁之后才能继续执行。</p><p># 当B调用obj.notify/notifyAll的时候，B正持有obj锁，因此，A1,A2,A3虽被唤醒，但是仍无法获得obj锁。直到B退出synchronized块，释放obj锁后，A1,A2,A3中的一个才有机会获得锁继续执行。</p><p>&nbsp;</p><p><strong>或者使用 Lock</strong></p><p>&nbsp;class X {<br>&nbsp; &nbsp;privatefinalReentrantLocklock=newReentrantLock();<br>&nbsp; &nbsp;// …<br><br>&nbsp; &nbsp;publicvoid m(){<br>&nbsp; &nbsp; &nbsp;lock.lock(); &nbsp;// block until condition holds<br>&nbsp; &nbsp; &nbsp;try{<br>&nbsp; &nbsp; &nbsp; &nbsp;// … method body<br>&nbsp; &nbsp; &nbsp;}finally{<br>&nbsp; &nbsp; &nbsp; &nbsp;lock.unlock()<br>&nbsp; &nbsp; &nbsp;}<br>&nbsp; &nbsp;}<br>&nbsp;}</p><p></p> 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2011/08/15/java多线程设计wait、notify、notifyall、synchronized的使用机制/" class="archive-article-date">
+  	<time datetime="2011-08-15T07:52:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2011-08-15</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Java/">Java</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-解析Unicode编码和Java-char" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/08/05/解析Unicode编码和Java-char/">解析Unicode编码和Java char</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> Java的字符类型采用的是UTF-16编码方式对Unicode编码表进行表示。其中一个char类型固定2Bytes（16bits）。首先先介绍一下Unicode编码表和UTF-16编码算法：<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Unicode编码表的专业术语：<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;代码点&nbsp;(code&nbsp;point):&nbsp;指在Unicode编码表中一个字符所对应的代码值。如汉字“一”的代码点是U+4E00，英文字母“A”的代码点是U+0041。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;代码单元(&nbsp;code&nbsp;unit):&nbsp;规定16bits的存储容量就是一个代码单元。<br>&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Unicode编码表</strong>&nbsp;分为17个代码级别&nbsp;(code&nbsp;plane)，其中代码点/-/?为第一级别&nbsp;——基本多语言级别&nbsp;(basic&nbsp;multiling l&nbsp;plane),可以用一个代码单元存储一个代码点。其余16个附加级别&nbsp;从0x10000-0x10FFFF（需要两个代码单元）。其中需要指出的是在多语言级别中，U+D800-U+DFFF这2048值没有表示任何字符，被称为Unicode的替代区域(surrogate&nbsp;area)。UTF-16正是的运用了这一区域，用2个代码单元(2*16bits)巧妙的表示出20bits代码点的Unicode附加级别。<br>&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>UTF-16编码算法<br></strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;假设U是一个代码点，也就是Unicode编码表中一个字符所对应的Unicode值。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1)&nbsp;如果U&lt;U+10000，也就是处于Unicode的基本多语言级别中。这样16bits(一个代码单元)就足够表示出字符的Unicode值。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2)&nbsp;如果U+10FFFF&gt;U&gt;=U+10000，也就是处于附加级别中。UTF-16用2个16位来表示出了，并且正好将每个16位都控制在<strong>替代区域U+D800-U+DFFF&nbsp;</strong>中了,具体操作如下：<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;分别初始化2个16位无符号的整数&nbsp;——&nbsp;W1和W2。其中W1=110110yyyyyyyyyy（0xD800-0xDBFF）,W2&nbsp;=&nbsp;110111xxxxxxxxxx(0xDC00-OxDFFF)。然后，将U的高10位分配给W1的低10位，将U的低10位分配给W2的低10位。这样就可以将20bits的代码点U拆成两个16bits的代码单元。而且这两个代码点正好落在替代区域U+D800-U+DFFF中。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;具体举个例子：代码点U+1D56B（一个整数集的算术符号Z）<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0x1D56B=&nbsp;0001&nbsp;1101&nbsp;0101&nbsp;0110&nbsp;1011<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;将0x1D56B的高10位0001&nbsp;1101&nbsp;01分配给W1的低10位组合成110110&nbsp;0001&nbsp;1101&nbsp;01=0xD875<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;将0x1D56B的低10位01&nbsp;0110&nbsp;1011分配给W2的低10位组合成110111&nbsp;01&nbsp;0110&nbsp;1011=0xDD6B<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这样代码点U+1D56B采用UTF-16编码方式，用2个连续的代码单元U+D875和U+DD68表示出了。<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Java的char类型是固定16bits的。代码点在U+0000&nbsp;—&nbsp;U+FFFF之内到是可以用一个char完整的表示出一个字符。但代码点在U+FFFF之外的，一个char无论如何无法表示一个完整字符。这样用&nbsp;char类型来获取字符串中的每一个字符就有问题了（针对那些含有代码点在U+FFFF之外的字符串）。我们还用U+1D56B举个例子：<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;假设程序中有一个字符串String&nbsp;str&nbsp;=&nbsp;new&nbsp;String(Character.toChars(0x1D56B))，str只有一个字符。注意我们不能用转义字符’/?’来表示，’&nbsp;/uXXXX’只能表示四位16进制数，也就是只能表示基本多语言级别的Unicode代码点。对于附加级别的代码点，我们只能用上面那种形式表示。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;此时，char&nbsp;ch=str.charAt(0);&nbsp;这个时候我们返回的结果是第一个代码单元，也就是代码点0xD875（上面已经讲过了U+1D56B采用UTF-16编码方式分成了U+D875和&nbsp;U+DD6B，这样就需要两个char的容量来存储这个字符）。这种方法我们永远无法得到字符串中的这个附加级别字符。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我们可以这样来精确表示整个字符串中的每一个字符<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;int&nbsp;cp=str.codePointAt(0);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if(Charcter.isSupplementaryCodePoint(cp))&nbsp;//判断Unicode&nbsp;代码点是否在附加级别字符范围内。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i+=2;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;else&nbsp;i++;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;另外，String类中的length()方法也是对字符串进行char统计，也就是计算代码单元数量（代码单元有可能大于正真的字符数量）。如果要计算代码点数量，必须用str.codePointCount(0,str.length())方法。<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;由此可见，用char类型来处理字符串在有些情况下是不准确的，<strong>我们最好使用字符串类型中处理代码点的方法，不要使用处理char类型(一个代码单元)的方法。&nbsp;</strong><br>&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我顺便提一下，虽然我们的很多系统支持Unicode编码表，但是这并不意味这我们能显示一些字符。比如要显示上面那个字符串&nbsp;System.out.println(str);显示的就是一个’?’，这主要是因为字符的显示需要有显示字库的支持，否则还是屏幕上什么都看不到。&nbsp;<br>&nbsp;<br>附：有这样一个问题<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;char&nbsp;c=’编’;&nbsp;&nbsp;//&nbsp;我们都知道c占用2个字节，这毫无疑问。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;String&nbsp;str=“遍”;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;byte[]&nbsp;bytes=str.getBytes();&nbsp;//这个打印出来，在不同的操作系统上可能有不同的长度。为什么呢？<br>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;我们可以去看看API,&nbsp;<strong>String&nbsp;的getBytes()方法使用平台的默认字符集将此&nbsp;String&nbsp;编码为&nbsp;byte&nbsp;序列&nbsp;</strong>。关于默认的字符集可以看看这篇文章《<a href="http://www.javaeye.com/blog/559607" target="_blank">Java字符串与字符集的基本概念</a>&nbsp;》。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;也就是说，你当前的OS默认支持的字符集使用的是UTF-8，则是3个字节。如果是gb2312/gbk，则2个字节。如果使用unicode/UTF-&nbsp;16则4个字节(开头的两个字节是一个mark)。<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;千万不要认为char的占用字节数变了，注意Java标榜自己的一个重要性能就是平台无关性。固定长度的基本数据类型在Java中是永远占固定长度的，这一点和C有很大区别。</p><p></p> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2011/08/05/解析Unicode编码和Java-char/" class="archive-article-date">
+  	<time datetime="2011-08-05T06:28:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2011-08-05</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Java/">Java</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Android-Sync-Provider" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/08/01/Android-Sync-Provider/">Android Sync Provider</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>&nbsp;</p>
+<p><a href="http://www.c99.org/2010/01/23/writing-an-android-sync-provider-part-1/" target="_blank">http://www.c99.org/2010/01/23/writing-an-android-sync-provider-part-1/</a></p>
+<p><a href="http://www.c99.org/2010/01/23/writing-an-android-sync-provider-part-2/" target="_blank">http://www.c99.org/2010/01/23/writing-an-android-sync-provider-part-2/</a></p>
+<p>&nbsp;</p>
+<p>Custom Account / Sync adapter: inability to edit contacts?</p>
+<p><a href="http://groups.google.com/group/android-developers/browse_thread/thread/c4003febfe3a5690" target="_blank" rel="external">http://groups.google.com/group/android-developers/browse_thread/thread/c4003febfe3a5690</a></p>
+<p><a href="http://code.google.com/p/android/issues/detail?id=5988" target="_blank" rel="external">http://code.google.com/p/android/issues/detail?id=5988</a></p>
+<p>&nbsp;</p>
+<p>Writing an Android Sync Provider: Part 1January 23rd, 2010 <a title="Posts by Sam Steele" href="http://www.c99.org/author/admin/" rel="external" target="_blank">Sam Steele</a></p>
+<p>One of the highlights of the Android 2.0 SDK is that you can write custom sync providers to integrate with the system contacts, calendars, etc. The only problem is that there’s very little documentation on how it all fits together. And worse, if you mess up in certain places, the Android system will crash and reboot! Always up for a challenge, I’ve navigated through the sparse documentation, vague mailing list posts, and the Android source code itself to build a sync provider for our Last.fm app. Want to know how to build your own? Read on!</p>
+<p>Account Authenticators</p>
+<p>The first piece of the puzzle is called an <a href="http://developer.android.com/reference/android/accounts/AbstractAccountAuthenticator.html" target="_blank" rel="external">Account Authenticator</a>, which defines how the user’s account will appear in the “Accounts &amp; Sync” settings. Implementing an Account Authenticator requires 3 pieces: a service that returns a subclass of AbstractAccountAuthenticator from the onBind method, an activity to prompt the user to enter their credentials, and an xml file describing how your account should look when displayed to the user. You’ll also need to add the <b>android.permission.AUTHENTICATE_ACCOUNTS</b> permission to your AndroidManifest.xml.</p>
+<p>The Service</p>
+<p>The authenticator service is expected to return a subclass of AbstractAccountAuthenticator from the onBind method — if you don’t, Android will crash and reboot when you try to add a new account to the system. The only method in AbstractAccountAuthenticator we really need to implement is addAccount, which returns an Intent that the system will use to display the login dialog to the user. The implementation below will launch our app’s main launcher activity with an action of “fm.last.android.sync.LOGIN” and an extra containing the AccountAuthenticatorResponse object we use to pass data back to the system after the user has logged in.</p>
+<p>AccountAuthenticatorService.java</p>
+<p><ol><br>    <li>import fm.last.android.LastFm;</li><br>    <li>import android.accounts.AbstractAccountAuthenticator;</li><br>    <li>import android.accounts.Account;</li><br>    <li>import android.accounts.AccountAuthenticatorResponse;</li><br>    <li>import android.accounts.AccountManager;</li><br>    <li>import android.accounts.NetworkErrorException;</li><br>    <li>import android.app.Service;</li><br>    <li>import android.content.Context;</li><br>    <li>import android.content.Intent;</li><br>    <li>import android.os.Bundle;</li><br>    <li>import android.os.IBinder;</li><br>    <li>import android.util.Log;</li><br>    <li></li><br>    <li>/<em>*</em></li><br>    <li>  Authenticator service that returns a subclass of AbstractAccountAuthenticator in onBind()</li><br>    <li> <em>/</em></li><br>    <li>public class AccountAuthenticatorService extends Service {</li><br>    <li> private static final String TAG = “AccountAuthenticatorService”;</li><br>    <li> private static AccountAuthenticatorImpl sAccountAuthenticator = null;</li><br>    <li></li><br>    <li> public AccountAuthenticatorService() {</li><br>    <li>  super();</li><br>    <li> }</li><br>    <li></li><br>    <li> public IBinder onBind(Intent intent) {</li><br>    <li>  IBinder ret = null;</li><br>    <li>  if (intent.getAction().equals(android.accounts.AccountManager.ACTION_AUTHENTICATOR_INTENT))</li><br>    <li>   ret = getAuthenticator().getIBinder();</li><br>    <li>  return ret;</li><br>    <li> }</li><br>    <li></li><br>    <li> private AccountAuthenticatorImpl getAuthenticator() {</li><br>    <li>  if (sAccountAuthenticator == null)</li><br>    <li>   sAccountAuthenticator = new AccountAuthenticatorImpl(this);</li><br>    <li>  return sAccountAuthenticator;</li><br>    <li> }</li><br>    <li></li><br>    <li> private static class AccountAuthenticatorImpl extends AbstractAccountAuthenticator {</li><br>    <li>  private Context mContext;</li><br>    <li></li><br>    <li>  public AccountAuthenticatorImpl(Context context) {</li><br>    <li>   super(context);</li><br>    <li>   mContext = context;</li><br>    <li>  }</li><br>    <li></li><br>    <li>  /</li><br>    <li>   <em>  The user has requested to add a new account to the system.  We return an intent that will launch our login screen if the user has not logged in yet,</em></li><br>    <li>     otherwise our activity will just pass the user’s credentials on to the account manager.</li><br>    <li>   */</li><br>    <li>  @Override</li><br>    <li>  public Bundle addAccount(AccountAuthenticatorResponse response, String accountType, String authTokenType,String[] requiredFeatures, Bundle options)</li><br>    <li>    throws NetworkErrorException {</li><br>    <li>   Bundle reply = new Bundle();</li><br>    <li></li><br>    <li>   Intent i = new Intent(mContext, LastFm.class);</li><br>    <li>   i.setAction(“fm.last.android.sync.LOGIN”);</li><br>    <li>   i.putExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE, response);</li><br>    <li>   reply.putParcelable(AccountManager.KEY_INTENT, i);</li><br>    <li></li><br>    <li>   return reply;</li><br>    <li>  }</li><br>    <li></li><br>    <li>  @Override</li><br>    <li>  public Bundle confirmCredentials(AccountAuthenticatorResponse response, Account account, Bundle options) {</li><br>    <li>   return null;</li><br>    <li>  }</li><br>    <li></li><br>    <li>  @Override</li><br>    <li>  public Bundle editProperties(AccountAuthenticatorResponse response, String accountType) {</li><br>    <li>   return null;</li><br>    <li>  }</li><br>    <li></li><br>    <li>  @Override</li><br>    <li>  public Bundle getAuthToken(AccountAuthenticatorResponse response, Account account, String authTokenType, Bundle options) throws NetworkErrorException {</li><br>    <li>   return null;</li><br>    <li>  }</li><br>    <li></li><br>    <li>  @Override</li><br>    <li>  public String getAuthTokenLabel(String authTokenType) {</li><br>    <li>   return null;</li><br>    <li>  }</li><br>    <li></li><br>    <li>  @Override</li><br>    <li>  public Bundle hasFeatures(AccountAuthenticatorResponse response, Account account, String[] features)throws NetworkErrorException {</li><br>    <li>   return null;</li><br>    <li>  }</li><br>    <li></li><br>    <li>  @Override</li><br>    <li>  public Bundle updateCredentials(AccountAuthenticatorResponse response, Account account, StringauthTokenType, Bundle options) {</li><br>    <li>   return null;</li><br>    <li>  }</li><br>    <li> }</li><br>    <li>}</li><br></ol><br>The account authenticator service should be defined in your AndroidManifest.xml, with a meta-data tag referencing an xml definition file, as follows:</p>
+<p>Snippet from AndroidManifest.xml</p>
+<p><ol><br>    <li>&lt;service android:name=”AccountAuthenticatorService”</li><br>    <li> android:exported=”true” android:process=”:auth”&gt;</li><br>    <li> &lt;intent-filter&gt;</li><br>    <li>  &lt;action android:name=”android.accounts.AccountAuthenticator” /&gt;</li><br>    <li> &lt;/intent-filter&gt;</li><br>    <li> &lt;meta-data android:name=”android.accounts.AccountAuthenticator”</li><br>    <li>  android:resource=”@xml/authenticator” /&gt;</li><br>    <li>&lt;/service&gt;</li><br></ol><br>The Activity</p>
+<p>If you don’t already have a login screen, there’s a convenience class <a href="http://developer.android.com/reference/android/accounts/AccountAuthenticatorActivity.html" target="_blank" rel="external">AccountAuthenticatorActivity</a> you can subclass that will pass your response back to the authentication manager for you, however if you already have a login activity in place you may find it easier to just pass the data back yourself, as I have done here. When the user has successfully been authenticated, we create an Account object for the user’s credentials. An account has an account name, such as the username or email address, and an account type, which you will define in your xml file next. You may find it easier to store your account type in strings.xml and use getString() to fetch it, as it is used in multiple places.</p>
+<p>Snippet from the Last.fm login activity</p>
+<p><ol><br>    <li>Account account = new Account(username, getString(R.string.ACCOUNT_TYPE)));</li><br>    <li>AccountManager am = AccountManager.get(this);</li><br>    <li>boolean accountCreated = am.addAccountExplicitly(account, password, null);</li><br>    <li></li><br>    <li>Bundle extras = getIntent.getExtras();</li><br>    <li>if (extras != null) {</li><br>    <li> if (accountCreated) {  //Pass the new account back to the account manager</li><br>    <li>  AccountAuthenticatorResponse response = extras.getParcelable(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE);</li><br>    <li>  Bundle result = new Bundle();</li><br>    <li>  result.putString(AccountManager.KEY_ACCOUNT_NAME, username);</li><br>    <li>  result.putString(AccountManager.KEY_ACCOUNT_TYPE, getString(R.string.ACCOUNT_TYPE));</li><br>    <li>  response.onResult(result);</li><br>    <li> }</li><br>    <li> finish();</li><br>    <li>}</li><br></ol><br>The XML definition file</p>
+<p>The account xml file defines what the user will see when they’re interacting with your account. It contains a user-readable name, the system account type you’re defining, various icons, and a reference to an xml file containing PreferenceScreens the user will see when modifying your account.</p>
+<p>authenticator.xml</p>
+<p><ol><br>    <li>&lt;account-authenticator xmlns:android=”<a href="http://schemas.android.com/apk/res/android" target="_blank" rel="external">http://schemas.android.com/apk/res/android</a>“</li><br>    <li>    android:accountType=”fm.last.android.account”</li><br>    <li>    android:icon=”@drawable/icon”</li><br>    <li>    android:smallIcon=”@drawable/icon”</li><br>    <li>    android:label=”@string/app_name”</li><br>    <li>    android:accountPreferences=”@xml/account_preferences”/&gt;</li><br></ol><br>account_preferences.xml</p>
+<p><ol><br>    <li>&lt;PreferenceScreen</li><br>    <li>  xmlns:android=”<a href="http://schemas.android.com/apk/res/android&quot;&amp;gt" target="_blank" rel="external">http://schemas.android.com/apk/res/android&quot;&amp;gt</a>;</li><br>    <li>    &lt;PreferenceCategory</li><br>    <li>            android:title=”General Settings” /&gt;</li><br>    <li></li><br>    <li>    &lt;PreferenceScreen</li><br>    <li>        android:key=”account_settings”</li><br>    <li>        android:title=”Account Settings”</li><br>    <li>        android:summary=”Sync frequency, notifications, etc.”&gt;</li><br>    <li>        &lt;intent</li><br>    <li>            android:action=”fm.last.android.activity.Preferences.ACCOUNT_SETUP”</li><br>    <li>            android:targetPackage=”fm.last.android”</li><br>    <li>            android:targetClass=”fm.last.android.activity.Preferences” /&gt;</li><br>    <li>    &lt;/PreferenceScreen&gt;</li><br>    <li>&lt;/PreferenceScreen&gt;</li><br></ol><br>Putting it all together</p>
+<p>Now we’re ready for testing! The Android accounts setting screen doesn’t handle exceptions very well — if something goes wrong, your device will reboot! A better way to test is to launch the emulator, run the “Dev Tools” app, and pick “AccountsTester”.<br><a href="http://www.c99.org/wp-content/uploads/2010/01/accountstester1.png" rel="external" target="_blank"><img alt="" src="http://img.pickbox.me/wp-content/uploads/pic/b152d7628535e5dd1487069076c6a7efcf1b6263.jpg" width="211" height="300"></a><br>You should see your new account type in the list, along with the built-in “Corporate” account type. Go ahead and select your account type from the drop-down list, and then press the “Add” button, and you should be presented with your login activity. After authenticating, your account should appear in a list below the buttons. At this point, it should be safe to use the system “Accounts &amp; Sync” settings screen to remove or modify your account.<br><a href="http://www.c99.org/wp-content/uploads/2010/01/accountsandsync1.png" rel="external" target="_blank"><img alt="" src="http://img.pickbox.me/wp-content/uploads/pic/42aeb33533fa828bc168e2acfd1f4134960a5a42.jpg" width="210" height="300"></a> <a href="http://www.c99.org/wp-content/uploads/2010/01/accountsandsync2.png" rel="external" target="_blank"><img alt="" src="http://img.pickbox.me/wp-content/uploads/pic/4fa531fa828ba61ec0a5b7604134970a314e5942.jpg" width="210" height="300"></a></p>
+<p>Ready to fill in that section below “Data &amp; synchronization”? Let’s move on to <a href="http://blog.pickbox.me/archives/500" target="_blank">part 2</a>!</p>
+<p>The source code for the implementation referenced here is available in my <a href="http://github.com/c99koder/lastfm-android/" target="_blank" rel="external">Last.fm github project</a> under the terms of the GNU General Public License. A standalone sample project is also available <a href="http://github.com/c99koder/AndroidSyncProviderDemo" target="_blank" rel="external">here</a> under the terms of the Apache License 2.0. Google has also released their own sample sync provider on the <a href="http://developer.android.com/resources/samples/SampleSyncAdapter/index.html" target="_blank" rel="external">Android developer portal</a>that’s a bit more complete than mine.</p>
+<p>Categories: <a title="View all posts in Android" href="http://www.c99.org/category/android/" rel="external" target="_blank">Android</a></p>
+<p><a href="http://blog.pickbox.me/archives/500" target="_blank">Writing an Android Sync Provider: Part 2</a></p>
+<p>&nbsp;</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2011/08/01/Android-Sync-Provider/" class="archive-article-date">
+  	<time datetime="2011-08-01T14:34:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2011-08-01</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/12/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="space">&hellip;</span><a class="page-number" href="/page/60/">60</a><a class="extend next" rel="next" href="/page/14/">Next &raquo;</a>
+    </nav>
+  
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: true,
+		isPost: false,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

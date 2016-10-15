@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>D-Bus Tutorial - part II | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="http://dbus.freedesktop.org/doc/dbus-tutorial.html GLib API: Using Remote ObjectsThe GLib binding is defined in the header file       &amp;lt;dbus/dbus-glib.h&amp;gt;.D-Bus - GLib type mappingsThe heart of t">
+<meta property="og:type" content="article">
+<meta property="og:title" content="D-Bus Tutorial - part II">
+<meta property="og:url" content="http://blog.pickbox.me/2008/06/04/D-Bus-Tutorial-part-II/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="http://dbus.freedesktop.org/doc/dbus-tutorial.html GLib API: Using Remote ObjectsThe GLib binding is defined in the header file       &amp;lt;dbus/dbus-glib.h&amp;gt;.D-Bus - GLib type mappingsThe heart of t">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="D-Bus Tutorial - part II">
+<meta name="twitter:description" content="http://dbus.freedesktop.org/doc/dbus-tutorial.html GLib API: Using Remote ObjectsThe GLib binding is defined in the header file       &amp;lt;dbus/dbus-glib.h&amp;gt;.D-Bus - GLib type mappingsThe heart of t">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-D-Bus-Tutorial-part-II" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      D-Bus Tutorial - part II
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <a target="_blank" href="http://dbus.freedesktop.org/doc/dbus-tutorial.html">http://dbus.freedesktop.org/doc/dbus-tutorial.html</a><br><br> <a name="glib-client"></a>GLib API: Using Remote Objects</p><p>The GLib binding is defined in the header file       <code>&lt;dbus/dbus-glib.h&gt;</code>.</p><a name="glib-typemappings"></a>D-Bus - GLib type mappings<p>The heart of the GLib bindings for D-Bus is the mapping it  provides between D-Bus &quot;type signatures&quot; and GLib types  (<code>GType</code>). The D-Bus type system is composed of  a number of &quot;basic&quot; types, along with several &quot;container&quot; types.</p><a name="glib-basic-typemappings"></a>Basic type mappings<p>Below is a list of the basic types, along with their associated    mapping to a <code>GType</code>.</p> <col><col><col><col>                        D-Bus basic type            GType            Free function            Notes                                    <code>BYTE</code> <code>G_TYPE_UCHAR</code> <code>BOOLEAN</code> <code>G_TYPE_BOOLEAN</code> <code>INT16</code> <code>G_TYPE_INT</code>                         Will be changed to a <code>G_TYPE_INT16</code> once GLib has it                            <code>UINT16</code> <code>G_TYPE_UINT</code>                         Will be changed to a <code>G_TYPE_UINT16</code> once GLib has it                            <code>INT32</code> <code>G_TYPE_INT</code>                         Will be changed to a <code>G_TYPE_INT32</code> once GLib has it                            <code>UINT32</code> <code>G_TYPE_UINT</code>                         Will be changed to a <code>G_TYPE_UINT32</code> once GLib has it                            <code>INT64</code> <code>G_TYPE_GINT64</code> <code>UINT64</code> <code>G_TYPE_GUINT64</code> <code>DOUBLE</code> <code>G_TYPE_DOUBLE</code> <code>STRING</code> <code>G_TYPE_STRING</code> <code>g_free</code> <code>OBJECT_PATH</code> <code>DBUS_TYPE_G_PROXY</code> <code>g_object_unref</code>            The returned proxy does not have an interface set; use <code>dbus_g_proxy_set_interface</code> to invoke methods            <p>As you can see, the basic mapping is fairly straightforward.</p><a name="glib-container-typemappings"></a>Container type mappings<p>The D-Bus type system also has a number of &quot;container&quot;    types, such as <code>DBUS_TYPE_ARRAY</code> and    <code>DBUS_TYPE_STRUCT</code>. The D-Bus type system is fully recursive, so one can for example have an array of array of strings (i.e. type signature <code>aas</code>).</p><p>However, not all of these types are in common use; for example, at the time of this writing the author knows of no one using <code>DBUS_TYPE_STRUCT</code>, or a    <code>DBUS_TYPE_ARRAY</code> containing any non-basic type. The approach the GLib bindings take is pragmatic; try to map the most common types in the most obvious way, and let using less common and more complex types be less &quot;natural&quot;.</p><p>First, D-Bus type signatures which have an &quot;obvious&quot;    corresponding built-in GLib type are mapped using that type:</p> <col><col><col><col><col><col>                        D-Bus type signature            Description            GType            C typedef            Free function            Notes                                    <code>as</code>            Array of strings            <code>G_TYPE_STRV</code> <code>char <strong></strong></code> <code>g_strfreev</code> <code>v</code>            Generic value container            <code>G_TYPE_VALUE</code> <code>GValue <em></em></code> <code>g_value_unset</code>            The calling conventions for values expect that method callers have allocated return values; see below.            <p> </p><p>The next most common recursive type signatures are arrays of basic values. The most obvious mapping for arrays of basic types is a <code>GArray</code>.  Now, GLib does not    provide a builtin <code>GType</code> for    <code>GArray</code>. However, we actually need more than that - we need a &quot;parameterized&quot; type which includes the contained type. Why we need this we will see below.</p><p>The approach taken is to create these types in the D-Bus GLib bindings; however, there is nothing D-Bus specific about them. In the future, we hope to include such &quot;fundamental&quot; types in GLib itself.</p> <col><col><col><col><col><col>                        D-Bus type signature            Description            GType            C typedef            Free function            Notes                                    <code>ay</code>            Array of bytes            <code>DBUS_TYPE_G_BYTE_ARRAY</code> <code>GArray </code>            g_array_free                                         <code>au</code>            Array of uint            <code>DBUS_TYPE_G_UINT_ARRAY</code> <code>GArray <em></em></code>            g_array_free                                         <code>ai</code>            Array of int            <code>DBUS_TYPE_G_INT_ARRAY</code> <code>GArray </code>            g_array_free                                         <code>ax</code>            Array of int64            <code>DBUS_TYPE_G_INT64_ARRAY</code> <code>GArray <em></em></code>            g_array_free                                         <code>at</code>            Array of uint64            <code>DBUS_TYPE_G_UINT64_ARRAY</code> <code>GArray </code>            g_array_free                                         <code>ad</code>            Array of double            <code>DBUS_TYPE_G_DOUBLE_ARRAY</code> <code>GArray <em></em></code>            g_array_free                                         <code>ab</code>            Array of boolean            <code>DBUS_TYPE_G_BOOLEAN_ARRAY</code> <code>GArray </code>            g_array_free                         <p> </p><p>D-Bus also includes a special type DBUS_TYPE_DICT_ENTRY which is only valid in arrays. It’s intended to be mapped to a &quot;dictionary&quot; type by bindings. The obvious GLib mapping here is GHashTable. Again, however, there is no builtin <code>GType</code> for a GHashTable. Moreover, just like for arrays, we need a parameterized type so that the bindings can communiate which types are contained in the hash table.</p><p>At present, only strings are supported.  Work is in progress to    include more types.</p> <col><col><col><col><col><col>                        D-Bus type signature            Description            GType            C typedef            Free function            Notes                                    <code>a{ss}</code>            Dictionary mapping strings to strings            <code>DBUS_TYPE_G_STRING_STRING_HASHTABLE</code> <code>GHashTable *</code>            g_hash_table_destroy                         <p> </p><a name="glib-generic-typemappings"></a>Arbitrarily recursive type mappings<p>Finally, it is possible users will want to write or invoke D-Bus methods which have arbitrarily complex type signatures not directly supported by these bindings. For this case, we have a <code>DBusGValue</code> which acts as a kind of special    variant value which may be iterated over manually.  The    <code>GType</code> associated is    <code>DBUS_TYPE_G_VALUE</code>.</p><p>TODO insert usage of <code>DBUS_TYPE_G_VALUE</code> here.</p><a name="sample-program-1"></a>A sample program<p>Here is a D-Bus program using the GLib bindings.</p><br>int<br>main (int argc, char argv)<br>{<br>  DBusGConnection <em>connection;<br>  GError </em>error;<br>  DBusGProxy <em>proxy;<br>  char <strong>name_list;<br>  char </strong>name_list_ptr;<br> <br>  g_type_init ();<br><br>  error = NULL;<br>  connection = dbus_g_bus_get (DBUS_BUS_SESSION,<br>                               &amp;error);<br>  if (connection == NULL)<br>    {<br>      g_printerr (&quot;Failed to open connection to bus: %sn&quot;,<br>                  error-&gt;message);<br>      g_error_free (error);<br>      exit (1);<br>    }<br><br>  /</em> Create a proxy object for the &quot;bus driver&quot; (name &quot;org.freedesktop.DBus&quot;) <em>/<br> <br>  proxy = dbus_g_proxy_new_for_name (connection,<br>                                     DBUS_SERVICE_DBUS,<br>                                     DBUS_PATH_DBUS,<br>                                     DBUS_INTERFACE_DBUS);<br><br>  /</em> Call ListNames method, wait for reply <em>/<br>  error = NULL;<br>  if (!dbus_g_proxy_call (proxy, &quot;ListNames&quot;, &amp;error, G_TYPE_INVALID,<br>                          G_TYPE_STRV, &amp;name_list, G_TYPE_INVALID))<br>    {<br>      /</em> Just do demonstrate remote exceptions versus regular GError <em>/<br>      if (error-&gt;domain == DBUS_GERROR &amp;&amp; error-&gt;code == DBUS_GERROR_REMOTE_EXCEPTION)<br>        g_printerr (&quot;Caught remote method exception %s: %s&quot;,<br>             dbus_g_error_get_name (error),<br>             error-&gt;message);<br>      else<br>        g_printerr (&quot;Error: %sn&quot;, error-&gt;message);<br>      g_error_free (error);<br>      exit (1);<br>    }<br><br>  /</em> Print the results <em>/<br> <br>  g_print (&quot;Names on the message bus:n&quot;);<br> <br>  for (name_list_ptr = name_list; </em>name_list_ptr; name_list_ptr++)<br>    {<br>      g_print (&quot;  %sn&quot;, <em>name_list_ptr);<br>    }<br>  g_strfreev (name_list);<br><br>  g_object_unref (proxy);<br><br>  return 0;<br>}<p> </p><a name="glib-program-setup"></a>Program initalization<p>A connection to the bus is acquired using  <code>dbus_g_bus_get</code>.  Next, a proxy  is created for the object &quot;/org/freedesktop/DBus&quot; with  interface <code>org.freedesktop.DBus</code>  on the service <code>org.freedesktop.DBus</code>.  This is a proxy for the message bus itself.</p><a name="glib-method-invocation"></a>Understanding method invocation<p>You have a number of choices for method invocation.  First, as  used above, <code>dbus_g_proxy_call</code> sends a method call to the remote object, and blocks until a reply is recieved. The outgoing arguments are specified in the varargs array, terminated with <code>G_TYPE_INVALID</code>.  Next, pointers to return values are specified, followed again  by <code>G_TYPE_INVALID</code>.</p><p>To invoke a method asynchronously, use  <code>dbus_g_proxy_begin_call</code>.  This returns a  <code>DBusGPendingCall</code> object; you may then set a  notification function using  <code>dbus_g_pending_call_set_notify</code>.</p><a name="glib-signal-connection"></a>Connecting to object signals<p>You may connect to signals using  <code>dbus_g_proxy_add_signal</code> and  <code>dbus_g_proxy_connect_signal</code>.  You must  invoke <code>dbus_g_proxy_add_signal</code> to specify  the signature of your signal handlers; you may then invoke  <code>dbus_g_proxy_connect_signal</code> multiple times.</p><p>Note that it will often be the case that there is no builtin marshaller for the type signature of a remote signal. In that case, you must generate a marshaller yourself by using glib-genmarshal, and then register  it using <code>dbus_g_object_register_marshaller</code>.</p><a name="glib-error-handling"></a>Error handling and remote exceptions<p>All of the GLib binding methods such as  <code>dbus_g_proxy_end_call</code> return a  <code>GError</code>.  This <code>GError</code> can  represent two different things:</p><ul> <li> <p>An internal D-Bus error, such as an out-of-memory condition, an I/O error, or a network timeout. Errors generated by the D-Bus library itself have the domain <code>DBUS_GERROR</code>, and a corresponding code      such as <code>DBUS_GERROR_NO_MEMORY</code>.  It will      not be typical for applications to handle these errors      specifically.</p> </li> <li> <p>A remote D-Bus exception, thrown by the peer, bus, or service. D-Bus remote exceptions have both a textual &quot;name&quot; and a &quot;message&quot;. The GLib bindings store this information in the <code>GError</code>, but some      special rules apply.</p> <p>The set error will have the domain      <code>DBUS_GERROR</code> as above, and will also      have the code      <code>DBUS_GERROR_REMOTE_EXCEPTION</code>.  In order      to access the remote exception name, you must use a      special accessor, such as      <code>dbus_g_error_has_name</code> or      <code>dbus_g_error_get_name</code>.  The remote      exception detailed message is accessible via the regular      GError <code>message</code> member.</p> </li></ul><p> </p><a name="glib-more-examples"></a>More examples of method invocation<a name="glib-sending-stuff"></a>Sending an integer and string, receiving an array of bytes<p> </p>GArray </em>arr;<br> <br>  error = NULL;<br>  if (!dbus_g_proxy_call (proxy, &quot;Foobar&quot;, &amp;error,<br>                          G_TYPE_INT, 42, G_TYPE_STRING, &quot;hello&quot;,<br>     G_TYPE_INVALID,<br>     DBUS_TYPE_G_UCHAR_ARRAY, &amp;arr, G_TYPE_INVALID))<br>    {<br>      /<em> Handle error </em>/<br>    }<br>   g_assert (arr != NULL);<br>   printf (&quot;got back %u values&quot;, arr-&gt;len);<p> </p><a name="glib-sending-hash"></a>Sending a GHashTable<p> </p>GHashTable <em>hash = g_hash_table_new (g_str_hash, g_str_equal);<br>  guint32 ret;<br> <br>  g_hash_table_insert (hash, &quot;foo&quot;, &quot;bar&quot;);<br>  g_hash_table_insert (hash, &quot;baz&quot;, &quot;whee&quot;);<br><br>  error = NULL;<br>  if (!dbus_g_proxy_call (proxy, &quot;HashSize&quot;, &amp;error,<br>                          DBUS_TYPE_G_STRING_STRING_HASH, hash, G_TYPE_INVALID,<br>     G_TYPE_UINT, &amp;ret, G_TYPE_INVALID))<br>    {<br>      /</em> Handle error <em>/<br>    }<br>  g_assert (ret == 2);<br>  g_hash_table_destroy (hash);<p> </p><a name="glib-receiving-bool-int"></a>Receiving a boolean and a string<p> </p>gboolean boolret;<br>  char </em>strret;<br> <br>  error = NULL;<br>  if (!dbus_g_proxy_call (proxy, &quot;GetStuff&quot;, &amp;error,<br>     G_TYPE_INVALID,<br>                          G_TYPE_BOOLEAN, &amp;boolret,<br>                          G_TYPE_STRING, &amp;strret,<br>     G_TYPE_INVALID))<br>    {<br>      /<em> Handle error </em>/<br>    }<br>  printf (&quot;%s %s&quot;, boolret ? &quot;TRUE&quot; : &quot;FALSE&quot;, strret);<br>  g_free (strret);<p> </p><a name="glib-sending-str-arrays"></a>Sending two arrays of strings<p> </p>/<em> NULL terminate </em>/<br>  char <em>strs_static[] = {&quot;foo&quot;, &quot;bar&quot;, &quot;baz&quot;, NULL};<br>  /</em> Take pointer to array; cannot pass array directly <em>/<br>  char <strong>strs_static_p = strs_static;<br>  char </strong>strs_dynamic;<br><br>  strs_dynamic = g_new (char </em>, 4);<br>  strs_dynamic[0] = g_strdup (&quot;hello&quot;);<br>  strs_dynamic[1] = g_strdup (&quot;world&quot;);<br>  strs_dynamic[2] = g_strdup (&quot;!&quot;);<br>  /<em> NULL terminate </em>/<br>  strs_dynamic[3] = NULL;<br> <br>  error = NULL;<br>  if (!dbus_g_proxy_call (proxy, &quot;TwoStrArrays&quot;, &amp;error,<br>                          G_TYPE_STRV, strs_static_p,<br>                          G_TYPE_STRV, strs_dynamic,<br>     G_TYPE_INVALID,<br>     G_TYPE_INVALID))<br>    {<br>      /<em> Handle error </em>/<br>    }<br>   g_strfreev (strs_dynamic);<p> </p><a name="glib-getting-str-array"></a>Sending a boolean, receiving an array of strings<p> </p>char <strong>strs;<br>  char </strong>strs_p;<br>  gboolean blah;<br><br>  error = NULL;<br>  blah = TRUE;<br>  if (!dbus_g_proxy_call (proxy, &quot;GetStrs&quot;, &amp;error,<br>                          G_TYPE_BOOLEAN, blah,<br>     G_TYPE_INVALID,<br>                          G_TYPE_STRV, &amp;strs,<br>     G_TYPE_INVALID))<br>    {<br>      /<em> Handle error </em>/<br>    }<br>   for (strs_p = strs; <em>strs_p; strs_p++)<br>     printf (&quot;got string: &quot;%s&quot;&quot;, </em>strs_p);<br>   g_strfreev (strs);<p> </p><a name="glib-sending-variant"></a>Sending a variant<p> </p>GValue val = {0, };<br><br>  g_value_init (&amp;val, G_TYPE_STRING);<br>  g_value_set_string (&amp;val, &quot;hello world&quot;);<br> <br>  error = NULL;<br>  if (!dbus_g_proxy_call (proxy, &quot;SendVariant&quot;, &amp;error,<br>                          G_TYPE_VALUE, &amp;val, G_TYPE_INVALID,<br>     G_TYPE_INVALID))<br>    {<br>      /<em> Handle error </em>/<br>    }<br>  g_assert (ret == 2);<br>  g_value_unset (&amp;val);<p> </p><a name="glib-receiving-variant"></a>Receiving a variant<p> </p>GValue val = {0, };<br><br>  error = NULL;<br>  if (!dbus_g_proxy_call (proxy, &quot;GetVariant&quot;, &amp;error, G_TYPE_INVALID,<br>                          G_TYPE_VALUE, &amp;val, G_TYPE_INVALID))<br>    {<br>      /<em> Handle error </em>/<br>    }<br>  if (G_VALUE_TYPE (&amp;val) == G_TYPE_STRING)<br>    printf (&quot;%sn&quot;, g_value_get_string (&amp;val));<br>  else if (G_VALUE_TYPE (&amp;val) == G_TYPE_INT)<br>    printf (&quot;%dn&quot;, g_value_get_int (&amp;val));<br>  else<br>    …<br>  g_value_unset (&amp;val);<p> </p><a name="glib-generated-bindings"></a>Generated Bindings<p>By using the Introspection XML files, convenient client-side bindings can be automatically created to ease the use of a remote DBus object.</p><p>Here is a sample XML file which describes an object that exposes         one method, named <code>ManyArgs</code>.</p>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;<br>&lt;node name=&quot;/com/example/MyObject&quot;&gt;<br>  &lt;interface name=&quot;com.example.MyObject&quot;&gt;<br>    &lt;method name=&quot;ManyArgs&quot;&gt;<br>      &lt;arg type=&quot;u&quot; name=&quot;x&quot; direction=&quot;in&quot; /&gt;<br>      &lt;arg type=&quot;s&quot; name=&quot;str&quot; direction=&quot;in&quot; /&gt;<br>      &lt;arg type=&quot;d&quot; name=&quot;trouble&quot; direction=&quot;in&quot; /&gt;<br>      &lt;arg type=&quot;d&quot; name=&quot;d_ret&quot; direction=&quot;out&quot; /&gt;<br>      &lt;arg type=&quot;s&quot; name=&quot;str_ret&quot; direction=&quot;out&quot; /&gt;<br>    &lt;/method&gt;<br>  &lt;/interface&gt;<br>&lt;/node&gt;<p> </p><p>Run <code>dbus-binding-tool –mode=glib-client           <em></em></code><code>FILENAME</code> &gt;           <em><code>HEADER_NAME</code></em> to generate the header         file.  For example: <strong>dbus-binding-tool –mode=glib-client           my-object.xml &gt; my-object-bindings.h</strong>.  This will generate         inline functions with the following prototypes:</p>/<em> This is a blocking call </em>/<br>gboolean<br>com_example_MyObject_many_args (DBusGProxy <em>proxy, const guint IN_x,<br>                                const char </em> IN_str, const gdouble IN_trouble,<br>                                gdouble<em> OUT_d_ret, char <strong> OUT_str_ret,<br>                                GError </strong>error);<br><br>/</em> This is a non-blocking call <em>/<br>DBusGProxyCall</em><br>com_example_MyObject_many_args_async (DBusGProxy <em>proxy, const guint IN_x,<br>                                      const char </em> IN_str, const gdouble IN_trouble,<br>                                      com_example_MyObject_many_args_reply callback,<br>                                      gpointer userdata);<br><br>/<em> This is the typedef for the non-blocking callback </em>/<br>typedef void<br>(<em>com_example_MyObject_many_args_reply)<br>(DBusGProxy </em>proxy, gdouble OUT_d_ret, char <em> OUT_str_ret,<br> GError </em>error, gpointer userdata);<p>The first argument in all functions is a <code>DBusGProxy         <em></em></code>, which you should create with the usual         <code>dbus_g_proxy<em>new</em></code> functions.  Following that are the         &quot;in&quot; arguments, and then either the &quot;out&quot; arguments and a         <code>GError <em></em></code> for the synchronous (blocking) function, or callback and user data arguments for the asynchronous (non-blocking) function. The callback in the asynchronous function passes the <code>DBusGProxy </code>, the returned &quot;out&quot; arguments, an         <code>GError <em></em></code> which is set if there was an error otherwise         <code>NULL</code>, and the user data.</p><p>As with the server-side bindings support (see <a href="http://dbus.freedesktop.org/doc/dbus-tutorial.html#glib-server" title="GLib API: Implementing Objects" target="_blank" rel="external">the section called &ldquo;GLib API: Implementing Objects&rdquo;</a>), the exact behaviour of the client-side bindings can be manipulated using &quot;annotations&quot;. Currently the only annotation used by the client bindings is <code>org.freedesktop.DBus.GLib.NoReply</code>, which sets the flag indicating that the client isn’t expecting a reply to the method call, so a reply shouldn’t be sent. This is often used to speed up rapid method calls where there are no &quot;out&quot; arguments, and not knowing if the method succeeded is an acceptable compromise to half the traffic on the bus.</p><a name="glib-server"></a>GLib API: Implementing Objects<p>At the moment, to expose a GObject via D-Bus, you must write XML by hand which describes the methods exported by the object. In the future, this manual step will be obviated by the upcoming GLib introspection support.</p><p>Here is a sample XML file which describes an object that exposes       one method, named <code>ManyArgs</code>.</p>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; ?&gt;<br><br>&lt;node name=&quot;/com/example/MyObject&quot;&gt;<br><br>  &lt;interface name=&quot;com.example.MyObject&quot;&gt;<br>    &lt;annotation name=&quot;org.freedesktop.DBus.GLib.CSymbol&quot; value=&quot;my_object&quot;/&gt;<br>    &lt;method name=&quot;ManyArgs&quot;&gt;<br>      &lt;!– This is optional, and in this case is redunundant –&gt;<br>      &lt;annotation name=&quot;org.freedesktop.DBus.GLib.CSymbol&quot; value=&quot;my_object_many_args&quot;/&gt;<br>      &lt;arg type=&quot;u&quot; name=&quot;x&quot; direction=&quot;in&quot; /&gt;<br>      &lt;arg type=&quot;s&quot; name=&quot;str&quot; direction=&quot;in&quot; /&gt;<br>      &lt;arg type=&quot;d&quot; name=&quot;trouble&quot; direction=&quot;in&quot; /&gt;<br>      &lt;arg type=&quot;d&quot; name=&quot;d_ret&quot; direction=&quot;out&quot; /&gt;<br>      &lt;arg type=&quot;s&quot; name=&quot;str_ret&quot; direction=&quot;out&quot; /&gt;<br>    &lt;/method&gt;<br>  &lt;/interface&gt;<br>&lt;/node&gt;<p> </p><p>This XML is in the same format as the D-Bus introspection XML format. Except we must include an &quot;annotation&quot; which give the C symbols corresponding to the object implementation prefix (<code>my_object</code>).  In addition, if particular       methods symbol names deviate from C convention       (i.e. <code>ManyArgs</code> -&gt;       <code>many_args</code>), you may specify an annotation       giving the C symbol.</p><p>Once you have written this XML, run <code>dbus-binding-tool –mode=glib-server <em></em></code><code>FILENAME</code> &gt; <em><code>HEADER_NAME</code></em>. to       generate a header file.  For example: <strong>dbus-binding-tool –mode=glib-server my-object.xml &gt; my-object-glue.h</strong>.</p><p>Next, include the generated header in your program, and invoke       <code>dbus_g_object_class_install_info</code> in the class       initializer, passing the object class and &quot;object info&quot; included in the       header.  For example:</p>dbus_g_object_type_install_info (COM_FOO_TYPE_MY_OBJECT, &amp;com_foo_my_object_info);<p>This should be done exactly once per object class.</p><p>To actually implement the method, just define a C function named e.g.       <code>my_object_many_args</code> in the same file as the info header is included. At the moment, it is required that this function conform to the following rules:</p><ul> <li> <p>The function must return a value of type <code>gboolean</code>;      <code>TRUE</code> on success, and <code>FALSE</code>      otherwise.</p> </li> <li> <p>The first parameter is a pointer to an instance of the object.</p> </li> <li> <p>Following the object instance pointer are the method      input values.</p> </li> <li> <p>Following the input values are pointers to return values.</p> </li> <li> <p>The final parameter must be a <code>GError **</code>.      If the function returns <code>FALSE</code> for an      error, the error parameter must be initalized with      <code>g_set_error</code>.</p> </li></ul><p> </p><p>Finally, you can export an object using <code>dbus_g_connection_register_g_object</code>.  For example:</p>dbus_g_connection_register_g_object (connection,<br>                                               &quot;/com/foo/MyObject&quot;,<br>                                               obj);<p> </p><a name="glib-annotations"></a>Server-side Annotations<p>There are several annotations that are used when generating the server-side bindings. The most common annotation is <code>org.freedesktop.DBus.GLib.CSymbol</code> but there are other         annotations which are often useful.</p><dl><dt><code>org.freedesktop.DBus.GLib.CSymbol</code></dt><dd><p>This annotation is used to specify the C symbol names for the various types (interface, method, etc), if it differs from the name DBus generates.</p></dd><dt><code>org.freedesktop.DBus.GLib.Async</code></dt><dd><p>This annotation marks the method implementation as an asynchronous function, which doesn’t return a response straight away but will send the response at some later point to complete the call. This is used to implement non-blocking services where method calls can take time.</p><p>When a method is asynchronous, the function prototype is different. It is required that the function conform to the following rules:</p><ul> <li> <p>The function must return a value of type <code>gboolean</code>;                       <code>TRUE</code> on success, and <code>FALSE</code>                       otherwise. TODO: the return value is currently ignored.</p> </li> <li> <p>The first parameter is a pointer to an instance of the object.</p> </li> <li> <p>Following the object instance pointer are the method                       input values.</p> </li> <li> <p>The final parameter must be a                       <code>DBusGMethodInvocation </code>.  This is used                       when sending the response message back to the client, by                       calling <code>dbus_g_method_return</code> or                       <code>dbus_g_method_return_error</code>.</p> </li></ul><p> </p></dd><dt><code>org.freedesktop.DBus.GLib.Const</code></dt><dd><p>This attribute can only be applied to &quot;out&quot;               <code>&lt;arg&gt;</code> nodes, and specifies that the parameter isn’t being copied when returned. For example, this turns a ‘s’ argument from a <code>char <strong></strong></code> to a               <code>const char </code>, and results in the argument not               being freed by DBus after the message is sent.</p></dd><dt><code>org.freedesktop.DBus.GLib.ReturnVal</code></dt><dd><p>This attribute can only be applied to &quot;out&quot;                 <code>&lt;arg&gt;</code> nodes, and alters the expected                 function signature.  It currently can be set to two values:                 <code>&quot;&quot;</code> or <code>&quot;error&quot;</code>. The argument marked with this attribute is not returned via a pointer argument, but by the function’s return value. If the attribute’s value is the empty string, the <code>GError                 <em></em></code> argument is also omitted so there is no standard way to return an error value. This is very useful for interfacing with existing code, as it is possible to match existing APIs. If the attribute’s value is <code>&quot;error&quot;</code>, then the                 final argument is a <code>GError </code> as usual.</p><p>Some examples to demonstrate the usage. This introspection XML:</p>&lt;method name=&quot;Increment&quot;&gt;<br>  &lt;arg type=&quot;u&quot; name=&quot;x&quot; /&gt;<br>  &lt;arg type=&quot;u&quot; direction=&quot;out&quot; /&gt;<br>&lt;/method&gt;<p>Expects the following function declaration:</p>gboolean<br>my_object_increment (MyObject <em>obj, gint32 x, gint32 </em>ret, GError <strong>error);<p> </p><p>This introspection XML:</p>&lt;method name=&quot;IncrementRetval&quot;&gt;<br>  &lt;arg type=&quot;u&quot; name=&quot;x&quot; /&gt;<br>  &lt;arg type=&quot;u&quot; direction=&quot;out&quot; &gt;<br>    &lt;annotation name=&quot;org.freedesktop.DBus.GLib.ReturnVal&quot; value=&quot;&quot;/&gt;<br>  &lt;/arg&gt;<br>&lt;/method&gt;<p>Expects the following function declaration:</p>gint32<br>my_object_increment_retval (MyObject <em>obj, gint32 x)<p> </p><p>This introspection XML:</p>&lt;method name=&quot;IncrementRetvalError&quot;&gt;<br>  &lt;arg type=&quot;u&quot; name=&quot;x&quot; /&gt;<br>  &lt;arg type=&quot;u&quot; direction=&quot;out&quot; &gt;<br>    &lt;annotation name=&quot;org.freedesktop.DBus.GLib.ReturnVal&quot; value=&quot;error&quot;/&gt;<br>  &lt;/arg&gt;<br>&lt;/method&gt;<p>Expects the following function declaration:</p>gint32<br>my_object_increment_retval_error (MyObject </em>obj, gint32 x, GError </strong>error)<p> </p></dd></dl><p> </p><a name="python-client"></a>Python API<p>The Python API, dbus-python, is now documented separately in       <a href="http://dbus.freedesktop.org/doc/dbus-python/doc/tutorial.html" target="_top">the dbus-python tutorial</a> (also available in doc/tutorial.txt, and doc/tutorial.html if built with python-docutils, in the dbus-python source distribution).</p><a name="qt-client"></a>Qt API: Using Remote Objects<p>The Qt bindings are not yet documented.</p><a name="qt-server"></a>Qt API: Implementing Objects<p>The Qt bindings are not yet documented.</p> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/06/04/D-Bus-Tutorial-part-II/" class="archive-article-date">
+  	<time datetime="2008-06-04T06:37:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-06-04</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux/">Linux</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2008/06/05/a-little-upset-today/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          a little upset today
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2008/06/04/D-Bus-Tutorial-part-I/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">D-Bus Tutorial - part I</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

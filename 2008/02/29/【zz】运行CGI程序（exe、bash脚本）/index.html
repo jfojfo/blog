@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>【zz】运行CGI程序（exe、bash脚本） | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Apache中对 cgi 的配置：ScriptAlias /cgi-bin/ &amp;quot;E:/work/Apache2.2/cgi-bin/&amp;quot;&amp;lt;Directory &amp;quot;E:/work/Apache2.2/icons&amp;quot;&amp;gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;  AllowOverride None&amp;nbsp;&amp;nbsp;&amp;nbsp;  Options Non">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【zz】运行CGI程序（exe、bash脚本）">
+<meta property="og:url" content="http://blog.pickbox.me/2008/02/29/【zz】运行CGI程序（exe、bash脚本）/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="Apache中对 cgi 的配置：ScriptAlias /cgi-bin/ &amp;quot;E:/work/Apache2.2/cgi-bin/&amp;quot;&amp;lt;Directory &amp;quot;E:/work/Apache2.2/icons&amp;quot;&amp;gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;  AllowOverride None&amp;nbsp;&amp;nbsp;&amp;nbsp;  Options Non">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【zz】运行CGI程序（exe、bash脚本）">
+<meta name="twitter:description" content="Apache中对 cgi 的配置：ScriptAlias /cgi-bin/ &amp;quot;E:/work/Apache2.2/cgi-bin/&amp;quot;&amp;lt;Directory &amp;quot;E:/work/Apache2.2/icons&amp;quot;&amp;gt;&amp;nbsp;&amp;nbsp;&amp;nbsp;  AllowOverride None&amp;nbsp;&amp;nbsp;&amp;nbsp;  Options Non">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-【zz】运行CGI程序（exe、bash脚本）" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      【zz】运行CGI程序（exe、bash脚本）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> Apache中对 cgi 的配置：<br>ScriptAlias /cgi-bin/ &quot;E:/work/Apache2.2/cgi-bin/&quot;<br>&lt;Directory &quot;E:/work/Apache2.2/icons&quot;&gt;<br>&nbsp;&nbsp;&nbsp;  AllowOverride None<br>&nbsp;&nbsp;&nbsp;  Options None<br>&nbsp;&nbsp;&nbsp;  Order allow,deny<br>&nbsp;&nbsp;&nbsp;  Allow from all<br>&lt;/Directory&gt;<br><br> <hr><br>&nbsp;&nbsp;       摘  要  该文通过对CGI程序,特别是Windows CGI程序原理的分析,<br>介绍了用Visual C+ +语言编写CGI程序的方法,并给出了一个用CGI程<br>序使得WWW服务器与系统数据库相连的例子。<br>&nbsp;&nbsp;&nbsp;       关键词  CGI  WWW  HTML  VC++  数据库<br>&nbsp;&nbsp;&nbsp;       近年来,Internet与Intranet迅猛发展,企业纷纷建立自己的Intr<br>anet,以加强企业内部的联系,促进与外部世界的沟通,增强企业的竞<br>争能力。通过建立自己的Internet服务器,企业能在网络上发布广告,<br>介绍本公司的情况与产品,收集顾客意见,以及建立虚拟电子商场等。<br>大家都知道写一个HTML超文本文件放在World Wide Web服务器上,即<br>可通过各种浏览器访问你的主页,但是如何使你的静态主页能响应客<br>户的动作,并与本地的数据库联系,将数据库的相应内容传送给远端的<br>浏览器呢?这就需要通过CGI接口进行联系。<br>&nbsp;&nbsp;&nbsp;       CGI全名是Common Gateway Interface,它是WWW服务器调用外部<br>程序的接口通过CGI,WW W服务器能完成一些本身所力不能及的工作。<br>图1表示了CGI与WWW的关系。图1 CGI接口<br>&nbsp;&nbsp;&nbsp;       在不同操作系统下CGI接口也不相同,可分为Standard CGI接口、<br>DOS CGI接口与Win CG I接口等。Standard CGI接口用于Unix系统,它<br>是通过环境变量来实现WWW Server与CGI应用程序之间的联系。DOS C<br>GI接口与Standard CGI接口原理类同。Win CGI接口则与前两者大不<br>相同。由于越来越多的WWW Server采用Windows系统,而Windows系统<br>又不能有效地传递环境变量,由Bob Denny提出了一种Windows CGI标<br>准,并得以不断推广。<br>&nbsp;&nbsp;&nbsp;       Win CGI是通过.ini文件来进行联系的。在Windows环境下,许多<br>应用程序都是利用.ini 文件,即profile文件来定义一些基本设定,而<br>Win CGI程序与WWW Server之间也正是通过pro file文件来实现联系<br>的。当WWW Client通过WWW Server触发CGI程序时,WWW Server先动态<br>生成几个文件于临时目录下,分别为.ini、.inp、.out等文件。在WWW<br>Server生成CGI程序的进程时,通过命令行参数将.ini文件的绝对路<br>径传给CGI进程。.ini文件中也包含了.inp、.ou t等文件路径信息。<br>这样,CGI程序可读取.ini和.inp文件所提供的信息,了解所有来自WWW<br>S erver端和与WWW Client端的数据。然后,CGI程序可以调用外部程<br>序,或由CGI直接执行外部程序的功能,并将要传给客户端的信息以HTM<br>L文本的形式写在.out文件上。最后,WWW Serve r读取.out文件的HTM<br>L文本,将信息传送给WWW Client端,并删除临时目录下的文件。<br>&nbsp;&nbsp;&nbsp;       那么,CGI的profile文件包含了什么数据呢?与Windows其它.ini<br>文件一样,CGI profile 文件包含了许多session,每个session又包含<br>一些key,以下是一个CGI profile的部份内容<br>&nbsp;&nbsp;&nbsp;       [CGI]<br>&nbsp;&nbsp;&nbsp;       Request Method=POST&nbsp;&nbsp;       //传递方式,即HTML中的Form method有<br>&nbsp;&nbsp;&nbsp;       Request Method=POST&nbsp;&nbsp;       //传递方式,即HTML中的Form method有<br>GET,POST,HEAD等。<br>&nbsp;&nbsp;&nbsp;       Server Software=WebSite/1.1e<br>&nbsp;&nbsp;&nbsp;       //Server的名称与版本。<br>&nbsp;&nbsp;&nbsp;       Server Name=199.199.198.55<br>&nbsp;&nbsp;&nbsp;       //Server的IP地址。<br><br>&nbsp;&nbsp;&nbsp;       Server Port=80//Server的Socket Port。<br>&nbsp;&nbsp;&nbsp;       Server Admin=tomy@vico.bme.zju.edu.cn//Server管理者的E-m<br>ail地址。<br>&nbsp;&nbsp;&nbsp;       Referer=<a href="http://199.199.198.55/" target="_blank" rel="external">http://199.199.198.55/</a><br>&nbsp;&nbsp;&nbsp;       //主页的URL路径。<br>&nbsp;&nbsp;&nbsp;       Remote Address=199.199.198.89<br>&nbsp;&nbsp;&nbsp;       //Client端的IP地址。<br>&nbsp;&nbsp;&nbsp;       [System]<br>&nbsp;&nbsp;&nbsp;       Output File=c:WebSitecgi-temp198ws.out//输出文件的路<br>径名。<br>&nbsp;&nbsp;&nbsp;       Content File=c:WebSitecgi-temp198ws.inp//输入文件的路<br>径名。<br>&nbsp;&nbsp;&nbsp;       [Form Literal]<br>&nbsp;&nbsp;&nbsp;       type=B//接收到的Form data即client端动作的结果信息。<br>&nbsp;&nbsp;&nbsp;       原则上可用来编写CGI程序的语言有:perl, AppleScript, Unix<br>Shell, VB, C/C++等。但在Windows(NT、3x、95)环境下,还是必须借<br>助成熟的Windows编程语言才能编写出精巧的Win CGI程序。C语言是<br>一门深受广大程序员喜爱的语言,尤其是VCi++作为一门面向对象的语<br>言,具备了Windows环境的许多基本功能,如OLE,ODBC等。通过ODBC这<br>项功能,可以非常容易地连接FoxPro, Access, dBASE等多种数据库,<br>而无需考虑各种数据库结构的差异。<br>&nbsp;&nbsp;&nbsp;       以下是笔者用VC++4.0编写的一个用Win CGI连接数据库的范例。<br>使用者可在屏幕上选择,以查询ISP服务商提供的internet服务价格表<br><br>。系统环境采用Windows 95,数据库采用FoxP ro2.5, WWW Server采<br>用Website。<br><br>&nbsp;&nbsp;&nbsp;       1.建立数据库<br>&nbsp;&nbsp;&nbsp;       本例的CGI程序是通过ODBC连接数据库,因此数据库建完后,应用3<br>2位ODBC驱动器加以登记。<br><br>&nbsp;&nbsp;&nbsp;       2.编写HTML程序<br>&nbsp;&nbsp;&nbsp;       使用者可在屏幕上选择一服务类型,再按&quot;提交&quot;键,即可查询这一<br>服务类型的各价格栏目。其HTML文本描述如下:<br>&nbsp;&nbsp;&nbsp;       &lt;HTML&gt;<br>&nbsp;&nbsp;&nbsp;       &lt;HEAD&gt;&lt;TITLE&gt;维科公司internet服务收费标准&lt;/TITLE&gt;&lt;/HEAD&gt;<br>&nbsp;&nbsp;&nbsp;       &lt;pre&gt;&lt;H1&gt;维科公司internet服务收费标准&lt;/H1&gt;<br>&nbsp;&nbsp;&nbsp;       &lt;/P&gt;<br>&nbsp;&nbsp;&nbsp;       &lt;hr&gt;&lt;form method=&quot;POST&quot; action=&quot;cgi-bin/cgi-console.exe&quot;&gt;<br>&nbsp;&nbsp;&nbsp;       您要查询的类型是:<br>&nbsp;&nbsp;&nbsp;       &lt;UL&gt;&lt;LI&gt;A类用户&lt;input name=&quot;usertype&quot; type=radio value=&quot;<br>A&quot;&gt;<br>&nbsp;&nbsp;&nbsp;       &lt;LI&gt;B类用户&lt;input name=&quot;usertype&quot; type=radio value=&quot;B&quot;&gt;<br>&nbsp;&nbsp;&nbsp;       &lt;LI&gt;C类用户&lt;input name=&quot;usertype&quot; type=radio value=&quot;C&quot;&gt;<br>&nbsp;&nbsp;&nbsp;       &lt;LI&gt;D类用户&lt;input name=&quot;usertype&quot; type=radio value=&quot;D&quot;&gt;<br>&lt;/UL&gt;<br>&nbsp;&nbsp;&nbsp;       &lt;center&gt;<br><br>&nbsp;&nbsp;&nbsp;       &lt;input type=submit value=&quot;提交&quot;&gt; &lt;input type=reset value<br>=&quot;取消&quot;&gt;&lt;/center&gt;<br>&nbsp;&nbsp;&nbsp;       &lt;/pre&gt;&lt;/form&gt;&lt;hr&gt;<br>&nbsp;&nbsp;&nbsp;       &lt;/HTML&gt;<br><br>&nbsp;&nbsp;&nbsp;       3.编写VC++CGI程序（实际上用一个console程序就行了！）<br>输入参数从环境变量和stdin中取得,输出数据到stdout<br> #include &lt;stdio.h&gt;<br>int main()<br>{<br>&nbsp;&nbsp;&nbsp;    printf(&quot;Content-Type:&nbsp;&nbsp;    text/htmlnn&quot;);&nbsp;&nbsp;    //&nbsp;&nbsp;    这里一定要有两个回车  <br>&nbsp;&nbsp;&nbsp;    printf(&quot;&lt;html&gt;&lt;body&gt;&lt;h1&gt;&quot;);<br>&nbsp;&nbsp;&nbsp;    printf(&quot;Hello World&quot;);<br>&nbsp;&nbsp;&nbsp;    printf(&quot;&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;&quot;);<br>}<br>编译后生成cgi-console.exe<br><br>或者也可以直接运行脚本，如<br><a href="http://localhost/cgi-bin/sh.bash" target="_blank" rel="external">http://localhost/cgi-bin/sh.bash</a><br><br>#! E:/work/Cygwin/bin/bash.exe<br>echo -e &quot;Content-Type:&nbsp;&nbsp;   text/htmln&quot;&nbsp;&nbsp;&nbsp;   # ‘-e’ enables backslash reinterpreter<br>echo &quot;&lt;html&gt;&lt;body&gt;&lt;h1&gt;&quot;<br>echo &quot;Hello World&quot;<br>echo &quot;&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;<br><br><br><br>&nbsp;&nbsp;&nbsp;       4.结论<br>&nbsp;&nbsp;&nbsp;       将程序编译后,把wincgi.exe拷入website/cgi-win/目录下,用浏<br>览器查询结果。至此简单地阐述了用VC++编写Win CGI程序的整个过<br>程,C程序员也可以用自己熟悉的语言编写CGI程序了。利用VC++的强<br>大功能,你的WWW Server将无所不能。 </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/02/29/【zz】运行CGI程序（exe、bash脚本）/" class="archive-article-date">
+  	<time datetime="2008-02-29T14:08:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-02-29</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2008/02/29/MIME-content-types/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          MIME content-types
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2008/02/25/chm帮助文件制作/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">chm帮助文件制作</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

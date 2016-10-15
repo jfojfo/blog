@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>sensor service的初始化 | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="基于android-4.4源码分析
+sensor service init首先是SystemServer中的初始化入口，位于frameworks/base/services/java/com/android/server/SystemServer.java在main()函数中调用nativeInit()，它位于frameworks/base/services/jni/com_android_ser">
+<meta property="og:type" content="article">
+<meta property="og:title" content="sensor service的初始化">
+<meta property="og:url" content="http://blog.pickbox.me/2014/11/07/sensor-service的初始化/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="基于android-4.4源码分析
+sensor service init首先是SystemServer中的初始化入口，位于frameworks/base/services/java/com/android/server/SystemServer.java在main()函数中调用nativeInit()，它位于frameworks/base/services/jni/com_android_ser">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/sensor-service-init.png">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/SensorManager-init.png">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="sensor service的初始化">
+<meta name="twitter:description" content="基于android-4.4源码分析
+sensor service init首先是SystemServer中的初始化入口，位于frameworks/base/services/java/com/android/server/SystemServer.java在main()函数中调用nativeInit()，它位于frameworks/base/services/jni/com_android_ser">
+<meta name="twitter:image" content="http://img.pickbox.me/wp-content/uploads/sensor-service-init.png">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-sensor-service的初始化" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      sensor service的初始化
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>基于android-4.4源码分析</p>
+<p></p><h4>sensor service init</h4><br><a href="http://img.pickbox.me/wp-content/uploads/sensor-service-init.png" target="_blank" rel="external"><img src="http://img.pickbox.me/wp-content/uploads/sensor-service-init.png" alt="sensor service init" width="739" height="409" class="alignnone size-full wp-image-1069"></a><br>首先是SystemServer中的初始化入口，位于frameworks/base/services/java/com/android/server/SystemServer.java<br>在main()函数中调用nativeInit()，它位于<br>frameworks/base/services/jni/com_android_server_SystemServer.cpp<p></p>
+<pre>
+static JNINativeMethod gMethods[] = {
+    /* name, signature, funcPtr */
+    { &quot;nativeInit&quot;, &quot;()V&quot;, (void*) android_server_SystemServer_nativeInit },
+};
+
+static void android_server_SystemServer_nativeInit(JNIEnv* env, jobject clazz) {
+    char propBuf[PROPERTY_VALUE_MAX];
+    property_get(&quot;system_init.startsensorservice&quot;, propBuf, &quot;1&quot;);
+    if (strcmp(propBuf, &quot;1&quot;) == 0) {
+        // Start the sensor service
+        SensorService::instantiate();
+    }
+}
+</pre>
+
+<p>native层SystemServer只做了一件事，调用SensorService::instantiate()<br>SensorService继承自BinderService，BinderService中定义了instantiate()</p>
+<pre>
+frameworks/native/services/sensorservice/SensorService.h
+class SensorService :
+        public BinderService&lt;SensorService&gt;,
+        public BnSensorServer,
+        protected Thread
+{
+    friend class BinderService&lt;SensorService&gt;;
+    static char const* getServiceName() ANDROID_API { return &quot;sensorservice&quot;; }
+    ...
+}
+
+frameworks/native/include/binder/BinderService.h
+template&lt;typename SERVICE&gt;
+class BinderService
+{
+public:
+    static status_t publish(bool allowIsolated = false) {
+        sp&lt;IServiceManager&gt; sm(defaultServiceManager());
+        return sm-&gt;addService(
+                String16(SERVICE::getServiceName()),
+                new SERVICE(), allowIsolated);
+    }
+    static void instantiate() { publish(); }
+    ...
+};
+</pre>
+
+<p>instantiate()调用publish()，publish()会new一个SensorService的实例，并添加到service manager中，对应java层中的IServiceManager，都是app端的binder，通过aidl的方式调用服务端的远程方法</p>
+<p>defaultServiceManager位于frameworks/native/libs/binder/IServiceManager.cpp</p>
+<pre>
+sp&lt;IServiceManager&gt; defaultServiceManager()
+{
+    if (gDefaultServiceManager != NULL) return gDefaultServiceManager;
+
+    {
+        AutoMutex _l(gDefaultServiceManagerLock);
+        while (gDefaultServiceManager == NULL) {
+            gDefaultServiceManager = interface_cast&lt;IServiceManager&gt;(
+                ProcessState::self()-&gt;getContextObject(NULL));
+            if (gDefaultServiceManager == NULL)
+                sleep(1);
+        }
+    }
+
+    return gDefaultServiceManager;
+}
+
+class BpServiceManager : public BpInterface&lt;IServiceManager&gt;
+{
+  virtual status_t addService(const String16&amp; name, const sp&lt;IBinder&gt;&amp; service,
+          bool allowIsolated)
+  {
+    Parcel data, reply;
+    data.writeInterfaceToken(IServiceManager::getInterfaceDescriptor());
+    data.writeString16(name);
+    data.writeStrongBinder(service);
+    data.writeInt32(allowIsolated ? 1 : 0);
+    status_t err = remote()-&gt;transact(ADD_SERVICE_TRANSACTION, data, &amp;reply);
+    return err == NO_ERROR ? reply.readExceptionCode() : err;
+  }
+
+}
+</pre>
+
+<p>addService时有sp<ibinder>参数的传递，会导致SensorService的onFirstRef()被调用<br>onFirstRef()属于父类RefBase，该函数在强引用sp新增引用计数时调用</ibinder></p>
+<p></p><h4>SensorManager init</h4><br><a href="http://img.pickbox.me/wp-content/uploads/SensorManager-init.png" target="_blank" rel="external"><img src="http://img.pickbox.me/wp-content/uploads/SensorManager-init.png" alt="SensorManager init" width="847" height="450" class="alignnone size-full wp-image-1068"></a><br>回到前面，instantiate()之后SensorService注册完毕<p></p>
+<p>app通过getSystemService(Context.SENSOR_SERVICE)可以获取到sensor服务，它需要先在ContextImpl中初始化</p>
+<pre>
+registerService(SENSOR_SERVICE, new ServiceFetcher() {
+        public Object createService(ContextImpl ctx) {
+            return new SystemSensorManager(ctx.getOuterContext(),
+              ctx.mMainThread.getHandler().getLooper());
+        }});
+</pre>
+
+<p>frameworks/base/core/java/android/hardware/SystemSensorManager.java</p>
+<pre>
+    public SystemSensorManager(Context context, Looper mainLooper) {
+        mMainLooper = mainLooper;
+        mTargetSdkLevel = context.getApplicationInfo().targetSdkVersion;
+        synchronized(sSensorModuleLock) {
+            if (!sSensorModuleInitialized) {
+                sSensorModuleInitialized = true;
+
+                nativeClassInit();
+
+                // initialize the sensor list
+                final ArrayList&lt;Sensor&gt; fullList = sFullSensorsList;
+                int i = 0;
+                do {
+                    Sensor sensor = new Sensor();
+                    i = nativeGetNextSensor(sensor, i);
+                    if (i&gt;=0) {
+                        //Log.d(TAG, &quot;found sensor: &quot; + sensor.getName() +
+                        //        &quot;, handle=&quot; + sensor.getHandle());
+                        fullList.add(sensor);
+                        sHandleToSensor.append(sensor.getHandle(), sensor);
+                    }
+                } while (i&gt;0);
+            }
+        }
+    }
+</pre>
+
+<p>nativeClassInit位于frameworks/base/core/jni/android_hardware_SensorManager.cpp，</p>
+<pre>
+static void
+nativeClassInit (JNIEnv *_env, jclass _this)
+{
+    jclass sensorClass = _env-&gt;FindClass(&quot;android/hardware/Sensor&quot;);
+    SensorOffsets&amp; sensorOffsets = gSensorOffsets;
+    sensorOffsets.name        = _env-&gt;GetFieldID(sensorClass, &quot;mName&quot;,      &quot;Ljava/lang/String;&quot;);
+    sensorOffsets.vendor      = _env-&gt;GetFieldID(sensorClass, &quot;mVendor&quot;,    &quot;Ljava/lang/String;&quot;);
+    sensorOffsets.version     = _env-&gt;GetFieldID(sensorClass, &quot;mVersion&quot;,   &quot;I&quot;);
+    sensorOffsets.handle      = _env-&gt;GetFieldID(sensorClass, &quot;mHandle&quot;,    &quot;I&quot;);
+    sensorOffsets.type        = _env-&gt;GetFieldID(sensorClass, &quot;mType&quot;,      &quot;I&quot;);
+    sensorOffsets.range       = _env-&gt;GetFieldID(sensorClass, &quot;mMaxRange&quot;,  &quot;F&quot;);
+    sensorOffsets.resolution  = _env-&gt;GetFieldID(sensorClass, &quot;mResolution&quot;,&quot;F&quot;);
+    sensorOffsets.power       = _env-&gt;GetFieldID(sensorClass, &quot;mPower&quot;,     &quot;F&quot;);
+    sensorOffsets.minDelay    = _env-&gt;GetFieldID(sensorClass, &quot;mMinDelay&quot;,  &quot;I&quot;);
+    sensorOffsets.fifoReservedEventCount =
+            _env-&gt;GetFieldID(sensorClass, &quot;mFifoReservedEventCount&quot;,  &quot;I&quot;);
+    sensorOffsets.fifoMaxEventCount = _env-&gt;GetFieldID(sensorClass, &quot;mFifoMaxEventCount&quot;,  &quot;I&quot;);
+}
+
+static jint
+nativeGetNextSensor(JNIEnv *env, jclass clazz, jobject sensor, jint next)
+{
+    SensorManager&amp; mgr(SensorManager::getInstance());
+
+    Sensor const* const* sensorList;
+    size_t count = mgr.getSensorList(&amp;sensorList);
+    if (size_t(next) &gt;= count)
+        return -1;
+
+    Sensor const* const list = sensorList[next];
+    const SensorOffsets&amp; sensorOffsets(gSensorOffsets);
+    jstring name = env-&gt;NewStringUTF(list-&gt;getName().string());
+    jstring vendor = env-&gt;NewStringUTF(list-&gt;getVendor().string());
+    env-&gt;SetObjectField(sensor, sensorOffsets.name,      name);
+    env-&gt;SetObjectField(sensor, sensorOffsets.vendor,    vendor);
+    env-&gt;SetIntField(sensor, sensorOffsets.version,      list-&gt;getVersion());
+    env-&gt;SetIntField(sensor, sensorOffsets.handle,       list-&gt;getHandle());
+    env-&gt;SetIntField(sensor, sensorOffsets.type,         list-&gt;getType());
+    env-&gt;SetFloatField(sensor, sensorOffsets.range,      list-&gt;getMaxValue());
+    env-&gt;SetFloatField(sensor, sensorOffsets.resolution, list-&gt;getResolution());
+    env-&gt;SetFloatField(sensor, sensorOffsets.power,      list-&gt;getPowerUsage());
+    env-&gt;SetIntField(sensor, sensorOffsets.minDelay,     list-&gt;getMinDelay());
+    env-&gt;SetIntField(sensor, sensorOffsets.fifoReservedEventCount,
+                     list-&gt;getFifoReservedEventCount());
+    env-&gt;SetIntField(sensor, sensorOffsets.fifoMaxEventCount, list-&gt;getFifoMaxEventCount());
+    next++;
+    return size_t(next) &lt; count ? next : 0;
+}
+</pre>
+
+<p>frameworks/native/libs/gui/SensorManager.cpp<br>SensorManager是一个Singleton，如果SensorManager对象不存在会先new一个<br>SensorManager的构造函数会调用assertStateLocked()</p>
+<pre>
+SensorManager::SensorManager()
+    : mSensorList(0)
+{
+    assertStateLocked();
+}
+
+status_t SensorManager::assertStateLocked() const {
+    if (mSensorServer == NULL) {
+        // try for one second
+        const String16 name(&quot;sensorservice&quot;);
+        for (int i=0 ; i&lt;4 ; i++) {
+            status_t err = getService(name, &amp;mSensorServer);
+            if (err == NAME_NOT_FOUND) {
+                usleep(250000);
+                continue;
+            }
+            if (err != NO_ERROR) {
+                return err;
+            }
+            break;
+        }
+
+        class DeathObserver : public IBinder::DeathRecipient {
+            SensorManager&amp; mSensorManger;
+            virtual void binderDied(const wp&lt;IBinder&gt;&amp; who) {
+                ALOGW(&quot;sensorservice died [%p]&quot;, who.unsafe_get());
+                mSensorManger.sensorManagerDied();
+            }
+        public:
+            DeathObserver(SensorManager&amp; mgr) : mSensorManger(mgr) { }
+        };
+
+        mDeathObserver = new DeathObserver(*const_cast&lt;SensorManager *&gt;(this));
+        mSensorServer-&gt;asBinder()-&gt;linkToDeath(mDeathObserver);
+
+        mSensors = mSensorServer-&gt;getSensorList();
+        size_t count = mSensors.size();
+        mSensorList = (Sensor const**)malloc(count * sizeof(Sensor*));
+        for (size_t i=0 ; i&lt;count ; i++) {
+            mSensorList[i] = mSensors.array() + i;
+        }
+    }
+
+    return NO_ERROR;
+}
+</pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/11/07/sensor-service的初始化/" class="archive-article-date">
+  	<time datetime="2014-11-07T03:41:35.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-11-07</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2014/11/08/sensors-data-sent-to-requested-from-android-HAL/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          sensors data sent to / requested from android HAL
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/11/06/sensors-HAL/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">sensors HAL</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

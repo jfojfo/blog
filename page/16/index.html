@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="jfo planet">
+<meta property="og:url" content="http://blog.pickbox.me/page/16/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jfo planet">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        
+  
+    <article id="post-Java-实现断点续传-HTTP" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/05/13/Java-实现断点续传-HTTP/">Java 实现断点续传 (HTTP)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+         <p>断点续传的原理<br><br>其实断点续传的原理很简单，就是在 Http 的请求上和一般的下载有所不同而已。 <br>打个比方，浏览器请求服务器上的一个文时，所发出的请求如下： <br>假设服务器域名为 wwww.sjtu.edu.cn，文件名为 down.zip。 <br>GET /down.zip HTTP/1.1 <br>Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/vnd.ms- <br>excel, application/msword, application/vnd.ms-powerpoint, <em>/</em> <br>Accept-Language: zh-cn <br>Accept-Encoding: gzip, deflate <br>User-Agent: Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0) <br>Connection: Keep-Alive<br><br>服务器收到请求后，按要求寻找请求的文件，提取文件的信息，然后返回给浏览器，返回信息如下：<br><br>200 <br>Content-Length=106786028 <br>Accept-Ranges=bytes <br>Date=Mon, 30 Apr 2001 12:56:11 GMT <br>ETag=W/&quot;02ca57e173c11:95b&quot; <br>Content-Type=application/octet-stream <br>Server=Microsoft-IIS/5.0 <br>Last-Modified=Mon, 30 Apr 2001 12:56:11 GMT<br><br>所谓断点续传，也就是要从文件已经下载的地方开始继续下载。所以在客户端浏览器传给 Web 服务器的时候要多加一条信息 – 从哪里开始。 <br>下面是用自己编的一个&quot;浏览器&quot;来传递请求信息给 Web 服务器，要求从 2000070 字节开始。 <br>GET /down.zip HTTP/1.0 <br>User-Agent: NetFox <br>RANGE: bytes=2000070- <br>Accept: text/html, image/gif, image/jpeg, <em>; q=.2, </em>/*; q=.2<br><br>仔细看一下就会发现多了一行 RANGE: bytes=2000070- <br>这一行的意思就是告诉服务器 down.zip 这个文件从 2000070 字节开始传，前面的字节不用传了。 <br>服务器收到这个请求以后，返回的信息如下： <br>206 <br>Content-Length=106786028 <br>Content-Range=bytes 2000070-106786027/106786028 <br>Date=Mon, 30 Apr 2001 12:55:20 GMT <br>ETag=W/&quot;02ca57e173c11:95b&quot; <br>Content-Type=application/octet-stream <br>Server=Microsoft-IIS/5.0 <br>Last-Modified=Mon, 30 Apr 2001 12:55:20 GMT<br><br>和前面服务器返回的信息比较一下，就会发现增加了一行： <br>Content-Range=bytes 2000070-106786027/106786028 <br>返回的代码也改为 206 了，而不再是 200 了。<br><br>知道了以上原理，就可以进行断点续传的编程了。<br><br>回页首<br><br>Java 实现断点续传的关键几点<br><br>(1) 用什么方法实现提交 RANGE: bytes=2000070-。 <br>当然用最原始的 Socket 是肯定能完成的，不过那样太费事了，其实 Java 的 net 包中提供了这种功能。代码如下： <br><br>URL url = new URL(&quot;<a href="http://www.sjtu.edu.cn/down.zip&amp;quot" target="_blank" rel="external">http://www.sjtu.edu.cn/down.zip&amp;quot</a>;); <br>HttpURLConnection httpConnection = (HttpURLConnection)url.openConnection(); <br><br>// 设置 User-Agent <br>httpConnection.setRequestProperty(&quot;User-Agent&quot;,&quot;NetFox&quot;); <br>// 设置断点续传的开始位置 <br>httpConnection.setRequestProperty(&quot;RANGE&quot;,&quot;bytes=2000070&quot;); <br>// 获得输入流 <br>InputStream input = httpConnection.getInputStream(); <br>从输入流中取出的字节流就是 down.zip 文件从 2000070 开始的字节流。大家看，其实断点续传用 Java 实现起来还是很简单的吧。接下来要做的事就是怎么保存获得的流到文件中去了。<br><br>保存文件采用的方法。 <br>我采用的是 IO 包中的 RandAccessFile 类。 <br>操作相当简单，假设从 2000070 处开始保存文件，代码如下： <br>RandomAccess oSavedFile = new RandomAccessFile(&quot;down.zip&quot;,&quot;rw&quot;); <br>long nPos = 2000070; <br>// 定位文件指针到 nPos 位置 <br>oSavedFile.seek(nPos); <br>byte[] b = new byte[1024]; <br>int nRead; <br>// 从输入流中读入字节流，然后写到文件中 <br>while((nRead=input.read(b,0,1024)) &gt; 0) <br>{ <br>oSavedFile.write(b,0,nRead); <br>}<br>怎么样，也很简单吧。接下来要做的就是整合成一个完整的程序了。包括一系列的线程控制等等。</p> 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2011/05/13/Java-实现断点续传-HTTP/" class="archive-article-date">
+  	<time datetime="2011-05-13T04:19:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2011-05-13</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Java/">Java</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-accept产生的socket为何还是使用原来的端口号？" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/05/05/accept产生的socket为何还是使用原来的端口号？/">accept产生的socket为何还是使用原来的端口号？</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+         <p>accept产生的socket为何还是使用原来的端口号？<br><br>这样不就无法区分 侦听的socket和新的socket了吗？<br>还有客户端照旧往原来的端口发送，新的socket能接受到了吗？ <br><br>客户的socket 进行connect<br>服务器进程老的socket 在listen，然后 accept 产生新socket， fork 然后子进程使用新的socket，<br><br>新的socket和老的socket 使用相同的端口，我们都知道新的socket在和客户的socket 通信，我不明白的就是怎么区分服务器进程老的socket 和新进程的socket。<br><br><br>——————<br>《TCP/IP Illustrated》中解释就是TCP连接由四个特征值区分，accept返回的socket没有必要使用新的端口号， 也能和其它TCP连接区分开.<br><br><br>处于LISTEN状态的的那个socket的daddr和dport都是0。<br>linux中处于LISTEN状态的socket和其它状态的socket分别在两个hash<br>table里，而且是后搜索LISTEN状态的那个hash table.<br><br>static inline struct sock <em>__inet_lookup(struct inet_hashinfo </em>hashinfo,<br>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; const u32 saddr, const u16 sport,<br>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; const u32 daddr, const u16 hnum,<br>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; const int dif)<br>{<br>&nbsp;&nbsp; &nbsp;struct sock *sk = __inet_lookup_established(hashinfo, saddr, sport, daddr,<br>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; hnum, dif);<br>&nbsp;&nbsp; &nbsp;return sk ? : inet_lookup_listener(hashinfo, daddr, hnum, dif);<br>}<br><br><br>总结：两台机器(客户+服务器)的IP地址+传输协议+端口 才能真正确定 客户进程,服务器进程<br><br>(当有网卡接收到数据后，根据src ip + dest ip + src port + dest port这四个特征来dispatch数据到相应的进程)</p><p>&nbsp;</p> 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2011/05/05/accept产生的socket为何还是使用原来的端口号？/" class="archive-article-date">
+  	<time datetime="2011-05-05T06:51:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2011-05-05</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Network/">Network</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-MotionEvent事件在onInterceptTouchEvent-、onTouchEvent-中的传递顺序" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/02/24/MotionEvent事件在onInterceptTouchEvent-、onTouchEvent-中的传递顺序/">MotionEvent事件在onInterceptTouchEvent()、onTouchEvent()中的传递顺序</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+         <p></p><p>～～my～～</p><p>总结一下：onInterceptTouchEvent()说的是是否允许Touch事件继续向下（子控件）传递，一但返回True，则向下传递之路被截断（所有子控件将没有机会参与Touch事件）；onTouchEvent()说的是当前控件在处理完Touch事件后，是否还允许Touch事件继续向上（父控件）传递，一但返回True，则父控件不用操心自己来处理Touch事件。<br>以<a href="http://www.cnblogs.com/rocky_yi/archive/2011/01/21/1941522.html" target="_blank">http://www.cnblogs.com/rocky_yi/archive/2011/01/21/1941522.html</a>为例，LayoutView2的 onInterceptTouchEvent 返回True，但是onTouchEvent又返回False，则Touch事件，向下不会继续传递给MyTextView，经过LayoutView2的onTouchEvent 处理之后，还会继续向上传递给LayoutView1 处理。</p><p>～～my～～</p><p><br></p><p><a href="http://blog.csdn.net/ddna/archive/2010/04/11/5473293.aspx" target="_blank" rel="external">http://blog.csdn.net/ddna/archive/2010/04/11/5473293.aspx</a></p><p>onInterceptTouchEvent()是ViewGroup的一个方法，目的是在系统向该ViewGroup及其各个childView触发onTouchEvent()之前对相关事件进行一次拦截，Android这么设计的想法也很好理解，由于ViewGroup会包含若干childView,因此需要能够统一监控各种touch事件的机会，因此纯粹的不能包含子view的控件是没有这个方法的，如LinearLayout就有，TextView就没有。&nbsp;</p><p>onInterceptTouchEvent()使用也很简单，如果在ViewGroup里覆写了该方法，那么就可以对各种touch事件加以拦截。但是如何拦截，是否所有的touch事件都需要拦截则是比较复杂的，touch事件在onInterceptTouchEvent()和onTouchEvent以及各个childView间的传递机制完全取决于onInterceptTouchEvent()和onTouchEvent()的返回值。并且，针对down事件处理的返回值直接影响到后续move和up事件的接收和传递。&nbsp;</p><p>关于返回值的问题，基本规则很清楚，如果return true,那么表示该方法消费了此次事件，如果return false，那么表示该方法并未处理完全，该事件仍然需要以某种方式传递下去继续等待处理。</p><p>SDK给出的说明如下：</p><p>·&nbsp;&nbsp;You will receive the down event here.</p><p>·&nbsp;&nbsp;The down event will be handled either by a child of this view group, or given to your own onTouchEvent() method to handle; this means you should implement onTouchEvent() to return true, so you will continue to see the rest of the gesture (instead of looking for a parent view to handle it). Also, by returning true from onTouchEvent(), you will not receive any following events in onInterceptTouchEvent() and all touch processing must happen in onTouchEvent() like normal.</p><p>·&nbsp;&nbsp;For as long as you return false from this function, each following event (up to and including the final up) will be delivered first here and then to the target’s onTouchEvent().</p><p>·&nbsp;&nbsp;If you return true from here, you will not receive any following events: the target view will receive the same event but with the action&nbsp;ACTION_CANCEL, and all further events will be delivered to your onTouchEvent() method and no longer appear here.</p><p>&nbsp;</p><p>由于onInterceptTouchEvent()的机制比较复杂，上面的说明写的也比较复杂，总结一下，基本的规则是：</p><p>1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;down事件首先会传递到onInterceptTouchEvent()方法</p><p>2.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果该ViewGroup的onInterceptTouchEvent()在接收到down事件处理完成之后return false，那么后续的move, up等事件将继续会先传递给该ViewGroup，之后才和down事件一样传递给最终的目标view的onTouchEvent()处理。</p><p>3.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果该ViewGroup的onInterceptTouchEvent()在接收到down事件处理完成之后return true，那么后续的move, up等事件将不再传递给onInterceptTouchEvent()，而是和down事件一样传递给该ViewGroup的onTouchEvent()处理，注意，目标view将接收不到任何事件。</p><p>4.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果最终需要处理事件的view的onTouchEvent()返回了false，那么该事件将被传递至其上一层次的view的onTouchEvent()处理。</p><p>5.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果最终需要处理事件的view&nbsp;的onTouchEvent()返回了true，那么后续事件将可以继续传递给该view的onTouchEvent()处理。</p><p>&nbsp;</p><p></p><p>——————-</p><p>&nbsp;</p><p><a href="http://www.cnblogs.com/rocky_yi/archive/2011/01/21/1941522.html" target="_blank" rel="external">http://www.cnblogs.com/rocky_yi/archive/2011/01/21/1941522.html</a></p><p></p><p>&nbsp;onInterceptTouchEvent()用于处理事件并改变事件的传递方向。处理事件这个不用说了，你在函数内部编写代码处理就可以了。而决定传递方向的是返回值，返回为false时事件会传递给子控件的onInterceptTouchEvent()；返回值为true时事件会传递给当前控件的onTouchEvent()，而不在传递给子控件，这就是所谓的Intercept(截断)。</p><p>onTouchEvent()&nbsp;用于处理事件，返回值决定当前控件是否消费（consume）了这个事件。可能你要问是否消费了又区别吗，反正我已经针对事件编写了处理代码？答案是有区别！比如ACTION_MOVE或者ACTION_UP发生的前提是一定曾经发生了ACTION_DOWN，如果你没有消费ACTION_DOWN，那么系统会认为ACTION_DOWN没有发生过，所以ACTION_MOVE或者ACTION_UP就不能被捕获。</p><p>本文源地址：<a href="http://www.cnblogs.com/rocky_yi/archive/2011/01/21/1941522.html#" target="_blank" rel="external">http://www.cnblogs.com/rocky_yi/archive/2011/01/21/1941522.html#</a>&nbsp;，转载请注明出处！</p>&lt;?xml&nbsp;version=&quot;1.0&quot;&nbsp;encoding=&quot;utf-8&quot;?&gt;<br>&lt;com.touchstudy.LayoutView1&nbsp;xmlns:android=&quot;<a href="http://schemas.android.com/apk/res/android&amp;quot" target="_blank" rel="external">http://schemas.android.com/apk/res/android&amp;quot</a>;<br>&nbsp;&nbsp;&nbsp;&nbsp;android:orientation=&quot;vertical&quot;<br>&nbsp;&nbsp;&nbsp;&nbsp;android:layout_width=&quot;fill_parent&quot;<br>&nbsp;&nbsp;&nbsp;&nbsp;android:layout_height=&quot;fill_parent&quot;&nbsp;&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&lt;com.touchstudy.LayoutView2<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;android:orientation=&quot;vertical&quot;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;android:layout_width=&quot;fill_parent&quot;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;android:layout_height=&quot;fill_parent&quot;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;android:gravity=&quot;center&quot;&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;com.touchstudy.MyTextView&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;android:layout_width=&quot;wrap_content&quot;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;android:layout_height=&quot;wrap_content&quot;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;android:id=&quot;@+id/tv&quot;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;android:text=&quot;AB&quot;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;android:textSize=&quot;40sp&quot;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;android:textStyle=&quot;bold&quot;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;android:background=&quot;#FFFFFF&quot;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;android:textColor=&quot;#0000FF&quot;/&gt;<br>&nbsp;&nbsp;&nbsp;&lt;/com.touchstudy.LayoutView2&gt;<br>&lt;/com.touchstudy.LayoutView1&gt;<p>&nbsp;</p><p>&nbsp;</p><p>在没有重写onInterceptTouchEvent()和onTouchEvent()的情况下(他们的返回值都是false),&nbsp;对上面这个布局，MotionEvent事件的传递顺序如下：</p><p>&nbsp;<img src="http://img.pickbox.me/wp-content/uploads/pic/2f90b8a1f87ce8d846106435.jpg" width="250" height="193"></p><p>当某个控件的onInterceptTouchEvent()返回值为true时，就会发生截断，事件被传到当前控件的onTouchEvent()。如我们将LayoutView2的onInterceptTouchEvent()返回值为true,则传递流程变成：</p><p>&nbsp;<img src="http://img.pickbox.me/wp-content/uploads/pic/3381708b707d2341c9fc7a35.jpg" width="250" height="193"></p><p>&nbsp;如果我们同时将LayoutView2的onInterceptTouchEvent()和onTouchEvent()设置成true，那么LayoutView2将消费被传递的事件，同时后续事件（如跟着ACTION_DOWN的ACTION_MOVE或者ACTION_UP）会直接传给LayoutView2的onTouchEvent(),不传给其他任何控件的任何函数。同时传递给子控件一个ACTION_CANCEL事件。传递流程变成（图中没有画出ACTION_CANCEL事件）：</p><p>&nbsp;<img src="http://img.pickbox.me/wp-content/uploads/pic/366cc1cef890665093457e35.jpg" width="250" height="216">&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;<img src="http://img.pickbox.me/wp-content/uploads/pic/3d6dfe03af284cdbd53f7c35.jpg" width="250" height="226"></p><p>附SDK给出的说明：</p>· &nbsp;You will receive the down event here.· &nbsp;The down event will be handled either by a child of this view group, or given to your own onTouchEvent() method to handle; this means you should implement onTouchEvent() to return true, so you will continue to see the rest of the gesture (instead of looking for a parent view to handle it). Also, by returning true from onTouchEvent(), you will not receive any following events in onInterceptTouchEvent() and all touch processing must happen in onTouchEvent() like normal.· &nbsp;For as long as you return false from this function, each following event (up to and including the final up) will be delivered first here and then to the target’s onTouchEvent().· &nbsp;If you return true from here, you will not receive any following events: the target view will receive the same event but with the action ACTION_CANCEL, and all further events will be delivered to your onTouchEvent() method and no longer appear here.&nbsp;<br><p>示例对应的Java代码（来自<a href="http://blog.csdn.net/ddna/archive/2010/04/11/5473293.aspx" target="_blank" rel="external">http://blog.csdn.net/ddna/archive/2010/04/11/5473293.aspx</a>）&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p></p><p></p><p></p> 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2011/02/24/MotionEvent事件在onInterceptTouchEvent-、onTouchEvent-中的传递顺序/" class="archive-article-date">
+  	<time datetime="2011-02-24T11:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2011-02-24</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-如何在ListView中第一个item之上显示分隔线" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/02/23/如何在ListView中第一个item之上显示分隔线/">如何在ListView中第一个item之上显示分隔线</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+         <p>可以为ListView添加一个高度为0不可见的HeaderView：</p><p>TextView tv = new TextView(this);</p><p>tv.setHeight(0);</p><p>tv.setVisibility(View.GONE);</p><p>mList.addHeaderView(tv);</p><p>&nbsp;</p> 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2011/02/23/如何在ListView中第一个item之上显示分隔线/" class="archive-article-date">
+  	<time datetime="2011-02-23T05:31:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2011-02-23</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Spket-IDE-——-Development-Tool-for-RIA" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/02/22/Spket-IDE-——-Development-Tool-for-RIA/">Spket IDE —— Development Tool for RIA</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+         <p>&nbsp;</p><p>Spket IDE是目前支持Ext最为出色的IDE。 它采用.jsb project file 文件并将继承于基类和所有文档的内容嵌入到生成代码提示的Script doc中。<br>由于Spket只是一个单纯的编辑器，没有其它格式的支持（如CSS），所以我的做法是用它的Eclipse插件形式，<br>启动ECLIPSE Help → Software Updates → Find and Install… → Search for new features to install → New remote site…<br>名称: “Spket”，地址URL是<a href="http://www.spket.com/update/" target="_blank" rel="external">http://www.spket.com/update/</a><br>完成后重启（自动会加载插件，也可CMD ECLIPSE目录 使用命令 eclipse -clean 重新编译）<br>Window → Preferences → Spket → JavaScript Profiles → New ；<br>输入“ExtJS”点击OK；<br>选择“ExtJS” 并点击“Add Library”然后在下拉条中选取“ExtJS”；<br>选择“ExtJS”并点击“Add File”，然后在你的./ext-2.x/source目录中选取“ext.jsb” 文件；<br>选择你想加载的插件<br>设置新的ExtJS Profile，选中并点击“JavaScript Profiles” 对话框右手边的“Defalut”按钮；<br>JS打开方式为 Window → Preferences → General→ Editors→ File…<br>选择JS 或者新创建 设置默认打开方式 为 Spket JavaScript Editor(default)<br>OK本人已经成功使用MYECLIPSE6.0，打开你的JS吧。尽情使用Ext代码提示吧吧！！属性支持类似JAVA类，声明后才可以获得属性，Spket 还封装了JS常用函数。EXT编写环境已经捆饶以久，可是说Spket+EXT是最完美的编写EXT环境。</p><p>&nbsp;</p><p>&nbsp;</p><p>—————-</p><p><a target="_blank" href="http://www.aptana.com">Aptana Studio</a></p><p>build web applications using HTML, CSS and JavaScript.</p> 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2011/02/22/Spket-IDE-——-Development-Tool-for-RIA/" class="archive-article-date">
+  	<time datetime="2011-02-22T06:02:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2011-02-22</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-HTTP-长连接的“服务器推”技术" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/02/22/HTTP-长连接的“服务器推”技术/">HTTP 长连接的“服务器推”技术</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+         <p><a target="_blank" href="http://www.ibm.com/developerworks/cn/web/wa-lo-comet/">http://www.ibm.com/developerworks/cn/web/wa-lo-comet/</a></p><p>&nbsp;</p><p><a>“服务器推”技术的应用</a></p><p>传统模式的 Web 系统以客户端发出请求、服务器端响应的方式工作。这种方式并不能满足很多现实应用的需求，譬如：</p>监控系统：后台硬件热插拔、LED、温度、电压发生变化；即时通信系统：其它用户登录、发送信息；即时报价系统：后台数据库内容发生变化；<p>这些应用都需要服务器能实时地将更新的信息传送到客户端，而无须客户端发出请求。“服务器推”技术在现实应用中有一些解决方案，本文将这些解决方案分为两类：一类需要在浏览器端安装插件，基于套接口传送信息，或是使用 RMI、CORBA 进行远程调用；而另一类则无须浏览器安装任何插件、基于 HTTP 长连接。</p><p>将“服务器推”应用在 Web 程序中，首先考虑的是如何在功能有限的浏览器端接收、处理信息：</p><p>客户端如何接收、处理信息，是否需要使用套接口或是使用远程调用。客户端呈现给用户的是 HTML 页面还是 Java applet 或 Flash 窗口。如果使用套接口和远程调用，怎么和 JavaScript 结合修改 HTML 的显示。客户与服务器端通信的信息格式，采取怎样的出错处理机制。客户端是否需要支持不同类型的浏览器如 IE、Firefox，是否需要同时支持 Windows 和 Linux 平台。</p><p>&nbsp;</p><p><a>基于客户端套接口的“服务器推”技术</a></p><p><a>Flash XMLSocket</a></p><p>如果 Web 应用的用户接受应用只有在安装了 Flash 播放器才能正常运行， 那么使用 Flash 的 XMLSocket 也是一个可行的方案。</p><p>这种方案实现的基础是：</p>Flash 提供了 XMLSocket 类。JavaScript 和 Flash 的紧密结合：在 JavaScript 可以直接调用 Flash 程序提供的接口。<p>具体实现方法：在 HTML 页面中内嵌入一个使用了 XMLSocket 类的 Flash 程序。JavaScript 通过调用此 Flash 程序提供的套接口接口与服务器端的套接口进行通信。JavaScript 在收到服务器端以 XML 格式传送的信息后可以很容易地控制 HTML 页面的内容显示。</p><p>关于如何去构建充当了 JavaScript 与 Flash XMLSocket 桥梁的 Flash 程序，以及如何在 JavaScript 里调用 Flash 提供的接口，我们可以参考 AFLAX（Asynchronous Flash and XML）项目提供的 Socket Demo 以及 SocketJS（请参见 <a href="http://www.ibm.com/developerworks/cn/web/wa-lo-comet/#resources" target="_blank" rel="external">参考资源</a>）。</p><p>Javascript 与 Flash 的紧密结合，极大增强了客户端的处理能力。从 Flash 播放器 V7.0.19 开始，已经取消了 XMLSocket 的端口必须大于 1023 的限制。Linux 平台也支持 Flash XMLSocket 方案。但此方案的缺点在于：</p>客户端必须安装 Flash 播放器；因为 XMLSocket 没有 HTTP 隧道功能，XMLSocket 类不能自动穿过防火墙；因为是使用套接口，需要设置一个通信端口，防火墙、代理服务器也可能对非 HTTP 通道端口进行限制；<p>不过这种方案在一些网络聊天室，网络互动游戏中已得到广泛使用。</p><p><a>Java Applet 套接口 </a></p><p>在客户端使用 Java Applet，通过 java.net.Socket 或 java.net.DatagramSocket 或 java.net.MulticastSocket 建立与服务器端的套接口连接，从而实现“服务器推”。</p><p>这种方案最大的不足在于 Java applet 在收到服务器端返回的信息后，无法通过 JavaScript 去更新 HTML 页面的内容。 </p><p><a href="http://www.ibm.com/developerworks/cn/web/wa-lo-comet/#ibm-pcon" target="_blank" rel="external">回页首</a></p><p><a>基于 HTTP 长连接的“服务器推”技术</a></p><p><a>Comet 简介</a></p><p>浏览器作为 Web 应用的前台，自身的处理功能比较有限。浏览器的发展需要客户端升级软件，同时由于客户端浏览器软件的多样性，在某种意义上，也影响了浏览器新技术的推广。在 Web 应用中，浏览器的主要工作是发送请求、解析服务器返回的信息以不同的风格显示。AJAX 是浏览器技术发展的成果，通过在浏览器端发送异步请求，提高了单用户操作的响应性。但 Web 本质上是一个多用户的系统，对任何用户来说，可以认为服务器是另外一个用户。现有 AJAX 技术的发展并不能解决在一个多用户的 Web 应用中，将更新的信息实时传送给客户端，从而用户可能在“过时”的信息下进行操作。而 AJAX 的应用又使后台数据更新更加频繁成为可能。</p><br><a><b>图 1. 传统的 Web 应用模型与基于 AJAX 的模型之比较</b></a><br><img src="http://img.pickbox.me/wp-content/uploads/pic/a04f8fb1fc793b070823022a.jpg" width="483" height="329"><br><p>“服务器推”是一种很早就存在的技术，以前在实现上主要是通过客户端的套接口，或是服务器端的远程调用。因为浏览器技术的发展比较缓慢，没有为“服务器推”的实现提供很好的支持，在纯浏览器的应用中很难有一个完善的方案去实现“服务器推”并用于商业程序。最近几年，因为 AJAX 技术的普及，以及把 IFrame 嵌在“htmlfile“的 ActiveX 组件中可以解决 IE 的加载显示问题，一些受欢迎的应用如 meebo，gmail+gtalk 在实现中使用了这些新技术；同时“服务器推”在现实应用中确实存在很多需求。因为这些原因，基于纯浏览器的“服务器推”技术开始受到较多关注，Alex Russell（Dojo Toolkit 的项目 Lead）称这种基于 HTTP 长连接、无须在浏览器端安装插件的“服务器推”技术为“Comet”。目前已经出现了一些成熟的 Comet 应用以及各种开源框架；一些 Web 服务器如 Jetty 也在为支持大量并发的长连接进行了很多改进。关于 Comet 技术最新的发展状况请参考关于 Comet 的 wiki。</p><p>下面将介绍两种 Comet 应用的实现模型。</p><p><a>基于 AJAX 的长轮询（long-polling）方式</a></p><p>如 <a href="http://www.ibm.com/developerworks/cn/web/wa-lo-comet/#fig001" target="_blank" rel="external">图 1</a> 所示，AJAX 的出现使得 JavaScript 可以调用 XMLHttpRequest 对象发出 HTTP 请求，JavaScript 响应处理函数根据服务器返回的信息对 HTML 页面的显示进行更新。使用 AJAX 实现“服务器推”与传统的 AJAX 应用不同之处在于：</p>服务器端会阻塞请求直到有数据传递或超时才返回。客户端 JavaScript 响应处理函数会在处理完服务器返回的信息后，再次发出请求，重新建立连接。当客户端处理接收的数据、重新建立连接时，服务器端可能有新的数据到达；这些信息会被服务器端保存直到客户端重新建立连接，客户端会一次把当前服务器端所有的信息取回。<br><a><b>图 2. 基于长轮询的服务器推模型</b></a><br><img src="http://img.pickbox.me/wp-content/uploads/pic/35834b543049af07574e002a.jpg" width="354" height="276"><br><p>一些应用及示例如 “Meebo”, “Pushlet Chat” 都采用了这种长轮询的方式。相对于“轮询”（poll），这种长轮询方式也可以称为“拉”（pull）。因为这种方案基于 AJAX，具有以下一些优点：请求异步发出；无须安装插件；IE、Mozilla FireFox 都支持 AJAX。</p><p>在这种长轮询方式下，客户端是在 XMLHttpRequest 的 readystate 为 4（即数据传输结束）时调用回调函数，进行信息处理。当 readystate 为 4 时，数据传输结束，连接已经关闭。Mozilla Firefox 提供了对 Streaming AJAX 的支持， 即 readystate 为 3 时（数据仍在传输中），客户端可以读取数据，从而无须关闭连接，就能读取处理服务器端返回的信息。IE 在 readystate 为 3 时，不能读取服务器返回的数据，目前 IE 不支持基于 Streaming  AJAX。</p><p><a>基于 Iframe 及 htmlfile 的流（streaming）方式</a></p><p>iframe 是很早就存在的一种 HTML 标记， 通过在 HTML 页面里嵌入一个隐蔵帧，然后将这个隐蔵帧的 SRC 属性设为对一个长连接的请求，服务器端就能源源不断地往客户端输入数据。</p><br><a><b>图 3. 基于流方式的服务器推模型</b></a><br><img src="http://img.pickbox.me/wp-content/uploads/pic/f7b3df546d24e00bd009062a.jpg" width="324" height="314"><br><p>上节提到的 AJAX 方案是在 JavaScript 里处理 XMLHttpRequest 从服务器取回的数据，然后 Javascript 可以很方便的去控制 HTML 页面的显示。同样的思路用在 iframe 方案的客户端，iframe 服务器端并不返回直接显示在页面的数据，而是返回对客户端 Javascript 函数的调用，如“&lt;script type=&quot;text/javascript&quot;&gt;js_func(“data from server ”)&lt;/script&gt;”。服务器端将返回的数据作为客户端 JavaScript 函数的参数传递；客户端浏览器的 Javascript 引擎在收到服务器返回的 JavaScript 调用时就会去执行代码。</p><p>从 <a href="http://www.ibm.com/developerworks/cn/web/wa-lo-comet/#fig003" target="_blank" rel="external">图 3</a> 可以看到，每次数据传送不会关闭连接，连接只会在通信出现错误时，或是连接重建时关闭（一些防火墙常被设置为丢弃过长的连接， 服务器端可以设置一个超时时间， 超时后通知客户端重新建立连接，并关闭原来的连接）。</p><p>使用 iframe 请求一个长连接有一个很明显的不足之处：IE、Morzilla Firefox 下端的进度栏都会显示加载没有完成，而且 IE 上方的图标会不停的转动，表示加载正在进行。Google 的天才们使用一个称为“htmlfile”的 ActiveX 解决了在 IE 中的加载显示问题，并将这种方法用到了 gmail+gtalk 产品中。Alex Russell 在 “What else is burried down in the depth’s of Google’s amazing JavaScript?”文章中介绍了这种方法。Zeitoun 网站提供的 comet-iframe.tar.gz，封装了一个基于 iframe 和 htmlfile 的 JavaScript comet 对象，支持 IE、Mozilla Firefox 浏览器，可以作为参考。（请参见 <a href="http://www.ibm.com/developerworks/cn/web/wa-lo-comet/#resources" target="_blank" rel="external">参考资源</a>）</p><p><a href="http://www.ibm.com/developerworks/cn/web/wa-lo-comet/#ibm-pcon" target="_blank" rel="external">回页首</a></p><p><a>使用 Comet 模型开发自己的应用</a></p><p>上面介绍了两种基于 HTTP 长连接的“服务器推”架构，更多描述了客户端处理长连接的技术。对于一个实际的应用而言，系统的稳定性和性能是非常重要的。将 HTTP 长连接用于实际应用，很多细节需要考虑。</p><p><a>不要在同一客户端同时使用超过两个的 HTTP 长连接</a></p><p>我们使用 IE 下载文件时会有这样的体验，从同一个 Web 服务器下载文件，最多只能有两个文件同时被下载。第三个文件的下载会被阻塞，直到前面下载的文件下载完毕。这是因为 HTTP 1.1 规范中规定，客户端不应该与服务器端建立超过两个的 HTTP 连接， 新的连接会被阻塞。而 IE 在实现中严格遵守了这种规定。</p><p>HTTP 1.1 对两个长连接的限制，会对使用了长连接的 Web 应用带来如下现象：在客户端如果打开超过两个的 IE 窗口去访问同一个使用了长连接的 Web 服务器，第三个 IE 窗口的 HTTP 请求被前两个窗口的长连接阻塞。</p><p>所以在开发长连接的应用时， 必须注意在使用了多个 frame 的页面中，不要为每个 frame 的页面都建立一个 HTTP 长连接，这样会阻塞其它的 HTTP 请求，在设计上考虑让多个 frame 的更新共用一个长连接。</p><p><a>服务器端的性能和可扩展性</a></p><p>一般 Web 服务器会为每个连接创建一个线程，如果在大型的商业应用中使用 Comet，服务器端需要维护大量并发的长连接。在这种应用背景下，服务器端需要考虑负载均衡和集群技术；或是在服务器端为长连接作一些改进。</p><p>应用和技术的发展总是带来新的需求，从而推动新技术的发展。HTTP 1.1 与 1.0 规范有一个很大的不同：1.0 规范下服务器在处理完每个 Get/Post 请求后会关闭套接口连接； 而 1.1 规范下服务器会保持这个连接，在处理两个请求的间隔时间里，这个连接处于空闲状态。 Java 1.4 引入了支持异步 IO 的 java.nio 包。当连接处于空闲时，为这个连接分配的线程资源会返还到线程池，可以供新的连接使用；当原来处于空闲的连接的客户发出新的请求，会从线程池里分配一个线程资源处理这个请求。 这种技术在连接处于空闲的机率较高、并发连接数目很多的场景下对于降低服务器的资源负载非常有效。</p><p>但是 AJAX 的应用使请求的出现变得频繁，而 Comet 则会长时间占用一个连接，上述的服务器模型在新的应用背景下会变得非常低效，线程池里有限的线程数甚至可能会阻塞新的连接。Jetty 6 Web 服务器针对 AJAX、Comet 应用的特点进行了很多创新的改进，请参考文章“AJAX，Comet and Jetty”（请参见 <a href="http://www.ibm.com/developerworks/cn/web/wa-lo-comet/#resources" target="_blank" rel="external">参考资源</a>）。</p><p><a>控制信息与数据信息使用不同的 HTTP 连接</a></p><p>使用长连接时，存在一个很常见的场景：客户端网页需要关闭，而服务器端还处在读取数据的堵塞状态，客户端需要及时通知服务器端关闭数据连接。服务器在收到关闭请求后首先要从读取数据的阻塞状态唤醒，然后释放为这个客户端分配的资源，再关闭连接。</p><p>所以在设计上，我们需要使客户端的控制请求和数据请求使用不同的 HTTP 连接，才能使控制请求不会被阻塞。</p><p>在实现上，如果是基于 iframe 流方式的长连接，客户端页面需要使用两个 iframe，一个是控制帧，用于往服务器端发送控制请求，控制请求能很快收到响应，不会被堵塞；一个是显示帧，用于往服务器端发送长连接请求。如果是基于 AJAX 的长轮询方式，客户端可以异步地发出一个 XMLHttpRequest 请求，通知服务器端关闭数据连接。</p><p><a>在客户和服务器之间保持“心跳”信息</a></p><p>在浏览器与服务器之间维持一个长连接会为通信带来一些不确定性：因为数据传输是随机的，客户端不知道何时服务器才有数据传送。服务器端需要确保当客户端不再工作时，释放为这个客户端分配的资源，防止内存泄漏。因此需要一种机制使双方知道大家都在正常运行。在实现上：</p>服务器端在阻塞读时会设置一个时限，超时后阻塞读调用会返回，同时发给客户端没有新数据到达的心跳信息。此时如果客户端已经关闭，服务器往通道写数据会出现异常，服务器端就会及时释放为这个客户端分配的资源。如果客户端使用的是基于 AJAX 的长轮询方式；服务器端返回数据、关闭连接后，经过某个时限没有收到客户端的再次请求，会认为客户端不能正常工作，会释放为这个客户端分配、维护的资源。当服务器处理信息出现异常情况，需要发送错误信息通知客户端，同时释放资源、关闭连接。<p><a>Pushlet - 开源 Comet 框架</a></p><p>Pushlet 是一个开源的 Comet 框架，在设计上有很多值得借鉴的地方，对于开发轻量级的 Comet 应用很有参考价值。</p><p><strong>观察者模型</strong></p><p>Pushlet 使用了观察者模型：客户端发送请求，订阅感兴趣的事件；服务器端为每个客户端分配一个会话 ID 作为标记，事件源会把新产生的事件以多播的方式发送到订阅者的事件队列里。</p><p><strong>客户端 JavaScript 库</strong></p><p>pushlet 提供了基于 AJAX 的 JavaScript 库文件用于实现长轮询方式的“服务器推”；还提供了基于 iframe 的 JavaScript 库文件用于实现流方式的“服务器推”。</p><p>JavaScript 库做了很多封装工作：</p>定义客户端的通信状态：STATE_ERROR、STATE_ABORT、STATE_NULL、STATE_READY、STATE_JOINED、STATE_LISTENING；保存服务器分配的会话 ID，在建立连接之后的每次请求中会附上会话 ID 表明身份；提供了 join()、leave()、subscribe()、 unsubsribe()、listen() 等 API 供页面调用；提供了处理响应的 JavaScript 函数接口 onData()、onEvent()…<p>网页可以很方便地使用这两个 JavaScript 库文件封装的 API 与服务器进行通信。</p><p><strong>客户端与服务器端通信信息格式</strong></p><p>pushlet 定义了一套客户与服务器通信的信息格式，使用 XML 格式。定义了客户端发送请求的类型：join、leave、subscribe、unsubscribe、listen、refresh；以及响应的事件类型：data、join_ack、listen_ack、refresh、heartbeat、error、abort、subscribe_ack、unsubscribe<em>ack。</em></p><p><strong>服务器端事件队列管理</strong></p><p>pushlet 在服务器端使用 Java Servlet 实现，其数据结构的设计框架仍可适用于 PHP、C 编写的后台客户端。</p><p>Pushlet 支持客户端自己选择使用流、拉（长轮询）、轮询方式。服务器端根据客户选择的方式在读取事件队列（fetchEvents）时进行不同的处理。“轮询”模式下 fetchEvents() 会马上返回。”流“和”拉“模式使用阻塞的方式读事件，如果超时，会发给客户端发送一个没有新信息收到的“heartbeat“事件，如果是“拉”模式，会把“heartbeat”与“refresh”事件一起传给客户端，通知客户端重新发出请求、建立连接。</p><p><strong>客户服务器之间的会话管理</strong></p><p>服务端在客户端发送 join 请求时，会为客户端分配一个会话 ID， 并传给客户端，然后客户端就通过此会话 ID 标明身份发出 subscribe 和 listen 请求。服务器端会为每个会话维护一个订阅的主题集合、事件队列。</p><p>服务器端的事件源会把新产生的事件以多播的方式发送到每个会话（即订阅者）的事件队列里。</p><p><a href="http://www.ibm.com/developerworks/cn/web/wa-lo-comet/#ibm-pcon" target="_blank" rel="external">回页首</a></p><p><a>小结</a></p><p>本文介绍了如何在现有的技术基础上选择合适的方案开发一个“服务器推”的应用，最优的方案还是取决于应用需求的本身。相对于传统的 Web 应用， 目前开发 Comet 应用还是具有一定的挑战性。</p><p>“服务器推”存在广泛的应用需求，为了使 Comet 模型适用于大规模的商业应用，以及方便用户构建 Comet 应用，最近几年，无论是服务器还是浏览器都出现了很多新技术，同时也出现了很多开源的 Comet 框架、协议。需求推动技术的发展，相信 Comet 的应用会变得和 AJAX 一样普及。</p><br><p><a>参考资料 </a></p><p><b>学习</b></p>developerWorks 文章“    <a href="http://www.ibm.com/developerworks/cn/java/j-jettydwr/index.html" target="_blank" rel="external">面向 Java 开发人员的 Ajax: 使用 Jetty 和 Direct Web Remoting 编写可扩展的 Comet 应用程序</a>”：受异步服务器端事件驱动的 Ajax 应用程序实现较为困难，本文介绍了一种结合使用 Comet 模式和 Jetty 6 Continuations API 的解决方法。<br><br>“<a href="http://alex.dojotoolkit.org/?p=545" target="_blank" rel="external">Comet: Low Latency Data for the Browser</a>”：Alex Russell 是 Dojo Toolkit 的项目主管和 Dojo Foundation 的主席，他在这篇博客文章中提出了 <em>Comet</em> 这个术语。<br><br>“<a href="http://alex.dojotoolkit.org/?p=538" target="_blank" rel="external">What else is burried down in the depth’s of Google’s amazing JavaScript?</a>”（Alex Russel，2006 年 2 月）：Alex 在这篇文章里介绍了如何使用“htmlfile”ActiveX 控件解决 iframe 请求长连接时 IE 的加载显示问题。<br><br>&lt;a href=”<a href="http://en.wikipedia.org/wiki/Comet" target="_blank" rel="external">http://en.wikipedia.org/wiki/Comet</a>%28programming%29”&gt;Comet wiki：提供了很多开源 Comet 框架的链接。<br><br><a href="http://jetty.mortbay.org/" target="_blank" rel="external">Jetty</a>：Jetty 是一种开源的基于标准的 Web 服务器，完全使用 Java 语言实现。<br><br>“<a href="http://www.webtide.com/downloads/whitePaperAjaxJetty.html" target="_blank" rel="external">Ajax, Comet and Jetty</a>”（Greg Wilkins，Webtide，2006 年 1 月）：Wilkins 的这份白皮书讨论了扩展 Ajax 连接的 Jetty 架构方法。<br><br><a href="http://docs.codehaus.org/display/JETTY/Continuations" target="_blank" rel="external">Continuations</a>：了解更多关于 Jetty 的 Continuations 特性的信息。<br><br>“<a href="http://www.pushlets.com/" target="_blank" rel="external">pushlet</a>”：开源 comet 框架，使用了观察者模型。浏览器端提供了基于 AJAX 和 iframe 的 JavaScript 库，服务器端使用 Java Servlet。<br><br>“<a href="http://www.zeitoun.net/index.php?2007/06/22/46-how-to-implement-comet-with-php" target="_blank" rel="external">How to implement COMET with PHP</a>”：提供的 comet-iframe.tar.gz 使用 iframe/htmlfile 封装了一个 JavaScript comet 对象，支持 IE、Mozilla Firefox 浏览器。<br><br>“<a href="http://www.aflax.org/" target="_blank" rel="external">AFLAX</a>”：Asynchronous Flash and XML，提供了强大的 Flash、Javascript 库和很多范例。<br><br><a href="http://www.ibm.com/developerworks/cn/ajax/" target="_blank" rel="external">developerWorks Ajax 技术资源中心</a>：能找到更多关于 Ajax 技术的文章和教程。<br><br><a href="http://www.ibm.com/developerworks/cn/web/" target="_blank" rel="external">developerWorks Web 开发技术专区</a>：提供了关于 Web 开发和架构方面的大量文章。<br><br><a href="http://www.ibm.com/developerworks/cn/java/" target="_blank" rel="external">developerWorks Java 技术专区</a>：提供了关于 Java 编程各个方面的数百篇文章。<br><br> 浏览 <a href="http://www.ibm.com/developerworks/apps/SendTo?bookstore=safari" target="_blank" rel="external">技术书店</a>，查阅有关本文所述主题以及其他技术主题的书籍。  <br><br><p><b>获得产品和技术</b></p><a href="http://docs.codehaus.org/display/JETTY/Downloading+and+Installing#download" target="_blank" rel="external">Jetty</a>：下载 Jetty。<p><br><a></a></p> 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2011/02/22/HTTP-长连接的“服务器推”技术/" class="archive-article-date">
+  	<time datetime="2011-02-22T04:52:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2011-02-22</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Get-Google-Account-AuthToken-using-Python" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/02/18/Get-Google-Account-AuthToken-using-Python/">Get Google Account AuthToken using Python</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+         <p>&nbsp;import urllib, urllib2</p><p>#<br># get an AuthToken from Google accounts<br>#<br>auth_uri = ‘<a href="https://www.google.com/accounts/ClientLogin" target="_blank" rel="external">https://www.google.com/accounts/ClientLogin</a>‘<br>authreq_data = urllib.urlencode({ &quot;Email&quot;:&nbsp;&nbsp; users_email_address,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;Passwd&quot;:&nbsp; users_password,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;service&quot;: &quot;ah&quot;,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;source&quot;:&nbsp; my_app_name,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;accountType&quot;: &quot;HOSTED_OR_GOOGLE&quot; })</p><p>headers={}</p><p>headers[&quot;Content-type&quot;] = &quot;application/x-www-form-urlencoded;charset=UTF-8&quot;<br>auth_req = urllib2.Request(auth_uri, data=authreq_data, headers=headers)<br>auth_resp = urllib2.urlopen(auth_req)<br>auth_resp_body = auth_resp.read()<br># auth response includes several fields - we’re interested in <br>#&nbsp; the bit after Auth= <br>auth_resp_dict = dict(x.split(&quot;=&quot;)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for x in auth_resp_body.split(&quot;n&quot;) if x)<br>authtoken = auth_resp_dict[&quot;Auth&quot;]<br><br>print authtoken</p> 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2011/02/18/Get-Google-Account-AuthToken-using-Python/" class="archive-article-date">
+  	<time datetime="2011-02-18T12:28:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2011-02-18</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-自定义menu的background" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/02/16/自定义menu的background/">自定义menu的background</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+         <p></p><p></p><p>&nbsp;</p><p>&nbsp;</p><p></p><p>&nbsp;&nbsp; &nbsp;@Override</p><p>&nbsp;&nbsp; &nbsp;public boolean onCreateOptionsMenu(Menu menu) {</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;super.onCreateOptionsMenu(menu);</p><p></p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;setMenuBackground();</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;return true;</p><p>&nbsp;&nbsp; &nbsp;}</p><br><br><p></p><p>&nbsp;&nbsp; &nbsp;protected void setMenuBackground(){</p><p>&nbsp;</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;getLayoutInflater().setFactory( new Factory() {</p><p>&nbsp;</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;public View onCreateView ( String name, Context context, AttributeSet attrs ) {&nbsp;</p><p>&nbsp;</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;if ( name.equalsIgnoreCase( &quot;com.android.internal.view.menu.IconMenuItemView&quot; ) ) {</p><p>&nbsp;</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;try {</p><p>&nbsp;</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;LayoutInflater f = getLayoutInflater();</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;final View view = f.createView( name, null, attrs ); &nbsp;//尝试创建我们自己布局</p><p>&nbsp;</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;new Handler().post( new Runnable() {</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;public void run () {</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;view.setBackgroundResource(R.drawable.menu_bkg);</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;}</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;} );</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;return view;</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;}</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;catch ( InflateException e ) {}</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;catch ( ClassNotFoundException e ) {}</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;}</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;return null;</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;}</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;});</p><p>&nbsp;&nbsp; &nbsp;}</p><p>&nbsp;</p><p></p><p></p><p></p> 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2011/02/16/自定义menu的background/" class="archive-article-date">
+  	<time datetime="2011-02-16T05:21:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2011-02-16</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Android/">Android</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-CopyOnWriteArrayList" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/02/02/CopyOnWriteArrayList/">CopyOnWriteArrayList</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+         <p>A thread-safe variant of  in which all mutative operations (add, set, and so on) are implemented by making a fresh copy of the underlying array. </p><p> This is ordinarily too costly, but may be <em>more</em> efficient than alternatives when traversal operations vastly outnumber mutations, and is useful when you cannot or don’t want to synchronize traversals, yet need to preclude interference among concurrent threads.  The &quot;snapshot&quot; style iterator method uses a reference to the state of the array at the point that the iterator was created. This array never changes during the lifetime of the iterator, so interference is impossible and the iterator is guaranteed not to throw ConcurrentModificationException. The iterator will not reflect additions, removals, or changes to the list since the iterator was created.  Element-changing operations on iterators themselves (remove, set, and add) are not supported. These methods throw UnsupportedOperationException. </p><p>All elements are permitted, including null. </p><p>&nbsp;</p> 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2011/02/02/CopyOnWriteArrayList/" class="archive-article-date">
+  	<time datetime="2011-02-01T16:37:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2011-02-02</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Java/">Java</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-陀螺仪" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2011/01/09/陀螺仪/">陀螺仪</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+         <p><a target="_blank" href="http://baike.baidu.com/view/58048.htm"><img class="blogimg" small="0" src="http://img.pickbox.me/wp-content/uploads/pic/f7b4a918a0d6674834fa41b9.jpg"></a><br></p> 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2011/01/09/陀螺仪/" class="archive-article-date">
+  	<time datetime="2011-01-08T16:45:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2011-01-09</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Life/">Life</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/15/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><a class="page-number" href="/page/18/">18</a><span class="space">&hellip;</span><a class="page-number" href="/page/60/">60</a><a class="extend next" rel="next" href="/page/17/">Next &raquo;</a>
+    </nav>
+  
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: true,
+		isPost: false,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

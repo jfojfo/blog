@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="jfo planet">
+<meta property="og:url" content="http://blog.pickbox.me/page/46/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jfo planet">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        
+  
+    <article id="post-利用core文件调试" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2007/11/20/利用core文件调试/">利用core文件调试</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> 首先用-g选项编译程序，然后用<br>ulimit -c unlimited<br>打开core文件限制<br>to make the changes permanent, add the following line to /etc/sysctl.conf:<br>kernel.core_pattern = core.%e.%p<br>sysctl is a similar tool to ulimit: It allows to configure kernel<br>parameters at runtime. If you wish to keep settings persistent across<br>reboots you should edit /etc/sysctl.conf - be aware that wrong settings<br>may break things in unforeseen ways.<br><br>用/proc/sys/kernel/core_pattern控制core文件产生的地方<br>在测试站上<br>root: cat /proc/sys/kernel/core<em>pattern<br>/tmp/core.%p</em>%e<br>也就是说，所有core文件都在/tmp文件夹，文件名是<br>core.pid_execFileName<br>这时，启动任何程序，只要是非正常退出，都会产生一个core文件<br><br>echo &quot;/tmp/core-%e-%p-%t&quot; &gt; core_pattern<br>将会控制所产生的core文件会存放到/tmp目录下，产生的文件名为core-命令名-pid-时间戳<br>以下是参数列表:<br>&nbsp;&nbsp;&nbsp;  %p - insert pid into filename 添加pid<br>&nbsp;&nbsp;&nbsp;  %u - insert current uid into filename 添加当前uid<br>&nbsp;&nbsp;&nbsp;  %g - insert current gid into filename 添加当前gid<br>&nbsp;&nbsp;&nbsp;  %s - insert signal that caused the coredump into the filename 添加导致产生core的信号<br>&nbsp;&nbsp;&nbsp;  %t - insert UNIX time that the coredump occurred into filename 添加core文件生成时的unix时间<br>&nbsp;&nbsp;&nbsp;  %h - insert hostname where the coredump happened into filename 添加主机名<br>&nbsp;&nbsp;&nbsp;  %e - insert coredumping executable name into filename 添加命令名<br><br>然后用<br>gdb -f execfile -c corefile打开core文件，比如<br><br>gdb -c /tmp/core.24281_fweb  -f /home/bbs/bbshome/httpd/fweb<br>GNU gdb 5.3-debian<br>Copyright 2002 Free Software Foundation, Inc.<br>GDB is free software, covered by the GNU General Public License, and you are<br>welcome to change it and/or distribute copies of it under certain conditions.<br>Type &quot;show copying&quot; to see the conditions.<br>There is absolutely no warranty for GDB.  Type &quot;show warranty&quot; for details.<br>This GDB was configured as &quot;i386-linux&quot;…<br>Core was generated by `/home/bbs/bbshome/httpd/fweb’.<br>Program terminated with signal 11, Segmentation fault.<br>Reading symbols from /usr/local/lib/libglib-2.0.so.0…done.<br>Loaded symbols for /usr/local/lib/libglib-2.0.so.0<br>Reading symbols from /usr/local/lib/libfcgi.so.0…done.<br>Loaded symbols for /usr/local/lib/libfcgi.so.0<br>Reading symbols from /lib/libdl.so.2…done.<br>Loaded symbols for /lib/libdl.so.2<br>Reading symbols from /lib/libc.so.6…done.<br>Loaded symbols for /lib/libc.so.6<br>Reading symbols from /lib/libnsl.so.1…done.<br>Loaded symbols for /lib/libnsl.so.1<br>Reading symbols from /lib/ld-linux.so.2…done.<br>Loaded symbols for /lib/ld-linux.so.2<br>Reading symbols from /home/bbs/bbshome/httpd/pages/bbsqry.so…done.<br>Loaded symbols for /home/bbs/bbshome/httpd/pages/bbsqry.so<br>Reading symbols from /home/bbs/bbshome/httpd/pages/bbsgetmsg.so…done.<br>Loaded symbols for /home/bbs/bbshome/httpd/pages/bbsgetmsg.so<br>Reading symbols from /home/bbs/bbshome/httpd/pages/bbslogin.so…done.<br>Loaded symbols for /home/bbs/bbshome/httpd/pages/bbslogin.so<br>#0  FCGI_fprintf (fp=0x0, format=0x40e9929e &quot;%d&quot;) at fcgi_stdio.c:602<br>/root/fcgi-2.4.0/libfcgi/fcgi_stdio.c:602:15672:beg:0x400a1850<br><br>这个时候，你可以看是哪一步让进程死掉，比如先用<br>(gdb) backtrace<br>#0  FCGI_fprintf (fp=0x0, format=0x40e9929e &quot;%d&quot;) at fcgi_stdio.c:602<br>#1  0x40e990ad in check_login_limit (x=0x805d5a0) at bbslogin.c:303<br>#2  0x40e988d5 in bbslogin_main () at bbslogin.c:127<br>#3  0x0804ca1c in do_invoke (p=0x8087408) at module.c:162<br>#4  0x0804ca80 in invoke_module (name=0x8083d59 &quot;bbslogin&quot;) at module.c:192<br>#5  0x0804cb70 in process_request () at dispatcher.c:44<br>#6  0x0804cbf5 in cgiMain () at dispatcher.c:82<br>#7  0x0804cfb5 in serv_request () at cgic.c:322<br>#8  0x08050ae3 in main () at main.c:44<br>打印frames，然后用<br>(gdb) frame 1<br>#1  0x40e990ad in check_login_limit (x=0x805d5a0) at bbslogin.c:303<br>/home/jawahh/bbs/fweb/pages/bbslogin.c:303:6735:beg:0x40e990ad<br>选择你要看的frame，现在选择了#1 frame，然后就可以用如<br>(gdb) info locals<br>fp = (FCGI_FILE <em>) 0x0<br>filename = &quot;home/C/clickbeetle/logincheck  05b診001  塞&quot;<br>num = 0<br>察看本地变量<br>(gdb) list<br>298             sethomefile(filename, x-&gt;userid, &quot;logincheck&quot;);<br>299             if (!file_exist(filename)<br>300                 || abs(file_time(filename) - time(0)) &gt; 86400)<br>301             {<br>302                     fp = fopen(filename, &quot;w&quot;);<br>303                     fprintf(fp, &quot;%d&quot;, x-&gt;numlogins);<br>304                     fclose(fp);<br>305                     return;<br>306             }<br>307             fp = fopen(filename, &quot;r&quot;);<br>察看程序代码<br>(gdb) p fp<br>$5 = (FCGI_FILE </em>) 0x0<br>察看变量<br><br>等等等等很多方法，这样调试会简单多 </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/11/20/利用core文件调试/" class="archive-article-date">
+  	<time datetime="2007-11-19T16:13:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-11-20</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux-Debug/">Linux Debug</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-【zz】-cyg-profile-func-enter、pvtrace、Graphviz-可视化函数调用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2007/11/19/【zz】-cyg-profile-func-enter、pvtrace、Graphviz-可视化函数调用/">【zz】__cyg_profile_func_enter、pvtrace、Graphviz 可视化函数调用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <a href="http://www-128.ibm.com/developerworks/cn/linux/l-graphvis/" target="_blank">http://www-128.ibm.com/developerworks/cn/linux/l-graphvis/</a><br>跟踪函数调用<br><strong>cyg_profile_func_enter<br></strong>cyg_profile_func_exit<br>gcc -g -finstrument-functions test.c -o test<br><br>生成函数调用关系表示（.dot文件）<br>pvtrace a.out<br>需要trace.txt文件（在<strong>cyg_profile_func_enter/exit中生成）<br>E0x80487d6<br>X0x80487d6<br>E0x80489bf<br>X0x80489bf<br>。。。。<br><br>生成图形<br>dot -Tjpg test.dot -o test.jpg<br><code><br>对unifiedkernel中运行notepad时 ntdll.dll.so 的函数调用map：<br></code><img src="http://img.pickbox.me/wp-content/uploads/pic/cede271f9c1e68c4a6866915.jpg" small="0" class="blogimg"><br>                                    用 Graphviz 可视化函数调用            <p><em>使用开源软件来简化复杂调用结构</em></p> <img width="1" height="6" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif" class="display-img"> <img width="10" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <img width="10" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <p>级别： 初级</p> <p><a href="http://www-128.ibm.com/developerworks/cn/linux/l-graphvis/#author" target="_blank" rel="external">M. Tim Jones</a> (), 资深软件工程师, Emulex</p> <p>2005 年  7 月  11 日</p> <blockquote>花一些时间遍历一下源代码，可以向您展现所有的函数调用过程；但是如果函数指针非常复杂，或者代码太长且晦涩难懂，那么这个过程就可能更加困难了。本文将向您介绍如何使用开源软件和一些定制的代码来构建一个动态的图形函数调用生成器。</blockquote> <p>可以将以图形形式查看应 用程序的调用过程看作是一个学习经历。这样做可以帮助您理解应用程序的内部行为，并获得有关程序优化方面的信息。例如，通过对那些经常调用的函数进行优 化，您就可以用最少的努力来获得最佳的性能。另外，调用跟踪还可以判断用户函数的最大调用深度，这可以用来对调用栈使用的内存进行有效限制（在嵌入式系统 中，这是非常重要的一个考虑因素）。</p> <p>为了捕获并显示调用图，您需要 4 个元素：GNU 编译器工具链、Addr2line 工具、定制的中间代码和一个名为 Graphviz 的代码。Addr2line 工具可以识别函数、给定地址的源代码行数和可执行映像。定制的中间代码是一个非常简单的工具，它可以减少对图形规范的地址跟踪。Graphviz 工具可以生成图形映像。整个过程如图 1 所示。</p> <br> <a name="N1006E"><strong>图 1. 搜集、简化和可视化跟踪路径的过程</strong></a><br> <img width="407" height="407" alt="跟踪过程" src="http://www-128.ibm.com/developerworks/cn/linux/l-graphvis/figure1.gif"> <br><p><a name="N1007D">数据搜集：捕获函数调用路径</a></p><p>要收集一个函数调用的踪迹，您需要确定每个函数在应用程序中调用的时间。在过去，都是通过在函数的入口处和退出处插入一个惟一的符号来手工检测每个函数的。这个过程非常繁琐，而且很容易出错，通常需要对源代码进行大量的修改。</p><p>幸运的是，GNU 编译器工具链（也称为 <em>gcc</em>） 提供了一种自动检测应用程序中的各个函数的方法。在执行应用程序时，就可以收集相关的分析数据。您只需要提供两个特殊的分析函数即可。其中一个函数在每次 执行想要跟踪的函数时都会调用；而另外一个函数则在每次退出想要跟踪的函数时调用（参见清单 1）。这两个函数都是特别指定的，因此，编译器可以识别它们。</p><br><a name="N10091"><strong>清单 1. GNU 的入口和出口配置函数</strong></a><br> <br>void </strong>cyg_profile_func_enter( void <em>func_address, void </em>call_site )<br>                                <strong>attribute</strong> ((no_instrument_function));<br>void <strong>cyg_profile_func_exit ( void <em>func_address, void </em>call_site )<br>                                </strong>attribute<strong> ((no_instrument_function));                        <br> <img width="10" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <a name="N1009A"><strong>避免使用特殊的检测函数</strong></a><br> <p>您或许会产生疑惑，如果 gcc 就是我们需要的检测函数，那么为什么它不检测 <code></code></p></strong>cyg_<em> 分析函数呢？gcc 的开发者曾思考过这个问题，他们提供了一个名为 <code>no_instrument_function</code> 的函数属性，这个函数属性可以应用于函数原型，禁止对它们进行检测。不要将这个函数属性应用到分析函数上，这样会导致无限递归分析循环和大量的无用数据。</em></p> <p>在调用一个检测函数时，<code><strong>cyg_profile_func_enter</strong></code> 同时也会被调用，并以 <code>func_address</code> 形式传递调用的函数地址，以及从中调用该函数的 <code>call_site</code> 形式的地址。反之，当一个函数退出时，也会调用 <code>cyg_profile_func_exit</code> 函数，并传递 <code>func_address</code> 形式的函数地址，以及函数从中退出的真实地址，该地址的表示形式为 <code>call_site</code>。</p><p>在这些分析函数中，您可以记录下地址对，以供以后再进行分析使用。要请求 gcc 所有的检测函数，每个文件都必须使用 <code>-finstrument-functions</code> 和 <code>-g</code> 选项进行编译，这样可以保留调试符号。</p><p>因 此，现在您就可以为 gcc 提供一些分析函数了，这些函数可以透明地插入应用程序中的函数入口点和函数退出点。但在调用分析函数时，又应该怎样处理所提供的地址呢？您有很多选择，但 是为了简便起见，可以将这个地址简单地写入一个文件，要注意哪个地址是函数的入口地址，哪个地址是函数的出口地址（参见清单 2）。</p><p><strong>注意：</strong>在清单 2 中并没有使用调用 Callsite 信息，因为这些信息对于分析程序来说是不必要的。</p><br><a name="N100DF"><strong>清单 2. 分析函数</strong></a><br> <br>void __cyg_profile_func_enter( void this, void <em>callsite )<br>{<br>  /</em> Function Entry Address <em>/<br>  fprintf(fp, &quot;E%pn&quot;, (int </em>)this);<br>}<br>void <strong>cyg_profile_func_exit( void <em>this, void </em>callsite )<br>{<br>  /<em> Function Exit Address </em>/<br>  fprintf(fp, &quot;X%pn&quot;, (int <em>)this);<br>}                        <br><p>现在您可以搜集分析数据了，但是您应该在什么地方打开或关闭您的跟踪输出文件呢？到现在为止，还不需要为了进行分析而对源程序进行任何修改。因此，您该如何检测整个应用程序（包括 <code>main</code> 函数）而不用对分析数据的输出结果进行初始化呢？gcc 的开发者也考虑过这个问题，它们为 <code>main</code> 函数的 constructor 函数和 destructor 函数提供了一些碰巧能够满足这个要求一些方法。<code>constructor</code> 函数是在调用 <code>main</code> 函数之前调用的，而 <code>destructor</code> 函数则是在应用程序退出时调用的。</p><p>要创建 constructor 和 destructor 函数，则需要声明两个函数，然后对这两个函数应用 <code>constructor</code> 和 <code>destructor</code> 函数属性。在 <code>constructor</code> 函数中，会打开一个新的跟踪文件，分析数据的地址跟踪就是写入这个文件的；在 <code>destructor</code> 函数中，会关闭这个跟踪文件（参见清单 3）。</p><br><a name="N10114"><strong>清单 3. 分析 constructor 和 destructor 函数</strong></a><br> <br>/</em> Constructor and Destructor Prototypes */<br>void main_constructor( void )<br> </strong>attribute<strong> ((no_instrument_function, constructor));<br>void main_destructor( void )<br> </strong>attribute<strong> ((no_instrument_function, destructor));<br>/<em> Output trace file pointer </em>/<br>static FILE *fp;<br>void main_constructor( void )<br>{<br>  fp = fopen( &quot;trace.txt&quot;, &quot;w&quot; );<br>  if (fp == NULL) exit(-1);<br>}<br>void main_deconstructor( void )<br>{<br>  fclose( fp );<br>}                        <br><p>如果编译分析函数（在 instrument.c）并将它们与目标应用程序链接在一起，然后再执行目标应用程序，结果会生成一个应用程序的调用追踪，追踪记录被写入 <em>trace.txt</em> 文件。跟踪文件与调用的应用程序处于相同的目录中。最终结果是，您可能会得到一个其中满是地址的非常大的文件。为了能够让这些数据更有意义，您可以使用一个不太出名的叫做 Addr2line 的 GNU 工具。</p><br> <img width="100%" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif"><br> <img width="8" height="6" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <img width="100%" height="4" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"><br> <img width="16" height="16" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif"> <a href="http://www-128.ibm.com/developerworks/cn/linux/l-graphvis/#main" target="_blank" rel="external"><strong>回页首</strong></a> <br><br><p><a name="N10121">使用 Addr2line 将函数地址解析为函数名</a></p><p>Addr2line 工具（它是标准的 GNU Binutils 中的一部分）是一个可以将指令的地址和可执行映像转换成文件名、函数名和源代码行数的工具。这种功能对于将跟踪地址转换成更有意义的内容来说简直是太棒了。</p><p>要了解这个过程是怎样工作的，我们可以试验一个简单的交互式的例子。（我直接从 shell 中进行操作，因为这是最简单地展示这个过程的方法，如清单 4 所示。）这个示例 C 文件（test.c）是通过 <code>cat</code> 一个简单的应用程序实现的（也就是说，将标准输出的文本重定向到一个文件中）。然后使用 gcc 来编译这个文件，它会传递一些特殊的选项。首先，要（使用 <code>-Wl</code> 选项）通知链接器生成一个映像文件，并（使用 <code>-g</code> 选项）通知编译器生成调试符号。最终生成可执行文件 <em>test</em>。得到新的可执行应用程序之后，您就可以使用 <code>grep</code> 工具在映像文件中查找 <code>main</code> 来寻找它的地址了。使用这个地址和 Addr2line 工具，就可以判断出函数名（<code>main</code>）、源文件（/home/mtj/test/test.c）以及它在源文件中的行号（4）。</p><p>在调用 Addr2line 工具时，要使用 <code>-e</code> 选项来指定可执行映像是 <code>test</code>。通过使用 <code>-f</code> 选项，可以告诉工具输出函数名。</p><br><a name="N1015C"><strong>清单 4. addr2line 的一个交互式例子</strong></a><br> <br>$ cat &gt;&gt; test.c<br>#include &lt;stdio.h&gt;<br>int main()<br>{<br>  printf(&quot;Hello Worldn&quot;);<br>  return 0;<br>}<br>&lt;ctld-d&gt;<br>$ gcc -Wl,-Map=test.map -g -o test test.c<br>$ grep main test.map<br> 0x08048258  </strong>libc_start_main@@GLIBC_2.0<br> 0x08048258  main<br>$ addr2line 0x08048258 -e test -f<br>main<br>/home/mtj/test/test.c:4<br>$                        <br> <img width="10" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <a name="N1016B"><strong>Addr2line 和调试器</strong></a><br> <p>Addr2line 工具提供了基本的符号调试信息，不过 GNU Debugger （GDB）使用的是其他一些内部方法。</p> <br> <img width="100%" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif"><br> <img width="8" height="6" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <img width="100%" height="4" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"><br> <img width="16" height="16" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif"> <a href="http://www-128.ibm.com/developerworks/cn/linux/l-graphvis/#main" target="_blank" rel="external"><strong>回页首</strong></a> <br><br><p><a name="N10175">精简函数跟踪数据</a></p><p>现 在您有了一个可以搜集函数函数地址的追踪数据的方法，还可以使用 Addr2line 工具将地址转换为函数名。然而，从应用程序中产生大量的跟踪数据之后，如何对这些数据进行精简，从而使其更有意义呢？这就是使用一些定制的中间代码在开源 工具之间建立联系的地方。本文提供了这个工具（Pvtrace）的带有注释的完整代码，包括如何编译和使用该工具的一些说明。（有关的更多信息，请参阅 <a href="http://www-128.ibm.com/developerworks/cn/linux/l-graphvis/#download" target="_blank" rel="external">下载</a> 一节。）</p><p>回想一下图 1 中的内容，在执行设置了检测函数的应用程序时，会创建一个名为 <em>trace.txt</em> 的文本文件。这个人们可以读取的文件中包含了一系列地址信息 &mdash;&mdash; 每行一个地址，每行都有一个前缀字符。如果前缀是 <em>E</em>，那么这个地址就是一个函数的入口地址（也就是说，您正在调用这个函数）。如果前缀是一个 <em>X</em> 字符，那么这个地址就是一个出口地址（也就是说，您正在从这个函数中退出）。</p><p>因 此，如果在跟踪文件中有一个入口地址（A）紧跟着另外一个入口地址（B），那么您就可以推断是 A 调用了 B。如果一个入口地址（A）后面跟着一个出口地址（A），那么就说明这个函数（A）被调用后就直接返回了。当涉及大量的调用链时，就很难分析究竟是谁调用 了谁，因此，一种简单的解决方案是维护一个整个地址的堆栈。每次在跟踪文件中碰到一个入口地址时，就将其压入堆栈。栈顶的地址就代表最后一次被调用的函数 （也就是当前的活动函数）。如果后面紧接着是另外一个入口地址，这说明堆栈中的地址调用了这个刚从跟踪文件处读出的地址。在碰到退出函数时，当前的活动函 数就会返回，并释放栈顶元素。这会将上下文返到回前一个函数，由此，就可以产生正确的调用链过程。</p><p>图 2 介绍了这个概念，以及精简数据的方法。在分析跟踪文件中的调用链时，会构建一个连通矩阵，用来表示哪个函数调用了其他哪些函数。这个矩阵的行表示调用函数 的地址，列表示被调用的地址。对于每个调用对来说，行与列的交叉点不断进行累加（调用次数）。当处理完整个跟踪文件时，其结果是该应用程序的整个调用历史 的一个非常简单的表示，其中包含了调用的次数。</p><br><a name="N10197"><strong>图 2. 对跟踪数据进行处理和精简，并生成矩阵格式</strong></a><br><img width="295" height="493" alt="精简过程" src="http://www-128.ibm.com/developerworks/cn/linux/l-graphvis/figure2.gif"> <br> <img width="10" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <a name="N101A8"><strong>编译并安装工具</strong></a><br> <p>在下载并解压 Pvtrace 工具之后，只需在子目录中输入 <code>make</code> 命令，就可以编译 Pvtrace 工具了。也可以使用下面的代码将这个工具安装到 /usr/local/bin 目录中：</p>                                                                                                                                                            $ unzip pvtrace.zip -d pvtrace<br>$ cd pvtrace<br>$ make<br>$ make install                                                                                                                                                                                                                        <p>现在我们已经构建了简化的函数连通性矩阵，接下来应该构建图形的表示了。让我们深入研究 Graphviz，了便理解如何从连通矩阵生成一个调用图。</p><br> <img width="100%" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif"><br> <img width="8" height="6" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <img width="100%" height="4" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"><br> <img width="16" height="16" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif"> <a href="http://www-128.ibm.com/developerworks/cn/linux/l-graphvis/#main" target="_blank" rel="external"><strong>回页首</strong></a> <br><br><p><a name="N101BE">使用 Graphviz</a></p><p>Graphviz 或 Graph Visualization 是由 AT&amp;T 开发的一个开源的图形可视化工具。它提供了多种画图能力，但是我们重点关注的是它使用 Dot 语言直连图的能力。在本文中，我们将简单介绍如何使用 Dot 来创建一个图形，并展示如何将分析数据转换成 Graphviz 可以使用的规范。（请参阅 <a href="http://www-128.ibm.com/developerworks/cn/linux/l-graphvis/#resources" target="_blank" rel="external">参考资料</a> 一节，以获得有关下载这个开源软件的信息。）</p><p><a name="N101CC">Dot 使用的图形规范</a></p><p>使用 Dot 语言，您可以指定三种对象：图、节点和边。为了让您理解这些对象的含义，我们将构建一个例子来展示这些元素的用法。</p><p>清单 5 给出了一个简单的定向图（directed graph），其中包含 3 个节点。第一行声明这个图为 <em>G</em>，并且声明了该图的类型（digraph）。接下来的三行代码用于创建该图的节点，这些节点分别名为 <em>node1</em>、<em>node2</em> 和 <em>node3</em>。节点是在它们的名字出现在图规范中时创建的。边是在在两个节点使用边操作（<code>-&gt;</code>）连接在一起时创建的，如第 6 行到第 8 行所示。我还对边使用了一个可选的属性 <code>label</code>，用它来表示边在图中的名称。最后，在第 9 行完成对该图规范的定义。</p><br><a name="N101F0"><strong>清单 5. 使用 Dot 符号表示的示例图（test.dot）</strong></a><br> <br>1:  digraph G {<br>2:    node1;<br>3:    node2;<br>4:    node3;<br>5:<br>6:    node1 -&gt; node2 [label=&quot;edge_1_2&quot;];<br>7:    node1 -&gt; node3 [label=&quot;edge_1_3&quot;];<br>8:    node2 -&gt; node3 [label=&quot;edge_2_3&quot;];<br>9:  }                        <br><p>要将这个 .dot 文件转换成一个图形映像，则需要使用 Dot 工具，这个工具是在 Graphviz 包中提供的。清单 6 介绍了这种转换。</p><br><a name="N101FE"><strong>清单 6. 使用 Dot 来创建 JPG 映像</strong></a><br> <br>$ dot -Tjpg test.dot -o test.jpg<br>$                        <br><p>在这段代码中，我告诉 Dot 使用 test.dot 图形规范，并生成一个 JPG 图像，将其保存在文件 test.jpg 中。所生成的图像如图 3 所示。在此处，我使用了 JPG 格式，但是 Dot 工具也可以支持其他格式，其中包括 GIF、PNG 和 postscript。</p><br><a name="N1020A"><strong>图 3. Dot 创建的示例图</strong></a><br><img width="207" height="248" alt="Dot 创建的示例图" src="http://www-128.ibm.com/developerworks/cn/linux/l-graphvis/figure3.gif"> <br><p>Dot 语言还可以支持其他一些选项，包括外形、颜色和很多属性。但是就我们想要实现的功能而言，这个选项就足够了。</p><p> </p> <img width="100%" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif"><br> <img width="8" height="6" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <img width="100%" height="4" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"><br> <img width="16" height="16" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif"> <a href="http://www-128.ibm.com/developerworks/cn/linux/l-graphvis/#main" target="_blank" rel="external"><strong>回页首</strong></a> <br><br><p><a name="N1021C">综合</a></p><p>现在我们已经看到了整个过程的各个阶段了，下面可以采用一个例子来展示如何将这些阶段合并在一起了。现在，您应该已经展开并安装了 Pvtrace 工具，然后还需要将 instrument.c 文件复制到工作源代码目录中。</p><p>在这个例子中，我使用了一个源文件 <em>test.c</em> 进行检测。清单 7 给出了整个过程。在第 3 行中，我使用检测源（instrument.c）来构建（编译并连接）应用程序。然后在第 4 行执行 <code>test</code>，再使用 <code>ls</code> 命令验证已经生成了 trace.txt 文件。在第 8 行，我调用了 Pvtrace 工具，并提供这个映像文件作为它惟一的参数。映像名是必需的，这样 Addr2line（在 Pvtrace 中调用）就可以访问这个映像中的调试信息。在第 9 行中，我又执行了一次 <code>ls</code> 命令，以确保 Pvtrace 生成了 graph.dot 文件。最后，在第 12 行，使用 Dot 将这个图形规范转换成一个 JPG 图形映像。</p><br><a name="N1023C"><strong>清单 7. 创建调用跟踪图的整个过程</strong></a><br> <br> 1:  $ ls<br> 2:  instrument.c    test.c<br> 3:  $ gcc -g -finstrument-functions test.c -o test<br> 4:  $ ./test<br> 5:  $ ls<br> 6:  instrument.c     test.c<br> 7:  test             trace.txt<br> 8:  $ pvtrace test<br> 9:  $ ls<br>10:  graph.dot        test           trace.txt<br>11:  instrument.c     test.c<br>12:  $ dot -Tjpg graph.dot -o graph.jpg<br>13:  $ ls<br>14:  graph.dot        instrument.c   test.c<br>15:  graph.jpg        test           trace.txt<br>16:  $                        <br><p>这个过程的示例输出如图 4 所示。这个示例图是从使用 Q 学习的一个简单增强式学习应用程序中得到的。</p><br><a name="N10251"><strong>图 4. 示例应用程序的跟踪结果</strong></a><br><img width="479" height="356" alt="示例应用程序的跟踪结果" src="http://www-128.ibm.com/developerworks/cn/linux/l-graphvis/figure4.gif"> <br><p>您 也可以使用这种方法对更大的应用程序进行分析。我要展示的最后一个例子是 Gzip 工具。我简单地将 instrument.c 加入 Gzip 的 Makefile 中，作为其依赖的一个源文件，然后编译 Gzip，并使用它生成一个跟踪文件。这个图形太大了，不太容易进行更详细的分析，但是下图表示了 Gzip 对一个小文件进行压缩时的处理过程。</p><br><a name="N10265"><strong>图 5. Gzip 跟踪结果</strong></a><br><img width="600" height="291" alt="Gzip 跟踪结果" src="http://www-128.ibm.com/developerworks/cn/linux/l-graphvis/figure5.jpg"> <br><br> <img width="100%" height="1" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_blue_rule.gif"><br> <img width="8" height="6" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"> <img width="100%" height="4" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_c.gif"><br> <img width="16" height="16" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_ibm_u_bold.gif"> <a href="http://www-128.ibm.com/developerworks/cn/linux/l-graphvis/#main" target="_blank" rel="external"><strong>回页首</strong></a> <br><br><p><a name="N10274">结束语</a></p><p>使 用开源软件和少量的中间代码，只需要花很少的时间就可以开发出非常有用的项目。通过使用对应用程序进行分析的几个 GNU 编译器扩展，可以使用 Addr2line 工具进行地址转换，并对 Graphviz 应用程序进行图形可视化，然后您就可以得到一个程序，该程序可以对应用程序进行分析，并展示一个说明调用链的定向图。通过图形来查看一个应用程序的调用链 对于理解应用程序的内部行为来说非常重要。在正确了解调用链及其各自的频率之后，这些知识可能对调试和优化应用程序非常有用。</p> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/11/19/【zz】-cyg-profile-func-enter、pvtrace、Graphviz-可视化函数调用/" class="archive-article-date">
+  	<time datetime="2007-11-19T11:38:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-11-19</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux-Debug/">Linux Debug</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-example-for-从程序员角度看ELF" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2007/11/19/example-for-从程序员角度看ELF/">example for 从程序员角度看ELF</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> This example make full use of the output of <code>gcc -v</code>, we link all files from scratch.<br><br>the source code:<br></p><p>                        ///////////////////////////////////////////////////////////////////<br>            //test.c<br>            #include &lt;stdio.h&gt;<br>            #include &lt;stdlib.h&gt;<br>            #include &lt;unistd.h&gt;<br>            #include &lt;dlfcn.h&gt;<br>            #include &lt;string.h&gt;<br>            #include &lt;mcheck.h&gt;<br> <br>            const char <strong>dynamic_linker</strong>[] <strong>attribute</strong> ((section (&quot;.interp&quot;))) = &quot;/lib/ld-linux.so.2&quot;;<br> <br>            int <strong>wrap_printf(char <em>s)<br>            {<br>            &nbsp;&nbsp;&nbsp;       char </em>t = s;<br>            &nbsp;&nbsp;&nbsp;       while(<em>s) {<br>            //&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       if(isalpha(</em>s))<br>            //&nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       <em>s = toupper(</em>s);<br>            &nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       s++;<br>            &nbsp;&nbsp;&nbsp;       }<br>            &nbsp;&nbsp;&nbsp;       return (int)write(0, t, strlen(t));<br>            }<br> <br> <br>            </strong>attribute<strong>((constructor))<br>            static void foo()<br>            {<br>            &nbsp;&nbsp;&nbsp;       mtrace();<br>            &nbsp;&nbsp;&nbsp;       printf(&quot;foon&quot;);<br>            }<br>            </strong>attribute__((destructor))<br>            static void bar()<br>            {<br>            &nbsp;&nbsp;&nbsp;       muntrace();<br>            &nbsp;&nbsp;&nbsp;       printf(&quot;barn&quot;);<br>            }<br> <br>            int my_start()<br>            {<br>            &nbsp;&nbsp;&nbsp;       void <em>ntdll = NULL;<br>            &nbsp;&nbsp;&nbsp;       void (</em>func)() = NULL;<br> <br>            &nbsp;&nbsp;&nbsp;       _init();&nbsp;&nbsp;&nbsp;       <br> <br>            &nbsp;&nbsp;&nbsp;       printf(&quot;ahaha, OK!n&quot;);<br> <br>            &nbsp;&nbsp;&nbsp;       free(malloc(0x12345));<br> <br>            &nbsp;&nbsp;&nbsp;       ntdll = dlopen(&quot;/usr/local/lib/wine/ntdll.dll.so&quot;, RTLD_NOW);<br>            &nbsp;&nbsp;&nbsp;       if(!ntdll)<br>            &nbsp;&nbsp;&nbsp;       &nbsp;&nbsp;&nbsp;       printf(&quot;fail to open dlln&quot;);<br>            &nbsp;&nbsp;&nbsp;       func = dlsym(ntdll, &quot;dump_builtin_dlls&quot;);<br>            &nbsp;&nbsp;&nbsp;       printf(&quot;%pn&quot;, func);<br> <br>            &nbsp;&nbsp;&nbsp;       _fini();<br> <br>            &nbsp;&nbsp;&nbsp;       exit(0);<br>            &nbsp;&nbsp;&nbsp;       return 0;<br>            }<br> <br>            int main()<br>            {<br>            &nbsp;&nbsp;&nbsp;       my_start();<br>            }<br> <br> <br>            [jfo@Fedora4 src]$ gcc -c -fPIC -o test.o test.c<br> <br>            [jfo@Fedora4 src]$ ld -shared -o libtest.so -emy_start  crti.o crtbeginS.o  test.o -L /usr/lib/gcc/i386-redhat-linux/4.0.0 -ldl -lc  crtendS.o crtn.o<br> <br>            [jfo@Fedora4 src]$ ld -o test -emy_start -dynamic-linker=/lib/ld-linux.so.2 crt1.o crti.o crtbegin.o test.o -L /usr/lib/gcc/i386-redhat-linux/4.0.0/ -ldl -lc&nbsp;&nbsp;       crtend.o crtn.o<br> <br>            [jfo@Fedora4 src]$ ./test<br>            foo<br>            ahaha, OK!<br>            0xb7e1ff10<br>            bar<br>            [jfo@Fedora4 src]$ ./libtest.so<br>            foo<br>            ahaha, OK!<br>            0xb7d01f10<br>            bar            </p> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/11/19/example-for-从程序员角度看ELF/" class="archive-article-date">
+  	<time datetime="2007-11-19T07:33:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-11-19</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-linux-debug-addr2line追踪出错地址" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2007/11/19/linux-debug-addr2line追踪出错地址/">linux debug : addr2line追踪出错地址</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <a target="_blank" href="http://www.xxlinux.com/linux/article/accidence/technique/20070125/7209.html">http://www.xxlinux.com/linux/article/accidence/technique/20070125/7209.html</a><br>&nbsp;&nbsp;&nbsp;   &nbsp;&nbsp;&nbsp;   调 试zSeries上的Linux应用程序类似于调试其他体系结构上的Linux应用程序。对于有经验的Linux开发人员，最大的挑战是理解新的系统体系 结构。对于刚接触Linux的大型机开发人员，掌握新的调试工具似乎是一项令人畏惧的任务。不要害怕。本文将提供一些有用的提示来帮助您入门。 </p><p>学问来自实践，但是对于调试工具，在没有出现问题而迫使您去修复它们之前，&ldquo;实践&rdquo;是不会发生的。考虑到这点，下面将提供让您入门的&ldquo;速成&rdquo;指南。 </p><p><strong>User Debug 日志记录</strong> </p><p>调试一个崩溃的程序的第一步是弄清哪里出了错。zSeries 上的Linux内核具有这样一个内置特性，它在用户进程崩溃时记录一些基本的调试信息。要启用这个特性，请以 root 用户身份执行如下命令： </p><p>当某个进程崩溃时，日志文件（/var/log/messages）中就会给出附加的信息，包括程序终止原因、故障地址，以及包含程序状态字（PSW）、通用寄存器和访问寄存器的简要寄存器转储。 </p><p>图 1 表明程序（名为&ldquo;simple&rdquo;）以一个程序中断代码 0x10 终止（操作系统原理表明这是一个段转换错误），而故障地址为 0。毫无疑问，有人使用了空指针。现在我们知道发生了什么，下面需要弄清它发生在何处。 </p><p><strong>基本的诊断</strong> </p><p>User Debug日志条目所提供的信息可用于确定程序的崩溃位置。一些可用的工具可帮助解决您可能会遇到的各种程序终止问题。我们将在本文中逐步介绍那些工具。 </p><p>首 先，让我们检查一下该日志条目中的用户 PSW。该 PSW 包含指令地址、状态码以及关于机器状态的其他信息。眼下，我们仅关心指令地址（第33至第63位）。为简化起见，让我们假设用户PSW是 070dc000 80400618。记住，我们是在考察一个 ESA/390（31 位寻址）PSW。第32位不是指令地址的一部分，它是指示 31 位寻址模式的标志，但是在研究 PSW 值时必须处理它。为了获得实际的指令指针，可把PSW的第二个字减去 0x80000000。结果是一个指令地址 0x400618。为了定位代码，您需要可执行文件中的一些信息。首先使用readelf来打印一些程序头信息。 </p><p>图 2 显示了readelf -l simple的结果（记住&ldquo;simple&rdquo;是我们的测试程序的名称）。在Program Headers部分，第一个 LOAD 行提供了关于程序从哪里加载的信息。在 Flg 列，该段被标记为 R(read)E(executable)。VirtAddr是程序开始加载的地址。MemSiz是正在被加载到这个段中的代码长度。把它加到 VirtAddr上，这个程序的基本地址范围就是0x400000-0x400990。程序发生崩溃的指令地址为0x400618，在程序的加载范围之 内。现在我们知道了问题直接发生在代码中。 </p><p>如果可执行文件包括调试符号，那么确定哪一行代码导致了问题是可以做到的。对该地址和可执行文件使用addr2line 程序，如下所示： </p><p>将返回： </p><p>要研究该问题，可以检查第 34 行。 </p><p>对 于图1中原始的程序崩溃，PSW 为070dc000 c00ab738。要获得指令地址，可减去0x80000000。结果为0x400ab738。这个地址并不准确地落在我们的小程序之内。那么，它是什么 呢？是来自共享库的代码。如果对可执行文件运行ldd 命令（ldd simple），将会返回程序运行所需的共享对象的列表，以及该库在那里可用的地址。 </p><p>该指令地址对应于加载libc.so.6的地址。在我们的简单测试案例中，只需要两个共享对象。其他应用程序可能需要更多共享对象，这使得ldd的输出更加复杂。我们将以perl作为例子。 输入： </p><p>将得到： </p><p>所需要的一切都在那里了，但是我发现对于这个进程，下面的内容读起来更快一点： </p><p>现 在我们来确定崩溃发生在libc中的何处。假设libc.so.6的加载地址是0x40021000，从指令地址 0x400ab738减去它，结果为0x8a738。这是进入libc.so.6 的偏移。使用nm命令，从libc.so.6转储符号，然后尝试确定该地址位于哪个函数中。对于libc.so.6，nm将生成7,000多行输出。通过 对计算得出的偏移部分执行 grep（正则表达式查找程序）可以削减必须检查的数据量。输入： </p><p>将返回 66 行，在该输出的中间，我们会发现： </p><p>该 偏移落在memcpy中的某个位置。在此例中，一个空指针被当作目标地址传递给了memcpy。我们在何处调用的memcpy呢？问得好。我们可以通过检 查输出在日志文件中的寄存器转储来确定目标区域。寄存器14包含执行某个函数调用时的返回地址。根据图1，R14是0x8040066e，它在截去高位之 后产生一个地址 0x40066e。这个地址落在我们的程序范围之内，因此可以运行addr2line来确定该地址在何处。输入： </p><p>将返回： </p><p>这是我们调用memcpy之后的那一行。关于addr2line的一点补充：如果可执行文件中没有包括调试符号，您将获得??:0 作为响应。 </p> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/11/19/linux-debug-addr2line追踪出错地址/" class="archive-article-date">
+  	<time datetime="2007-11-19T03:14:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-11-19</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux-Debug/">Linux Debug</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-relayfs-examples" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2007/11/18/relayfs-examples/">relayfs examples</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> </p><p>NOTE: As of relay-apps-0.90, the ‘relay-app’ pseudo-framework has been removed and all examples have been made standalone. i.e. for the time being, ignore the ‘relay_app_XXX’ parts of the code on this page and look at the examples directly.  The website will be updated to reflect these changes soon…</p><p> </p><p> </p><p> </p><a name="examples">Examples</a><a name="examples"> The following examples show how relayfs can be used to create ‘quick and dirty’ kernel logging applications, in a number of different ways. They don’t attempt to be exhaustive or delve into the details of the API; please see the documentation for that. </a><p><a href="http://relayfs.sourceforge.net/examples.html#kleak" target="_blank" rel="external">kleak example - using relayfs to track kmalloc/kfree</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://relayfs.sourceforge.net/examples.html#directly" target="_blank" rel="external">Using relayfs directly</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://relayfs.sourceforge.net/examples.html#klog_text" target="_blank" rel="external">Logging text using klog</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://relayfs.sourceforge.net/examples.html#klog_bin" target="_blank" rel="external">Logging binary data using klog</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://relayfs.sourceforge.net/examples.html#kleak_kprobes" target="_blank" rel="external">Logging data using kprobes</a><br><a href="http://relayfs.sourceforge.net/examples.html#tprintk" target="_blank" rel="external">tprintk example - using relayfs and kprobes to intercept and log printk output</a><br>&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://relayfs.sourceforge.net/examples.html#tprintk_kprobes" target="_blank" rel="external">Logging data using kprobes</a></p><a name="kleak">kleak example - using relayfs to track kmalloc/kfree</a><a name="kleak">The following example show how relayfs can be used to create a memory tracking application for detecting kernel memory leaks. This example was inspired by a </a><a href="http://lwn.net/Articles/124374/" target="_blank" rel="external">/proc/kmalloc</a> patch recently posted to lkml, and being an example, only does a subset of what that patch does, but it provides some useful information nonetheless, and could be made into a more full-featured tool with a little extra work. Here’s an example of the output, as generated by a simple Perl script from the output files of the binary tracking data (see the relay-app tarball for the script and other example files):Total kmallocs: 631<br>Total kfrees: 596<br><br>Total bytes kmalloced: 731242 [1252960 with slack]<br>Total bytes kfreed: 1273920<br><br>Total kmallocs by caller:<br>  c01a3a94 [stat_open+0x0]: 1<br>  c017bff8 [sys_poll+0x54]: 2<br>  c0180b12 [d_alloc+0xf8]: 6<br>  c01cb138 [<strong>jbd_kmalloc+0x192]: 1<br>  c028f727 [alloc_skb+0x28]: 327<br>  c01948d0 [load_elf_binary+0x47]: 2<br>  c011e015 [do_fork+0x100]: 40<br>  c029019f [pskb_expand_head+0x55]: 2<br>  c0194327 [load_elf_interp+0x5f]: 2<br>  c018464b [alloc_fdset+0xb7]: 4<br>  c01841d2 [alloc_fd_array+0x2b]: 2<br>  c017b8cd [select_bits_alloc+0x22]: 240<br>  c019536e [load_elf_binary+0x1d]: 2<br>Total kfrees by caller:<br>  c018a582 [single_release+0xb9e]: 1<br>  c01c604d [journal_commit_transaction+0x32]: 1<br>  c0184413 [free_fdtable_rcu+0xa0d]: 2<br>  c0194878 [load_elf_binary+0xd3]: 2<br>  c019435f [load_elf_interp+0xa8]: 2<br>  c0184429 [free_fdtable_rcu+0xef]: 2<br>  c0172d78 [do_execve+0xe9]: 2<br>  c018a253 [seq_release+0x1b8]: 2<br>  c013141c [rcu_do_batch+0x23]: 2<br>  c018a24b [seq_release+0x2c]: 2<br>  c028fa33 [kfree_skbmem+0x1b]: 329<br>  c0194cf4 [load_elf_binary+0x13]: 2<br>  c0194ce8 [load_elf_binary+0x524]: 2<br>  c011c166 [free_task+0x518]: 2<br>  c024fb58 [put_io_context+0x16]: 1<br>  c018441e [free_fdtable_rcu+0x68]: 2<br>  c017bb24 [sys_select+0xde]: 240<br><br>Total kmalloced bytes by caller:<br>  c01a3a94 [stat_open+0x0]: 4096 [4096]<br>  c017bff8 [sys_poll+0x54]: 32 [64]<br>  c0180b12 [d_alloc+0xf8]: 256 [384]<br>  c01cb138 [</strong>jbd_kmalloc+0x192]: 92 [128]<br>  c028f727 [alloc_skb+0x28]: 696160 [1213952]<br>  c01948d0 [load_elf_binary+0x47]: 480 [512]<br>  c011e015 [do_fork+0x100]: 4000 [5120]<br>  c029019f [pskb_expand_head+0x55]: 832 [1024]<br>  c0194327 [load_elf_interp+0x5f]: 320 [512]<br>  c018464b [alloc_fdset+0xb7]: 16384 [16384]<br>  c01841d2 [alloc_fd_array+0x2b]: 2048 [2048]<br>  c017b8cd [select_bits_alloc+0x22]: 6504 [8672]<br>  c019536e [load_elf_binary+0x1d]: 38 [64]<br>Total kfreed bytes by caller:<br>  c018a582 [single_release+0xb9e]: 32<br>  c01c604d [journal_commit_transaction+0x32]: 4096<br>  c0184413 [free_fdtable_rcu+0xa0d]: 8192<br>  c0194878 [load_elf_binary+0xd3]: 512<br>  c019435f [load_elf_interp+0xa8]: 512<br>  c0184429 [free_fdtable_rcu+0xef]: 2048<br>  c0172d78 [do_execve+0xe9]: 1024<br>  c018a253 [seq_release+0x1b8]: 256<br>  c013141c [rcu_do_batch+0x23]: 128<br>  c018a24b [seq_release+0x2c]: 8192<br>  c028fa33 [kfree_skbmem+0x1b]: 1214976<br>  c0194cf4 [load_elf_binary+0x13]: 512<br>  c0194ce8 [load_elf_binary+0x524]: 64<br>  c011c166 [free_task+0x518]: 16384<br>  c024fb58 [put_io_context+0x16]: 128<br>  c018441e [free_fdtable_rcu+0x68]: 8192<br>  c017bb24 [sys_select+0xde]: 8672<br><br>Unfreed kmallocs:<br>  sys_poll+0x54: 2<br>  alloc_skb+0x28: 1<br>  d_alloc+0xf8: 6<br>  select_bits_alloc+0x22: 1<br>  do_fork+0x100: 40<br>  <strong>jbd_kmalloc+0x192: 1<br>Unmalloced kfrees:<br>  put_io_context+0x16: 1<br>  free_task+0x518: 1<br>  kfree_skbmem+0x1b: 5<br>  load_elf_binary+0xd3: 1<br>  rcu_do_batch+0x23: 2<br>  seq_release+0x1b8: 1<br>  sys_select+0xde: 1<p>The lines highlighted red show a noticeable memory leak in <code>do_fork()</code>, which is the result of some code deliberately introduced there for this example, and not a real bug in <code>do_fork()</code>.</p><p>To try out the example on your own system:</p><li>make sure that <code>klog.patch</code> from the relay-apps tarball has been applied</li><li>apply <code>examples/kleak/kleak.patch</code> to the kernel (this adds the &quot;instrumentation&quot; to kmalloc/kfree in <code>mm/slab.c)</code></li><li>compile and boot the new kernel</li><li>make the kleak module and app (change <code>KDIR</code> in <code>Makefile</code> to point to your compiled kernel tree if necessary):<p><code># cd relay-apps/examples/kleak</code><br><code># make</code><br><code># make -f Makefile-app</code></p><p> </p></li><li>try it out:<p><code># mount -t relayfs relayfs /mnt/relay</code><br><code># insmod ./kleak.ko</code><br><code># ./kleak</code><br><code># Ctrl-C</code><br><code># ./kleak.pl</code></p><p>NOTE: the kleak.pl script isn’t exactly the paragon of efficiency, so it may take a little while to generate the output if the files are large…</p><p>The following sections show a few different ways this example could be implemented using relayfs, some more useful in reality than others…</p><a name="directly">Using relayfs directly (kleak example)</a><a name="directly">This and the following example section log the kmalloc/kfree records as text, which is  what you’d typically want to do in a high-volume tracing application like this. Later sections do it using binary data, and in fact, logging data as text would probably be preferred for lower-volume applications, so these sections would be useful for those kinds of applications. </a><p><a name="directly">Setting up a relayfs channel and writing to it is easy. Here’s all the code needed to gather the necessary information to track kmalloc/kfree allocations in the kernel. The added relayfs-related code is shown in blue: </a></p><p><a name="directly">In init/main.c: </a></p><a name="directly"> #include &lt;linux/relayfs_fs.h&gt; #define SUBBUF_SIZE 262144 #define N_SUBBUFS 4 struct rchan *kleak_chan = NULL;  static void </a></li></strong>init do_basic_setup(void) {  /<em> drivers will send hotplug events </em>/  init_workqueues();  usermodehelper_init();  driver_init();  #ifdef CONFIG_SYSCTL  sysctl_init(); #endif   /<em> Networking initialization needs a process context </em>/   sock_init();   do_initcalls();   kleak_chan = relay_open(&quot;kleak&quot;, NULL, SUBBUF_SIZE,       N_SUBBUFS, 1, NULL);  if (!kleak_chan)   printk(&quot;kleak channel creation failedn&quot;);  else   printk(&quot;kleak channel readyn&quot;);  } <p><a name="directly">In mm/slab.c:  </a></p><a name="directly"> #include &lt;linux/relayfs_fs.h&gt; extern struct rchan <em>kleak_chan;  void </em><strong>kmalloc(size_t size, unsigned int </strong>nocast flags) {  kmem_cache_t <em>cachep;  void </em>a;   cachep = <strong>find_general_cachep(size, flags);  if (unlikely(cachep == NULL))   return NULL;  a = </strong>cache_alloc(cachep, flags);    if (kleak_chan) {   char buf[64];   int size = sprintf(buf, &quot;kmalloc: addr %p caller %p, size %dn&quot;,        a, <strong>builtin_return_address(0), size);   relay_write(kleak_chan, buf, size);  }    return a; } </strong></a><a name="directly">void kfree(const void <em>objp) {  kmem_cache_t </em>c;  unsigned long flags;   if (unlikely(!objp))   return;    if (kleak_chan) {   char buf[64];   int size = sprintf(buf, &quot;kfree: addr %p caller %p, size %dn&quot;,        objp, builtin_return_address(0), ksize(objp));   relay_write(kleak_chan, buf, size);  }   local_irq_save(flags);  kfree_debugcheck(objp);  c = GET_PAGE_CACHE(virt_to_page(objp));  <strong>cache_free(c, (void*)objp);  local_irq_restore(flags); } </strong></a><a name="directly">That’s all there is to it - we’ve created a set of buffers along with the corresponding files in the filesystem, and are logging data into them. </a><p><a name="directly">For lack of a better place, we created the relayfs channel at the end of <code>do_basic_setup()</code>, when we know relayfs has been initialized, and added a few lines of code to each of <code>kmalloc()</code> and <code>kfree()</code> which log some data for each kmalloc/kfree. </a></p><p><a name="directly">So far, so good, but we still need to get the data to user space and do something useful with it.  To do that, we need code that will:  </a></p><ul> <li><a name="directly"> implement some sort of communication protocol between the kernel and a user space application.</a></li> <li><a name="directly"> write the data to disk and/or process it as it becomes available.</a></li></ul><a name="directly">Additionally, using relayfs directly means that the developer needs to create the channel somewhere and make it available to the parts of the kernel that need to write to the channel as well as explicitly check whether or not the channel is ready to be written to, among other things. </a><p><a name="directly">Real applications probably will want to micromanage all of this on their own; casual users however would like to be able to ignore all the details and simply log data on demand with as little setup and application-specific code as possible. </a></p><a name="directly">klog</a><p><a name="directly">The ‘klog’ facility makes it as easy as possible to quickly get a kernel logging application up and running. It basically provides a couple of logging functions that will send logged data to a ‘klog handler’ if one is registered, or discard it if not. This makes it easy to insert simple logging functions anywhere in the kernel which can be called unconditionally regardless of whether there’s a channel ready for logging or not. </a></p><p><a name="directly">To use klog, you’ll need to apply a small patch, <code>klog.patch</code>, found in the relay-apps tarball and say ‘y’ to ‘klog debugging functions’ in the ‘kernel hacking’ config section. This will make two functions available for logging from anywhere within the kernel or kernel modules: </a></p><p><code><a name="directly">klog(const void <em>data, int len)</em></a></code> <a name="directly"><br><code>klog_printk(const char fmt, …)</code> </a></p><p> </p><p><a name="directly">In addition to putting the logging calls where you want them in the kernel, you need to: </a></p><ul> <li><a name="directly"> create a kernel module which defines and registers a ‘klog handler’ </a></li> <li><a name="directly"> create a userspace application using librelay to process the data </a></li></ul><a name="directly">These steps will be illustrated in the examples below; it’s all very boilerplate and simple in practice.   </a><p> </p><a name="klog_text">Logging text using klog (kleak example)</a><a name="klog_text">This section contains a complete example, including all the kernel and user code needed to log data using relayfs, via klog. </a><p><a name="klog_text">To log data from the kernel or a kernel module using klog, first include <code>linux/klog.h</code> and insert <code>klog_printk()</code> (for writing formatted data using the same format strings as <code>printk()</code> or <code>klog()</code> (for writing binary data) calls wherever you want to log data: </a></p><a name="klog_text"> #include &lt;linux/klog.h&gt;  void <em><strong>kmalloc(size_t size, unsigned int </strong>nocast flags) {  kmem_cache_t </em>cachep;  void <em>a;   /</em> If you want to save a few bytes .text space: replace   <em> _<em> with kmem</em>.   </em> Then kmalloc uses the uninlined functions instead of the inline   <em> functions.   </em>/  cachep = <strong>find_general_cachep(size, flags);  if (unlikely(cachep == NULL))   return NULL;  a = </strong>cache_alloc(cachep, flags);   klog_printk(&quot;kmalloc: addr %p caller %p, size %dn&quot;, a, <strong>builtin_return_address(0), size);   return a; } </strong></a><a name="klog_text">void kfree(const void <em>objp) {  kmem_cache_t </em>c;  unsigned long flags;   if (unlikely(!objp))   return;   klog_printk(&quot;kfree: addr %p caller %p, size %dn&quot;, objp, builtin_return_address(0), ksize(objp));   local_irq_save(flags);  kfree_debugcheck(objp);  c = GET_PAGE_CACHE(virt_to_page(objp));  <strong>cache_free(c, (void<em>)objp);  local_irq_restore(flags); } </em></strong></a><a name="klog_text">The next step is to write a kernel module to interface with the klog logging functions. Here we include <code>&quot;relay-app.h&quot;</code>, which encapsulates the channel management and communication with userspace, in addition to providing a few functions to actually write into the relayfs channel. </a><p><a name="klog_text">In the module init function, we call <code>init_relay_app()</code> with the name of the relayfs directory to create and the base filename of the relayfs files to create within it. This will cause the files /kleak/cpu0../kleak/cpuX to be created in the filesystem. Also in the module init function, we register the ‘klog handler’ function, here <code>kleak_log()</code>, which will be called whenever the <code>klog_printk()</code> function is invoked.  <code>kleak_log()</code> doesn’t do anything but send the data to the relayfs channel using <code>relayapp_write()</code>, a function defined in <code>relay-app.h</code>.  See <code>relay-app.h</code> for more details on the available relay-app functions. </a></p><p><a name="klog_text">Finally, in the module cleanup code, <code>close_relay_app()</code> is called to close the channel and the klog handler is unregistered. </a></p><p><a name="klog_text">Here’s the module in its entirety (the highlighted portions show the only code that would need to be changed to create a different application): </a></p><a name="klog_text">#include &lt;linux/module.h&gt; #include &lt;linux/relayfs_fs.h&gt; #include &lt;linux/klog.h&gt; #include &quot;relay-app.h&quot;  static void kleak_log(const void data, int len) {  relayapp_write(data, len); }  static struct klog_operations kleak_ops = {  .klog = kleak_log, };  static int init_kleak(void) {  int err;   if (init_relay_app(&quot;kleak&quot;, &quot;cpu&quot;, NULL)) {   printk(&quot;kleak: couldn’t init relay appn&quot;);   return -1;  }    err = register_klog_handler(&amp;kleak_ops);   return err; }  static void cleanup_kleak(void) {  close_relay_app();  unregister_klog_handler(); }  module_init(init_kleak); module_exit(cleanup_kleak); MODULE_LICENSE(&quot;GPL&quot;); </a><a name="klog_text">Now that we’ve completed the kernel side of the code, we need to write the user space application code. Most of this code is for dealing with command-line options. </a><p><a name="klog_text">Here we include <code>&quot;librelay.h&quot;</code>, which like <code>relay_apps.h</code> for the kernel side, hides the details of channel management and communication and makes a few other functions available. </a></p><p><a name="klog_text">The call to <code>init_relay_app()</code> sets up the parameters for the channel that will be created.  <code>kleak_filebase</code> is set to the base filename of the relayfs files created in the kernel side, and should match the directory/filebase specified in the kernel module, with the mount point of the mounted relayfs filesystem prepened e.g. if we mount the filesystem at &quot;/mnt/relay&quot;, the relayfs files will be found as /mnt/relay/kleak/cpu0../mnt/relay/kleak/cpuX. kleak_outfilebase is the base name of the per-cpu output files that will contain the corresponding channel data e.g. kleak0..kleakX. </a></p><p><a name="klog_text">The <code>subbuf_size</code> and <code>n_subbufs</code> params determine the size of each of the per-cpu buffers i.e. each per-cpu buffer will be of size <code>subbuf_size <em> n_subbufs</em></code>. </a></p><p><a name="klog_text">Notice that the channel isn’t created by the module until the <code>init_relay_app()</code> call is made. This means that the buffer sizes can be specified as different sizes for each run of the user space application, which is very useful for experimenting with different buffer sizes and determining the most reasonable buffer size for the application (the relay-app code will print out a message if the buffers overflow, and suggest larger buffer sizes be used). </a></p><p><a name="klog_text">Finally, <code>relay_app_main_loop()</code> is called, which handles the communication between the kernel, and writes the buffer data to disk as it arrives. Pressing ‘Control-C’ to break out of the loop will write the last buffers and stop the application. </a></p><p> </p><p><a name="klog_text">Here’s the user space application code in its entirety (the highlighted portions show the only code that would need to be changed to create a different application): </a></p><a name="klog_text">#include &lt;stdio.h&gt; #include &quot;librelay.h&quot;  / relayfs base file name <em>/ static char </em>kleak_filebase = &quot;/mnt/relay/kleak/cpu&quot;;  /<em> logging output written here, filebase0…N </em>/ static char <em>kleak_outfilebase = &quot;kleak&quot;;  /</em> internal variables <em>/ #define DEFAULT_SUBBUF_SIZE (262144) #define DEFAULT_N_SUBBUFS (4) static unsigned subbuf_size = DEFAULT_SUBBUF_SIZE; static unsigned n_subbufs = DEFAULT_N_SUBBUFS;  static void usage(void) {  fprintf(stderr, &quot;kleak [-b subbuf_size -n n_subbufs]n&quot;);  exit(1); }  int main(int argc, char **argv) {  extern char </em>optarg;  extern int optopt;  int c;  unsigned opt_subbuf_size = 0;  unsigned opt_n_subbufs = 0;   while ((c = getopt(argc, argv, &quot;b:n:&quot;)) != -1) {   switch (c) {   case ‘b’:    opt_subbuf_size = (unsigned)atoi(optarg);    if (!opt_subbuf_size)     usage();    break;   case ‘n’:    opt_n_subbufs = (unsigned)atoi(optarg);    if (!opt_n_subbufs)     usage();    break;   case ‘?’:    printf(&quot;Unknown option -%cn&quot;, optopt);    usage();    break;   default:    break;   }  }   if ((opt_n_subbufs &amp;&amp; !opt_subbuf_size) ||      (!opt_n_subbufs &amp;&amp; opt_subbuf_size))   usage();    if (opt_n_subbufs &amp;&amp; opt_n_subbufs) {   subbuf_size = opt_subbuf_size;   n_subbufs = opt_n_subbufs;  }   /<em> use _init… function because we want a different netlink ‘unit’ </em>/   if (init_relay_app(kleak_filebase, kleak_outfilebase,       subbuf_size, n_subbufs, 1)) {   printf(&quot;Couldn’t initialize relay app. Exiting.n&quot;);   exit(1);  }   printf(&quot;Creating channel with %u sub-buffers of size %u.n&quot;,         n_subbufs, subbuf_size);  printf(&quot;Logging… Press Control-C to stop.n&quot;);   /<em> use _init… function because we want a different netlink ‘unit’ </em>/  if (relay_app_main_loop()) {   printf(&quot;Couldn’t enter main loop. Exiting.n&quot;);   exit(1);  } } </a><p> </p><a name="klog_bin">Logging binary data using klog (kleak example)</a><a name="klog_bin">This example is the same as the previous one, except that it uses <code>klog()</code> to log binary data instead of using <code>klog_printk()</code> to log text data. Something like this is what you should probably use for higher-volume logging (aside from the fact that the equivalent text data is larger, the kernel formatting functions used for <code>klog_printk()</code> (and <code>printk()</code> itself) are very inefficient). </a><p><a name="klog_bin">The same exact klog module and klog user space application can be used with this example; please see the </a><a href="http://relayfs.sourceforge.net/examples.html#klog_text" target="_blank" rel="external">Logging text using klog</a> section for that code.</p>#include &lt;linux/klog.h&gt;  void *kmalloc(size_t size, unsigned int <strong>nocast flags) {  kmem_cache_t <em>cachep;  void </em>a;   /<em> If you want to save a few bytes .text space: replace   </em> </strong> with kmem_.   <em> Then kmalloc uses the uninlined functions instead of the inline   </em> functions.   <em>/  cachep = <strong>find_general_cachep(size, flags);  if (unlikely(cachep == NULL))   return NULL;  a = </strong>cache_alloc(cachep, flags);   struct  {   unsigned event_id;   void </em>a;   void <em>c;   size_t size;  } data = { 0x1234, a, __builtin_return_address(0), size };  klog(&amp;data, sizeof(data));   return a; }void kfree(const void </em>objp) {  kmem_cache_t <em>c;  unsigned long flags;   if (unlikely(!objp))   return;   struct  {   unsigned event_id;   const void </em>a;   void <em>c;   size_t size;  } data = { 0xabcd, objp, <strong>builtin_return_address(0), ksize(objp) };  klog(&amp;data, sizeof(data));   local_irq_save(flags);  kfree_debugcheck(objp);  c = GET_PAGE_CACHE(virt_to_page(objp));  </strong>cache_free(c, (void</em>)objp);  local_irq_restore(flags); }<p> </p><a name="kleak_kprobes">Logging data using kprobes (kleak example)</a><a name="kleak_kprobes">TODO: The __kmalloc/kfree functions should be easily instrumentable by kprobes/kretprobes and the same results achieved without modifying any kernel code at all. See the tprintk example for a working example of this method. </a><a name="tprintk">tprintk example - using relayfs and kprobes to intercept and log printk output</a><a name="tprintk">There are many places in the kernel where printk is used for debugging purposes; one example is in the networking code. The following command exercises the printk network packet tracing code: </a><p><code><a name="tprintk"># iptables -A input -p TCP -j LOG</a></code></p><p><a name="tprintk">This prints lots of packet tracing data to the system log. It would be nice if it were possible to get the same output but not clutter up the system log with lots of debugging text. Even better would be if we could accomplish this with changing any kernel code at all on a live production system. </a></p><p> </p><a name="tprintk_kprobes">Logging data using kprobes (tprintk example)</a><a name="tprintk_kprobes">The following module uses jprobes and <code>relay-app.h</code> to temporarily intercept <code>printk()</code> output and log it to a relayfs channel instead (actually it doesn’t intercept it, but rather ‘tees’ it - for this to be of much use you’d want to also temporarily disable output to the systemlog e.g. by killing klogd). </a><p><a name="tprintk_kprobes">In the init function, we set up the channel as usual using <code>init_relay_app()</code>, and register the <code>printk()</code> jprobe.  In the jprobe handler, the data is massaged slightly and logged to the relayfs channel via <code>relayapp_write()</code>. Finally, in the module exit function, the jprobe is unregistered and the relayfs channel is closed. The corresponding userspace application is pretty much the same as in the previous examples. </a></p><p><a name="tprintk_kprobes">Note that all the channel management as well as all the data logging is done from within this module, in contrast to previous examples where these were separated. </a></p><p><a name="tprintk_kprobes">Here’s how you’d use this module (the code can be found in the relay-apps tarball): </a></p><p><code><a name="tprintk_kprobes"># mount -t relayfs relayfs /mnt/relay</a></code><a name="tprintk_kprobes"><br><code># insmod tprintk.ko</code><br><code># pkill klogd</code><br><code># iptables -A input -p TCP -j LOG</code><br><code># tprintk</code> </a></p><p><a name="tprintk_kprobes">As with the other relay-app examples, logging doesn’t start until the tprintk user application is run, and stops on control-c, at which point the data can be found in the per-cpu files. Each record has a timestamp prepended to it, so these files can be merged and sorted to get them all in order in a single file. </a></p><a name="tprintk_kprobes">#include &lt;linux/module.h&gt; #include &lt;linux/kprobes.h&gt; #include &lt;linux/kallsyms.h&gt; #include &lt;linux/relayfs_fs.h&gt; #include &quot;relay-app.h&quot;  /<em> protection for the formatting temporary buffer </em>/ static DEFINE_SPINLOCK(tmpbuf_lock);  static struct jprobe tprintk_jp;  /<em>  </em> printk() jprobe handler.  <em>/ static int tprintk(const char </em>fmt, …) {  static char printk_buf[1024];  int len = 0;  unsigned long flags;  va_list args;  static int log_level_unknown = 1;  char <em>p, </em>start;   spin_lock_irqsave(&amp;tmpbuf_lock, flags);  va_start(args, fmt);  len = vscnprintf(printk_buf, sizeof(printk_buf), fmt, args);  /<em>   </em> Write the output to the relayfs channel.  We remove log level   <em> tags because they’re not used and we write a timestamp (as   </em> [secs.usecs] so things can be sorted out between per-cpu buffers.   <em>/  for (p = start = printk_buf; </em>p; p++) {   if (log_level_unknown) {    .    .    .   }   if (<em>p == ‘n’) {    len = (p + 1) - start;    relayapp_write(start, len);    start = p + 1;    log_level_unknown = 1;   }  }   len = p - start;  if (len &amp;&amp; </em>start)   relayapp_write(start, len);  va_end(args);   spin_unlock_irqrestore(&amp;tmpbuf_lock, flags);  jprobe_return();  return 0; }  /<em>  </em> init_tprintk - initialize relay app and insert printk probe  <em>  </em> relay files will be named /mnt/relay/tprintk/cpuXXX  <em>/ static int init_tprintk(void) {  if (init_relay_app(&quot;tprintk&quot;, &quot;cpu&quot;, &amp;tprintk_callbacks)) {   printk(&quot;tprintk: couldn’t init relay appn&quot;);   return -1;  }    tprintk_jp.entry = (kprobe_opcode_t </em>)tprintk;  tprintk_jp.kp.addr = (kprobe_opcode_t <em>)kallsyms_lookup_name(&quot;printk&quot;);  if (!tprintk_jp.kp.addr) {   printk(&quot;Couldn’t find printk function to instrument.n&quot;);   return -1;  }  register_jprobe(&amp;tprintk_jp);  printk(&quot;tprintk probe inserted.n&quot;);   return 0; }  /</em>  <em> cleanup_tprintk - destroy channels and remove printk probe  </em>/ static void cleanup_tprintk(void) {  unregister_jprobe(&amp;tprintk_jp);  printk(&quot;tprintk probe removed.n&quot;);  close_relay_app(); }  module_init(init_tprintk); module_exit(cleanup_tprintk); MODULE_LICENSE(&quot;GPL&quot;); </a><a href="http://sourceforge.net/" target="_blank" rel="external"><img width="88" height="31" alt="SourceForge.net Logo" src="http://sourceforge.net/sflogo.php?group_id=137108&amp;type=1"></a> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/11/18/relayfs-examples/" class="archive-article-date">
+  	<time datetime="2007-11-18T09:04:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-11-18</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux-Debug/">Linux Debug</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-What-happens-when-a-KProbe-JProbe-is-hit" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2007/11/18/What-happens-when-a-KProbe-JProbe-is-hit/">What happens when a KProbe/JProbe is hit?</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> What happens when a KProbe is hit?</p><p><img width="430" height="229" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/lwn_net_KProbeExecution.png" alt="[Kprobe execution diagram]"> The steps involved in handling a probe are architecture dependent;  they are handled by the functions defined in the file <tt>arch/i386/kernel/kprobes.c</tt>. After the probes are registered, the addresses at which they are active contain the breakpoint instruction (<tt>int3</tt> on x86). As soon as execution reaches a probed address the <tt>int3</tt> instruction is executed, causing the control to reach the breakpoint handler <tt>do_int3()</tt> in <tt>arch/i386/kernel/traps.c</tt>. <tt>do_int3()</tt> is called through an interrupt gate therefore interrupts are disabled when control reaches there. This handler notifies KProbes that a breakpoint occurred; KProbes checks if the breakpoint was set by the registration function of KProbes. If no probe is present at the address at which the probe was hit it simply returns 0. Otherwise the registered probe function is called.</p><br>What happens when a JProbe is hit?<p><img src="http://lwn.net/Articles/132196/JProbeExecution.png"></p><p><img width="430" height="300" src="http://img.pickbox.me/wp-content/uploads/pic/other_site/lwn_net_JProbeExecution.png" alt="[JProbe execution diagram]"> A JProbe has to transfer control to another function which has the same prototype as the function on which the probe was placed and then give back control to the original function with the same state as there was before the JProbe was executed. A JProbe leverages the mechanism used by a KProbe. Instead of calling a user-defined pre-handler a JProbe specifies its own pre-handler called <tt>setjmp_pre_handler()</tt> and uses another handler called a <tt>break_handler</tt>. This is a three-step process.</p><p>In the first step, when the breakpoint is hit control reaches <tt>kprobe_handler()</tt> which calls the JProbe pre-handler (<tt>setjmp_pre_handler()</tt>). This saves the stack contents and the registers before changing the <tt>eip</tt> to the address of the user-defined function. Then it returns 1 which tells <tt>kprobe_handler()</tt> to simply return instead of setting up single-stepping as for a KProbe. On return control reaches the user-defined function to access the arguments of the original function. When the user defined function is done it calls <tt>jprobe_return()</tt> instead of doing a normal return.</p><p>In the second step <tt>jprobe_return()</tt> truncates the  current stack frame and generates a breakpoint which transfers control to  <tt>kprobe_handler()</tt> through  <tt>do_int3()</tt>. <tt>kprobe_handler()</tt> finds that the generated  breakpoint address (address of <tt>int3</tt> instruction in  <tt>jprobe_handler()</tt>) does not have a registered probe however  KProbes is active on the current CPU. It assumes that the breakpoint must  have been generated by JProbes and hence calls the <tt>break_handler</tt>  of the <tt>current_kprobe</tt> which it saved earlier. The  <tt>break_handler</tt> restores the stack contents and the registers that  were saved before transferring control to the user-defined function and  returns.</p><p>In the third step <tt>kprobe_handler()</tt> then sets up single-stepping of the instruction at which the JProbe was set and the rest of the sequence is the same as that of a KProbe.</p>Possible problems<p>There could be several possible problems which could occur when a probe is handled by KProbes. The first possibility is that several probes are handled in parallel on a SMP system. However, there’s a common hash table shared by all probes which needs to be protected against corruption in such a case. In this case <tt>kprobe_lock</tt> serializes the probe handling across processors.</p><p>Another problem occurs if a probe is placed inside KProbes code, causing KProbes to enter probe handling code recursively. This problem is taken care of in <tt>kprobe_handler()</tt> by checking if KProbes is already running on the current CPU. In this case the recursing probe is disabled silently and control returns back to the previous probe handling code.</p><p>If preemption occurs when KProbes is executing it can context switch to another process while a probe is being handled. The other process could cause another probe to fire which will cause control to reach <tt>kprobe_handler()</tt> again while the previous probe was not handled completely. This may result in disarming the new probe when KProbes discovers it’s recursing. To avoid this problem, preemption is disabled when probes are handled.</p><p>Similarly, interrupts are disabled by causing the breakpoint handler and the debug handler to be invoked through interrupt gates rather than trap gates. This disables interrupts as soon as control is transferred to the breakpoint or debug handler. These changes are made in the file <tt>arch/i386/kernel/traps.c</tt>.</p><p>A fault might occur during the handling of a probe. In this case, if the user has defined a fault handler for the probe, control is transferred to the fault handler. If the user-defined fault handler returns 0 the fault is handled by the kernel. Otherwise, it’s assumed that the fault was handled by the fault handler and control reaches back to the probe handlers.</p>Conclusion<p>KProbes is an excellent tool for debugging and tracing; it can also be used for performance measuring. Developers can use it to trace the path of their programs inside the kernel for debugging purposes. System administrators can use it to trace events inside the kernel on production systems. KProbes can also be used for non-critical performance measurements. The current KProbes implementation, however, introduces some latency of its own in handling probes. The cause behind this latency is the single <tt>kprobe_lock</tt> which serializes the execution of probes across all CPUs on a SMP machine. Another reason is the mechanism used by KProbes which uses multiple exceptions to handle a single probe. Exception handling is an expensive operation which causes its own delays. Work needs to be done in this area to improve SMP scalability and improving the probe handling time to make KProbes a viable performance measuring tool.</p><p>KProbes however cannot be used directly for these purposes. In the raw form a user can write a kernel module implementing the probe handlers. However higher level tools are necessary for making it more convenient to use. Such tools could contain standard probe handlers implementing the desired features or they could contain a means to produce probe-handlers given simple descriptions of them in a scripting language like DProbes.</p>Related Links<dl><dt><a href="http://www-106.ibm.com/developerworks/library/l-kprobes.html?ca=dgr-lnxw07Kprobe" target="_blank" rel="external">KProbes</a></dt><dd>An introductory article on KProbes with some examples on how to use it.</dd><dt><a href="http://dprobes.sourceforge.net/" target="_blank" rel="external">DProbes</a></dt><dd>The scriptable tracing tool for Linux which works on top of KProbes.</dd><dt><a href="http://prdownloads.sourceforge.net/dprobes/plog.tar.gz?download" target="_blank" rel="external">Network Packet Tracing Patch</a></dt><dd>This patch is used to trace the path of network packets traveling through the kernel stack using DProbes.</dd><dt><a href="http://marc.theaimsgroup.com/?l=linux-kernel&amp;m=110624318108570&amp;w=2" target="_blank" rel="external">KProbes debugfs patch</a></dt><dd>This patch lists all probes applied at any addresses through debugfs</dd><dt><a href="http://marc.theaimsgroup.com/?l=linux-kernel&amp;m=110551169610598&amp;w=2" target="_blank" rel="external">SysRq key for KProbes Patch</a></dt><dd>This patch enables the use of SysRq key to be used for listing all applied probes.</dd><dt><a href="http://sources.redhat.com/systemtap/" target="_blank" rel="external">SystemTap</a></dt><dd>The Linux Kernel Tracing Tool - in the works.</dd></dl> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/11/18/What-happens-when-a-KProbe-JProbe-is-hit/" class="archive-article-date">
+  	<time datetime="2007-11-18T08:47:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-11-18</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux-Debug/">Linux Debug</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-kprobes-tutorial" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2007/11/18/kprobes-tutorial/">kprobes tutorial</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> kprobes tutorial</p><p>This tutorial was developed for the 2006 <a href="http://www.linuxsymposium.org/" target="_blank" rel="external">Ottawa Linux Symposium</a>. I’m hoping it will be useful as a general resource.</p><p>There is documentation in <a href="http://www-users.cs.umn.edu/%7Eboutcher/kprobes/kprobes.txt.html" target="_blank" rel="external">Documentation/kprobes.txt</a> in the kernel source.</p>Why?<p>kprobes is both useful and cool.  Unfortunately most of the kernel developers I’ve talked to are confused both about why its useful and how to use it.  I’m hoping to answer both of those here.  I should add that I have no skin in the game personally, I’m not a kprobes developer.  I should probably turn this into a HOWTO…</p>What is kprobes?<p>Simply, kprobes allows you to write modules that can add debug information to the kernel.  It is an alternative to building custom kernels or custom modules.  I think the most useful case is when you are dealing with some remote machine (your grandmother or a tester) who hits some bug that you can’t figure out by looking at /var/log/messages.  Build a kprobes module and have them insmod it on their kernel.</p><p>This tutorial deals with <em>kernel</em> kprobing.  There is additional work around user-land kprobing that will not be discussed here.</p><p>There are three kinds of kprobes:</p><dl><dt>jprobes </dt><dd>Call a function on the <em>entry</em> to a routine.  All the arguments to the routine are passed. </dd><dt>kretprobes </dt><dd>Call a function on the <em>exit</em> from a routine.  The registers are passed </dd><dt>kprobe </dt><dd>The guts of kprobes.  Any arbitrary kernel instruction can be probed.  A function is called passing the registers. </dd></dl>kprobes prerequisites<p>kprobes has been in mainline since 2.6.9.   There are some kernel configuration flags that need to be set to use kprobes.  Current enterprise kernels (such as SLES 10) have these turned on, and so does FC5. Some others (cough, Ubuntu, cough) do not. The flags that are required are:</p><dl><dt>CONFIG_KPROBES </dt><dd>duh </dd><dt>CONFIG_MODULES and CONFIG_MODULE_UNLOAD </dt><dd>kprobes do not require any code changes to the source kernel (thats kind of the idea.)  They are loaded into existing kernels as modules.  Obviously you need modules configured.  You don’t actually require MODULE_UNLOAD, but it makes life easier. </dd><dt>CONFIG_KALLSYMS and CONFIG_KALSYMS_ALL </dt><dd>You can set a kprobe by using an address from System.map, but it is easier to code <code>kallsyms_lookup_name()</code>. </dd></dl><p>To build a module (any module) you need to have access to the kernel headers and a suitable compiler.</p>Simple Case #1<p>The simplest case, useful in 99% of cases is the <em>jprobe</em> case, where your function gains control on the entry to some arbitrary routine in the kernel.</p><p>In this example we will trace do_execve in the kernel.  Start from the makefile and source  in Documentation/kprobes.txt.</p><a name="line1">  1: </a>/<em> Trace do_execv.  Taken basically from Documentation/kprobes.txt </em>/<br><a name="line2">  2: </a>#include &lt;linux/kernel.h&gt;<br><a name="line3">  3: </a>#include &lt;linux/module.h&gt;<br><a name="line4">  4: </a>#include &lt;linux/sched.h&gt;<br><a name="line5">  5: </a>#include &lt;linux/kprobes.h&gt;<br><a name="line6">  6: </a>#include &lt;linux/kallsyms.h&gt;<br><a name="line7">  7: </a><br><a name="line8">  8: </a>/<em><br><a name="line9">  9: </a> </em> Pre-entry point for do_execve.<br><a name="line10"> 10: </a> <em>/<br><a name="line11"> 11: </a><strong><a name="my_do_execve"></a>static int my_do_execve(char </strong></em> filename,<br><a name="line12"> 12: </a><strong>                        char <strong>user *</strong>user <em>argv,</em></strong><br><a name="line13"> 13: </a><strong>                        char __user <strong>user <em>envp,</em></strong><br><a name="line14"> 14: </a><strong>                        struct pt_regs  regs)</strong><br><a name="line15"> 15: </a>{<br><a name="line16"> 16: </a>        printk(&quot;do_execve for %s from %sn&quot;, filename, current-&gt;comm);<br><a name="line17"> 17: </a>        /<em> Always end with a call to jprobe_return(). </em>/<br><a name="line18"> 18: </a>        jprobe_return();<br><a name="line19"> 19: </a>        /<em>NOTREACHED</em>/<br><a name="line20"> 20: </a>        return 0;<br><a name="line21"> 21: </a>}<br><a name="line22"> 22: </a><br><a name="line23"> 23: </a>static struct jprobe my_jprobe = {<br><a name="line24"> 24: </a>        .entry = (kprobe_opcode_t <em>) my_do_execve<br><a name="line25"> 25: </a>};<br><a name="line26"> 26: </a><br><a name="line27"> 27: </a><strong><a name="init_module"></a>int init_module(void)</strong><br><a name="line28"> 28: </a>{<br><a name="line29"> 29: </a>        int ret;<br><a name="line30"> 30: </a>        my_jprobe.kp.addr = <br><a name="line31"> 31: </a>                (kprobe_opcode_t </em>) kallsyms_lookup_name(&quot;do_execve&quot;);<br><a name="line32"> 32: </a>        if (!my_jprobe.kp.addr) {<br><a name="line33"> 33: </a>                printk(&quot;Couldn’t find %s to plant jproben&quot;, &quot;do_execve&quot;);<br><a name="line34"> 34: </a>                return -1;<br><a name="line35"> 35: </a>        }<br><a name="line36"> 36: </a><br><a name="line37"> 37: </a>        if ((ret = register_jprobe(&amp;my_jprobe)) &lt;0) {<br><a name="line38"> 38: </a>                printk(&quot;register_jprobe failed, returned %dn&quot;, ret);<br><a name="line39"> 39: </a>                return -1;<br><a name="line40"> 40: </a>        }<br><a name="line41"> 41: </a>        printk(&quot;Planted jprobe at %p, handler addr %pn&quot;,<br><a name="line42"> 42: </a>               my_jprobe.kp.addr, my_jprobe.entry);<br><a name="line43"> 43: </a>        return 0;<br><a name="line44"> 44: </a>}<br><a name="line45"> 45: </a><br><a name="line46"> 46: </a><strong><a name="cleanup_module"></a>void cleanup_module(void)</strong><br><a name="line47"> 47: </a>{<br><a name="line48"> 48: </a>        unregister_jprobe(&amp;my_jprobe);<br><a name="line49"> 49: </a>        printk(&quot;jprobe unregisteredn&quot;);<br><a name="line50"> 50: </a>}<br><a name="line51"> 51: </a><br><a name="line52"> 52: </a>MODULE_LICENSE(&quot;GPL&quot;);<p>Note <a href="http://www-users.cs.umn.edu/%7Eboutcher/kprobes/#line11" target="_blank" rel="external">line 11</a> Give YOUR routine a different name than the one you are tracing, otherwise kallsyms_lookup_name will get confused.</p><p>Note <a href="http://www-users.cs.umn.edu/%7Eboutcher/kprobes/#line18" target="_blank" rel="external">line 18</a> where the jprobe handler calls jprobe_return(). I mean REALLY note that (don’t just return from a jprobe.)</p><p>The Makefile (also straight out of Documentation/kprobes.txt) is</p># This is taken straight from Documentation/kprobes.txt<br><br>obj-m := trace-exec.o<br>KDIR := /lib/modules/$(shell uname -r)/build<br>PWD := $(shell pwd)<br>default:<br> $(MAKE) -C $(KDIR) SUBDIRS=$(PWD) modules<br>clean:<br> rm -f <em>.mod.c </em>.ko <em>.o<p>Easy.  insmod the module and away you go!  Here’s the output on my thinkad</p>Jul 16 19:20:46 hound kernel: [17213292.188000] do_execve for /bin/sh from wcstatusd<br>Jul 16 19:20:46 hound kernel: [17213292.204000] do_execve for /sbin/ifconfig from sh<br>Jul 16 19:20:46 hound kernel: [17213292.216000] do_execve for /bin/sh from wcstatusd<br>Jul 16 19:20:46 hound kernel: [17213292.232000] do_execve for /sbin/ifconfig from sh<br>Jul 16 19:20:46 hound kernel: [17213292.248000] do_execve for /bin/sh from wcstatusd<br>Jul 16 19:20:46 hound kernel: [17213292.264000] do_execve for /sbin/ifconfig from sh<br>Jul 16 19:20:46 hound kernel: [17213292.296000] do_execve for /bin/sh from wcstatusd<br>Jul 16 19:20:46 hound kernel: [17213292.376000] do_execve for /sbin/ifconfig from sh<br>Jul 16 19:20:46 hound kernel: [17213292.392000] do_execve for /bin/sh from wcstatusd<br>Jul 16 19:20:46 hound kernel: [17213292.456000] do_execve for /sbin/ifconfig from sh<br>Jul 16 19:20:46 hound kernel: [17213292.472000] do_execve for /bin/sh from wcstatusd<p>Hmm…what the heck is wcstatusd doing all the time…</p>powerpc and ia64 problems<p>If you try the above on powerpc and (I think) ia64 it will fail. And you will bang your head.  The reason is that when you take the address of a routine you get the address in a <em>jump table</em>, not the actual code address.</p><p> </p><p>You can fix this by something like the following:</p><a name="line38"> 38: </a>        if ((ret = register_jprobe(&amp;my_jprobe)) &lt;0) {<br><a name="line39"> 39: </a>                printk(&quot;register_jprobe failed, returned %d. &quot;<br><a name="line40"> 40: </a>                       &quot;trying dereferenced addressn&quot;, ret);<br><a name="line41"> 41: </a>                my_jprobe.kp.addr = </em>((kprobe_opcode_t <strong>)my_jprobe.kp.addr);<br><a name="line42"> 42: </a>                if ((ret = register_jprobe(&amp;my_jprobe)) &lt;0) {<br><a name="line43"> 43: </a>                        printk(&quot;register<em>jprobe failed again, returned %dn&quot;, <br><a name="line44"> 44: </a>                               ret);<br><a name="line45"> 45: </a>                        return -1;<br><a name="line46"> 46: </a>                }<br><a name="line47"> 47: </a>        }<p>Also beware of the 32-bit compat</p></em><em> functions.  In the above example, do_execve is actually never called on powerpc unless you are running 64-bit processes.  compat_do_execve is called instead.<p></p>When good traces go badLimiting your output<p>I usually do something like the following to limit the amount of data that comes out (depending on what I am tracing)</p>…<br><a name="line8">  8: </a>static atomic_t trace_limit;<br>…<br><a name="line15"> 15: </a>        if (atomic_inc_return(&amp;trace_limit) &gt; 100)<br><a name="line16"> 16: </a>                jprobe_return();<br>…Handling Faults<p>It can help to have a fault handler in your kprobes.  Unless you plan to always write bug-less kprobes.</p>…<br><a name="line10"> 10: </a>/</em> fault_handler: this is called if an exception is generated for any<br><a name="line11"> 11: </a> <em> instruction within the pre- or post-handler, or when Kprobes<br><a name="line12"> 12: </a> </em> single-steps the probed instruction.<br><a name="line13"> 13: </a> <em>/<br><a name="line14"> 14: </a><strong><a name="handler_fault"></a>int handler_fault(struct kprobe </strong></em>p, struct pt_regs <em>regs, int trapnr)</em></strong><br><a name="line15"> 15: </a>{<br><a name="line16"> 16: </a>        printk(&quot;fault_handler: p-&gt;addr=0x%p, trap #%dn&quot;,<br><a name="line17"> 17: </a>                p-&gt;addr, trapnr);<br><a name="line18"> 18: </a>        / Return 0 because we don’t handle the fault. */<br><a name="line19"> 19: </a>        return 0;<br><a name="line20"> 20: </a>}<br>…<br><a name="line54"> 54: </a>        my_jprobe.kp.fault_handler = handler_fault;<br>…Simple Case #2<p>My Thinkpad has a Centrino processor with speedstep CPU frequency controls.  CPU frequency is controlled by the <code>speedstep_centrino</code> module.  Lets trace all the calls to <code>centrino_target</code> in that module.</p><p> </p><p>First, here is the routine we want to trace from <code>arch/i386/kernel/cpu/cpufreq/speedstep-centrino.c</code>.</p>…<br><a name="line584">584: </a>/</strong><br><a name="line585">585: </a> <em> centrino_setpolicy - set a new CPUFreq policy<br><a name="line586">586: </a> </em> @policy: new policy<br><a name="line587">587: </a> <em> @target_freq: the target frequency<br><a name="line588">588: </a> </em> @relation: how that frequency relates to achieved frequency (CPUFREQ_RELATION_L or CPUFREQ_RELATION_H)<br><a name="line589">589: </a> <em><br><a name="line590">590: </a> </em> Sets a new CPUFreq policy.<br><a name="line591">591: </a> <em>/<br><a name="line592">592: </a><strong><a name="centrino_target"></a>static int centrino_target (struct cpufreq_policy </strong></em>policy,<br><a name="line593">593: </a><strong>                            unsigned int target_freq,</strong><br><a name="line594">594: </a><strong>                            unsigned int relation)</strong><br><a name="line595">595: </a>{<br><a name="line596">596: </a>        unsigned int    newstate = 0;<br><a name="line597">597: </a>        unsigned int        msr, oldmsr, h, cpu = policy-&gt;cpu;<br><a name="line598">598: </a>        struct cpufreq_freqs        freqs;<br><a name="line599">599: </a>        cpumask_t                saved_mask;<br><a name="line600">600: </a>        int                        retval;<br><a name="line601">601: </a><br><a name="line602">602: </a>        if (centrino_model[cpu] == NULL)<br><a name="line603">603: </a>                return -ENODEV;<br><a name="line604">604: </a><br>…<p>Some things to note.  First, this routine is in a <em>module</em>, not in the kernel proper.  Secondly, the routine is marked <em>static</em>.  No problem.  if KALLSYMS_ALL is configured, we will still get the address for it.</p><a name="line1">  1: </a>/<em> Trace do_execv.  Taken basically from Documentation/kprobes.txt </em>/<br><a name="line2">  2: </a>#include &lt;linux/kernel.h&gt;<br><a name="line3">  3: </a>#include &lt;linux/module.h&gt;<br><a name="line4">  4: </a>#include &lt;linux/cpufreq.h&gt;<br><a name="line5">  5: </a>#include &lt;linux/kprobes.h&gt;<br><a name="line6">  6: </a>#include &lt;linux/kallsyms.h&gt;<br><a name="line7">  7: </a><br><a name="line8">  8: </a>static atomic_t trace_limit;<br><a name="line9">  9: </a><br><a name="line10"> 10: </a>/<em> fault_handler: this is called if an exception is generated for any<br><a name="line11"> 11: </a> </em> instruction within the pre- or post-handler, or when Kprobes<br><a name="line12"> 12: </a> <em> single-steps the probed instruction.<br><a name="line13"> 13: </a> </em>/<br><a name="line14"> 14: </a><strong><a name="handler_fault"></a>int handler_fault(struct kprobe <em>p, struct pt_regs </em>regs, int trapnr)</strong><br><a name="line15"> 15: </a>{<br><a name="line16"> 16: </a>        printk(&quot;fault_handler: p-&gt;addr=0x%p, trap #%dn&quot;,<br><a name="line17"> 17: </a>                p-&gt;addr, trapnr);<br><a name="line18"> 18: </a>        /<em> Return 0 because we don’t handle the fault. </em>/<br><a name="line19"> 19: </a>        return 0;<br><a name="line20"> 20: </a>}<br><a name="line21"> 21: </a><br><a name="line22"> 22: </a>/<em><br><a name="line23"> 23: </a> </em> Pre-entry point for centrino_target.<br><a name="line24"> 24: </a> <em>/<br><a name="line25"> 25: </a><strong><a name="my_centrino_target"></a>static int my_centrino_target (struct cpufreq_policy </strong></em>policy,<br><a name="line26"> 26: </a><strong>                               unsigned int target_freq,</strong><br><a name="line27"> 27: </a><strong>                               unsigned int relation)</strong><br><a name="line28"> 28: </a>{<br><a name="line29"> 29: </a>        if (atomic_inc_return(&amp;trace_limit) &gt; 100)<br><a name="line30"> 30: </a>                jprobe_return();<br><a name="line31"> 31: </a><br><a name="line32"> 32: </a>        printk(&quot;centrino_target %u relation %un&quot;, target_freq, relation);<br><a name="line33"> 33: </a>        dump_stack();<br><a name="line34"> 34: </a><br><a name="line35"> 35: </a>        /<em> Always end with a call to jprobe_return(). </em>/<br><a name="line36"> 36: </a>        jprobe_return();<br><a name="line37"> 37: </a>        /<em>NOTREACHED</em>/<br><a name="line38"> 38: </a>        return 0;<br><a name="line39"> 39: </a>}<br><a name="line40"> 40: </a><br><a name="line41"> 41: </a>static struct jprobe my_jprobe = {<br><a name="line42"> 42: </a>        .entry = (kprobe_opcode_t <em>) my_centrino_target,<br><a name="line43"> 43: </a>};<br><a name="line44"> 44: </a><br><a name="line45"> 45: </a><strong><a name="init_module"></a>int init_module(void)</strong><br><a name="line46"> 46: </a>{<br><a name="line47"> 47: </a>        int ret;<br><a name="line48"> 48: </a>        my_jprobe.kp.addr = <br><a name="line49"> 49: </a>                (kprobe_opcode_t </em>) kallsyms_lookup_name(&quot;centrino_target&quot;);<br><a name="line50"> 50: </a>        if (!my_jprobe.kp.addr) {<br><a name="line51"> 51: </a>                printk(&quot;Couldn’t find %s to plant jproben&quot;, &quot;centrino_target&quot;);<br><a name="line52"> 52: </a>                return -1;<br><a name="line53"> 53: </a>        }<br><a name="line54"> 54: </a><br><a name="line55"> 55: </a>        my_jprobe.kp.fault_handler = handler_fault;<br><a name="line56"> 56: </a><br><a name="line57"> 57: </a>        if ((ret = register_jprobe(&amp;my_jprobe)) &lt;0) {<br><a name="line58"> 58: </a>                printk(&quot;register_jprobe failed, returned %dn&quot;, ret);<br><a name="line59"> 59: </a>                return -1;<br><a name="line60"> 60: </a>        }<br><a name="line61"> 61: </a>        printk(&quot;Planted jprobe at %p, handler addr %pn&quot;,<br><a name="line62"> 62: </a>               my_jprobe.kp.addr, my_jprobe.entry);<br><a name="line63"> 63: </a>        return 0;<br><a name="line64"> 64: </a>}<br><a name="line65"> 65: </a><br><a name="line66"> 66: </a><strong><a name="cleanup_module"></a>void cleanup_module(void)</strong><br><a name="line67"> 67: </a>{<br><a name="line68"> 68: </a>        unregister_jprobe(&amp;my_jprobe);<br><a name="line69"> 69: </a>        printk(&quot;jprobe unregisteredn&quot;);<br><a name="line70"> 70: </a>}<br><a name="line71"> 71: </a><br><a name="line72"> 72: </a>MODULE_LICENSE(&quot;GPL&quot;);<p>Note the use of <code>dump_stack()</code>.  The output in /var/log/messages</p>Jul 16 19:43:01 hound kernel: [17179786.852000] centrino_target 1500000 relation 0<br>Jul 16 19:43:01 hound kernel: [17179786.852000]  [pg0+949055590/1069523968] my_centrino_target+0x36/0x50 [trace_speedstep]<br>Jul 16 19:43:01 hound kernel: [17179786.852000]  [pg0+946753796/1069523968] store_speed+0xb4/0xd0 [cpufreq_userspace]<br>Jul 16 19:43:01 hound kernel: [17179786.852000]  [neigh_get_next+135/160] store+0x47/0x60<br>Jul 16 19:43:01 hound kernel: [17179786.852000]  [ldm_partition+4123/4304] sysfs_write_file+0x9b/0xf0<br>Jul 16 19:43:01 hound kernel: [17179786.852000]  [vfs_read+206/432] vfs_write+0xde/0x1b0<br>Jul 16 19:43:01 hound kernel: [17179786.852000]  [do_sendfile+699/752] sys_write+0x4b/0x80<br>Jul 16 19:43:01 hound kernel: [17179786.852000]  [need_resched+12/33] sysenter_past_esp+0x54/0x75<br>Jul 16 19:43:11 hound kernel: [17179797.328000] centrino_target 1400000 relation 0<br>Jul 16 19:43:11 hound kernel: [17179797.328000]  [pg0+949055590/1069523968] my_centrino_target+0x36/0x50 [trace_speedstep]<br>Jul 16 19:43:11 hound kernel: [17179797.328000]  [pg0+946753796/1069523968] store_speed+0xb4/0xd0 [cpufreq_userspace]<br>Jul 16 19:43:11 hound kernel: [17179797.328000]  [neigh_get_next+135/160] store+0x47/0x60<br>Jul 16 19:43:11 hound kernel: [17179797.328000]  [ldm_partition+4123/4304] sysfs_write_file+0x9b/0xf0<br>Jul 16 19:43:11 hound kernel: [17179797.328000]  [vfs_read+206/432] vfs_write+0xde/0x1b0<br>Jul 16 19:43:11 hound kernel: [17179797.328000]  [do_sendfile+699/752] sys_write+0x4b/0x80<br>Jul 16 19:43:11 hound kernel: [17179797.328000]  [need_resched+12/33] sysenter_past_esp+0x54/0x75Inlines<p>kprobes patches a single address (the address used above in kallsyms_lookup_name().)  This <em>doesn’t</em> handle inlines.  There is no automatic way to handle inlines.</p><p> </p>Return values (kretprobes)<p>The second most useful thing to do is track the return value of a routine.  kprobes uses <code>kretprobes</code> to handle that.  A classic case is tracking memory allocations (kmalloc.)</p><p>kprobes is smart enough to trap on any return from a routine (it actually places a trap at the place the routine was called <em>from</em> rather than on every return instruction</p><p>kprobes can <em>miss</em> kretprobes.  You can check <code>my_kretprobe.nmissed</code> to see if you missed any retprobes.</p><a name="line1">  1: </a>/<em> Trace kmalloc.  Taken basically from Documentation/kprobes.txt </em>/<br><a name="line2">  2: </a>#include &lt;linux/kernel.h&gt;<br><a name="line3">  3: </a>#include &lt;linux/module.h&gt;<br><a name="line4">  4: </a>#include &lt;linux/cpufreq.h&gt;<br><a name="line5">  5: </a>#include &lt;linux/kprobes.h&gt;<br><a name="line6">  6: </a>#include &lt;linux/kallsyms.h&gt;<br><a name="line7">  7: </a><br><a name="line8">  8: </a>static atomic_t trace_limit;<br><a name="line9">  9: </a><br><a name="line10"> 10: </a>/<em><br><a name="line11"> 11: </a> </em> Pre-entry point for kmalloc_target.<br><a name="line12"> 12: </a> */<br><a name="line13"> 13: </a><strong>&lt;a name=”my</strong>kmalloc”&gt;static void <em>my__kmalloc(size_t size, gfp_t flags)<br><a name="line14"> 14: </a>{<br><a name="line15"> 15: </a>        if (atomic_inc_return(&amp;trace_limit) &gt; 100)<br><a name="line16"> 16: </a>                jprobe_return();<br><a name="line17"> 17: </a><br><a name="line18"> 18: </a>        printk(&quot;kmalloc call: %u in %sn&quot;, size, current-&gt;comm);<br><a name="line19"> 19: </a><br><a name="line20"> 20: </a>        /</em> Always end with a call to jprobe_return(). <em>/<br><a name="line21"> 21: </a>        jprobe_return();<br><a name="line22"> 22: </a>        /</em>NOTREACHED<em>/<br><a name="line23"> 23: </a>        return 0;<br><a name="line24"> 24: </a>}<br><a name="line25"> 25: </a><br><a name="line26"> 26: </a>static struct jprobe my_jprobe = {<br><a name="line27"> 27: </a>        .entry = (kprobe_opcode_t </em>) my<strong>kmalloc,<br><a name="line28"> 28: </a>};<br><a name="line29"> 29: </a><br><a name="line30"> 30: </a>/<em> Return-probe handler: If the probed function fails, log the return value. </em>/<br><a name="line31"> 31: </a><strong><a name="ret_handler"></a>static int ret_handler(struct kretprobe_instance <em>ri, struct pt_regs </em>regs)</strong><br><a name="line32"> 32: </a>{<br><a name="line33"> 33: </a>        if (atomic_inc_return(&amp;trace_limit) &gt; 100)<br><a name="line34"> 34: </a>                return 0;<br><a name="line35"> 35: </a>        printk(&quot;kmalloc returns %lxn&quot;, regs-&gt;eax);<br><a name="line36"> 36: </a>        return 0;<br><a name="line37"> 37: </a>}<br><a name="line38"> 38: </a><br><a name="line39"> 39: </a>static struct kretprobe my_kretprobe = {<br><a name="line40"> 40: </a>        .handler = ret_handler,<br><a name="line41"> 41: </a>        /<em> Probe up to 20 instances concurrently. </em>/<br><a name="line42"> 42: </a>        .maxactive = 20<br><a name="line43"> 43: </a>};<br><a name="line44"> 44: </a><br><a name="line45"> 45: </a><strong><a name="init_module"></a>int init_module(void)</strong><br><a name="line46"> 46: </a>{<br><a name="line47"> 47: </a>        int ret;<br><a name="line48"> 48: </a>        my_jprobe.kp.addr = my_kretprobe.kp.addr =<br><a name="line49"> 49: </a>                (kprobe_opcode_t *) kallsyms_lookup_name(&quot;</strong>kmalloc&quot;);<br><a name="line50"> 50: </a>        if (!my_jprobe.kp.addr) {<br><a name="line51"> 51: </a>                printk(&quot;Couldn’t find %s to plant jproben&quot;, &quot;__kmalloc&quot;);<br><a name="line52"> 52: </a>                return -1;<br><a name="line53"> 53: </a>        }<br><a name="line54"> 54: </a><br><a name="line55"> 55: </a>        if ((ret = register_jprobe(&amp;my_jprobe)) &lt;0) {<br><a name="line56"> 56: </a>                printk(&quot;register_jprobe failed, returned %dn&quot;, ret);<br><a name="line57"> 57: </a>                return -1;<br><a name="line58"> 58: </a>        }<br><a name="line59"> 59: </a>        if ((ret = register_kretprobe(&amp;my_kretprobe)) &lt; 0) {<br><a name="line60"> 60: </a>                printk(&quot;register_kretprobe failed, returned %dn&quot;, ret);<br><a name="line61"> 61: </a>                unregister_jprobe(&amp;my_jprobe);<br><a name="line62"> 62: </a>                return -1;<br><a name="line63"> 63: </a>        }<br><a name="line64"> 64: </a>        printk(&quot;Planted jprobe at %p, handler addr %pn&quot;,<br><a name="line65"> 65: </a>               my_jprobe.kp.addr, my_jprobe.entry);<br><a name="line66"> 66: </a>        return 0;<br><a name="line67"> 67: </a>}<br><a name="line68"> 68: </a><br><a name="line69"> 69: </a><strong><a name="cleanup_module"></a>void cleanup_module(void)</strong><br><a name="line70"> 70: </a>{<br><a name="line71"> 71: </a>        unregister_jprobe(&amp;my_jprobe);<br><a name="line72"> 72: </a>        unregister_kretprobe(&amp;my_kretprobe);<br><a name="line73"> 73: </a>        printk(&quot;jprobe unregisteredn&quot;);<br><a name="line74"> 74: </a>}<br><a name="line75"> 75: </a><br><a name="line76"> 76: </a>MODULE_LICENSE(&quot;GPL&quot;);<p>Note that you just <code>return()</code> from kretprobes.</p><p>Given SMP, preemption, etc. there isn’t an <em>easy</em> way to correlate a jprobe and a kretprobe.</p>Raw kprobes<p>jprobes and kretprobes are based on raw kprobes.  A raw kprobe just takes an arbitrary address and sets a breakpoint there.  Frequently useful in debugging a panic (where you know the faulting address) and inassociation with a disassembled kernel (objdump -D)</p><p>kprobes provide &quot;pre&quot; handlers tha run before the specific instruction, and &quot;post&quot; handlers that run afterwards.  The following is a generic kprobe that dumps state when an arbitrary address is hit.</p><a name="line1">  1: </a>/<em> generic kprobe </em>/<br><a name="line2">  2: </a>#include &lt;linux/kernel.h&gt;<br><a name="line3">  3: </a>#include &lt;linux/module.h&gt;<br><a name="line4">  4: </a>#include &lt;linux/kprobes.h&gt;<br><a name="line5">  5: </a>#include &lt;linux/kallsyms.h&gt;<br><a name="line6">  6: </a>#include &lt;linux/sched.h&gt;<br><a name="line7">  7: </a><br><a name="line8">  8: </a>static unsigned long probe_addr;<br><a name="line9">  9: </a><br><a name="line10"> 10: </a>module_param_named(probe_addr, probe_addr, ulong, S_IRUGO | S_IWUSR);<br><a name="line11"> 11: </a><br><a name="line12"> 12: </a>/<em>For each probe you need to allocate a kprobe structure</em>/<br><a name="line13"> 13: </a>static struct kprobe kp;<br><a name="line14"> 14: </a><br><a name="line15"> 15: </a><strong><a name="dump_state"></a>static void dump_state(struct pt_regs <em>regs)</em></strong><br><a name="line16"> 16: </a>{<br><a name="line17"> 17: </a>        print_symbol(KERN_INFO &quot;EIP is at %sn&quot;, regs-&gt;eip);<br><a name="line18"> 18: </a>        printk(KERN_INFO &quot;eax: %08lx   ebx: %08lx   ecx: %08lx   edx: %08lxn&quot;,<br><a name="line19"> 19: </a>               regs-&gt;eax, regs-&gt;ebx, regs-&gt;ecx, regs-&gt;edx);<br><a name="line20"> 20: </a>        printk(KERN_INFO &quot;esi: %08lx   edi: %08lx   ebp: %08lx   esp: %08lxn&quot;,<br><a name="line21"> 21: </a>               regs-&gt;esi, regs-&gt;edi, regs-&gt;ebp, regs-&gt;esp);<br><a name="line22"> 22: </a>        printk(KERN_INFO &quot;ds: %04x   es: %04xn&quot;,<br><a name="line23"> 23: </a>                regs-&gt;xds &amp; 0xffff, regs-&gt;xes &amp; 0xffff);<br><a name="line24"> 24: </a>        printk(KERN_INFO &quot;Process %s (pid: %d, threadinfo=%p task=%p)&quot;,<br><a name="line25"> 25: </a>                current-&gt;comm, current-&gt;pid, current_thread_info(), current);<br><a name="line26"> 26: </a><br><a name="line27"> 27: </a>}<br><a name="line28"> 28: </a><br><a name="line29"> 29: </a>/kprobe pre_handler: called just before the probed instruction is executed<em>/<br><a name="line30"> 30: </a><strong><a name="handler_pre"></a>int handler_pre(struct kprobe </strong></em>p, struct pt_regs <em>regs)<br><a name="line31"> 31: </a>{<br><a name="line32"> 32: </a> <br><a name="line33"> 33: </a>        printk(&quot;pre_handler: p-&gt;addr=0x%pn&quot;,<br><a name="line34"> 34: </a>                p-&gt;addr);<br><a name="line35"> 35: </a>        dump_state(regs);<br><a name="line36"> 36: </a>        dump_stack();<br><a name="line37"> 37: </a>        return 0;<br><a name="line38"> 38: </a>}<br><a name="line39"> 39: </a><br><a name="line40"> 40: </a>/</em>kprobe post_handler: called after the probed instruction is executed<em>/<br><a name="line41"> 41: </a><strong><a name="handler_post"></a>void handler_post(struct kprobe </strong></em>p, struct pt_regs <em>regs, unsigned long flags)<br><a name="line42"> 42: </a>{<br><a name="line43"> 43: </a>        printk(&quot;post_handler: p-&gt;addr=0x%pn&quot;,<br><a name="line44"> 44: </a>                p-&gt;addr);<br><a name="line45"> 45: </a>        dump_state(regs);<br><a name="line46"> 46: </a>        return;<br><a name="line47"> 47: </a>}<br><a name="line48"> 48: </a><br><a name="line49"> 49: </a>/</em> fault_handler: this is called if an exception is generated for any<br><a name="line50"> 50: </a> <em> instruction within the pre- or post-handler, or when Kprobes<br><a name="line51"> 51: </a> </em> single-steps the probed instruction.<br><a name="line52"> 52: </a> <em>/<br><a name="line53"> 53: </a><strong><a name="handler_fault"></a>int handler_fault(struct kprobe </strong></em>p, struct pt_regs <em>regs, int trapnr)<br><a name="line54"> 54: </a>{<br><a name="line55"> 55: </a>        printk(&quot;fault_handler: p-&gt;addr=0x%p, trap #%dn&quot;,<br><a name="line56"> 56: </a>                p-&gt;addr, trapnr);<br><a name="line57"> 57: </a>        /</em> Return 0 because we don’t handle the fault. <em>/<br><a name="line58"> 58: </a>        return 0;<br><a name="line59"> 59: </a>}<br><a name="line60"> 60: </a><br><a name="line61"> 61: </a><strong><a name="init_module"></a>int init_module(void)</strong><br><a name="line62"> 62: </a>{<br><a name="line63"> 63: </a>        int ret;<br><a name="line64"> 64: </a><br><a name="line65"> 65: </a>        if (!probe_addr) {<br><a name="line66"> 66: </a>                printk(&quot;trace-generic: provide probe_addr paramtern&quot;);<br><a name="line67"> 67: </a>                return -1;<br><a name="line68"> 68: </a>        }<br><a name="line69"> 69: </a><br><a name="line70"> 70: </a>        kp.pre_handler = handler_pre;<br><a name="line71"> 71: </a>        kp.post_handler = handler_post;<br><a name="line72"> 72: </a>        kp.fault_handler = handler_fault;<br><a name="line73"> 73: </a>        kp.addr = (kprobe_opcode_t</em>) probe_addr;<br><a name="line74"> 74: </a><br><a name="line75"> 75: </a>        printk(&quot;setting probe at address %pn&quot;,kp.addr);<br><a name="line76"> 76: </a> <br><a name="line77"> 77: </a>        /<em> register the kprobe now </em>/<br><a name="line78"> 78: </a>        if (!kp.addr) {<br><a name="line79"> 79: </a>                printk(&quot;Couldn’t find %s to plant kproben&quot;, &quot;do_fork&quot;);<br><a name="line80"> 80: </a>                return -1;<br><a name="line81"> 81: </a>        }<br><a name="line82"> 82: </a>        if ((ret = register_kprobe(&amp;kp) &lt; 0)) {<br><a name="line83"> 83: </a>                printk(&quot;register_kprobe failed, returned %dn&quot;, ret);<br><a name="line84"> 84: </a>                return -1;<br><a name="line85"> 85: </a>        }<br><a name="line86"> 86: </a>        printk(&quot;kprobe registeredn&quot;);<br><a name="line87"> 87: </a>        return 0;<br><a name="line88"> 88: </a>}<br><a name="line89"> 89: </a><br><a name="line90"> 90: </a><strong><a name="cleanup_module"></a>void cleanup_module(void)</strong><br><a name="line91"> 91: </a>{<br><a name="line92"> 92: </a>        unregister_kprobe(&amp;kp);<br><a name="line93"> 93: </a>        printk(&quot;kprobe unregisteredn&quot;);<br><a name="line94"> 94: </a>}<br><a name="line95"> 95: </a><br><a name="line96"> 96: </a>MODULE_LICENSE(&quot;GPL&quot;);initrd<p>There’s no reason you can’t add a kprobes module to your initrds to trace things happening reasonably early during the boot process. Similarly, you can actually add a kprobe to a distro installation if the installer allows you to load extra modules before doing the install.</p>relayfs<p>relayfs (<a href="http://relayfs.sourceforge.net/" target="_blank" rel="external">http://relayfs.sourceforge.net</a>) provides examples of tying kprobes and relayfs together. Rather than dumping all your trace data into dmesg.</p> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/11/18/kprobes-tutorial/" class="archive-article-date">
+  	<time datetime="2007-11-18T07:15:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-11-18</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux-Debug/">Linux Debug</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-【zz】Linux下的调试工具" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2007/11/17/【zz】Linux下的调试工具/">【zz】Linux下的调试工具</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> strace<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  -c&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Count time, calls, and errors for each system call and report a summary on program exit.  <br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   -e trace=set<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Trace only the specified set of system calls. For example, trace=open,close,read,write means to only trace those four system calls. The default is trace=all.<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    -e read=set Perform a full hexadecimal and ASCII dump of all the data read from file descriptors listed in the specified set.  For example,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    to see all input activity on file descriptors 3 and 5 use -e read=3,5.  Note that this is independent from the  normal  tracing<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    of the read(2) system call which is controlled by the option -e trace=read.<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    -e write=set<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    Perform  a  full hexadecimal and ASCII dump of all the data written to file descriptors listed in the specified set.  For exam-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    ple, to see all output activity on file descriptors 3 and 5 use -e write=3,5.  Note that this is independent  from  the  normal<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    tracing of the write(2) system call which is controlled by the option -e trace=write.<br><br><br><br><br><br><br>===================================================================================<br><br></p><p><a target="_blank" href="http://blog.csdn.net/absurd/archive/2006/02/28/612612.aspx">http://blog.csdn.net/absurd/archive/2006/02/28/612612.aspx</a><br></p><p>随着XP的流行，人们越来越注重软件的前期设计、后期的实现，以及贯穿于其中的测试工作，经过这个过程出来的自然是高质量的软件。甚至有人声称XP会淘汰调试器！这当然是有一定道理的，然而就目前的现实来看，这还是一种理想。在日常工作中，调试工具还是必不可少的。在Linux下，调试工具并非只有gdb，还有很多其它调试工具，它们都各有所长，侧重方面也有所不同。本文介绍几种笔者常用的调试工具：</p><p> </p><p>1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       mtrace</p><p>在linux下开发应用程序，用C/C++语言的居多。内存泄露和内存越界等内存错误，无疑是其中最头疼的问题之一。glibc为解决内存错误提供了两种方案：</p><p> </p><p>一种是hook内存管理函数。hook内存管理函数后，你可以通过记下内存分配的历史记录，在程序终止时查看是否有内存泄露，这样就可以找出内存泄露的地方了。你也可以通过在所分配内存的首尾写入特殊的标志，在释放内存时检查该标志是否被破坏了，这样就可以达到检查内存越界问题的目的。</p><p> </p><p>另外一种方法更简单，glibc已经为第一种方案提供了默认的实现，你要做的只是在特定的位置调用mtrace/muntrace两个函数，它们的函数原型如下：</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       #include &lt;mcheck.h&gt;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       void mtrace(void);</p><p>void muntrace(void);</p><p>你可能会问，在哪里调这两种函数最好？这没有固定的答案，要视具体情况而定。对于小程序来说，在进入main时调用mtrace，在退出main函数时调用muntrace。对于大型软件，这样做可能会记录过多的信息，分析这些记录会比较慢，这时可以在你所怀疑代码的两端调用。</p><p> </p><p>另外，还需要设置一个环境变量MALLOC_TRACE，它是一个文件名，要保证当前用户有权限创建和写入该文件。glibc的内存管理器会把内存分配的历史信息写入到MALLOC<em>TRACE指定的文件中。</em></p><p> </p><p>程序运行完毕后，使用mtrace工具分析这些内存分配历史信息，可以查出内存错误的位置（mtrace在glibc-utils软件包里)。</p><p> </p><p>2.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       strace </p><p>在编程时，检查函数的返回值是一种好习惯。对于像glibc等标准C的函数，光检查返回值是不够的，还需要检查errno的值。这样的程序往往显得冗长，不够简洁。同时也可能是出于偷懒的原因，大多数程序里并没有做这样的检查。</p><p> </p><p>这样的程序，一旦出现错误，用调试器一步一步定位错误，然后想法查出错误的原因，也是可以的，不过比较麻烦，对调试器来说有些大材小用，不太可取。这时，用strace命令可能会更方便一点。它可以显示各个系统调用/信号的执行过程和结果。比如文件打开出错，一眼就看出来了，连错误的原因(errno)都知道。</p><p> </p><p>3.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       binutil</p><p>binutil是一系列的工具，你可能根本不知道它们的存在，但是没有它们你却寸步难行。Binutil包括下列工具：</p><ul> <li>ld - the GNU linker. </li> <li>as - the GNU assembler. </li> <li>addr2line - Converts addresses into filenames and line numbers. </li> <li>ar - A utility for creating, modifying and extracting from archives. </li> <li>c++filt - Filter to demangle encoded C++ symbols. </li> <li>gprof - Displays profiling information. </li> <li>nlmconv - Converts object code into an NLM. </li> <li>nm - Lists symbols from object files. </li> <li>objcopy - Copys and translates object files. </li> <li>objdump - Displays information from object files. </li> <li>ranlib - Generates an index to the contents of an archive. </li> <li>readelf - Displays information from any ELF format object file. </li> <li>size - Lists the section sizes of an object or archive file. </li> <li>strings - Lists printable strings from files. </li> <li>strip - Discards symbols. </li> <li>windres - A compiler for Windows resource files. </li></ul><p>其中部分工具对调试极有帮助，如：</p><p>你可以用objdump反汇编，查看目标文件或可执行文件内部信息。</p><p>你可以用addr2line把机器地址转换到代码对应的位置。</p><p>你可以用nm查看目标文件或可执行文件中的各种符号。</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       你可以用gprof分析各个函数的使用情况，找出性能的瓶颈所在(这需要加编译选项)。</p><p> </p><p>4.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       ld-linux</p><p>现在加载ELF可执行文件的工作，已经落到ld-linux.so.2头上了。你可能会问，这与有调试程序有关系吗？有的。比如，在linux中，共享库里所有非static的函数/全局变量都是export的，更糟的是C语言中没有名字空间这个概念，导致函数名极易冲突。在多个共享库中，名字冲突引起的BUG是比较难查的。这时，你可以通过设置LD DEBUG环境变量，来观察ld-linux.so加载可执行文件的过程，从中可以得到不少帮助信息。LD_ DEBUG的取值如下：</p><ul> <li>libs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       display library search paths</li> <li>reloc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       display relocation processing</li> <li>files&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       display progress for input file</li> <li>symbols&nbsp;&nbsp;&nbsp;&nbsp;       display symbol table processing</li> <li>bindings&nbsp;&nbsp;&nbsp;       display information about symbol binding</li> <li>versions&nbsp;&nbsp;&nbsp;       display version dependencies</li> <li>all&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       all previous options combined</li> <li>statistics  display relocation statistics</li> <li>unused&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       determined unused DSOs</li> <li>help&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       display this help message and exit</li></ul><p>5.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       gdb</p><p>对于真正意义的调试器来说，gdb在linux下是独一无二的。它有多种包装，有字符界面的，也有图形界面的，有单独运行的，也有集成到IDE中的。gdb功能强大，图形界面的gdb容易上手一点，但功能无疑受到了一些限制，相信大部分高手还是愿意使用字符界面的。Gdb太常用了，这里不再多说。</p><p> </p><p>6.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       gcc/boundschecker</p><p>相信很多人用过win32下的BoundsChecker(Compuware公司)和Purify(IBM公司)两个工具吧。它们的功能实在太强大了，绝非能通过重载内存管理函数就可以做到，它们在编译时插入了自己的调试代码。</p><p> </p><p>gcc也有个扩展，通过在编译时插入调试代码，来实现更强大的检查功能。当然这要求重新编译gcc，你可以到<a href="http://sourceforge.net/projects/boundschecking/" target="_blank" rel="external">http://sourceforge.net/projects/boundschecking/</a> 下载gcc的补丁。它的可移植性非常好，笔者曾一个ARM 平台项目里使用过，效果不错。</p><p> </p><p>7.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       valgrind</p><p>最好的东西往往最后才见到。Valgrind是我的最爱，用习惯了，写的程序不在valgrind下跑一遍，就像没有写单元测试程序一样，有点放心不下。它有BoundsChecker/Purify的功能，而且速度更快。</p><p> </p><p>有点遗憾的是valgrind目前只支持x86平台，当然，这对大多数情况已经足够了。</p><p> </p><p>你可以到<a href="http://valgrind.org/" target="_blank" rel="external">http://valgrind.org/</a> 下载最新版本。</p><br>8. &nbsp;&nbsp;&nbsp;     DDD<br><p>使用图形模式的调试器相对于命令行调试器的一个优点是，在调试器中单步执行程序的同时可以看到对应的每行源代码。</p><p>GNU DDD（Data Display Debugger）就是一个调试器（例如 GDB 和 JDB）的图形化前端。除了常见的前端特性（例如查看源代码）之外，DDD 还通过将要显示的数据结构以交互式的图形化方式进行显示而闻名。</p><p>对于 SLES 9 来说，用于 PowerPC 的 DDD 二进制文件是在 SUSE Linux SDK CD 中单独提供的，也可以从 Novell 公司的网站上进行下载（参阅 <a href="http://www-128.ibm.com/developerworks/cn/linux/l-pow-debug/#resources" target="_blank" rel="external">参考资料</a>）。RedHat 在 RHEL AS 4 CD 中提供了 DDD 的 rpm 包。</p><img class="blogimg" small="0" src="http://img.pickbox.me/wp-content/uploads/pic/057da9643806bce3f7365489.jpg"><br><br><br><br> <br><br><br><del>end</del><br> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/11/17/【zz】Linux下的调试工具/" class="archive-article-date">
+  	<time datetime="2007-11-17T13:48:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-11-17</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux-Debug/">Linux Debug</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-【zz】Linux下共享库（SO）有关的几个环境变量" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2007/11/17/【zz】Linux下共享库（SO）有关的几个环境变量/">【zz】Linux下共享库（SO）有关的几个环境变量</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <a href="http://blog.csdn.net/absurd/archive/2006/02/07/593899.aspx" target="_blank">http://blog.csdn.net/absurd/archive/2006/02/07/593899.aspx</a><br>Linux支持共享库已经有悠久的历史了，不再是什么新概念了。大家都知道如何编译、连接以及动态加载(dlopen/dlsym/dlclose) 共享库。但是，可能很多人，甚至包括一些高手，对共享库相关的一些环境变量认识模糊。当然，不知道这些环境变量，也可以用共享库，但是，若知道它们，可能就会用得更好。下面介绍一些常用的环境变量，希望对家有所帮助：</p><p> </p><p><strong>LD_LIBRARY_PATH</strong> 这个环境变量是大家最为熟悉的，它告诉loader：在哪些目录中可以找到共享库。可以设置多个搜索目录，这些目录之间用冒号分隔开。在linux下，还提供了另外一种方式来完成同样的功能，你可以把这些目录加到/etc/ld.so.conf中，或则在/etc/ld.so.conf.d里创建一个文件，把目录加到这个文件里。当然，这是系统范围内全局有效的，而环境变量只对当前shell有效。按照惯例，除非你用上述方式指明，loader是不会在当前目录下去找共享库的，正如shell不会在当前目前找可执行文件一样。</p><p> </p><p><strong>LD_PRELOAD</strong> 这个环境变量对于程序员来说，也是特别有用的。它告诉loader：在解析函数地址时，优先使用LD_PRELOAD里指定的共享库中的函数。这为调试提供了方便，比如，对于C/C++程序来说，内存错误最难解决了。常见的做法就是重载malloc系列函数，但那样做要求重新编译程序，比较麻烦。使用LD_PRELOAD机制，就不用重新编译了，把包装函数库编译成共享库，并在LD<em>PRELOAD加入该共享库的名称，这些包装函数就会自动被调用了。在linux下，还提供了另外一种方式来完成同样的功能，你可以把要优先加载的共享库的文件名写在/etc/ld.so.preload里。当然，这是系统范围内全局有效的，而环境变量只对当前shell有效。</em></p><p> </p><p><strong>LD DEBUG</strong> 这个环境变量比较好玩，有时使用它，可以帮助你查找出一些共享库的疑难杂症（比如同名函数引起的问题）。同时，利用它，你也可以学到一些共享库加载过程的知识。它的参数如下：</p><p>  libs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    display library search paths</p><p>  reloc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    display relocation processing</p><p>  files&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    display progress for input file</p><p>  symbols&nbsp;&nbsp;&nbsp;&nbsp;    display symbol table processing</p><p>  bindings&nbsp;&nbsp;&nbsp;    display information about symbol binding</p><p>  versions&nbsp;&nbsp;&nbsp;    display version dependencies</p><p>  all&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    all previous options combined</p><p>  statistics  display relocation statistics</p><p>  unused&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    determined unused DSOs</p><p>  help&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    display this help message and exit</p><p> </p><p><strong>BIND_NOW </strong>这个环境变量与dlopen中的flag的意义是一致，只是dlopen中的flag适用于显示加载的情况，而BIND_NOW/BIND_NOT适用于隐式加载。</p><p> </p><p><strong>LD_PROFILE/LD_PROFILE_OUTPUT</strong>：为指定的共享库产生profile数据，LD_PROFILE指定共享库的名称，LD_PROFILE_OUTPUT指定输出profile文件的位置，是一个目录，且必须存在，默认的目录为/var/tmp/或/var/profile。通过profile数据，你可以得到一些该共享库中函数的使用统计信息。</p><p> </p><br><p> </p><p>=================================================</p><p> </p><p>/<em> main.c </em>/  <br>#include&nbsp;&nbsp;   <br>#include&nbsp;&nbsp;</p><p>int main ( int argc, char <em> argv[] )  <br>{  <br>char s[] = &quot;Hello Worldn&quot;;</em></p><p>　　printf( s );  <br>return( EXIT_SUCCESS );  <br>}</p><p><br>/ mylib.c <em>/  <br>#include&nbsp;&nbsp;   <br>#include&nbsp;&nbsp;</em></p><p>int printf ( char  s )  <br>{  <br>char <em>t = s;</em></p>while ( s )  <br>{  <br><em>s = toupper( </em>s ), s++;  <br>}  <br>return( ( int )write( 0, t, strlen( t ) ) );  <br>} <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/11/17/【zz】Linux下共享库（SO）有关的几个环境变量/" class="archive-article-date">
+  	<time datetime="2007-11-17T13:40:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-11-17</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux-Debug/">Linux Debug</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-对于自己写OS的启示" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2007/11/17/对于自己写OS的启示/">对于自己写OS的启示</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <strong><a target="_blank" href="http://www.another-prj.com/viewthread.php?action=printable&amp;tid=300&amp;sid=8zUl7i">http://www.another-prj.com/viewthread.php?action=printable&amp;tid=300&amp;sid=8zUl7i</a><br>作者: </strong>zhiyunli    <strong>时间: </strong>2007-8-4 13:11      <strong>标题: </strong>补充一点个人的想法，愿与楼主探讨。 <br><br>To caiyuqing (土豆泥) : 楼主现在已经有了这样的开端，而且有经验有实力，可以考虑在技术方面有些创新、在商业方面有所作为的商业化或准商业化（如Linux，Linux不仅仅是 开源）的OS，当然也是面向嵌入式领域的。 目前嵌入式应用领域比如说智能手机里比较典型的架构是双处理器配双OS，通信处理器可以配VxWorks、OSE等实时性较好的RTOS，主要用于跑协议 栈；应用模块可以配Linux等免费的OS。从软件系统的规模和复杂度方面看，Linux其实并不是个很好的选择，只是商家看中了它免费的特性。个人认 为，针对应用OS的话，工作难度会低些（复杂度是增加了）而且应用市场也会更大些，可以提供比较契合中小型嵌入式设备的、可配置的嵌入式OS，在API方 面我觉得可以多考虑模仿WinAPI，毕竟这种API系统的开发基础更为广泛，POSIX API的语义似乎不如WinAPI这样清晰，也许有使用习惯上的先验知识在影响这种看法吧。在API接口方面，还可以考虑日本的iTRON标准，符合这种 标准的RTOS据报道已经运行在超过50亿个的嵌入式设备里了。 如果定位在自娱自乐的话，对OS的原理实现应该会有更深的理解，不过这样很难走远。刚开始模仿是必要的，不过将来还是应考虑创新，如OSE据说在OS设计 理念上和一般的RTOS很不一样，它是完全基于消息传递的OS，可以很好的支持多处理器系统，可惜现在还没看过正式的文档和源码，所以也没想清楚它可能是 怎么实现的。 祝：远走越远！ <hr><strong>作者: </strong>caiyuqing    <strong>时间: </strong>2007-8-4 17:08      <strong>标题: </strong>回复 #13 zhiyunli 的帖子 <br><br>感谢 zhiyunli 的指导和建议，目前我只是专注于研究， 至于如何推广我们没什么经验，如果您在这方面有什 么好的建议或点子的话还请多多指导，您可以给我站 内短信或Email：] <hr> </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/11/17/对于自己写OS的启示/" class="archive-article-date">
+  	<time datetime="2007-11-17T13:33:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-11-17</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux/">Linux</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/45/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/44/">44</a><a class="page-number" href="/page/45/">45</a><span class="page-number current">46</span><a class="page-number" href="/page/47/">47</a><a class="page-number" href="/page/48/">48</a><span class="space">&hellip;</span><a class="page-number" href="/page/60/">60</a><a class="extend next" rel="next" href="/page/47/">Next &raquo;</a>
+    </nav>
+  
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: true,
+		isPost: false,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

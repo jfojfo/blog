@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="jfo planet">
+<meta property="og:url" content="http://blog.pickbox.me/page/45/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jfo planet">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        
+  
+    <article id="post-boost代码分析：is-const，is-reference" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2007/12/15/boost代码分析：is-const，is-reference/">boost代码分析：is_const，is_reference</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> template &lt;typename T&gt; struct cv_traits_imp {};<br><br>template &lt;typename T&gt;<br>struct cv_traits_imp&lt;T<em>&gt;<br>{<br>&nbsp;&nbsp;&nbsp;    static const bool is_const = false;<br>&nbsp;&nbsp;&nbsp;    static const bool is_volatile = false;<br>&nbsp;&nbsp;&nbsp;    typedef T unqualified_type;<br>};<br><br>template &lt;typename T&gt;<br>struct cv_traits_imp&lt;const T</em>&gt;<br>{<br>&nbsp;&nbsp;&nbsp;    static const bool is_const = true;<br>&nbsp;&nbsp;&nbsp;    static const bool is_volatile = false;<br>&nbsp;&nbsp;&nbsp;    typedef T unqualified_type;<br>};<br><br>template &lt;typename T&gt;<br>struct cv_traits_imp&lt;volatile T<em>&gt;<br>{<br>&nbsp;&nbsp;&nbsp;    static const bool is_const = false;<br>&nbsp;&nbsp;&nbsp;    static const bool is_volatile = true;<br>&nbsp;&nbsp;&nbsp;    typedef T unqualified_type;<br>};<br><br>template &lt;typename T&gt;<br>struct cv_traits_imp&lt;const volatile T</em>&gt;<br>{<br>&nbsp;&nbsp;&nbsp;    static const bool is_const = true;<br>&nbsp;&nbsp;&nbsp;    static const bool is_volatile = true;<br>&nbsp;&nbsp;&nbsp;    typedef T unqualified<em>type;<br>};<br><br>template&lt; int N &gt; struct int</em>;<br><br>struct integral_c<em>tag { static const int value = 0; };<br><br>template&lt; int N &gt;<br>struct int</em><br>{<br>&nbsp;&nbsp;&nbsp;    static const int value = N;<br><br>&nbsp;&nbsp;&nbsp;    typedef int_ type;<br><br>&nbsp;&nbsp;&nbsp;    typedef int value_type;<br>&nbsp;&nbsp;&nbsp;    typedef integral_c<em>tag tag;<br><br>&nbsp;&nbsp;&nbsp;    typedef mpl</em>::int_&lt; static<em>cast&lt;int&gt;((value + 1)) &gt; next;<br>&nbsp;&nbsp;&nbsp;    typedef mpl</em>::int_&lt; static_cast&lt;int&gt;((value - 1)) &gt; prior;<br><br>&nbsp;&nbsp;&nbsp;    operator int() const { return static<em>cast&lt;int&gt;(this-&gt;value); }<br>};<br><br>template&lt; int N &gt;<br>int const mpl</em>::int<em>&lt; N &gt;::value;<br><br>template&lt; bool C</em> &gt; struct bool<em>;<br><br><br>typedef bool</em>&lt;true&gt; true<em>;<br>typedef bool</em>&lt;false&gt; false<em>;<br><br>template&lt; bool C</em> &gt; struct bool<em><br>{<br>&nbsp;&nbsp;&nbsp;    static const bool value = C</em>;<br>&nbsp;&nbsp;&nbsp;    typedef integral_c<em>tag tag;<br>&nbsp;&nbsp;&nbsp;    typedef bool</em> type;<br>&nbsp;&nbsp;&nbsp;    typedef bool value<em>type;<br>&nbsp;&nbsp;&nbsp;    operator bool() const { return this-&gt;value; }<br>};<br><br><br>template&lt; bool C</em> &gt;<br>bool const bool<em>&lt;C</em>&gt;::value;<br><br>template&lt; typename T, T N &gt; struct integral_c;<br><br>template&lt; typename T, T N &gt;<br>struct integral_c<br>{<br>&nbsp;&nbsp;&nbsp;    static const T value = N;<br><br>&nbsp;&nbsp;&nbsp;    typedef integral_c type;<br><br>&nbsp;&nbsp;&nbsp;    typedef T value_type;<br>&nbsp;&nbsp;&nbsp;    typedef integral_c_tag tag;<br><br>&nbsp;&nbsp;&nbsp;    typedef integral_c&lt; T, static_cast&lt;T&gt;((value + 1)) &gt; next;<br>&nbsp;&nbsp;&nbsp;    typedef integral_c&lt; T, static_cast&lt;T&gt;((value - 1)) &gt; prior;<br><br>&nbsp;&nbsp;&nbsp;    operator T() const { return static_cast&lt;T&gt;(this-&gt;value); }<br>};<br><br><br>template&lt; typename T, T N &gt;<br>T const integral_c&lt; T, N &gt;::value;<br><br>template&lt; bool C &gt;<br>struct integral_c&lt;bool, C&gt;<br>{<br>&nbsp;&nbsp;&nbsp;    static const bool value = C;<br>&nbsp;&nbsp;&nbsp;    typedef integral_c_tag tag;<br>&nbsp;&nbsp;&nbsp;    typedef integral_c type;<br>&nbsp;&nbsp;&nbsp;    typedef bool value_type;<br>&nbsp;&nbsp;&nbsp;    operator bool() const { return this-&gt;value; }<br>};<br><br>template &lt;class T, T val&gt;<br><br>struct integral_constant : public mpl::integral_c&lt;T, val&gt;<br>{<br>&nbsp;&nbsp;    typedef integral_constant&lt;T,val&gt; type;<br>};<br><br>template&lt;&gt; struct integral<em>constant&lt;bool,true&gt; : public mpl::true</em><br>{<br>&nbsp;&nbsp;    typedef integral_constant&lt;bool,true&gt; type;<br>};<br>template&lt;&gt; struct integral<em>constant&lt;bool,false&gt; : public mpl::false</em><br>{<br>&nbsp;&nbsp;    typedef integral_constant&lt;bool,false&gt; type;<br>};<br><br>typedef integral_constant&lt;bool,true&gt; true_type;<br>typedef integral_constant&lt;bool,false&gt; false_type;<br><br>template&lt; typename T &gt; struct is_reference : ::boost::integral_constant&lt;bool,false&gt; { };<br>template&lt; typename T &gt; struct is_reference&lt; T&amp; &gt; : ::boost::integral_constant&lt;bool,true&gt; { };<br><br>&nbsp;&nbsp;    template&lt; typename T &gt; struct is_const : ::boost::integral_constant&lt;bool,::boost::detail::cv_traits_imp&lt;T*&gt;::is_const&gt; { };<br><br>template&lt; typename T &gt; struct is_const&lt; T&amp; &gt; : ::boost::integral_constant&lt;bool,false&gt; { };<br> </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/12/15/boost代码分析：is-const，is-reference/" class="archive-article-date">
+  	<time datetime="2007-12-14T16:32:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-12-15</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-【zz】在C-中侦测内嵌类型的存在" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2007/12/14/【zz】在C-中侦测内嵌类型的存在/">【zz】在C++中侦测内嵌类型的存在</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+         <p><strong><a target="_blank" href="http://www.ithao123.com/cpluspluslib/20071020/1671.html">www.ithao123.com/cpluspluslib/20071020/1671.html</a></strong></p><p><strong><br></strong></p><br><p> </p><p> <strong>一是利用函数重载</strong>：</p><p>typedef char (&amp;<strong>yes_type</strong>)[1]; // sizeof(yes_type)==1</p>typedef char (&amp;<strong>no_type</strong>)[2]; // sizeof(no_type)==2<br><br><p>char (&amp;)[1]表示对char[1]数组的引用，注意围绕&amp;符号的一对圆括号，它们是必要的，如果没有将会导致编译错误，正如char<em> [1]将被解析为char</em>的数组，char&amp; [1]将被解析为引用的数组，而后者是非法的。将&amp;用圆括号包围则改变了运算符的结合优先序，这将被解析为对char[1]数组的引用。</p><p> </p><p>template&lt;class T&gt;</p><p>struct does_sometypedef_exists</p><p>{</p><p>template&lt;class U&gt;</p><p>static yes_type check(U, typename U::key_type<em> =0); // #1</em></p><p>static no_type check(…);</p><p>static T t;&nbsp;&nbsp;     // 声明</p><p>static const bool value = sizeof(check(t))==sizeof(yes_type);</p>};<br><br><p> 或改进如下：</p><p>template&lt;class T&gt;</p><p>struct does_sometypedef_exists</p><p>{</p><p>template&lt;class U&gt;</p><p>static yes_type check(typename U::key_type );</p><p> </p><p>template&lt;class U&gt;</p><p>static no_type check(…);</p><p> </p><p>static const bool value = sizeof(check<strong>&lt;T&gt;</strong>(<strong>0</strong>))==sizeof(yes_type);</p>};<br><br>or: (compiled OK in gcc-3.4.4)<br>template&lt;class T&gt;<br>struct does_sometypedef_exists<br>{<br>&nbsp;&nbsp;&nbsp;    template&lt;class U&gt;<br>&nbsp;&nbsp;&nbsp;    &nbsp;&nbsp;&nbsp;    static yes_type check(typename U::key_type<em> );<br><br>&nbsp;&nbsp;&nbsp;    template&lt;class U&gt;<br>&nbsp;&nbsp;&nbsp;    &nbsp;&nbsp;&nbsp;    static yes_type check(typename U::template key_type&lt;null_t&gt;</em> );<br><br>&nbsp;&nbsp;&nbsp;    template&lt;class U&gt;<br>&nbsp;&nbsp;&nbsp;    &nbsp;&nbsp;&nbsp;    static no_type check(…);<br><br>&nbsp;&nbsp;&nbsp;    static const bool value = sizeof(check&lt;T&gt;(0))==sizeof(yes_type);<br>};<br><br><br><p>注意，#1处，<em>和=之间的空格是必要的，否则编译器会将它解析为operator</em>=操作符。</p><p> </p><p>在我的VC7.0环境下，以下测试是成功的：</p><p>struct A{};</p><p>struct B</p><p>{</p><p>typedef int key_type;</p><p>};</p><p>int main()</p><p>{</p><p>std::cout &lt;&lt; does_sometypedef_exists&lt;A&gt;::value&lt;&lt;’ ‘  // 0</p><p>&lt;&lt; does_sometypedef_exists&lt;B&gt;::value&lt;&lt;’ ‘  // 1</p><p>&lt;&lt; std::endl;</p>};<br><br><p> </p><p> </p><p>但这里有一个十分怪异的问题（在我的VC7.0环境下存在），假设我们增加一个新类：</p><p>struct C</p><p>{</p><p>template&lt;class T&gt;</p><p>struct key_type{};  // 请注意这是个模板类</p>};<br><br><p> </p><p><strong>第二种实现是利用模板偏特化及默认模板参数的规则</strong>：</p><p> </p><p>template&lt;class T,class&gt;</p><p>struct check_helper</p><p>{</p><p>typedef T type;</p><p>};</p><p> </p><p>template&lt;class T,class =T&gt;</p><p>struct does_sometypedef_exists_1</p><p>{</p><p>static const bool value=false;</p><p>};</p><p> </p><p>template&lt;class T&gt;</p><p>struct does_sometypedef_exists_1&lt;T,</p><p>typename check_helper&lt;T, typename T::key_type&gt;::type&gt;</p><p>{</p><p>static const bool value=true;</p>};<br><br><br><p> </p><p><strong> </strong></p><p><strong>测试</strong><strong>(Test)</strong></p><p>现在对我们的两个实现版本测试一下吧，假设有一下几个类：</p><p> </p><p>// 没有key_type</p><p>struct A{};</p><p> </p><p>// typedef</p><p>struct B{typedef int key_type;};</p><p> </p><p>// key_type为成员函数</p><p>struct C{void key_type(void){}};</p><p> </p><p>// key_type为静态常量数据成员</p><p>struct D{static const bool key_type=false;};</p><p> </p><p>// 定义,D里面的是声明</p><p>const bool D::key_type;</p><p> </p><p>// key_type为模板类</p><p>struct E{</p><p>template&lt;class&gt;</p><p>struct key_type{};</p><p>};</p><p> </p><p>template&lt;class T&gt;</p><p>struct does_typedef_exists</p><p>{</p><p>typedef <strong>does_sometypedef_exists</strong>&lt;T&gt; impl_type;</p><p>static const bool value = impl_type::value;</p><p>};</p><p> </p><p>int main()</p><p>{</p><p>std::cout &lt;&lt; does_typedef_exists&lt;A&gt;::value&lt;&lt;’ ‘</p><p>&lt;&lt; does_typedef_exists&lt;B&gt;::value&lt;&lt;’ ‘</p><p>&lt;&lt; does_typedef_exists&lt;C&gt;::value&lt;&lt;’ ‘</p><p>&lt;&lt; does_typedef_exists&lt;D&gt;::value&lt;&lt;’ ‘</p><p>&lt;&lt; does_typedef_exists&lt;E&gt;::value&lt;&lt;’ ‘</p><p>&lt;&lt; std::endl;</p><p>return 0;</p>};<br><br><br><p>在VC7.1编译平台上：</p><p> </p><p>如果使用第一种实现，这将输出：0 1 0 0 1</p><p>如果使用第二种实现，这将输出：0 1 0 0 0</p><p> </p><p> </p><br><p> </p><p><strong>第三种实现（VC7.1、VC8.0和gcc-3.x.x、gcc-4.x.x中编译都通不过）</strong></p><p>template&lt;class&gt; struct split;  // 缺省声明，因为不会被匹配所以不用定义</p><p> </p><p>// 以下是偏特化</p><p>template&lt; template&lt;class&gt; class T, class T1 &gt; // T为模板</p><p>struct split&lt; T&lt;T1&gt; &gt; {</p><p>struct type { };</p><p>};</p><p> </p><p>template&lt; template&lt;class, class&gt; class T, class T1, class T2 &gt;</p><p>struct split&lt; T&lt;T1, T2&gt; &gt; {</p><p>struct type { };</p><p>};</p><p> </p><p>// etc. :(，后面有支持更多模板参数的版本，从略</p><p> </p><p>template&lt;class T&gt; class has_template_key_type</p><p>{</p><p>private:</p><p>template&lt;class U&gt;</p><p>static yes_type check(</p><p>typename split&lt;</p><p>typename U::template key_type&lt;null_t&gt; &gt;::type<em></em></p><p>);</p><p> </p><p>template&lt;class U&gt;</p><p>static yes_type check(</p><p>typename split&lt;</p><p>typename U::template key_type&lt;null_t, null_t&gt; &gt;::type</p><p>);</p><p> </p><p>// etc. :( 后面有支持更多模板参数的版本，从略</p><p> </p><p>template&lt;class U&gt; static no_type check(…);</p><p> </p><p>public:</p><p>static const bool value</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  = sizeof(check&lt;T&gt;(0)) == sizeof(yes_type);</p><p>};</p><p> </p><p>template&lt;class T, bool V = <strong>has_template_key_type</strong>&lt;T&gt;::value&gt;</p><p>class has_key_type</p><p>{</p><p>private:</p><p>template&lt;class U&gt; static yes_type check(typename U::key_type*);</p><p>template&lt;class U&gt; static no_type check(…);</p><p> </p><p>public:</p><p>static const bool value</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  = sizeof(check&lt;T&gt;(0)) == sizeof(yes_type);</p><p>};</p><p> </p><p>template&lt;class T&gt; struct has_key_type&lt;T, <strong>true</strong>&gt;</p><p>{</p><p>static const bool value = false;</p>};<p> </p><br><p> </p><p>来自：<a href="http://blog.csdn.net/pongba/archive/2004/08/24/82783.aspx" target="_blank" rel="external">http://blog.csdn.net/pongba/archive/2004/08/24/82783.aspx</a></p> 
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/12/14/【zz】在C-中侦测内嵌类型的存在/" class="archive-article-date">
+  	<time datetime="2007-12-14T13:17:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-12-14</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-boost代码分析：signal中的connect过程-下" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2007/12/13/boost代码分析：signal中的connect过程-下/">boost代码分析：signal中的connect过程(下)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> connect 过程中 slot 的连接<br><br>&nbsp;&nbsp;&nbsp;          template&lt;<br>&nbsp;&nbsp;&nbsp;          &nbsp;&nbsp;&nbsp;          typename R,<br>&nbsp;&nbsp;&nbsp;          &nbsp;&nbsp;&nbsp;          typename T1, typename T2<br>&nbsp;&nbsp;&nbsp;          &nbsp;&nbsp;&nbsp;          ,<br>&nbsp;&nbsp;&nbsp;          &nbsp;&nbsp;&nbsp;          typename Combiner,<br>&nbsp;&nbsp;&nbsp;          &nbsp;&nbsp;&nbsp;          typename Group,<br>&nbsp;&nbsp;&nbsp;          &nbsp;&nbsp;&nbsp;          typename GroupCompare,<br>&nbsp;&nbsp;&nbsp;          &nbsp;&nbsp;&nbsp;          typename SlotFunction<br>&nbsp;&nbsp;&nbsp;          &gt;<br>&nbsp;&nbsp;&nbsp;          signals::connection<br>&nbsp;&nbsp;&nbsp;          signal2&lt;<br>&nbsp;&nbsp;&nbsp;          R, T1, T2<br>&nbsp;&nbsp;&nbsp;          ,<br>&nbsp;&nbsp;&nbsp;          Combiner, Group, GroupCompare, SlotFunction<br>&nbsp;&nbsp;&nbsp;          &gt;::connect(const slot_type&amp; in_slot,<br>&nbsp;&nbsp;&nbsp;          signals::connect_position at)<br>&nbsp;&nbsp;&nbsp;          {<br>&nbsp;&nbsp;&nbsp;          &nbsp;&nbsp;&nbsp;          using boost::signals::detail::stored_group;<br><br><br><br>&nbsp;&nbsp;&nbsp;          &nbsp;&nbsp;&nbsp;          if (!in_slot.is_active()) {<br>&nbsp;&nbsp;&nbsp;          &nbsp;&nbsp;&nbsp;          &nbsp;&nbsp;&nbsp;          return signals::connection();<br>&nbsp;&nbsp;&nbsp;          &nbsp;&nbsp;&nbsp;          }<br><br>&nbsp;&nbsp;&nbsp;          &nbsp;&nbsp;&nbsp;          return impl-&gt;connect_slot(in_slot.get_slot_function(), stored_group(),<br>&nbsp;&nbsp;&nbsp;          &nbsp;&nbsp;&nbsp;          &nbsp;&nbsp;&nbsp;          in_slot.get_data(), at);<br>&nbsp;&nbsp;&nbsp;          }<br><br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        class signal_base_impl {<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        public:<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        friend class call_notification;<br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        typedef function2&lt;bool, stored_group, stored_group&gt; compare_type;<br><br><br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        class temporarily_set_clearing {<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        public:<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        temporarily_set_clearing(signal_base_impl<em> b) : base(b)<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        {<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        base-&gt;flags.clearing = true;<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        }<br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        ~temporarily_set_clearing()<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        {<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        base-&gt;flags.clearing = false;<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        }<br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        private:<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        signal_base_impl</em> base;<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        };<br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        friend class temporarily_set_clearing;<br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        signal_base_impl(const compare_type&amp;, const any&amp;);<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        ~signal_base_impl();<br><br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        void disconnect_all_slots();<br><br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        bool empty() const;<br><br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        std::size_t num_slots() const;<br><br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        void disconnect(const stored_group&amp;);<br><br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        static void slot_disconnected(void<em> obj, void</em> data);<br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        connection connect_slot(const any&amp; slot,<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        const stored_group&amp; name,<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        shared_ptr&lt;slot_base::data_t&gt; data,<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        connect_position at);<br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        private:<br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        void remove_disconnected_slots() const;<br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        public:<br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        mutable int call_depth;<br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        struct {<br><br><br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        mutable bool delayed_disconnect:1;<br><br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        bool clearing:1;<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        } flags;<br><br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        mutable named_slot<em>map slots</em>;<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        any combiner_;<br><br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        typedef named_slot_map::iterator iterator;<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        };<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       connection<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       signal_base_impl::<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; connect<em>slot(const any&amp; slot</em>,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       const stored_group&amp; name,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       shared_ptr&lt;slot_base::data_t&gt; data,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       connect_position at)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       // Transfer the burden of ownership to a local, scoped<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       // connection.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       data-&gt;watch_bound_objects.set_controlling(false);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       scoped_connection safe_connection(data-&gt;watch_bound_objects);<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       // Allocate storage for an iterator that will hold the point of<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       // insertion of the slot into the list. This is used to later remove<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       // the slot when it is disconnected.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       std::auto_ptr&lt;iterator&gt; saved<em>iter(new iterator);<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       // Add the slot to the list.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       iterator pos =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       slots</em>.insert(name, data-&gt;watch_bound<em>objects, slot</em>, at);<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       // The assignment operation here absolutely must not throw, which<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       // intuitively makes sense (because any container’s insert method<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       // becomes impossible to use in an exception-safe manner without this<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       // assumption), but doesn’t appear to be mentioned in the standard.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       <em>saved_iter = pos;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       // Fill out the connection object appropriately. None of these<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       // operations can throw<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       data-&gt;watch_bound_objects.get_connection()-&gt;signal = this;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       data-&gt;watch_bound_objects.get_connection()-&gt;signal_data =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       saved_iter.release();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       data-&gt;watch_bound_objects.get_connection()-&gt;signal_disconnect =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       &amp;signal_base_impl::slot_disconnected;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       // Make the copy of the connection in the list disconnect when it is<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       // destroyed. The local, scoped connection is then released<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       // because ownership has been transferred.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       pos-&gt;first.set_controlling();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       return safe_connection.release();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;       }<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  void signal_base_impl::slot_disconnected(void</em> obj, void<em> data)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  signal_base_impl</em> self = reinterpret_cast&lt;signal_base_impl<em>&gt;(obj);<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  // We won’t need the slot iterator after this<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  std::auto_ptr&lt;iterator&gt; slot(reinterpret_cast&lt;iterator</em>&gt;(data));<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  // If we’re flags.clearing, we don’t bother updating the list of slots<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  if (!self-&gt;flags.clearing) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  // If we’re in a call, note the fact that a slot has been deleted so<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  // we can come back later to remove the iterator<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  if (self-&gt;call_depth &gt; 0) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  self-&gt;flags.delayed<em>disconnect = true;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  else {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  // Just remove the slot now, it’s safe<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  self-&gt;slots</em>.erase(<em>slot);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  }<br><br><br>class BOOST_SIGNALS_DECL named_slot_map<br>{<br>public:<br>typedef named_slot_map_iterator iterator;<br><br>named_slot_map(const compare_type&amp; compare);<br><br>void clear();<br>iterator begin();<br>iterator end();<br>iterator insert(const stored_group&amp; name, const connection&amp; con,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      const any&amp; slot, connect_position at);<br>void disconnect(const stored_group&amp; name);<br>void erase(iterator pos);<br>void remove_disconnected_slots();<br><br>private:<br>typedef std::list&lt;connection_slot_pair&gt; group_list;<br>typedef std::map&lt;stored_group, group_list, compare_type&gt; slot_container_type;<br>typedef slot_container_type::iterator group_iterator;<br>typedef slot_container_type::const_iterator const_group_iterator;<br><br>bool empty(const_group_iterator group) const<br>{<br>&nbsp;&nbsp;&nbsp;      return (group-&gt;second.empty() &amp;&amp; group != groups.begin() &amp;&amp; group != back);<br>}<br>slot_container_type groups;<br>group_iterator back;<br>};<br><br>typedef std::list&lt;connection_slot_pair&gt; group_list;<br>typedef group_list::iterator slot_pair_iterator;<br>typedef std::map&lt;stored_group, group_list, compare_type&gt; slot_container_type;<br>typedef slot_container_type::iterator group_iterator;<br>typedef slot_container_type::const_iterator const_group_iterator;<br><br><br>#if BOOST_WORKAROUND(_MSC_VER, &lt;= 1400)<br>void named_slot_map_iterator::decrement() { assert(false); }<br>void named_slot_map_iterator::advance(difference_type) { assert(false); }<br>#endif<br><br>named_slot_map::named_slot_map(const compare_type&amp; compare) : groups(compare)<br>{<br>clear();<br>}<br><br>void named_slot_map::clear()<br>{<br>groups.clear();<br>groups[stored_group(stored_group::sk_front)];<br>groups[stored_group(stored_group::sk_back)];<br>back = groups.end();<br>–back;<br>}<br><br>named_slot_map::iterator named_slot_map::begin()<br>{<br>return named_slot_map::iterator(groups.begin(), groups.end());<br>}<br><br>named_slot_map::iterator named_slot_map::end()<br>{<br>return named_slot_map::iterator(groups.end(), groups.end());<br>}<br><br>named_slot_map::iterator<br>named_slot_map::insert(const stored_group&amp; name, const connection&amp; con,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     const any&amp; slot, connect_position at)<br>{<br>group_iterator group;<br>if (name.empty()) {<br>&nbsp;&nbsp;&nbsp;     switch (at) {<br>&nbsp;&nbsp;&nbsp;     case at_front: group = groups.begin(); break;<br>&nbsp;&nbsp;&nbsp;     case at_back: group = back; break;<br>&nbsp;&nbsp;&nbsp;     }<br>} else {<br>&nbsp;&nbsp;&nbsp;     group = groups.find(name);<br>&nbsp;&nbsp;&nbsp;     if (group == groups.end()) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     slot_container_type::value_type v(name, group_list());<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     group = groups.insert(v).first;<br>&nbsp;&nbsp;&nbsp;     }<br>}<br>iterator it;<br>it.group = group;<br>it.last_group = groups.end();<br><br>switch (at) {<br>case at_back:<br>&nbsp;&nbsp;&nbsp;     group-&gt;second.push_back(connection_slot<em>pair(con, slot));<br>&nbsp;&nbsp;&nbsp;     it.slot</em> = group-&gt;second.end();<br>&nbsp;&nbsp;&nbsp;     it.slot<em>assigned = true;<br>&nbsp;&nbsp;&nbsp;     –(it.slot</em>);<br>&nbsp;&nbsp;&nbsp;     break;<br><br>case at_front:<br>&nbsp;&nbsp;&nbsp;     group-&gt;second.push_front(connection_slot<em>pair(con, slot));<br>&nbsp;&nbsp;&nbsp;     it.slot</em> = group-&gt;second.begin();<br>&nbsp;&nbsp;&nbsp;     it.slot_assigned = true;<br>&nbsp;&nbsp;&nbsp;     break;<br>}<br>return it;<br>}<br><br>void named_slot_map::disconnect(const stored_group&amp; name)<br>{<br>group_iterator group = groups.find(name);<br>if (group != groups.end()) {<br>&nbsp;&nbsp;&nbsp;     slot_pair_iterator i = group-&gt;second.begin();<br>&nbsp;&nbsp;&nbsp;     while (i != group-&gt;second.end()) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     slot_pair_iterator next = i;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     ++next;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     i-&gt;first.disconnect();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     i = next;<br>&nbsp;&nbsp;&nbsp;     }<br>&nbsp;&nbsp;&nbsp;     groups.erase(group);<br>}<br>}<br><br>void named_slot<em>map::erase(iterator pos)<br>{<br>// Erase the slot<br>pos.slot</em>-&gt;first.disconnect();<br>pos.group-&gt;second.erase(pos.slot_);<br>}<br><br>void named_slot_map::remove_disconnected_slots()<br>{<br>// Remove any disconnected slots<br>group_iterator g = groups.begin();<br>while (g != groups.end()) {<br>&nbsp;&nbsp;&nbsp;     slot_pair_iterator s = g-&gt;second.begin();<br>&nbsp;&nbsp;&nbsp;     while (s != g-&gt;second.end()) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     if (s-&gt;first.connected()) ++s;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     else g-&gt;second.erase(s++);<br>&nbsp;&nbsp;&nbsp;     }<br><br>&nbsp;&nbsp;&nbsp;     // Clear out empty groups<br>&nbsp;&nbsp;&nbsp;     if (empty(g)) groups.erase(g++);<br>&nbsp;&nbsp;&nbsp;     else ++g;<br>}<br>}<br><br><br>class BOOST_SIGNALS_DECL named_slot_map_iterator :<br>public iterator_facade&lt;named_slot_map_iterator,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    connection_slot_pair,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    forward_traversal_tag&gt;<br>{<br>typedef std::list&lt;connection_slot_pair&gt; group_list;<br>typedef group_list::iterator slot_pair_iterator;<br>typedef std::map&lt;stored_group, group_list, compare_type&gt; slot_container_type;<br>typedef slot_container_type::iterator group_iterator;<br>typedef slot_container_type::const_iterator const_group_iterator;<br><br>typedef iterator_facade&lt;named_slot_map_iterator,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    connection_slot_pair,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    forward_traversal_tag&gt; inherited;<br>public:<br>named_slot_map_iterator() : slot_assigned(false) <br>{ }<br>named_slot_map_iterator(const named_slot_map_iterator&amp; other) <br>&nbsp;&nbsp;&nbsp;    : group(other.group), last_group(other.last_group),<br>&nbsp;&nbsp;&nbsp;    slot_assigned(other.slot_assigned)<br>{<br>&nbsp;&nbsp;&nbsp;    if (slot<em>assigned) slot</em> = other.slot_;<br>}<br>named_slot_map_iterator&amp; operator=(const named_slot_map_iterator&amp; other) <br>{<br>&nbsp;&nbsp;&nbsp;    slot_assigned = other.slot_assigned;<br>&nbsp;&nbsp;&nbsp;    group = other.group;<br>&nbsp;&nbsp;&nbsp;    last_group = other.last_group;<br>&nbsp;&nbsp;&nbsp;    if (slot<em>assigned) slot</em> = other.slot_;<br>&nbsp;&nbsp;&nbsp;    return </em>this;<br>}<br>   connection_slot<em>pair&amp; dereference() const <br>{<br>&nbsp;&nbsp;&nbsp;    return *slot</em>;<br>}<br>void increment() <br>{<br>&nbsp;&nbsp;&nbsp;    ++slot<em>;<br>&nbsp;&nbsp;&nbsp;    if (slot</em> == group-&gt;second.end()) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    ++group;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    init_next_group();<br>&nbsp;&nbsp;&nbsp;    }<br>}<br>   bool equal(const named_slot_map_iterator&amp; other) const {<br>&nbsp;&nbsp;&nbsp;    return (group == other.group<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    &amp;&amp; (group == last<em>group<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    || slot</em> == other.slot_));<br>}<br><br>#if BOOST_WORKAROUND(_MSC_VER, &lt;= 1400)<br>void decrement();<br>void advance(difference_type);<br>#endif<br><br>private:<br>named_slot_map_iterator(group_iterator group, group_iterator last) :<br>&nbsp;&nbsp;&nbsp;    group(group), last_group(last), slot_assigned(false)<br>{ init_next_group(); }<br>named_slot_map_iterator(group_iterator group, group_iterator last,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    slot_pair_iterator slot) :<br>&nbsp;&nbsp;&nbsp;    group(group), last<em>group(last), slot</em>(slot), slot_assigned(true)<br>{ }<br><br>void init_next_group()<br>{<br>&nbsp;&nbsp;&nbsp;    while (group != last_group &amp;&amp; group-&gt;second.empty()) ++group;<br>&nbsp;&nbsp;&nbsp;    if (group != last<em>group) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    slot</em> = group-&gt;second.begin();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    slot_assigned = true;<br>&nbsp;&nbsp;&nbsp;    }<br>}<br><br>group_iterator group;<br>group_iterator last_group;<br>slot_pair<em>iterator slot</em>;<br>bool slot_assigned;<br><br>friend class named_slot_map;<br>};<br><br><br> </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/12/13/boost代码分析：signal中的connect过程-下/" class="archive-article-date">
+  	<time datetime="2007-12-13T05:57:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-12-13</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-boost代码分析：signal中的connect过程-上" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2007/12/13/boost代码分析：signal中的connect过程-上/">boost代码分析：signal中的connect过程(上)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> connect 过程中 slot 的创建<br><br>&nbsp;&nbsp;&nbsp;               template&lt;<br>&nbsp;&nbsp;&nbsp;               &nbsp;&nbsp;&nbsp;               typename R,<br>&nbsp;&nbsp;&nbsp;               &nbsp;&nbsp;&nbsp;               typename T1, typename T2<br>&nbsp;&nbsp;&nbsp;               &nbsp;&nbsp;&nbsp;               ,<br>&nbsp;&nbsp;&nbsp;               &nbsp;&nbsp;&nbsp;               typename Combiner,<br>&nbsp;&nbsp;&nbsp;               &nbsp;&nbsp;&nbsp;               typename Group,<br>&nbsp;&nbsp;&nbsp;               &nbsp;&nbsp;&nbsp;               typename GroupCompare,<br>&nbsp;&nbsp;&nbsp;               &nbsp;&nbsp;&nbsp;               typename SlotFunction<br>&nbsp;&nbsp;&nbsp;               &gt;<br>&nbsp;&nbsp;&nbsp;               signals::connection<br>&nbsp;&nbsp;&nbsp;               signal2&lt;<br>&nbsp;&nbsp;&nbsp;               R, T1, T2<br>&nbsp;&nbsp;&nbsp;               ,<br>&nbsp;&nbsp;&nbsp;               Combiner, Group, GroupCompare, SlotFunction<br>&nbsp;&nbsp;&nbsp;               &gt;::connect(const slot_type&amp; in_slot,<br>&nbsp;&nbsp;&nbsp;               signals::connect_position at)<br>&nbsp;&nbsp;&nbsp;               {<br>&nbsp;&nbsp;&nbsp;               &nbsp;&nbsp;&nbsp;               using boost::signals::detail::stored_group;<br><br><br><br>&nbsp;&nbsp;&nbsp;               &nbsp;&nbsp;&nbsp;               if (!in_slot.is_active()) {<br>&nbsp;&nbsp;&nbsp;               &nbsp;&nbsp;&nbsp;               &nbsp;&nbsp;&nbsp;               return signals::connection();<br>&nbsp;&nbsp;&nbsp;               &nbsp;&nbsp;&nbsp;               }<br><br>&nbsp;&nbsp;&nbsp;               &nbsp;&nbsp;&nbsp;               return impl-&gt;connect_slot(in_slot.get_slot_function(), stored_group(),<br>&nbsp;&nbsp;&nbsp;               &nbsp;&nbsp;&nbsp;               &nbsp;&nbsp;&nbsp;               in_slot.get_data(), at);<br>&nbsp;&nbsp;&nbsp;               }<br><br><br>&nbsp;&nbsp;&nbsp;              template&lt;<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              typename R,<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              typename T1, typename T2<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              ,<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              typename Combiner = last_value&lt;R&gt;,<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              typename Group = int,<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              typename GroupCompare = std::less&lt;Group&gt;,<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              typename SlotFunction = function2&lt;<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              R ,<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              T1, T2&gt;<br>&nbsp;&nbsp;&nbsp;              &gt;<br>&nbsp;&nbsp;&nbsp;              class signal2 :<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              public signals::detail::signal_base,<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              public signals::trackable<br>&nbsp;&nbsp;&nbsp;              {<br>&nbsp;&nbsp;&nbsp;              public:<br><br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              typedef SlotFunction slot_function_type;<br><br><br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              typedef typename signals::detail::slot_result_type&lt;R&gt;::type<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              slot_result_type;<br><br><br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              typedef T1 arg2_type; typedef T2 arg3_type;<br><br><br><br><br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              typedef T1 first_argument_type;<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              typedef T2 second_argument_type;<br><br><br>&nbsp;&nbsp;&nbsp;              private:<br><br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              typedef signals::detail::group_bridge_compare&lt;GroupCompare, Group&gt;<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              real_group_compare_type;<br><br><br><br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              typedef signals::detail::call_bound2&lt;R&gt;<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              outer_bound_slot_caller;<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              typedef typename outer_bound_slot_caller::template<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              caller&lt;T1, T2<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              ,<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              slot_function_type&gt;<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              call_bound_slot;<br><br>&nbsp;&nbsp;&nbsp;              public:<br><br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              typedef typename Combiner::result_type result_type;<br><br><br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              typedef Combiner combiner_type;<br><br><br>&nbsp;&nbsp;&nbsp;               &nbsp;&nbsp;              typedef slot&lt;slot_function_type&gt; slot_type;<br><br><br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              typedef Group group_type;<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              typedef GroupCompare group_compare_type;<br><br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              typedef signals::detail::slot_call_iterator&lt;<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              call_bound_slot, iterator&gt; slot_call_iterator;<br><br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              explicit<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              signal2(const Combiner&amp; c = Combiner(),<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              const GroupCompare&amp; comp = GroupCompare()) :<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              signals::detail::signal_base(real_group_compare_type(comp),<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              c)<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              {<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              }<br><br><br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              signals::connection<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              connect(const slot_type&amp;,<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              signals::connect_position at<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              = signals::at_back);<br><br><br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              signals::connection<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              connect(const group_type&amp;, const slot_type&amp;,<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              signals::connect_position at<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              = signals::at_back);<br># 220 &quot;/home/Administrator/boost_1_34_1/boost/signals/signal<em>template.hpp&quot;<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              template&lt;typename T&gt;<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              void disconnect(const T&amp; t)<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              {<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              typedef mpl::bool</em>&lt;(is_convertible&lt;T, group_type&gt;::value)&gt; is_group;<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              this-&gt;do_disconnect(t, is_group());<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              }<br><br>&nbsp;&nbsp;&nbsp;              private:<br><br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              void do_disconnect(const group<em>type&amp; group, mpl::bool</em>&lt;true&gt;)<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              {<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              impl-&gt;disconnect(group);<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              }<br><br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              template&lt;typename Function&gt;<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              void do<em>disconnect(const Function&amp; f, mpl::bool</em>&lt;false&gt;)<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              {<br><br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              signals::detail::call<em>notification notification(this-&gt;impl);<br><br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              for (iterator i = impl-&gt;slots</em>.begin(); i != impl-&gt;slots_.end(); ++i) {<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              slot_function_type&amp; s = <em>unsafe_any_cast&lt;slot_function_type&gt;(&amp;i-&gt;second);<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              if (s == f) i-&gt;first.disconnect();<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              }<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              }<br><br><br>&nbsp;&nbsp;&nbsp;              public:<br><br><br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              result_type operator()(T1 a1, T2 a2);<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              result_type operator()(T1 a1, T2 a2) const;<br><br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              Combiner&amp; combiner()<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              { return </em>unsafe_any<em>cast&lt;Combiner&gt;(&amp;impl-&gt;combiner</em>); }<br><br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              const Combiner&amp; combiner() const<br>&nbsp;&nbsp;&nbsp;              &nbsp;&nbsp;&nbsp;              { return <em>unsafe_any<em>cast&lt;const Combiner&gt;(&amp;impl-&gt;combiner</em>); }<br>&nbsp;&nbsp;&nbsp;              };<br><br><br>template&lt;typename SlotFunction&gt;<br>class slot : public signals::detail::slot_base {<br>&nbsp;&nbsp;&nbsp;              typedef signals::detail::slot_base inherited;<br>&nbsp;&nbsp;&nbsp;              typedef typename inherited::data_t data_t;<br><br>public:<br>&nbsp;&nbsp;&nbsp;              template&lt;typename F&gt;<br>&nbsp;&nbsp;&nbsp;              slot(const F&amp; f) : slot_function(signals::get_invocable_slot(f, signals::tag_type(f)))<br>&nbsp;&nbsp;&nbsp;              {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              this-&gt;data.reset(new data_t);<br><br><br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              signals::detail::bound_objects_visitor<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              do_bind(this-&gt;data-&gt;bound_objects);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              visit_each(do_bind,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              signals::get_inspectable_slot<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              (f, signals::tag_type(f)));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              create_connection();<br>&nbsp;&nbsp;&nbsp;              }<br># 139 &quot;slot.hpp&quot;<br>public:<br><br>&nbsp;&nbsp;&nbsp;              const SlotFunction&amp; get_slot_function() const { return slot_function; }<br><br>&nbsp;&nbsp;&nbsp;              void release() const { data-&gt;watch_bound_objects.set_controlling(false); }<br><br>private:<br>&nbsp;&nbsp;&nbsp;              slot();<br>&nbsp;&nbsp;&nbsp;              slot&amp; operator=(const slot&amp;);<br><br>&nbsp;&nbsp;&nbsp;              SlotFunction slot_function;<br>};<br><br><br>class slot_base {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              public:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              struct data_t {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              std::vector&lt;const trackable</em>&gt; bound_objects;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              connection watch_bound_objects;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              };<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              shared_ptr&lt;data_t&gt; get_data() const { return data; }<br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              std::vector&lt;const trackable<em>&gt;&amp; get_bound_objects() const<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              { return data-&gt;bound_objects; }<br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              bool is_active() const<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              { return data-&gt;watch_bound_objects.connected(); }<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              protected:<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              void create_connection();<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              shared_ptr&lt;data_t&gt; data;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              private:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;              static void bound_object_destructed(void</em>, void<em>) {}<br>};<br><br><br>&nbsp;&nbsp;&nbsp;             template&lt;typename Visitor, typename T&gt;<br>&nbsp;&nbsp;&nbsp;             &nbsp;&nbsp;&nbsp;             inline void visit_each(Visitor&amp; visitor, const T&amp; t, long)<br>&nbsp;&nbsp;&nbsp;             {<br>&nbsp;&nbsp;&nbsp;             &nbsp;&nbsp;&nbsp;             visitor(t);<br>&nbsp;&nbsp;&nbsp;             }<br><br>&nbsp;&nbsp;&nbsp;             template&lt;typename Visitor, typename T&gt;<br>&nbsp;&nbsp;&nbsp;             &nbsp;&nbsp;&nbsp;             inline void visit_each(Visitor&amp; visitor, const T&amp; t)<br>&nbsp;&nbsp;&nbsp;             {<br>&nbsp;&nbsp;&nbsp;             &nbsp;&nbsp;&nbsp;             visit_each(visitor, t, 0);<br>&nbsp;&nbsp;&nbsp;             }<br><br>// bind.hpp&nbsp;&nbsp;  当 T 为 bind 类型时的特化，负责添加 bind 中的所有 trackable 的子对象<br>template&lt;class V, class R, class F, class L&gt; void visit_each( V &amp; v, bind_t&lt;R, F, L&gt; const &amp; t, int )<br>{<br>&nbsp;&nbsp;&nbsp;  t.accept( v );<br>}<br><br><br>&nbsp;&nbsp;&nbsp;             template&lt;bool Cond&gt; struct truth {};<br><br><br>&nbsp;&nbsp;&nbsp;             class bound_objects_visitor {<br>&nbsp;&nbsp;&nbsp;             public:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             bound_objects_visitor(std::vector&lt;const trackable</em>&gt;&amp; v) :<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             bound_objects(v)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             }<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             template&lt;typename T&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             void operator()(const T&amp; t) const<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             decode(t, 0);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             }<br><br>&nbsp;&nbsp;&nbsp;             private:<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             template&lt;typename T&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             void decode(const reference_wrapper&lt;T&gt;&amp; t, int) const<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             add_if_trackable(t.get_pointer());<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             }<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             template&lt;typename T&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             void decode(const T&amp; t, long) const<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             typedef truth&lt;(is_pointer&lt;T&gt;::value)&gt; is_a_pointer;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             maybe_get_pointer(t, is_a_pointer());<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             }<br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             template&lt;typename T&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             void maybe_get_pointer(const T&amp; t, truth&lt;true&gt;) const<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             add_if_trackable(t);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             }<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             template&lt;typename T&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             void maybe_get_pointer(const T&amp; t, truth&lt;false&gt;) const<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             {<br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             add_if_trackable(boost::addressof(t));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             }<br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             inline void add_if_trackable(const trackable<em> b) const<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             if (b) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             bound_objects.push_back(b);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             }<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             inline void add_if_trackable(const void</em>) const<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             }<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             template&lt;typename R&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             inline void add_if_trackable(R (<em>)()) const<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             }<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             template&lt;typename R, typename T1&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             inline void add_if_trackable(R (</em>)(T1)) const<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             }<br><br>&nbsp;&nbsp;&nbsp;            &nbsp;&nbsp;             <strong>… …</strong><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             template&lt;typename R, typename T1, typename T2, typename T3, typename T4,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             typename T5, typename T6, typename T7, typename T8, typename T9,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             typename T10&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             inline void<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             add_if_trackable(R (<em>)(T1, T2, T3, T4, T5, T6, T7, T8, T9, T10)) const<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             }<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;             std::vector&lt;const trackable</em>&gt;&amp; bound_objects;<br>&nbsp;&nbsp;&nbsp;             };<br><br><br>class trackable {<br>private:<br>&nbsp;&nbsp;&nbsp;         static void signal_disconnected(void<em> obj, void</em> data);<br><br>&nbsp;&nbsp;&nbsp;         friend class detail::signal_base_impl;<br>&nbsp;&nbsp;&nbsp;         friend class detail::slot_base;<br>&nbsp;&nbsp;&nbsp;         void signal_connected(connection, signals::detail::bound_object&amp;) const;<br><br>protected:<br>&nbsp;&nbsp;&nbsp;         trackable() : connected_signals(), dying(false) {}<br>&nbsp;&nbsp;&nbsp;         trackable(const trackable&amp;) : connected_signals(), dying(false) {}<br>&nbsp;&nbsp;&nbsp;         ~trackable();<br><br>&nbsp;&nbsp;&nbsp;         trackable&amp; operator=(const trackable&amp;)<br>&nbsp;&nbsp;&nbsp;         {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;         connected_signals.clear();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;         return <em>this;<br>&nbsp;&nbsp;&nbsp;         }<br><br>private:<br>&nbsp;&nbsp;&nbsp;         typedef std::list&lt;connection&gt; connection_list;<br>&nbsp;&nbsp;&nbsp;         typedef connection_list::iterator connection_iterator;<br><br><br>&nbsp;&nbsp;&nbsp;         mutable connection_list connected_signals;<br><br><br>&nbsp;&nbsp;&nbsp;         mutable bool dying;<br>};<br><br>&nbsp;&nbsp;&nbsp;    void trackable::signal_disconnected(void</em> obj, void<em> data)<br>&nbsp;&nbsp;&nbsp;    {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    trackable</em> self = reinterpret_cast&lt;trackable<em>&gt;(obj);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    connection_iterator</em> signal =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    reinterpret_cast&lt;connection_iterator<em>&gt;(data);<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    // If we’re dying, don’t bother erasing the connection from the list;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    // it’ll be gone anyway<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    if (!self-&gt;dying) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    self-&gt;connected_signals.erase(</em>signal);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    }<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    // This iterator pointer won’t ever be used again<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    delete signal;<br>&nbsp;&nbsp;&nbsp;    }<br><br>&nbsp;&nbsp;&nbsp;    void<br>&nbsp;&nbsp;&nbsp;    trackable::signal_connected(connection c,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    BOOST_SIGNALS_NAMESPACE::detail::bound_object&amp; binding) const<br>&nbsp;&nbsp;&nbsp;    {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    // Insert the connection<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    connection_iterator pos =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    connected_signals.insert(connected_signals.end(), c);<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    // Make this copy of the object disconnect when destroyed<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    pos-&gt;set_controlling();<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    binding.obj = const_cast&lt;void<em>&gt;(reinterpret_cast&lt;const void</em>&gt;(this));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    binding.data = reinterpret_cast&lt;void<em>&gt;(new connection_iterator(pos));<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    binding.disconnect = &amp;signal_disconnected;<br>&nbsp;&nbsp;&nbsp;    }<br><br>&nbsp;&nbsp;&nbsp;    trackable::~trackable()<br>&nbsp;&nbsp;&nbsp;    {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    dying = true;<br>&nbsp;&nbsp;&nbsp;    }<br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          void slot_base::create_connection()<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          // Create a new connection object<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          basic_connection</em> con = new basic_connection();<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          /<em> nothrow </em>/ {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          // The signal portion isn’t really necessary, except that we need a<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          // signal for the connection to be connected.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          con-&gt;signal = static_cast&lt;void<em>&gt;(this);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          con-&gt;signal<em>data = 0;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          con-&gt;blocked</em> = false ;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          con-&gt;signal_disconnect = &amp;bound_object_destructed;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          }<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          // This connection watches for destruction of bound objects. Note<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          // that the reset routine will delete con if an allocation throws<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          data-&gt;watch_bound_objects.reset(con);<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          // We create a scoped connection, so that exceptions thrown while<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          // adding bound objects will cause a cleanup of the bound objects<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          // already connected.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          scoped_connection safe_connection(data-&gt;watch_bound_objects);<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          // Now notify each of the bound objects that they are connected to this<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          // slot.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          for(std::vector&lt;const trackable</em>&gt;::iterator i =<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          data-&gt;bound_objects.begin();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          i != data-&gt;bound_objects.end(); ++i) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          // Notify the object that the slot is connecting to it<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          BOOST_SIGNALS_NAMESPACE::detail::bound_object binding;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          (<em>i)-&gt;signal_connected(data-&gt;watch_bound_objects, binding);<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          // This will notify the bound object that the connection just made<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          // should be disconnected if an exception is thrown before the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          // end of this iteration<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          BOOST_SIGNALS_NAMESPACE::detail::auto_disconnect_bound_object<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          disconnector(binding);<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          // Add the binding to the list of bindings for the connection<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          con-&gt;bound_objects.push_back(binding);<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          // The connection object now knows about the bound object, so if an<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          // exception is thrown later the connection object will notify the<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          // bound object of the disconnection automatically<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          disconnector.release();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          }<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          // No exceptions will be thrown past this point.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          safe_connection.release();<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          data-&gt;watch_bound_objects.set_controlling(true);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          }<br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        struct basic_connection {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        void</em> signal;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        void<em> signal_data;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        void (</em>signal<em>disconnect)(void<em>, void</em>);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        bool blocked</em>;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        std::list&lt;bound_object&gt; bound_objects;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        };<br><br><br>&nbsp;&nbsp;&nbsp;      class connection :<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      private less_than_comparable1&lt;connection&gt;,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      private equality_comparable1&lt;connection&gt;<br>&nbsp;&nbsp;&nbsp;      {<br>&nbsp;&nbsp;&nbsp;      public:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      connection() : con(), controlling_connection(false) {}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      connection(const connection&amp;);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      ~connection();<br><br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      void block(bool should<em>block = true) { con-&gt;blocked</em> = should<em>block; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      void unblock() { con-&gt;blocked</em> = false; }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      bool blocked() const { return !connected() || con-&gt;blocked_; }<br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      void disconnect() const;<br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      bool connected() const { return con.get() &amp;&amp; con-&gt;signal_disconnect; }<br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      bool operator==(const connection&amp; other) const;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      bool operator&lt;(const connection&amp; other) const;<br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      connection&amp; operator=(const connection&amp; other) ;<br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      void swap(connection&amp; other);<br><br>&nbsp;&nbsp;&nbsp;      public:<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      void set_controlling(bool control = true)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      { controlling_connection = control; }<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      shared_ptr&lt;signals::detail::basic_connection&gt;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      get_connection() const<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      { return con; }<br><br>&nbsp;&nbsp;&nbsp;      private:<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      friend class detail::signal_base_impl;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      friend class detail::slot_base;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      friend class trackable;<br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      void reset(signals::detail::basic_connection<em>);<br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      void add_bound_object(const signals::detail::bound_object&amp; b);<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      friend class signals::detail::bound_objects_visitor;<br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      shared_ptr&lt;signals::detail::basic_connection&gt; con;<br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;      bool controlling_connection;<br>&nbsp;&nbsp;&nbsp;      };<br><br>&nbsp;&nbsp;&nbsp;   void connection::disconnect() const<br>&nbsp;&nbsp;&nbsp;   {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   if (this-&gt;connected()) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   // Make sure we have a reference to the basic_connection object,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   // because ‘this’ may disappear<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   shared_ptr&lt;detail::basic_connection&gt; local_con = con;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   void (</em>signal_disconnect)(void<em>, void</em>) = local_con-&gt;signal_disconnect;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   // Note that this connection no longer exists<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   // Order is important here: we could get into an infinite loop if this<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   // isn’t cleared before we try the disconnect.<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   local_con-&gt;signal_disconnect = 0;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   // Disconnect signal<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   signal_disconnect(local_con-&gt;signal, local_con-&gt;signal_data);<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   // Disconnect all bound objects<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   typedef std::list&lt;BOOST_SIGNALS_NAMESPACE::detail::bound_object&gt;::iterator iterator;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   for (iterator i = local_con-&gt;bound_objects.begin();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   i != local_con-&gt;bound_objects.end(); ++i) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   assert(i-&gt;disconnect != 0);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   i-&gt;disconnect(i-&gt;obj, i-&gt;data);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   }<br>&nbsp;&nbsp;&nbsp;   }<br><br> </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/12/13/boost代码分析：signal中的connect过程-上/" class="archive-article-date">
+  	<time datetime="2007-12-13T02:15:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-12-13</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-boost代码分析：IF-Selector" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2007/12/12/boost代码分析：IF-Selector/">boost代码分析：IF Selector</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> namespace intimate {<br>&nbsp;&nbsp;&nbsp;  struct SelectThen<br>&nbsp;&nbsp;&nbsp;  {<br>&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;  template&lt;typename Then, typename Else&gt;<br>&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;  struct Result<br>&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;  {<br>&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;  typedef Then type;<br>&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;  };<br>&nbsp;&nbsp;&nbsp;  };<br><br>&nbsp;&nbsp;&nbsp;  struct SelectElse<br>&nbsp;&nbsp;&nbsp;  {<br>&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;  template&lt;typename Then, typename Else&gt;<br>&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;  struct Result<br>&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;  {<br>&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;  typedef Else type;<br>&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;  };<br>&nbsp;&nbsp;&nbsp;  };<br><br>&nbsp;&nbsp;&nbsp;  template&lt;bool Condition&gt;<br>&nbsp;&nbsp;&nbsp;  struct Selector<br>&nbsp;&nbsp;&nbsp;  {<br>&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;  typedef SelectThen type;<br>&nbsp;&nbsp;&nbsp;  };<br><br>&nbsp;&nbsp;&nbsp;  template&lt;&gt;<br>&nbsp;&nbsp;&nbsp;  struct Selector&lt;false&gt;<br>&nbsp;&nbsp;&nbsp;  {<br>&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;  typedef SelectElse type;<br>&nbsp;&nbsp;&nbsp;  };<br>}<br><br>template&lt;bool Condition, typename Then, typename Else&gt;<br>struct IF<br>{<br>&nbsp;&nbsp;&nbsp;  typedef typename intimate::Selector&lt;Condition&gt;::type select;<br>&nbsp;&nbsp;&nbsp;  typedef typename select::template Result&lt;Then,Else&gt;::type type;<br>};<br><br><br><br>template&lt;typename T&gt;<br>struct is_ref<br>{<br>&nbsp;&nbsp;&nbsp;  static const bool value = false;<br>};<br><br>template&lt;typename T&gt;<br>struct is_ref&lt;reference_wrapper&lt;T&gt; &gt;<br>{<br>&nbsp;&nbsp;&nbsp;  static const bool value = true;<br>};<br><br>struct signal_tag {};<br>struct reference_tag {};<br>struct value_tag {};<br><br><br><br>template&lt;typename S&gt;<br>class get_slot_tag {<br>&nbsp;&nbsp;&nbsp;  typedef typename IF&lt;(is_signal&lt;S&gt;::value),<br>&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;  signal_tag,<br>&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;  value_tag&gt;::type signal_or_value;<br><br>public:<br>&nbsp;&nbsp;&nbsp;  typedef typename IF&lt;(is_ref&lt;S&gt;::value),<br>&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;  reference_tag,<br>&nbsp;&nbsp;&nbsp;  &nbsp;&nbsp;&nbsp;  signal_or_value&gt;::type type;<br>};<br> </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/12/12/boost代码分析：IF-Selector/" class="archive-article-date">
+  	<time datetime="2007-12-12T04:33:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-12-12</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-boost代码分析：signal中的回调及combiner-最终返回值" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2007/12/12/boost代码分析：signal中的回调及combiner-最终返回值/">boost代码分析：signal中的回调及combiner(最终返回值)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> 用 cd boost_1_34_1/boost; cpp -I /home/Administrator/boost_1_34_1 signal.hpp 产生预处理过的代码<br><br>combiner中要遍历并dereference每个元素，在dereference时用户connect上的函数才真正被调用，因此发生形如下面的sig(5,3)的调用时，实际上调用connect连接的函数的责任落在maximum身上(++和<em>操作)<br><br>template&lt;typename T&gt;<br>struct maximum<br>{<br>  typedef T result_type;<br><br>  template&lt;typename InputIterator&gt;<br>  T operator()(InputIterator first, InputIterator last) const<br>  {<br>    // If there are no slots to call, just return the<br>    // default-constructed value<br>    if (first == last)<br>      return T();<br><br>    T max_value = </em>first++;<br>    while (first != last) {<br>      if (max_value &lt; <em>first)<br>        max_value = </em>first;<br>      ++first;<br>    }<br> <br>    return max_value;<br>  }<br><br>};<br>float product(float x, float y) { cout&lt;&lt;&quot;product&quot;&lt;&lt;endl; return x<em>y; }<br>float quotient(float x, float y) { cout&lt;&lt;&quot;quotient&quot;&lt;&lt;endl; return x/y; }<br>float sum(float x, float y) { cout&lt;&lt;&quot;sum&quot;&lt;&lt;endl; return x+y; }<br>float difference(float x, float y) { cout&lt;&lt;&quot;difference&quot;&lt;&lt;endl; return x-y; }<br><br>int main(int argc, char </em> argv[])<br>{<br> boost::signal&lt;float (float x, float y), maximum&lt;float&gt; &gt; sig;<br> sig.connect(&amp;product);<br> sig.connect(&amp;quotient);<br> sig.connect(&amp;sum);<br> sig.connect(&amp;difference);<br><br> std::cout &lt;&lt; sig(5, 3) &lt;&lt; std::endl;<br>}<br>output:<br>product<br>quotient<br>sum<br>difference<br>15<br>/////////////////////////////////////////////////////////////////<br>// change maximum to the following:<br>template&lt;typename T&gt;<br>struct maximum<br>{<br>  typedef T result_type;<br><br>  template&lt;typename InputIterator&gt;<br>  T operator()(InputIterator first, InputIterator last) const<br>  {<br>    // If there are no slots to call, just return the<br>    // default-constructed value<br>    if (first == last)<br>      return T();<br><br>    T max_value = <em>first++;<br>    while (first != last) {<br>//      if (max_value &lt; </em>first)<br>//        max_value = <em>first;<br>      ++first;<br>    }<br> <br>    return max_value;<br>  }<br><br>};<br>output:<br>product<br>15<br><br><br>Ref：<br><a href="http://www.ithao123.com/cpluspluslib/20071020/1677.html#" target="_blank" rel="external">boost源码剖析之：多重回调机制signal(上)</a><br><a href="http://www.ithao123.com/cpluspluslib/20071020/1677.html" target="_blank">http://www.ithao123.com/cpluspluslib/20071020/1677.html</a><br><br>&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;&mdash;<br><br>&nbsp;&nbsp;&nbsp;         template&lt;<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         typename R,<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         typename T1, typename T2<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         ,<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         typename Combiner,<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         typename Group,<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         typename GroupCompare,<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         typename SlotFunction<br>&nbsp;&nbsp;&nbsp;         &gt;<br>&nbsp;&nbsp;&nbsp;         typename signal2&lt;<br>&nbsp;&nbsp;&nbsp;         R, T1, T2<br>&nbsp;&nbsp;&nbsp;         ,<br>&nbsp;&nbsp;&nbsp;         Combiner, Group, GroupCompare, SlotFunction&gt;::result_type<br>&nbsp;&nbsp;&nbsp;         signal2&lt;<br>&nbsp;&nbsp;&nbsp;         R, T1, T2<br>&nbsp;&nbsp;&nbsp;         ,<br>&nbsp;&nbsp;&nbsp;         Combiner, Group, GroupCompare, SlotFunction<br>&nbsp;&nbsp;&nbsp;         &gt;::operator()(T1 a1, T2 a2)<br>&nbsp;&nbsp;&nbsp;         {<br><br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         signals::detail::call_notification notification(this-&gt;impl);<br><br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         signals::detail::args2&lt;T1, T2&gt; args(a1, a2);<br><br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         call_bound_slot f(&amp;args);<br><br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         typedef typename call_bound_slot::result_type result_type;<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         optional&lt;result_type&gt; cache;<br><br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         return combiner()(slot_call<em>iterator(notification.impl-&gt;slots</em>.begin(),<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         impl-&gt;slots_.end(), f, cache),<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         slot_call<em>iterator(notification.impl-&gt;slots</em>.end(),<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         impl-&gt;slots_.end(), f, cache));<br>&nbsp;&nbsp;&nbsp;         }<br><br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  call_notification::<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  call_notification(const shared_ptr&lt;signal_base_impl&gt;&amp; b) :<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  impl(b)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  // A call will be made, so increment the call depth as a notification<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  impl-&gt;call_depth++;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  }<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  call_notification::~call_notification()<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  impl-&gt;call_depth–;<br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  // If the call depth is zero and we have some slots that have been<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  // disconnected during the calls, remove those slots from the list<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  if (impl-&gt;call_depth == 0 &amp;&amp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  impl-&gt;flags.delayed_disconnect) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  impl-&gt;remove_disconnected_slots();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  impl-&gt;flags.delayed_disconnect = false;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  }<br><br><br>// 针对 signal2 分析<br>&nbsp;&nbsp;&nbsp;         template&lt;<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         typename R,<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         typename T1, typename T2<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         ,<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         typename Combiner = last_value&lt;R&gt;,<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         typename Group = int,<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         typename GroupCompare = std::less&lt;Group&gt;,<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         typename SlotFunction = function2&lt;<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         R ,<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         T1, T2&gt;<br>&nbsp;&nbsp;&nbsp;         &gt;<br>&nbsp;&nbsp;&nbsp;         class signal2 :<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         public signals::detail::signal_base,<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         public signals::trackable<br>&nbsp;&nbsp;&nbsp;         {<br>&nbsp;&nbsp;&nbsp;         public:<br><br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         typedef SlotFunction slot_function_type;<br><br><br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         typedef typename signals::detail::slot_result_type&lt;R&gt;::type<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         slot_result_type;<br><br><br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         typedef T1 arg2_type; typedef T2 arg3_type;<br><br><br><br><br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         typedef T1 first_argument_type;<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         typedef T2 second_argument_type;<br><br><br>&nbsp;&nbsp;&nbsp;         private:<br><br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         typedef signals::detail::group_bridge_compare&lt;GroupCompare, Group&gt;<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         real_group_compare_type;<br><br><br><br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         typedef signals::detail::call_bound2&lt;R&gt;<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         outer_bound_slot_caller;<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         typedef typename outer_bound_slot_caller::template<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         caller&lt;T1, T2<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         ,<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         slot_function_type&gt;<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         call_bound_slot;<br><br>&nbsp;&nbsp;&nbsp;         public:<br><br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         typedef typename Combiner::result_type result_type;<br><br><br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         typedef Combiner combiner_type;<br><br><br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         typedef slot&lt;slot_function_type&gt; slot_type;<br><br><br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         typedef Group group_type;<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         typedef GroupCompare group_compare_type;<br><br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         typedef signals::detail::slot_call_iterator&lt;<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         call_bound_slot, iterator&gt; slot_call_iterator;<br><br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         explicit<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         signal2(const Combiner&amp; c = Combiner(),<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         const GroupCompare&amp; comp = GroupCompare()) :<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         signals::detail::signal_base(real_group_compare_type(comp),<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         c)<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         {<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         }<br><br><br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         signals::connection<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         connect(const slot_type&amp;,<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         signals::connect_position at<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         = signals::at_back);<br><br><br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         signals::connection<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         connect(const group_type&amp;, const slot_type&amp;,<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         signals::connect_position at<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         = signals::at_back);<br># 220 &quot;/home/Administrator/boost_1_34_1/boost/signals/signal<em>template.hpp&quot;<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         template&lt;typename T&gt;<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         void disconnect(const T&amp; t)<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         {<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         typedef mpl::bool</em>&lt;(is_convertible&lt;T, group_type&gt;::value)&gt; is_group;<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         this-&gt;do_disconnect(t, is_group());<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         }<br><br>&nbsp;&nbsp;&nbsp;         private:<br><br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         void do_disconnect(const group<em>type&amp; group, mpl::bool</em>&lt;true&gt;)<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         {<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         impl-&gt;disconnect(group);<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         }<br><br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         template&lt;typename Function&gt;<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         void do<em>disconnect(const Function&amp; f, mpl::bool</em>&lt;false&gt;)<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         {<br><br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         signals::detail::call<em>notification notification(this-&gt;impl);<br><br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         for (iterator i = impl-&gt;slots</em>.begin(); i != impl-&gt;slots_.end(); ++i) {<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         slot_function_type&amp; s = </em>unsafe_any_cast&lt;slot_function_type&gt;(&amp;i-&gt;second);<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         if (s == f) i-&gt;first.disconnect();<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         }<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         }<br><br><br>&nbsp;&nbsp;&nbsp;         public:<br><br><br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         result_type operator()(T1 a1, T2 a2);<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         result_type operator()(T1 a1, T2 a2) const;<br><br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         Combiner&amp; combiner()<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         { return <em>unsafe_any<em>cast&lt;Combiner&gt;(&amp;impl-&gt;combiner</em>); }<br><br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         const Combiner&amp; combiner() const<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         { return </em>unsafe_any<em>cast&lt;const Combiner&gt;(&amp;impl-&gt;combiner</em>); }<br>&nbsp;&nbsp;&nbsp;         };<br><br><br>// iterator_facade&lt;…&gt; 是比较一般性的 iterator 基类，由它会调用子类的 dereference，increment 等<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         template&lt;typename Function, typename Iterator&gt;<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         class slot_call_iterator<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         : public iterator_facade&lt;slot_call_iterator&lt;Function, Iterator&gt;,<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         typename Function::result_type,<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         single_pass_traversal_tag,<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         typename Function::result_type const&amp;&gt;<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         {<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         typedef iterator_facade&lt;slot_call_iterator&lt;Function, Iterator&gt;,<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         typename Function::result_type,<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         single_pass_traversal_tag,<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         typename Function::result_type const&amp;&gt;<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         inherited;<br><br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         typedef typename Function::result_type result_type;<br><br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         friend class iterator_core_access;<br><br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         public:<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         slot_call_iterator(Iterator iter_in, Iterator end_in, Function f,<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         optional&lt;result_type&gt; &amp;c)<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         : iter(iter_in), end(end_in), f(f), cache(&amp;c)<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         {<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         iter = std::find_if(iter, end, is_callable());<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         }<br><br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         typename inherited::reference<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         dereference() const<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         {<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         if (!cache-&gt;is_initialized()) {<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         cache-&gt;reset(f(<em>iter));<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         }<br><br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         return cache-&gt;get();<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         }<br><br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         void increment()<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         {<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         iter = std::find_if(++iter, end, is_callable());<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         cache-&gt;reset();<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         }<br><br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         bool equal(const slot_call_iterator&amp; other) const<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         {<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         iter = std::find_if(iter, end, is_callable());<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         other.iter = std::find_if(other.iter, other.end,<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         is_callable());<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         return iter == other.iter;<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         }<br><br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         private:<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         mutable Iterator iter;<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         Iterator end;<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         Function f;<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         optional&lt;result_type&gt;</em> cache;<br>&nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         &nbsp;&nbsp;&nbsp;         };<br><br>// 看看调用 combiner  operator() 的参数类型<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        typedef signals::detail::slot_call_iterator&lt;<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        call_bound_slot, iterator&gt; slot_call_iterator;<br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        typedef typename outer_bound_slot_caller::template<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        caller&lt;T1, T2<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        ,<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        slot_function_type&gt;<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        call_bound_slot;<br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        typedef signals::detail::call_bound2&lt;R&gt;<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        outer_bound_slot_caller;<br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        template&lt;typename R&gt;<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        struct call_bound2 {<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        template&lt;typename T1, typename T2<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        ,<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        typename F&gt;<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        struct caller {<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        typedef args2&lt;T1, T2&gt;<em><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        args_type;<br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        args_type args;<br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        typedef R result_type;<br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        caller() {}<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        caller(args_type a) : args(a) {}<br><br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        template&lt;typename Pair&gt;<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        R operator()(const Pair&amp; slot) const&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        // 对应于前面的f(</em>iter)调用<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        {<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        F<em> target = const_cast&lt;F</em>&gt;(unsafe_any_cast&lt;F&gt;(&amp;slot.second));<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        return (*target)(args-&gt;a1, args-&gt;a2);<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        }<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        };<br>&nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        &nbsp;&nbsp;&nbsp;        }; </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/12/12/boost代码分析：signal中的回调及combiner-最终返回值/" class="archive-article-date">
+  	<time datetime="2007-12-11T17:45:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-12-12</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-【zz】X-Forwarding-with-Putty-on-Windows" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2007/12/10/【zz】X-Forwarding-with-Putty-on-Windows/">【zz】X Forwarding with Putty on Windows</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> X Forwarding with Putty on Windows                                                    </p><p> </p>Intro to X ForwardingUnix machines have been able to run software on a remote machine and display the GUI locally for almost two decades. Linux and Mac OS X support X Forwarding with no extra software. Any terminal on Linux should do X Forwarding, Mac users need to run &quot;<samp>Applications &gt; Utilities &gt; XTerm</samp>&quot;. In a command line terminal run &quot;<samp>ssh -Y jdoe@compute.example.edu matlab</samp>&quot; and you’ll be running matlab on &quot;<samp>compute.example.edu</samp>&quot; but seeing it on your desktop.<p>Windows users need two pieces of software: an secure shell program (ssh) to establish the remote connection and an X Server to handle the local display.</p>Prerequisites<ul> <li><a href="http://www.chiark.greenend.org.uk/%7Esgtatham/putty/" target="_blank" rel="external">Putty</a> for SSH</li> <li><a href="http://www.starnet.com/products/xwin32/" target="_blank" rel="external">XWin32</a>, or <a href="http://www.straightrunning.com/XmingNotes/" target="_blank" rel="external">XMing with Portable PuTTY</a> for the XServer</li></ul>Configuring Putty<ol> <li>Add Unix hostname</li> <li>Switch Protocol to SSH</li> <li>Type name of session in saved sessions</li> <li>Click ‘Save’</li> <br> <br> <img src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_math_default_putty-sm.png"><br> <br> <li>Choose ‘Tunnels’ from ‘Category’ list</li> <li>Check ‘Enable X11 Forwarding’</li> <br> <br> <img src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_math_xfwd_putty-sm.png"><br> <br> <li>Choose ‘Session’ from ‘Category’ list</li> <li>Click ‘Save’</li></ol>Starting the X Server on WindowsConfiguring XWin-32<ol> <li>Start XWin-32</li> <li>Click ‘Security’ tab</li> <li>Click ‘Add…’</li> <li>Enter ‘localhost’ without quotes and click ‘OK’</li></ol>Configuring XmingJust run &quot;All Programs &gt; Xming Xming&quot; and it should work if you’ve got PuTTY configured.Connecting<ol> <li>Start XWin32</li> <li>Start Putty</li> <li>Double click on the saved session you want</li> <br> <br> <img src="http://img.pickbox.me/wp-content/uploads/pic/other_site/www_math_session_putty-sm.png"><br> <br> <li>Enter username and password as requested</li> <li>You should now be able to run X applications from the host <br>    on your local desktop</li></ol>Fonts<p>Some older versions of XWin32 require fonts to be install to run certain programs, such as Mathematica</p>They can be found <a href="http://www.starnet.com/support/xwin32/extrafonts.htm" target="_blank" rel="external">here</a>. <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/12/10/【zz】X-Forwarding-with-Putty-on-Windows/" class="archive-article-date">
+  	<time datetime="2007-12-10T06:28:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-12-10</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux-App/">Linux App</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-dlopen" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2007/11/29/dlopen/">dlopen</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> glibc-2.3.2<br><a href="http://docs.google.com/Doc?id=dnc5d3v_54g68p74" target="_blank">http://docs.google.com/Doc?id=dnc5d3v_54g68p74</a><br><br>Intel平台下Linux中ELF文件动态链接的加载、解析及实例分析（一）: 加载<br><a href="http://www.ibm.com/developerworks/cn/linux/l-elf/part1/index.html" target="_blank">http://www.ibm.com/developerworks/cn/linux/l-elf/part1/index.html</a><br>Intel平台下linux中ELF文件动态链接的加载、解析及实例分析（二）: 函数解析与卸载<br><a href="http://www.ibm.com/developerworks/cn/linux/l-elf/part2/index.html" target="_blank">http://www.ibm.com/developerworks/cn/linux/l-elf/part2/index.html</a><br><br> </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/11/29/dlopen/" class="archive-article-date">
+  	<time datetime="2007-11-28T16:34:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-11-29</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-Call-graph-g2v、vco、xvcg-mkinput、mkgraph-mkgraph0-sh、dot-cyg-profile-func-enter、pvtrace、dot" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2007/11/20/Call-graph-g2v、vco、xvcg-mkinput、mkgraph-mkgraph0-sh、dot-cyg-profile-func-enter、pvtrace、dot/">Call graph: g2v、vco、xvcg/mkinput、mkgraph/mkgraph0.sh、dot/__cyg_profile_func_enter、pvtrace、dot</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> 对于内核的函数调用关系参见：<br><a target="_blank" href="http://tree.celinuxforum.org/CelfPubWiki/KernelFunctionTrace">http://tree.celinuxforum.org/CelfPubWiki/KernelFunctionTrace</a><br><a target="_blank" href="http://www.csn.ul.ie/~mel/projects/codeviz/">http://www.csn.ul.ie/~mel/projects/codeviz/</a><br></p><p>                        [jfo@Fedora4 debug]$ ls<br>            main.c<br>            [jfo@Fedora4 debug]$ cat main.c<br>            ///////////////////////////////////////////////////<br>            //main.c<br>            #include &lt;stdio.h&gt;<br>            #include &lt;stdlib.h&gt;<br> <br>            void f1(int);<br> <br>            void f12(int i)<br>            {<br>            &nbsp;&nbsp;&nbsp;           printf(&quot;f12(%d)n&quot;, i);<br>            &nbsp;&nbsp;&nbsp;           if(i&gt;0)<br>            &nbsp;&nbsp;&nbsp;           &nbsp;&nbsp;&nbsp;           f1(i-1);<br>            }<br> <br>            void f13()<br>            {<br>            &nbsp;&nbsp;&nbsp;           printf(&quot;f13()n&quot;);<br>            }<br> <br>            void f1(int i)<br>            {<br>            &nbsp;&nbsp;&nbsp;           printf(&quot;f1(%d)n&quot;, i);<br>            &nbsp;&nbsp;&nbsp;           f12(i);<br>            &nbsp;&nbsp;&nbsp;           f13();<br>            }<br> <br>            void f2(int i)<br>            {<br>            &nbsp;&nbsp;&nbsp;           printf(&quot;f2(%d)n&quot;, i);<br>            &nbsp;&nbsp;&nbsp;           if(i&gt;0)<br>            &nbsp;&nbsp;&nbsp;           &nbsp;&nbsp;&nbsp;           f2(i-1);<br>            }<br> <br>            int main()<br>            {<br>            &nbsp;&nbsp;&nbsp;           f1(4);<br>            &nbsp;&nbsp;&nbsp;           f2(3);<br>            &nbsp;&nbsp;&nbsp;           return 0;<br>            }<br>            ///////////////////////////////////////////////////////<br>            [jfo@Fedora4 debug]$ gcc -pg -g -o main main.c<br>            [jfo@Fedora4 debug]$ ls<br>            main  main.c<br> <br>            [jfo@Fedora4 debug]$ ./main<br>            f1(4)<br>            f12(4)<br>            f1(3)<br>            f12(3)<br>            f1(2)<br>            f12(2)<br>            f1(1)<br>            f12(1)<br>            f1(0)<br>            f12(0)<br>            f13()<br>            f13()<br>            f13()<br>            f13()<br>            f13()<br>            f2(3)<br>            f2(2)<br>            f2(1)<br>            f2(0)<br>            [jfo@Fedora4 debug]$ ls<br>            gmon.out  main  main.c<br> <br>            /<em><br>            </em> Call Graph Drawing Interface<br>            <em> Call Graph tools can be downloaded here:<br>            </em> <a target="_blank" href="http://www.ida.liu.se/%7Evaden/cgdi/">http://www.ida.liu.se/%7Evaden/cgdi/</a><br>            <em> cg.tar.gz contains two usefull tools:<br>            </em>&nbsp;&nbsp;           g2v: convert gprof output into a pair file<br>            <em>&nbsp;&nbsp;           vco: generate vcg file based on the pair file &amp; exception file<br>            </em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;           exception file defines functions which is to be removed<br>            <em>     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;           from call graph.<br>            </em> The final output vcg file can be used as input to xvcg to <br>            <em> draw call graph.<br>            </em>/<br>            [jfo@Fedora4 debug]$ gprof main gmon.out | g2v<br>            1 3<br>            2 4<br>            2 3<br>            3 2<br>            5 5<br>            0000 0000<br>            1 &lt;cycle 1 as a whole&gt; [1]<br>            2 f1<br>            3 f12<br>            4 f13<br>            5 f2<br> <br>            [jfo@Fedora4 debug]$ gprof main gmon.out | g2v &gt; main.pair<br>            [jfo@Fedora4 debug]$ ls<br>            gmon.out  main  main.c  main.pair<br> <br>            [jfo@Fedora4 debug]$ vco main.pair main.exc -i<br>            graph: {<br>            orientation: left_to_right<br>            node: { title: &quot;2&quot; label: &quot;f1&quot; borderwidth: 0  }<br>            node: { title: &quot;3&quot; label: &quot;f12&quot; borderwidth: 0  }<br>            node: { title: &quot;4&quot; label: &quot;f13&quot; borderwidth: 0  }<br>            node: { title: &quot;5&quot; label: &quot;f2&quot; borderwidth: 0  }<br>            edge: { sourcename: &quot;2&quot; targetname: &quot;4&quot;  thickness: 1&nbsp;&nbsp;           }<br>            edge: { sourcename: &quot;2&quot; targetname: &quot;3&quot;  thickness: 1&nbsp;&nbsp;           }<br>            edge: { sourcename: &quot;3&quot; targetname: &quot;2&quot;  thickness: 1&nbsp;&nbsp;           }<br>            edge: { sourcename: &quot;5&quot; targetname: &quot;5&quot;  thickness: 1&nbsp;&nbsp;           }<br>            }<br> <br>            [jfo@Fedora4 debug]$ vco main.pair main.exc -i &gt; main.vcg<br>            [jfo@Fedora4 debug]$ ls<br>            gmon.out  main  main.c  main.exc  main.pair  main.vcg<br> <br>            /<em><br>            </em> vcg reference<br>            <em> <a target="_blank" href="http://rw4.cs.uni-sb.de/~sander/html/gsvcg1.html">http://rw4.cs.uni-sb.de/~sander/html/gsvcg1.html</a><br>            </em>/<br>            [jfo@Fedora4 debug]$ xvcg main.vcg<br>            …<br>            [jfo@Fedora4 debug]$ xvcg -psoutput main.ps  main.vcg<br>            Wait…………………..x[jfo@Fedora4 debug]$<br> <br>            [jfo@Fedora4 debug]$ ls<br>            gmon.out  main  main.c  main.exc  main.pair  main.ps  main.vcg<br> <br> <br>            =============================== or ================================<br> <br>            /<em><br>            </em> mkgraph<br>            <em> We can used the tools from redhat:<br>            </em> <a href="http://people.redhat.com/sgrubb/audit/visualize/index.html" target="_blank">http://people.redhat.com/sgrubb/audit/visualize/index.html</a><br>            <em> mkgraph-redhat.tar.bz2 contains:<br>            </em>&nbsp;&nbsp;          mkgraph: take function call pairs to generate .ps using dot,<br>            <em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          you can modify this bash script to keep .dot file,<br>            </em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          and generate .jpg file directly.<br>            <em> &nbsp;&nbsp;          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          usage: cat pairs | mkgraph file_prefix<br>            </em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          output: file_prefix.ps.gz or file_prefix.jpg<br>            <em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          function call pairs format:<br>            </em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          f1  f2<br>            <em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          f1  f3<br>            </em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          f2  f3<br>            <em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          ….<br>            </em>&nbsp;&nbsp;          mkinput: modified from vco.cc, output function calls pairs.<br>            <em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          input file should be a pair file from g2v<br>            </em>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          usage: mkinput file.pair file.exp<br>            <em>/<br>            [jfo@Fedora4 debug]$ mkinput main.pair main.exc<br>            f1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          f13<br>            f1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          f12<br>            f12&nbsp;&nbsp;&nbsp;&nbsp;          f1<br>            f2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          f2<br>            [jfo@Fedora4 debug]$ mkinput main.pair main.exc &gt; main.input<br>            [jfo@Fedora4 debug]$ cat main.input | mkgraph<br>            Gzipping graph…<br>            Graph was written to gr.ps.gz<br>            [jfo@Fedora4 debug]$ ls<br>            gmon.out  main&nbsp;&nbsp;&nbsp;          main.exc&nbsp;&nbsp;&nbsp;          main.pair  main.vcg<br>                         gr.ps.gz  main.c  main.input  main.ps<br> <br>            [jfo@Fedora4 debug]$ cat main.input | mkgraph main.graph<br>            Gzipping graph…<br>            Graph was written to main.graph.ps.gz<br>            [jfo@Fedora4 debug]$ ls<br>            gmon.out  main.c&nbsp;&nbsp;&nbsp;          main.graph.ps.gz  main.pair  main.vcg<br>            main&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          main.exc  main.input&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;          main.ps<br> <br> <br>            =============================== or ================================<br> <br> <br>            /</em><br>            <em> mkgraph0.sh<br>            </em> see <a target="_blank" href="http://hi.baidu.com/j%5Ffo/blog/item/409969636d1bdd630c33fab0.html">http://hi.baidu.com/j%5Ffo/blog/item/409969636d1bdd630c33fab0.html</a><br>            <em> The tarball can be downloaded at:<br>            </em> <a target="_blank" href="http://www.ioplex.com/~miallen/mkgraph.tar.gz">http://www.ioplex.com/~miallen/mkgraph.tar.gz</a><br>            <em><br>            </em> For Multiprocess Program, see the company manual &quot;mkgraph.html&quot;<br>            <em>/<br>            [jfo@Fedora4 debug]$ mkgraph0.sh main gmon.out<br>            Use of uninitialized value in hash element at /home/jfo/work/mkgraph.sh/dot_from_pl.pl line 46, &lt;STDIN&gt; chunk 1.<br>            [jfo@Fedora4 debug]$ ls<br>            gmon.out&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;         gmon.out.ps  main.c&nbsp;&nbsp;&nbsp;         main.graph.jpg&nbsp;&nbsp;&nbsp;         main.input  main.ps<br>            gmon.out.dot  main&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;         main.exc  main.graph.ps.gz  main.pair&nbsp;&nbsp;         main.vcg<br>            [jfo@Fedora4 debug]$<br> <br> <br> <br>            ================================== or ==================================<br>            /</em><br>            <em> __cyg_profile_func_enter、pvtrace、Graphviz<br>            </em> For this method, refer:<br>            <em> <a href="http://hi.baidu.com/j%5Ffo/blog/item/e305087b7ab3cff70bd18734.html" target="_blank">http://hi.baidu.com/j%5Ffo/blog/item/e305087b7ab3cff70bd18734.html</a><br>            </em>/<br>            [jfo@Fedora4 debug]$ dot -Tjpg gmon.out.dot -o main.jpg<br>            Error: Could not find/open font : Times-Roman<br>            [jfo@Fedora4 debug]$ ls<br>            gmon.out&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        main&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        main.graph.jpg&nbsp;&nbsp;&nbsp;        main.jpg&nbsp;&nbsp;        main.vcg<br>            gmon.out.dot  main.c&nbsp;&nbsp;&nbsp;        main.graph.ps.gz  main.pair<br>            gmon.out.ps&nbsp;&nbsp;        main.exc  main.input&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;        main.ps            </p> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/11/20/Call-graph-g2v、vco、xvcg-mkinput、mkgraph-mkgraph0-sh、dot-cyg-profile-func-enter、pvtrace、dot/" class="archive-article-date">
+  	<time datetime="2007-11-20T12:24:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-11-20</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux-Debug/">Linux Debug</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-gprof、mkgraph、Graphviz-可视化函数调用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2007/11/20/gprof、mkgraph、Graphviz-可视化函数调用/">gprof、mkgraph、Graphviz 可视化函数调用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <a target="_blank" href="http://oss.lzu.edu.cn/modules/newbb/viewtopic.php?topic_id=884">http://oss.lzu.edu.cn/modules/newbb/viewtopic.php?topic_id=884</a><br><br>gprof用法<br>gprof -b cflow gmon.out | less<br>cflow<br>cflow parser.c<br>mkgraph：从gmon.out中提取调用关系，生产.dot文件和graphic文件<br>mkgraph0.sh cflow gmon.out<br>KFT(kernel function trace)<br><a href="http://tree.celinuxforum.org/CelfPubWiki/KernelFunctionTrace" target="_blank">http://tree.celinuxforum.org/CelfPubWiki/KernelFunctionTrace</a><br>CodeViz - A call graph generation utility for C/C++<br><a target="_blank" href="http://www.csn.ul.ie/%7Emel/projects/codeviz/">http://www.csn.ul.ie/~mel/projects/codeviz/</a><br><br><br>作者: 姜洪庆 出处:51CTO.com<br>关 键 词：gprof  callgraph  函数消耗的时间  Linux应用分析<br>阅读提示：本文介绍了如何使用Gnu gprof 对Linux平台下的现有程序进行优化分析和生成程序调用图。主要偏重于对生成和使用流程图作介绍。<br><br>【51CTO.com独家稿件】Gprof 简介:<br><br>Gprof功能：打印出程序运行中各个函数消耗的时间，可以帮助程序员找出众多函数中耗时最多的函数。产生程序运行时候的函数调用关系，包括调用次数，可以帮助程序员分析程序的运行流程。<br><br>有 了函数的调用关系，这会让开发人员大大提高工作效率，不用费心地去一点点找出程序的运行流程，这对小程序来说可能效果不是很明显，但对于有几万，几十万代 码量的工程来说，效率是毋庸置疑的！而且这个功能对于维护旧代码或者是分析Open Source来说那是相当诱人的，有了调用图，对程序的运行框架也就有了一个大体了解，知道了程序的&ldquo;骨架&ldquo;，分析它也就不会再那么茫然，尤其是对自己不 熟悉的代码和Open Source。费话不多说了，让我们开始我们的分析之旅吧！<br><br>Gprof 实现原理：<br><br>通过在编译和 链接你的程序的时候（使用 -pg 编译和链接选项），gcc 在你应用程序的每个函数中都加入了一个名为mcount ( or &ldquo;_mcount&rdquo; , or &ldquo;__mcount&rdquo; , 依赖于编译器或操作系统)的函数，也就是说你的应用程序里的每一个函数都会调用mcount, 而mcount 会在内存中保存一张函数调用图，并通过函数调用堆栈的形式查找子函数和父函数的地址。这张调用图也保存了所有与函数相关的调用时间，调用次数等等的所有信 息。<br><br>Gprof基本用法：<br><br>1． 使用 -pg 编译和链接你的应用程序。<br><br>2． 执行你的应用程序使之生成供gprof 分析的数据。<br><br>3． 使用gprof 程序分析你的应用程序生成的数据。<br><br>Gprof 简单使用：<br><br>让我们简单的举个例子来看看Gprof是如何使用的。<br><br>1．打开linux终端。新建一个test.c文件，并生用-pg 编译和链接该文件。 test.c 文件内容如下：<br>引文:<blockquote>#include &quot;stdio.h&quot;<br><br>#include &quot;stdlib.h&quot;<br><br><br><br>void a(){<br><br>printf(&quot;tt+—call a() functionn&quot;);<br><br>}<br><br><br><br>void c(){<br><br>printf(&quot;tt+—call c() functionn&quot;);<br><br>}<br><br><br><br>int b(){<br><br>printf(&quot;t+— call b() functionn&quot;);<br><br>a();<br><br>c();<br><br>return 0;<br><br>}<br><br>int main(){<br><br>printf(&quot; main() function()n&quot;);<br><br>b();<br><br>}</blockquote><br><br><br>命令行里面输入下面命令，没加-c选项，gcc 会默认进行编译并链接生成a.out:<br>引文:<blockquote>[linux /home/test]$gcc -pg test.c</blockquote><br><br><br>如 果没有编译错误，gcc会在当前目录下生成一个a.out文件，当然你也可以使用 &ndash;o 选项给生成的文件起一个别的名字，像 gcc &ndash;pg test.c &ndash;o test , 则gcc会生成一个名为test的可执行文件,在命令行下输入[linux /home/test]$./test , 就可以执行该程序了，记住一定要加上 ./ 否则程序看上去可能是执行，可是什么输出都没有。<br><br>2．执行你的应用程序使之生成供gprof 分析的数据。  命令行里面输入:<br>引文:<blockquote>[linux /home/test]$a.out<br><br>main() function()<br><br>+— call b() function<br><br>+—call a() function<br><br>+—call c() function<br><br>[linux /home/test]$</blockquote><br>你会在当前目录下看到一个gmon.out 文件， 这个文件就是供gprof 分析使用的。<br><br>3．使用gprof 程序分析你的应用程序生成的数据。<br><br>命令行里面输入:<br>引文:<blockquote>[linux /home/test]$ gprof -b a.out gmon.out | less</blockquote><br>由 于gprof输出的信息比较多，这里使用了 less 命令，该命令可以让我们通过上下方向建查看gprof产生的输出，| 表示gprof -b a.out gmon.out 的输出作为 less的输入。下面是我从gprof输出中摘抄出的与我们有关的一些详细信息。<br>引文:<blockquote>%     cumulative    self              self     total<br><br>time   seconds     seconds    calls  Ts/call  Ts/call  name<br><br>0.00      0.00     0.00        1     0.00     0.00  a<br><br>0.00      0.00     0.00        1     0.00     0.00  b<br><br>0.00      0.00     0.00        1     0.00     0.00  c<br><br>Call graph<br><br>granularity: each sample hit covers 4 byte(s) no time propagated<br><br>index % time    self  children    called     name<br><br>0.00    0.00       1/1           b [2]<br><br>[1]      0.0    0.00    0.00       1         a [1]<br><br>———————————————–<br><br>0.00    0.00       1/1           main [10]<br><br>[2]      0.0    0.00    0.00       1         b [2]<br><br>0.00    0.00       1/1           a [1]<br><br>0.00    0.00       1/1           c [3]<br><br>———————————————–<br><br>0.00    0.00       1/1           b [2]<br><br>[3]      0.0    0.00    0.00       1         c [3]<br></blockquote><br>从上面的输出我们能明显的看出来，main 调用了 b 函数， 而b 函数分别调用了a 和 c 函数。由于我们的函数只是简单的输出了一个字串，故每个函数的消耗时间都是0 秒。<a href="http://oss.lzu.edu.cn/modules/newbb/edit.php?forum=13&amp;topic_id=884&amp;viewmode=compact&amp;order=ASC&amp;post_id=3415" title="编辑" target="_blank" rel="external"> <img src="http://oss.lzu.edu.cn/modules/newbb/images/imagesets/default/schinese/p_edit-a.gif" alt="编辑"></a> <a href="http://oss.lzu.edu.cn/modules/newbb/delete.php?forum=13&amp;topic_id=884&amp;viewmode=compact&amp;order=ASC&amp;post_id=3415" title="删除" target="_blank" rel="external"> <img src="http://oss.lzu.edu.cn/modules/newbb/images/imagesets/default/schinese/p_delete-a.gif" alt="删除"></a> <a href="http://oss.lzu.edu.cn/modules/newbb/reply.php?forum=13&amp;topic_id=884&amp;viewmode=compact&amp;order=ASC&amp;start=0&amp;post_id=3415" title="回复" target="_blank" rel="external"> <img src="http://oss.lzu.edu.cn/modules/newbb/images/imagesets/default/schinese/p_reply-a.gif" alt="回复"></a> <a href="http://oss.lzu.edu.cn/modules/newbb/report.php?forum=13&amp;topic_id=884&amp;viewmode=compact&amp;order=ASC&amp;post_id=3415" title="举报" target="_blank" rel="external"> <img src="http://oss.lzu.edu.cn/modules/newbb/images/imagesets/default/schinese/p_report-a.gif" alt="举报"></a> <a href="http://oss.lzu.edu.cn/modules/newbb/viewtopic.php?topic_id=884#threadtop" target="_blank" rel="external"> <img src="http://oss.lzu.edu.cn/modules/newbb/images/imagesets/default/schinese/p_up-a.gif" alt="回顶部"></a><br><br><a href="http://oss.lzu.edu.cn/modules/newbb/viewtopic.php?post_id=3416#forumpost3416" target="_blank" rel="external">#2</a>  回复: 使用Gnu gprof进行Linux平台下的程序分析<a href="http://oss.lzu.edu.cn/userinfo.php?uid=1" target="_blank" rel="external">O.S</a>    5/25 16:05:03<img src="http://server.51cto.com/files/uploadimg/20070305/1113150.png"><br>常用的Gprof 命令选项解释：<br><br>-b不再输出统计图表中每个字段的详细描述。<br><br>-p 只输出函数的调用图（Call graph 的那部分信息）。<br><br>-q 只输出函数的时间消耗列表。<br><br>-E Name不再输出函数Name 及其子函数的调用图，此标志类似于 -e 标志，但它在总时间和百分比时间的计算中排除了由函数Name 及其子函数所用的时间。<br><br>-e Name 不再输出函数Name 及其子函数的调用图（除非它们有未被限制的其它父函数）。可以给定多个 -e 标志。一个 -e 标志只能指定一个函数。<br><br>-F Name 输出函数Name 及其子函数的调用图，它类似于 -f 标志，但它在总时间和百分比时间计算中仅使用所打印的例程的时间。可以指定多个 -F 标志。一个 -F 标志只能指定一个函数。-F 标志覆盖 -E 标志。<br><br>-f Name输出函数Name 及其子函数的调用图。可以指定多个 -f 标志。一个 -f 标志只能指定一个函数。<br><br>-z 显示使用次数为零的例程（按照调用计数和累积时间计算）。<br><br>到这为止你可能对gprof 有了一个比较感性的认识了，你可能会问如何用它去分析一个真正的Open Source 呢！下面就让我们去用gprof去分析一个Open Source，看看如何去在真实的环境中使用它。<br><br>使用Gprof 分析 Cflow开源项目<br><br>CFlow 是程序流程分析工具，该工具可以通过分析C源代码，产生程序调用图！有点跟Gprof差不多，不过CFlow是通过源代码进行的静态分析并且 不能分析C++ 程序,你可以到<a href="http://www.gnu.org/software/cflow/%E5%8E%BB%E4%B8%8B%E8%BD%BD%E6%BA%90%E4%BB%A3%E7%A0%81%E3%80%82" target="_blank">http://www.gnu.org/software/cflow/去下载源代码。</a><br><br>假设你已经下载了该源代码（cflow-1.1.tar.gz）,并把它放置在/home目录下，让我们看看如何在这个应用上使用gprof。<br><br>1． 使用 -pg 编译和链接该应用程序,请输入下列命令。 <br>引文:<blockquote>[linux /home/]tar zxvf cflow-1.1.tar.gz<br><br>[linux /home/cflow-1.1/src]$./configure<br><br>[linux /home]$make CFLAGS=-pg LDFLAGS=-pg </blockquote><br>如 果没有出错你会在/home/cflow-1.1/src 目录下发行一个名为cflow的可执行文件，这就是我们加入-pg编译选项后编译出来的可以产生供gprof提取信息的可执行文件。记住一定要在编译和链 接的时候都使用-pg选项，否则可能不会产生gmon.out文件。对于cflow项目，CFLAGS=-pg 是设置它的编译选项，LDFLAGS=-pg是设置它的链接选项。当然你也可以直接修改它的Makefile来达到上述相同的目的，不过一定要记住编译和 链接都要使用-pg选项。<br><br>2． 运行cflow 程序使之生成gmon.out 文件供gprof使用。<br>引文:<blockquote>[linux /home/cflow-1.1/src]$cflow parser.c</blockquote><br>查看/home/cflow-1.1/src目录下有没有产生gmon.out文件，如果没有请重复第一步，并确认你已经在编译和链接程序的时候使用了-pg 选项。Cflow的使用请参考<a href="http://www.gnu.org/software/cflow/manual/cflow.html%E3%80%82" target="_blank">http://www.gnu.org/software/cflow/manual/cflow.html。</a> <br><br>3． 使用gprof分析程序<br><br>[linux /home/cflow-1.1/src]$gprof -b cflow gmon.out | less<br><br>恭喜你，不出意外你会在屏幕上看到gprof的输出，函数消耗时间和函数调用图，下面是我从我的输出中摘抄出来的一小段。<br>引文:<blockquote>%   cumulative   self              self     total<br><br>time   seconds   seconds    calls  Ts/call  Ts/call  name<br><br>0.00      0.00     0.00   118262     0.00     0.00  include_symbol<br><br>0.00      0.00     0.00    92896     0.00     0.00  is_printable<br><br>0.00      0.00     0.00    28704     0.00     0.00  set_level_mark<br><br>0.00      0.00     0.00    28703     0.00     0.00  is_last<br><br>0.00      0.00     0.00    19615     0.00     0.00  auto_processor<br><br>0.00      0.00     0.00    15494     0.00     0.00  gnu_output_handler<br><br>0.00      0.00     0.00    12286     0.00     0.00  delete_parm_processor<br><br>0.00      0.00     0.00     7728     0.00     0.00  newline<br><br>0.00      0.00     0.00     7728     0.00     0.00  print_function_name<br><br>0.00      0.00     0.00     7728     0.00     0.00  print_level<br><br>。。。。。。<br><br>。。。。。。<br><br>Call graph<br><br>granularity: each sample hit covers 4 byte(s) no time propagated<br><br>index % time    self  children   called     name<br><br>[1]      0.0    0.00    0.00     79+855  [1]<br><br>0.00    0.00    166     dcl [52]<br><br>0.00    0.00    163     parse_dcl [53]<br><br>0.00    0.00    150     dirdcl [56]<br><br>0.00    0.00    129     parse_declaration [63]<br><br>0.00    0.00     98     parse_variable_declaration [66]<br><br>0.00    0.00     63     maybe_parm_list [69]<br><br>0.00    0.00     63    parse_function_declaration [70]<br><br>0.00    0.00     39    func_body [74]<br><br>。。。。。。<br><br>。。。。。。</blockquote><br>通过分析％time你就知道了那个函数消耗的时间最多，你可以根据这个输出信息做有目的的优化，不过cflow执行的速度是在是太快了，以至％time都是0 (消耗时间是以秒为单位进行统计的)。<a href="http://oss.lzu.edu.cn/modules/newbb/edit.php?forum=13&amp;topic_id=884&amp;viewmode=compact&amp;order=ASC&amp;post_id=3416" title="编辑" target="_blank" rel="external"> <img src="http://oss.lzu.edu.cn/modules/newbb/images/imagesets/default/schinese/p_edit-a.gif" alt="编辑"></a> <a href="http://oss.lzu.edu.cn/modules/newbb/delete.php?forum=13&amp;topic_id=884&amp;viewmode=compact&amp;order=ASC&amp;post_id=3416" title="删除" target="_blank" rel="external"> <img src="http://oss.lzu.edu.cn/modules/newbb/images/imagesets/default/schinese/p_delete-a.gif" alt="删除"></a> <a href="http://oss.lzu.edu.cn/modules/newbb/reply.php?forum=13&amp;topic_id=884&amp;viewmode=compact&amp;order=ASC&amp;start=0&amp;post_id=3416" title="回复" target="_blank" rel="external"> <img src="http://oss.lzu.edu.cn/modules/newbb/images/imagesets/default/schinese/p_reply-a.gif" alt="回复"></a> <a href="http://oss.lzu.edu.cn/modules/newbb/report.php?forum=13&amp;topic_id=884&amp;viewmode=compact&amp;order=ASC&amp;post_id=3416" title="举报" target="_blank" rel="external"> <img src="http://oss.lzu.edu.cn/modules/newbb/images/imagesets/default/schinese/p_report-a.gif" alt="举报"></a> <a href="http://oss.lzu.edu.cn/modules/newbb/viewtopic.php?topic_id=884#threadtop" target="_blank" rel="external"> <img src="http://oss.lzu.edu.cn/modules/newbb/images/imagesets/default/schinese/p_up-a.gif" alt="回顶部"></a><br><br><a href="http://oss.lzu.edu.cn/modules/newbb/viewtopic.php?post_id=3417#forumpost3417" target="_blank" rel="external">#3</a>  回复: 使用Gnu gprof进行Linux平台下的程序分析<a href="http://oss.lzu.edu.cn/userinfo.php?uid=1" target="_blank" rel="external">O.S</a>    5/25 16:19:45生成图形化的函数调用图<br><br>1．Graphviz 工具<br><br>看 到这里你也可能觉得上面的函数调用图实在是不方便察看，也看不出来一个程序调用的整体框架。没有关系，我再介绍一个有用的工具给你，使用 Graphviz，Graphviz or Graph Visualization 是由 AT&amp;T 开发的一个开源的图形可视化工具。它提供了多种画图能力，但是我们重点关注的是它使用 Dot 语言直连图的能力。在这里，将简单介绍如何使用 Dot 来创建一个图形，并展示如何将分析数据转换成 Graphviz 可以使用的规范, Dot 使用的图形规范。<br><br>使用 Dot 语言，你可以指定三种对象：图、节点和边。为了让你理解这些对象的含义，我将构建一个例子来展示这些元素的用法。<br><br>下 图给出了一个简单的定向图（directed graph），其中包含 3 个节点。第一行声明这个图为 G，并且声明了该图的类型（digraph）。接下来的三行代码用于创建该图的节点，这些节点分别名为 node1、node2 和 node3。节点是在它们的名字出现在图规范中时创建的。边是在在两个节点使用边操作（-&gt;）连接在一起时创建的，如第 6 行到第 8 行所示。我还对边使用了一个可选的属性 label，用它来表示边在图中的名称。最后，在第 9 行完成对该图规范的定义。<br><br>使用 Dot 符号表示的示例图（test.dot） <br>引文:<blockquote> 1： digraph G {<br><br>2：   node1;<br><br>3：   node2;<br><br>4：   node3;<br><br>5：<br><br>6：   node1 -&gt; node2 [label=&quot;edge_1_2&quot;];<br><br>7：   node1 -&gt; node3 [label=&quot;edge_1_3&quot;];<br><br>8：   node2 -&gt; node3 [label=&quot;edge_2_3&quot;];<br><br>9： }</blockquote><br><br>要将这个 .dot 文件转换成一个图形映像，则需要使用 Dot 工具，这个工具是在 Graphviz 包中提供的。清单 6 介绍了这种转换。<br><br>清单 6. 使用 Dot 来创建 JPG 映像<br><br>[linux /home]$ dot -Tjpg test.dot -o test.jpg<br><br>在 这段代码中，我告诉 Dot 使用 test.dot 图形规范，并生成一个 JPG 图像，将其保存在文件 test.jpg 中。所生成的图像如图1所示。在此处，我使用了 JPG 格式，但是 Dot 工具也可以支持其他格式，其中包括 GIF、PNG 和 postscript等等。<br><img src="http://server.51cto.com/files/uploadimg/20070305/1113151.png">］<br><br>Dot 语言还可以支持其他一些选项，包括外形、颜色和很多属性。有兴趣可以查看graphviz相关文档。<br><br>2．从gprof的输出中提取调用图信息，产生可供Graphviz使用的dot文件。<br><br>这样的脚本有人已经实现了，我们只要下载一个现成的就可以了，首先从<a href="http://www.ioplex.com/%7Emiallen/" target="_blank">http://www.ioplex.com/~miallen/</a> 网站下载一个mkgraph脚本。解压该脚本到包含gmon.out文件的目录下。使用mkgraph0.sh产生调用的jpg图像文件。例如：使用上面的例子，生成cflow的调用图。<br><br>[linux /home/cflow-1.1/src]$ mkgraph0.sh cflow gmon.out<br><br>部分调用图如下，有了这个图是不是对程序整体框架有了个清晰地了解，如果你对生成的调用图效果不满意，你还可以通过修改mkgraph0脚本使之产生合适的dot文件即可：<br><img src="http://server.51cto.com/files/uploadimg/20070305/1113152.png"><br><br><br>总结：<br><br>使用gprof , Graphviz , mkgraph 生成函数调用图<br><br>1． 使用 -pg 编译和链接你的应用程序。<br><br>2． 执行你的应用程序使之生成供gprof 分析的数据。<br><br>3． 使用mkgraph脚本生成图形化的函数调用图。<br><br>相关资料：<br><br>文档：用 Graphviz 可视化函数调用<br><br>文档：Speed your code with the GNU profiler<br><br>文档：gropf 帮助文件<br><br>Mkgraph 脚本：<a href="http://www.ioplex.com/%7Emiallen/" target="_blank">http://www.ioplex.com/~miallen/</a><br><br>Graphviz 工具：<a href="http://www.graphviz.org/" target="_blank">http://www.graphviz.org</a><br><br>Cflow         ：<a href="http://www.gnu.org/software/cflow/" target="_blank">http://www.gnu.org/software/cflow/</a><a href="http://oss.lzu.edu.cn/modules/newbb/edit.php?forum=13&amp;topic_id=884&amp;viewmode=compact&amp;order=ASC&amp;post_id=3417" title="编辑" target="_blank" rel="external"> <img src="http://oss.lzu.edu.cn/modules/newbb/images/imagesets/default/schinese/p_edit-a.gif" alt="编辑"></a> <a href="http://oss.lzu.edu.cn/modules/newbb/delete.php?forum=13&amp;topic_id=884&amp;viewmode=compact&amp;order=ASC&amp;post_id=3417" title="删除" target="_blank" rel="external"> <img src="http://oss.lzu.edu.cn/modules/newbb/images/imagesets/default/schinese/p_delete-a.gif" alt="删除"></a> <a href="http://oss.lzu.edu.cn/modules/newbb/reply.php?forum=13&amp;topic_id=884&amp;viewmode=compact&amp;order=ASC&amp;start=0&amp;post_id=3417" title="回复" target="_blank" rel="external"> <img src="http://oss.lzu.edu.cn/modules/newbb/images/imagesets/default/schinese/p_reply-a.gif" alt="回复"></a> <a href="http://oss.lzu.edu.cn/modules/newbb/report.php?forum=13&amp;topic_id=884&amp;viewmode=compact&amp;order=ASC&amp;post_id=3417" title="举报" target="_blank" rel="external"> <img src="http://oss.lzu.edu.cn/modules/newbb/images/imagesets/default/schinese/p_report-a.gif" alt="举报"></a> <a href="http://oss.lzu.edu.cn/modules/newbb/viewtopic.php?topic_id=884#threadtop" target="_blank" rel="external"> <img src="http://oss.lzu.edu.cn/modules/newbb/images/imagesets/default/schinese/p_up-a.gif" alt="回顶部"></a><br><br><a href="http://oss.lzu.edu.cn/modules/newbb/viewtopic.php?post_id=3766#forumpost3766" target="_blank" rel="external">#4</a>  回复: 使用Gnu gprof进行Linux平台下的程序分析<a href="http://oss.lzu.edu.cn/userinfo.php?uid=14" target="_blank" rel="external">falcon</a>    6/27 16:16:32这个工具确实相当有用，尤其是阅读源代码。<br><br>在分析内核源代码的时候，有一个和gprof类似的工具，叫KFT(kernel function trace)，也可以用来生成内核函数的调用图，以及分析各种时间关系等。<br><br>因此，综合这两个工具就可以非常方便的阅读和分析内核态和应用态的程序拉。<br><br>其实在gdb里头也可以用bt命令生成当前函数的被调用关系图，不过在调试gdb本身的时候，似乎得需要gprof的帮助拉，因为被调试的gdb没有办法拥有它自身的交互模式用以执行那些交互命令。<br><br>[1] KFT的网站：<a href="http://tree.celinuxforum.org/CelfPubWiki/KernelFunctionTrace" target="_blank">http://tree.celinuxforum.org/CelfPubWiki/KernelFunctionTrace</a><br>附件里头有我写的一个自动进行KFT分析的脚本（有待优化，最新版本请关注我的首页<a href="http://dslab.lzu.edu.cn/members/falcon" target="_blank">http://dslab.lzu.edu.cn/members/falcon</a>）<br>[2] Call Graph Drawing Interface Page(for gprof，貌似Makefile文件和vco有点问题，用的时候注意一下[falcon补充])<br><a href="http://www.ida.liu.se/%7Evaden/cgdi/" target="_blank">http://www.ida.liu.se/~vaden/cgdi/</a><br>[3] CodeViz - A call graph generation utility for C/C++<br><a href="http://www.csn.ul.ie/%7Emel/projects/codeviz/" target="_blank">http://www.csn.ul.ie/~mel/projects/codeviz/</a><br><strong>附件</strong>:<br><hr><br><a href="http://oss.lzu.edu.cn/modules/newbb/dl_attachment.php?attachid=1182932514&amp;post_id=3766" target="_blank" rel="external"> <img src="http://oss.lzu.edu.cn/modules/newbb/images/filetypes/unknown.gif" alt="sh"> autokft.sh</a> 大小: 3.38 KB; 下载次数: 46 </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2007/11/20/gprof、mkgraph、Graphviz-可视化函数调用/" class="archive-article-date">
+  	<time datetime="2007-11-20T06:32:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2007-11-20</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux-Debug/">Linux Debug</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/44/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/43/">43</a><a class="page-number" href="/page/44/">44</a><span class="page-number current">45</span><a class="page-number" href="/page/46/">46</a><a class="page-number" href="/page/47/">47</a><span class="space">&hellip;</span><a class="page-number" href="/page/60/">60</a><a class="extend next" rel="next" href="/page/46/">Next &raquo;</a>
+    </nav>
+  
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: true,
+		isPost: false,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

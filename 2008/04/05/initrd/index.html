@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>initrd | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="linux-2.6.13/documentation/initrd.txtUsing the initial RAM disk (initrd)===================================Written 1996,2000 by Werner Almesberger &amp;lt;werner.almesberger@epfl.ch&amp;gt; and&amp;nbsp;&amp;nbsp;&amp;n">
+<meta property="og:type" content="article">
+<meta property="og:title" content="initrd">
+<meta property="og:url" content="http://blog.pickbox.me/2008/04/05/initrd/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="linux-2.6.13/documentation/initrd.txtUsing the initial RAM disk (initrd)===================================Written 1996,2000 by Werner Almesberger &amp;lt;werner.almesberger@epfl.ch&amp;gt; and&amp;nbsp;&amp;nbsp;&amp;n">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="initrd">
+<meta name="twitter:description" content="linux-2.6.13/documentation/initrd.txtUsing the initial RAM disk (initrd)===================================Written 1996,2000 by Werner Almesberger &amp;lt;werner.almesberger@epfl.ch&amp;gt; and&amp;nbsp;&amp;nbsp;&amp;n">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-initrd" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      initrd
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> linux-2.6.13/documentation/initrd.txt<br><br>Using the initial RAM disk (initrd)<br>===================================<br><br>Written 1996,2000 by Werner Almesberger &lt;werner.almesberger@epfl.ch&gt; and<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   Hans Lermen &lt;lermen@fgan.de&gt;<br><br><br>initrd provides the capability to load a RAM disk by the boot loader.<br>This RAM disk can then be mounted as the root file system and programs<br>can be run from it. Afterwards, a new root file system can be mounted<br>from a different device. The previous root (from initrd) is then moved<br>to a directory and can be subsequently unmounted.<br><br>initrd is mainly designed to allow system startup to occur in two phases,<br>where the kernel comes up with a minimum set of compiled-in drivers, and<br>where additional modules are loaded from initrd.<br><br>This document gives a brief overview of the use of initrd. A more detailed<br>discussion of the boot process can be found in [1].<br><br><br>Operation<br>———<br><br>When using initrd, the system typically boots as follows:<br><br>1) the boot loader loads the kernel and the initial RAM disk<br>2) the kernel converts initrd into a &quot;normal&quot; RAM disk and<br>&nbsp;&nbsp;&nbsp;&nbsp;   frees the memory used by initrd<br>3) initrd is mounted read-write as root<br>4) /linuxrc is executed (this can be any valid executable, including<br>&nbsp;&nbsp;&nbsp;&nbsp;   shell scripts; it is run with uid 0 and can do basically everything<br>&nbsp;&nbsp;&nbsp;&nbsp;   init can do)<br>5) linuxrc mounts the &quot;real&quot; root file system<br>6) linuxrc places the root file system at the root directory using the<br>&nbsp;&nbsp;&nbsp;&nbsp;   pivot_root system call<br>7) the usual boot sequence (e.g. invocation of /sbin/init) is performed<br>&nbsp;&nbsp;&nbsp;&nbsp;   on the root file system<br>8) the initrd file system is removed<br><br>Note that changing the root directory does not involve unmounting it.<br>It is therefore possible to leave processes running on initrd during that<br>procedure. Also note that file systems mounted under initrd continue to<br>be accessible.<br><br><br>Boot command-line options<br>————————-<br><br>initrd adds the following new options:<br><br>initrd=&lt;path&gt;&nbsp;&nbsp;&nbsp;   (e.g. LOADLIN)<br><br>&nbsp;&nbsp;&nbsp;   Loads the specified file as the initial RAM disk. When using LILO, you<br>&nbsp;&nbsp;&nbsp;   have to specify the RAM disk image file in /etc/lilo.conf, using the<br>&nbsp;&nbsp;&nbsp;   INITRD configuration variable.<br><br>noinitrd<br><br>&nbsp;&nbsp;&nbsp;   initrd data is preserved but it is not converted to a RAM disk and<br>&nbsp;&nbsp;&nbsp;   the &quot;normal&quot; root file system is mounted. initrd data can be read<br>&nbsp;&nbsp;&nbsp;   from /dev/initrd. Note that the data in initrd can have any structure<br>&nbsp;&nbsp;&nbsp;   in this case and doesn’t necessarily have to be a file system image.<br>&nbsp;&nbsp;&nbsp;   This option is used mainly for debugging.<br><br>&nbsp;&nbsp;&nbsp;   Note: /dev/initrd is read-only and it can only be used once. As soon<br>&nbsp;&nbsp;&nbsp;   as the last process has closed it, all data is freed and /dev/initrd<br>&nbsp;&nbsp;&nbsp;   can’t be opened anymore.<br><br>root=/dev/ram0&nbsp;&nbsp;   (without devfs)<br>root=/dev/rd/0&nbsp;&nbsp;   (with devfs)<br><br>&nbsp;&nbsp;&nbsp;   initrd is mounted as root, and the normal boot procedure is followed,<br>&nbsp;&nbsp;&nbsp;   with the RAM disk still mounted as root.<br><br><br>Installation<br>————<br><br>First, a directory for the initrd file system has to be created on the<br>&quot;normal&quot; root file system, e.g.<br><br># mkdir /initrd<br><br>The name is not relevant. More details can be found on the pivot_root(2)<br>man page.<br><br>If the root file system is created during the boot procedure (i.e. if<br>you’re building an install floppy), the root file system creation<br>procedure should create the /initrd directory.<br><br>If initrd will not be mounted in some cases, its content is still<br>accessible if the following device has been created (note that this<br>does not work if using devfs):<br><br># mknod /dev/initrd b 1 250 <br># chmod 400 /dev/initrd<br><br>Second, the kernel has to be compiled with RAM disk support and with<br>support for the initial RAM disk enabled. Also, at least all components<br>needed to execute programs from initrd (e.g. executable format and file<br>system) must be compiled into the kernel.<br><br>Third, you have to create the RAM disk image. This is done by creating a<br>file system on a block device, copying files to it as needed, and then<br>copying the content of the block device to the initrd file. With recent<br>kernels, at least three types of devices are suitable for that:<br><br>- a floppy disk (works everywhere but it’s painfully slow)<br>- a RAM disk (fast, but allocates physical memory)<br>- a loopback device (the most elegant solution)<br><br>We’ll describe the loopback device method:<br><br>1) make sure loopback block devices are configured into the kernel<br>2) create an empty file system of the appropriate size, e.g.<br>&nbsp;&nbsp;&nbsp;   # dd if=/dev/zero of=initrd bs=300k count=1<br>&nbsp;&nbsp;&nbsp;   # mke2fs -F -m0 initrd<br>&nbsp;&nbsp;&nbsp;   (if space is critical, you may want to use the Minix FS instead of Ext2)<br>3) mount the file system, e.g.<br>&nbsp;&nbsp;&nbsp;   # mount -t ext2 -o loop initrd /mnt<br>4) create the console device (not necessary if using devfs, but it can’t<br>&nbsp;&nbsp;&nbsp;   hurt to do it anyway):<br>&nbsp;&nbsp;&nbsp;   # mkdir /mnt/dev<br>&nbsp;&nbsp;&nbsp;   # mknod /mnt/dev/console c 5 1<br>5) copy all the files that are needed to properly use the initrd<br>&nbsp;&nbsp;&nbsp;   environment. Don’t forget the most important file, /linuxrc<br>&nbsp;&nbsp;&nbsp;   Note that /linuxrc’s permissions must include &quot;x&quot; (execute).<br>6) correct operation the initrd environment can frequently be tested<br>&nbsp;&nbsp;&nbsp;   even without rebooting with the command<br>&nbsp;&nbsp;&nbsp;   # chroot /mnt /linuxrc<br>&nbsp;&nbsp;&nbsp;   This is of course limited to initrds that do not interfere with the<br>&nbsp;&nbsp;&nbsp;   general system state (e.g. by reconfiguring network interfaces,<br>&nbsp;&nbsp;&nbsp;   overwriting mounted devices, trying to start already running demons,<br>&nbsp;&nbsp;&nbsp;   etc. Note however that it is usually possible to use pivot_root in<br>&nbsp;&nbsp;&nbsp;   such a chroot’ed initrd environment.)<br>7) unmount the file system<br>&nbsp;&nbsp;&nbsp;   # umount /mnt<br>8) the initrd is now in the file &quot;initrd&quot;. Optionally, it can now be<br>&nbsp;&nbsp;&nbsp;   compressed<br>&nbsp;&nbsp;&nbsp;   # gzip -9 initrd<br><br>For experimenting with initrd, you may want to take a rescue floppy and<br>only add a symbolic link from /linuxrc to /bin/sh. Alternatively, you<br>can try the experimental newlib environment [2] to create a small<br>initrd.<br><br>Finally, you have to boot the kernel and load initrd. Almost all Linux<br>boot loaders support initrd. Since the boot process is still compatible<br>with an older mechanism, the following boot command line parameters<br>have to be given:<br><br>root=/dev/ram0 init=/linuxrc rw<br><br>if not using devfs, or<br><br>root=/dev/rd/0 init=/linuxrc rw<br><br>if using devfs. (rw is only necessary if writing to the initrd file<br>system.)<br><br>With LOADLIN, you simply execute<br><br>&nbsp;&nbsp;&nbsp;&nbsp;   LOADLIN &lt;kernel&gt; initrd=&lt;disk_image&gt;<br>e.g. LOADLIN C:LINUXBZIMAGE initrd=C:LINUXINITRD.GZ root=/dev/ram0<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   init=/linuxrc rw<br><br>With LILO, you add the option INITRD=&lt;path&gt; to either the global section<br>or to the section of the respective kernel in /etc/lilo.conf, and pass<br>the options using APPEND, e.g.<br><br>image = /bzImage<br>&nbsp;&nbsp;&nbsp;   initrd = /boot/initrd.gz<br>&nbsp;&nbsp;&nbsp;   append = &quot;root=/dev/ram0 init=/linuxrc rw&quot;<br><br>and run /sbin/lilo<br><br>For other boot loaders, please refer to the respective documentation.<br><br>Now you can boot and enjoy using initrd.<br><br><br>Changing the root device<br>————————<br><br>When finished with its duties, linuxrc typically changes the root device<br>and proceeds with starting the Linux system on the &quot;real&quot; root device.<br><br>The procedure involves the following steps:<br>- mounting the new root file system<br>- turning it into the root file system<br>- removing all accesses to the old (initrd) root file system<br>- unmounting the initrd file system and de-allocating the RAM disk<br><br>Mounting the new root file system is easy: it just needs to be mounted on<br>a directory under the current root. Example:<br><br># mkdir /new-root<br># mount -o ro /dev/hda1 /new-root<br><br>The root change is accomplished with the pivot_root system call, which<br>is also available via the pivot_root utility (see pivot_root(8) man<br>page; pivot_root is distributed with util-linux version 2.10h or higher<br>[3]). pivot_root moves the current root to a directory under the new<br>root, and puts the new root at its place. The directory for the old root<br>must exist before calling pivot_root. Example:<br><br># cd /new-root<br># mkdir initrd<br># pivot_root . initrd<br><br>Now, the linuxrc process may still access the old root via its<br>executable, shared libraries, standard input/output/error, and its<br>current root directory. All these references are dropped by the<br>following command:<br><br># exec chroot . what-follows &lt;dev/console &gt;dev/console 2&gt;&amp;1<br><br>Where what-follows is a program under the new root, e.g. /sbin/init<br>If the new root file system will be used with devfs and has no valid<br>/dev directory, devfs must be mounted before invoking chroot in order to<br>provide /dev/console.<br><br>Note: implementation details of pivot_root may change with time. In order<br>to ensure compatibility, the following points should be observed:<br><br>  - before calling pivot_root, the current directory of the invoking<br>&nbsp;&nbsp;   process should point to the new root directory<br>- use . as the first argument, and the <em>relative</em> path of the directory<br>&nbsp;&nbsp;   for the old root as the second argument<br>- a chroot program must be available under the old and the new root<br>- chroot to the new root afterwards<br>- use relative paths for dev/console in the exec command<br><br>Now, the initrd can be unmounted and the memory allocated by the RAM<br>disk can be freed:<br><br># umount /initrd<br># blockdev –flushbufs /dev/ram0&nbsp;&nbsp;&nbsp;   # /dev/rd/0 if using devfs<br><br>It is also possible to use initrd with an NFS-mounted root, see the<br>pivot_root(8) man page for details.<br><br>Note: if linuxrc or any program exec’ed from it terminates for some<br>reason, the old change_root mechanism is invoked (see section &quot;Obsolete<br>root change mechanism&quot;).<br><br><br>Usage scenarios<br>—————<br><br>The main motivation for implementing initrd was to allow for modular<br>kernel configuration at system installation. The procedure would work<br>as follows:<br><br>1) system boots from floppy or other media with a minimal kernel<br>&nbsp;&nbsp;&nbsp;&nbsp;   (e.g. support for RAM disks, initrd, a.out, and the Ext2 FS) and<br>&nbsp;&nbsp;&nbsp;&nbsp;   loads initrd<br>2) /linuxrc determines what is needed to (1) mount the &quot;real&quot; root FS<br>&nbsp;&nbsp;&nbsp;&nbsp;   (i.e. device type, device drivers, file system) and (2) the<br>&nbsp;&nbsp;&nbsp;&nbsp;   distribution media (e.g. CD-ROM, network, tape, …). This can be<br>&nbsp;&nbsp;&nbsp;&nbsp;   done by asking the user, by auto-probing, or by using a hybrid<br>&nbsp;&nbsp;&nbsp;&nbsp;   approach.<br>3) /linuxrc loads the necessary kernel modules<br>4) /linuxrc creates and populates the root file system (this doesn’t<br>&nbsp;&nbsp;&nbsp;&nbsp;   have to be a very usable system yet)<br>5) /linuxrc invokes pivot_root to change the root file system and<br>&nbsp;&nbsp;&nbsp;&nbsp;   execs - via chroot - a program that continues the installation<br>6) the boot loader is installed<br>7) the boot loader is configured to load an initrd with the set of<br>&nbsp;&nbsp;&nbsp;&nbsp;   modules that was used to bring up the system (e.g. /initrd can be<br>&nbsp;&nbsp;&nbsp;&nbsp;   modified, then unmounted, and finally, the image is written from<br>&nbsp;&nbsp;&nbsp;&nbsp;   /dev/ram0 or /dev/rd/0 to a file)<br>8) now the system is bootable and additional installation tasks can be<br>&nbsp;&nbsp;&nbsp;&nbsp;   performed<br><br>The key role of initrd here is to re-use the configuration data during<br>normal system operation without requiring the use of a bloated &quot;generic&quot;<br>kernel or re-compiling or re-linking the kernel.<br><br>A second scenario is for installations where Linux runs on systems with<br>different hardware configurations in a single administrative domain. In<br>such cases, it is desirable to generate only a small set of kernels<br>(ideally only one) and to keep the system-specific part of configuration<br>information as small as possible. In this case, a common initrd could be<br>generated with all the necessary modules. Then, only /linuxrc or a file<br>read by it would have to be different.<br><br>A third scenario are more convenient recovery disks, because information<br>like the location of the root FS partition doesn’t have to be provided at<br>boot time, but the system loaded from initrd can invoke a user-friendly<br>dialog and it can also perform some sanity checks (or even some form of<br>auto-detection).<br><br>Last not least, CD-ROM distributors may use it for better installation<br>from CD, e.g. by using a boot floppy and bootstrapping a bigger RAM disk<br>via initrd from CD; or by booting via a loader like LOADLIN or directly<br>from the CD-ROM, and loading the RAM disk from CD without need of<br>floppies. <br><br><br>Obsolete root change mechanism<br>——————————<br><br>The following mechanism was used before the introduction of pivot_root.<br>Current kernels still support it, but you should <em>not</em> rely on its<br>continued availability.<br><br>It works by mounting the &quot;real&quot; root device (i.e. the one set with rdev<br>in the kernel image or with root=… at the boot command line) as the<br>root file system when linuxrc exits. The initrd file system is then<br>unmounted, or, if it is still busy, moved to a directory /initrd, if<br>such a directory exists on the new root file system.<br><br>In order to use this mechanism, you do not have to specify the boot<br>command options root, init, or rw. (If specified, they will affect<br>the real root file system, not the initrd environment.)<br><br>If /proc is mounted, the &quot;real&quot; root device can be changed from within<br>linuxrc by writing the number of the new root FS device to the special<br>file /proc/sys/kernel/real-root-dev, e.g.<br><br># echo 0x301 &gt;/proc/sys/kernel/real-root-dev<br><br>Note that the mechanism is incompatible with NFS and similar file<br>systems.<br><br>This old, deprecated mechanism is commonly called &quot;change_root&quot;, while<br>the new, supported mechanism is called &quot;pivot_root&quot;.<br><br><br>Resources<br>———<br><br>[1] Almesberger, Werner; &quot;Booting Linux: The History and the Future&quot;<br>&nbsp;&nbsp;&nbsp;   <a href="http://www.almesberger.net/cv/papers/ols2k-9.ps.gz" target="_blank" rel="external">http://www.almesberger.net/cv/papers/ols2k-9.ps.gz</a><br>[2] newlib package (experimental), with initrd example<br>&nbsp;&nbsp;&nbsp;   <a href="http://sources.redhat.com/newlib/" target="_blank" rel="external">http://sources.redhat.com/newlib/</a><br>[3] Brouwer, Andries; &quot;util-linux: Miscellaneous utilities for Linux&quot;<br>&nbsp;&nbsp;&nbsp;   ftp://ftp.win.tue.nl/pub/linux-local/utils/util-linux/ </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/04/05/initrd/" class="archive-article-date">
+  	<time datetime="2008-04-05T04:35:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-04-05</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux/">Linux</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2008/04/06/愚人节/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          愚人节
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2008/04/05/Ramdisk/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Ramdisk</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

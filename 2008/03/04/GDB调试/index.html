@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>GDB调试 | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="gdb [options] –args executable-file [inferior-arguments …]p array[0]@100  打印数组前100个元素p /x var  以16进制打印break … if CONDcall printf(&amp;ldquo;abcd&amp;rdquo;)display /x addrundisplay 1set var varname = valuewh">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GDB调试">
+<meta property="og:url" content="http://blog.pickbox.me/2008/03/04/GDB调试/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="gdb [options] –args executable-file [inferior-arguments …]p array[0]@100  打印数组前100个元素p /x var  以16进制打印break … if CONDcall printf(&amp;ldquo;abcd&amp;rdquo;)display /x addrundisplay 1set var varname = valuewh">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/2818d63ffacbf9d07c1e7166.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/e545af6e59450cc880cb4a40.jpg">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="GDB调试">
+<meta name="twitter:description" content="gdb [options] –args executable-file [inferior-arguments …]p array[0]@100  打印数组前100个元素p /x var  以16进制打印break … if CONDcall printf(&amp;ldquo;abcd&amp;rdquo;)display /x addrundisplay 1set var varname = valuewh">
+<meta name="twitter:image" content="http://img.pickbox.me/wp-content/uploads/pic/2818d63ffacbf9d07c1e7166.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-GDB调试" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      GDB调试
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> gdb [options] –args executable-file [inferior-arguments …]<br>p array[0]@100  打印数组前100个元素<br>p /x var  以16进制打印<br>break … if COND<br>call printf(&ldquo;abcd&rdquo;)<br>display /x addr<br>undisplay 1<br>set var varname = value<br>whatis varname  //显示变量varname的类型，如double,int,…<br>set print pretty<br>set {int}0x83040 = 4 //向地址0x83040写入4<br>until 结束当前循环<br>ptype 显示一个数据结构（如一个结构或C++类）的内容<br>checkpoint<br>x /40xw 0x20000<br>x /10i 0x312000<br>disassemble 0xbff00800 0x10 ：address:len<br><br>finish － Execute until selected stack frame returns<br>display /i $pc － 单步跟踪会在打出程序代码的同时打出机器指令（也就是汇编代码）<br>layout src：显示源代码窗口<br>layout asm：显示反汇编窗口<br>layout regs：显示源代码/反汇编和CPU寄存器窗口<br>layout split：显示源代码和反汇编窗口<br>Ctrl + L：刷新窗口<br>layout prev|next<br>focus src|asm|regs|cmd|prev|next<br><br>add-symbol-file<br><br><br><br>qemu控制终端输入gdbserver后<br>gdb -ex &quot;target remote localhost:1234&quot; -ex &quot;layout split&quot; -ex &quot;symbol-file vmlinux&quot;<br><br><br>gdbserver运行在目标机(板)上<br><img class="blogimg" small="0" src="http://img.pickbox.me/wp-content/uploads/pic/2818d63ffacbf9d07c1e7166.jpg">在调试机上运行gdb调试<br><img class="blogimg" small="0" src="http://img.pickbox.me/wp-content/uploads/pic/e545af6e59450cc880cb4a40.jpg">同步调试：target remote …<br>异步调试：target async …<br><br><br>============================================================================================<br><a href="http://sources.redhat.com/gdb/current/onlinedocs/gdb_5.html#SEC27" target="_blank">http://sources.redhat.com/gdb/current/onlinedocs/gdb_5.html#SEC27</a><br><br>1.break FUNCTION <br>  在某个函数上设置断点。函数重载时，有可能同时在几个重载的函数上设置了断点<br> <br>  break +OFFSET <br>  break -OFFSET<br>  在当前程序运行到的前几行或后几行设置断点 <br><br>  break LINENUM<br>  在行号为LINENUM的行上设置断点<br><br>  break FILENAME:LINENUM <br>  在文件名为FILENAME的原文件的第LINENUM行设置断点 <br><br>  break FILENAME:FUNCTION <br>  在文件名为FILENAME的FUNCTION函数上设置断点 <br>  当你的多个文件中可能含有相同的函数名时必须给出文件名。 <br><br>  break <em>ADDRESS <br>  在地址ADDRESS上设置断点，这个命令允许你在没有调试信息的程序中设置断点<br> <br>  break<br>  当break命令不包含任何参数时，break命令在当前执行到的程序运行栈中的<br>  下一条指令上设置一个断点。除了栈底以外，这个命令使程序在一旦从当前<br>  函数返回时停止。相似的命令是finish，但finish并不设置断点。这一点在<br>  循环语句中很有用。gdb在恢复执行时，至少执行一条指令。 <br><br>  break … if COND <br>  这个命令设置一个条件断点，条件由COND指定；在gdb每次执行到此断点时<br>  COND都被计算当COND的值为非零时，程序在断点处停止<br> <br>  ignore BNUM COUNT’ <br>  设置第BNUM号断点的被忽略的次数为’COUNT’，即断点BNUM再执行到第COUNT+1<br>  次时程序停止<br><br>  tbreak ARGS 或者简写为 tb<br>  设置断点为只有效一次。ARGS的使用同break中的参量的使用<br> <br>  hbreak ARGS <br>  设置一个由硬件支持的断点。这个命令的主要目的是用于对EPROM/ROM程序的调试<br>  因为这条命令可以在不改变代码的情况下设置断点。这可以同SPARCLite DSU一起<br>  使用。当程序访问某些变量和代码时，DSU将设置&ldquo;陷井&rdquo;。注意：你只能一次使用<br>  一个断点，在新设置断点时，先删除原断点<br> <br>  thbreak ARGS’ <br>  设置只有一次作用的硬件支持断点<br> <br>  rbreak REGEX<br>  在所有满足表达式REGEX的函数上设置断点。这个命令在所有相匹配的函数上设置无<br>  条件断点，当这个命令完成时显示所有被设置的断点信息。这个命令设置的断点和<br>  break命令设置的没有什么不同。当调试C++程序时这个命令在重载函数上设置断点时<br>  非常有用。 <br><br>  info breakpoints [N]<br>  info break [N] <br>  info watchpoints [N] <br>  显示所有的断点和观察点的设置表，有下列一些列 <br>  </em>Breakpoint Numbers<em>—-断点号 <br>  </em>Type<em>—-断点类型(断点或是观察点) <br>  </em>Disposition<em>—显示断点的状态<br>  </em>Enabled or Disabled<em>—使能或不使能。’y’表示使能，’n’表示不使能。 <br>  </em>Address<em>—-地址，断点在你程序中的地址(内存地址) <br>  </em>What<em>—地址，断点在你程序中的行号。 <br>  如果断点是条件断点，此命令还显示断点所需要的条件。 <br>  带参数N的’info break’命令只显示由N指定的断点的信息。 <br>  此命令还显示断点的运行信息(被执行过几次)，这个功能在使用’ignore’ <br>  命令时很有用。你可以’ignore’一个断点许多次。使用这个命令可以查看断点 <br>  被执行了多少次。这样可以更快的找到错误。 <br><br>  maint info breakpoints<br>  显示所有的断点，无论是你设置的还是gdb自动设置的。 <br>  断点的含义：<br>  breakpoint：断点，普通断点<br>  watchpoint：普通观察点<br>  longjmp：内部断点，用于处理’longjmp’调用<br>  longjmp resume：内部断点，设置在’longjmp’调用的目标上<br>  until：’until’命令所使用的内部断点<br>  finish：finish’命令所使用的内部断点<br> <br>2.watch EXPR<br>  为表达式（变量）expr设置一个观察点。一量表达式值有变化时，马上停住程序。<br>  这个命令使用EXPR作为表达式设置一个观察点。GDB将把表达式加入到程序中并监<br>  视程序的运行，当表达式的值被改变时GDB就使程序停止。这个也可以被用在SPARClite<br>  DSU提供的新的自陷工具中。当程序存取某个地址或某条指令时(这个地址在调试寄<br>  存器中指定),DSU将产生自陷。对于数据地址DSU支持’watch’命令,然而硬件断点寄<br>  存器只能存储两个断点地址，而且断点的类型必须相同。就是两个’rwatch’型断点<br>  或是两个’awatch’型断点。 <br><br>  rwatch EXPR’ <br>  设置一个观察点，当EXPR被程序读时，程序被暂停。 <br><br>  awatch EXPR’ <br>  设置一个观察点,当EXPR被读出然后被写入时程序被暂停。<br> <br>  info watchpoints<br>  在多线程的程序中，观察点的作用很有限，GDB只能观察在一个线程中的表达式的值<br>  如果你确信表达式只被当前线程所存取，那么使用观察点才有效。GDB不能注意一个<br>  非当前线程对表达式值的改变。<br> <br>    rwatch &lt;expr&gt;<br>        当表达式（变量）expr被读时，停住程序。<br> <br>    awatch &lt;expr&gt;当表达式（变量）的值被读或被写时，停住程序。<br> <br>    info watchpoints<br>        列出当前所设置了的所有观察点。3.cont N<br>  第N次经过该断点时才停止程序运行<br> <br>4.enable 断点编号<br>  恢复暂时失活的断点，要恢复多个编号的断点，可用空格将编号分开<br> <br>5.disable 断点编号<br>  使断点失效，但是断点还在<br> <br>6.delete 断点编号或者表达式<br>   删除某断点<br><br>7.clear 断点所在行号<br>   清除某断点<br> <br>8.查看断点列表<br>  info break9.watch counter&gt;15<br>  当counter&gt;15的时候程序终止<br> <br>10.当程序崩溃的时候linux会生成一个core文件，可以用<br>   gdb a.out core<br>   where<br>   查看导致崩溃的原因<br><dl><dt><code>11.checkpoint</code> </dt><dd>Save a snapshot of the debugged program’s current execution state. The <code>checkpoint</code> command takes no arguments, but each checkpoint is assigned a small integer id, similar to a breakpoint id. </dd><dt><code>info checkpoints</code> </dt><dd>List the checkpoints that have been saved in the current debugging session.  For each checkpoint, the following information will be listed:<p><code>Checkpoint ID</code></p><code>Process ID</code><dl><dt> <br></dt><dt><code>Code Address</code> </dt><dd><br></dd><dt><code>Source line, or label</code> </dt></dl> </dd><dt><code>restart <var>checkpoint-id</var></code> </dt><dd>Restore the program state that was saved as checkpoint number <var>checkpoint-id</var>.  All program variables, registers, stack frames etc.  will be returned to the values that they had when the checkpoint was saved.  In essence, gdb will &quot;wind back the clock&quot; to the point in time when the checkpoint was saved.<p>Note that breakpoints, GDB variables, command history etc. are not affected by restoring a checkpoint.  In general, a checkpoint only restores things that reside in the program being debugged, not in the debugger.</p></dd><dt><code>delete checkpoint <var>checkpoint-id</var></code> </dt><dd>Delete the previously-saved checkpoint identified by <var>checkpoint-id</var>.</dd></dl>A Non-obvious Benefit of Using Checkpoints<br>On some systems such as GNU/Linux, address space randomization is performed on new processes for security reasons.  This makes it  difficult or impossible to set a breakpoint, or watchpoint, on an absolute address if you have to restart the program, since the  absolute location of a symbol will change from one execution to the next.<br>A checkpoint, however, is an <em>identical</em> copy of a process.  Therefore if you create a checkpoint at (eg.) the start of main,  and simply return to that checkpoint instead of restarting the  process, you can avoid the effects of address randomization and your symbols will all stay in the same place. <br><br><br><br><br><br><br>                                    GDB调试精粹及使用实例                                        <small> 来源:不详 (2006-07-14 11:18:05)</small> <br>                                           一：列文件清单 <br>            1． List <br>            (gdb) list line1,line2 <br> <br>            二：执行程序 <br>            要想运行准备调试的程序，可使用run命令，在它后面可以跟随发给该程序的任何参数，包括标准输入和标准输出说明符(&lt;和&gt;)和外壳通配符（</em>、？、[、]）在内。 <br>            如果你使用不带参数的run命令，gdb就再次使用你给予前一条run命令的参数，这是很有用的。 <br>            利用set args 命令就可以修改发送给程序的参数，而使用show args 命令就可以查看其缺省参数的列表。 <br>                         (gdb) set args &ndash;b &ndash;x <br>            (gdb) show args <br>            backtrace命令为堆栈提供向后跟踪功能。 <br>            Backtrace 命令产生一张列表，包含着从最近的过程开始的所以有效过程和调用这些过程的参数。 <br> <br>            三：显示数据 <br>            利用print 命令可以检查各个变量的值。 <br>            (gdb) print p (p为变量名) <br>            whatis 命令可以显示某个变量的类型 <br>            (gdb) whatis p <br>            type = int <em> <br> <br>            print 是gdb的一个功能很强的命令，利用它可以显示被调试的语言中任何有效的表达式。表达式除了包含你程序中的变量外，还可以包含以下内容： <br>            l 对程序中函数的调用 <br>            (gdb) print find_entry(1,0) <br>            l 数据结构和其他复杂对象 <br>            (gdb) print </em>table_start <br>            $8={e=reference=&rsquo; 00&rsquo;,location=0x0,next=0x0} <br>            l 值的历史成分 <br>            (gdb)print $1 ($1为历史记录变量,在以后可以直接引用 $1 的值) <br>            l 人为数组 <br>            人为数组提供了一种去显示存储器块（数组节或动态分配的存储区）内容的方法。早期的调试程序没有很好的方法将任意的指针换成一个数组。就像对待参数一样，让我们查看内存中在变量h后面的10个整数，一个动态数组的语法如下所示： <br>            base@length <br>            因此，要想显示在h后面的10个元素，可以使用h@10： <br>            (gdb)print h@10 <br>            $13=(-1,345,23,-234,0,0,0,98,345,10) <br> <br>            四：断点(breakpoint) <br>            break命令（可以简写为b）可以用来在调试的程序中设置断点，该命令有如下四种形式： <br>            l break line-number 使程序恰好在执行给定行之前停止。 <br>            l break function-name 使程序恰好在进入指定的函数之前停止。 <br>            l break line-or-function if condition 如果condition（条件）是真，程序到达指定行或函数时停止。 <br>            l break routine-name 在指定例程的入口处设置断点 <br> <br>            如果该程序是由很多原文件构成的，你可以在各个原文件中设置断点，而不是在当前的原文件中设置断点，其方法如下： <br>            (gdb) break filename:line-number <br>            (gdb) break filename:function-name <br> <br>            要想设置一个条件断点，可以利用break if命令，如下所示： <br>            (gdb) break line-or-function if expr <br>            例： <br>            (gdb) break 46 if testsize==100 <br> <br>            从断点继续运行：countinue 命令 <br>            五．断点的管理 <br> <br>            1． 显示当前gdb的断点信息： <br>            (gdb) info break <br>            他会以如下的形式显示所有的断点信息： <br>            Num Type Disp Enb Address What <br>            1 breakpoint keep y 0x000028bc in init_random at qsort2.c:155 <br>            2 breakpoint keep y 0x0000291c in init_organ at qsort2.c:168 <br>            (gdb) <br>            2.删除指定的某个断点： <br>            (gdb) delete breakpoint 1 <br>            该命令将会删除编号为1的断点，如果不带编号参数，将删除所有的断点 <br>            (gdb) delete breakpoint <br>            3.禁止使用某个断点 <br>            (gdb) disable breakpoint 1 <br>            该命令将禁止断点 1,同时断点信息的 (Enb)域将变为 n <br>            4．允许使用某个断点 <br>            (gdb) enable breakpoint 1 <br>            该命令将允许断点 1,同时断点信息的 (Enb)域将变为 y <br>            5．清除原文件中某一代码行上的所有断点 <br>            (gdb)clean number <br>            注：number 为原文件的某个代码行的行号 <br>            六．变量的检查和赋值 <br>            l whatis:识别数组或变量的类型 <br>            l ptype:比whatis的功能更强，他可以提供一个结构的定义 <br>            l set variable:将值赋予变量 <br>            l print 除了显示一个变量的值外，还可以用来赋值 <br> <br>            七．单步执行 <br>            l next <br>            不进入的单步执行 <br>            l step <br>            进入的单步执行 <br>            如果已经进入了某函数，而想退出该函数返回到它的调用函数中，可使用命令finish <br>            八．函数的调用 <br>            l call name 调用和执行一个函数 <br>            (gdb) call gen_and_sork( 1234,1,0 ) <br>            (gdb) call printf(&ldquo;abcd&rdquo;) <br>            $1=4 <br>            l finish 结束执行当前函数，显示其返回值（如果有的话） <br> <br>            九．机器语言工具 <br>            有一组专用的gdb变量可以用来检查和修改计算机的通用寄存器，gdb提供了目前每一台计算机中实际使用的4个寄存器的标准名字： <br>            l $pc ： 程序计数器 <br>            l $fp ： 帧指针（当前堆栈帧） <br>            l $sp ： 栈指针 <br>            l $ps ： 处理器状态 <br> <br>            十．信号 <br>            gdb 通常可以捕捉到发送给它的大多数信号，通过捕捉信号，它就可决定对于正在运行的进程要做些什么工作。例如，按CTRL-C将中断信号发送给gdb，通常就 会终止gdb。但是你或许不想中断gdb，真正的目的是要中断gdb正在运行的程序，因此，gdb要抓住该信号并停止它正在运行的程序，这样就可以执行某 些调试操作。 <br> <br>            Handle命令可控制信号的处理，他有两个参数，一个是信号名，另一个是接受到信号时该作什么。几种可能的参数是： <br>            l nostop 接收到信号时，不要将它发送给程序，也不要停止程序。 <br>            l stop 接受到信号时停止程序的执行，从而允许程序调试；显示一条表示已接受到信号的消息（禁止使用消息除外） <br>            l print 接受到信号时显示一条消息 <br>            l noprint 接受到信号时不要显示消息（而且隐含着不停止程序运行） <br>            l pass 将信号发送给程序，从而允许你的程序去处理它、停止运行或采取别的动作。 <br>            l nopass 停止程序运行，但不要将信号发送给程序。 <br>            例如，假定你截获SIGPIPE信号，以防止正在调试的程序接受到该信号，而且只要该信号一到达，就要求该程序停止，并通知你。要完成这一任务，可利用如下命令： <br>            (gdb) handle SIGPIPE stop print <br>            请注意，UNIX的信号名总是采用大写字母！你可以用信号编号替代信号名 <br>            如 果你的程序要执行任何信号处理操作，就需要能够测试其信号处理程序，为此，就需要一种能将信号发送给程序的简便方法，这就是signal命令的任务。该 命令的参数是一个数字或者一个名字，如SIGINT。假定你的程序已将一个专用的SIGINT（键盘输入，或CTRL-C；信号2）信号处理程序设置成采 取某个清理动作，要想测试该信号处理程序，你可以设置一个断点并使用如下命令： <br>            （gdb） signal 2 <br>            continuing with signal SIGINT(2) <br>            该程序继续执行，但是立即传输该信号，而且处理程序开始运行. <br> <br>            十一. 原文件的搜索 <br>            search text:该命令可显示在当前文件中包含text串的下一行。 <br>            Reverse-search text:该命令可以显示包含text 的前一行。 <br> <br>            十二.UNIX接口 <br>            shell 命令可启动UNIX外壳，CTRL-D退出外壳，返回到 gdb. <br> <br>            十三.命令的历史 <br>            为了允许使用历史命令，可使用 set history expansion on 命令 <br>            (gdb) set history expansion on <br> <br>            小结：常用的gdb命令 <br>            backtrace 显示程序中的当前位置和表示如何到达当前位置的栈跟踪（同义词：where） <br>            breakpoint 在程序中设置一个断点 <br>            cd 改变当前工作目录 <br>            clear 删除刚才停止处的断点 <br>            commands 命中断点时，列出将要执行的命令 <br>            continue 从断点开始继续执行 <br>            delete 删除一个断点或监测点；也可与其他命令一起使用 <br>            display 程序停止时显示变量和表达时 <br>            down 下移栈帧，使得另一个函数成为当前函数 <br>            frame 选择下一条continue命令的帧 <br>            info 显示与该程序有关的各种信息 <br>            jump 在源程序中的另一点开始运行 <br>            kill 异常终止在gdb 控制下运行的程序 <br>            list 列出相应于正在执行的程序的原文件内容 <br>            next 执行下一个源程序行，从而执行其整体中的一个函数 <br>            print 显示变量或表达式的值 <br>            pwd 显示当前工作目录 <br>            ptype 显示一个数据结构（如一个结构或C++类）的内容 <br>            quit 退出gdb <br>            reverse-search 在源文件中反向搜索正规表达式 <br>            run 执行该程序 <br>            search 在源文件中搜索正规表达式 <br>            set variable 给变量赋值 <br>            signal 将一个信号发送到正在运行的进程 <br>            step 执行下一个源程序行，必要时进入下一个函数 <br>            undisplay display命令的反命令，不要显示表达式 <br>            until 结束当前循环 <br>            up 上移栈帧，使另一函数成为当前函数 <br>            watch 在程序中设置一个监测点（即数据断点） <br>            whatis 显示变量或函数类型 <br>            <strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong> <br>            GNU的调试器称为gdb，该程序是一个交互式工具，工作在字符模式。在 X Window 系统中，有一个gdb的前端图形工具，称为xxgdb。gdb 是功能强大的调试程序，可完成如下的调试任务： <br>            <em> 设置断点； <br>            </em> 监视程序变量的值； <br>            <em> 程序的单步执行； <br>            </em> 修改变量的值。 <br>            在可以使用 gdb 调试程序之前，必须使用 -g 选项编译源文件。可在 makefile 中如下定义 CFLAGS 变量： <br>            CFLAGS = -g <br>            运行 gdb 调试程序时通常使用如下的命令： <br>            gdb progname <br> <br>            在 gdb 提示符处键入help，将列出命令的分类，主要的分类有： <br>            <em> aliases：命令别名 <br>            </em> breakpoints：断点定义； <br>            <em> data：数据查看； <br>            </em> files：指定并查看文件； <br>            <em> internals：维护命令； <br>            </em> running：程序执行； <br>            <em> stack：调用栈查看； <br>            </em> statu：状态查看； <br>            <em> tracepoints：跟踪程序执行。 <br>            键入 help 后跟命令的分类名，可获得该类命令的详细清单。 <br> <br> <br>            gdb 的常用命令 <br>            命令 解释 <br>            break NUM 在指定的行上设置断点。 <br>            bt 显示所有的调用栈帧。该命令可用来显示函数的调用顺序。 <br>            clear 删除设置在特定源文件、特定行上的断点。其用法为clear FILENAME:NUM <br>            continue 继续执行正在调试的程序。该命令用在程序由于处理信号或断点而 导致停止运行时。 <br>            display EXPR 每次程序停止后显示表达式的值。表达式由程序定义的变量组成。 <br>            file FILE 装载指定的可执行文件进行调试。 <br>            help NAME 显示指定命令的帮助信息。 <br>            info break 显示当前断点清单，包括到达断点处的次数等。 <br>            info files 显示被调试文件的详细信息。 <br>            info func 显示所有的函数名称。 <br>            info local 显示当函数中的局部变量信息。 <br>            info prog 显示被调试程序的执行状态。 <br>            info var 显示所有的全局和静态变量名称。 <br>            kill 终止正被调试的程序。 <br>            list 显示源代码段。 <br>            make 在不退出 gdb 的情况下运行 make 工具。 <br>            next 在不单步执行进入其他函数的情况下，向前执行一行源代码。 <br>            print EXPR 显示表达式 EXPR 的值。 <br> <br>            <strong>**</strong>gdb 使用范例<strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong> <br>            —————– <br>            清单 一个有错误的 C 源程序 bugging.c <br>            代码: <br> <br>            —————– <br>            1　＃i nclude <br>            2 <br>            3　static char buff [256]; <br>            4　static char</em> string; <br>            5　int main () <br>            6　{ <br>            7　　　printf (&quot;Please input a string: &quot;); <br>            8　　　gets (string);　　 <br>            9　　 printf (&quot;nYour string is: %sn&quot;, string); <br>            10 } <br> <br> <br>            —————– <br>            上面这个程序非常简单，其目的是接受用户的输入，然后将用户的输入打印出来。该程序使用了一个未经过初始化的字符串地址 string，因此，编译并运行之后，将出现 Segment Fault 错误： <br>            $ gcc -o bugging -g bugging.c <br>            $ ./bugging <br>            Please input a string: asfd <br>            Segmentation fault (core dumped) <br>            为了查找该程序中出现的问题，我们利用 gdb，并按如下的步骤进行： <br>            1．运行 gdb bugging 命令，装入 bugging 可执行文件； <br>            2．执行装入的 bugging 命令 run； <br>            3．使用 where 命令查看程序出错的地方； <br>            4．利用 list 命令查看调用 gets 函数附近的代码； <br>            5．唯一能够导致 gets 函数出错的因素就是变量 string。用print命令查看 string 的值； <br>            6．在 gdb 中，我们可以直接修改变量的值，只要将 string 取一个合法的指针值就可以了，为此，我们在第8行处设置断点 break 8； <br>            7．程序重新运行到第 8行处停止，这时，我们可以用 set variable 命令修改 string 的取值； <br>            8．然后继续运行，将看到正确的程序运行结果。  <br>            (<a href="http://www.fanqiang.com" target="_blank" rel="external">http://www.fanqiang.com</a>) </p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2008/03/04/GDB调试/" class="archive-article-date">
+  	<time datetime="2008-03-04T14:01:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2008-03-04</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Linux-Debug/">Linux Debug</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2008/03/05/IPC-programming-：message-queues/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          IPC programming ：message queues
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2008/03/01/CSS参考/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">CSS参考</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <title>【zz】Java 正则表达式详解 | jfo planet</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="http://www.jb51.net/article/16829.htm如果你曾经用过Perl或任何其他内建正则表达式支持的语言，你一定知道用正则表达式处理文本和匹配模式是多么简单。如果你不熟悉这个术语，那么“正则表达式”（Regular Expression）就是一个字符构成的串，它定义了一个用来搜索匹配字符串的模式。                         许多语言，包括Perl、">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【zz】Java 正则表达式详解">
+<meta property="og:url" content="http://blog.pickbox.me/2009/05/23/【zz】Java-正则表达式详解/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="http://www.jb51.net/article/16829.htm如果你曾经用过Perl或任何其他内建正则表达式支持的语言，你一定知道用正则表达式处理文本和匹配模式是多么简单。如果你不熟悉这个术语，那么“正则表达式”（Regular Expression）就是一个字符构成的串，它定义了一个用来搜索匹配字符串的模式。                         许多语言，包括Perl、">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/cb6ae4cd3b45303c0eb345ae.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/7c1ba41ea6325372403417bb.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/185d7989df9da1de0e2444ae.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/588eaad3f2feef59960a16bb.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/5643ff1f51d53967314e15bb.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/85199c514d7fa14943a75bae.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/60c10db34ce8eccad8335aae.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/038f433486eb9e23241f14bb.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/f1230d24066b775ec99559ae.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/bfa4950a22af8b7294ca6bbb.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/f1b440a79cff66f8d04358ae.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/699a324e36fe3ba7d0c86abb.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/27a3ca95968f0326d0135eae.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/cede271f812b7fa5a68669bb.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/db8f97cac42909ebc81768bb.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/3605d343e5877f7e72f05dae.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/6b5ad3c8b167677a7e3e6fbb.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/2fd3af4b98dfdd9d83025cae.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/53dbd313393c2c6f5baf53ae.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/2f58a586def6d15366096ebb.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/2f8371f0c9cef4c2a50f52ae.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/5916cb1767dfc964c83d6dbb.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/8d60800216630a624afb51ae.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/7c9258afe9c3e596faed50ae.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/a43fa60f05375580aa6457ae.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/9999cb3d6b2e95aa9e3d62bb.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/5a9f49fbb4210509024f56ae.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/37ad72cf27263150f9dc61bb.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/8e5f39c782dc56b1d00060bb.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/b56bf9edfba8ad2279f055ae.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/55f4014f2a3c595baec3abaf.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/c5579d3de63d7f6dbba167bb.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/61adfadccee114cccc1166bb.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/064cd3009a40637c738b65bb.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/2f90b8a1ecf0dce6461064bb.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/fddf7af0a4fa01ae7831aaaf.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/51537b315c991d74eac4afaf.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/4431cf11506ae97db8127bbb.jpg">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/3381708b64f1177fc9fc7abb.jpg">
+<meta property="og:updated_time" content="2016-10-15T04:38:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="【zz】Java 正则表达式详解">
+<meta name="twitter:description" content="http://www.jb51.net/article/16829.htm如果你曾经用过Perl或任何其他内建正则表达式支持的语言，你一定知道用正则表达式处理文本和匹配模式是多么简单。如果你不熟悉这个术语，那么“正则表达式”（Regular Expression）就是一个字符构成的串，它定义了一个用来搜索匹配字符串的模式。                         许多语言，包括Perl、">
+<meta name="twitter:image" content="http://img.pickbox.me/wp-content/uploads/pic/cb6ae4cd3b45303c0eb345ae.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="jfo planet" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="//favicon.ico">
+  
+  <script src="/style.js"></script>
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">jfo</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">分类</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">友链</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="3" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+		        
+					<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">jfo</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="http://img.pickbox.me/wp-content/uploads/penguin.gif" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">jfo</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">Hope is the best gift that tomorrow gives.</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/jfojfo" title="github">github</a>
+			        
+						<a class="zhihu" target="_blank" href="https://www.zhihu.com/people/jfojfo" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-【zz】Java-正则表达式详解" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      【zz】Java 正则表达式详解
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> <br><a href="http://www.jb51.net/article/16829.htm" target="_blank">http://www.jb51.net/article/16829.htm</a><br><br>如果你曾经用过Perl或任何其他内建正则表达式支持的语言，你一定知道用正则表达式处理文本和匹配模式是多么简单。<br><br>如果你不熟悉这个术语，那么“<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式”（Regular Expression）就是一个字符构成的串，它定义了一个用来搜索匹配字符串的模式。 <br>                        许多语言，包括Perl、PHP、Python、JavaScript和JScript，都支持用<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式处理文本，一些文本编辑器用<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式实现高级“搜索-替换”功能。那么Java又怎样呢？本文写作时，一个包含了用<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式进行文本处理的Java规范需求（Specification Request）已经得到认可，你可以期待在JDK的下一版本中看到它。                                    然而，如果现在就需要使用<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式，又该怎么办呢？你可以从Apache.org下载源代码开放的Jakarta-ORO库。本文接下来的内容先简要地介绍<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式的入门知识，然后以Jakarta-ORO API为例介绍如何使用<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式。                                    <strong>一、<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式基础知识</strong>                                    我们先从简单的开始。假设你要搜索一个包含字符“cat”的字符串，搜索用的<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式就是“cat”。如果搜索对大小写不敏感，单词“catalog”、“Catherine”、“sophisticated”都可以匹配。也就是说：                                    <img src="http://img.pickbox.me/wp-content/uploads/pic/cb6ae4cd3b45303c0eb345ae.jpg"> <strong>1.1 句点符号</strong>                                    假设你在玩英文拼字游戏，想要找出三个字母的单词，而且这些单词必须以“t”字母开头，以“n”字母结束。另外，假设有一本英文字典，你可以用<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式搜索它的全部内容。要构造出这个<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表 达式，你可以使用一个通配符——句点符号“.”。这样，完整的表达式就是“t.n”，它匹配“tan”、“ten”、“tin”和“ton”，还匹配 “t#n”、“tpn”甚至“t n”，还有其他许多无意义的组合。这是因为句点符号匹配所有字符，包括空格、Tab字符甚至换行符：                                    <img src="http://img.pickbox.me/wp-content/uploads/pic/7c1ba41ea6325372403417bb.jpg"> <strong>1.2 方括号符号</strong>                                    为了解决句点符号匹配范围过于广泛这一问题，你可以在方括号（“[]”）里面指定看来有意义的字符。此时，只有方括号里面指定的字符才参与匹配。也就是说，<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式“t[aeio]n”只匹配“tan”、“Ten”、“tin”和“ton”。但“Toon”不匹配，因为在方括号之内你只能匹配单个字符：                                    <img src="http://img.pickbox.me/wp-content/uploads/pic/185d7989df9da1de0e2444ae.jpg"> <strong>1.3 “或”符号</strong>                                    如果除了上面匹配的所有单词之外，你还想要匹配“toon”，那么，你可以使用“|”操作符。“|”操作符的基本意义就是“或”运算。要匹配“toon”，使用“t(a|e|i|o|oo)n”<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式。这里不能使用方扩号，因为方括号只允许匹配单个字符；这里必须使用圆括号“()”。圆括号还可以用来分组，具体请参见后面介绍。                                    <img src="http://img.pickbox.me/wp-content/uploads/pic/588eaad3f2feef59960a16bb.jpg"> <strong>1.4 表示匹配次数的符号</strong>                                    表一显示了表示匹配次数的符号，这些符号用来确定紧靠该符号左边的符号出现的次数：                                                </p><p><img src="http://img.pickbox.me/wp-content/uploads/pic/5643ff1f51d53967314e15bb.jpg"></p>                                                假设我们要在文本文件中搜索美国的社会安全号码。这个号码的格式是999-99-9999。用来匹配它的<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式如图一所示。在<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式中，连字符（“-”）有着特殊的意义，它表示一个范围，比如从0到9。因此，匹配社会安全号码中的连字符号时，它的前面要加上一个转义字符“”。                                                <p><img src="http://img.pickbox.me/wp-content/uploads/pic/85199c514d7fa14943a75bae.jpg"></p> <p>图一：匹配所有123-12-1234形式的社会安全号码</p>                                                假设进行搜索的时候，你希望连字符号可以出现，也可以不出现——即，999-99-9999和999999999都属于正确的格式。这时，你可以在连字符号后面加上“？”数量限定符号，如图二所示：                                                <p><img src="http://img.pickbox.me/wp-content/uploads/pic/60c10db34ce8eccad8335aae.jpg"></p> <p>图二：匹配所有123-12-1234和123121234形式的社会安全号码</p>                                                下面我们再来看另外一个例子。美国汽车牌照的一种格式是四个数字加上二个字母。它的<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式前面是数字部分“[0-9]{4}”，再加上字母部分“[A-Z]{2}”。图三显示了完整的<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式。                                                <p><img src="http://img.pickbox.me/wp-content/uploads/pic/038f433486eb9e23241f14bb.jpg"></p> <p>图三：匹配典型的美国汽车牌照号码，如8836KV</p>                                                1.5 “否”符号                                    “^”符号称为“否”符号。如果用在方括号内，“^”表示不想要匹配的字符。例如，图四的<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式匹配所有单词，但以“X”字母开头的单词除外。                                                <p><img src="http://img.pickbox.me/wp-content/uploads/pic/f1230d24066b775ec99559ae.jpg"></p> <p>图四：匹配所有单词，但“X”开头的除外</p>                                                1.6 圆括号和空白符号                                    假设要从格式为“June 26, 1951”的生日日期中提取出月份部分，用来匹配该日期的<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式可以如图五所示：                                                <p><img src="http://img.pickbox.me/wp-content/uploads/pic/bfa4950a22af8b7294ca6bbb.jpg"></p> <p>图五：匹配所有Moth DD,YYYY格式的日期</p>                                                新出现的“s”符号是空白符号，匹配所有的空白字符，包括Tab字符。如果字符串正确匹配，接下来如何提取出月份部分呢？只需在月份周围加上一个圆括号创建一个组，然后用ORO API（本文后面详细讨论）提取出它的值。修改后的<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式如图六所示：                                                <p><img src="http://img.pickbox.me/wp-content/uploads/pic/f1b440a79cff66f8d04358ae.jpg"></p> <p>图六：匹配所有Month DD,YYYY格式的日期，定义月份值为第一个组</p> <strong>1.7 其它符号</strong>                                    为简便起见，你可以使用一些为常见<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式创建的快捷符号。如表二所示：                                    表二：常用符号                                                <p><img src="http://img.pickbox.me/wp-content/uploads/pic/699a324e36fe3ba7d0c86abb.jpg"></p>                                                例如，在前面社会安全号码的例子中，所有出现“[0-9]”的地方我们都可以使用“d”。修改后的<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式如图七所示：                                                <p><img src="http://img.pickbox.me/wp-content/uploads/pic/27a3ca95968f0326d0135eae.jpg"></p> <p>图七：匹配所有123-12-1234格式的社会安全号码</p> <strong>二、Jakarta-ORO库</strong>                                    有许多源代码开放的<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式库可供Java程序员使用，而且它们中的许多支持Perl 5兼容的<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式语法。我在这里选用的是Jakarta-ORO<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式库，它是最全面的<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式API之一，而且它与Perl 5<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式完全兼容。另外，它也是优化得最好的API之一。                                    Jakarta-ORO库以前叫做OROMatcher，Daniel Savarese大方地把它赠送给了Jakarta Project。你可以按照本文最后参考资源的说明下载它。                                    我首先将简要介绍使用Jakarta-ORO库时你必须创建和访问的对象，然后介绍如何使用Jakarta-ORO API。                                    <strong>▲ PatternCompiler对象</strong>                                    首先，创建一个Perl5Compiler类的实例，并把它赋值给PatternCompiler接口对象。Perl5Compiler是PatternCompiler接口的一个实现，允许你把<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式编译成用来匹配的Pattern对象。                                    <img src="http://img.pickbox.me/wp-content/uploads/pic/cede271f812b7fa5a68669bb.jpg"> <strong>▲ Pattern对象</strong>                                    要把<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式编译成Pattern对象，调用compiler对象的compile()方法，并在调用参数中指定<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式。例如，你可以按照下面这种方式编译<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式“t[aeio]n”：                                    <img src="http://img.pickbox.me/wp-content/uploads/pic/db8f97cac42909ebc81768bb.jpg">                                    默认情况下，编译器创建一个大小写敏感的模式（pattern）。因此，上面代码编译得到的模式只匹配“tin”、“tan”、 “ten”和“ton”，但不匹配“Tin”和“taN”。要创建一个大小写不敏感的模式，你应该在调用编译器的时候指定一个额外的参数：                                    <img src="http://img.pickbox.me/wp-content/uploads/pic/3605d343e5877f7e72f05dae.jpg">                                    创建好Pattern对象之后，你就可以通过PatternMatcher类用该Pattern对象进行模式匹配。                                    <strong>▲ PatternMatcher对象</strong>                                    PatternMatcher对象根据Pattern对象和字符串进行匹配检查。你要实例化一个Perl5Matcher类并把结果赋值给PatternMatcher接口。Perl5Matcher类是PatternMatcher接口的一个实现，它根据Perl 5<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式语法进行模式匹配：                                    <img src="http://img.pickbox.me/wp-content/uploads/pic/6b5ad3c8b167677a7e3e6fbb.jpg">                                    使用PatternMatcher对象，你可以用多个方法进行匹配操作，这些方法的第一个参数都是需要根据<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式进行匹配的字符串：                                    · boolean matches(String input, Pattern pattern)：当输入字符串和<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式要精确匹配时使用。换句话说，<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式必须完整地描述输入字符串。                                    · boolean matchesPrefix(String input, Pattern pattern)：当<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式匹配输入字符串起始部分时使用。                                    · boolean contains(String input, Pattern pattern)：当<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式要匹配输入字符串的一部分时使用（即，它必须是一个子串）。                                    另外，在上面三个方法调用中，你还可以用PatternMatcherInput对象作为参数替代String对象；这时，你可以从字符串中最后一次匹配的位置开始继续进行匹配。当字符串可能有多个子串匹配给定的<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式时，用PatternMatcherInput对象作为参数就很有用了。用PatternMatcherInput对象作为参数替代String时，上述三个方法的语法如下：                                    · boolean matches(PatternMatcherInput input, Pattern pattern)                                    · boolean matchesPrefix(PatternMatcherInput input, Pattern pattern)                                    · boolean contains(PatternMatcherInput input, Pattern pattern)                                    <strong>三、应用实例</strong>                                    下面我们来看看Jakarta-ORO库的一些应用实例。                                    <strong>3.1 日志文件处理</strong>                                    任务：分析一个Web服务器日志文件，确定每一个用户花在网站上的时间。在典型的BEA WebLogic日志文件中，日志记录的格式如下：                                    <img src="http://img.pickbox.me/wp-content/uploads/pic/2fd3af4b98dfdd9d83025cae.jpg">                                    分析这个日志记录，可以发现，要从这个日志文件提取的内容有两项：IP地址和页面访问时间。你可以用分组符号（圆括号）从日志记录提取出IP地址和时间标记。                                    首先我们来看看IP地址。IP地址有4个字节构成，每一个字节的值在0到255之间，各个字节通过一个句点分隔。因此，IP地址中的每一个字节有至少一个、最多三个数字。图八显示了为IP地址编写的<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式：                                                <p><img src="http://img.pickbox.me/wp-content/uploads/pic/53dbd313393c2c6f5baf53ae.jpg"></p> <p>图八：匹配IP地址</p>                                                IP地址中的句点字符必须进行转义处理（前面加上“”），因为IP地址中的句点具有它本来的含义，而不是采用<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式语法中的特殊含义。句点在<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式中的特殊含义本文前面已经介绍。                                    日志记录的时间部分由一对方括号包围。你可以按照如下思路提取出方括号里面的所有内容：首先搜索起始方括号字符（“[”），提取出所有不超过结束方括号字符（“]”）的内容，向前寻找直至找到结束方括号字符。图九显示了这部分的<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式。                                                <p><img src="http://img.pickbox.me/wp-content/uploads/pic/2f58a586def6d15366096ebb.jpg"></p> <p>图九：匹配至少一个字符，直至找到“]”</p>                                                现在，把上述两个<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式加上分组符号（圆括号）后合并成单个表达式，这样就可以从日志记录提取出IP地址和时间。注意，为了匹配“- -”（但不提取它），<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式中间加入了“s-s-s”。完整的<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式如图十所示。                                                <p><img src="http://img.pickbox.me/wp-content/uploads/pic/2f8371f0c9cef4c2a50f52ae.jpg"></p> <p>图十：匹配IP地址和时间标记</p>                                                现在<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式已经编写完毕，接下来可以编写使用<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式库的Java代码了。                                    为使用Jakarta-ORO库，首先创建<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式字符串和待分析的日志记录字符串：                                    <img src="http://img.pickbox.me/wp-content/uploads/pic/5916cb1767dfc964c83d6dbb.jpg">                                    这里使用的<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式与图十的<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表 达式差不多完全相同，但有一点例外：在Java中，你必须对每一个向前的斜杠（“”）进行转义处理。图十不是Java的表示形式，所以我们要在每个“ ”前面加上一个“”以免出现编译错误。遗憾的是，转义处理过程很容易出现错误，所以应该小心谨慎。你可以首先输入未经转义处理的<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式，然后从左到右依次把每一个“”替换成“\”。如果要复检，你可以试着把它输出到屏幕上。                                    初始化字符串之后，实例化PatternCompiler对象，用PatternCompiler编译<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式创建一个Pattern对象：                                    <img src="http://img.pickbox.me/wp-content/uploads/pic/8d60800216630a624afb51ae.jpg">                                    现在，创建PatternMatcher对象，调用PatternMatcher接口的contain()方法检查匹配情况：                                    <img src="http://img.pickbox.me/wp-content/uploads/pic/7c9258afe9c3e596faed50ae.jpg">                                    接下来，利用PatternMatcher接口返回的MatchResult对象，输出匹配的组。由于logEntry字符串包含匹配的内容，你可以看到类如下面的输出：                                    <img src="http://img.pickbox.me/wp-content/uploads/pic/a43fa60f05375580aa6457ae.jpg"> <strong>3.2 HTML处理实例一</strong>                                    下面一个任务是分析HTML页面内FONT标记的所有属性。HTML页面内典型的FONT标记如下所示：                                    <img src="http://img.pickbox.me/wp-content/uploads/pic/9999cb3d6b2e95aa9e3d62bb.jpg">                                    程序将按照如下形式，输出每一个FONT标记的属性：                                    <img src="http://img.pickbox.me/wp-content/uploads/pic/5a9f49fbb4210509024f56ae.jpg">                                    在这种情况下，我建议你使用两个<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式。第一个如图十一所示，它从字体标记提取出“&quot;face=&quot;Arial, Serif&quot; size=&quot;+2&quot; color=&quot;red&quot;”。                                                <p><img src="http://img.pickbox.me/wp-content/uploads/pic/37ad72cf27263150f9dc61bb.jpg"></p> <p>图十一：匹配FONT标记的所有属性</p>                                                第二个<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式如图十二所示，它把各个属性分割成名字-值对。                                                <p><img src="http://img.pickbox.me/wp-content/uploads/pic/8e5f39c782dc56b1d00060bb.jpg"></p> <p>图十二：匹配单个属性，并把它分割成名字-值对</p>                                                分割结果为：                                    <img src="http://img.pickbox.me/wp-content/uploads/pic/b56bf9edfba8ad2279f055ae.jpg">                                    现在我们来看看完成这个任务的Java代码。首先创建两个<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式字符串，用Perl5Compiler把它们编译成Pattern对象。编译<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式的时候，指定Perl5Compiler.CASE_INSENSITIVE_MASK选项，使得匹配操作不区分大小写。                                    接下来，创建一个执行匹配操作的Perl5Matcher对象。                                    <img src="http://img.pickbox.me/wp-content/uploads/pic/55f4014f2a3c595baec3abaf.jpg">                                    假设有一个String类型的变量html，它代表了HTML文件中的一行内容。如果html字符串包含FONT标记，匹配器将返回true。此时，你可以用匹配器对象返回的MatchResult对象获得第一个组，它包含了FONT的所有属性：                                    <img src="http://img.pickbox.me/wp-content/uploads/pic/c5579d3de63d7f6dbba167bb.jpg">                                    接下来创建一个PatternMatcherInput对象。这个对象允许你从最后一次匹配的位置开始继续进行匹配操 作，因此，它很适合于提取FONT标记内属性的名字-值对。创建PatternMatcherInput对象，以参数形式传入待匹配的字符串。然后，用匹 配器实例提取出每一个FONT的属性。这通过指定PatternMatcherInput对象（而不是字符串对象）为参数，反复地调用 PatternMatcher对象的contains()方法完成。PatternMatcherInput对象之中的每一次迭代将把它内部的指针向前移 动，下一次检测将从前一次匹配位置的后面开始。                                    本例的输出结果如下：                                    <img src="http://img.pickbox.me/wp-content/uploads/pic/61adfadccee114cccc1166bb.jpg"> <strong>3.3 HTML处理实例二</strong>                                    下面我们来看看另一个处理HTML的例子。这一次，我们假定Web服务器从widgets.acme.com移到了newserver.acme.com。现在你要修改一些页面中的链接：                                    <img src="http://img.pickbox.me/wp-content/uploads/pic/064cd3009a40637c738b65bb.jpg">                                    执行这个搜索的<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式如图十三所示：                                                <p><img src="http://img.pickbox.me/wp-content/uploads/pic/2f90b8a1ecf0dce6461064bb.jpg"></p> <p>图十三：匹配修改前的链接</p>                                                如果能够匹配这个<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式，你可以用下面的内容替换图十三的链接：                                    <img src="http://img.pickbox.me/wp-content/uploads/pic/fddf7af0a4fa01ae7831aaaf.jpg">                                    注意#字符的后面加上了$1。Perl<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式语法用$1、$2等表示已经匹配且提取出来的组。图十三的表达式把所有作为一个组匹配和提取出来的内容附加到链接的后面。                                    现在，返回Java。就象前面我们所做的那样，你必须创建测试字符串，创建把<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式编译到Pattern对象所必需的对象，以及创建一个PatternMatcher对象：<img src="http://img.pickbox.me/wp-content/uploads/pic/51537b315c991d74eac4afaf.jpg">                                    接下来，用com.oroinc.text.regex包Util类的substitute()静态方法进行替换，输出结果字符串：                                    <img src="http://img.pickbox.me/wp-content/uploads/pic/4431cf11506ae97db8127bbb.jpg">                                    Util.substitute()方法的语法如下：                                    <img src="http://img.pickbox.me/wp-content/uploads/pic/3381708b64f1177fc9fc7abb.jpg">                                    这个调用的前两个参数是以前创建的PatternMatcher和Pattern对象。第三个参数是一个 Substiution对象，它决定了替换操作如何进行。本例使用的是Perl5Substitution对象，它能够进行Perl5风格的替换。第四个 参数是想要进行替换操作的字符串，最后一个参数允许指定是否替换模式的所有匹配子串（Util.SUBSTITUTE_ALL），或只替换指定的次数。            <strong>【结束语】</strong>在这篇文章中，我为你介绍了<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式的强大功能。只要正确运用，<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式能够在字符串提取和文本修改中起到很大的作用。另外，我还介绍了如何在Java程序中通过Jakarta-ORO库利用<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式。至于最终采用老式的字符串处理方式（使用StringTokenizer，charAt，和substring），还是采用<a target="_blank" href="http://www.jb51.net/list/list_6_1.htm">正则</a>表达式，这就有待你自己决定了。<br><br><br><br><br><br><br> <p></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2009/05/23/【zz】Java-正则表达式详解/" class="archive-article-date">
+  	<time datetime="2009-05-22T16:20:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2009-05-23</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/Java/">Java</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2009/06/03/【zz】Linux-图形现状/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          【zz】Linux 图形现状
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2009/05/22/dd拷贝磁盘分区/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">dd拷贝磁盘分区</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 jfo
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: false,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+      <li data-hook="tools-section-friends"><span class="text">友链</span><i class="icon-link"></i></li>
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a><span class="category-list-count">87</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Arduino-OpenWrt/">Arduino/OpenWrt</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/DefaultCategory/">DefaultCategory</a><span class="category-list-count">9</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Distributed-Computing/">Distributed Computing</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/English/">English</a><span class="category-list-count">20</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Google/">Google</a><span class="category-list-count">5</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a><span class="category-list-count">25</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a><span class="category-list-count">67</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a><span class="category-list-count">52</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-App/">Linux App</a><span class="category-list-count">61</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Debug/">Linux Debug</a><span class="category-list-count">15</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux-Virtualization/">Linux Virtualization</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mac-OS-X/">Mac OS X</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Mobile/">Mobile</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Network/">Network</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Saying/">Saying</a><span class="category-list-count">10</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/WebDev/">WebDev</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Windows/">Windows</a><span class="category-list-count">18</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-template-gp-boost/">c++/c++ template/gp/boost</a><span class="category-list-count">14</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/c-c-algorithm/">c/c++/algorithm</a><span class="category-list-count">36</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/cocos2d-x-模拟器/">cocos2d-x/模拟器</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/com组件/">com组件</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/framework/">framework</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/gcc-binutils-make-共享库/">gcc/binutils/make/共享库</a><span class="category-list-count">21</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/js-html-python/">js/html/python</a><span class="category-list-count">6</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/l4ka-pistachio-iguana/">l4ka::pistachio/iguana</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux-图形/">linux 图形</a><span class="category-list-count">3</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/python-js-php-html-mysql-http/">python/js/php/html/mysql/http</a><span class="category-list-count">46</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/reading/">reading</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/self-collect/">self_collect</a><span class="category-list-count">17</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/unifiedkernel-wine-reactos/">unifiedkernel/wine/reactos</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/wordpress/">wordpress</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/产品/">产品</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/教育/">教育</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/数学-物理/">数学/物理</a><span class="category-list-count">3</span></li></ul>
+    			</div>
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-friends">
+  		
+  			<div class="friends-wrap" id="js-friends">
+  			
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://iguangba.pickbox.me/">爱逛吧</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.pickbox.me/">收藏夹</a>
+  	        
+  	          <a target="_blank" class="main-nav-link switch-friends-link" href="http://note.pickbox.me/">网络剪贴板</a>
+  	        
+  	        </div>
+  		
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">jfojfo#gmail.com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>
