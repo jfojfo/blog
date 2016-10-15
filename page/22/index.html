@@ -246,124 +246,6 @@
             
               
                 
-                <a class="post-title-link" href="/2010/06/25/HashSet-ArrayList-HashMap的线程同步控制方法/" itemprop="url">
-                  HashSet-ArrayList-HashMap的线程同步控制方法
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2010-06-25T16:45:00+08:00" content="2010-06-25">
-              2010-06-25
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            &#160;&#160;&#160;&#160;Collections类中提供了多个synchronizedXxx,该方法返回指定集合对象对应的同步对象,从而可以解决多线程并发访问集合时的线程安全问题.&#160;&#160;&#160;正如Java中常用的集合框架推荐使用的三个实现类:HashSetArrayListHashMap都是线程不安全的.如果有多条线程访问它们,而且有超过一条的线程试图修改它们,则可能出现错务.Collections提供了多个静态方法用于创建同步集合下面程序创建了四个同步的集合对象import java.util.*;public class&#160;&#160;TestSynchronized{public static void main(String[] args){&#160;//下面程序创建了四个同步的集合对象&#160;Collection c=Collections.synchronizedCollection(new ArrayList());&#160;List list=Collections.synchronizedList(ne
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2010/06/25/HashSet-ArrayList-HashMap的线程同步控制方法/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
                 <a class="post-title-link" href="/2010/06/13/豌豆荚/" itemprop="url">
                   豌豆荚
                 </a>
@@ -1407,6 +1289,124 @@ PRODUCT_PROPERTY_OVERRIDES的设置，最终会在编译生成的out/target/prod
 
 
     
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2010/04/20/jni-Java下调用native-C函数/" itemprop="url">
+                  jni -- Java下调用native C函数
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2010-04-20T14:13:00+08:00" content="2010-04-20">
+              2010-04-20
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+           $ cd test_jni$ cat com/jfo/check.javapackage com.jfo;public class check {&#160;&#160;&#160; public native String hello();static {System.loadLibrary(&quot;test&quot;);}public static void main(String[] args) {String s = new check().hello();System.out.println(s);}}$ javac com/jfo/check.java$ javah -jni com.jfo.check&#160;&#160;&#160; // this will generate &quot;com_jfo_check.h&quot; header file.$ lscom&#160; com_jfo_check.h&#160; jni$ cat com_jfo_check.h/ DO NOT EDIT THIS FILE - it is machine gene
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2010/04/20/jni-Java下调用native-C函数/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
   </section>
 
   
@@ -1452,7 +1452,7 @@ PRODUCT_PROPERTY_OVERRIDES的设置，最终会在编译生成的out/target/prod
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">596</span>
+              <span class="site-state-item-count">595</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

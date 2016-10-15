@@ -246,128 +246,6 @@
             
               
                 
-                <a class="post-title-link" href="/2014/11/08/sensors-data-get-set-from-android-emulator-sensor-socket/" itemprop="url">
-                  sensors data get/set from android emulator sensor socket
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2014-11-08T22:13:24+08:00" content="2014-11-08">
-              2014-11-08
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          android emulator在初始化时会为sensor单独开一个socket，端口为1970，监听外部应用（比如eclipse调试工具）传递的模拟sensor数据
-socket创建过程大致如下图所示：
-可以看到，最后从socket接受到的外部模拟sensor数据通过android_sensors_set()存放在hw-sensors.c中，这与《sensors data get/set from android emulator console》中用console设置传感器数据类似
-具体如何使用1970这个socket端口，可以参考android源代码目录下的sdk/apps/SdkController，它将实体手机的传感器数据传递给模拟器，但目前有bug，可以从https://github.com/jfojfo/VirtualSensors下载fix bug的版本
-
-          
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014/11/08/sensors-data-get-set-from-android-emulator-sensor-socket/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
                 <a class="post-title-link" href="/2014/11/08/sensors-data-get-set-from-android-emulator-console/" itemprop="url">
                   sensors data get/set from android emulator console
                 </a>
@@ -1521,6 +1399,135 @@ evdev默认match所有的input_dev设备，evdev_handler的connect为evdev_handl
 
 
     
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2014/08/06/Android读取USB-Descriptor获取manufacture和product信息/" itemprop="url">
+                  Android读取USB Descriptor获取manufacture和product信息
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-08-06T10:52:01+08:00" content="2014-08-06">
+              2014-08-06
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          Android中通过UsbDevice.getDeviceName()返回类似/dev/usb/002/002，不能获取真正的设备名称，只能通过读取Raw USB Descriptors获取manufacturer名称
+
+private static final String ACTION_USB_PERMISSION = "com.android.example.USB_PERMISSION";
+private PendingIntent mPermissionIntent;
+
+protected static final int STD_USB_REQUEST_GET_DESCRIPTOR = 0x06;
+protected static final int LIBUSB_DT_STRING = 0x03;
+
+private String getUsbDetail(UsbDevice device) {
+    String manufacturer = "", product = "", serial = "";
+
+    UsbManager manager = (UsbMan
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014/08/06/Android读取USB-Descriptor获取manufacture和product信息/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
   </section>
 
   
@@ -1566,7 +1573,7 @@ evdev默认match所有的input_dev设备，evdev_handler的connect为evdev_handl
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">596</span>
+              <span class="site-state-item-count">595</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

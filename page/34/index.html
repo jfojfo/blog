@@ -246,124 +246,6 @@
             
               
                 
-                <a class="post-title-link" href="/2008/10/06/【zz】debian基本系统构建（build-Linux-system-from-scratch-based-on-deb-packages）/" itemprop="url">
-                  【zz】debian基本系统构建（build Linux system from scratch based on deb packages）
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2008-10-06T08:53:00+08:00" content="2008-10-06">
-              2008-10-06
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Linux-App/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux App</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-           my1.mkdir -p /opt/root_filesystem/var/cache/apt/archive/partial2.从/var/lib/dpkg/status文件中获取essential,required,important软件包列表3.将所有软件包以及它们所依赖包拷贝到/opt/root_filesystem/var/cache/apt/archive/4.将所有essential,required包用 dpkg -x pkg.deb /opt/root_filesystem/ 解压5.root@jfo-laptop:/# chroot /opt/root_filesystem/ /bin/bash　root@jfo-laptop:/# export LC_ALL=Croot@jfo-laptop:/# touch /var/lib/dpkg/{status,available,diversions}6.开始用dpkg安装essential,required包　对所有essential,required包运行 dpkg –force-depends –unpack p
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2008/10/06/【zz】debian基本系统构建（build-Linux-system-from-scratch-based-on-deb-packages）/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
                 <a class="post-title-link" href="/2008/10/05/【zz】History（历史）命令用法-15-例/" itemprop="url">
                   【zz】History（历史）命令用法 15 例
                 </a>
@@ -1409,6 +1291,124 @@ pdftk *.pdf cat output combined.pdf
 
 
     
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2008/09/28/Linux-PAM/" itemprop="url">
+                  Linux-PAM
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2008-09-28T20:46:00+08:00" content="2008-09-28">
+              2008-09-28
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux-App/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux App</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+           mypam_namespace.so模块应用，polyinstantiation（多实例化），提高安全性 通过配置pam，在用户登录时实际登录的是虚拟目录，类似chroot，用户的所有操作都限定在该虚拟目录中。修改/etc/security/namespace.conf，添加：$HOME&nbsp;&nbsp;&nbsp;   $HOME/$USER.inst/inst-&nbsp;&nbsp;&nbsp;   context# mkdir /home/test/test.inst# chown root:root /home/test/test.inst# chmod 000 /home/test/test.inst在/etc/pam.d/login 和 /etc/pam.d/sshd 中添加：session required pam_namespace.soCtrl+Alt+F1，以test用户登录$ touch test_file$ lstest_file$ pwd/home/test再以root用户来看：root@jfo-laptop:/home/test# cd test.
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2008/09/28/Linux-PAM/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
   </section>
 
   
@@ -1454,7 +1454,7 @@ pdftk *.pdf cat output combined.pdf
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">596</span>
+              <span class="site-state-item-count">595</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

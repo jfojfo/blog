@@ -246,126 +246,6 @@
             
               
                 
-                <a class="post-title-link" href="/2013/05/21/记录一下从百度hi迁移博客过程/" itemprop="url">
-                  记录一下从百度hi迁移博客过程
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2013-05-21T15:48:44+08:00" content="2013-05-21">
-              2013-05-21
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/wordpress/" itemprop="url" rel="index">
-                    <span itemprop="name">wordpress</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          其实去年12月份就开始迁移了，最早从baidu hi导出的博客文章的时间是20121208，从那时就已经完成了博客导出工作。中间在github上搭建了一个博客，纯静态页面+js动态加载文章数据，可以看看效果：http://jfojfo.github.com，除了加载时间慢点外（如果没显示内容请再刷新试试），界面在bootstrap的帮助下，还是相当清爽的。
-由于github不能搭建动态页面，如果不想把每篇文章都制作一个静态html，只能用静态 + js 动态的方法了。数据服务使用的是Parse，后台管理做得不错，但国外服务器访问速度还是慢了一截。另外使用Parse有个最大的感受，对数据的获取和操作不够灵活，比如首页10篇文章想显示个摘要，还必需把前10篇文章的所有内容拉下来，不能选择性拉取；想查询某类别下的文章，query条件支持有限，不够灵活。还好Parse也支持在服务端写自定义函数，可以返回自己想要的结果，一定程度上弥补了上述缺点。
-页面展示用的客户端js动态加载，js使用knockout.js框架，非常好用，knockout.js是用于html页面数据绑定的，开发者在写html时
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013/05/21/记录一下从百度hi迁移博客过程/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
                 <a class="post-title-link" href="/2013/05/20/Wordpress-Custom-URLs-for-Plugins/" itemprop="url">
                   Wordpress Custom URLs for Plugins
                 </a>
@@ -1411,6 +1291,134 @@ I was reading Steve Souder’s blog post on loading scripts without blocking in 
 
 
     
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2012/11/28/JavaScript原型和继承-a-special-example-by-jfo/" itemprop="url">
+                  JavaScript原型和继承 - a special example by jfo
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2012-11-28T19:27:00+08:00" content="2012-11-28">
+              2012-11-28
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/js-html-python/" itemprop="url" rel="index">
+                    <span itemprop="name">js/html/python</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          function A() {    A.prototype = {        print: function(){            alert(“print”);        }    };}var a = new A();a.print();   // will cause exception: Object #&lt;A&gt; has no method ‘print’a = new A(); // new second timea.print();   // ok now&nbsp;
+A本身是一个普通对象：
+
+&nbsp;
+第一次new A() 的时候，先申请一片内存空间，赋予变量a，并将a的[[Prototype]]指向A.prototype（此时还没有print函数）
+然后执行constructor，即A函数体，并将A的prototype重设（此时print函数设置完成）
+&nbsp;
+这样第二次new A() 的时候，a的[[Prototype]]指向我们自己设置的那个prototype对象，就可以调用print函数了
+&nbsp;
+&nbsp;
+参考：Jav
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2012/11/28/JavaScript原型和继承-a-special-example-by-jfo/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
   </section>
 
   
@@ -1456,7 +1464,7 @@ I was reading Steve Souder’s blog post on loading scripts without blocking in 
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">596</span>
+              <span class="site-state-item-count">595</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

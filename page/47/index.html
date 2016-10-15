@@ -246,124 +246,6 @@
             
               
                 
-                <a class="post-title-link" href="/2007/11/17/对于自己写OS的启示/" itemprop="url">
-                  对于自己写OS的启示
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2007-11-17T21:33:00+08:00" content="2007-11-17">
-              2007-11-17
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-           http://www.another-prj.com/viewthread.php?action=printable&amp;tid=300&amp;sid=8zUl7i作者: zhiyunli    时间: 2007-8-4 13:11      标题: 补充一点个人的想法，愿与楼主探讨。 To caiyuqing (土豆泥) : 楼主现在已经有了这样的开端，而且有经验有实力，可以考虑在技术方面有些创新、在商业方面有所作为的商业化或准商业化（如Linux，Linux不仅仅是 开源）的OS，当然也是面向嵌入式领域的。 目前嵌入式应用领域比如说智能手机里比较典型的架构是双处理器配双OS，通信处理器可以配VxWorks、OSE等实时性较好的RTOS，主要用于跑协议 栈；应用模块可以配Linux等免费的OS。从软件系统的规模和复杂度方面看，Linux其实并不是个很好的选择，只是商家看中了它免费的特性。个人认 为，针对应用OS的话，工作难度会低些（复杂度是增加了）而且应用市场也会更大些，可以提供比较契合中小型嵌入式设备的、可配置的嵌入式OS，在API方 面我觉得可以多考虑模仿WinAPI，毕
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2007/11/17/对于自己写OS的启示/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
                 <a class="post-title-link" href="/2007/11/12/ELF文件动态链接时-GOT，PLT-的变化过程/" itemprop="url">
                   ELF文件动态链接时 GOT，PLT 的变化过程
                 </a>
@@ -1406,6 +1288,124 @@
 
 
     
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2007/10/01/OBJECT-AND-LIBRARY-ORDERING/" itemprop="url">
+                  OBJECT AND LIBRARY ORDERING
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2007-10-01T18:45:00+08:00" content="2007-10-01">
+              2007-10-01
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/gcc-binutils-make-共享库/" itemprop="url" rel="index">
+                    <span itemprop="name">gcc/binutils/make/共享库</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+           OBJECT AND LIBRARY ORDERING  The ordering of object files, archive libraries, and shared libraries on  the command line affects how symbols are resolved. For example, if an  archive library appears before an object file or shared library that refer-  ences one of its symbols, the linker may report that symbol as unresolved.  Unresolved symbol errors can be avoided by adhering to the following  suggestions:    +  Object files should be ordered before all archive libraries and shared       librar
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2007/10/01/OBJECT-AND-LIBRARY-ORDERING/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
   </section>
 
   
@@ -1451,7 +1451,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">596</span>
+              <span class="site-state-item-count">595</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
