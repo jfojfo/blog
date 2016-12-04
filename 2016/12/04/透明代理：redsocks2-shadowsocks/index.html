@@ -94,7 +94,7 @@ socket四要素：srcIP + srcPort + destIP + destPort唯一确定一个socket连
 <meta property="og:site_name" content="jfo planet">
 <meta property="og:description" content="redsocks2 + shadowsocks几点说明
 socket四要素：srcIP + srcPort + destIP + destPort唯一确定一个socket连接。server端accept监听到连接请求后，通常会另起一个子进程处理，但accept返回的新socket，与accept监听的端口还是一样的，都是server_port，而不是新开一个port(no new port is">
-<meta property="og:updated_time" content="2016-12-04T07:22:17.000Z">
+<meta property="og:updated_time" content="2016-12-04T07:45:21.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="透明代理：redsocks2_shadowsocks">
 <meta name="twitter:description" content="redsocks2 + shadowsocks几点说明
@@ -368,7 +368,7 @@ socket四要素：srcIP + srcPort + destIP + destPort唯一确定一个socket连
 <p>需要生成cert文件，用gencert.sh脚本生成</p>
 <p>80端口配置类似</p>
 <h3 id="iptables"><a href="#iptables" class="headerlink" title="iptables"></a>iptables</h3><p><a href="http://www.cnblogs.com/lexus/archive/2012/02/14/2351939.html" target="_blank" rel="external">http://www.cnblogs.com/lexus/archive/2012/02/14/2351939.html</a></p>
-<p><a href="http://img.pickbox.me/wp-content/uploads/iptables - Transparent web proxy.pdf" target="_blank" rel="external">下载</a></p>
+<p><a href="http://img.pickbox.me/wp-content/uploads/iptables-Transparent_web_proxy.pdf" target="_blank" rel="external">下载</a></p>
 <p>该方法同样有https证书问题，看看加深对socket四要素理解吧</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/bin/sh</span></div><div class="line">PROXY_IP=192.168.1.10</div><div class="line">PROXY_PORT=3128</div><div class="line">LAN_IP=`nvram get lan_ipaddr`</div><div class="line">LAN_NET=<span class="variable">$LAN_IP</span>/`nvram get lan_netmask`</div><div class="line"></div><div class="line">iptables -t nat -A PREROUTING -i br0 <span class="_">-s</span> <span class="variable">$LAN_NET</span> <span class="_">-d</span> <span class="variable">$LAN_NET</span> -p tcp --dport 80 -j ACCEPT</div><div class="line">iptables -t nat -A PREROUTING -i br0 <span class="_">-s</span> ! <span class="variable">$PROXY_IP</span> -p tcp --dport 80 -j DNAT --to <span class="variable">$PROXY_IP</span>:<span class="variable">$PROXY_PORT</span></div><div class="line">iptables -t nat -I POSTROUTING -o br0 <span class="_">-s</span> <span class="variable">$LAN_NET</span> <span class="_">-d</span> <span class="variable">$PROXY_IP</span> -p tcp -j SNAT --to <span class="variable">$LAN_IP</span></div><div class="line">iptables -I FORWARD -i br0 -o br0 <span class="_">-s</span> <span class="variable">$LAN_NET</span> <span class="_">-d</span> <span class="variable">$PROXY_IP</span> -p tcp --dport <span class="variable">$PROXY_PORT</span> -j ACCEPT</div></pre></td></tr></table></figure>
 <p>This solution described in the previous section redirects packets to the proxy server using Network Address Translation to modify the actual packets. The result is that packets arriving at the proxy have a source IP address of the router rather than the original client. As a result, it’s not possible to see the IP address of the originating client in the proxy logs, nor is it possible to apply access rules in the proxy based on the originating client IP address.</p>
