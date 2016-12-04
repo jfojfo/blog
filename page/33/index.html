@@ -261,6 +261,242 @@
             
               
                 
+                <a class="post-title-link" href="/2008/10/25/Linux-RCU-Read-Copy-Update/" itemprop="url">
+                  Linux RCU (Read-Copy Update)
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2008-10-25T15:22:00+08:00" content="2008-10-25">
+              2008-10-25
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+           my读者在访问被RCU保护的共享数据期间不能被阻塞,这是RCU机制得以实现的一个基本前提,也就说当读者在引用被RCU保护的共享数据期间,读者所在的CPU不能发生上下文切换(不能主动阻塞(block)，如等待某个资源；也不能被抢占(preempt)),  spinlock和rw lock都需要这样的前提。写者在访问被RCU保护的共享数据时不需要和读者竞争任何锁,只有在有多于一个写者的情况下需要获得某种锁以与其他写者同步。写者修改数据前首先拷贝一个被修改元素的副本,然后在副本上进行修改,修改完毕后它向垃圾回收器注册一个回调函数以便在适当的时机执行真正的修改操作。等待适当时机的这一时期称为grace period,而CPU发生了上下文切换称为经历一个quiescent state,grace period就是所有CPU都经历一次quiescent state所需要的等待的时间。垃圾收集器就是在grace period之后调用写者注册的回调函数来完成真正的数据修改或数据释放操作的。但如果打过 PREEMPT_RT 补丁，或是配置了 CONFIG_PREEMPT_RCU，read-side的c
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2008/10/25/Linux-RCU-Read-Copy-Update/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2008/10/23/【C-C-】error-jump-to-case-label/" itemprop="url">
+                  【C/C++】error: jump to case label
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2008-10-23T19:27:00+08:00" content="2008-10-23">
+              2008-10-23
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/c-c-algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">c/c++/algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+           problemThe following is not allowed:switch (a){&nbsp;&nbsp;&nbsp;    case 1:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    int a = 6;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    //stuff&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    break;&nbsp;&nbsp;&nbsp;    case 2:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    //stuff&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    break;}The following is allowed:switch (a){&nbsp;&nbsp;&nbsp;    case 1:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    {&nbsp;&nbsp;&nb
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2008/10/23/【C-C-】error-jump-to-case-label/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2008/10/22/L4：thread-creation/" itemprop="url">
                   L4：thread creation
                 </a>
@@ -1185,242 +1421,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2008/10/11/glibc中的vfork/" itemprop="url">
-                  glibc中的vfork
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2008-10-11T15:27:00+08:00" content="2008-10-11">
-              2008-10-11
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-           vfork：子进程共享父进程的地址空间，对应Linux内核的task struct中的mm struct指针指向同一个mm。在main()函数中调用vfork()时，会把返回地址IP push到堆栈，当子进程返回后，调用任何函数（例如execve），该地址将被覆盖；然而子进程结束，父进程接着运行时表现正常，这说明返回地址在vfork函数中被保存过，父进程在vfork返回前会恢复该返回地址，从而继续正常运行！以下glibc中vfork()的代码说明了这一点：glibc-2.7/sysdeps/unix/i386/vfork.SENTRY(vfork)jmp vforkglibc-2.7/sysdeps/unix/sysv/linux/i386/vfork.SENTRY (vfork)#ifdef __NR_vfork/ Pop the return PC value into ECX.  /popl&#160;&#160;&#160;    %ecx/ Stuff the syscall number in EAX and enter into the kernel.  /movl&#
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2008/10/11/glibc中的vfork/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2008/10/06/【zz】debian基本系统构建（build-Linux-system-from-scratch-based-on-deb-packages）/" itemprop="url">
-                  【zz】debian基本系统构建（build Linux system from scratch based on deb packages）
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2008-10-06T08:53:00+08:00" content="2008-10-06">
-              2008-10-06
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Linux-App/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux App</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-           my1.mkdir -p /opt/root_filesystem/var/cache/apt/archive/partial2.从/var/lib/dpkg/status文件中获取essential,required,important软件包列表3.将所有软件包以及它们所依赖包拷贝到/opt/root_filesystem/var/cache/apt/archive/4.将所有essential,required包用 dpkg -x pkg.deb /opt/root_filesystem/ 解压5.root@jfo-laptop:/# chroot /opt/root_filesystem/ /bin/bash　root@jfo-laptop:/# export LC_ALL=Croot@jfo-laptop:/# touch /var/lib/dpkg/{status,available,diversions}6.开始用dpkg安装essential,required包　对所有essential,required包运行 dpkg –force-depends –unpack p
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2008/10/06/【zz】debian基本系统构建（build-Linux-system-from-scratch-based-on-deb-packages）/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1466,7 +1466,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">595</span>
+              <span class="site-state-item-count">597</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

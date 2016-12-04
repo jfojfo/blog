@@ -261,6 +261,242 @@
             
               
                 
+                <a class="post-title-link" href="/2008/10/11/glibc中的vfork/" itemprop="url">
+                  glibc中的vfork
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2008-10-11T15:27:00+08:00" content="2008-10-11">
+              2008-10-11
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+           vfork：子进程共享父进程的地址空间，对应Linux内核的task struct中的mm struct指针指向同一个mm。在main()函数中调用vfork()时，会把返回地址IP push到堆栈，当子进程返回后，调用任何函数（例如execve），该地址将被覆盖；然而子进程结束，父进程接着运行时表现正常，这说明返回地址在vfork函数中被保存过，父进程在vfork返回前会恢复该返回地址，从而继续正常运行！以下glibc中vfork()的代码说明了这一点：glibc-2.7/sysdeps/unix/i386/vfork.SENTRY(vfork)jmp vforkglibc-2.7/sysdeps/unix/sysv/linux/i386/vfork.SENTRY (vfork)#ifdef __NR_vfork/ Pop the return PC value into ECX.  /popl&#160;&#160;&#160;    %ecx/ Stuff the syscall number in EAX and enter into the kernel.  /movl&#
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2008/10/11/glibc中的vfork/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2008/10/06/【zz】debian基本系统构建（build-Linux-system-from-scratch-based-on-deb-packages）/" itemprop="url">
+                  【zz】debian基本系统构建（build Linux system from scratch based on deb packages）
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2008-10-06T08:53:00+08:00" content="2008-10-06">
+              2008-10-06
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux-App/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux App</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+           my1.mkdir -p /opt/root_filesystem/var/cache/apt/archive/partial2.从/var/lib/dpkg/status文件中获取essential,required,important软件包列表3.将所有软件包以及它们所依赖包拷贝到/opt/root_filesystem/var/cache/apt/archive/4.将所有essential,required包用 dpkg -x pkg.deb /opt/root_filesystem/ 解压5.root@jfo-laptop:/# chroot /opt/root_filesystem/ /bin/bash　root@jfo-laptop:/# export LC_ALL=Croot@jfo-laptop:/# touch /var/lib/dpkg/{status,available,diversions}6.开始用dpkg安装essential,required包　对所有essential,required包运行 dpkg –force-depends –unpack p
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2008/10/06/【zz】debian基本系统构建（build-Linux-system-from-scratch-based-on-deb-packages）/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2008/10/05/【zz】History（历史）命令用法-15-例/" itemprop="url">
                   【zz】History（历史）命令用法 15 例
                 </a>
@@ -1184,246 +1420,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2008/09/28/Linux-command-cont/" itemprop="url">
-                  Linux command (cont.)
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2008-09-28T21:52:00+08:00" content="2008-09-28">
-              2008-09-28
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Linux-App/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux App</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          Linux Command(cont.)Part 1  Linux Command
-退出shell，但不退出该shell启动的后台程序：nohup ./sh &amp;
-==============================================================pdftk把文件 1.pdf、2.pdf 和 3.pdf 合并成一个名为 123.pdf 的新文件，参数的有效格式只能是单个的大写字母,比如 A、B、C 等。pdftk 1.pdf 2.pdf 3.pdf cat output 123.pdfpdftk A=1.pdf B=2.pdf C=3.pdf cat A B C output 123.pdf
-pdftk *.pdf cat output combined.pdf
-将文件 one.pdf 中的 1~7 页、two.pdf 中 1~5 页和 one.pdf 中的第 8 页分割出来, 依次合并为一个名为 combined.pdf 的新文件。pdftk A=one.pdf B=two.pdf cat A1-7 B1-5 A8 output comb
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2008/09/28/Linux-command-cont/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2008/09/28/Linux-PAM/" itemprop="url">
-                  Linux-PAM
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2008-09-28T20:46:00+08:00" content="2008-09-28">
-              2008-09-28
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Linux-App/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux App</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-           mypam_namespace.so模块应用，polyinstantiation（多实例化），提高安全性 通过配置pam，在用户登录时实际登录的是虚拟目录，类似chroot，用户的所有操作都限定在该虚拟目录中。修改/etc/security/namespace.conf，添加：$HOME&nbsp;&nbsp;&nbsp;   $HOME/$USER.inst/inst-&nbsp;&nbsp;&nbsp;   context# mkdir /home/test/test.inst# chown root:root /home/test/test.inst# chmod 000 /home/test/test.inst在/etc/pam.d/login 和 /etc/pam.d/sshd 中添加：session required pam_namespace.soCtrl+Alt+F1，以test用户登录$ touch test_file$ lstest_file$ pwd/home/test再以root用户来看：root@jfo-laptop:/home/test# cd test.
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2008/09/28/Linux-PAM/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1469,7 +1465,7 @@ pdftk *.pdf cat output combined.pdf
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">595</span>
+              <span class="site-state-item-count">597</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

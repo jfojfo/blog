@@ -88,24 +88,28 @@
 
 <meta name="description" content="SNAT，DNAT，MASQUERADE都是NAT
 
+
 MASQUERADE是SNAT的一个特例，要允许带有内部 IP 地址的 LAN 节点和外部的公共网络通信，需要配置防火墙的 IP 伪装（IP masquerading）。这会把来自 LAN 节点的请求都伪装成防火墙的外部设备的 IP 地址
-SNAT是指在数据包从网卡发送出去的时候，把数据包中的源地址部分替换为指定的IP，这样，接收方就认为数据包">
+SNAT是指在数据包从网卡发送出去的时候，把数据包中的源地址部分替换为指定的IP，这样，接收方就认为数据">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iptables NAT">
 <meta property="og:url" content="http://blog.pickbox.me/2014/12/27/iptables-NAT/index.html">
 <meta property="og:site_name" content="jfo planet">
 <meta property="og:description" content="SNAT，DNAT，MASQUERADE都是NAT
 
+
 MASQUERADE是SNAT的一个特例，要允许带有内部 IP 地址的 LAN 节点和外部的公共网络通信，需要配置防火墙的 IP 伪装（IP masquerading）。这会把来自 LAN 节点的请求都伪装成防火墙的外部设备的 IP 地址
-SNAT是指在数据包从网卡发送出去的时候，把数据包中的源地址部分替换为指定的IP，这样，接收方就认为数据包">
+SNAT是指在数据包从网卡发送出去的时候，把数据包中的源地址部分替换为指定的IP，这样，接收方就认为数据">
 <meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/Netfilter-Packet-Traversal.png">
-<meta property="og:updated_time" content="2016-10-15T05:24:27.000Z">
+<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/iptables_prerouting_forward_input_output_postrouting.gif">
+<meta property="og:updated_time" content="2016-12-04T07:09:04.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iptables NAT">
 <meta name="twitter:description" content="SNAT，DNAT，MASQUERADE都是NAT
 
+
 MASQUERADE是SNAT的一个特例，要允许带有内部 IP 地址的 LAN 节点和外部的公共网络通信，需要配置防火墙的 IP 伪装（IP masquerading）。这会把来自 LAN 节点的请求都伪装成防火墙的外部设备的 IP 地址
-SNAT是指在数据包从网卡发送出去的时候，把数据包中的源地址部分替换为指定的IP，这样，接收方就认为数据包">
+SNAT是指在数据包从网卡发送出去的时候，把数据包中的源地址部分替换为指定的IP，这样，接收方就认为数据">
 <meta name="twitter:image" content="http://img.pickbox.me/wp-content/uploads/Netfilter-Packet-Traversal.png">
 
 
@@ -334,6 +338,7 @@ SNAT是指在数据包从网卡发送出去的时候，把数据包中的源地�
       
         <p>SNAT，DNAT，MASQUERADE都是NAT</p>
 <p><a href="http://img.pickbox.me/wp-content/uploads/Netfilter-Packet-Traversal.png" target="_blank" rel="external"><img src="http://img.pickbox.me/wp-content/uploads/Netfilter-Packet-Traversal.png" alt="Netfilter Packet Traversal" width="807" height="637" class="alignnone size-full wp-image-1143"></a></p>
+<p><a href="http://img.pickbox.me/wp-content/uploads/iptables_prerouting_forward_input_output_postrouting.gif" target="_blank" rel="external"><img src="http://img.pickbox.me/wp-content/uploads/iptables_prerouting_forward_input_output_postrouting.gif" alt="iptables-5-steps" width="807" height="637" class="alignnone size-full wp-image-1143"></a></p>
 <p>MASQUERADE是SNAT的一个特例，要允许带有内部 IP 地址的 LAN 节点和外部的公共网络通信，需要配置防火墙的 IP 伪装（IP masquerading）。这会把来自 LAN 节点的请求都伪装成防火墙的外部设备的 IP 地址</p>
 <p>SNAT是指在数据包从网卡发送出去的时候，把数据包中的源地址部分替换为指定的IP，这样，接收方就认为数据包的来源是被替换的那个IP的主机</p>
 <p>DNAT 修改数据包中的目的IP，如果你想让内部网络内的某个服务器能够被外部利用，你可以使用 NAT 内 PREROUTING 链的 -j DNAT 目标来指定该向哪个目标 IP 地址以及端口转发请求连接到内部服务的分组</p>
@@ -456,7 +461,7 @@ iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j DNAT \
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">595</span>
+              <span class="site-state-item-count">597</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

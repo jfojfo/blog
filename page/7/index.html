@@ -261,6 +261,248 @@
             
               
                 
+                <a class="post-title-link" href="/2013/08/29/UDP穿透NAT原理（UDP打洞）/" itemprop="url">
+                  UDP穿透NAT原理（UDP打洞）
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2013-08-29T17:49:15+08:00" content="2013-08-29">
+              2013-08-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Network/" itemprop="url" rel="index">
+                    <span itemprop="name">Network</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          首先先介绍一些基本概念：NAT(Network Address Translators)，网络地址转换：网络地址转换是在IP地址日益缺乏的情况下产生的，它的主要目的就是为了能够地址重用。NAT分为两大类，基本的NAT和NAPT(Network Address/Port Translator)。最开始NAT是运行在路由器上的一个功能模块。最先提出的是基本的NAT，它的产生基于如下事实：一个私有网络（域）中的节点中只有很少的节点需要与外网连接（呵呵，这是在上世纪90年代中期提出的）。那么这个子网中其实只有少数的节点需要全球唯一的IP地址，其他的节点的IP地址应该是可以重用的。因此，基本的NAT实现的功能很简单，在子网内使用一个保留的IP子网段，这些IP对外是不可见的。子网内只有少数一些IP地址可以对应到真正全球唯一的IP地址。如果这些节点需要访问外部网络，那么基本NAT就负责将这个节点的子网内IP转化为一个全球唯一的IP然后发送出去。(基本的NAT会改变IP包中的原IP地址，但是不会改变IP包中的端口)关于基本的NAT可以参看RFC 1631另外一种NAT叫做NAPT，从名称上我们也可以看
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2013/08/29/UDP穿透NAT原理（UDP打洞）/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2013/08/28/通过wifi给Arduino板烧写程序/" itemprop="url">
+                  通过wifi给Arduino板烧写程序
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2013-08-28T16:12:16+08:00" content="2013-08-28">
+              2013-08-28
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Arduino-OpenWrt/" itemprop="url" rel="index">
+                    <span itemprop="name">Arduino/OpenWrt</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          在《TP-Link TL-WR703n路由USB口用途1——串口》中介绍了通过USB口与Arduino串口通讯，更进一步也可以通过USB串口将程序烧写到Arduino，再配一个web服务实现上传程序到wr703n，就实现了通过wifi给arduino烧写程序。
+参考：http://www.elcojacobs.com/programming-my-arduino-over-wifi/
+&nbsp;
+第一步：编译烧写工具avrdude烧写程序需要用到avrdude这个工具， 由于openwrt没有现成可用包，我们需要自己编译
+（不想麻烦的同学可以直接下载已经编译好的avrdude包）
+前面参考文章的做法是直接在路由器的linux系统中下载编译工具进行编译，但是编译工具一般体积庞大（30M+），在wr703n可怜的4M Flash + 32M RAM配置下，除非外挂USB存储卡，否则肯定行不通。
+这里我们用另外一种方法：交叉编译。首先在一台普通的Linux系统（Ubuntu、Debian、Fedora都可以，我用的是Arch，比较小众，但是够简洁速度快），下载openwrt编译工具链Ope
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2013/08/28/通过wifi给Arduino板烧写程序/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2013/08/28/TP-Link-TL-WR703n路由USB口用途2——挂载U盘，从U盘启动/" itemprop="url">
                   TP-Link TL-WR703n路由USB口用途2——挂载U盘，从U盘启动
                 </a>
@@ -1236,260 +1478,6 @@ Phant
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/06/15/各种免费的Web服务json接口/" itemprop="url">
-                  各种免费的Web服务json接口
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2013-06-15T13:26:36+08:00" content="2013-06-15">
-              2013-06-15
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/WebDev/" itemprop="url" rel="index">
-                    <span itemprop="name">WebDev</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          这里为大家搜集了一些能够返回JSON格式的服务接口。部分需要用JSONP调用。
-
-
-天气接口
-    气象局接口:
-http://m.weather.com.cn/data/101010100.html 解析 用例
-音乐接口
-    虾米接口
-http://kuang.xiami.com/app/nineteen/search/key/歌曲名称/diandian/1/page/歌曲当前页?_=当前毫秒&amp;callback=getXiamiData 用例 代码解释和下载    QQ空间收藏音乐接口
-http://qzone-music.qq.com/fcg-bin/fcg_music_fav_getinfo.fcg?dirinfo=0&amp;dirid=1&amp;uin=QQ号&amp;p=0.519638272547262&amp;g_tk=1284234856
-地图接口
-    阿里云根据地区名获取经纬度接口
-http://gc.ditu.aliyun.com/geocoding?a=苏州市 官方文档
-
-参数解释: 纬度,经度 type 001 (100代表道路，010代表
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013/06/15/各种免费的Web服务json接口/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/06/14/使用PHP-curl上传文件的两种方法：指定文件名和直接上传文件内容/" itemprop="url">
-                  使用PHP curl上传文件的两种方法：指定文件名和直接上传文件内容
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2013-06-14T18:08:26+08:00" content="2013-06-14">
-              2013-06-14
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/WebDev/" itemprop="url" rel="index">
-                    <span itemprop="name">WebDev</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          指定文件名的方式关键代码如下：
-    $ch = curl_init();    curl_setopt($ch, CURLOPT_URL, $url . http_build_query($query));    curl_setopt($ch, CURLOPT_HEADER, 0);    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //如果把这行注释掉的话，就会直接输出    curl_setopt($ch, CURLOPT_POST, 1);    curl_setopt($s, CURLOPT_POSTFIELDS, array(‘file’=&gt;’@’.$filePath));    $json = curl_exec($ch);    curl_close($ch);
-读取文件内容很多时候，文件内容并不在本地，例如从其他服务器拉取的图片，这个时候要用一些hack
-关键代码如下：
-    $ch = curl_init();    $file = file_get_contents($picUrl);    curl_se
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013/06/14/使用PHP-curl上传文件的两种方法：指定文件名和直接上传文件内容/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1535,7 +1523,7 @@ http://gc.ditu.aliyun.com/geocoding?a=苏州市 官方文档
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">595</span>
+              <span class="site-state-item-count">597</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

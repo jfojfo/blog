@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.pickbox.me/"/>
-  <updated>2016-10-15T05:24:27.000Z</updated>
+  <updated>2016-12-04T07:13:58.000Z</updated>
   <id>http://blog.pickbox.me/</id>
   
   <author>
@@ -14,6 +14,124 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>nginx负载均衡</title>
+    <link href="http://blog.pickbox.me/2016/12/04/nginx%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/"/>
+    <id>http://blog.pickbox.me/2016/12/04/nginx负载均衡/</id>
+    <published>2016-12-04T07:13:30.000Z</published>
+    <updated>2016-12-04T07:13:58.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="Nginx负载均衡配置"><a href="#Nginx负载均衡配置" class="headerlink" title="Nginx负载均衡配置"></a>Nginx负载均衡配置</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">http &#123;</div><div class="line"></div><div class="line">    # ... 省略其它配置</div><div class="line"></div><div class="line">    upstream tomcats &#123;</div><div class="line">        server 192.168.0.100:8080;</div><div class="line">        server 192.168.0.101:8080;</div><div class="line">        server example.com:8080;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    server &#123;</div><div class="line">        listen 80;</div><div class="line"></div><div class="line">        location / &#123;</div><div class="line">            proxy_pass http://tomcats;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    # ... 省略其它配置</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>proxy_pass <a href="http://tomcats：表示将所有请求转发到tomcats服务器组中配置的某一台服务器上。" target="_blank" rel="external">http://tomcats：表示将所有请求转发到tomcats服务器组中配置的某一台服务器上。</a></p>
+<ul>
+<li>weight指定权重</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">upstream tomcats &#123;</div><div class="line">    server 192.168.0.100:8080 weight=2;  # 2/6次</div><div class="line">    server 192.168.0.101:8080 weight=3;  # 3/6次</div><div class="line">    server 192.168.0.102:8080 weight=1;  # 1/6次</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li><p>max_fails：默认为1。某台Server允许请求失败的次数，超过最大次数后，在fail_timeout时间内，新的请求将不会分配给这台机器。如果设置为0，Nginx会将这台Server置为永久无效状态，然后将请求发给定义了proxy_next_upstream, fastcgi_next_upstream, uwsgi_next_upstream, scgi_next_upstream, and memcached_next_upstream指令来处理这次错误的请求。</p>
+</li>
+<li><p>fail_timeout：默认为10秒。某台Server达到max_fails次失败请求后，在fail_timeout期间内，nginx会认为这台Server暂时不可用，不会将请求分配给它</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">upstream tomcats &#123;</div><div class="line">    server 192.168.0.100:8080 weight=2 max_fails=3 fail_timeout=15;</div><div class="line">    server 192.168.0.101:8080 weight=3;</div><div class="line">    server 192.168.0.102:8080 weight=1;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>192.168.0.100这台机器，如果有3次请求失败，nginx在15秒内，不会将新的请求分配给它。</p>
+<ul>
+<li>backup：备份机，所有服务器挂了之后才会生效</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">upstream tomcats &#123;</div><div class="line">    server 192.168.0.100:8080 weight=2 max_fails=3 fail_timeout=15;</div><div class="line">    server 192.168.0.101:8080 weight=3;</div><div class="line">    server 192.168.0.102:8080 backup;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<ul>
+<li>down：标识某一台server不可用</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">upstream tomcats &#123;</div><div class="line">    server 192.168.0.100:8080 weight=2 max_fails=3 fail_timeout=15;</div><div class="line">    server 192.168.0.101:8080 down;</div><div class="line">    server 192.168.0.102:8080 backup;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>表示101这台Server为无效状态，不会将请求分配给它</p>
+<h3 id="url-hash"><a href="#url-hash" class="headerlink" title="url_hash"></a>url_hash</h3><p>按请求url的hash结果来分配请求，使每个url定向到同一个后端服务器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">upstream tomcats &#123;</div><div class="line">    server 192.168.0.100:8080;</div><div class="line">    server 192.168.0.101:8080;</div><div class="line">    server 192.168.0.102:8080;</div><div class="line">    hash $request_uri;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="faire"><a href="#faire" class="headerlink" title="faire"></a>faire</h3><p>根据服务器的响应时间来分配请求，响应时间短的优先分配，即负载压力小的优先会分配</p>
+<p>下载Nginx的upstream_fair模块进行安装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">upstream tomcats &#123;</div><div class="line">    fair;</div><div class="line">    server 192.168.0.100:8080;</div><div class="line">    server 192.168.0.101:8080;</div><div class="line">    server 192.168.0.102:8080;</div><div class="line">&#125;</div></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;Nginx负载均衡配置&quot;&gt;&lt;a href=&quot;#Nginx负载均衡配置&quot; class=&quot;headerlink&quot; title=&quot;Nginx负载均衡配置&quot;&gt;&lt;/a&gt;Nginx负载均衡配置&lt;/h3&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;tabl
+    
+    </summary>
+    
+      <category term="Network" scheme="http://blog.pickbox.me/categories/Network/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>透明代理：redsocks2_shadowsocks</title>
+    <link href="http://blog.pickbox.me/2016/12/04/%E9%80%8F%E6%98%8E%E4%BB%A3%E7%90%86%EF%BC%9Aredsocks2-shadowsocks/"/>
+    <id>http://blog.pickbox.me/2016/12/04/透明代理：redsocks2-shadowsocks/</id>
+    <published>2016-12-04T07:11:37.000Z</published>
+    <updated>2016-12-04T07:19:38.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="redsocks2-shadowsocks"><a href="#redsocks2-shadowsocks" class="headerlink" title="redsocks2 + shadowsocks"></a>redsocks2 + shadowsocks</h2><h3 id="几点说明"><a href="#几点说明" class="headerlink" title="几点说明"></a>几点说明</h3><ul>
+<li><p>socket四要素：srcIP + srcPort + destIP + destPort唯一确定一个socket连接。server端<code>accept</code>监听到连接请求后，通常会另起一个子进程处理，但accept返回的新socket，与accept监听的端口还是一样的，都是server_port，而不是新开一个port(no new port is opened)，参考<a href="http://stackoverflow.com/questions/489036/how-does-the-socket-api-accept-function-work" target="_blank" rel="external">How does the socket API accept() function work?</a></p>
+</li>
+<li><p>iptables SNAT/DNAT：<code>--to</code>更改TCP/IP包中的IP和Port，通过第三层TCP/IP协议将数据包送达目标机器</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">iptables -t nat -A POSTROUTING -s 172.16.36.0/24 -j SNAT --to $PROXY_IP:$PROXY_PORT</div></pre></td></tr></table></figure>
+<ul>
+<li><p>默认网关：通过链路层MAC地址将数据包送达目标机器。TCP/IP协议中没有关于默认网关IP的字段，通过ARP协议获取到默认网关IP对应的MAC地址，数据包发送出去时，在第二层链路层添加MAC地址，这样数据包就会被默认网关接收到</p>
+</li>
+<li><p>iptables redirect：会把原来的目标地址和端口改掉。REDIRECT使用了ip_conntrack模块，可以通过函数接口获取原来目的地址<br><br>if you redirect TCP traffic, the ip_conntrack provides a getsockopt() to get the original destination address.<br><br>REDIRECT实际上也是一种特殊的NAT</p>
+</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">This target is only valid in the nat table, in the PREROUTING and OUTPUT </div><div class="line">       chains, and user-defined chains which are only  called  from  those</div><div class="line">       chains.   It redirects the packet to the machine itself by changing the</div><div class="line">       destination IP  to  the  primary  address  of  the  incoming  interface</div><div class="line">       (locally-generated  packets  are  mapped to the 127.0.0.1 address).  It</div><div class="line">       takes one option</div><div class="line"></div><div class="line">       --to-ports port[-port]</div><div class="line">              This specifies a destination port or  range  of  ports  to  use:</div><div class="line">              without  this,  the  destination port is never altered.  This is</div><div class="line">              only valid if the rule also specifies -p tcp or -p udp.</div></pre></td></tr></table></figure>
+<h3 id="redsocks2"><a href="#redsocks2" class="headerlink" title="redsocks2"></a>redsocks2</h3><p>TCP/IP中的目标地址一旦修改，就无法将数据包发送给真正的目标对象，而所有的socket监听，只有目标地址是自己才能接收，上层应用想代理流量，必须处理这一对矛盾，而iptables的redirect刚好派上用场</p>
+<p>redsocks通过修改iptables，将流量redirect到自己监听的端口号，然后遵循代理协议格式将流量转发给代理</p>
+<p>redsocks2在redsocks基础上进行增强，支持智能代理：只有直接连接失败的才通过代理访问</p>
+<p>目前来看，只有使用redsocks真正实现透明代理</p>
+<p>项目下载：</p>
+<ul>
+<li><a href="https://github.com/darkk/redsocks" target="_blank" rel="external">redsocks</a></li>
+<li><a href="https://github.com/semigodking/redsocks" target="_blank" rel="external">redsocks2</a></li>
+</ul>
+<h3 id="方案细节"><a href="#方案细节" class="headerlink" title="方案细节"></a>方案细节</h3><p>能刷openwrt固件的路由都容易集成redsocks和shadowsocks，不过路由一般容量受限，例如4M内存+16M Flash，影响发挥</p>
+<p>刚好有一块cubieboard2板，装Ubuntu12.04，可以用来布置整套透明代理：redsocks2 + shadowsocks</p>
+<p>再从路由器的DHCP配置中将gateway地址修改为cubieboard的IP地址即可，这样局域网所有机器都通过cubieboard代理上网</p>
+<h2 id="其他方案"><a href="#其他方案" class="headerlink" title="其他方案"></a>其他方案</h2><p>下面列出几种尝试过的方案</p>
+<h3 id="pcap-dnsproxy-nginx"><a href="#pcap-dnsproxy-nginx" class="headerlink" title="pcap_dnsproxy + nginx"></a>pcap_dnsproxy + nginx</h3><ul>
+<li><p>基本思路：通过pcap_dnsproxy将需要代理的url IP地址解析为自己的代理服务器地址，流量通过代理服务器nginx反向代理进行访问</p>
+</li>
+<li><p>问题：浏览器https访问时，会提示网站证书问题，因为我们的nginx透明代理扮演中间人的角色，不被客户端信任。<br>wget 可以用–no-check-certificate忽略证书，casperjs用–ignore-ssl-errors=yes忽略</p>
+</li>
+<li><p>dnsproxy Host.ini配置：</p>
+</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">[Hosts]</div><div class="line">52.197.180.130 .*\.google.com.*</div><div class="line">52.197.180.130 .*\.gstatic.com</div><div class="line">52.197.180.130 .*\.googleusercontent.com</div><div class="line">52.197.180.130 .*\.googleadservices.com</div><div class="line">52.197.180.130 .*\.doubleclick.com</div></pre></td></tr></table></figure>
+<p>语法类似/etc/hosts文件，但可以使用正则匹配，方便很多</p>
+<ul>
+<li>nginx 443端口配置：</li>
+</ul>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="section">server</span> &#123;</div><div class="line">    <span class="attribute">resolver</span> <span class="number">8.8.8.8</span>;</div><div class="line">    <span class="attribute">listen</span>       <span class="number">443</span> ssl;</div><div class="line">    <span class="comment">#server_name  ssl.pickbox.me;</span></div><div class="line"></div><div class="line">    <span class="attribute">ssl_certificate</span>      /opt/nginx/ssl/example_com.crt;</div><div class="line">    <span class="attribute">ssl_certificate_key</span>  /opt/nginx/ssl/example_com.key;</div><div class="line">    <span class="attribute">ssl_verify_client</span>    <span class="literal">off</span>;</div><div class="line"></div><div class="line">    <span class="attribute">ssl_session_timeout</span>  <span class="number">5m</span>;</div><div class="line"></div><div class="line">    <span class="attribute">location</span> / &#123;</div><div class="line">        <span class="attribute">proxy_pass</span> <span class="variable">$scheme</span>://<span class="variable">$host</span><span class="variable">$request_uri</span>;</div><div class="line">        <span class="attribute">proxy_redirect</span>     <span class="literal">off</span>;</div><div class="line">        <span class="attribute">proxy_set_header</span> Host <span class="variable">$host</span>;</div><div class="line">        <span class="attribute">proxy_set_header</span> X-Real-IP <span class="variable">$remote_addr</span>;</div><div class="line">        <span class="attribute">proxy_set_header</span> X-Forwarded-For <span class="variable">$proxy_add_x_forwarded_for</span>;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="attribute">access_log</span>  logs/access.p.log;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>需要生成cert文件，用gencert.sh脚本生成</p>
+<p>80端口配置类似</p>
+<h3 id="iptables"><a href="#iptables" class="headerlink" title="iptables"></a>iptables</h3><p><a href="http://www.cnblogs.com/lexus/archive/2012/02/14/2351939.html" target="_blank" rel="external">http://www.cnblogs.com/lexus/archive/2012/02/14/2351939.html</a></p>
+<p><a href="http://blog.pickbox.me/wp-content/uploads/iptables - Transparent web proxy.pdf">下载</a></p>
+<p>该方法同样有https证书问题，看看加深对socket四要素理解吧</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/bin/sh</span></div><div class="line">PROXY_IP=192.168.1.10</div><div class="line">PROXY_PORT=3128</div><div class="line">LAN_IP=`nvram get lan_ipaddr`</div><div class="line">LAN_NET=<span class="variable">$LAN_IP</span>/`nvram get lan_netmask`</div><div class="line"></div><div class="line">iptables -t nat -A PREROUTING -i br0 <span class="_">-s</span> <span class="variable">$LAN_NET</span> <span class="_">-d</span> <span class="variable">$LAN_NET</span> -p tcp --dport 80 -j ACCEPT</div><div class="line">iptables -t nat -A PREROUTING -i br0 <span class="_">-s</span> ! <span class="variable">$PROXY_IP</span> -p tcp --dport 80 -j DNAT --to <span class="variable">$PROXY_IP</span>:<span class="variable">$PROXY_PORT</span></div><div class="line">iptables -t nat -I POSTROUTING -o br0 <span class="_">-s</span> <span class="variable">$LAN_NET</span> <span class="_">-d</span> <span class="variable">$PROXY_IP</span> -p tcp -j SNAT --to <span class="variable">$LAN_IP</span></div><div class="line">iptables -I FORWARD -i br0 -o br0 <span class="_">-s</span> <span class="variable">$LAN_NET</span> <span class="_">-d</span> <span class="variable">$PROXY_IP</span> -p tcp --dport <span class="variable">$PROXY_PORT</span> -j ACCEPT</div></pre></td></tr></table></figure>
+<p>This solution described in the previous section redirects packets to the proxy server using Network Address Translation to modify the actual packets. The result is that packets arriving at the proxy have a source IP address of the router rather than the original client. As a result, it’s not possible to see the IP address of the originating client in the proxy logs, nor is it possible to apply access rules in the proxy based on the originating client IP address.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/bin/sh</span></div><div class="line">PROXY_IP=192.168.1.10</div><div class="line"></div><div class="line">iptables -t mangle -A PREROUTING -j ACCEPT -p tcp --dport 80 <span class="_">-s</span> <span class="variable">$PROXY_IP</span></div><div class="line">iptables -t mangle -A PREROUTING -j MARK --set-mark 3 -p tcp --dport 80 </div><div class="line">ip rule add fwmark 3 table 2 </div><div class="line">ip route add default via <span class="variable">$PROXY_IP</span> dev br0 table 2</div></pre></td></tr></table></figure>
+<p>还需要改一下port，否则数据包还是转发到proxy机器的80端口上</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">iptables -A PREROUTING -t nat -i eth0 -p tcp --dport 80 -j REDIRECT --to-port [PROXY_PORT]</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;redsocks2-shadowsocks&quot;&gt;&lt;a href=&quot;#redsocks2-shadowsocks&quot; class=&quot;headerlink&quot; title=&quot;redsocks2 + shadowsocks&quot;&gt;&lt;/a&gt;redsocks2 + shadowsoc
+    
+    </summary>
+    
+      <category term="Network" scheme="http://blog.pickbox.me/categories/Network/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>［转］搭建ngrok服务实现内网穿透</title>
@@ -732,10 +850,11 @@ public class MyActivity extends Activity {
     <link href="http://blog.pickbox.me/2014/12/27/iptables-NAT/"/>
     <id>http://blog.pickbox.me/2014/12/27/iptables-NAT/</id>
     <published>2014-12-27T12:50:10.000Z</published>
-    <updated>2016-10-15T05:24:27.000Z</updated>
+    <updated>2016-12-04T07:09:04.000Z</updated>
     
     <content type="html"><![CDATA[<p>SNAT，DNAT，MASQUERADE都是NAT</p>
 <p><a href="http://img.pickbox.me/wp-content/uploads/Netfilter-Packet-Traversal.png" target="_blank" rel="external"><img src="http://img.pickbox.me/wp-content/uploads/Netfilter-Packet-Traversal.png" alt="Netfilter Packet Traversal" width="807" height="637" class="alignnone size-full wp-image-1143"></a></p>
+<p><a href="http://img.pickbox.me/wp-content/uploads/iptables_prerouting_forward_input_output_postrouting.gif" target="_blank" rel="external"><img src="http://img.pickbox.me/wp-content/uploads/iptables_prerouting_forward_input_output_postrouting.gif" alt="iptables-5-steps" width="807" height="637" class="alignnone size-full wp-image-1143"></a></p>
 <p>MASQUERADE是SNAT的一个特例，要允许带有内部 IP 地址的 LAN 节点和外部的公共网络通信，需要配置防火墙的 IP 伪装（IP masquerading）。这会把来自 LAN 节点的请求都伪装成防火墙的外部设备的 IP 地址</p>
 <p>SNAT是指在数据包从网卡发送出去的时候，把数据包中的源地址部分替换为指定的IP，这样，接收方就认为数据包的来源是被替换的那个IP的主机</p>
 <p>DNAT 修改数据包中的目的IP，如果你想让内部网络内的某个服务器能够被外部利用，你可以使用 NAT 内 PREROUTING 链的 -j DNAT 目标来指定该向哪个目标 IP 地址以及端口转发请求连接到内部服务的分组</p>
@@ -1044,155 +1163,6 @@ location ~ /\.ht {
     </summary>
     
       <category term="python/js/php/html/mysql/http" scheme="http://blog.pickbox.me/categories/python-js-php-html-mysql-http/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>通过android permission获取Linux guid权限</title>
-    <link href="http://blog.pickbox.me/2014/11/14/%E9%80%9A%E8%BF%87android-permission%E8%8E%B7%E5%8F%96Linux-guid%E6%9D%83%E9%99%90/"/>
-    <id>http://blog.pickbox.me/2014/11/14/通过android-permission获取Linux-guid权限/</id>
-    <published>2014-11-14T06:37:02.000Z</published>
-    <updated>2016-10-15T05:24:27.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>先来看一个实例，通过BLUETOOTH_STACK和DIAGNOSTIC permission获取linux的net_bt_stack和input guid权限</p>
-<p>1.在app的AndroidManifest中声明如下permission，BLUETOOTH_STACK将应用加入到net_bt_stack用户组，可读写/dev/uinput设备，DIAGNOSTIC将应用加入到input组，可读写/dev/input/下的event设备</p>
-<pre>
-&lt;uses-permission android:name=&quot;android.permission.BLUETOOTH_STACK&quot; /&gt;
-&lt;uses-permission android:name=&quot;android.permission.DIAGNOSTIC&quot; /&gt;
-</pre>
-
-<p>2.用platform签名给应用apk签名<br>以上两个权限都是要platform签名的</p>
-<pre>
-java -jar out/host/linux-x86/framework/signapk.jar build/target/product/security/platform.x509.pem  build/target/product/security/platform.pk8  your_app.apk  your_app_signed.apk
-</pre>
-
-<p>3.安装应用apk，不需要安装到/system/app目录，按照普通app安装方式即可<br>当app运行起来的时候，app已经是input、net_bt_stack组了，可以操作对应的linux设备文件</p>
-<p>用ps查看app运行时的进程号PID，查看/proc/PID/status文件，可以看到app所属的guid<br><br></p>
-<p></p><h4>添加自定义permission获取guid</h4><br>为了使用方便，可能需要自定义permission<br>比如我们需要添加一个叫做“android.permission.CONTROL”的permission，可以在frameworks/base/data/etc/platform.xml，添加<p></p>
-<pre>
-&lt;permission name=&quot;android.permission.CONTROL&quot; &gt;
-    &lt;group gid=&quot;net_bt_stack&quot; /&gt;
-    &lt;group gid=&quot;input&quot; /&gt;
-&lt;/permission&gt;
-</pre>
-
-<p>然后在app的AndroidManifest.xml中声明该permission，可参考frameworks/base/core/res/AndroidManifest.xml进行声明</p>
-<pre>
-&lt;permission android:name=&quot;android.permission.CONTROL&quot;
-    android:protectionLevel=&quot;normal&quot; /&gt;
-</pre>
-protectionLevel可以使用normal、dangerous、signature、system以及signature|system的组合
-
-如果需要添加新的guid，可以修改system/core/include/private/android_filesystem_config.h
-
-可以将app的源代码集成到package/app/下与android代码一起编译，也可以使用app生成好的apk集成
-参考《<a href="http://blog.csdn.net/wjky2014/article/details/38042945" target="_blank">如何预置Android 手机 APK</a>》
-
-<blockquote>
-如何将无源码的 APK 预置进系统？
-1) 在 packages/apps 下面以需要预置的 APK 名字创建文件夹，以预置一个名为Test的APK为例
-2) 将 Test.apk 放到 packages/apps/Test 下面
-3) 在 packages/apps/Test 下面创建文件 Android.mk，文件内容如下：
-<pre>
-LOCAL_PATH := $(call my-dir)
-include $(CLEAR_VARS)
-# Module name should match apk name to be installed
-LOCAL_MODULE := Test
-LOCAL_MODULE_TAGS := optional
-LOCAL_SRC_FILES := $(LOCAL_MODULE).apk
-LOCAL_MODULE_CLASS := APPS
-LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
-LOCAL_CERTIFICATE := PRESIGNED
-include $(BUILD_PREBUILT)
-</pre>
-这样Test.apk将预制到/system/app/目录下
-如果想预制到/data/data/下，可添加一行LOCAL_MODULE_PATH := $(TARGET_OUT_DATA_APPS)
-<pre>
-LOCAL_PATH := $(call my-dir)
-include $(CLEAR_VARS)
-# Module name should match apk name to be installed
-LOCAL_MODULE := Test
-LOCAL_MODULE_TAGS := optional
-LOCAL_SRC_FILES := $(LOCAL_MODULE).apk
-LOCAL_MODULE_CLASS := APPS
-LOCAL_MODULE_SUFFIX := $(COMMON_ANDROID_PACKAGE_SUFFIX)
-LOCAL_CERTIFICATE := PRESIGNED
-LOCAL_MODULE_PATH := $(TARGET_OUT_DATA_APPS)
-include $(BUILD_PREBUILT)
-</pre>
-
-<p>在cubieboard2的android源码中，只需要将apk添加到android/device/softwinner/wing-common/preinstallapk/目录即可<br></p></blockquote><p></p>
-<p>烧写image到设备上，运行我们的app，就能获取到net_bt_stack和input guid权限了（经测试，预制到/data/分区不能成功，在/system/下可以成功；也可以单独写一个声明permission的app，预制到/system/app/下，其他app使用这个permission就能成功了）</p>
-<p><del datetime="2014-11-14T08:30:33+00:00">注意：通过修改android设备中的/etc/permissions/platform.xml，并将app安装到设备（push到/system/app/或者安装到/data/data/）的方式不能成功，出现如下错误：</del></p>
-<pre>
-W/PackageManager(2330): Removing dangling permission: android.permission.CONTROL from package null
-</pre>
-但通过在android源码中build的方式可以成功，可能跟没有清除数据有关
-
-<hr>
-更新：直接修改android设备中的/etc/permissions/platform.xml，需要<span style="color: #ff0000;">删除/data/system/packages.xml</span>、/data/system/packages-backup.xml，重启之后重新扫描重构packages信息，这样就能成功获取permission对应的guid权限了
-
-"packages.xml"在frameworks/base/services/java/com/android/server/pm/Settings.java中定义：
-<pre>
-Settings(Context context, File dataDir) {
-    mContext = context;
-    mSystemDir = new File(dataDir, &quot;system&quot;);
-    mSystemDir.mkdirs();
-    FileUtils.setPermissions(mSystemDir.toString(),
-            FileUtils.S_IRWXU|FileUtils.S_IRWXG
-            |FileUtils.S_IROTH|FileUtils.S_IXOTH,
-            -1, -1);
-    mSettingsFilename = new File(mSystemDir, &quot;packages.xml&quot;);
-    mBackupSettingsFilename = new File(mSystemDir, &quot;packages-backup.xml&quot;);
-    mPackageListFilename = new File(mSystemDir, &quot;packages.list&quot;);
-    FileUtils.setPermissions(mPackageListFilename, 0660, SYSTEM_UID, PACKAGE_INFO_GID);
-
-    // Deprecated: Needed for migration
-    mStoppedPackagesFilename = new File(mSystemDir, &quot;packages-stopped.xml&quot;);
-    mBackupStoppedPackagesFilename = new File(mSystemDir, &quot;packages-stopped-backup.xml&quot;);
-}
-</pre>
-
-<p>frameworks/base/services/java/com/android/server/pm/PackageManagerService.java中定义了isFirstBoot()</p>
-<p><pre><br>public PackageManagerService(Context context, boolean factoryTest, boolean onlyCore) {<br>    …<br>    mRestoredSettings = mSettings.readLPw(getUsers());<br>    …<br>}</pre></p>
-<p>public boolean isFirstBoot() {<br>    return !mRestoredSettings;<br>}<br><br>PMS会调用mSettings的readLPw，读取packages-backup.xml和packages.xml，如果不存在返回false，进而isFirstBoot()返回true</p>
-<p>与抛出”Removing dangling permission”异常相关的代码位于PackageManagerService.java的updatePermissionsLPw()</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;先来看一个实例，通过BLUETOOTH_STACK和DIAGNOSTIC permission获取linux的net_bt_stack和input guid权限&lt;/p&gt;
-&lt;p&gt;1.在app的AndroidManifest中声明如下permission，BLUETOOTH_S
-    
-    </summary>
-    
-      <category term="Android" scheme="http://blog.pickbox.me/categories/Android/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>sensors data get/set from android emulator sensor socket</title>
-    <link href="http://blog.pickbox.me/2014/11/08/sensors-data-get-set-from-android-emulator-sensor-socket/"/>
-    <id>http://blog.pickbox.me/2014/11/08/sensors-data-get-set-from-android-emulator-sensor-socket/</id>
-    <published>2014-11-08T14:13:24.000Z</published>
-    <updated>2016-10-15T05:24:27.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>android emulator在初始化时会为sensor单独开一个socket，端口为1970，监听外部应用（比如eclipse调试工具）传递的模拟sensor数据</p>
-<p>socket创建过程大致如下图所示：<br><a href="http://img.pickbox.me/wp-content/uploads/qemu-sensors-socket-port-1970.png" target="_blank" rel="external"><img src="http://img.pickbox.me/wp-content/uploads/qemu-sensors-socket-port-1970.png" alt="qemu sensors socket port 1970" width="1168" height="1522" class="alignnone size-full wp-image-1094"></a></p>
-<p>可以看到，最后从socket接受到的外部模拟sensor数据通过android_sensors_set()存放在hw-sensors.c中，这与《sensors data get/set from android emulator console》中用console设置传感器数据类似</p>
-<p>具体如何使用1970这个socket端口，可以参考android源代码目录下的sdk/apps/SdkController，它将实体手机的传感器数据传递给模拟器，但目前有bug，可以从<a href="https://github.com/jfojfo/VirtualSensors" title="VirtualSensors" target="_blank">https://github.com/jfojfo/VirtualSensors</a>下载fix bug的版本</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;android emulator在初始化时会为sensor单独开一个socket，端口为1970，监听外部应用（比如eclipse调试工具）传递的模拟sensor数据&lt;/p&gt;
-&lt;p&gt;socket创建过程大致如下图所示：&lt;br&gt;&lt;a href=&quot;http://img.pick
-    
-    </summary>
-    
-      <category term="Android" scheme="http://blog.pickbox.me/categories/Android/"/>
     
     
   </entry>

@@ -261,6 +261,260 @@
             
               
                 
+                <a class="post-title-link" href="/2013/06/15/各种免费的Web服务json接口/" itemprop="url">
+                  各种免费的Web服务json接口
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2013-06-15T13:26:36+08:00" content="2013-06-15">
+              2013-06-15
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/WebDev/" itemprop="url" rel="index">
+                    <span itemprop="name">WebDev</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          这里为大家搜集了一些能够返回JSON格式的服务接口。部分需要用JSONP调用。
+
+
+天气接口
+    气象局接口:
+http://m.weather.com.cn/data/101010100.html 解析 用例
+音乐接口
+    虾米接口
+http://kuang.xiami.com/app/nineteen/search/key/歌曲名称/diandian/1/page/歌曲当前页?_=当前毫秒&amp;callback=getXiamiData 用例 代码解释和下载    QQ空间收藏音乐接口
+http://qzone-music.qq.com/fcg-bin/fcg_music_fav_getinfo.fcg?dirinfo=0&amp;dirid=1&amp;uin=QQ号&amp;p=0.519638272547262&amp;g_tk=1284234856
+地图接口
+    阿里云根据地区名获取经纬度接口
+http://gc.ditu.aliyun.com/geocoding?a=苏州市 官方文档
+
+参数解释: 纬度,经度 type 001 (100代表道路，010代表
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2013/06/15/各种免费的Web服务json接口/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2013/06/14/使用PHP-curl上传文件的两种方法：指定文件名和直接上传文件内容/" itemprop="url">
+                  使用PHP curl上传文件的两种方法：指定文件名和直接上传文件内容
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2013-06-14T18:08:26+08:00" content="2013-06-14">
+              2013-06-14
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/WebDev/" itemprop="url" rel="index">
+                    <span itemprop="name">WebDev</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          指定文件名的方式关键代码如下：
+    $ch = curl_init();    curl_setopt($ch, CURLOPT_URL, $url . http_build_query($query));    curl_setopt($ch, CURLOPT_HEADER, 0);    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); //如果把这行注释掉的话，就会直接输出    curl_setopt($ch, CURLOPT_POST, 1);    curl_setopt($s, CURLOPT_POSTFIELDS, array(‘file’=&gt;’@’.$filePath));    $json = curl_exec($ch);    curl_close($ch);
+读取文件内容很多时候，文件内容并不在本地，例如从其他服务器拉取的图片，这个时候要用一些hack
+关键代码如下：
+    $ch = curl_init();    $file = file_get_contents($picUrl);    curl_se
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2013/06/14/使用PHP-curl上传文件的两种方法：指定文件名和直接上传文件内容/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2013/06/08/3个解析url的php函数/" itemprop="url">
                   3个解析url的php函数
                 </a>
@@ -1219,247 +1473,6 @@ SPAN_EXCLUSIVE_EXCLUSIVE.setMovementMethod，此方法在需要响应用户事�
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/05/25/《牧羊少年奇幻之旅》摘录/" itemprop="url">
-                  《牧羊少年奇幻之旅》摘录
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2013-05-25T23:14:23+08:00" content="2013-05-25">
-              2013-05-25
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/reading/" itemprop="url" rel="index">
-                    <span itemprop="name">reading</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          摘录了几段文字
-天命就是你一直期望去做的事情。人一旦步入青年时期，就知道什么是自已的天命了。在人生的这个阶段， 一切都那么明朗，没有做不到的事情。人们敢于梦想，期 侍完成他们一生中喜欢做的一切事情。但是，随着时光 的流逝，一股神秘的力量开始企图证明，根本不可能实现天命。对神秘的力量的解释：
-那是表面看来有害无益的力量，但实际上它却在教 你如何完成自己的天命，培养你的精神和毅力。因为在 这个星球上，存在一个伟人的真理：不论你是谁，不论 你做什么，当你渴望得到某种东西时，最终一定能够得 到，因为这愿望来自宇宙的灵魂。那就是你在世间的使命。&nbsp;
-
-          
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013/05/25/《牧羊少年奇幻之旅》摘录/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/05/21/记录一下从百度hi迁移博客过程/" itemprop="url">
-                  记录一下从百度hi迁移博客过程
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2013-05-21T15:48:44+08:00" content="2013-05-21">
-              2013-05-21
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/wordpress/" itemprop="url" rel="index">
-                    <span itemprop="name">wordpress</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          其实去年12月份就开始迁移了，最早从baidu hi导出的博客文章的时间是20121208，从那时就已经完成了博客导出工作。中间在github上搭建了一个博客，纯静态页面+js动态加载文章数据，可以看看效果：http://jfojfo.github.com，除了加载时间慢点外（如果没显示内容请再刷新试试），界面在bootstrap的帮助下，还是相当清爽的。
-由于github不能搭建动态页面，如果不想把每篇文章都制作一个静态html，只能用静态 + js 动态的方法了。数据服务使用的是Parse，后台管理做得不错，但国外服务器访问速度还是慢了一截。另外使用Parse有个最大的感受，对数据的获取和操作不够灵活，比如首页10篇文章想显示个摘要，还必需把前10篇文章的所有内容拉下来，不能选择性拉取；想查询某类别下的文章，query条件支持有限，不够灵活。还好Parse也支持在服务端写自定义函数，可以返回自己想要的结果，一定程度上弥补了上述缺点。
-页面展示用的客户端js动态加载，js使用knockout.js框架，非常好用，knockout.js是用于html页面数据绑定的，开发者在写html时
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013/05/21/记录一下从百度hi迁移博客过程/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1505,7 +1518,7 @@ SPAN_EXCLUSIVE_EXCLUSIVE.setMovementMethod，此方法在需要响应用户事�
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">595</span>
+              <span class="site-state-item-count">597</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

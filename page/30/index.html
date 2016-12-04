@@ -261,6 +261,242 @@
             
               
                 
+                <a class="post-title-link" href="/2009/01/10/【zz】reparent指定进程到当前进程/" itemprop="url">
+                  【zz】reparent指定进程到当前进程
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2009-01-10T15:09:00+08:00" content="2009-01-10">
+              2009-01-10
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+           http://blog.csdn.net/absurd/archive/2009/01/08/3731983.aspxreparent指定进程到当前进程今 天遇到一个问题，需要监视某个应用程序的退出事件，并得到它的退出码。waitpid只能监视子进程，对其它进程没有效果，怎么才能reparent一个 进程呢？我在内核里找了半天也没有找到相应的系统调用，后来想到调试器都可以，那一定有办法。调试器是用ptrace实现的，我试了一下，发现其实很简 单。做了些测试，也没有发现性能上的损失，我想这种方法应试是可行的。发出来给有类似需要的朋友参考吧：#include &lt;stdio.h&gt;#include &lt;errno.h&gt;#include &lt;sys/types.h&gt;#include &lt;sys/ptrace.h&gt;int reparent_process(int pid){ int ret = ptrace(PTRACE_ATTACH, pid, NULL, NULL); if(ret == 0) {  wait(NULL);  ret = ptrace
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2009/01/10/【zz】reparent指定进程到当前进程/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2009/01/09/word的简便使用方法/" itemprop="url">
+                  word的简便使用方法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2009-01-09T09:19:00+08:00" content="2009-01-09">
+              2009-01-09
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Windows/" itemprop="url" rel="index">
+                    <span itemprop="name">Windows</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+           把文字替换成图片首 先把图片复制到 剪贴板中，然后打开替换对话框，在&ldquo;查找内容&rdquo;框中输入将被替换的文字，接着在 &ldquo;替换为&rdquo;框中输入&ldquo;^c&rdquo;（注意：输入的一定要是半角字符，c要小写），单击替换 即可。说明:&ldquo;^c&rdquo;的意思就是指令Word XP以剪贴板中的内容替换&ldquo;查找内容&rdquo;框中的内 容。按此原理，&ldquo;^c&rdquo;还可替换包括回车符在内的任何可以复制到剪贴板的可视内容，甚至Excel表格。三招去掉页眉那条横线1、在页眉中，在&ldquo;格式&rdquo;－&ldquo;边框和底纹&rdquo;中设置表格和边框为&ldquo;无&rdquo;，应用于&ldquo;段落&rdquo;2、同上，只是把边框的颜色设置为白色（其实并没有删的，只是看起来没有了，呵呵）3、在&ldquo;样式&rdquo;栏里把&ldquo;页眉&rdquo;换成&ldquo;正文&rdquo;就行了&mdash;&mdash;强烈推荐！会多出–(两个横杠) 这是用户不愿看到的,又
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2009/01/09/word的简便使用方法/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2009/01/08/GObject-（2）——Dynamic-Type/" itemprop="url">
                   GObject （2）——Dynamic Type
                 </a>
@@ -1184,243 +1420,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2008/12/11/草裙舞/" itemprop="url">
-                  草裙舞
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2008-12-11T11:03:00+08:00" content="2008-12-11">
-              2008-12-11
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Life/" itemprop="url" rel="index">
-                    <span itemprop="name">Life</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            在闾丘露薇的一篇《法国网民,网络民意》的报道中有一段话描述&ldquo;草裙舞&rdquo;，有点意思：在香港，经常会有商家佬传授和北京打交道的经验，那就是&ldquo;跳草裙舞&ldquo;。也就是说，故意的不听话，才会从北京那里得到自己想要的东西，如果太早的被对方视为自己人或者是听话的，也就意味失去了谈判的筹码。  其实，跳草裙舞的前提，要有足够的资本和实力，不然的话，扭过了头，就回不了头。只是不知道是不了解对手，还是太急于的想让对方成为自己人或者变得听话，现实生活中，这些人的草裙舞攻略从不失手。  至于拿了好处，是否意味听话或者变成自己人，真是天晓得了。倒是难为了那些不跳草裙舞的老实人，不单单好处没有，有的时候还要看自家人的眼色。 至于为何这样，也许是因为亲疏有别？中国人常常对自己的家人严格，对外人总是笑脸相迎，而笑脸的目的，是希望感召对方？&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2008/12/11/草裙舞/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2008/12/09/80后爱情励志《一人一半》卢正雨作品/" itemprop="url">
-                  80后爱情励志《一人一半》卢正雨作品
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2008-12-09T19:06:00+08:00" content="2008-12-09">
-              2008-12-09
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Life/" itemprop="url" rel="index">
-                    <span itemprop="name">Life</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-           http://www.youtube.com/watch?v=3FxrsVNjQmM 
-
-          
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2008/12/09/80后爱情励志《一人一半》卢正雨作品/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1466,7 +1465,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">595</span>
+              <span class="site-state-item-count">597</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

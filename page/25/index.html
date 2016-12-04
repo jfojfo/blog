@@ -261,6 +261,242 @@
             
               
                 
+                <a class="post-title-link" href="/2009/10/09/Linux内核/" itemprop="url">
+                  Linux内核
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2009-10-09T21:55:00+08:00" content="2009-10-09">
+              2009-10-09
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+           一旦内核初始化阶段结束，任何进程或内核进程都不直接使用主内核页表。Pages of shared memory mappings are always included in the page  cache; pages of private memory mappings are included in the page cache as long  as they are unmodified. When a process tries to modify a page of a private  memory mapping, the kernel duplicates the page frame and replaces the original  page frame with the duplicate in the process Page Table; this is one of the  applications of the Copy On Write mechanism that we discussed in .  The original page fr
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2009/10/09/Linux内核/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2009/10/08/Linux内核-irq-soft-irq-tasklet-同步/" itemprop="url">
+                  Linux内核 irq/soft irq/tasklet/同步
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2009-10-08T21:22:00+08:00" content="2009-10-08">
+              2009-10-08
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+           1.中断处理程序结束之前，不允许产生相同的中断事件；（禁用PIC上该中断，但可以产生其他中断）2.中断处理程序、软中断、tasklet既不可被抢占也不能被阻塞，最多发生中断嵌套；3.执行中断处理的内核路径不能被执行延迟函数或系统调用服务例程的内核控制路径中断。于是有如下结论：a.中断处理程序和tasklet不必是可重入的；b.仅被软中断和tasklet访问的每CPU变量不需要同步；c.仅被一种tasklet访问的数据不需要同步。软中断（即便是同一种类型的软中断）可以并发地运行在多个CPU上。同类型的tasklet总是被串行化执行，不会在两个CPU上同时运行相同类型的tasklet。一个tasklet可以被调度多次，但实际只会运行一次。static inline void tasklet_schedule(struct tasklet_struct *t){if (!test_and_set_bit(TASKLET_STATE_SCHED, &amp;t-&gt;state))__tasklet_schedule(t);}另外参见do_softirq &gt; _do_softirq 
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2009/10/08/Linux内核-irq-soft-irq-tasklet-同步/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2009/10/07/C-对象的内存布局/" itemprop="url">
                   C++ 对象的内存布局
                 </a>
@@ -1189,245 +1425,6 @@ GOT 是 data section，是一个 table，除专用的几个 entry，每个 entry
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2009/09/15/【★】Censored-（Forbidden-Words）/" itemprop="url">
-                  【★】Censored!（Forbidden Words）
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2009-09-15T11:34:00+08:00" content="2009-09-15">
-              2009-09-15
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/c-c-algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">c/c++/algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-           POJ 1625Censored!                        Time Limit: 5000MS                         Memory Limit: 10000K                            Total Submissions: 1859                         Accepted: 489            DescriptionThe alphabet of Freeland consists of exactly N letters. Each sentence of Freeland language (also known as Freish) consists of exactly M letters without word breaks. So, there exist exactly N^M different Freish sentences. But after recent election of Mr. Grass Jr. as Freeland preside
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2009/09/15/【★】Censored-（Forbidden-Words）/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2009/09/13/AC自动机算法详解/" itemprop="url">
-                  AC自动机算法详解
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2009-09-13T21:16:00+08:00" content="2009-09-13">
-              2009-09-13
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/c-c-algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">c/c++/algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          AC自动机是用来处理多串匹配问题的，即给你很多串，再给你一篇文章，让你在文章中找这些串是否出现过，在哪出现。对于两个字符串匹配问题可用KMP算法，多字符串则用AC自动机。
-看下面这个例子：给定5个单词：say she shr he her，然后给定一个字符串yasherhs。问一共有多少单词在这个字符串中出现过。
-构造Trie树首先构造一棵树，如下所示，我们称之为Trie树。构造失败指针然后构造失败指针，应当使用BFS算法。失败指针满足下面的性质：假设有一个节点k，他的失败指针指向j。那么k,j满足：设root到j的距离为n，则从k之上的第n个节点到k所组成的长度为n的单词，与从root到j所组成的单词相同。即图中红框部分是完全一样的，she中的’e’的失败指针就应该指向her中的’e’。构造好失败指针如图所示：（为方便递归判断，root的失败指针可指向NULL）
-标记终止节点应当对每个节点都遍历一次所有单词，如果读完某个单词依然可以停留在某个子节点上，则应该将该子节点标记为终止节点。例如，除了say she shr he her 这5个单词，如果再加入一个单词h，终止节点还应多两个：
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2009/09/13/AC自动机算法详解/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1473,7 +1470,7 @@ GOT 是 data section，是一个 table，除专用的几个 entry，每个 entry
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">595</span>
+              <span class="site-state-item-count">597</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
