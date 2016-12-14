@@ -961,17 +961,20 @@ fatload mmc 0 0x4
           
           下载MT7601U驱动和linux-sunxi源码
 $ git clone https://github.com/jfojfo/MT7601U.git
+
+common/rtusb_dev_id.c文件修改如下：
+#ifdef MT7601U
+    {USB_DEVICE(0x148f,0x6370)}, /* Ralink 6370 */
+    {USB_DEVICE(0x2955,0x1001)}, /* xiaodu wifi */
+    {USB_DEVICE(0x148f,0x7601)}, /* MT 6370 */
+    {USB_DEVICE(0x148f,0x760b)}, /* 360 wifi 2 */
+    {USB_DEVICE(0x2717,0x4106)}, /* XiaoMi wifi */
+#endif /* MT7601U */
+
 或者下面git库（支持AP模式）
 $ git clone https://github.com/jfojfo/MT7601U-1.git
 该驱动源码已经加入了xiaomi wifi支持
-修改Makefile，在export LINUX_SRC CROSS_COMPILE之前添加：
-# add following 2 lines
-LINUX_SRC=../linux-sunxi
-CROSS_COMPILE=arm-linux-gnueabihf-
-
-export OSABL RT28xx_DIR RT28xx_MODE LINUX_SRC CROSS_COMPILE CROSS_COMPILE_INCLUDE PLATFORM RELEASE CHIPSET MODULE RTMP_SRC_DIR LINUX_SRC_MODULE TARGET HAS_WOW_SUPPORT
-
-# The targets that may be used
+修改Makefile，在ex
           ...
 
           <div class="post-more-link text-center">

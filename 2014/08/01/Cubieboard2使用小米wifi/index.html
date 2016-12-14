@@ -88,29 +88,32 @@
 
 <meta name="description" content="下载MT7601U驱动和linux-sunxi源码
 $ git clone https://github.com/jfojfo/MT7601U.git
-或者下面git库（支持AP模式）
-$ git clone https://github.com/jfojfo/MT7601U-1.git
-该驱动源码已经加入了xiaomi wifi支持
-修改Makefile，在export LINUX_SRC CR">
+
+common/rtusb_dev_id.c文件修改如下：
+#ifdef MT7601U
+    {USB_DEVICE(0x148f,0x6370)}, /* Ralink 6370 */
+    {USB_DEVICE(0x2955,0x100">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Cubieboard2使用小米wifi">
 <meta property="og:url" content="http://blog.pickbox.me/2014/08/01/Cubieboard2使用小米wifi/index.html">
 <meta property="og:site_name" content="jfo planet">
 <meta property="og:description" content="下载MT7601U驱动和linux-sunxi源码
 $ git clone https://github.com/jfojfo/MT7601U.git
-或者下面git库（支持AP模式）
-$ git clone https://github.com/jfojfo/MT7601U-1.git
-该驱动源码已经加入了xiaomi wifi支持
-修改Makefile，在export LINUX_SRC CR">
-<meta property="og:updated_time" content="2016-12-14T05:53:55.000Z">
+
+common/rtusb_dev_id.c文件修改如下：
+#ifdef MT7601U
+    {USB_DEVICE(0x148f,0x6370)}, /* Ralink 6370 */
+    {USB_DEVICE(0x2955,0x100">
+<meta property="og:updated_time" content="2016-12-14T06:07:33.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Cubieboard2使用小米wifi">
 <meta name="twitter:description" content="下载MT7601U驱动和linux-sunxi源码
 $ git clone https://github.com/jfojfo/MT7601U.git
-或者下面git库（支持AP模式）
-$ git clone https://github.com/jfojfo/MT7601U-1.git
-该驱动源码已经加入了xiaomi wifi支持
-修改Makefile，在export LINUX_SRC CR">
+
+common/rtusb_dev_id.c文件修改如下：
+#ifdef MT7601U
+    {USB_DEVICE(0x148f,0x6370)}, /* Ralink 6370 */
+    {USB_DEVICE(0x2955,0x100">
 
 
 
@@ -338,6 +341,16 @@ $ git clone https://github.com/jfojfo/MT7601U-1.git
       
         <p></p><h2>下载MT7601U驱动和linux-sunxi源码</h2><p></p>
 <pre>$ git clone https://github.com/jfojfo/MT7601U.git</pre>
+<pre>
+common/rtusb_dev_id.c文件修改如下：
+#ifdef MT7601U
+    {USB_DEVICE(0x148f,0x6370)}, /* Ralink 6370 */
+    {USB_DEVICE(0x2955,0x1001)}, /* xiaodu wifi */
+    {USB_DEVICE(0x148f,0x7601)}, /* MT 6370 */
+    {USB_DEVICE(0x148f,0x760b)}, /* 360 wifi 2 */
+    {USB_DEVICE(0x2717,0x4106)}, /* XiaoMi wifi */
+#endif /* MT7601U */
+</pre>
 或者下面git库（支持AP模式）
 <pre>$ git clone https://github.com/jfojfo/MT7601U-1.git</pre>
 该驱动源码已经加入了xiaomi wifi支持
