@@ -88,8 +88,8 @@
 
 <meta name="description" content="下载MT7601U驱动和linux-sunxi源码
 $ git clone https://github.com/jfojfo/MT7601U.git
-
 common/rtusb_dev_id.c文件修改如下：
+
 #ifdef MT7601U
     {USB_DEVICE(0x148f,0x6370)}, /* Ralink 6370 */
     {USB_DEVICE(0x2955,0x100">
@@ -99,18 +99,18 @@ common/rtusb_dev_id.c文件修改如下：
 <meta property="og:site_name" content="jfo planet">
 <meta property="og:description" content="下载MT7601U驱动和linux-sunxi源码
 $ git clone https://github.com/jfojfo/MT7601U.git
-
 common/rtusb_dev_id.c文件修改如下：
+
 #ifdef MT7601U
     {USB_DEVICE(0x148f,0x6370)}, /* Ralink 6370 */
     {USB_DEVICE(0x2955,0x100">
-<meta property="og:updated_time" content="2016-12-14T06:07:33.000Z">
+<meta property="og:updated_time" content="2016-12-14T06:35:41.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Cubieboard2使用小米wifi">
 <meta name="twitter:description" content="下载MT7601U驱动和linux-sunxi源码
 $ git clone https://github.com/jfojfo/MT7601U.git
-
 common/rtusb_dev_id.c文件修改如下：
+
 #ifdef MT7601U
     {USB_DEVICE(0x148f,0x6370)}, /* Ralink 6370 */
     {USB_DEVICE(0x2955,0x100">
@@ -341,8 +341,8 @@ common/rtusb_dev_id.c文件修改如下：
       
         <p></p><h2>下载MT7601U驱动和linux-sunxi源码</h2><p></p>
 <pre>$ git clone https://github.com/jfojfo/MT7601U.git</pre>
-<pre>
 common/rtusb_dev_id.c文件修改如下：
+<pre>
 #ifdef MT7601U
     {USB_DEVICE(0x148f,0x6370)}, /* Ralink 6370 */
     {USB_DEVICE(0x2955,0x1001)}, /* xiaodu wifi */
@@ -429,7 +429,16 @@ HOSTCC scripts/conmakehash
 HOSTCC scripts/bin2c</pre>
 
 
-<p>注：<br>前面的make prepare 和make scripts两步也可以用下面代替<br>make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- modules_prepare</p>
+<p>注：<br>前面的make prepare 和make scripts两步也可以用下面代替</p>
+<pre>make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- modules_prepare</pre>
+
+<p>添加软连接</p>
+<pre>
+$ mkdir /lib/modules/3.4.91
+$ cd /lib/modules/3.4.91
+$ ln -sv ~/linux-sunxi build
+</pre>
+
 <p></p><h2>编译驱动</h2><p></p>
 <pre>$ cd ../
 $ cd MT7601U
