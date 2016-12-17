@@ -90,15 +90,15 @@
 例1: (明确指定主键，并且有此数据，row lock)
 1SELECT * FROM products WHERE id=&apos;3&apos; FOR UPD">
 <meta property="og:type" content="article">
-<meta property="og:title" content="数据库锁.md">
+<meta property="og:title" content="数据库锁">
 <meta property="og:url" content="http://blog.pickbox.me/2016/12/17/数据库锁/index.html">
 <meta property="og:site_name" content="jfo planet">
 <meta property="og:description" content="select for update由于InnoDB 预设是Row-Level Lock，所以只有「明确」的指定主键，MySQL 才会执行Row lock (只锁住被选取的数据) ，否则MySQL 将会执行Table Lock (将整个数据表单给锁住)。
 例1: (明确指定主键，并且有此数据，row lock)
 1SELECT * FROM products WHERE id=&apos;3&apos; FOR UPD">
-<meta property="og:updated_time" content="2016-12-17T09:20:37.000Z">
+<meta property="og:updated_time" content="2016-12-17T09:57:08.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="数据库锁.md">
+<meta name="twitter:title" content="数据库锁">
 <meta name="twitter:description" content="select for update由于InnoDB 预设是Row-Level Lock，所以只有「明确」的指定主键，MySQL 才会执行Row lock (只锁住被选取的数据) ，否则MySQL 将会执行Table Lock (将整个数据表单给锁住)。
 例1: (明确指定主键，并且有此数据，row lock)
 1SELECT * FROM products WHERE id=&apos;3&apos; FOR UPD">
@@ -125,7 +125,7 @@
   <link rel="canonical" href="http://blog.pickbox.me/2016/12/17/数据库锁/"/>
 
 
-  <title> 数据库锁.md | jfo planet </title>
+  <title> 数据库锁 | jfo planet </title>
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
@@ -268,7 +268,7 @@
             
             
               
-                数据库锁.md
+                数据库锁
               
             
           </h1>
@@ -341,18 +341,15 @@
 <p>注1: FOR UPDATE 仅适用于InnoDB，且必须在事务区块(BEGIN/COMMIT)中才能生效。</p>
 <p><strong>【几个问题】</strong></p>
 <ol>
-<li><p>什么时候解锁？</p>
-<ul>
+<li>什么时候解锁？<ul>
 <li>需要commit之后才会解锁</li>
 </ul>
 </li>
-<li><p>如果在for update一个行后网络断掉，这个行会在什么时候解锁？</p>
-<ul>
+<li>如果在for update一个行后网络断掉，这个行会在什么时候解锁？<ul>
 <li>服务器无法判断连接是否断开，一般需要手工解锁；如果主动关闭连接，服务器会解锁</li>
 </ul>
 </li>
-<li><p>如何查询一个行是否被锁定？</p>
-<ul>
+<li>如何查询一个行是否被锁定？<ul>
 <li>select …. from update nowait，不需要等待，如果已被锁，立即失败，如果未被锁，立即成功锁定</li>
 </ul>
 </li>
