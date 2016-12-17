@@ -261,6 +261,253 @@
             
               
                 
+                <a class="post-title-link" href="/2014/02/01/优化Wordpress摘要提取，自动补全HTML-Tag/" itemprop="url">
+                  优化Wordpress摘要提取，自动补全HTML Tag
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-02-01T22:38:18+08:00" content="2014-02-01">
+              2014-02-01
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/wordpress/" itemprop="url" rel="index">
+                    <span itemprop="name">wordpress</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          wordpress默认不会在摘要部分保留html标签，这样看着挺丑，在去年早些时候做了一个优化，在strip_all_tags()调用strip_tags()时，保留了&lt;p&gt;,&lt;a&gt;,&lt;em&gt;,&lt;strong&gt;,&lt;img&gt;,&lt;embed&gt;这几个标签，
+    $allowed_tags = ‘&lt;p&gt;,&lt;a&gt;,&lt;em&gt;,&lt;strong&gt;,&lt;img&gt;,&lt;embed&gt;’;    $string = strip_tags($string, $allowed_tags);但这样又导致了新的问题：1.字数统计包含html标签，2.截取摘要会截断HTML标签。一直默默忍受，今天终于忍不住，动手修复一番，直接上代码
+/**
+
+截取HTML,并自动补全闭合
+@param $html
+@param $length*/function subHtml($html, $length){ $result = ‘’; $tagStack = array(); $len =
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014/02/01/优化Wordpress摘要提取，自动补全HTML-Tag/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2014/02/01/百度云网盘，如何上传大于4G的文件/" itemprop="url">
+                  百度云网盘，如何上传大于4G的文件
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-02-01T13:44:47+08:00" content="2014-02-01">
+              2014-02-01
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/WebDev/" itemprop="url" rel="index">
+                    <span itemprop="name">WebDev</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          百度云同步盘的PC客户端，上传文件不能超过4G，可以尝试以下方法解决：
+    将文件用WinRar压缩成多个不超过4G大小的文件；    用BT将文件上传至其他BT服务器，再利用百度云网盘的离线BT下载；    如果自己有公网的IP，可以在自己电脑上架一个HTTP服务器，再利用百度云网盘离线下载文件；    利用百度云的API操作其中3要求比较高，1、2比较切实可行，1的缺点就是不能以单一文件形式展现。
+备注：3方法经过尝试，北京联通的光纤宽带分配的IP，架设HTTP服务器后可被外部访问，不过百度云网盘离线下载到1G左右就显示完成，实际文件大小有7G多，由于速度不快未再尝试；长城宽带的IP无法从外部访问
+对于喜欢折腾，熟悉BAE和百度云PCS接口的同学，下面介绍方法4，利用百度云提供的REST API上传超过4G的文件。
+&nbsp;
+步骤一：获取百度云网盘操作权限为了能够调用百度云API，需要先在BAE上创建一个应用，记录下client_id和client_secret，并在API列表中开启PCS API权限，允许对网盘进行操作，输入一个目录名transfer，以后的所有操作默认就
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014/02/01/百度云网盘，如何上传大于4G的文件/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2014/01/12/Dropbox-同步卡住如何解决/" itemprop="url">
                   Dropbox 同步卡住如何解决
                 </a>
@@ -1229,258 +1476,6 @@ static struct gpio_keys_button tl_wr703n_gpio_keys[] __initdata = {
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/09/05/TP-Link-TL-WR703n-Reset按钮功能扩展——wifi模式切换/" itemprop="url">
-                  TP-Link TL-WR703n Reset按钮功能扩展——wifi模式切换
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2013-09-05T13:11:26+08:00" content="2013-09-05">
-              2013-09-05
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Arduino-OpenWrt/" itemprop="url" rel="index">
-                    <span itemprop="name">Arduino/OpenWrt</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          首先参考openwrt官网文档：《Attach functions to a push button》
-缘由：我的openwrt无线配置成客户端模式，在家自动连接家里的路由（配置一），在公司自动连接公司路由（配置二），但是如果在配置文件/etc/config/wireless同时指定这两种客户端模式配置，openwrt不会在其中一个配置连接失败后自动尝试另外一个配置连接。也就是说两种客户端模式配置，实际上只有其中一个有效（貌似谁写在前面谁生效）。这样，每次更换环境，都要先用一根网线连接到wr703n的LAN口，配置好笔记本的LAN网卡IP地址为192.168.1.2，以root ssh登陆进192.168.1.1，编辑wireless配置文件，禁用其中一种客户端模式（option disabled ‘1’），再重启网络才能让wr703n连接到主路由。整个过程太繁琐了。
-另一种方式可以省去网线连接LAN口，就是让wr703n每次都以AP模式启动，笔记本电脑再通过无线连接wr703n，连上之后就可以ssh登陆进去，然后改配置并重启网络，过程也不简洁。
-先贴出目前openwrt的网络配置：
-
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013/09/05/TP-Link-TL-WR703n-Reset按钮功能扩展——wifi模式切换/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/08/30/编译OpenWrt固件，Build-your-custom-OpenWrt-firmware/" itemprop="url">
-                  编译OpenWrt固件，Build your custom OpenWrt firmware
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2013-08-30T13:05:11+08:00" content="2013-08-30">
-              2013-08-30
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Arduino-OpenWrt/" itemprop="url" rel="index">
-                    <span itemprop="name">Arduino/OpenWrt</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          首先参考官方文档：http://wiki.openwrt.org/doc/howto/build
-1.下载源码wr703n要下载attitude adjustment分支（对应12.09），下载到12.09目录
-$ git clone git://git.openwrt.org/12.09/openwrt.git 12.09
-2.更新feeds
-$ cd 12.09$ ./scripts/feeds update -a$ ./scripts/feeds install -a
-3.配置
-$ make menuconfig配置文件也可以从openwrt下一个
-$ wget http://downloads.openwrt.org/attitude_adjustment/12.09/ar71xx/generic/config.ar71xx_generic$ ln -sv config.ar71xx_generic .config
-4.编译
-$ make V=s&nbsp;
-
-
-另外，可以用make defconfig先生成一个默认配置，然后make download下载各个包的源代码（保存在
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013/08/30/编译OpenWrt固件，Build-your-custom-OpenWrt-firmware/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1526,7 +1521,7 @@ $ make V=s&nbsp;
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">597</span>
+              <span class="site-state-item-count">599</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

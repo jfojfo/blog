@@ -261,6 +261,255 @@
             
               
                 
+                <a class="post-title-link" href="/2016/12/17/Mysql-常用-SQL-语句集锦/" itemprop="url">
+                  Mysql 常用 SQL 语句集锦
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-17T17:21:32+08:00" content="2016-12-17">
+              2016-12-17
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/python-js-php-html-mysql-http/" itemprop="url" rel="index">
+                    <span itemprop="name">python/js/php/html/mysql/http</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          基础篇12//查询时间，友好提示$sql = "select date_format(create_time, '%Y-%m-%d') as day from table_name";
+12//int 时间戳类型$sql = "select from_unixtime(create_time, '%Y-%m-%d') as day from table_name";
+12345//一个sql返回多个总数select count(*) 全部,count(case when ticketstatus = 2 then ticketstatus end) 已出票,count(case when ticketstatus = 4 then ticketstatus end) 退款成功from db_order.trainself_ticket
+123//替换某字段的内容的语句$sql = "update table_name set content = REPLACE(content, 'aaa', 'bbb') ";$sql .= " where (content like '%aaa%')
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/12/17/Mysql-常用-SQL-语句集锦/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/12/17/数据库锁/" itemprop="url">
+                  数据库锁.md
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-12-17T16:44:31+08:00" content="2016-12-17">
+              2016-12-17
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/python-js-php-html-mysql-http/" itemprop="url" rel="index">
+                    <span itemprop="name">python/js/php/html/mysql/http</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          select for update由于InnoDB 预设是Row-Level Lock，所以只有「明确」的指定主键，MySQL 才会执行Row lock (只锁住被选取的数据) ，否则MySQL 将会执行Table Lock (将整个数据表单给锁住)。
+例1: (明确指定主键，并且有此数据，row lock)
+1SELECT * FROM products WHERE id='3' FOR UPDATE;
+例2: (明确指定主键，若查无此数据，无lock)
+1SELECT * FROM products WHERE id='-1' FOR UPDATE;
+例3: (无主键，table lock)
+1SELECT * FROM products WHERE name='Mouse' FOR UPDATE;
+例4: (主键不明确，table lock)
+1SELECT * FROM products WHERE id&lt;&gt;'3' FOR UPDATE;
+例5: (主键不明确，table lock)
+1SELECT * FROM products WHERE id LIKE '3'
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/12/17/数据库锁/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2016/12/04/透明代理：redsocks2-shadowsocks/" itemprop="url">
                   透明代理：redsocks2_shadowsocks
                 </a>
@@ -1220,270 +1469,6 @@ Automating Behat and Mink tests with Travis CIhttp://robbiemackay.com/2013/05/03
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/10/14/browserify生成代码/" itemprop="url">
-                  browserify生成代码
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-10-14T10:23:34+08:00" content="2015-10-14">
-              2015-10-14
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/js-html-python/" itemprop="url" rel="index">
-                    <span itemprop="name">js/html/python</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          browserify test.js test2.js -o bundle.js 
-
-(function outer (modules, cache, entry) {
-    // Save the require from previous bundle to this closure if any
-    var previousRequire = typeof require == &quot;function&quot; && require;
-
-    function newRequire(name, jumped){
-        if(!cache[name]) {
-            if(!modules[name]) {
-                // if we cannot find the the module within our internal map or
-                // cache jump to the current global require ie. the last bundle
-           
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/10/14/browserify生成代码/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/08/20/Objective-C-Runtime-－-Self-Super-Class-Meta-Class/" itemprop="url">
-                  Objective-C Runtime － Self, Super Class, Meta Class
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2015-08-20T16:44:22+08:00" content="2015-08-20">
-              2015-08-20
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/iOS/" itemprop="url" rel="index">
-                    <span itemprop="name">iOS</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          
-
-//Test.m
-@implementation Test
-
-#define ClsLog(tag, cls, isaCls) NSLog(@&quot;%30s %s&lt;%p&gt;, isa:%s&lt;%p&gt;&quot;, tag, class_getName(cls), cls, object_getClassName(cls), isaCls)
-
-- (void)test {
-    Class cls = [self class];
-    Class isaCls = object_getClass(cls);
-    ClsLog(&quot;[self class]&quot;, cls, isaCls);
-
-    cls = [super class];
-    isaCls = object_getClass(cls);
-    ClsLog(&quot;[super class]&quot;, cls, isaCls);
-
-    cls = [self superclass];
-    isaCls = object_getClass(cls)
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/08/20/Objective-C-Runtime-－-Self-Super-Class-Meta-Class/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1529,7 +1514,7 @@ Automating Behat and Mink tests with Travis CIhttp://robbiemackay.com/2013/05/03
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">597</span>
+              <span class="site-state-item-count">599</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

@@ -261,6 +261,260 @@
             
               
                 
+                <a class="post-title-link" href="/2011/08/18/关于REST的一点想法/" itemprop="url">
+                  关于REST的一点想法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2011-08-18T15:31:00+08:00" content="2011-08-18">
+              2011-08-18
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/python-js-php-html-mysql-http/" itemprop="url" rel="index">
+                    <span itemprop="name">python/js/php/html/mysql/http</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          看了下面这篇《深入浅出REST》，REST有几点特性值得学习：
+
+所有资源都有唯一ID（类似Android的URI）
+
+以数据为中心的思想，传统是面向对象思想，如定义一个服务对象，暴露一些服务接口。
+仅仅围绕数据定义一系列操作方法（get, post …）还是有一些缺陷的，比如数据之间的关系，表现起来不够直观。
+例如网游中一个角色攻击另一个角色，“攻击”这种行为，
+当然，也可以把这种关系再定义为一种资源，用唯一ID来标识，英语里不是把动词加上 er 就变成名词了吗？
+
+它使你的应用成为Web的一部分——应用程序为Web变成Internet上最成功的应用所做的贡献，与它添加到Web中的资源数量成比例
+
+无状态约束使服务器的变化对客户端是不可见的，这意味着更方便的分布式服务器搭建
+
+
+文中提到幂等性，详情可以参见这里。
+&nbsp;
+http://www.infoq.com/cn/articles/rest-introduction
+REST关键原则
+大部分对REST的介绍是以其正式的定义和背景作为开场的。但这儿且先按下不表，我先提出一个简单扼要的定义：REST定义了应该如何正确地使用（这
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2011/08/18/关于REST的一点想法/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2011/08/15/java多线程设计wait、notify、notifyall、synchronized的使用机制/" itemprop="url">
+                  java多线程设计wait、notify、notifyall、synchronized的使用机制
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2011-08-15T15:52:00+08:00" content="2011-08-15">
+              2011-08-15
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+           wait、notify、notifyall、synchronized的使用机制：&nbsp;synchronized(obj) {while(!condition) {obj.wait();}obj.doSomething();}当线程A获得了obj锁后，发现条件condition不满足，无法继续下一处理，于是线程A就wait() , 放弃对象锁.之后在另一线程B中，如果B更改了某些条件，使得线程A的condition条件满足了，就可以唤醒线程A：synchronized(obj) {condition = true;obj.notify();}需要注意的概念是：# 调用obj的wait(), notify()方法前，必须获得obj锁，也就是必须写在synchronized(obj) {…} 代码段内。# 调用obj.wait()后，线程A就释放了obj的锁，否则线程B无法获得obj锁，也就无法在synchronized(obj) {…} 代码段内唤醒A。# 当obj.wait()方法返回后，线程A需要再次获得obj锁，才能继续执行。# 如果A1,A2,A3都在obj.wait()，
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2011/08/15/java多线程设计wait、notify、notifyall、synchronized的使用机制/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2011/08/05/解析Unicode编码和Java-char/" itemprop="url">
                   解析Unicode编码和Java char
                 </a>
@@ -1193,242 +1447,6 @@ One of the highlights of the Android 2.0 SDK is that you can writ
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2011/07/09/软件公司的两种管理方式/" itemprop="url">
-                  软件公司的两种管理方式
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2011-07-09T14:05:00+08:00" content="2011-07-09">
-              2011-07-09
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/产品/" itemprop="url" rel="index">
-                    <span itemprop="name">产品</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-           转&nbsp;http://coolshell.cn/articles/4951.html这篇文章是我的一个外国的同事Gareth推荐给我的，我和他一起工作过一段时间。他之所以觉得非常不错，是因为这篇文章让他身有体会，他觉得我也一定会有体会，并让我考虑一下翻译到我的blog上来。我看完后觉得很有代表性，而且觉得说得太对了，所以翻译过来，希望大家都读一读，最好转给你的公司老板。这篇文章来源于 StakeExchange上的一个问题——“为什么BA和PM的薪水要比程序员要高？”，顶在一楼的回复分析了这个原因，并指出了两种管理文化。———————————————————正文开始————————————————————一个简单的回答应该是——“因为在我们的社会里，我们总是会认为薪水和会和职位的层次绑在一起”。但是，这个答案同时也折射出一个事实——我们的薪资是基于我们的所理解的价值，但这并没有解释为什么PM（Project Manager）和BA（Business Analysts）在很多软件公司里在组织的上层？为什么软件项目团队总是在最底层？这两个问题真是非常地值得我们去问，去思考。总体来说
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2011/07/09/软件公司的两种管理方式/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2011/07/07/linux常用svn命令/" itemprop="url">
-                  linux常用svn命令
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2011-07-07T17:22:00+08:00" content="2011-07-07">
-              2011-07-07
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Linux-App/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux App</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-           http://blog.csdn.net/nancy198696/article/details/4059726——————-svn log -l 2 -v &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;显示最近两次提交信息（包括改动哪些文件）svn cat -r 1910&nbsp;file &nbsp; &nbsp; &nbsp;打印输出某一版本的文件svn diff&nbsp;-r 1914:1910&nbsp;file &nbsp; &nbsp;显示两个版本文件的差异svn update &nbsp;-r &nbsp;1910 &nbsp; 将代码更新到某个版本svn resolved filename.java &nbsp;解析冲突文件svn list http://svn.collab.net/repos/svnsvn switch url &nbsp;&nbsp;&nbsp;更新工作副本至不同的URL——————-linux常用svn命令&nbsp;原地址：http://www.rjgc.net/control/cont
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2011/07/07/linux常用svn命令/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1474,7 +1492,7 @@ One of the highlights of the Android 2.0 SDK is that you can writ
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">597</span>
+              <span class="site-state-item-count">599</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

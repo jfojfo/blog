@@ -261,6 +261,242 @@
             
               
                 
+                <a class="post-title-link" href="/2008/10/27/【zz】2-4-18和2-6-25-4-rt在任务调度上的不同/" itemprop="url">
+                  【zz】2.4.18和2.6.25.4-rt在任务调度上的不同
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2008-10-27T01:07:00+08:00" content="2008-10-27">
+              2008-10-27
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+           http://www.linuxforum.net/forum/showflat.php?Cat=&amp;Board=linuxK&amp;Number=693202&amp;page=&amp;view=&amp;sb=&amp;o=&amp;vc=12.4.18和2.6.25.4-rt在任务调度上的不同检查点:A) 返回用户空间/返回内核空间:—-2.4 :只在返回user space的时候才会检查任务是否需要被调度.—-2.6:除了保留这个检查点,新增了返回内核空间的检查点, 这个检查点调用preempt_schedule_irq,这就是抢占式调度. 2.6中调用schedule前有个关键的操作, add_preempt_count(PREEMPT_ACTIVE),这标志这此schedule是抢占式调度,schedule 通过PREEMPT_ACTIVE这个标志知道这是一次抢占. 返回内核空间的时候只有peeempt_count==0才能够抢占当前进程. 2.6在返回用户空间的时候检查两个标志:TIF_NEED_RESCHED和新增的TIF_NEED_RESCHED_DELA
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2008/10/27/【zz】2-4-18和2-6-25-4-rt在任务调度上的不同/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2008/10/27/【zz】linux-2-6-25-4-PREEMPT-RT简介/" itemprop="url">
+                  【zz】linux-2.6.25.4 PREEMPT_RT简介
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2008-10-27T00:33:00+08:00" content="2008-10-27">
+              2008-10-27
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+           http://www.linuxforum.net/forum/showflat.php?Cat=&amp;Board=linuxK&amp;Number=700000&amp;page=&amp;view=&amp;sb=&amp;o=&amp;vc=1link: hylpro.cublog.cn 1. 2.6.25.4-rt 下载内核和rt-linux 补丁 http://www.kernel.org/pub/linux/kernel/projects/rt/patch-2.6.25.4-rt6.bz2 http://www.cn.kernel.org/pub/linux/kernel/v2.6/linux-2.6.25.4.tar.bz2 在解压缩后的内核目录,用下面命令把补丁打上: patch -p1 -i patch-2.6.25.4-rt6  其主要修改的文件是: rcu/rtmutex/sched/lockdep/trace/arch/driver… 2. preempt_rt 实现简介 Ingo Molnar 带领一干人等,维护rt linux patch. 打完补丁
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2008/10/27/【zz】linux-2-6-25-4-PREEMPT-RT简介/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2008/10/25/Linux-RCU-Read-Copy-Update/" itemprop="url">
                   Linux RCU (Read-Copy Update)
                 </a>
@@ -1184,243 +1420,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2008/10/17/L4学习收集/" itemprop="url">
-                  L4学习收集
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2008-10-17T22:05:00+08:00" content="2008-10-17">
-              2008-10-17
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/l4ka-pistachio-iguana/" itemprop="url" rel="index">
-                    <span itemprop="name">l4ka::pistachio/iguana</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-           Fiasco/L4 System Call C-Bindings Reference Manualhttp://os.inf.tu-dresden.de/l4env/doc/html/l4sys-l4v2/index.htmliguanahttp://ertos.nicta.com.au/software/kenge/iguana-project/latest/微内核与操作系统的简化http://hi.baidu.com/l4os/blog/item/c2114c82544220bb6c81198b.htmlOperating System Based L4-Like Microkernelhttp://hi.baidu.com/l4os/blog/item/7838405269fb64080df3e3d4.htmlOKL4（Open Kernel Labs）http://wiki.ok-labs.com/PreviousReleasesend 
-
-          
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2008/10/17/L4学习收集/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2008/10/15/【zz】SYSENTER-SYSEXIT/" itemprop="url">
-                  【zz】SYSENTER/SYSEXIT
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2008-10-15T23:25:00+08:00" content="2008-10-15">
-              2008-10-15
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-           http://www.ibm.com/developerworks/cn/linux/kernel/l-k26ncpu/index.html前言 在 Linux 2.4 内核中，用户态 Ring3 代码请求内核态 Ring0 代码完成某些功能是通过系统调用完成的，而系统调用的是通过软中断指令（int 0x80）实现的。在 x86 保护模式中，处理 INT 中断指令时，CPU 首先从中断描述表 IDT 取出对应的门描述符，判断门描述符的种类，然后检查门描述符的级别 DPL 和 INT 指令调用者的级别 CPL，当 CPL&lt;=DPL 也就是说 INT 调用者级别高于描述符指定级别时，才能成功调用，最后再根据描述符的内容，进行压栈、跳转、权限级别提升。内核代码执行完毕之后，调用 IRET 指令返回，IRET 指令恢复用户栈，并跳转会低级别的代码。其实，在发生系统调用，由 Ring3 进入 Ring0 的这个过程浪费了不少的 CPU 周期，例如，系统调用必然需要由 Ring3 进入 Ring0（由内核调用 INT 指令的方式除外，这多半属于 Hacker 的内核模块所为），权限提升之前
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2008/10/15/【zz】SYSENTER-SYSEXIT/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1466,7 +1465,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">597</span>
+              <span class="site-state-item-count">599</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

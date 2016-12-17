@@ -261,6 +261,242 @@
             
               
                 
+                <a class="post-title-link" href="/2008/11/08/【zz】Linux内核与用户进程通信——NETLINK实例/" itemprop="url">
+                  【zz】Linux内核与用户进程通信——NETLINK实例
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2008-11-08T19:00:00+08:00" content="2008-11-08">
+              2008-11-08
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+           http://blog.csdn.net/absurd/archive/2008/11/07/3244482.aspx手 机内置FLASH容量有限，在磁盘空间不足的情况下，应该提醒用户进行磁盘清理。这个处理在哪里做比较好呢？每次写入数据时由调用者检测显然是不合理的， 因为处理的太多了，何况修改SQLITE等第三方程序也是不明智的，那样会给升级版本带来麻烦。比较好的办法是在文件系统中做处理，最近同事修改了 yaffs2支持磁盘满通知功能。做法如下：在yaffs_fs.c中：#include &lt;net/sock.h&gt;#include &lt;linux/netlink.h&gt;#define DISK_FULL_MSG_SIZE  128#define NETLINK_DISK_FULL   2static struct sock  yaffs_sock;在init_yaffs_fs中： if((yaffs_sock = netlink_kernel_create(NETLINK_DISK_FULL, 1, NULL, THIS_MODULE)) == NULL)    {
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2008/11/08/【zz】Linux内核与用户进程通信——NETLINK实例/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2008/11/08/【zz】论“小白兔”怎样吃掉了狼和野猪/" itemprop="url">
+                  【zz】论“小白兔”怎样吃掉了狼和野猪
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2008-11-08T14:52:00+08:00" content="2008-11-08">
+              2008-11-08
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Saying/" itemprop="url" rel="index">
+                    <span itemprop="name">Saying</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+           http://blog.sina.com.cn/s/blog_4940b3f60100b14k.html    一天，一只兔子在山洞前写文章，一只狼走了过来，   问：兔子啊，你在干什么？   答曰：写文章。   问：什么题目？&rdquo;    答曰：《浅谈兔子是怎样吃掉狼的》。    狼哈哈大笑，表示不信，于是兔子把狼领进山洞……  过了一会，兔子独自走出山洞，继续写文章。      一只野猪走了过来，   问：兔子你在写什么？   答：文章。   问：题目是什么？   答：《浅谈兔子是如何把野猪吃掉的》。    野猪不信，于是同样的事情发生。   最后，在山洞里，一只狮子在一堆白骨之间，满意的剔着牙读着兔子交给它的文章，题目：《一只动物，能力大小关键要看你的老板是谁》。   这只兔子有次不小心告诉了他的一个兔子朋友，这消息逐渐在森林中传播；狮子知道后非常生气，他告诉兔子：&ldquo;如果这个星期没有食物进洞，我就吃你。&rdquo; 于是兔子继续在洞口写文章。   一只小鹿走过来，   &ldquo;兔子，你在干什么啊？&rdquo;&ldquo; 写文章 &rdquo; 
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2008/11/08/【zz】论“小白兔”怎样吃掉了狼和野猪/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2008/11/08/【zz】小故事/" itemprop="url">
                   【zz】小故事
                 </a>
@@ -1187,242 +1423,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2008/10/27/【zz】2-4-18和2-6-25-4-rt在任务调度上的不同/" itemprop="url">
-                  【zz】2.4.18和2.6.25.4-rt在任务调度上的不同
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2008-10-27T01:07:00+08:00" content="2008-10-27">
-              2008-10-27
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-           http://www.linuxforum.net/forum/showflat.php?Cat=&amp;Board=linuxK&amp;Number=693202&amp;page=&amp;view=&amp;sb=&amp;o=&amp;vc=12.4.18和2.6.25.4-rt在任务调度上的不同检查点:A) 返回用户空间/返回内核空间:—-2.4 :只在返回user space的时候才会检查任务是否需要被调度.—-2.6:除了保留这个检查点,新增了返回内核空间的检查点, 这个检查点调用preempt_schedule_irq,这就是抢占式调度. 2.6中调用schedule前有个关键的操作, add_preempt_count(PREEMPT_ACTIVE),这标志这此schedule是抢占式调度,schedule 通过PREEMPT_ACTIVE这个标志知道这是一次抢占. 返回内核空间的时候只有peeempt_count==0才能够抢占当前进程. 2.6在返回用户空间的时候检查两个标志:TIF_NEED_RESCHED和新增的TIF_NEED_RESCHED_DELA
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2008/10/27/【zz】2-4-18和2-6-25-4-rt在任务调度上的不同/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2008/10/27/【zz】linux-2-6-25-4-PREEMPT-RT简介/" itemprop="url">
-                  【zz】linux-2.6.25.4 PREEMPT_RT简介
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2008-10-27T00:33:00+08:00" content="2008-10-27">
-              2008-10-27
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Linux/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-           http://www.linuxforum.net/forum/showflat.php?Cat=&amp;Board=linuxK&amp;Number=700000&amp;page=&amp;view=&amp;sb=&amp;o=&amp;vc=1link: hylpro.cublog.cn 1. 2.6.25.4-rt 下载内核和rt-linux 补丁 http://www.kernel.org/pub/linux/kernel/projects/rt/patch-2.6.25.4-rt6.bz2 http://www.cn.kernel.org/pub/linux/kernel/v2.6/linux-2.6.25.4.tar.bz2 在解压缩后的内核目录,用下面命令把补丁打上: patch -p1 -i patch-2.6.25.4-rt6  其主要修改的文件是: rcu/rtmutex/sched/lockdep/trace/arch/driver… 2. preempt_rt 实现简介 Ingo Molnar 带领一干人等,维护rt linux patch. 打完补丁
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2008/10/27/【zz】linux-2-6-25-4-PREEMPT-RT简介/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1468,7 +1468,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">597</span>
+              <span class="site-state-item-count">599</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

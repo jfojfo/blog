@@ -261,6 +261,258 @@
             
               
                 
+                <a class="post-title-link" href="/2013/09/05/TP-Link-TL-WR703n-Reset按钮功能扩展——wifi模式切换/" itemprop="url">
+                  TP-Link TL-WR703n Reset按钮功能扩展——wifi模式切换
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2013-09-05T13:11:26+08:00" content="2013-09-05">
+              2013-09-05
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Arduino-OpenWrt/" itemprop="url" rel="index">
+                    <span itemprop="name">Arduino/OpenWrt</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          首先参考openwrt官网文档：《Attach functions to a push button》
+缘由：我的openwrt无线配置成客户端模式，在家自动连接家里的路由（配置一），在公司自动连接公司路由（配置二），但是如果在配置文件/etc/config/wireless同时指定这两种客户端模式配置，openwrt不会在其中一个配置连接失败后自动尝试另外一个配置连接。也就是说两种客户端模式配置，实际上只有其中一个有效（貌似谁写在前面谁生效）。这样，每次更换环境，都要先用一根网线连接到wr703n的LAN口，配置好笔记本的LAN网卡IP地址为192.168.1.2，以root ssh登陆进192.168.1.1，编辑wireless配置文件，禁用其中一种客户端模式（option disabled ‘1’），再重启网络才能让wr703n连接到主路由。整个过程太繁琐了。
+另一种方式可以省去网线连接LAN口，就是让wr703n每次都以AP模式启动，笔记本电脑再通过无线连接wr703n，连上之后就可以ssh登陆进去，然后改配置并重启网络，过程也不简洁。
+先贴出目前openwrt的网络配置：
+
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2013/09/05/TP-Link-TL-WR703n-Reset按钮功能扩展——wifi模式切换/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2013/08/30/编译OpenWrt固件，Build-your-custom-OpenWrt-firmware/" itemprop="url">
+                  编译OpenWrt固件，Build your custom OpenWrt firmware
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2013-08-30T13:05:11+08:00" content="2013-08-30">
+              2013-08-30
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Arduino-OpenWrt/" itemprop="url" rel="index">
+                    <span itemprop="name">Arduino/OpenWrt</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          首先参考官方文档：http://wiki.openwrt.org/doc/howto/build
+1.下载源码wr703n要下载attitude adjustment分支（对应12.09），下载到12.09目录
+$ git clone git://git.openwrt.org/12.09/openwrt.git 12.09
+2.更新feeds
+$ cd 12.09$ ./scripts/feeds update -a$ ./scripts/feeds install -a
+3.配置
+$ make menuconfig配置文件也可以从openwrt下一个
+$ wget http://downloads.openwrt.org/attitude_adjustment/12.09/ar71xx/generic/config.ar71xx_generic$ ln -sv config.ar71xx_generic .config
+4.编译
+$ make V=s&nbsp;
+
+
+另外，可以用make defconfig先生成一个默认配置，然后make download下载各个包的源代码（保存在
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2013/08/30/编译OpenWrt固件，Build-your-custom-OpenWrt-firmware/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2013/08/29/UDP穿透NAT原理（UDP打洞）/" itemprop="url">
                   UDP穿透NAT原理（UDP打洞）
                 </a>
@@ -1235,249 +1487,6 @@ schedtool -B -n 1 -e ionice -n 1 make -j$(cat /proc/cpuinfo | grep “^processor
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/06/29/PhantomJS-模拟浏览器加载页面/" itemprop="url">
-                  PhantomJS - 模拟浏览器加载页面
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2013-06-29T13:06:30+08:00" content="2013-06-29">
-              2013-06-29
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/WebDev/" itemprop="url" rel="index">
-                    <span itemprop="name">WebDev</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          Phantomjs是什么？Phantomjs is a webkit with javascript api which means using phantomjs we can load web pages emulating like a webkit based browser without any GUI.
-In simple words for understanding, Phantomjs can access and load webpages behaving like a normal browser.It can render webpages exactly same as browser which is the unique and foremost feature of phantomjs.Developers call this concept as headless webkit.
-from Phantomjs - Webkit browser built on Javascript
-更多详细介绍参考 Phantomjs官网
-&nbsp;
-Phant
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013/06/29/PhantomJS-模拟浏览器加载页面/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/06/18/《眠》摘录/" itemprop="url">
-                  《眠》摘录
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2013-06-18T10:05:05+08:00" content="2013-06-18">
-              2013-06-18
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/reading/" itemprop="url" rel="index">
-                    <span itemprop="name">reading</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          摘录一段村上春树的《眠》
-就这样，我不知不觉习惯了不读书的生活。认真想来，这很不可思议。从小时候起，读书就一直是我生活的中心。念小学时我便把图书馆的书读了个遍，零花钱差不多都用来买书了。省吃俭用，拿攒下的钱去买自己想看的书。无论初中还是高中，都找不到像我这样疯狂看书的人。我在五个兄弟姐妹里居中，父母两人都有工作，都是大忙人，家里根本没人在乎我，因此我能独自一人尽情看书。只要举行读书感想有奖征文，我一准投稿应征，目的就是赢取当奖品的购书券，基本每次都能获奖。大学时我进了英文系，成绩也很不错，毕业论文写的是凯瑟琳·曼斯菲尔德，得了最高分。教授问我愿不愿留下来读研究生，但说到底我并不是做学问的人，我自己也心知肚明。我只是喜爱读书，不适合做逻辑性的解析、学术性的探讨。就算我想继续攻读硕士学位，家里也没有那份经济上的余裕。倒不是说家里穷，只是我下面还有两个妹妹。大学一毕业我就得离家自立，养活自己才行。
-最后一次完整地读一本书是什么时候？那次读的究竟是什么？我苦思冥想，却连书名都想不起来。人的生活怎么会如此急剧地说变就变呢？我疑惑不已。从前那个邪魔附体般嗜读如命的我究竟去了何方？那些岁月、那种堪称
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013/06/18/《眠》摘录/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1523,7 +1532,7 @@ Phant
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">597</span>
+              <span class="site-state-item-count">599</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
