@@ -94,7 +94,7 @@ socket四要素：srcIP + srcPort + destIP + destPort唯一确定一个socket连
 <meta property="og:site_name" content="jfo planet">
 <meta property="og:description" content="redsocks2 + shadowsocks几点说明
 socket四要素：srcIP + srcPort + destIP + destPort唯一确定一个socket连接。server端accept监听到连接请求后，通常会另起一个子进程处理，但accept返回的新socket，与accept监听的端口还是一样的，都是server_port，而不是新开一个port(no new port is">
-<meta property="og:updated_time" content="2016-12-04T07:45:21.000Z">
+<meta property="og:updated_time" content="2016-12-18T06:29:23.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="透明代理：redsocks2_shadowsocks">
 <meta name="twitter:description" content="redsocks2 + shadowsocks几点说明
@@ -329,9 +329,8 @@ socket四要素：srcIP + srcPort + destIP + destPort唯一确定一个socket连
 </li>
 <li><p>iptables SNAT/DNAT：<code>--to</code>更改TCP/IP包中的IP和Port，通过第三层TCP/IP协议将数据包送达目标机器</p>
 </li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">iptables -t nat -A POSTROUTING -s 172.16.36.0/24 -j SNAT --to $PROXY_IP:$PROXY_PORT</div></pre></td></tr></table></figure>
-<ul>
+<li><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">iptables -t nat -A POSTROUTING -s 172.16.36.0/24 -j SNAT --to $PROXY_IP:$PROXY_PORT</div></pre></td></tr></table></figure>
+</li>
 <li><p>默认网关：通过链路层MAC地址将数据包送达目标机器。TCP/IP协议中没有关于默认网关IP的字段，通过ARP协议获取到默认网关IP对应的MAC地址，数据包发送出去时，在第二层链路层添加MAC地址，这样数据包就会被默认网关接收到</p>
 </li>
 <li><p>iptables redirect：会把原来的目标地址和端口改掉。REDIRECT使用了ip_conntrack模块，可以通过函数接口获取原来目的地址<br><br>if you redirect TCP traffic, the ip_conntrack provides a getsockopt() to get the original destination address.<br><br>REDIRECT实际上也是一种特殊的NAT</p>
@@ -339,7 +338,7 @@ socket四要素：srcIP + srcPort + destIP + destPort唯一确定一个socket连
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">This target is only valid in the nat table, in the PREROUTING and OUTPUT </div><div class="line">       chains, and user-defined chains which are only  called  from  those</div><div class="line">       chains.   It redirects the packet to the machine itself by changing the</div><div class="line">       destination IP  to  the  primary  address  of  the  incoming  interface</div><div class="line">       (locally-generated  packets  are  mapped to the 127.0.0.1 address).  It</div><div class="line">       takes one option</div><div class="line"></div><div class="line">       --to-ports port[-port]</div><div class="line">              This specifies a destination port or  range  of  ports  to  use:</div><div class="line">              without  this,  the  destination port is never altered.  This is</div><div class="line">              only valid if the rule also specifies -p tcp or -p udp.</div></pre></td></tr></table></figure>
 <h3 id="redsocks2"><a href="#redsocks2" class="headerlink" title="redsocks2"></a>redsocks2</h3><p>TCP/IP中的目标地址一旦修改，就无法将数据包发送给真正的目标对象，而所有的socket监听，只有目标地址是自己才能接收，上层应用想代理流量，必须处理这一对矛盾，而iptables的redirect刚好派上用场</p>
-<p>redsocks通过修改iptables，将流量redirect到自己监听的端口号，然后遵循代理协议格式将流量转发给代理</p>
+<p>redsocks通过修改iptables，将流量redirect到自己监听的端口号，并且通过getdestaddr获取原目标ip和port，然后遵循代理协议格式将流量转发给代理</p>
 <p>redsocks2在redsocks基础上进行增强，支持智能代理：只有直接连接失败的才通过代理访问</p>
 <p>目前来看，只有使用redsocks真正实现透明代理</p>
 <p>项目下载：</p>

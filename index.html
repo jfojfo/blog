@@ -578,10 +578,9 @@ socket四要素：srcIP + srcPort + destIP + destPort唯一确定一个socket连
 
 iptables SNAT/DNAT：--to更改TCP/IP包中的IP和Port，通过第三层TCP/IP协议将数据包送达目标机器
 
-
 1iptables -t nat -A POSTROUTING -s 172.16.36.0/24 -j SNAT --to $PROXY_IP:$PROXY_PORT
 
-默认网关：通过链路层MAC地址将数据包送达目标机器。TCP/IP协议中没有关于默认网关IP的字段，通过ARP协议获取到默认网关IP对应的MAC地址，数据包发送出去时，在第二层
+默认网关：通过链路层MAC地址将数据包送达目标机器。TCP/IP协议中没有关于默认网关IP的字段，通过ARP协议获取到默认网关IP对应的MAC地址，数据包发送出去时，在第二层链
           ...
 
           <div class="post-more-link text-center">
