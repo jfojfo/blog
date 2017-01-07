@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.pickbox.me/"/>
-  <updated>2016-12-17T09:41:06.000Z</updated>
+  <updated>2017-01-07T09:52:51.000Z</updated>
   <id>http://blog.pickbox.me/</id>
   
   <author>
@@ -14,6 +14,70 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>使用macbook破解WPA_WPA2_WiFi密码</title>
+    <link href="http://blog.pickbox.me/2017/01/07/%E4%BD%BF%E7%94%A8macbook%E7%A0%B4%E8%A7%A3WPA-WPA2-WiFi%E5%AF%86%E7%A0%81/"/>
+    <id>http://blog.pickbox.me/2017/01/07/使用macbook破解WPA-WPA2-WiFi密码/</id>
+    <published>2017-01-07T09:51:18.000Z</published>
+    <updated>2017-01-07T09:52:51.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><a href="http://img.pickbox.me/wp-content/uploads/使用macbook破解WPA_WPA2_WiFi密码.pdf" target="_blank" rel="external">pdf格式浏览</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;a href=&quot;http://img.pickbox.me/wp-content/uploads/使用macbook破解WPA_WPA2_WiFi密码.pdf&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;pdf格式浏览&lt;/a&gt;&lt;/p&gt;
+
+    
+    </summary>
+    
+      <category term="Mac OS X" scheme="http://blog.pickbox.me/categories/Mac-OS-X/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>phpstorm远程调试odp</title>
+    <link href="http://blog.pickbox.me/2017/01/07/phpstorm%E8%BF%9C%E7%A8%8B%E8%B0%83%E8%AF%95odp/"/>
+    <id>http://blog.pickbox.me/2017/01/07/phpstorm远程调试odp/</id>
+    <published>2017-01-07T09:46:57.000Z</published>
+    <updated>2017-01-07T09:49:52.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="phpstorm远程调试odp"><a href="#phpstorm远程调试odp" class="headerlink" title="phpstorm远程调试odp"></a>phpstorm远程调试odp</h2><p>参考配置：<a href="http://wiki.baidu.com/pages/viewpage.action?pageId=108780531" target="_blank" rel="external">http://wiki.baidu.com/pages/viewpage.action?pageId=108780531</a></p>
+<h3 id="php-ini配置"><a href="#php-ini配置" class="headerlink" title="php.ini配置"></a>php.ini配置</h3><p>xdebug.remote_host指定为本机，后面会将本地9000端口映射给ide机器</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">[xdebug]</div><div class="line">zend_extension="/home/users/jiangzhenyu/odp/php/ext/xdebug.so"</div><div class="line">xdebug.remote_host=127.0.0.1</div><div class="line">xdebug.remote_port=9000</div><div class="line">xdebug.remote_enable=true</div><div class="line">xdebug.idekey=111</div><div class="line">request_terminate_timeout=600s</div></pre></td></tr></table></figure>
+<p>重启php-fpm</p>
+<h3 id="端口映射（tunnel）"><a href="#端口映射（tunnel）" class="headerlink" title="端口映射（tunnel）"></a>端口映射（tunnel）</h3><p>注意ngrok自己编译，IDE本机和服务端要使用同一套ssl key文件</p>
+<p>服务器端运行ngrokd</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ ~/downloads/ngrok/bin/ngrokd -tlsKey=/home/users/jiangzhenyu/downloads/ngrok/ssl/server.key -tlsCrt=/home/users/jiangzhenyu/downloads/ngrok/ssl/server.crt -domain=&quot;cp01-rdqa-dev601.cp01.baidu.com&quot; -httpAddr=&quot;:8711&quot; -httpsAddr=&quot;:8722&quot; -tunnelAddr=&quot;:8443&quot; -log=stdout</div></pre></td></tr></table></figure>
+<p>IDE机器运行ngrok</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">$ <span class="built_in">cd</span> ~/work/project/trying/ngrok</div><div class="line">$ cat ngrok.cfg</div><div class="line">server_addr: <span class="string">"cp01-rdqa-dev601.cp01.baidu.com:8443"</span></div><div class="line">trust_host_root_certs: <span class="literal">false</span></div><div class="line">tunnels:</div><div class="line">  php:</div><div class="line">    remote_port: 9000</div><div class="line">    proto:</div><div class="line">      tcp: 9000</div><div class="line"></div><div class="line">$ ./bin/ngrok -config ngrok.cfg start php</div></pre></td></tr></table></figure>
+<p>这样服务器的9000端口就映射到IDE本机，phpstorm能从9000端口接受到远程调试指令</p>
+<h3 id="配置phpstorm"><a href="#配置phpstorm" class="headerlink" title="配置phpstorm"></a>配置phpstorm</h3><p>按照教程配即可</p>
+<ol>
+<li>配置PHPStorm的远程Interpreter：Language &amp; Frameworks &gt; PHP</li>
+<li>配置PHPStorm的xdebug port</li>
+<li>配置PHPStorm的server path mapping</li>
+<li>配置PHPStorm的debug config：添加一个web application调试项</li>
+</ol>
+<p><img src="http://img.pickbox.me/wp-content/uploads/phpstorm_interpreter_config.png"></p>
+<p><img src="http://img.pickbox.me/wp-content/uploads/phpstorm_xdebug_port.png"></p>
+<p><img src="http://img.pickbox.me/wp-content/uploads/phpstorm_server_path_mapping.png"></p>
+<p><img src="http://img.pickbox.me/wp-content/uploads/phpstorm_debug_config_web_application.png"></p>
+<h3 id="ODP代码"><a href="#ODP代码" class="headerlink" title="ODP代码"></a>ODP代码</h3><p>注意，actions下的odp代码才能调试，可以添加一个actions/test/Test.php，添加断点后开始调试</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;phpstorm远程调试odp&quot;&gt;&lt;a href=&quot;#phpstorm远程调试odp&quot; class=&quot;headerlink&quot; title=&quot;phpstorm远程调试odp&quot;&gt;&lt;/a&gt;phpstorm远程调试odp&lt;/h2&gt;&lt;p&gt;参考配置：&lt;a href=&quot;http
+    
+    </summary>
+    
+      <category term="python/js/php/html/mysql/http" scheme="http://blog.pickbox.me/categories/python-js-php-html-mysql-http/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>Mysql 常用 SQL 语句集锦</title>
@@ -944,75 +1008,6 @@ public class MyActivity extends Activity {
     </summary>
     
       <category term="Android" scheme="http://blog.pickbox.me/categories/Android/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>关于IBinder运行的线程</title>
-    <link href="http://blog.pickbox.me/2015/03/13/%E5%85%B3%E4%BA%8EIBinder%E8%BF%90%E8%A1%8C%E7%9A%84%E7%BA%BF%E7%A8%8B/"/>
-    <id>http://blog.pickbox.me/2015/03/13/关于IBinder运行的线程/</id>
-    <published>2015-03-13T05:26:21.000Z</published>
-    <updated>2016-10-15T05:24:27.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>根据<a href="http://developer.android.com/guide/components/processes-and-threads.html" target="_blank">官方文档</a>说明</p>
-<blockquote>This is primarily true for methods that can be called remotely—such as methods in a bound service. <strong>When a call on a method implemented in an IBinder originates in the same process in which the IBinder is running, the method is executed in the caller’s thread. However, when the call originates in another process, the method is executed in a thread chosen from a pool of threads that the system maintains in the same process as the IBinder (it’s not executed in the UI thread of the process)</strong>. For example, whereas a service’s onBind() method would be called from the UI thread of the service’s process, methods implemented in the object that onBind() returns (for example, a subclass that implements RPC methods) would be called from threads in the pool. Because a service can have more than one client, more than one pool thread can engage the same IBinder method at the same time. IBinder methods must, therefore, be implemented to be thread-safe.</blockquote>
-
-<p>当IBinder的实现函数与调用者处于同一process中时，IBinder的实现函数运行在与调用者相同的线程，如果调用者从UI线程通过binder调用，则binder的实现函数在UI线程运行，如果调用者从new出来的thread调用，则binder的实现函数在这个thread中运行。</p>
-<p>当IBinder的实现函数与调用者处于不同process时，IBinder的实现函数在binder的thread中运行。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;根据&lt;a href=&quot;http://developer.android.com/guide/components/processes-and-threads.html&quot; target=&quot;_blank&quot;&gt;官方文档&lt;/a&gt;说明&lt;/p&gt;
-&lt;blockquote&gt;This is p
-    
-    </summary>
-    
-      <category term="Android" scheme="http://blog.pickbox.me/categories/Android/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>iptables NAT</title>
-    <link href="http://blog.pickbox.me/2014/12/27/iptables-NAT/"/>
-    <id>http://blog.pickbox.me/2014/12/27/iptables-NAT/</id>
-    <published>2014-12-27T12:50:10.000Z</published>
-    <updated>2016-12-04T07:09:04.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>SNAT，DNAT，MASQUERADE都是NAT</p>
-<p><a href="http://img.pickbox.me/wp-content/uploads/Netfilter-Packet-Traversal.png" target="_blank" rel="external"><img src="http://img.pickbox.me/wp-content/uploads/Netfilter-Packet-Traversal.png" alt="Netfilter Packet Traversal" width="807" height="637" class="alignnone size-full wp-image-1143"></a></p>
-<p><a href="http://img.pickbox.me/wp-content/uploads/iptables_prerouting_forward_input_output_postrouting.gif" target="_blank" rel="external"><img src="http://img.pickbox.me/wp-content/uploads/iptables_prerouting_forward_input_output_postrouting.gif" alt="iptables-5-steps" width="807" height="637" class="alignnone size-full wp-image-1143"></a></p>
-<p>MASQUERADE是SNAT的一个特例，要允许带有内部 IP 地址的 LAN 节点和外部的公共网络通信，需要配置防火墙的 IP 伪装（IP masquerading）。这会把来自 LAN 节点的请求都伪装成防火墙的外部设备的 IP 地址</p>
-<p>SNAT是指在数据包从网卡发送出去的时候，把数据包中的源地址部分替换为指定的IP，这样，接收方就认为数据包的来源是被替换的那个IP的主机</p>
-<p>DNAT 修改数据包中的目的IP，如果你想让内部网络内的某个服务器能够被外部利用，你可以使用 NAT 内 PREROUTING 链的 -j DNAT 目标来指定该向哪个目标 IP 地址以及端口转发请求连接到内部服务的分组</p>
-<p>-j MASQUERADE 用发送数据的网卡上的IP来替换源IP</p>
-<pre>
-iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
-</pre>
-
-<pre>
-iptables -t nat -A POSTROUTING -s 172.16.36.0/24 -j SNAT --to-source `ifconfig  | grep 'inet addr:'| grep -v '127.0.0.1' | cut -d: -f2 | awk 'NR==1 { print $1}'`  
-iptables -A FORWARD -p tcp --syn -s 172.16.36.0/24 -j TCPMSS --set-mss 1356
-</pre>
-
-<p>来自 LAN 以外的到端口80的 HTTP 连接都会被路由发送到和内部网络分离的另一个网络上的 HTTP 服务器上</p>
-<pre>
-iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j DNAT \
-        --to-destination 10.0.4.2:80
-</pre>
-
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;SNAT，DNAT，MASQUERADE都是NAT&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;http://img.pickbox.me/wp-content/uploads/Netfilter-Packet-Traversal.png&quot; target=&quot;_blank&quot; rel=&quot;e
-    
-    </summary>
-    
-      <category term="Network" scheme="http://blog.pickbox.me/categories/Network/"/>
     
     
   </entry>

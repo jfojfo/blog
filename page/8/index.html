@@ -261,6 +261,254 @@
             
               
                 
+                <a class="post-title-link" href="/2013/08/08/Android-Fragment生命周期/" itemprop="url">
+                  Android Fragment生命周期
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2013-08-08T19:28:45+08:00" content="2013-08-08">
+              2013-08-08
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          
+
+          
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2013/08/08/Android-Fragment生命周期/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2013/07/05/记录一下Build-CyanogenMod-ROM-时修改过的地方/" itemprop="url">
+                  记录一下Build CyanogenMod ROM 时修改过的地方
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2013-07-05T18:03:19+08:00" content="2013-07-05">
+              2013-07-05
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          用CyanogenMod成功build出I9000（galaxysmtd）的ROM，记录一下build过程中所修改的文件，以便参考。
+1.build/core/main.mk
+ADDITIONAL_DEFAULT_PROPERTIES += ro.secure=0
+改为0之后，以后adb shell 自动进入到root
+&nbsp;
+2.build/tools/releasetools/common.py
+cmd = [“java”, “-Xmx2048m”, “-jar”, os.path.join(OPTIONS.search_path, “framework”, “signapk.jar”)]
+在虚拟机中build，2G内存实在没有，改小成650m了，build时间长点没关系，慢慢等
+&nbsp;
+3.build/envsetup.sh
+function mka() 中的下面一行最终被调用进行make，
+schedtool -B -n 1 -e ionice -n 1 make -j$(cat /proc/cpuinfo | grep “^processor” | wc -l) 
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2013/07/05/记录一下Build-CyanogenMod-ROM-时修改过的地方/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2013/06/29/PhantomJS-模拟浏览器加载页面/" itemprop="url">
                   PhantomJS - 模拟浏览器加载页面
                 </a>
@@ -1233,254 +1481,11 @@ function fetch_images( $post_ID )
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/06/06/wp-generate-attachment-metadata/" itemprop="url">
-                  wp_generate_attachment_metadata
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2013-06-06T10:12:01+08:00" content="2013-06-06">
-              2013-06-06
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/wordpress/" itemprop="url" rel="index">
-                    <span itemprop="name">wordpress</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          ExampleTo generate attachment metadata for attachment with parent post ID 37:
-&lt;?php  $attach_id = wp_insert_attachment( $attachment, $filename, 37 );  $attach_data = wp_generate_attachment_metadata( $attach_id, $filename );  wp_update_attachment_metadata( $attach_id,  $attach_data );?&gt;The function should be used in conjunction with wp_update_attachment_metadata().
-See more https://codex.wordpress.org/Function_Reference/wp_generate_attachment_metadata
-
-          
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013/06/06/wp-generate-attachment-metadata/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/06/05/android-dev笔记from-google-notes/" itemprop="url">
-                  android-dev笔记from google notes
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2013-06-05T16:22:43+08:00" content="2013-06-05">
-              2013-06-05
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          以前在Google notes里摘录的android-dev笔记，在google关闭notes后导出成本地文件了，现在上传到blog上吧。
-
-
-
-SPAN_EXCLUSIVE_EXCLUSIVE.setMovementMethod，此方法在需要响应用户事件时使用，如点击一个电话号码就跳转到拨号页面。如果不执行这个方法是不会响应事件的，即便文本看着已经是下划线蓝色字了。.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE，这是在 setSpan 时需要指定的 flag，它的意义我试了很久也没试出来，睡个觉，今天早上才突然有点想法，试之，果然。它是用来标识在 Span 范围内的文本前后输入新的字符时是否把它们也应用这个效果。分别有 Spanned.SPAN_EXCLUSIVE_EXCLUSIVE(前后都不包括)、Spanned.SPAN_INCLUSIVE_EXCLUSIVE(前面包括，后面不包括)、Spanned.SPAN_EXCLUSIVE_INCLUSIVE(前面不包括，后面包括)、Spanned.SPAN_INCLUSIVE_INCLUSIVE(前后都包括)。看个截图
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013/06/05/android-dev笔记from-google-notes/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/60/">60</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/7/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/61/">61</a><a class="extend next" rel="next" href="/page/9/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1521,7 +1526,7 @@ SPAN_EXCLUSIVE_EXCLUSIVE.setMovementMethod，此方法在需要响应用户事�
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">599</span>
+              <span class="site-state-item-count">601</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1624,7 +1629,7 @@ SPAN_EXCLUSIVE_EXCLUSIVE.setMovementMethod，此方法在需要响应用户事�
         <div class="copyright" >
   
   &copy;  2007 - 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

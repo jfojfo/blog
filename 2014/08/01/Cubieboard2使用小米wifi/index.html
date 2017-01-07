@@ -86,34 +86,16 @@
 
 
 
-<meta name="description" content="下载MT7601U驱动和linux-sunxi源码
-$ git clone https://github.com/jfojfo/MT7601U.git
-common/rtusb_dev_id.c文件修改如下：
-
-#ifdef MT7601U
-    {USB_DEVICE(0x148f,0x6370)}, /* Ralink 6370 */
-    {USB_DEVICE(0x2955,0x100">
+<meta name="description" content="下载MT7601U驱动和linux-sunxi源码$ git clone https://github.com/jfojfo/MT7601U.gitcommon/rtusb_dev_id.c文件修改如下：#ifdef MT7601U    {USB_DEVICE(0x148f,0x6370)}, / Ralink 6370 /    {USB_DEVICE(0x2955,0x1001)}, / x">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Cubieboard2使用小米wifi">
 <meta property="og:url" content="http://blog.pickbox.me/2014/08/01/Cubieboard2使用小米wifi/index.html">
 <meta property="og:site_name" content="jfo planet">
-<meta property="og:description" content="下载MT7601U驱动和linux-sunxi源码
-$ git clone https://github.com/jfojfo/MT7601U.git
-common/rtusb_dev_id.c文件修改如下：
-
-#ifdef MT7601U
-    {USB_DEVICE(0x148f,0x6370)}, /* Ralink 6370 */
-    {USB_DEVICE(0x2955,0x100">
-<meta property="og:updated_time" content="2016-12-14T07:31:06.000Z">
+<meta property="og:description" content="下载MT7601U驱动和linux-sunxi源码$ git clone https://github.com/jfojfo/MT7601U.gitcommon/rtusb_dev_id.c文件修改如下：#ifdef MT7601U    {USB_DEVICE(0x148f,0x6370)}, / Ralink 6370 /    {USB_DEVICE(0x2955,0x1001)}, / x">
+<meta property="og:updated_time" content="2016-12-19T07:13:29.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Cubieboard2使用小米wifi">
-<meta name="twitter:description" content="下载MT7601U驱动和linux-sunxi源码
-$ git clone https://github.com/jfojfo/MT7601U.git
-common/rtusb_dev_id.c文件修改如下：
-
-#ifdef MT7601U
-    {USB_DEVICE(0x148f,0x6370)}, /* Ralink 6370 */
-    {USB_DEVICE(0x2955,0x100">
+<meta name="twitter:description" content="下载MT7601U驱动和linux-sunxi源码$ git clone https://github.com/jfojfo/MT7601U.gitcommon/rtusb_dev_id.c文件修改如下：#ifdef MT7601U    {USB_DEVICE(0x148f,0x6370)}, / Ralink 6370 /    {USB_DEVICE(0x2955,0x1001)}, / x">
 
 
 
@@ -339,100 +321,8 @@ common/rtusb_dev_id.c文件修改如下：
       
 
       
-        <p></p><h2>下载MT7601U驱动和linux-sunxi源码</h2><p></p>
-<pre>$ git clone https://github.com/jfojfo/MT7601U.git</pre>
-common/rtusb_dev_id.c文件修改如下：
-<pre>
-#ifdef MT7601U
-    {USB_DEVICE(0x148f,0x6370)}, /* Ralink 6370 */
-    {USB_DEVICE(0x2955,0x1001)}, /* xiaodu wifi */
-    {USB_DEVICE(0x148f,0x7601)}, /* MT 6370 */
-    {USB_DEVICE(0x148f,0x760b)}, /* 360 wifi 2 */
-    {USB_DEVICE(0x2717,0x4106)}, /* XiaoMi wifi */
-#endif /* MT7601U */
-</pre>
-或者下面git库（支持AP模式）
-<pre>$ git clone https://github.com/jfojfo/MT7601U-1.git</pre>
-该驱动源码已经加入了xiaomi wifi支持
-修改Makefile，在export LINUX_SRC CROSS_COMPILE之前添加：
-<pre># add following 2 lines
-LINUX_SRC=../linux-sunxi
-CROSS_COMPILE=arm-linux-gnueabihf-
+        <h2>下载MT7601U驱动和linux-sunxi源码</h2><br><pre>$ git clone <a href="https://github.com/jfojfo/MT7601U.git" target="_blank" rel="external">https://github.com/jfojfo/MT7601U.git</a></pre><br>common/rtusb_dev_id.c文件修改如下：<br><pre><br>#ifdef MT7601U<br>    {USB_DEVICE(0x148f,0x6370)}, /<em> Ralink 6370 </em>/<br>    {USB_DEVICE(0x2955,0x1001)}, /<em> xiaodu wifi </em>/<br>    {USB_DEVICE(0x148f,0x7601)}, /<em> MT 6370 </em>/<br>    {USB_DEVICE(0x148f,0x760b)}, /<em> 360 wifi 2 </em>/<br>    {USB_DEVICE(0x2717,0x4106)}, /<em> XiaoMi wifi </em>/<br>#endif /<em> MT7601U </em>/<br></pre><br>或者下面git库（支持AP模式）<br><pre>$ git clone <a href="https://github.com/jfojfo/MT7601U-1.git" target="_blank" rel="external">https://github.com/jfojfo/MT7601U-1.git</a></pre><br>该驱动源码已经加入了xiaomi wifi支持<br>修改Makefile，在export LINUX_SRC CROSS_COMPILE之前添加：<br><pre># add following 2 lines<br>LINUX_SRC=../linux-sunxi<br>CROSS_COMPILE=arm-linux-gnueabihf-<br><br>export OSABL RT28xx_DIR RT28xx_MODE LINUX_SRC CROSS_COMPILE CROSS_COMPILE_INCLUDE PLATFORM RELEASE CHIPSET MODULE RTMP_SRC_DIR LINUX_SRC_MODULE TARGET HAS_WOW_SUPPORT<br><br># The targets that may be used.<br>PHONY += all build_tools test UCOS THREADX LINUX release prerelease clean uninstall install libwapi osabl</pre><br>下载linux-sunxi<br><pre>$ git clone -b cubie/sunxi-3.4.91 <a href="https://github.com/jfojfo/linux-sunxi.git" target="_blank" rel="external">https://github.com/jfojfo/linux-sunxi.git</a></pre><br><h2>linux kernel环境准备</h2><br>产生.config文件、fixdep script工具<br><pre>$ cd linux-sunxi<br>$ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- cubieboard2_defconfig<br>HOSTCC scripts/basic/fixdep<br>HOSTCC scripts/kconfig/conf.o<br>HOSTCC scripts/kconfig/zconf.tab.o<br>HOSTLD scripts/kconfig/conf<br>drivers/net/wireless/bcmdhd/Kconfig:42:warning: defaults for choice values not supported<br>#<br># configuration written to .config<br>#</pre><br><br>生成generated的头文件和version.h<br><pre>$ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- prepare<br>scripts/kconfig/conf –silentoldconfig Kconfig<br>drivers/net/wireless/bcmdhd/Kconfig:42:warning: defaults for choice values not supported<br>WRAP arch/arm/include/generated/asm/auxvec.h<br>WRAP arch/arm/include/generated/asm/bitsperlong.h<br>WRAP arch/arm/include/generated/asm/cputime.h<br>WRAP arch/arm/include/generated/asm/emergency-restart.h<br>WRAP arch/arm/include/generated/asm/errno.h<br>WRAP arch/arm/include/generated/asm/ioctl.h<br>WRAP arch/arm/include/generated/asm/irq_regs.h<br>WRAP arch/arm/include/generated/asm/kdebug.h<br>WRAP arch/arm/include/generated/asm/local.h<br>WRAP arch/arm/include/generated/asm/local64.h<br>WRAP arch/arm/include/generated/asm/percpu.h<br>WRAP arch/arm/include/generated/asm/poll.h<br>WRAP arch/arm/include/generated/asm/resource.h<br>WRAP arch/arm/include/generated/asm/sections.h<br>WRAP arch/arm/include/generated/asm/siginfo.h<br>WRAP arch/arm/include/generated/asm/sizes.h<br>CHK include/linux/version.h<br>UPD include/linux/version.h<br>CHK include/generated/utsrelease.h<br>UPD include/generated/utsrelease.h<br>Generating include/generated/mach-types.h<br>CC kernel/bounds.s<br>GEN include/generated/bounds.h<br>CC arch/arm/kernel/asm-offsets.s<br>GEN include/generated/asm-offsets.h<br>CALL scripts/checksyscalls.sh</pre><br><br>产生scripts工具，如genksyms<br><pre>$ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- scripts<br>HOSTCC scripts/genksyms/genksyms.o<br>HOSTCC scripts/genksyms/lex.lex.o<br>HOSTCC scripts/genksyms/parse.tab.o<br>HOSTLD scripts/genksyms/genksyms<br>CC scripts/mod/empty.o<br>HOSTCC scripts/mod/mk_elfconfig<br>MKELF scripts/mod/elfconfig.h<br>HOSTCC scripts/mod/file2alias.o<br>HOSTCC scripts/mod/modpost.o<br>HOSTCC scripts/mod/sumversion.o<br>HOSTLD scripts/mod/modpost<br>HOSTCC scripts/selinux/genheaders/genheaders<br>HOSTCC scripts/selinux/mdp/mdp<br>HOSTCC scripts/kallsyms<br>HOSTCC scripts/conmakehash<br>HOSTCC scripts/bin2c</pre><br><br><br>注：<br>前面的make prepare 和make scripts两步也可以用下面代替<br><pre>make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- modules_prepare</pre><br><br><h2>编译驱动</h2>
 
-export OSABL RT28xx_DIR RT28xx_MODE LINUX_SRC CROSS_COMPILE CROSS_COMPILE_INCLUDE PLATFORM RELEASE CHIPSET MODULE RTMP_SRC_DIR LINUX_SRC_MODULE TARGET HAS_WOW_SUPPORT
-
-# The targets that may be used.
-PHONY += all build_tools test UCOS THREADX LINUX release prerelease clean uninstall install libwapi osabl</pre>
-下载linux-sunxi
-<pre>$ git clone -b cubie/sunxi-3.4.91 https://github.com/jfojfo/linux-sunxi.git</pre>
-<h2>linux kernel环境准备</h2>
-产生.config文件、fixdep script工具
-<pre>$ cd linux-sunxi
-$ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- cubieboard2_defconfig
-HOSTCC scripts/basic/fixdep
-HOSTCC scripts/kconfig/conf.o
-HOSTCC scripts/kconfig/zconf.tab.o
-HOSTLD scripts/kconfig/conf
-drivers/net/wireless/bcmdhd/Kconfig:42:warning: defaults for choice values not supported
-#
-# configuration written to .config
-#</pre>
-
-<p>生成generated的头文件和version.h</p>
-<pre>$ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- prepare
-scripts/kconfig/conf --silentoldconfig Kconfig
-drivers/net/wireless/bcmdhd/Kconfig:42:warning: defaults for choice values not supported
-WRAP arch/arm/include/generated/asm/auxvec.h
-WRAP arch/arm/include/generated/asm/bitsperlong.h
-WRAP arch/arm/include/generated/asm/cputime.h
-WRAP arch/arm/include/generated/asm/emergency-restart.h
-WRAP arch/arm/include/generated/asm/errno.h
-WRAP arch/arm/include/generated/asm/ioctl.h
-WRAP arch/arm/include/generated/asm/irq_regs.h
-WRAP arch/arm/include/generated/asm/kdebug.h
-WRAP arch/arm/include/generated/asm/local.h
-WRAP arch/arm/include/generated/asm/local64.h
-WRAP arch/arm/include/generated/asm/percpu.h
-WRAP arch/arm/include/generated/asm/poll.h
-WRAP arch/arm/include/generated/asm/resource.h
-WRAP arch/arm/include/generated/asm/sections.h
-WRAP arch/arm/include/generated/asm/siginfo.h
-WRAP arch/arm/include/generated/asm/sizes.h
-CHK include/linux/version.h
-UPD include/linux/version.h
-CHK include/generated/utsrelease.h
-UPD include/generated/utsrelease.h
-Generating include/generated/mach-types.h
-CC kernel/bounds.s
-GEN include/generated/bounds.h
-CC arch/arm/kernel/asm-offsets.s
-GEN include/generated/asm-offsets.h
-CALL scripts/checksyscalls.sh</pre>
-
-<p>产生scripts工具，如genksyms</p>
-<pre>$ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- scripts
-HOSTCC scripts/genksyms/genksyms.o
-HOSTCC scripts/genksyms/lex.lex.o
-HOSTCC scripts/genksyms/parse.tab.o
-HOSTLD scripts/genksyms/genksyms
-CC scripts/mod/empty.o
-HOSTCC scripts/mod/mk_elfconfig
-MKELF scripts/mod/elfconfig.h
-HOSTCC scripts/mod/file2alias.o
-HOSTCC scripts/mod/modpost.o
-HOSTCC scripts/mod/sumversion.o
-HOSTLD scripts/mod/modpost
-HOSTCC scripts/selinux/genheaders/genheaders
-HOSTCC scripts/selinux/mdp/mdp
-HOSTCC scripts/kallsyms
-HOSTCC scripts/conmakehash
-HOSTCC scripts/bin2c</pre>
-
-
-<p>注：<br>前面的make prepare 和make scripts两步也可以用下面代替</p>
-<pre>make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- modules_prepare</pre>
-
-<p></p><h2>编译驱动</h2><p></p>
 <pre>$ cd ../
 $ cd MT7601U
 $ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-</pre>
@@ -448,7 +338,15 @@ $ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf-</pre>
 $ scripts/mod/modpost -o /home/yihect/linux-2.6.31/Module.symvers -S -c vmlinux.o
 </pre>
 
-<p></p><h2>配置DMA大小</h2><br>前面编译出来驱动，insmod时会发现出错，报DMA内存不足，cubieboard2中默认使用256k，需要修改成1M以上<p></p>
+<p>如果碰到因为把warning当做error而失败的情况，可以在Makefile开头处添加一行：</p>
+<pre>
+export KCFLAGS = -w
+</pre>
+禁止将warning当成error处理
+
+
+<h2>配置DMA大小</h2>
+前面编译出来驱动，insmod时会发现出错，报DMA内存不足，cubieboard2中默认使用256k，需要修改成1M以上
 <pre>
 --> RTMPAllocTxRxRingMemory
 ERROR: 256 KiB atomic DMA coherent pool is too small!
@@ -586,7 +484,7 @@ wpa-conf /etc/wpa_supplicant.conf
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">599</span>
+              <span class="site-state-item-count">601</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -700,7 +598,7 @@ wpa-conf /etc/wpa_supplicant.conf
         <div class="copyright" >
   
   &copy;  2007 - 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

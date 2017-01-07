@@ -261,6 +261,255 @@
             
               
                 
+                <a class="post-title-link" href="/2015/03/13/关于IBinder运行的线程/" itemprop="url">
+                  关于IBinder运行的线程
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-03-13T13:26:21+08:00" content="2015-03-13">
+              2015-03-13
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          根据官方文档说明
+This is primarily true for methods that can be called remotely—such as methods in a bound service. When a call on a method implemented in an IBinder originates in the same process in which the IBinder is running, the method is executed in the caller’s thread. However, when the call originates in another process, the method is executed in a thread chosen from a pool of threads that the system maintains in the same process as the IBinder (it’s not executed in the UI thread of the process)
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/03/13/关于IBinder运行的线程/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2014/12/27/iptables-NAT/" itemprop="url">
+                  iptables NAT
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-12-27T20:50:10+08:00" content="2014-12-27">
+              2014-12-27
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Network/" itemprop="url" rel="index">
+                    <span itemprop="name">Network</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          SNAT，DNAT，MASQUERADE都是NAT
+
+
+MASQUERADE是SNAT的一个特例，要允许带有内部 IP 地址的 LAN 节点和外部的公共网络通信，需要配置防火墙的 IP 伪装（IP masquerading）。这会把来自 LAN 节点的请求都伪装成防火墙的外部设备的 IP 地址
+SNAT是指在数据包从网卡发送出去的时候，把数据包中的源地址部分替换为指定的IP，这样，接收方就认为数据包的来源是被替换的那个IP的主机
+DNAT 修改数据包中的目的IP，如果你想让内部网络内的某个服务器能够被外部利用，你可以使用 NAT 内 PREROUTING 链的 -j DNAT 目标来指定该向哪个目标 IP 地址以及端口转发请求连接到内部服务的分组
+-j MASQUERADE 用发送数据的网卡上的IP来替换源IP
+
+iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+
+
+
+iptables -t nat -A POSTROUTING -s 172.16.36.0/24 -j SNAT --to-source `ifconfig  | 
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014/12/27/iptables-NAT/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2014/12/22/Ubuntu上安装和配置FreeRadius和DaloRadius/" itemprop="url">
                   Ubuntu上安装和配置FreeRadius和DaloRadius
                 </a>
@@ -1264,270 +1513,11 @@ SensorDevice::SensorDevice()
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2014/10/30/关于UsbDeviceConnection的claimInterface/" itemprop="url">
-                  关于UsbDeviceConnection的claimInterface
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2014-10-30T15:28:08+08:00" content="2014-10-30">
-              2014-10-30
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          对于usb手柄而言，调用后会将/dev/input/eventX设备remove掉（getevent将不会接收到任何该usb设备的输入事件）
-frameworks/base/core/jni/android_hardware_UsbDeviceConnection.cpp
-
-static jboolean
-android_hardware_UsbDeviceConnection_claim_interface(JNIEnv *env, jobject thiz,
-        int interfaceID, jboolean force)
-{
-    struct usb_device* device = get_device_from_object(env, thiz);
-    if (!device) {
-        ALOGE(&quot;device is closed in native_claim_interface&quot;);
-        return -1;
-    }
-
-    int ret = usb_device_claim_interface
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014/10/30/关于UsbDeviceConnection的claimInterface/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2014/10/30/Android之监听Usb设备插拔/" itemprop="url">
-                  Android之监听Usb设备插拔
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2014-10-30T14:27:40+08:00" content="2014-10-30">
-              2014-10-30
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          SystemServer.java在服务启动时会启动UsbService（frameworks/base/services/java/com/android/server/usb/UsbService.java），UsbService会构造UsbHostManager和UsbDeviceManager
-frameworks/base/services/jni/com_android_server_UsbHostManager.cpp
-
-static void android_server_UsbHostManager_monitorUsbHostBus(JNIEnv *env, jobject thiz)
-{
-    struct usb_host_context* context = usb_host_init();
-    if (!context) {
-        ALOGE(&quot;usb_host_init failed&quot;);
-        return;
-    }
-    // this will never return so it is safe 
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014/10/30/Android之监听Usb设备插拔/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/60/">60</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/61/">61</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1568,7 +1558,7 @@ static void android_server_UsbHostManager_monitorUsbHostBus(JNIEnv *env, jobject
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">599</span>
+              <span class="site-state-item-count">601</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1671,7 +1661,7 @@ static void android_server_UsbHostManager_monitorUsbHostBus(JNIEnv *env, jobject
         <div class="copyright" >
   
   &copy;  2007 - 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

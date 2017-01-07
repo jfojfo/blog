@@ -261,6 +261,242 @@
             
               
                 
+                <a class="post-title-link" href="/2011/06/10/websocket与node-js的完美结合/" itemprop="url">
+                  websocket与node.js的完美结合
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2011-06-10T17:57:00+08:00" content="2011-06-10">
+              2011-06-10
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/python-js-php-html-mysql-http/" itemprop="url" rel="index">
+                    <span itemprop="name">python/js/php/html/mysql/http</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+           原文：http://cnodejs.org/blog/?p=273之所以写下此文，是我觉得越是简单的技术往往能发挥越重要的作用，随着各种新的技术的诞生，实时web技术已经走进我们。websocket和node.js使开发实时应用非常简单，同时性能也非常高。关于websocketwebsocket是html5的重要feature，它直接在浏览器上对与socket的支持，这给了web开发无限的想象，虽然以前也有flashsocket+js的实现，不过毕竟不稳定，而且兼容性有很多问题，当然websocket的普及也依赖于支持html5标准的浏览器的更新，目前只有chrome、safari、firefox4.0等少数浏览器可以支持，不过大势所驱，加上智能移动设备的普及，websocket可以有更大的作为。他解决了web实时化的问题，相比传统http有如下好处：一个WEB客户端只建立一个TCP连接 Websocket服务端可以推送(push)数据到web客户端.有更加轻量级的头，减少数据传送量本文来重点来分析下。websocket的原理和应用在继续本文之前，让我们了解下websocket的原理
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2011/06/10/websocket与node-js的完美结合/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2011/06/10/关于JavaScript的单线程模型/" itemprop="url">
+                  关于JavaScript的单线程模型
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2011-06-10T17:48:00+08:00" content="2011-06-10">
+              2011-06-10
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/python-js-php-html-mysql-http/" itemprop="url" rel="index">
+                    <span itemprop="name">python/js/php/html/mysql/http</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+           JS的执行原理：js引擎执行js代码的时候是单线程的，即同一时刻只会有一个进程执行JS代码，回调函数也是一个一个执行的（按照事件发生的顺序，而不是代码的顺序）。JS中的异步通信和定时是由另外的线程实现的，脱离js线程上下文。以JS定时操作举例，当JS引擎执行setTimeout(callbackFunction,100)操作时，它会通知定时线程我需要100毫秒的定时，之后JS引擎进入事件循环。100毫秒之后，定时引擎向事件队列中加入一个时间已到的事件。JS引擎从队列中读取时间已到的事件，执行callbackFunction。如果同一时间有多个事件加入事件队列，JS引擎也只会一个一个的执行callback。对于异步也是同样，JS代码发起通信请求，通信线程执行通信操作，并在操作完成后将完成事件加入事件队列。JS引擎从队列中取出事件并调用回调处理通信结果。JS引擎在执行回调函数的时候，不能同时响应其他事件。&nbsp;下面两幅图能很直观的说明问题：&nbsp;&nbsp;参考： http://www.phpv.net/html/1700.htmlhttp://www.grati.org/?
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2011/06/10/关于JavaScript的单线程模型/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2011/06/03/JS实现-File-Download/" itemprop="url">
                   JS实现 File Download
                 </a>
@@ -1184,247 +1420,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2011/02/22/Spket-IDE-——-Development-Tool-for-RIA/" itemprop="url">
-                  Spket IDE —— Development Tool for RIA
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2011-02-22T14:02:00+08:00" content="2011-02-22">
-              2011-02-22
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/python-js-php-html-mysql-http/" itemprop="url" rel="index">
-                    <span itemprop="name">python/js/php/html/mysql/http</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-           &nbsp;Spket IDE是目前支持Ext最为出色的IDE。 它采用.jsb project file 文件并将继承于基类和所有文档的内容嵌入到生成代码提示的Script doc中。由于Spket只是一个单纯的编辑器，没有其它格式的支持（如CSS），所以我的做法是用它的Eclipse插件形式，启动ECLIPSE Help → Software Updates → Find and Install… → Search for new features to install → New remote site…名称: “Spket”，地址URL是http://www.spket.com/update/完成后重启（自动会加载插件，也可CMD ECLIPSE目录 使用命令 eclipse -clean 重新编译）Window → Preferences → Spket → JavaScript Profiles → New ；输入“ExtJS”点击OK；选择“ExtJS” 并点击“Add Library”然后在下拉条中选取“ExtJS”；选择“ExtJS”并点击“Add File”，然后
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2011/02/22/Spket-IDE-——-Development-Tool-for-RIA/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2011/02/22/HTTP-长连接的“服务器推”技术/" itemprop="url">
-                  HTTP 长连接的“服务器推”技术
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2011-02-22T12:52:00+08:00" content="2011-02-22">
-              2011-02-22
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/python-js-php-html-mysql-http/" itemprop="url" rel="index">
-                    <span itemprop="name">python/js/php/html/mysql/http</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-           http://www.ibm.com/developerworks/cn/web/wa-lo-comet/&nbsp;“服务器推”技术的应用传统模式的 Web 系统以客户端发出请求、服务器端响应的方式工作。这种方式并不能满足很多现实应用的需求，譬如：监控系统：后台硬件热插拔、LED、温度、电压发生变化；即时通信系统：其它用户登录、发送信息；即时报价系统：后台数据库内容发生变化；这些应用都需要服务器能实时地将更新的信息传送到客户端，而无须客户端发出请求。“服务器推”技术在现实应用中有一些解决方案，本文将这些解决方案分为两类：一类需要在浏览器端安装插件，基于套接口传送信息，或是使用 RMI、CORBA 进行远程调用；而另一类则无须浏览器安装任何插件、基于 HTTP 长连接。将“服务器推”应用在 Web 程序中，首先考虑的是如何在功能有限的浏览器端接收、处理信息：客户端如何接收、处理信息，是否需要使用套接口或是使用远程调用。客户端呈现给用户的是 HTML 页面还是 Java applet 或 Flash 窗口。如果使用套接口和远程调用，怎么和 JavaScript 结合修改 HTML 的显
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2011/02/22/HTTP-长连接的“服务器推”技术/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/15/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><span class="space">&hellip;</span><a class="page-number" href="/page/60/">60</a><a class="extend next" rel="next" href="/page/17/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/15/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><span class="page-number current">16</span><a class="page-number" href="/page/17/">17</a><span class="space">&hellip;</span><a class="page-number" href="/page/61/">61</a><a class="extend next" rel="next" href="/page/17/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1465,7 +1465,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">599</span>
+              <span class="site-state-item-count">601</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1568,7 +1568,7 @@
         <div class="copyright" >
   
   &copy;  2007 - 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

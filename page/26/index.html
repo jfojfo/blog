@@ -261,6 +261,245 @@
             
               
                 
+                <a class="post-title-link" href="/2009/10/04/分布式词频统计/" itemprop="url">
+                  分布式词频统计
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2009-10-04T14:02:00+08:00" content="2009-10-04">
+              2009-10-04
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Distributed-Computing/" itemprop="url" rel="index">
+                    <span itemprop="name">Distributed Computing</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            http://algorithmically.blogbus.com/logs/7604574.html一个规模庞大的多语言语料库，已经经过预处理，分成了12个文件，每个文件存放在一台服务器中。每个文件中包含800亿个单词，每个单词占一行，平 均每个单词40字节。假设服务器都已经联网，每台服务器有双CPU和4G的内存，4×400GB的硬盘，换句话说，每台服务器就是一个高配置的PC机。请 设计一个方案，找出出现频率最高的一百万个单词。这个问题基本上可能有两种思路。第一种需要先在每台服务器，完成对单词词频 的统计，进行排序，然后每两台服务器把词频统计结构进行合并，12个服务器合并到6个，然后3个，然后2个，直到所有的结果合并到一台服务器中我们就可以 找出这一百万个高频词了。由于单词在服务器之间的分布可能不均匀，即使一个单词在所有的服务器中出现频率都不高，合在一起仍有可能有较高的频率，此算法几 乎没有优化的余地。举个例子，单词A只出现在一台机器上，出现了10万次。单词B在每台机器上都出现1万次。从每台服务器看来，A是高频 词，而B不是，但总体来说则可能正相反。每次合并统计结果时，本地机器
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2009/10/04/分布式词频统计/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2009/10/01/关于-fPIC选项-和-GOT表/" itemprop="url">
+                  关于-fPIC选项 和 GOT表
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2009-10-01T15:04:00+08:00" content="2009-10-01">
+              2009-10-01
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/gcc-binutils-make-共享库/" itemprop="url" rel="index">
+                    <span itemprop="name">gcc/binutils/make/共享库</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          加上-fPIC参数后，编译后的文件和没有加这个参数的文件，有什么区别呢？没有加这个参数的编译后的共享库，也可以使用，它和加了参数后的使用起来又有什么区别呢？
+position independent（位置无关）relocate（可重定位）
+位置无关代码主要是在访问全局变量和全局函数的时候采用了位置无关的重定位方法，即依赖GOT和PLT来重定位。普通的重定位方法需要修改代码段，比如偏移地址0x100处需要重定位，loader就修改代码段的0x100处的内容，通过查找重定位信息得到具体的值。这种方法需要修改代码段的内容，对于动态连接库来说，其初衷是让多个进程共享代码段，若对其进行写操作，就回引起COW，从而失去共享。-fPIC选项告诉编绎器使用GOT和PLT的方法重定位，GOT是数据段，因此避免了COW，真正实现了共享。如果不用-fPIC，动态连接库依然可以使用，但其重定位方法为一般方法，必然会引起COW，但也无所谓，除了性能在COW时稍微受些影响，其他也没啥。
+GOT 是 data section，是一个 table，除专用的几个 entry，每个 entry 的内容可以再执行的时候修改
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2009/10/01/关于-fPIC选项-和-GOT表/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2009/09/24/浮点数的表示/" itemprop="url">
                   浮点数的表示
                 </a>
@@ -1187,247 +1426,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2009/08/30/Google-Book/" itemprop="url">
-                  Google Book
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2009-08-30T12:51:00+08:00" content="2009-08-30">
-              2009-08-30
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/c-c-algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">c/c++/algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-           ZOJ Problem Set - 3197              You, the best hacker in the world, want to download the books published on Google Book. After some investigation, you found that the address of each page consists of two parts. The first part is the page number, the second part is the signature which is unique for each page. To get the signature, you can send the query to the server. The query has one parameter, which indicates the page number. The server will return the signature of the required page, and it
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2009/08/30/Google-Book/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2009/08/30/Maze/" itemprop="url">
-                  Maze
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2009-08-30T12:25:00+08:00" content="2009-08-30">
-              2009-08-30
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/c-c-algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">c/c++/algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-           ZOJ Problem Set - 3225  There is a maze that has n entrances in the top while n exits in the other side.In this maze, Mr Maze can go down, go left, go right but he can’t go up.What’s more, he have to turn left or right if he could. Both entrances and exits will be numbered from left to right starting by 1.Now, Mr Maze is at No.a extrance and he wants to go to No.b exit.And he has only one chance to go straight when he has to turn.Of course he can only do this when he could go forward.Can he get
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2009/08/30/Maze/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/25/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><span class="page-number current">26</span><a class="page-number" href="/page/27/">27</a><span class="space">&hellip;</span><a class="page-number" href="/page/60/">60</a><a class="extend next" rel="next" href="/page/27/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/25/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/25/">25</a><span class="page-number current">26</span><a class="page-number" href="/page/27/">27</a><span class="space">&hellip;</span><a class="page-number" href="/page/61/">61</a><a class="extend next" rel="next" href="/page/27/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1468,7 +1471,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">599</span>
+              <span class="site-state-item-count">601</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1571,7 +1574,7 @@
         <div class="copyright" >
   
   &copy;  2007 - 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

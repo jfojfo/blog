@@ -261,6 +261,242 @@
             
               
                 
+                <a class="post-title-link" href="/2011/07/15/解决Android下Wap模式无法访问网络的问题/" itemprop="url">
+                  解决Android下Wap模式无法访问网络的问题
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2011-07-15T14:56:00+08:00" content="2011-07-15">
+              2011-07-15
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+           http://blog.liaoxiaoqi.com/?p=563经过测试发现，这个问题的产生是由于运营商（不管是移动、联通还是电信都一个德行。。）提供的wap方式访问网络需要通过代理网关，而我们在程序中使用的网络连接是http直连的方式，因此无法访问网络。解决这个问题的主要思路包括：检测当前网络环境，判断网络状态在联网状态下，判断联网方式是Wifi或者GPRS在GPRS连接方式下，判断上网方式是net或是wap对于wap连接方式，在程序进行连接时，设置上相应的代理即可。主要用到的代码如下：&nbsp;////////////////////////////////////////////////////////////////////////////////// 采用URLConnection的方式////////////////////////////////////////////////////////////////////////////////Proxy proxy;boolean getSuccess = false;URL url;URLConnection url
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2011/07/15/解决Android下Wap模式无法访问网络的问题/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2011/07/10/anti-cracking-anti-reverse-engineering-function/" itemprop="url">
+                  anti-cracking / anti-reverse-engineering function
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2011-07-10T11:07:00+08:00" content="2011-07-10">
+              2011-07-10
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+           为防止自己的android应用被crack，可以在程序启动时做一些判断：1.生成apk时，解压出其中的classes.dex，取得其CRC值，并将该值写入xml文件（如android:tag=&quot;4212136116&quot;）；2.在程序启动时取得该CRC值，与手机上安装的apk包中的classes.dex的实际CRC值比较即可。下面给出了integrity check的示例代码。&nbsp;当然该方法存在一些问题，hacker可以通过检查参数为(Context, String, String)的函数，如果其中含有zipEntry的getCrc()函数和killProcess()函数，可以在该函数开始部分直接插入return，就可以绕过检查了。&nbsp;改进方法参考：参考：http://groups.google.com/group/android-developers/browse_thread/thread/5e8f76ea5371f674/4637cbf1c42dfd22?lnk=gst&amp;q=anti-cracking#4637cbf1c42dfd22&n
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2011/07/10/anti-cracking-anti-reverse-engineering-function/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2011/07/09/软件公司的两种管理方式/" itemprop="url">
                   软件公司的两种管理方式
                 </a>
@@ -1184,247 +1420,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2011/06/10/websocket与node-js的完美结合/" itemprop="url">
-                  websocket与node.js的完美结合
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2011-06-10T17:57:00+08:00" content="2011-06-10">
-              2011-06-10
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/python-js-php-html-mysql-http/" itemprop="url" rel="index">
-                    <span itemprop="name">python/js/php/html/mysql/http</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-           原文：http://cnodejs.org/blog/?p=273之所以写下此文，是我觉得越是简单的技术往往能发挥越重要的作用，随着各种新的技术的诞生，实时web技术已经走进我们。websocket和node.js使开发实时应用非常简单，同时性能也非常高。关于websocketwebsocket是html5的重要feature，它直接在浏览器上对与socket的支持，这给了web开发无限的想象，虽然以前也有flashsocket+js的实现，不过毕竟不稳定，而且兼容性有很多问题，当然websocket的普及也依赖于支持html5标准的浏览器的更新，目前只有chrome、safari、firefox4.0等少数浏览器可以支持，不过大势所驱，加上智能移动设备的普及，websocket可以有更大的作为。他解决了web实时化的问题，相比传统http有如下好处：一个WEB客户端只建立一个TCP连接 Websocket服务端可以推送(push)数据到web客户端.有更加轻量级的头，减少数据传送量本文来重点来分析下。websocket的原理和应用在继续本文之前，让我们了解下websocket的原理
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2011/06/10/websocket与node-js的完美结合/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2011/06/10/关于JavaScript的单线程模型/" itemprop="url">
-                  关于JavaScript的单线程模型
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2011-06-10T17:48:00+08:00" content="2011-06-10">
-              2011-06-10
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/python-js-php-html-mysql-http/" itemprop="url" rel="index">
-                    <span itemprop="name">python/js/php/html/mysql/http</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-           JS的执行原理：js引擎执行js代码的时候是单线程的，即同一时刻只会有一个进程执行JS代码，回调函数也是一个一个执行的（按照事件发生的顺序，而不是代码的顺序）。JS中的异步通信和定时是由另外的线程实现的，脱离js线程上下文。以JS定时操作举例，当JS引擎执行setTimeout(callbackFunction,100)操作时，它会通知定时线程我需要100毫秒的定时，之后JS引擎进入事件循环。100毫秒之后，定时引擎向事件队列中加入一个时间已到的事件。JS引擎从队列中读取时间已到的事件，执行callbackFunction。如果同一时间有多个事件加入事件队列，JS引擎也只会一个一个的执行callback。对于异步也是同样，JS代码发起通信请求，通信线程执行通信操作，并在操作完成后将完成事件加入事件队列。JS引擎从队列中取出事件并调用回调处理通信结果。JS引擎在执行回调函数的时候，不能同时响应其他事件。&nbsp;下面两幅图能很直观的说明问题：&nbsp;&nbsp;参考： http://www.phpv.net/html/1700.htmlhttp://www.grati.org/?
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2011/06/10/关于JavaScript的单线程模型/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/14/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><span class="space">&hellip;</span><a class="page-number" href="/page/60/">60</a><a class="extend next" rel="next" href="/page/16/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/14/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><span class="page-number current">15</span><a class="page-number" href="/page/16/">16</a><span class="space">&hellip;</span><a class="page-number" href="/page/61/">61</a><a class="extend next" rel="next" href="/page/16/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1465,7 +1465,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">599</span>
+              <span class="site-state-item-count">601</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1568,7 +1568,7 @@
         <div class="copyright" >
   
   &copy;  2007 - 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

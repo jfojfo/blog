@@ -261,6 +261,265 @@
             
               
                 
+                <a class="post-title-link" href="/2014/10/30/关于UsbDeviceConnection的claimInterface/" itemprop="url">
+                  关于UsbDeviceConnection的claimInterface
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-10-30T15:28:08+08:00" content="2014-10-30">
+              2014-10-30
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          对于usb手柄而言，调用后会将/dev/input/eventX设备remove掉（getevent将不会接收到任何该usb设备的输入事件）
+frameworks/base/core/jni/android_hardware_UsbDeviceConnection.cpp
+
+static jboolean
+android_hardware_UsbDeviceConnection_claim_interface(JNIEnv *env, jobject thiz,
+        int interfaceID, jboolean force)
+{
+    struct usb_device* device = get_device_from_object(env, thiz);
+    if (!device) {
+        ALOGE(&quot;device is closed in native_claim_interface&quot;);
+        return -1;
+    }
+
+    int ret = usb_device_claim_interface
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014/10/30/关于UsbDeviceConnection的claimInterface/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2014/10/30/Android之监听Usb设备插拔/" itemprop="url">
+                  Android之监听Usb设备插拔
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-10-30T14:27:40+08:00" content="2014-10-30">
+              2014-10-30
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          SystemServer.java在服务启动时会启动UsbService（frameworks/base/services/java/com/android/server/usb/UsbService.java），UsbService会构造UsbHostManager和UsbDeviceManager
+frameworks/base/services/jni/com_android_server_UsbHostManager.cpp
+
+static void android_server_UsbHostManager_monitorUsbHostBus(JNIEnv *env, jobject thiz)
+{
+    struct usb_host_context* context = usb_host_init();
+    if (!context) {
+        ALOGE(&quot;usb_host_init failed&quot;);
+        return;
+    }
+    // this will never return so it is safe 
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014/10/30/Android之监听Usb设备插拔/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2014/09/09/Linux-uhid分析之输入事件传递/" itemprop="url">
                   Linux uhid分析之输入事件传递
                 </a>
@@ -1228,22 +1487,7 @@ fatload mmc 0 0x4
       
         
           
-          下载MT7601U驱动和linux-sunxi源码
-$ git clone https://github.com/jfojfo/MT7601U.git
-common/rtusb_dev_id.c文件修改如下：
-
-#ifdef MT7601U
-    {USB_DEVICE(0x148f,0x6370)}, /* Ralink 6370 */
-    {USB_DEVICE(0x2955,0x1001)}, /* xiaodu wifi */
-    {USB_DEVICE(0x148f,0x7601)}, /* MT 6370 */
-    {USB_DEVICE(0x148f,0x760b)}, /* 360 wifi 2 */
-    {USB_DEVICE(0x2717,0x4106)}, /* XiaoMi wifi */
-#endif /* MT7601U */
-
-或者下面git库（支持AP模式）
-$ git clone https://github.com/jfojfo/MT7601U-1.git
-该驱动源码已经加入了xiaomi wifi支持
-修改Makefile，在ex
+          下载MT7601U驱动和linux-sunxi源码$ git clone https://github.com/jfojfo/MT7601U.gitcommon/rtusb_dev_id.c文件修改如下：#ifdef MT7601U    {USB_DEVICE(0x148f,0x6370)}, / Ralink 6370 /    {USB_DEVICE(0x2955,0x1001)}, / xiaodu wifi /    {USB_DEVICE(0x148f,0x7601)}, / MT 6370 /    {USB_DEVICE(0x148f,0x760b)}, / 360 wifi 2 /    {USB_DEVICE(0x2717,0x4106)}, / XiaoMi wifi /#endif / MT7601U /或者下面git库（支持AP模式）$ git clone https://github.com/jfojfo/MT7601U-1.git该驱动源码已经加入了xiaomi wifi支持修改Makefile，在export LINUX_SRC CROSS_COMPIL
           ...
 
           <div class="post-more-link text-center">
@@ -1277,267 +1521,11 @@ $ git clone https://github.com/jfojfo/MT7601U-1.git
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2014/07/31/Cubieboard2-A20-Building-your-own-android-4-2-2-firmware/" itemprop="url">
-                  Cubieboard2 A20 Building your own android-4.2.2 firmware
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2014-07-31T20:29:44+08:00" content="2014-07-31">
-              2014-07-31
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Arduino-OpenWrt/" itemprop="url" rel="index">
-                    <span itemprop="name">Arduino/OpenWrt</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          系统环境Ubuntu-12.04 x86_64源码下载地址：http://pan.baidu.com/s/1dDGPnXZ
-编译步骤：
-
-$ cd lichee/linux-3.4
-$ make clean
-$ cp arch/arm/configs/cubieboard2_config .config   //note：if you want to complie cubietruck, please copy cubietruck_config.
-$ cd ..
-$ ./build.sh -p sun7i_android
-$ cd ../android
-$ source build/envsetup.sh
-$ lunch   //note:select sugar-cubieboard2 or sugar-cubietruck
-$ extract-bsp
-$ make -j8
-
-
-注意：需要unset NDK_ROOT，否则build过程可能出错：
-
-In file included from external/webrtc/src/modules/audio_processing
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014/07/31/Cubieboard2-A20-Building-your-own-android-4-2-2-firmware/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2014/07/31/Cubieboard2-A20-SD卡启动及根文件系统制作/" itemprop="url">
-                  Cubieboard2 A20 SD卡启动及根文件系统制作
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2014-07-31T11:36:35+08:00" content="2014-07-31">
-              2014-07-31
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Arduino-OpenWrt/" itemprop="url" rel="index">
-                    <span itemprop="name">Arduino/OpenWrt</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          系统环境Ubuntu-12.04 x86_64安装arm-linux-gnueabihf-gcc编译环境
-$ apt-get install arm-linux-gnueabihf-gcc$ arm-linux-gnueabihf-gcc –versionarm-linux-gnueabihf-gcc (Ubuntu/Linaro 4.6.3-1ubuntu5) 4.6.3
-源码下载：
-$ git clone http://github.com/linux-sunxi/u-boot-sunxi.git$ git clone http://github.com/cubieboard/linux-sunxi -b cubie/sunxi-3.4.91$ git clone http://github.com/linux-sunxi/sunxi-tools.git$ git clone http://github.com/linux-sunxi/sunxi-boards.git其中linux内核去cubieboard的github下载（注：未使用文档中说的cubieboard2的github
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014/07/31/Cubieboard2-A20-SD卡启动及根文件系统制作/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/60/">60</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/61/">61</a><a class="extend next" rel="next" href="/page/5/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1578,7 +1566,7 @@ $ git clone http://github.com/linux-sunxi/u-boot-sunxi.git$ git clone http://git
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">599</span>
+              <span class="site-state-item-count">601</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1681,7 +1669,7 @@ $ git clone http://github.com/linux-sunxi/u-boot-sunxi.git$ git clone http://git
         <div class="copyright" >
   
   &copy;  2007 - 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

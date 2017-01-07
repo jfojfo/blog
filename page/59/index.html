@@ -261,6 +261,242 @@
             
               
                 
+                <a class="post-title-link" href="/2006/12/19/lxr-Linux-Cross-Reference/" itemprop="url">
+                  lxr: Linux Cross-Reference
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2006-12-19T10:15:00+08:00" content="2006-12-19">
+              2006-12-19
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux-App/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux App</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+           lxr: Linux Cross-Reference 0.31 (stable) for Debian 最近看源码，找到这个工具，不知道对大家是否有用。本文与README.Debian稍有出入安装perl安装Web服务器(apache2)安装glimpse(可选)安装目录为/var/lib/lxr1)  建立目录- 源码目录以2.6.15版本为例假设源码放在/usr/src/linux-2.6.15中，可以用# cd /var/lib/lxr/source/ # ln /usr/src/linux-2.6.15 -s linux-2.6.15当然也可以直接将源码放到此目录中。建立其它版本的源码目录，例source|– linux-0.11|– linux-1.0 |– linux-2.2.25|– linux-2.4.27`– linux-2.6.15 创建文件versions，写入版本的列表代码:linux-0.11linux-1.0linux-2.2.25linux-2.4.27linux-2.6.15创建文件defversion，写入显示的默认版本linux-2.6.15- 索
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2006/12/19/lxr-Linux-Cross-Reference/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2006/12/18/lxr源代码索引/" itemprop="url">
+                  lxr源代码索引
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2006-12-18T22:03:00+08:00" content="2006-12-18">
+              2006-12-18
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux-App/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux App</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+           我们在阅读linux源代码时都有这样的体会:核心的组织相对松散，在看一个文件时往往要牵涉到其他的头文件、源代码文件。如此来回跳转寻找变量、常量、函数的定义十分不方便，这样折腾几次，便使读代码的心情降到了低点。   lxr(linux cross reference)就是一个解决这个问题的工具：他对你指定的源代码文件建立索引数据库，利用perl脚本CGI动态生成包含源码的web页面，你可以用任何一种浏览器查阅。在此web页中，所有的变量、常量、函数都以超连接的形式给出，十分方便查阅。比如你在阅读/usr/src/linux/net/socket.c的源代码，发现函数get_empty_inode不知道是如何以及在哪里定义的，这时候你只要点击get_empty_inode,lxr将返回此函数的定义、实现以及各次引用是在什么文件的哪一行，注意，这些信息也是超连接，点击将直接跳转到相应的文件相应的行。另外lxr还提供标识符搜索、文件搜索，结合程序glimpse还可以提供对所有的源码文件进行全文检索，甚至包括注释！   下面将结合实例介绍一下lxr和glimpse的基本安装和使用，由于glim
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2006/12/18/lxr源代码索引/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2006/12/18/交叉索引工具lxr-0-3/" itemprop="url">
                   交叉索引工具lxr-0.3
                 </a>
@@ -1185,247 +1421,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2006/11/22/在Visual-C-中检测和隔离内存泄漏/" itemprop="url">
-                  在Visual C++中检测和隔离内存泄漏
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2006-11-22T21:10:00+08:00" content="2006-11-22">
-              2006-11-22
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Windows/" itemprop="url" rel="index">
-                    <span itemprop="name">Windows</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            在Visual C++中检测和隔离内存泄漏                          作者：佚名                  来源：InterNet 加入时间：2005-1-28                   具有动态的分配和释放内存的能力是C/C++程序语言的重要特色之一。VisualC++ debugger和CRT库提供了一系列有效的检测和鉴定内存泄漏的工具。  设置内存泄漏检测             检测内存泄漏的基本工具是调试器和CRT调试堆函数。为了使用调试堆函数，在你的程序中你必须含有下面的说明：                                                                            #define _CRTDBG_MAP_ALLOC                        #include&lt;stdlib.h&gt;                        #include&lt;crtdbg.h&gt;                                 
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2006/11/22/在Visual-C-中检测和隔离内存泄漏/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2006/09/24/Fvwm-reference/" itemprop="url">
-                  Fvwm reference
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2006-09-24T18:46:00+08:00" content="2006-09-24">
-              2006-09-24
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Linux-App/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux App</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-           Fvwm是一款优秀的、轻便的窗口管理系统，有很多的users &amp; fans。 但是同KDE和Gnome这种综合的WM相比,新手上手的时候相对困难，而且使用的时候也会碰到较多比较复杂的问题。 有鉴于此，现在本人提议在本版中设立一簇Fvwm相关的置顶精华贴。 主要目的是引导新手入门FAQ(重点安装和配置中的问题)，使用中各种问题的讨论，以及高级应用方面的内容。 希望大家能够踊跃跟贴，提供一些建版的意见和建议。 现搜集一些链接(更新中…)： －－－－－－－－－－【官方】－－－－－－－－－－ Fvwm主页(Home page) Fvwm themes 主页 Fvwm i18n中文化主页 －－－－－－－－－－【下载】－－－－－－－－－－－－ FVWM的最新版本: 2.5.12 ，最新的稳定版本：2.4.19 －－－－－－－－－－【中文FAQ】－－－－－－－－－－－ 第l六、七完成翻译，特别感谢Hydra、Sixroom的工作。 我正在翻译官方的FVWM FAQ,现在Hydra、Sixroom和我一同进行文档的翻译工作,看这里: 《中文FVWM FAQ》 希望大家支持！(注：ManPag
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2006/09/24/Fvwm-reference/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/58/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/58/">58</a><span class="page-number current">59</span><a class="page-number" href="/page/60/">60</a><a class="extend next" rel="next" href="/page/60/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/58/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/58/">58</a><span class="page-number current">59</span><a class="page-number" href="/page/60/">60</a><a class="page-number" href="/page/61/">61</a><a class="extend next" rel="next" href="/page/60/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1466,7 +1466,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">599</span>
+              <span class="site-state-item-count">601</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1569,7 +1569,7 @@
         <div class="copyright" >
   
   &copy;  2007 - 
-  <span itemprop="copyrightYear">2016</span>
+  <span itemprop="copyrightYear">2017</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
