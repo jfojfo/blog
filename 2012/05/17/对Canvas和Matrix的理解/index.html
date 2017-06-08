@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://blog.pickbox.me/2012/05/17/对Canvas和Matrix的理解/index.html">
 <meta property="og:site_name" content="jfo planet">
 <meta property="og:description" content="postTranslate&amp;nbsp;(float dx, float dy)Postconcats the matrix with the specified translation. M’ = T(dx, dy)  MpreTranslate&amp;nbsp;(float dx, float dy)Preconcats the matrix with the specified translati">
-<meta property="og:updated_time" content="2016-10-15T05:24:27.000Z">
+<meta property="og:updated_time" content="2017-06-07T05:03:27.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="对Canvas和Matrix的理解">
 <meta name="twitter:description" content="postTranslate&amp;nbsp;(float dx, float dy)Postconcats the matrix with the specified translation. M’ = T(dx, dy)  MpreTranslate&amp;nbsp;(float dx, float dy)Preconcats the matrix with the specified translati">
@@ -322,6 +322,7 @@
 
       
          <p></p>postTranslate&nbsp;(float dx, float dy)<p>Postconcats the matrix with the specified translation. M’ = T(dx, dy) <em> M</em></p>preTranslate&nbsp;(float dx, float dy)<p>Preconcats the matrix with the specified translation. M’ = M  T(dx, dy)</p><p>preConcat&nbsp;(&nbsp;other)Preconcats the matrix with the specified matrix. M’ = M * other<br></p><p>——————-</p><p><a href="http://longshuai2007.blog.163.com/blog/static/14209441420117521823875/" target="_blank" rel="external">http://longshuai2007.blog.163.com/blog/static/14209441420117521823875/</a></p><p></p><p>弄明白matrix那几个方法的使用了，比如preTranslate, setTranslate, postTranslate这些。以前对它们都是一知半解，以为这几个方法没什么区别，其实还是有很大不同的，最紧要是这几个方法的调用顺序对坐标变换的影响。抽象的说pre方法是向前&quot;生长&quot;, post方法是向后&quot;生长&quot;，具体拿个例子来说，比如一个matrix调用了下列一系列的方法：</p><p>&nbsp;&nbsp;&nbsp;matrix.preScale(0.5f, 1); &nbsp;matrix.preTranslate(10, 0);&nbsp;matrix.postScale(0.7f, 1); &nbsp;matrix.postTranslate(15, 0); 则坐标变换经过的4个变换过程依次是：</p><p><strong>translate(10, 0) -&gt; scale(0.5f, 1) -&gt; scale(0.7f, 1) -&gt; translate(15, 0),</strong></p><p>所以对matrix方法的调用顺序是很重要的，不同的顺序往往会产生不同的变换效果。pre方法的调用顺序和post方法的互不影响，即以下的方法调用和前者在真实坐标变换顺序里是一致的，&nbsp;matrix.postScale(0.7f, 1);&nbsp;matrix.preScale(0.5f, 1); &nbsp;matrix.preTranslate(10, 0);&nbsp;matrix.postTranslate(15, 0);</p><p>&nbsp;</p><p>&nbsp;&nbsp;而matrix的set方法则会对先前的pre和post操作<strong>进行刷除</strong>，而后再设置它的值，比如下列的方法调用:&nbsp;</p><p>matrix.preScale(0.5f, 1); &nbsp;matrix.postTranslate(10, 0); matrix.<strong>setScale</strong>(1, 0.6f); matrix.postScale(0.7f, 1); matrix.preTranslate(15, 0); 其坐标变换顺序是</p><p><strong>translate(15, 0) -&gt;&nbsp;scale(1, 0.6f) -&gt; &nbsp;scale(0.7f, 1).</strong></p><p><strong>setScale重新设置了矩阵的值，之前的两个变换是无效的了，所以最终的显示效果只有三个变换效果。</strong></p><p><strong></strong>&nbsp;</p><p>&nbsp;&nbsp; &nbsp;<strong>Canvas里scale, translate, rotate, concat方法都是pre方法</strong>，如果要进行更多的变换可以先从canvas获得matrix, 变换后再设置回canvas.&nbsp;</p><p></p><p></p> 
+
       
     </div>
 
@@ -424,7 +425,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -432,7 +433,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

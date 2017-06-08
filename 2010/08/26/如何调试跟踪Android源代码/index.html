@@ -92,18 +92,18 @@
 <meta property="og:url" content="http://blog.pickbox.me/2010/08/26/如何调试跟踪Android源代码/index.html">
 <meta property="og:site_name" content="jfo planet">
 <meta property="og:description" content="http://www.cnblogs.com/jacktu/archive/2009/08/31/1557742.htmlAndroid平台代码很多，关系也很复杂，通常我们调试程序的时候是无法跟踪到Android framework code里的，如果能调试跟踪Android source code将给我们这些初学者带来很多便利，本文将给出一个调试跟踪Android source code 的方">
-<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/af9fdbf91edaf01d242df2a2.jpg">
-<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/29ba6259eedd446e2934f0a2.jpg">
-<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/dbbdd62ae5c4a4df023bf6a2.jpg">
-<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/fdab59b5181a858a37d3caa2.jpg">
-<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/377a17cee523457db700c8a2.jpg">
-<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/c843d73963f0aab73b87cea2.jpg">
-<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/489038f3ed777914342acca2.jpg">
-<meta property="og:updated_time" content="2016-10-15T05:24:27.000Z">
+<meta property="og:image" content="http://img.pickbox.cc/wp-content/uploads/pic/af9fdbf91edaf01d242df2a2.jpg">
+<meta property="og:image" content="http://img.pickbox.cc/wp-content/uploads/pic/29ba6259eedd446e2934f0a2.jpg">
+<meta property="og:image" content="http://img.pickbox.cc/wp-content/uploads/pic/dbbdd62ae5c4a4df023bf6a2.jpg">
+<meta property="og:image" content="http://img.pickbox.cc/wp-content/uploads/pic/fdab59b5181a858a37d3caa2.jpg">
+<meta property="og:image" content="http://img.pickbox.cc/wp-content/uploads/pic/377a17cee523457db700c8a2.jpg">
+<meta property="og:image" content="http://img.pickbox.cc/wp-content/uploads/pic/c843d73963f0aab73b87cea2.jpg">
+<meta property="og:image" content="http://img.pickbox.cc/wp-content/uploads/pic/489038f3ed777914342acca2.jpg">
+<meta property="og:updated_time" content="2017-06-07T05:03:27.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何调试跟踪Android源代码">
 <meta name="twitter:description" content="http://www.cnblogs.com/jacktu/archive/2009/08/31/1557742.htmlAndroid平台代码很多，关系也很复杂，通常我们调试程序的时候是无法跟踪到Android framework code里的，如果能调试跟踪Android source code将给我们这些初学者带来很多便利，本文将给出一个调试跟踪Android source code 的方">
-<meta name="twitter:image" content="http://img.pickbox.me/wp-content/uploads/pic/af9fdbf91edaf01d242df2a2.jpg">
+<meta name="twitter:image" content="http://img.pickbox.cc/wp-content/uploads/pic/af9fdbf91edaf01d242df2a2.jpg">
 
 
 
@@ -329,7 +329,7 @@
       
 
       
-        <p> <a href="http://www.cnblogs.com/jacktu/archive/2009/08/31/1557742.html" target="_blank">http://www.cnblogs.com/jacktu/archive/2009/08/31/1557742.html</a><br><strong><a href="http://www.top-e.org/jiaoshi/class/?70.html" target="_blank" rel="external"><br>Android</a></strong><strong><a href="http://www.top-e.org/jiaoshi/class/?70.html" target="_blank" rel="external">平台</a></strong>代码很多，关系也很复杂，通常我们调试程序的时候是无法跟踪到Android framework code里的，如果能调试跟踪Android source code将给我们这些初学者带来很多便利，本文将给出一个调试跟踪Android source code 的方法。</p><p>1.&#160;&#160;&#160; 首先，得到Android 源代码（可参考之前的文章–如何获取Android源代码并编译.doc），并且编译，得到output&#160;file，在(Android source)/out目录下，也可通过别的途径获取Android source code (以<strong><em>androidsrc.tgz</em></strong><strong><em>为例</em></strong>) 和别人编译好的 output file(<strong><em>out.tgz</em></strong>) </p><p>&#160;</p><p>2.&#160;&#160;&#160; 解压缩这两个 tgz 文件，并把解压出来的<strong><em>out</em></strong> 目录放到 <strong><em>myandroid</em></strong> 目录下，如下图所示。</p><p> </p><p><img src="http://img.pickbox.me/wp-content/uploads/pic/af9fdbf91edaf01d242df2a2.jpg">&#160;</p><p>3.&#160;&#160;&#160; 拷贝 <strong><em>myandroid&quot;development&quot;ide&quot;eclipse&quot;.classpath</em></strong> 到 <strong><em>myandroid&quot;.classpath</em></strong>.</p><p>&#160;</p><p>4.&#160;&#160;&#160; 拷贝 <strong><em>myandroid&quot;out&quot;target&quot;product&quot;generic&quot;*.img</em></strong> 到 <strong><em>{Android SDK}&quot;tools&quot;lib&quot;images</em></strong> 并且覆盖源文件.</p><p>&#160;</p><p>5.&#160;&#160;&#160; 运行<strong><em>{Android SDK}&quot;tools</em></strong><strong><em>目录下的</em></strong><strong><em> emulator.exe</em></strong>.</p><p>&#160;</p><p>6.&#160;&#160;&#160; 运行<strong><em>{Android SDK}&quot;tools</em></strong><strong><em>目录下的</em></strong><strong><em> ddms.bat</em></strong>。你可以看到下面的窗口，里面会列出当前emulator里跑的进程:</p><p>&#160;</p><p><img src="http://img.pickbox.me/wp-content/uploads/pic/29ba6259eedd446e2934f0a2.jpg">&#160;</p><p>7.&#160;&#160;&#160; 启动 eclipse ，按照这个步骤 <strong><em>File-&gt;New-&gt;Java Project</em></strong> (不是 Android Project!) <strong><em>-&gt;Create project from existing source</em></strong> 选到 <strong><em>myandroid</em></strong><strong><em> </em></strong><strong><em>目录</em></strong> .</p><p>&#160;</p><p><img src="http://img.pickbox.me/wp-content/uploads/pic/dbbdd62ae5c4a4df023bf6a2.jpg">&#160;</p><p>8.&#160;&#160;&#160; 在经过长时间等待之后，Android source code将被导入project，正常情况下应该没有error，但是会有很多warning，如果有error后面的debug将不会成功，原因可能是output file ，out.tgz在解压得过程中出错，重新copy out.tgz，或者完整拷贝 out/ 目录到本地目录下，即可解决。</p><p>&#160;</p><p><img src="http://img.pickbox.me/wp-content/uploads/pic/fdab59b5181a858a37d3caa2.jpg"></p><p>9.&#160;&#160;&#160; 选择想要调试的进程在 DDMS, 用 <strong><em>phone</em></strong> 进程为例，ddms一定要在eclipse之前启动，否则eclipse启动的时候也会启一个ddms，会造成冲突。</p><p>&#160;</p><p><img src="http://img.pickbox.me/wp-content/uploads/pic/377a17cee523457db700c8a2.jpg">&#160;</p><p>10. 在eclipse里, <strong><em>Run-&gt;Debug Configuration-&gt;Remote Java Application-&gt;New</em></strong>, 设置 Connection port to 8700 (DDMS’s 默认端口，你可以改变它).</p><p>&#160;</p><p>&#160;<img src="http://img.pickbox.me/wp-content/uploads/pic/c843d73963f0aab73b87cea2.jpg"></p><p>11. 设置断点在source code，然后就可以像往常一样进行调试了。</p><p><img src="http://img.pickbox.me/wp-content/uploads/pic/489038f3ed777914342acca2.jpg"></p> <p></p>
+        <p> <a href="http://www.cnblogs.com/jacktu/archive/2009/08/31/1557742.html" target="_blank">http://www.cnblogs.com/jacktu/archive/2009/08/31/1557742.html</a><br><strong><a href="http://www.top-e.org/jiaoshi/class/?70.html" target="_blank" rel="external"><br>Android</a></strong><strong><a href="http://www.top-e.org/jiaoshi/class/?70.html" target="_blank" rel="external">平台</a></strong>代码很多，关系也很复杂，通常我们调试程序的时候是无法跟踪到Android framework code里的，如果能调试跟踪Android source code将给我们这些初学者带来很多便利，本文将给出一个调试跟踪Android source code 的方法。</p><p>1.&#160;&#160;&#160; 首先，得到Android 源代码（可参考之前的文章–如何获取Android源代码并编译.doc），并且编译，得到output&#160;file，在(Android source)/out目录下，也可通过别的途径获取Android source code (以<strong><em>androidsrc.tgz</em></strong><strong><em>为例</em></strong>) 和别人编译好的 output file(<strong><em>out.tgz</em></strong>) </p><p>&#160;</p><p>2.&#160;&#160;&#160; 解压缩这两个 tgz 文件，并把解压出来的<strong><em>out</em></strong> 目录放到 <strong><em>myandroid</em></strong> 目录下，如下图所示。</p><p> </p><p><img src="http://img.pickbox.cc/wp-content/uploads/pic/af9fdbf91edaf01d242df2a2.jpg">&#160;</p><p>3.&#160;&#160;&#160; 拷贝 <strong><em>myandroid&quot;development&quot;ide&quot;eclipse&quot;.classpath</em></strong> 到 <strong><em>myandroid&quot;.classpath</em></strong>.</p><p>&#160;</p><p>4.&#160;&#160;&#160; 拷贝 <strong><em>myandroid&quot;out&quot;target&quot;product&quot;generic&quot;*.img</em></strong> 到 <strong><em>{Android SDK}&quot;tools&quot;lib&quot;images</em></strong> 并且覆盖源文件.</p><p>&#160;</p><p>5.&#160;&#160;&#160; 运行<strong><em>{Android SDK}&quot;tools</em></strong><strong><em>目录下的</em></strong><strong><em> emulator.exe</em></strong>.</p><p>&#160;</p><p>6.&#160;&#160;&#160; 运行<strong><em>{Android SDK}&quot;tools</em></strong><strong><em>目录下的</em></strong><strong><em> ddms.bat</em></strong>。你可以看到下面的窗口，里面会列出当前emulator里跑的进程:</p><p>&#160;</p><p><img src="http://img.pickbox.cc/wp-content/uploads/pic/29ba6259eedd446e2934f0a2.jpg">&#160;</p><p>7.&#160;&#160;&#160; 启动 eclipse ，按照这个步骤 <strong><em>File-&gt;New-&gt;Java Project</em></strong> (不是 Android Project!) <strong><em>-&gt;Create project from existing source</em></strong> 选到 <strong><em>myandroid</em></strong><strong><em> </em></strong><strong><em>目录</em></strong> .</p><p>&#160;</p><p><img src="http://img.pickbox.cc/wp-content/uploads/pic/dbbdd62ae5c4a4df023bf6a2.jpg">&#160;</p><p>8.&#160;&#160;&#160; 在经过长时间等待之后，Android source code将被导入project，正常情况下应该没有error，但是会有很多warning，如果有error后面的debug将不会成功，原因可能是output file ，out.tgz在解压得过程中出错，重新copy out.tgz，或者完整拷贝 out/ 目录到本地目录下，即可解决。</p><p>&#160;</p><p><img src="http://img.pickbox.cc/wp-content/uploads/pic/fdab59b5181a858a37d3caa2.jpg"></p><p>9.&#160;&#160;&#160; 选择想要调试的进程在 DDMS, 用 <strong><em>phone</em></strong> 进程为例，ddms一定要在eclipse之前启动，否则eclipse启动的时候也会启一个ddms，会造成冲突。</p><p>&#160;</p><p><img src="http://img.pickbox.cc/wp-content/uploads/pic/377a17cee523457db700c8a2.jpg">&#160;</p><p>10. 在eclipse里, <strong><em>Run-&gt;Debug Configuration-&gt;Remote Java Application-&gt;New</em></strong>, 设置 Connection port to 8700 (DDMS’s 默认端口，你可以改变它).</p><p>&#160;</p><p>&#160;<img src="http://img.pickbox.cc/wp-content/uploads/pic/c843d73963f0aab73b87cea2.jpg"></p><p>11. 设置断点在source code，然后就可以像往常一样进行调试了。</p><p><img src="http://img.pickbox.cc/wp-content/uploads/pic/489038f3ed777914342acca2.jpg"></p> <p></p>
 
       
     </div>
@@ -433,7 +433,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -441,7 +441,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

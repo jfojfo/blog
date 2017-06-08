@@ -261,6 +261,261 @@
             
               
                 
+                <a class="post-title-link" href="/2013/06/06/file-get-contents获取远程文件内容/" itemprop="url">
+                  file_get_contents获取远程文件内容
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2013-06-06T11:43:02+08:00" content="2013-06-06">
+              2013-06-06
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/wordpress/" itemprop="url" rel="index">
+                    <span itemprop="name">wordpress</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          在auto-save-remote-images WordPress plugin source code中使用了wp_remote_get + wp_remote_retrieve_body的方法获取remote file，使用file_get_contents(url)也可以直接获取。
+获取到内容后，再使用file_put_contents存储内容。
+&nbsp;
+
+          
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2013/06/06/file-get-contents获取远程文件内容/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2013/06/06/auto-save-remote-images-Wordpress-plugin-source-code/" itemprop="url">
+                  auto-save-remote-images Wordpress plugin source code
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2013-06-06T10:15:16+08:00" content="2013-06-06">
+              2013-06-06
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/wordpress/" itemprop="url" rel="index">
+                    <span itemprop="name">wordpress</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          This plugin automatically downloads the first remote image from a post and sets it as the featured image
+add_action('publish_post', 'fetch_images');
+
+function fetch_images( $post_ID )  
+{    
+    //Check to make sure function is not executed more than once on save
+    if ( defined('DOING_AUTOSAVE') &amp;&amp; DOING_AUTOSAVE ) 
+    return;
+
+    if ( !current_user_can('edit_post', $post_ID) ) 
+    return;
+
+    remove_action('publish_post', 'fetch_images');    
+
+    $post = get_post($post_ID);   
+
+
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2013/06/06/auto-save-remote-images-Wordpress-plugin-source-code/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2013/06/06/wp-generate-attachment-metadata/" itemprop="url">
                   wp_generate_attachment_metadata
                 </a>
@@ -1204,242 +1459,6 @@ I was reading Steve Souder’s blog post on loading scripts without blocking in 
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/02/24/javascript继承/" itemprop="url">
-                  javascript继承
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2013-02-24T16:50:00+08:00" content="2013-02-24">
-              2013-02-24
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/js-html-python/" itemprop="url" rel="index">
-                    <span itemprop="name">js/html/python</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-           TypeScript编译生成的继承：var&nbsp;extends&nbsp;=&nbsp;this.extends&nbsp;||&nbsp;function&nbsp;(d,&nbsp;b)&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;()&nbsp;{&nbsp;this.constructor&nbsp;=&nbsp;d;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;.prototype&nbsp;=&nbsp;b.prototype;&nbsp;&nbsp;&nbsp;&nbsp;d.prototype&nbsp;=&nbsp;new&nbsp;();};var&nbsp;Greeter&nbsp;=&nbsp;(function&nbsp;()&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;Greeter(message)&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.greeting&nbsp;=
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013/02/24/javascript继承/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/01/21/virtualbox中调整虚拟机的硬盘大小，再fdisk-扩大ext3分区/" itemprop="url">
-                  virtualbox中调整虚拟机的硬盘大小，再fdisk 扩大ext3分区
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2013-01-21T11:39:00+08:00" content="2013-01-21">
-              2013-01-21
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Linux-App/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux App</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-           VBoxManage.exe&nbsp;modifyhd&nbsp;E:ubuntu_64.vdi&nbsp;&nbsp;showhdinfoUUID:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d476f654-3100-4530-b645-31dcaf80ae56Accessible:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;yesLogical&nbsp;size:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;28723&nbsp;MBytesCurrent&nbsp;size&nbsp;on&nbsp;disk:&nbsp;23389&nbsp;MBytesType:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013/01/21/virtualbox中调整虚拟机的硬盘大小，再fdisk-扩大ext3分区/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1485,7 +1504,7 @@ I was reading Steve Souder’s blog post on loading scripts without blocking in 
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1493,7 +1512,7 @@ I was reading Steve Souder’s blog post on loading scripts without blocking in 
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

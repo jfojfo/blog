@@ -92,12 +92,12 @@
 <meta property="og:url" content="http://blog.pickbox.me/2008/03/21/Linux虚拟机中的GUI定向到cygwin-X/index.html">
 <meta property="og:site_name" content="jfo planet">
 <meta property="og:description" content="方法一：host：Windows XP虚拟机：Redhat9在host上安装Cygwin-X（嫌麻烦可以选择全部安装Cygwin中的软件包）打开cygwin bash shell，输入X，启动X server（server是运行于host机器上的）X server打开后，可以在shell中输入xterm -display 127.0.0.1:0.0 -ls，这时X server中显示一个终端，可">
-<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/acf6d21608134c04972b4380.jpg">
-<meta property="og:updated_time" content="2016-10-15T05:24:27.000Z">
+<meta property="og:image" content="http://img.pickbox.cc/wp-content/uploads/pic/acf6d21608134c04972b4380.jpg">
+<meta property="og:updated_time" content="2017-06-07T05:03:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux虚拟机中的GUI定向到cygwin-X">
 <meta name="twitter:description" content="方法一：host：Windows XP虚拟机：Redhat9在host上安装Cygwin-X（嫌麻烦可以选择全部安装Cygwin中的软件包）打开cygwin bash shell，输入X，启动X server（server是运行于host机器上的）X server打开后，可以在shell中输入xterm -display 127.0.0.1:0.0 -ls，这时X server中显示一个终端，可">
-<meta name="twitter:image" content="http://img.pickbox.me/wp-content/uploads/pic/acf6d21608134c04972b4380.jpg">
+<meta name="twitter:image" content="http://img.pickbox.cc/wp-content/uploads/pic/acf6d21608134c04972b4380.jpg">
 
 
 
@@ -323,7 +323,7 @@
       
 
       
-        <p> <br>方法一：<br><br>host：Windows XP<br>虚拟机：Redhat9<br><br>在host上安装Cygwin-X（嫌麻烦可以选择全部安装Cygwin中的软件包）<br>打开cygwin bash shell，输入X，启动X server（server是运行于host机器上的）<br>X server打开后，可以在shell中输入xterm -display 127.0.0.1:0.0 -ls，这时X server中显示一个终端，<br>可以输入命令，在xterm中输入xhost +192.168.200.5 （虚拟机的ip）<br><br>在Redhat9虚拟机中，export DISPLAY=10.1.10.68:0 （host主机的ip）<br>然后虚拟机中的任何图形操作都可以在Cygwin-X中显示了<br><br><br><br>方法二：<br><a href="http://www.idcnews.net/html/edu/20070101/293338.html" target="_blank">http://www.idcnews.net/html/edu/20070101/293338.html</a><br>实现远程X<br>首先需要安装一个windows下的X server，有很多。有个免费的Xming，从这里下载：<br><a href="http://sourceforge.net/projects/xming" target="_blank">http://sourceforge.net/projects/xming</a><br>安装后，运行，使用很简单，不再多说。<br>配置sshd，打开X11 forwarding:<br>X11Forwarding yes<br>X11DisplayOffset 10<br>重启sshd<br>用putty登录：<br>zll@kk:~$ echo $DISPLAY<br>localhost:11.0<br>这说明服务器端已准备好了。<br>配置putty，在SSH-&gt;Tunnels，选择Enable X11 forwarding，X display location填入，运行Xming时配置的Display num<br>默认是0，就填入 :0 <br>保存，使用putty登录系统，确保Xming在运行。<br>zll@kk:~$ xclock<br>会打开xclock<br>zll@kk:~$ startxfce4<br>…<br><strong> Message:  &nbsp;&nbsp;&nbsp; -==-<br></strong> Message: xfce4-iconbox: normal exit<br>参照：<br><a href="http://the.earth.li/~sgtatham/putty/0.59/htmldoc/Chapter3.html#using-x-forwarding" target="_blank" rel="external">http://the.earth.li/~sgtatham/putty/0.59/htmldoc/Chapter3.html#using-x-forwarding</a><br>如下图：<br><img src="http://img.pickbox.me/wp-content/uploads/pic/acf6d21608134c04972b4380.jpg" small="0" class="blogimg"><br><br> </p>
+        <p> <br>方法一：<br><br>host：Windows XP<br>虚拟机：Redhat9<br><br>在host上安装Cygwin-X（嫌麻烦可以选择全部安装Cygwin中的软件包）<br>打开cygwin bash shell，输入X，启动X server（server是运行于host机器上的）<br>X server打开后，可以在shell中输入xterm -display 127.0.0.1:0.0 -ls，这时X server中显示一个终端，<br>可以输入命令，在xterm中输入xhost +192.168.200.5 （虚拟机的ip）<br><br>在Redhat9虚拟机中，export DISPLAY=10.1.10.68:0 （host主机的ip）<br>然后虚拟机中的任何图形操作都可以在Cygwin-X中显示了<br><br><br><br>方法二：<br><a href="http://www.idcnews.net/html/edu/20070101/293338.html" target="_blank">http://www.idcnews.net/html/edu/20070101/293338.html</a><br>实现远程X<br>首先需要安装一个windows下的X server，有很多。有个免费的Xming，从这里下载：<br><a href="http://sourceforge.net/projects/xming" target="_blank">http://sourceforge.net/projects/xming</a><br>安装后，运行，使用很简单，不再多说。<br>配置sshd，打开X11 forwarding:<br>X11Forwarding yes<br>X11DisplayOffset 10<br>重启sshd<br>用putty登录：<br>zll@kk:~$ echo $DISPLAY<br>localhost:11.0<br>这说明服务器端已准备好了。<br>配置putty，在SSH-&gt;Tunnels，选择Enable X11 forwarding，X display location填入，运行Xming时配置的Display num<br>默认是0，就填入 :0 <br>保存，使用putty登录系统，确保Xming在运行。<br>zll@kk:~$ xclock<br>会打开xclock<br>zll@kk:~$ startxfce4<br>…<br><strong> Message:  &nbsp;&nbsp;&nbsp; -==-<br></strong> Message: xfce4-iconbox: normal exit<br>参照：<br><a href="http://the.earth.li/~sgtatham/putty/0.59/htmldoc/Chapter3.html#using-x-forwarding" target="_blank" rel="external">http://the.earth.li/~sgtatham/putty/0.59/htmldoc/Chapter3.html#using-x-forwarding</a><br>如下图：<br><img src="http://img.pickbox.cc/wp-content/uploads/pic/acf6d21608134c04972b4380.jpg" small="0" class="blogimg"><br><br> </p>
 
       
     </div>
@@ -427,7 +427,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -435,7 +435,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

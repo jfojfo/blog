@@ -106,10 +106,10 @@
 仅仅围绕数据定义一系列操作方法（get, post …）还是有一些缺陷的，比如数据之间的关系，表现起来不够直观。
 例如网游中一个角色攻击另一个角色，“攻击”这种行为，
 当然，也可以把这种关系再定义为一">
-<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/c417eb50d85aba361138c208.jpg">
-<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/357f74094861d0c52fddd436.jpg">
-<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/17c0372a282c6c525243c108.jpg">
-<meta property="og:updated_time" content="2016-10-15T05:24:27.000Z">
+<meta property="og:image" content="http://img.pickbox.cc/wp-content/uploads/pic/c417eb50d85aba361138c208.jpg">
+<meta property="og:image" content="http://img.pickbox.cc/wp-content/uploads/pic/357f74094861d0c52fddd436.jpg">
+<meta property="og:image" content="http://img.pickbox.cc/wp-content/uploads/pic/17c0372a282c6c525243c108.jpg">
+<meta property="og:updated_time" content="2017-06-07T05:03:27.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关于REST的一点想法">
 <meta name="twitter:description" content="看了下面这篇《深入浅出REST》，REST有几点特性值得学习：
@@ -120,7 +120,7 @@
 仅仅围绕数据定义一系列操作方法（get, post …）还是有一些缺陷的，比如数据之间的关系，表现起来不够直观。
 例如网游中一个角色攻击另一个角色，“攻击”这种行为，
 当然，也可以把这种关系再定义为一">
-<meta name="twitter:image" content="http://img.pickbox.me/wp-content/uploads/pic/c417eb50d85aba361138c208.jpg">
+<meta name="twitter:image" content="http://img.pickbox.cc/wp-content/uploads/pic/c417eb50d85aba361138c208.jpg">
 
 
 
@@ -360,7 +360,7 @@
 <li><p>无状态约束使服务器的变化对客户端是不可见的，这意味着更方便的分布式服务器搭建</p>
 </li>
 </ol>
-<p>文中提到幂等性，详情可以参见<a href="http://blog.pickbox.me/2011/06/16/HTTP幂等性概念和应用" target="_blank">这里</a>。</p>
+<p>文中提到幂等性，详情可以参见<a href="http://blog.pickbox.cc/2011/06/16/HTTP幂等性概念和应用" target="_blank">这里</a>。</p>
 <p>&nbsp;</p>
 <p><a href="http://www.infoq.com/cn/articles/rest-introduction" target="_blank" rel="external">http://www.infoq.com/cn/articles/rest-introduction</a></p>
 <p>REST关键原则</p>
@@ -391,12 +391,12 @@
 <p>由于所有资源使用了同样的接口，你可以依此使用GET方法检索一个<strong>表述</strong>（representation）——也就是对资源的描述。因为规范中定义了GET的语义，所以可以肯定当你调用它的时候不需要对后果负责——这就是为什么可以“安全”地调用此方法。GET方法支持非常高效、成熟的缓存，所以在很多情况下，你甚至不需要向服务器发送请求。还可以肯定的是，GET方法具有<strong>幂等性</strong>[译注：指多个相同请求返回相同的结果]——如果你发送了一个GET请求没有得到结果，你可能不知道原因是请求未能到达目的地，还是响应在反馈的途中丢失了。幂等性保证了你可以简单地再发送一次请求解决问题。幂等性同样适用于PUT（基本的含义是“更新资源数据，如果资源不存在的话，则根据此URI创建一个新的资源”）和DELETE（你完全可以一遍又一遍地操作它，直到得出结论——删除不存在的东西没有任何问题）方法。POST方法，通常表示“创建一个新资源”，也能被用于调用任意过程，因而它既不安全也不具有幂等性。</p>
 <p>如果你采用RESTful的方式暴露应用功能（如果你乐意，也可以称为服务功能），<strong>那这条原则和它的约束同样也适用于你</strong>。如果你已经习惯于另外的设计方式，则很难去接受这条原则——毕竟，你很可能认为你的应用包含了超出这些操作表达范围的逻辑。请允许我花费一些时间来让你相信不存在这样的情况。</p>
 <p>来看下面这个简单的采购方案例子：</p>
-<p><img alt="" src="http://img.pickbox.me/wp-content/uploads/pic/c417eb50d85aba361138c208.jpg" width="200"></p>
+<p><img alt="" src="http://img.pickbox.cc/wp-content/uploads/pic/c417eb50d85aba361138c208.jpg" width="200"></p>
 <p>可以看到，例子中定义了两个服务程序（没有包含任何实现细节）。这些服务程序的接口都是为了完成任务（正是我们讨论的OrderManagement和CustomerManagement服务）而定制的。如果客户端程序试图使用这些服务，那它必须针对这些特定接口进行编码——不可能在这些接口定义之前，使用客户程序去有目的地和接口协作。这些接口定义了服务程序的应用协议（application protocol）。</p>
 <p>在RESTful HTTP方式中，你将通过组成<strong>HTTP应用协议</strong>的通用接口访问服务程序。你可能会想出像这样的方式：</p>
-<p><img alt="" src="http://img.pickbox.me/wp-content/uploads/pic/357f74094861d0c52fddd436.jpg" width="400"></p>
+<p><img alt="" src="http://img.pickbox.cc/wp-content/uploads/pic/357f74094861d0c52fddd436.jpg" width="400"></p>
 <p>可以看到，服务程序中的特定操作被映射成为标准的HTTP方法——为了消除歧义，我创建了一组全新的资源。“这是骗人的把戏”，我听见你叫嚷着。不，这不是欺骗。标识一个顾客的URI上的GET方法正好相当于getCustomerDetails操作。有人用三角形形象化地说明了这一点：</p>
-<p><img alt="" src="http://img.pickbox.me/wp-content/uploads/pic/17c0372a282c6c525243c108.jpg" width="200"></p>
+<p><img alt="" src="http://img.pickbox.cc/wp-content/uploads/pic/17c0372a282c6c525243c108.jpg" width="200"></p>
 <p>把三个顶点想象为你可以调节的按钮。可以看到在第一种方法中，你拥有许多操作，许多种类的数据以及固定数量的“实例”（本质上和你拥有的服务程序数量一致）。在第二种方法中，你拥有固定数量的操作，许多种类的数据和许多调用固定方法的对象。它的意义在于，证明了通过这两种方式，你基本上可以表示任何你喜欢的事情。</p>
 <p>为什么使用标准方法如此重要？从根本上说，它使你的应用成为Web的一部分——应用程序为Web变成Internet上最成功的应用所做的贡献，与它添加到Web中的资源数量成比例。采用RESTful方式，一个应用可能会向Web中添加数以百万计的客户URI；如果采用CORBA技术并维持应用的原有设计方式，那它的贡献大抵只是一个“端点（endpoint）”——就好比一个非常小的门，仅仅允许有钥匙的人进入其中的资源域。</p>
 <p>统一接口也使得所有理解HTTP应用协议的组件能与你的应用交互。通用客户程序（generic client）就是从中受益的组件的例子，例如curl、wget、代理、缓存、HTTP服务器、网关还有Google、Yahoo!、MSN等等。</p>
@@ -527,7 +527,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -535,7 +535,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

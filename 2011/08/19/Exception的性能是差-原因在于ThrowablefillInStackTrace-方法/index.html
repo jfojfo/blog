@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://blog.pickbox.me/2011/08/19/Exception的性能是差-原因在于ThrowablefillInStackTrace-方法/index.html">
 <meta property="og:site_name" content="jfo planet">
 <meta property="og:description" content="参见：http://www.blogjava.net/stone2083/archive/2010/07/09/325649.html根本原因在于:异常基类Throwable.java的public synchronized native Throwable fillInStackTrace()方法方法介绍:Fills in the execution stack trace. This met">
-<meta property="og:updated_time" content="2016-10-15T05:24:27.000Z">
+<meta property="og:updated_time" content="2017-06-07T05:03:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Exception的性能是差,原因在于ThrowablefillInStackTrace()方法">
 <meta name="twitter:description" content="参见：http://www.blogjava.net/stone2083/archive/2010/07/09/325649.html根本原因在于:异常基类Throwable.java的public synchronized native Throwable fillInStackTrace()方法方法介绍:Fills in the execution stack trace. This met">
@@ -322,6 +322,7 @@
 
       
          <p>参见：<a href="http://www.blogjava.net/stone2083/archive/2010/07/09/325649.html" target="_blank" rel="external">http://www.blogjava.net/stone2083/archive/2010/07/09/325649.html</a></p><p>根本原因在于:<br>异常基类Throwable.java的public synchronized native Throwable fillInStackTrace()方法<br>方法介绍:<br>Fills in the execution stack trace. This method records within this Throwable object information about the current state of the stack frames for the current thread.<br>性能开销在于:<br>1. 是一个synchronized方法(主因)<br>2. 需要填充线程运行堆栈信息</p><p>&nbsp;</p><p>另外<a href="http://icyfenix.iteye.com/blog/857722" target="_blank" rel="external">透过JVM看Exception本质</a>，可以看看Exception在底层是怎么实现的。</p><p>&nbsp;</p><p></p><p></p><p></p> 
+
       
     </div>
 
@@ -424,7 +425,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -432,7 +433,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

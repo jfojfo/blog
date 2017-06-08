@@ -92,12 +92,12 @@
 <meta property="og:url" content="http://blog.pickbox.me/2012/11/30/Javascript的构造函数和constructor属性/index.html">
 <meta property="og:site_name" content="jfo planet">
 <meta property="og:description" content="Chrome下执行如下代码：注意，这个时候obj的constructor已经不再是创建它的函数，但是修改构造函数的prototype的contructor并不会影响构造函数所产生的对象！这里仍然会调用原来定义的MyClass进行构造，而不会调用新的MyClass.prototype.constructor进行构造。更多烧脑筋的constructor例子请&amp;nbsp;参考：Constructors">
-<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/9922720e0cf3d7ca56b51e91f21fbe096a63a991.jpg">
-<meta property="og:updated_time" content="2016-10-15T05:24:27.000Z">
+<meta property="og:image" content="http://img.pickbox.cc/wp-content/uploads/pic/9922720e0cf3d7ca56b51e91f21fbe096a63a991.jpg">
+<meta property="og:updated_time" content="2017-06-07T05:03:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Javascript的构造函数和constructor属性">
 <meta name="twitter:description" content="Chrome下执行如下代码：注意，这个时候obj的constructor已经不再是创建它的函数，但是修改构造函数的prototype的contructor并不会影响构造函数所产生的对象！这里仍然会调用原来定义的MyClass进行构造，而不会调用新的MyClass.prototype.constructor进行构造。更多烧脑筋的constructor例子请&amp;nbsp;参考：Constructors">
-<meta name="twitter:image" content="http://img.pickbox.me/wp-content/uploads/pic/9922720e0cf3d7ca56b51e91f21fbe096a63a991.jpg">
+<meta name="twitter:image" content="http://img.pickbox.cc/wp-content/uploads/pic/9922720e0cf3d7ca56b51e91f21fbe096a63a991.jpg">
 
 
 
@@ -323,7 +323,8 @@
       
 
       
-         <p><br></p><p>Chrome下执行如下代码：</p><p><img width="640" src="http://img.pickbox.me/wp-content/uploads/pic/9922720e0cf3d7ca56b51e91f21fbe096a63a991.jpg"></p><p>注意，<span style="font-family: Arial,Helvetica,sans-serif; color: #333333; background-color: #ffffff;">这个时候obj的constructor已经不再是创建它的函数，但是<span style="font-family: Arial,Helvetica,sans-serif; color: #333333; background-color: #ffffff;">修改构造函数的prototype的contructor并不会影响构造函数所产生的对象！</span></span></p><p><span style="font-family: Arial,Helvetica,sans-serif; color: #333333;">这里仍然会调用原来定义的MyClass进行构造，而不会调用新的MyClass.prototype.constructor进行构造。</span></p><p><br></p><p>更多烧脑筋的constructor例子请&nbsp;参考：<a href="http://joost.zeekat.nl/constructors-considered-mildly-confusing.html" target="_blank">Constructors&nbsp;considered&nbsp;mildly&nbsp;confusing</a>&nbsp;(如果连接无法打开，可向作者索要pdf文档)</p><p>这里仅摘录两段&nbsp;instanceof&nbsp;例子：</p><pre class="brush: js;toolbar:false;">function&nbsp;MyConstructor()&nbsp;{}<br>MyConstructor.prototype&nbsp;=&nbsp;{};<br>var&nbsp;myobject&nbsp;=&nbsp;new&nbsp;MyConstructor();<br>myobject&nbsp;instanceof&nbsp;MyConstructor&nbsp;//&nbsp;true<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>function&nbsp;MyConstructor()&nbsp;{}<br>MyConstructor.prototype&nbsp;=&nbsp;{};<br>var&nbsp;myobject&nbsp;=&nbsp;new&nbsp;MyConstructor();<br>myobject&nbsp;instanceof&nbsp;Object&nbsp;//&nbsp;true</pre><p>原因用作者的话说，<span>When&nbsp;</span>instanceof<span>&nbsp;is&nbsp;called&nbsp;it&nbsp;checks&nbsp;the&nbsp;</span>prototype<span>&nbsp;property&nbsp;of&nbsp;the&nbsp;given&nbsp;constructor&nbsp;and&nbsp;checks&nbsp;it&nbsp;agains&nbsp;the&nbsp;</span>[[Prototype]]<span>&nbsp;chain&nbsp;of&nbsp;the&nbsp;given&nbsp;object.&nbsp;In&nbsp;other&nbsp;words,&nbsp;it&#39;s&nbsp;not&nbsp;dependent&nbsp;on&nbsp;the</span>constructor<span>&nbsp;property.</span></p><p><br></p><p>MyConstructor.prototype&nbsp;为{}，看它是否被myobject的[[Prototype]]链所包含。</p><p><br></p><p>再变态一点:</p><pre class="brush: js;toolbar:false;">function&nbsp;MyConstructor()&nbsp;{}<br>var&nbsp;myobject&nbsp;=&nbsp;new&nbsp;MyConstructor();<br>MyConstructor.prototype&nbsp;=&nbsp;{};<br>&nbsp;&nbsp;<br>&nbsp;[&nbsp;myobject&nbsp;instanceof&nbsp;MyConstructor,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;false&nbsp;!<br>&nbsp;&nbsp;&nbsp;myobject.constructor&nbsp;==&nbsp;MyConstructor,&nbsp;//&nbsp;true&nbsp;!<br>&nbsp;&nbsp;&nbsp;myobject&nbsp;instanceof&nbsp;Object&nbsp;]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;true</pre><p><br></p><p><br></p><p><br></p> 
+         <p><br></p><p>Chrome下执行如下代码：</p><p><img width="640" src="http://img.pickbox.cc/wp-content/uploads/pic/9922720e0cf3d7ca56b51e91f21fbe096a63a991.jpg"></p><p>注意，<span style="font-family: Arial,Helvetica,sans-serif; color: #333333; background-color: #ffffff;">这个时候obj的constructor已经不再是创建它的函数，但是<span style="font-family: Arial,Helvetica,sans-serif; color: #333333; background-color: #ffffff;">修改构造函数的prototype的contructor并不会影响构造函数所产生的对象！</span></span></p><p><span style="font-family: Arial,Helvetica,sans-serif; color: #333333;">这里仍然会调用原来定义的MyClass进行构造，而不会调用新的MyClass.prototype.constructor进行构造。</span></p><p><br></p><p>更多烧脑筋的constructor例子请&nbsp;参考：<a href="http://joost.zeekat.nl/constructors-considered-mildly-confusing.html" target="_blank">Constructors&nbsp;considered&nbsp;mildly&nbsp;confusing</a>&nbsp;(如果连接无法打开，可向作者索要pdf文档)</p><p>这里仅摘录两段&nbsp;instanceof&nbsp;例子：</p><pre class="brush: js;toolbar:false;">function&nbsp;MyConstructor()&nbsp;{}<br>MyConstructor.prototype&nbsp;=&nbsp;{};<br>var&nbsp;myobject&nbsp;=&nbsp;new&nbsp;MyConstructor();<br>myobject&nbsp;instanceof&nbsp;MyConstructor&nbsp;//&nbsp;true<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>function&nbsp;MyConstructor()&nbsp;{}<br>MyConstructor.prototype&nbsp;=&nbsp;{};<br>var&nbsp;myobject&nbsp;=&nbsp;new&nbsp;MyConstructor();<br>myobject&nbsp;instanceof&nbsp;Object&nbsp;//&nbsp;true</pre><p>原因用作者的话说，<span>When&nbsp;</span>instanceof<span>&nbsp;is&nbsp;called&nbsp;it&nbsp;checks&nbsp;the&nbsp;</span>prototype<span>&nbsp;property&nbsp;of&nbsp;the&nbsp;given&nbsp;constructor&nbsp;and&nbsp;checks&nbsp;it&nbsp;agains&nbsp;the&nbsp;</span>[[Prototype]]<span>&nbsp;chain&nbsp;of&nbsp;the&nbsp;given&nbsp;object.&nbsp;In&nbsp;other&nbsp;words,&nbsp;it&#39;s&nbsp;not&nbsp;dependent&nbsp;on&nbsp;the</span>constructor<span>&nbsp;property.</span></p><p><br></p><p>MyConstructor.prototype&nbsp;为{}，看它是否被myobject的[[Prototype]]链所包含。</p><p><br></p><p>再变态一点:</p><pre class="brush: js;toolbar:false;">function&nbsp;MyConstructor()&nbsp;{}<br>var&nbsp;myobject&nbsp;=&nbsp;new&nbsp;MyConstructor();<br>MyConstructor.prototype&nbsp;=&nbsp;{};<br>&nbsp;&nbsp;<br>&nbsp;[&nbsp;myobject&nbsp;instanceof&nbsp;MyConstructor,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;false&nbsp;!<br>&nbsp;&nbsp;&nbsp;myobject.constructor&nbsp;==&nbsp;MyConstructor,&nbsp;//&nbsp;true&nbsp;!<br>&nbsp;&nbsp;&nbsp;myobject&nbsp;instanceof&nbsp;Object&nbsp;]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;//&nbsp;true</pre><p><br></p><p><br></p><p><br></p> 
+
       
     </div>
 
@@ -426,7 +427,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -434,7 +435,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

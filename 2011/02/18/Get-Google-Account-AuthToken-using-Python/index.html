@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://blog.pickbox.me/2011/02/18/Get-Google-Account-AuthToken-using-Python/index.html">
 <meta property="og:site_name" content="jfo planet">
 <meta property="og:description" content="&amp;nbsp;import urllib, urllib2## get an AuthToken from Google accounts#auth_uri = ‘https://www.google.com/accounts/ClientLogin‘authreq_data = urllib.urlencode({ &amp;quot;Email&amp;quot;:&amp;nbsp;&amp;nbsp; users_ema">
-<meta property="og:updated_time" content="2016-10-15T05:24:27.000Z">
+<meta property="og:updated_time" content="2017-06-07T05:03:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Get Google Account AuthToken using Python">
 <meta name="twitter:description" content="&amp;nbsp;import urllib, urllib2## get an AuthToken from Google accounts#auth_uri = ‘https://www.google.com/accounts/ClientLogin‘authreq_data = urllib.urlencode({ &amp;quot;Email&amp;quot;:&amp;nbsp;&amp;nbsp; users_ema">
@@ -322,6 +322,7 @@
 
       
          <p>&nbsp;import urllib, urllib2</p><p>#<br># get an AuthToken from Google accounts<br>#<br>auth_uri = ‘<a href="https://www.google.com/accounts/ClientLogin" target="_blank" rel="external">https://www.google.com/accounts/ClientLogin</a>‘<br>authreq_data = urllib.urlencode({ &quot;Email&quot;:&nbsp;&nbsp; users_email_address,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;Passwd&quot;:&nbsp; users_password,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;service&quot;: &quot;ah&quot;,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;source&quot;:&nbsp; my_app_name,<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;accountType&quot;: &quot;HOSTED_OR_GOOGLE&quot; })</p><p>headers={}</p><p>headers[&quot;Content-type&quot;] = &quot;application/x-www-form-urlencoded;charset=UTF-8&quot;<br>auth_req = urllib2.Request(auth_uri, data=authreq_data, headers=headers)<br>auth_resp = urllib2.urlopen(auth_req)<br>auth_resp_body = auth_resp.read()<br># auth response includes several fields - we’re interested in <br>#&nbsp; the bit after Auth= <br>auth_resp_dict = dict(x.split(&quot;=&quot;)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for x in auth_resp_body.split(&quot;n&quot;) if x)<br>authtoken = auth_resp_dict[&quot;Auth&quot;]<br><br>print authtoken</p> 
+
       
     </div>
 
@@ -424,7 +425,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -432,7 +433,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

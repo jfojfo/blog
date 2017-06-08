@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://blog.pickbox.me/2011/02/16/自定义menu的background/index.html">
 <meta property="og:site_name" content="jfo planet">
 <meta property="og:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;nbsp;@Override&amp;nbsp;&amp;nbsp; &amp;nbsp;public boolean onCreateOptionsMenu(Menu menu) {&amp;nbsp;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;super.onCreateOptionsMenu(menu);&amp;nbsp;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;">
-<meta property="og:updated_time" content="2016-10-15T05:24:27.000Z">
+<meta property="og:updated_time" content="2017-06-07T05:03:27.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="自定义menu的background">
 <meta name="twitter:description" content="&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp; &amp;nbsp;@Override&amp;nbsp;&amp;nbsp; &amp;nbsp;public boolean onCreateOptionsMenu(Menu menu) {&amp;nbsp;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;super.onCreateOptionsMenu(menu);&amp;nbsp;&amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;">
@@ -322,6 +322,7 @@
 
       
          <p></p><p></p><p>&nbsp;</p><p>&nbsp;</p><p></p><p>&nbsp;&nbsp; &nbsp;@Override</p><p>&nbsp;&nbsp; &nbsp;public boolean onCreateOptionsMenu(Menu menu) {</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;super.onCreateOptionsMenu(menu);</p><p></p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;setMenuBackground();</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;return true;</p><p>&nbsp;&nbsp; &nbsp;}</p><br><br><p></p><p>&nbsp;&nbsp; &nbsp;protected void setMenuBackground(){</p><p>&nbsp;</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;getLayoutInflater().setFactory( new Factory() {</p><p>&nbsp;</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;public View onCreateView ( String name, Context context, AttributeSet attrs ) {&nbsp;</p><p>&nbsp;</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;if ( name.equalsIgnoreCase( &quot;com.android.internal.view.menu.IconMenuItemView&quot; ) ) {</p><p>&nbsp;</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;try {</p><p>&nbsp;</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;LayoutInflater f = getLayoutInflater();</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;final View view = f.createView( name, null, attrs ); &nbsp;//尝试创建我们自己布局</p><p>&nbsp;</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;new Handler().post( new Runnable() {</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;public void run () {</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;view.setBackgroundResource(R.drawable.menu_bkg);</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;}</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;} );</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;return view;</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;}</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;catch ( InflateException e ) {}</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;catch ( ClassNotFoundException e ) {}</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;}</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;return null;</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;}</p><p>&nbsp;&nbsp; &nbsp; &nbsp; &nbsp;});</p><p>&nbsp;&nbsp; &nbsp;}</p><p>&nbsp;</p><p></p><p></p><p></p> 
+
       
     </div>
 
@@ -424,7 +425,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -432,7 +433,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://blog.pickbox.me/2013/02/24/javascript继承/index.html">
 <meta property="og:site_name" content="jfo planet">
 <meta property="og:description" content="TypeScript编译生成的继承：var&amp;nbsp;extends&amp;nbsp;=&amp;nbsp;this.extends&amp;nbsp;||&amp;nbsp;function&amp;nbsp;(d,&amp;nbsp;b)&amp;nbsp;{&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;function&amp;nbsp;()&amp;nbsp;{&amp;nbsp;this.constructor&amp;nbsp;=&amp;nbsp;d;&amp;nbsp;}&amp;nb">
-<meta property="og:updated_time" content="2016-10-15T05:24:27.000Z">
+<meta property="og:updated_time" content="2017-06-07T05:03:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="javascript继承">
 <meta name="twitter:description" content="TypeScript编译生成的继承：var&amp;nbsp;extends&amp;nbsp;=&amp;nbsp;this.extends&amp;nbsp;||&amp;nbsp;function&amp;nbsp;(d,&amp;nbsp;b)&amp;nbsp;{&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;function&amp;nbsp;()&amp;nbsp;{&amp;nbsp;this.constructor&amp;nbsp;=&amp;nbsp;d;&amp;nbsp;}&amp;nb">
@@ -322,6 +322,7 @@
 
       
          <p>TypeScript编译生成的继承：</p><pre class="brush: js;toolbar:false;">var&nbsp;<strong>extends&nbsp;=&nbsp;this.</strong>extends&nbsp;||&nbsp;function&nbsp;(d,&nbsp;b)&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;<strong>()&nbsp;{&nbsp;this.constructor&nbsp;=&nbsp;d;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;</strong>.prototype&nbsp;=&nbsp;b.prototype;<br>&nbsp;&nbsp;&nbsp;&nbsp;d.prototype&nbsp;=&nbsp;new&nbsp;<strong>();<br>};<br>var&nbsp;Greeter&nbsp;=&nbsp;(function&nbsp;()&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;Greeter(message)&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.greeting&nbsp;=&nbsp;message;<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;Greeter.prototype.greet&nbsp;=&nbsp;function&nbsp;()&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;&quot;Hello,&nbsp;&quot;&nbsp;+&nbsp;this.greeting;<br>&nbsp;&nbsp;&nbsp;&nbsp;};<br>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;Greeter;<br>})();<br>var&nbsp;B&nbsp;=&nbsp;(function&nbsp;(_super)&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;</strong>extends(B,&nbsp;_super);<br>&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;B()&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;_super.apply(this,&nbsp;arguments);<br>&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;B;<br>})(Greeter);</pre><p>see&nbsp;<a href="http://www.typescriptlang.org/Playground/" target="_blank">http://www.typescriptlang.org/Playground/</a></p><p>这里有个问题是，var&nbsp;b&nbsp;=&nbsp;new&nbsp;B()时，b的<strong>proto</strong>显示成了<strong>，调试时辨别该对象比较麻烦。</strong></p><p>一个解决办法是定义function<span style="font-family: Consolas,'Bitstream Vera Sans Mono','Courier New',Courier,monospace; background-color: #ffffff;">&nbsp;</span>()&nbsp;{&nbsp;this.constructor&nbsp;=&nbsp;d;&nbsp;}时，将<strong>替换成函数名字，然后eval该表达式</strong></p><p><br></p><p><br></p><p><br></p><p>从一段js代码中摘取出的：</p><pre class="brush: js;toolbar:false;">function()&nbsp;{<br>&nbsp;&nbsp;var&nbsp;e&nbsp;=&nbsp;function(e,&nbsp;t)&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;function()&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;e.apply(t,&nbsp;arguments)<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;},<br>&nbsp;&nbsp;t&nbsp;=&nbsp;{}.hasOwnProperty,<br>&nbsp;&nbsp;n&nbsp;=&nbsp;function(e,&nbsp;n)&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;i()&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.constructor&nbsp;=&nbsp;e<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;(var&nbsp;r&nbsp;in&nbsp;n)&nbsp;t.call(n,&nbsp;r)&nbsp;&amp;&amp;&nbsp;(e[r]&nbsp;=&nbsp;n[r]);<br>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;i.prototype&nbsp;=&nbsp;n.prototype,<br>&nbsp;&nbsp;&nbsp;&nbsp;e.prototype&nbsp;=&nbsp;new&nbsp;i,<br>&nbsp;&nbsp;&nbsp;&nbsp;e.super<strong>&nbsp;=&nbsp;n.prototype,<br>&nbsp;&nbsp;&nbsp;&nbsp;e<br>&nbsp;&nbsp;};<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;Bobcat.Text&nbsp;=&nbsp;function(e)&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;function&nbsp;t(e)&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;n,&nbsp;r&nbsp;=&nbsp;this;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;n&nbsp;=&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;style:&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;create:&nbsp;function(e)&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;new&nbsp;Bobcat.TextStyle(e.data)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t.</strong>super<strong>.constructor.call(this,&nbsp;e,&nbsp;n),<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.oldValue&nbsp;=&nbsp;ko.observable()<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;n(t,&nbsp;e),<br>&nbsp;&nbsp;&nbsp;&nbsp;t.prototype.edit&nbsp;=&nbsp;function()&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t.</strong>super<strong>.edit.call(this);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(this<a href="">&quot;default&quot;</a>)&nbsp;return&nbsp;this.oldValue(this.value()),<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this.value(&quot;&amp;nbsp;&quot;)<br>&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;t.prototype.deselect&nbsp;=&nbsp;function()&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;t.</strong>super__.deselect.call(this);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(this<a href="">&quot;default&quot;</a>)&nbsp;return&nbsp;this.value()&nbsp;===&nbsp;&quot;&amp;nbsp;&quot;&nbsp;?&nbsp;this.value(this.oldValue())&nbsp;:&nbsp;this<a href="!1">&quot;default&quot;</a><br>&nbsp;&nbsp;&nbsp;&nbsp;},<br>&nbsp;&nbsp;&nbsp;&nbsp;t<br>&nbsp;&nbsp;}&nbsp;(Bobcat.Component),<br>&nbsp;&nbsp;&nbsp;&nbsp;<br>}&nbsp;(window);</pre><p><br></p><p><br></p><p><br></p><p><br></p><p><br></p> 
+
       
     </div>
 
@@ -430,7 +431,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -438,7 +439,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

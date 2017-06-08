@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://blog.pickbox.me/2011/06/03/JS实现-File-Download/index.html">
 <meta property="og:site_name" content="jfo planet">
 <meta property="og:description" content="problem:Ajax is inable&amp;nbsp;to receive a response in any form but text. Since it is now common for web applications to offer options for exporting your data in desktop app formats — such as .doc or .">
-<meta property="og:updated_time" content="2016-10-15T05:24:27.000Z">
+<meta property="og:updated_time" content="2017-06-07T05:03:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JS实现 File Download">
 <meta name="twitter:description" content="problem:Ajax is inable&amp;nbsp;to receive a response in any form but text. Since it is now common for web applications to offer options for exporting your data in desktop app formats — such as .doc or .">
@@ -322,6 +322,7 @@
 
       
          <p>problem:</p><p>Ajax is inable&nbsp;to receive a response in any form but text. Since it is now common for web applications to offer options for exporting your data in desktop app formats — such as .doc or .xls</p><p>&nbsp;</p><p>方法一：</p><p><a href="http://www.filamentgroup.com/lab/jquery_plugin_for_requesting_ajax_like_file_downloads/" target="_blank">&nbsp;http://www.filamentgroup.com/lab/jquery_plugin_for_requesting_ajax_like_file_downloads/</a></p><p></p><p>jQuery.download = function(url, data, method){</p><p>//url and data options required</p><p>if( url &amp;&amp; data ){&nbsp;</p><p>//data can be string of parameters or array/object</p><p>data = typeof data == ‘string’ ? data : jQuery.param(data);</p><p>//split params into form inputs</p><p>var inputs = ‘’;</p><p>jQuery.each(data.split(‘&amp;’), function(){&nbsp;</p><p>var pair = this.split(‘=’);</p><p>inputs+=’&lt;input type=&quot;hidden&quot; name=&quot;’+ pair[0] +’&quot; value=&quot;’+ pair[1] +’&quot; /&gt;’;&nbsp;</p><p>});</p><p>//send request</p><p>jQuery(‘&lt;form action=&quot;’+ url +’&quot; method=&quot;’+ (method||’post’) +’&quot;&gt;’+inputs+’&lt;/form&gt;’)</p><p>.appendTo(‘body’).submit().remove();</p><p>};</p><p>};</p><p>&nbsp;</p><p></p><p>$.download(‘/export.php’,’filename=mySpreadsheet&amp;format=xls&amp;content=’ + spreadsheetData );</p><br><p></p><p>&nbsp;</p><p>方法二：</p><p></p><p>Ajax的处理都是异步的，所以想实现文件下载这种同步的操作，就比较捉襟见肘。</p><p></p><p>不过google了一下，找到了一个方法，当然不是完美</p><p>主旨就是提交一个request，在server端将文件生成好，然后返回文件名，</p><p>client端则在js中隐藏一个frame，将frame的src指向生成的文件（根据返回的文件名）</p><p>&nbsp;</p><p>client:</p><p>Ext.Ajax.request({</p><p>url: ‘/csvoutput/‘,</p><p>success: function(r, o) {</p><p>obj = Ext.util.JSON.decode(r.responseText);</p><p>try {</p><p>Ext.destroy(Ext.get(‘downloadIframe’));</p><p>}</p><p>catch(e) {}</p><p>Ext.DomHelper.append(document.body, {</p><p>tag: ‘iframe’,</p><p>id:’downloadIframe’,</p><p>frameBorder: 0,</p><p>width: 0,</p><p>height: 0,</p><p>css: ‘display:none;visibility:hidden;height:0px;’,</p><p>src: obj.filename</p><p>});</p><p>},</p><p>failure: function(r, o){</p><p>},</p><p>headers: {</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;’my-header’: ‘csvoutput’</p><p>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;},</p><p>params: { }</p><p>});</p><p>&nbsp;</p><p>server:(django)</p><p>result = {}</p><p>result[‘filename’] = filename</p><p>result[‘success’] = True</p><p>return HttpResponse(simplejson.dumps(result), mimetype=’text/javascript’)</p><br><p></p><p></p> 
+
       
     </div>
 
@@ -424,7 +425,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -432,7 +433,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

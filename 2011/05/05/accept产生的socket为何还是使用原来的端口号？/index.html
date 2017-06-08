@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://blog.pickbox.me/2011/05/05/accept产生的socket为何还是使用原来的端口号？/index.html">
 <meta property="og:site_name" content="jfo planet">
 <meta property="og:description" content="accept产生的socket为何还是使用原来的端口号？这样不就无法区分 侦听的socket和新的socket了吗？还有客户端照旧往原来的端口发送，新的socket能接受到了吗？ 客户的socket 进行connect服务器进程老的socket 在listen，然后 accept 产生新socket， fork 然后子进程使用新的socket，新的socket和老的socket 使用相同的端口，">
-<meta property="og:updated_time" content="2016-10-15T05:24:27.000Z">
+<meta property="og:updated_time" content="2017-06-07T05:03:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="accept产生的socket为何还是使用原来的端口号？">
 <meta name="twitter:description" content="accept产生的socket为何还是使用原来的端口号？这样不就无法区分 侦听的socket和新的socket了吗？还有客户端照旧往原来的端口发送，新的socket能接受到了吗？ 客户的socket 进行connect服务器进程老的socket 在listen，然后 accept 产生新socket， fork 然后子进程使用新的socket，新的socket和老的socket 使用相同的端口，">
@@ -322,6 +322,7 @@
 
       
          <p>accept产生的socket为何还是使用原来的端口号？<br><br>这样不就无法区分 侦听的socket和新的socket了吗？<br>还有客户端照旧往原来的端口发送，新的socket能接受到了吗？ <br><br>客户的socket 进行connect<br>服务器进程老的socket 在listen，然后 accept 产生新socket， fork 然后子进程使用新的socket，<br><br>新的socket和老的socket 使用相同的端口，我们都知道新的socket在和客户的socket 通信，我不明白的就是怎么区分服务器进程老的socket 和新进程的socket。<br><br><br>——————<br>《TCP/IP Illustrated》中解释就是TCP连接由四个特征值区分，accept返回的socket没有必要使用新的端口号， 也能和其它TCP连接区分开.<br><br><br>处于LISTEN状态的的那个socket的daddr和dport都是0。<br>linux中处于LISTEN状态的socket和其它状态的socket分别在两个hash<br>table里，而且是后搜索LISTEN状态的那个hash table.<br><br>static inline struct sock <em>__inet_lookup(struct inet_hashinfo </em>hashinfo,<br>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; const u32 saddr, const u16 sport,<br>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; const u32 daddr, const u16 hnum,<br>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp; const int dif)<br>{<br>&nbsp;&nbsp; &nbsp;struct sock *sk = __inet_lookup_established(hashinfo, saddr, sport, daddr,<br>&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; hnum, dif);<br>&nbsp;&nbsp; &nbsp;return sk ? : inet_lookup_listener(hashinfo, daddr, hnum, dif);<br>}<br><br><br>总结：两台机器(客户+服务器)的IP地址+传输协议+端口 才能真正确定 客户进程,服务器进程<br><br>(当有网卡接收到数据后，根据src ip + dest ip + src port + dest port这四个特征来dispatch数据到相应的进程)</p><p>&nbsp;</p> 
+
       
     </div>
 
@@ -424,7 +425,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -432,7 +433,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

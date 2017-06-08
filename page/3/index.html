@@ -261,6 +261,279 @@
             
               
                 
+                <a class="post-title-link" href="/2015/03/13/【zz】为什么不能往Android的Application对象里存储数据/" itemprop="url">
+                  【zz】为什么不能往Android的Application对象里存储数据
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-03-13T17:03:22+08:00" content="2015-03-13">
+              2015-03-13
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          在一个App里面总有一些数据需要在多个地方用到。这些数据可能是一个 session token，一次费时计算的结果等。通常为了避免activity之间传递对象的开销 ，这些数据一般都会保存到持久化存储里面。
+有人建议将这些数据保存到 Application 对象里面，这样这些数据对所有应用内的activities可用。这种方法简单，优雅而且……完全扯淡。
+假设把你的数据都保存到Application对象里面去了，那么你的应用最后会以一个NullPointerException 异常crash掉。
+一个简单的测试案例
+代码Application 对象：
+// access modifiers omitted for brevityclass MyApplication extends Application {
+String name;
+
+String getName() {
+    return name;
+}
+
+void setName(String name) {
+    this.name = name;
+}
+}第一个activity，我们往application对象里面存储了用
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/03/13/【zz】为什么不能往Android的Application对象里存储数据/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2015/03/13/防止Handler导致的内存泄露/" itemprop="url">
+                  防止Handler导致的内存泄露
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2015-03-13T16:49:35+08:00" content="2015-03-13">
+              2015-03-13
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          先来看一段代码：
+
+public class MyActivity extends Activity {
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    if (savedInstanceState == null) {
+      setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+    }
+    Handler handler = new Handler(Looper.getMainLooper());
+    handler.post(new Runnable() {
+      public void run() {
+        doSomething();
+      }
+    });
+  }
+
+  void doSomething() {
+    // Uses the activity instance
+  }
+}
+
+
+上面的代码会
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2015/03/13/防止Handler导致的内存泄露/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/03/13/关于IBinder运行的线程/" itemprop="url">
                   关于IBinder运行的线程
                 </a>
@@ -1254,265 +1527,6 @@ Android console command help:
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2014/11/07/sensor-service的初始化/" itemprop="url">
-                  sensor service的初始化
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2014-11-07T11:41:35+08:00" content="2014-11-07">
-              2014-11-07
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          基于android-4.4源码分析
-sensor service init首先是SystemServer中的初始化入口，位于frameworks/base/services/java/com/android/server/SystemServer.java在main()函数中调用nativeInit()，它位于frameworks/base/services/jni/com_android_server_SystemServer.cpp
-
-static JNINativeMethod gMethods[] = {
-    /* name, signature, funcPtr */
-    { &quot;nativeInit&quot;, &quot;()V&quot;, (void*) android_server_SystemServer_nativeInit },
-};
-
-static void android_server_SystemServer_nativeInit(JNIEnv* env, jobject clazz) {
-    char propBuf[PROPER
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014/11/07/sensor-service的初始化/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2014/11/06/sensors-HAL/" itemprop="url">
-                  sensors HAL
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2014-11-06T19:26:27+08:00" content="2014-11-06">
-              2014-11-06
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Android/" itemprop="url" rel="index">
-                    <span itemprop="name">Android</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          补充《sensor service的初始化》中提到的onFirstRef主要是在Android的HAL层对底层驱动封装
-frameworks/native/services/sensorservice/SensorDevice.cpp
-
-SensorDevice::SensorDevice()
-    :  mSensorDevice(0),
-       mSensorModule(0)
-{
-    status_t err = hw_get_module(SENSORS_HARDWARE_MODULE_ID,
-            (hw_module_t const**)&amp;mSensorModule);
-
-    ALOGE_IF(err, &quot;couldn't load %s module (%s)&quot;,
-            SENSORS_HARDWARE_MODULE_ID, strerror(-err));
-
-    if (mSensorModule) {
-        err = sensors_open_1(&amp;mSensorM
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014/11/06/sensors-HAL/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1558,7 +1572,7 @@ SensorDevice::SensorDevice()
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1566,7 +1580,7 @@ SensorDevice::SensorDevice()
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://blog.pickbox.me/2011/09/28/重复导入联系人的问题（Contact-AGGREGATION）/index.html">
 <meta property="og:site_name" content="jfo planet">
 <meta property="og:description" content="&amp;nbsp;重复导入联系人时，android会把相同的联系人放在一个联系人名片夹中，通过编辑联系人界面可以看到。这样可能会带来编辑的bug，同时看着也不爽。研究了下代码，原来，android导入时，会调用合并的功能。通过设置RawContacts.AGGREGATION_MODE可以达到导入不合并的效果。RawContacts.AGGREGATION_MODE可以设置为：RawContacts.">
-<meta property="og:updated_time" content="2016-10-15T05:24:27.000Z">
+<meta property="og:updated_time" content="2017-06-07T05:03:27.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="重复导入联系人的问题（Contact AGGREGATION）">
 <meta name="twitter:description" content="&amp;nbsp;重复导入联系人时，android会把相同的联系人放在一个联系人名片夹中，通过编辑联系人界面可以看到。这样可能会带来编辑的bug，同时看着也不爽。研究了下代码，原来，android导入时，会调用合并的功能。通过设置RawContacts.AGGREGATION_MODE可以达到导入不合并的效果。RawContacts.AGGREGATION_MODE可以设置为：RawContacts.">
@@ -322,6 +322,7 @@
 
       
          <p>&nbsp;</p><p></p><p>重复导入联系人时，android会把相同的联系人放在一个联系人名片夹中，通过编辑联系人界面可以看到。这样可能会带来编辑的bug，同时看着也不爽。</p><p>研究了下代码，原来，android导入时，会调用合并的功能。通过设置RawContacts.AGGREGATION_MODE可以达到导入不合并的效果。</p><p>RawContacts.AGGREGATION_MODE可以设置为：</p><p>RawContacts.AGGREGATION_MODE_DEFAULT;</p><p>RawContacts.AGGREGATION_MODE_IMMEDIATE;</p><p>RawContacts.AGGREGATION_MODE_SUSPENED;</p><p>RawContacts.AGGREGATION_MODE_DISABLED;</p><p>(详见android.provider.ContactsContract.java)</p><p>&nbsp;</p><p>在导入联系人时insert的地方(frameworks/base/core/java/android/pim/vcard/VCardEntry.java&nbsp;:&nbsp;pushIntoContentResolver())加入</p><strong>builder.withValue(RawContacts.AGGREGATION_MODE,&nbsp;RawContacts.AGGREGATION_MODE_SUSPENDED);</strong>&nbsp;<p><br></p><p>————————-android doc for&nbsp;<strong>RawContacts———————</strong></p><p><strong>Aggregation</strong></p><p>As soon as a raw contact is inserted or whenever its constituent data changes, the provider will check if the raw contact matches other existing raw contacts and if so will aggregate it with those. The aggregation is reflected in the&nbsp;&nbsp;table by the change of the&nbsp;&nbsp;field, which is the reference to the aggregate contact.</p><p>Changes to the structured name, organization, phone number, email address, or nickname trigger a re-aggregation.</p><p>&nbsp;</p><p><strong>public static final int&nbsp;AGGREGATION_MODE_SUSPENDEDSince:&nbsp;</strong></p><p></p><p>Aggregation mode: aggregation suspended temporarily, and is likely to be resumed later. Changes to the raw contact will update the associated aggregate contact but will not result in any change in how the contact is aggregated. Similar to&nbsp;, but maintains a link to the corresponding&nbsp;&nbsp;aggregate.</p><p>This can be used to postpone aggregation until after a series of updates, for better performance and/or user experience.</p><p>Note that changing&nbsp;&nbsp;from&nbsp;&nbsp;to&nbsp;&nbsp;does not trigger an aggregation pass, but any subsequent change to the raw contact’s data will.</p><p></p>Constant Value:&nbsp;2 (0x00000002)<p><strong>public static final int&nbsp;AGGREGATION_MODE_DISABLEDSince:&nbsp;</strong></p><p></p><p>Aggregation mode: never aggregate this raw contact. The raw contact will not have a corresponding&nbsp;&nbsp;aggregate and therefore will not be included in&nbsp;&nbsp;query results.</p><p>For example, this mode can be used for a raw contact that is marked for deletion while waiting for the deletion to occur on the server side.</p><p></p>See AlsoConstant Value:&nbsp;3 (0x00000003)<p><br></p><p><br></p><p></p> 
+
       
     </div>
 
@@ -424,7 +425,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -432,7 +433,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

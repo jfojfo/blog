@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://blog.pickbox.me/2013/01/21/virtualbox中调整虚拟机的硬盘大小，再fdisk-扩大ext3分区/index.html">
 <meta property="og:site_name" content="jfo planet">
 <meta property="og:description" content="VBoxManage.exe&amp;nbsp;modifyhd&amp;nbsp;E:ubuntu_64.vdi&amp;nbsp;&amp;nbsp;showhdinfoUUID:&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;d476f654-3100-4530-b6">
-<meta property="og:updated_time" content="2016-10-15T05:24:27.000Z">
+<meta property="og:updated_time" content="2017-06-07T05:03:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="virtualbox中调整虚拟机的硬盘大小，再fdisk 扩大ext3分区">
 <meta name="twitter:description" content="VBoxManage.exe&amp;nbsp;modifyhd&amp;nbsp;E:ubuntu_64.vdi&amp;nbsp;&amp;nbsp;showhdinfoUUID:&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;d476f654-3100-4530-b6">
@@ -322,6 +322,7 @@
 
       
          <p><br></p><p><span style="font-family: Calibri; background-color: #ffffff;">VBoxManage.exe&nbsp;modifyhd&nbsp;E:ubuntu_64</span><span style="font-family: Calibri; background-color: #ffffff;">.vdi&nbsp;&nbsp;showhdinfo</span><br></p><p><span style="">UUID:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d476f654-3100-4530-b645-31dcaf80ae56</span></p><p><span style="">Accessible:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;yes</span></p><p><span style="">Logical&nbsp;size:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;28723&nbsp;MBytes</span></p><p><span style="">Current&nbsp;size&nbsp;on&nbsp;disk:&nbsp;23389&nbsp;MBytes</span></p><p><span style="">Type:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;normal&nbsp;(base)</span></p><p><span style="">Storage&nbsp;format:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VDI</span></p><p><span style="">Format&nbsp;variant:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dynamic&nbsp;default</span></p><p><span style="">In&nbsp;use&nbsp;by&nbsp;VMs:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ubuntu64_build_android&nbsp;(UUID:&nbsp;b787cc4e-69b5-4c05-99d3-f060</span><span>29b9d910)</span></p><p><span style="">Location:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;E:ubuntu64.vdi</span></p><p><span style="font-family: Calibri; background-color: #ffffff;"><br></span></p><p><span style="font-family: Calibri; background-color: #ffffff;">VBoxManage.exe&nbsp;<span style="font-family: Calibri; background-color: #ffffff;">modifyhd&nbsp;</span><span style="font-family: Calibri; background-color: #ffffff;">–resize&nbsp;30000</span>&nbsp;E:ubuntu_64</span><span style="font-family: Calibri; background-color: #ffffff;">.vdi</span></p><p style="font-family: Arial; background-color: #ffffff; line-height: 26px;"><span style="font-family: Calibri;">0%…10%…20%…30%…40%…50%…60%…70%…80%…90%…100%</span></p><p><br></p><p><br></p><p><br></p><p>用<span>ubuntu</span>光盘启动进入Linux系统</p><p style="font-size: 12px; font-family: Verdana,'BitStream vera Sans',Tahoma,Helvetica,sans-serif; color: #555555; background-color: #ffffff; line-height: 17px; margin-bottom: 10px;">1、执行&nbsp;fdisk&nbsp;-l&nbsp;&gt;&nbsp;/tmp/fdisk.out&nbsp;命令，将&nbsp;fdisk&nbsp;的信息保存;</p><p style="font-size: 12px; font-family: Verdana,'BitStream vera Sans',Tahoma,Helvetica,sans-serif; color: #555555; background-color: #ffffff; line-height: 17px; margin-bottom: 10px;">2、执行&nbsp;fdisk&nbsp;/dev/sdb&nbsp;命令，对&nbsp;sdb&nbsp;设备进行操作，<br>输入&nbsp;d&nbsp;将唯一一个分区删除;(只要不保存就不会影响数据的)<br>输入&nbsp;n&nbsp;建立一个主分区，分区号和之前的保持一致;<br>在&nbsp;First&nbsp;cylinder&nbsp;处输入之前分区的&nbsp;start&nbsp;值，如果不清楚，可以查看备份出来的&nbsp;fdisk.out&nbsp;文件，关于&nbsp;/dev/sdb1&nbsp;的start&nbsp;值;(此处非常重要！)<br>Last&nbsp;cylinder&nbsp;可以直接回车，默认最大，也就是说将全部空间给该分区，当然也可以手动输入，但不能比之前的小;<br>输入&nbsp;w&nbsp;保存。</p><p style="font-size: 12px; font-family: Verdana,'BitStream vera Sans',Tahoma,Helvetica,sans-serif; color: #555555; background-color: #ffffff; line-height: 17px; margin-bottom: 10px;">3、e2fsck&nbsp;-y&nbsp;/dev/sdb1&nbsp;检测文件系统;</p><p style="font-size: 12px; font-family: Verdana,'BitStream vera Sans',Tahoma,Helvetica,sans-serif; color: #555555; background-color: #ffffff; line-height: 17px; margin-bottom: 10px;">4、resize2fs&nbsp;/dev/sdb1&nbsp;使扩大的文件系统生效。</p><p style="font-size: 12px; font-family: Verdana,'BitStream vera Sans',Tahoma,Helvetica,sans-serif; color: #555555; background-color: #ffffff; line-height: 17px; margin-bottom: 10px;">需要说明的是，如果设备上有很多分区，只能扩最后一个分区。</p><p><br></p> 
+
       
     </div>
 
@@ -430,7 +431,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -438,7 +439,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

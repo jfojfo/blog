@@ -102,7 +102,7 @@
         SamplingProfilerIntegration.start();
 
         // CloseGuard defaults to true and">
-<meta property="og:updated_time" content="2016-10-15T05:24:27.000Z">
+<meta property="og:updated_time" content="2017-06-07T05:03:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="NativeActivity的OnCreate过程及InputQueue相关分析">
 <meta name="twitter:description" content="每一个应用程序都有一个ActivityThread，当这个应用的进程创建时，会进入到ActivityThread的main函数运行
@@ -676,7 +676,7 @@ void*指针，可以保存任何用户自定义数据，这里是android_app结�
 }</pre>
 这里创建一个native层的looper
 ALooper* looper = ALooper_prepare(ALOOPER_PREPARE_ALLOW_NON_CALLBACKS);
-关于looper更详细的介绍可以参考《<a href="http://blog.csdn.net/luoshengyang/article/details/6817933" target="_blank">Android应用程序消息处理机制（Looper、Handler）分析</a>》（<a href="http://img.pickbox.me/wp-content/uploads/Android应用程序消息处理机制（Looper、Handler）分析.pdf" target="_blank">下载</a>）
+关于looper更详细的介绍可以参考《<a href="http://blog.csdn.net/luoshengyang/article/details/6817933" target="_blank">Android应用程序消息处理机制（Looper、Handler）分析</a>》（<a href="http://img.pickbox.cc/wp-content/uploads/Android应用程序消息处理机制（Looper、Handler）分析.pdf" target="_blank">下载</a>）
 
 然后将前面pipe创建的msgread读端FD，挂到这个looper去监听，
 int Looper::addFd(int fd, int ident, int events, ALooper_callbackFunc callback, void* data)
@@ -685,7 +685,7 @@ callback为NULL，data指向&amp;android_app-&gt;cmdPollSource
 
 一旦pipe的写端msgwrite写入了数据，监听msgread的looper就会被唤醒（pollOnce结束block状态），
 对于传入callback为NULL的情况，pollOnce直接返回ident，根据这个值就知道是什么类型的事件了，
-比如LOOPER_ID_MAIN、LOOPER_ID_INPUT等等，参考前一篇《<a href="http://blog.pickbox.me/2014/05/19/retroarch%EF%BC%9A%E5%90%AF%E5%8A%A8%E5%85%A5%E5%8F%A3%E3%80%81android%E8%BE%93%E5%85%A5%E9%A9%B1%E5%8A%A8/" target="_blank">retroarch：启动入口、android输入驱动</a>》
+比如LOOPER_ID_MAIN、LOOPER_ID_INPUT等等，参考前一篇《<a href="http://blog.pickbox.cc/2014/05/19/retroarch%EF%BC%9A%E5%90%AF%E5%8A%A8%E5%85%A5%E5%8F%A3%E3%80%81android%E8%BE%93%E5%85%A5%E9%A9%B1%E5%8A%A8/" target="_blank">retroarch：启动入口、android输入驱动</a>》
 中process_events调用android_run_events时的ALooper_pollOnce
 这里我们传进去的是LOOPER_ID_MAIN，表明是android系统相关的事件
 
@@ -1659,6 +1659,7 @@ struct android_app的定义如下：
     ANativeWindow* pendingWindow;
     ARect pendingContentRect;
 };</pre>
+
       
     </div>
 
@@ -1761,7 +1762,7 @@ struct android_app的定义如下：
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1769,7 +1770,7 @@ struct android_app的定义如下：
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

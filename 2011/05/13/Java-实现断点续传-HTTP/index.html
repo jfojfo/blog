@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://blog.pickbox.me/2011/05/13/Java-实现断点续传-HTTP/index.html">
 <meta property="og:site_name" content="jfo planet">
 <meta property="og:description" content="断点续传的原理其实断点续传的原理很简单，就是在 Http 的请求上和一般的下载有所不同而已。 打个比方，浏览器请求服务器上的一个文时，所发出的请求如下： 假设服务器域名为 wwww.sjtu.edu.cn，文件名为 down.zip。 GET /down.zip HTTP/1.1 Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpe">
-<meta property="og:updated_time" content="2016-10-15T05:24:27.000Z">
+<meta property="og:updated_time" content="2017-06-07T05:03:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java 实现断点续传 (HTTP)">
 <meta name="twitter:description" content="断点续传的原理其实断点续传的原理很简单，就是在 Http 的请求上和一般的下载有所不同而已。 打个比方，浏览器请求服务器上的一个文时，所发出的请求如下： 假设服务器域名为 wwww.sjtu.edu.cn，文件名为 down.zip。 GET /down.zip HTTP/1.1 Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpe">
@@ -322,6 +322,7 @@
 
       
          <p>断点续传的原理<br><br>其实断点续传的原理很简单，就是在 Http 的请求上和一般的下载有所不同而已。 <br>打个比方，浏览器请求服务器上的一个文时，所发出的请求如下： <br>假设服务器域名为 wwww.sjtu.edu.cn，文件名为 down.zip。 <br>GET /down.zip HTTP/1.1 <br>Accept: image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/vnd.ms- <br>excel, application/msword, application/vnd.ms-powerpoint, <em>/</em> <br>Accept-Language: zh-cn <br>Accept-Encoding: gzip, deflate <br>User-Agent: Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0) <br>Connection: Keep-Alive<br><br>服务器收到请求后，按要求寻找请求的文件，提取文件的信息，然后返回给浏览器，返回信息如下：<br><br>200 <br>Content-Length=106786028 <br>Accept-Ranges=bytes <br>Date=Mon, 30 Apr 2001 12:56:11 GMT <br>ETag=W/&quot;02ca57e173c11:95b&quot; <br>Content-Type=application/octet-stream <br>Server=Microsoft-IIS/5.0 <br>Last-Modified=Mon, 30 Apr 2001 12:56:11 GMT<br><br>所谓断点续传，也就是要从文件已经下载的地方开始继续下载。所以在客户端浏览器传给 Web 服务器的时候要多加一条信息 – 从哪里开始。 <br>下面是用自己编的一个&quot;浏览器&quot;来传递请求信息给 Web 服务器，要求从 2000070 字节开始。 <br>GET /down.zip HTTP/1.0 <br>User-Agent: NetFox <br>RANGE: bytes=2000070- <br>Accept: text/html, image/gif, image/jpeg, <em>; q=.2, </em>/*; q=.2<br><br>仔细看一下就会发现多了一行 RANGE: bytes=2000070- <br>这一行的意思就是告诉服务器 down.zip 这个文件从 2000070 字节开始传，前面的字节不用传了。 <br>服务器收到这个请求以后，返回的信息如下： <br>206 <br>Content-Length=106786028 <br>Content-Range=bytes 2000070-106786027/106786028 <br>Date=Mon, 30 Apr 2001 12:55:20 GMT <br>ETag=W/&quot;02ca57e173c11:95b&quot; <br>Content-Type=application/octet-stream <br>Server=Microsoft-IIS/5.0 <br>Last-Modified=Mon, 30 Apr 2001 12:55:20 GMT<br><br>和前面服务器返回的信息比较一下，就会发现增加了一行： <br>Content-Range=bytes 2000070-106786027/106786028 <br>返回的代码也改为 206 了，而不再是 200 了。<br><br>知道了以上原理，就可以进行断点续传的编程了。<br><br>回页首<br><br>Java 实现断点续传的关键几点<br><br>(1) 用什么方法实现提交 RANGE: bytes=2000070-。 <br>当然用最原始的 Socket 是肯定能完成的，不过那样太费事了，其实 Java 的 net 包中提供了这种功能。代码如下： <br><br>URL url = new URL(&quot;<a href="http://www.sjtu.edu.cn/down.zip&amp;quot" target="_blank" rel="external">http://www.sjtu.edu.cn/down.zip&amp;quot</a>;); <br>HttpURLConnection httpConnection = (HttpURLConnection)url.openConnection(); <br><br>// 设置 User-Agent <br>httpConnection.setRequestProperty(&quot;User-Agent&quot;,&quot;NetFox&quot;); <br>// 设置断点续传的开始位置 <br>httpConnection.setRequestProperty(&quot;RANGE&quot;,&quot;bytes=2000070&quot;); <br>// 获得输入流 <br>InputStream input = httpConnection.getInputStream(); <br>从输入流中取出的字节流就是 down.zip 文件从 2000070 开始的字节流。大家看，其实断点续传用 Java 实现起来还是很简单的吧。接下来要做的事就是怎么保存获得的流到文件中去了。<br><br>保存文件采用的方法。 <br>我采用的是 IO 包中的 RandAccessFile 类。 <br>操作相当简单，假设从 2000070 处开始保存文件，代码如下： <br>RandomAccess oSavedFile = new RandomAccessFile(&quot;down.zip&quot;,&quot;rw&quot;); <br>long nPos = 2000070; <br>// 定位文件指针到 nPos 位置 <br>oSavedFile.seek(nPos); <br>byte[] b = new byte[1024]; <br>int nRead; <br>// 从输入流中读入字节流，然后写到文件中 <br>while((nRead=input.read(b,0,1024)) &gt; 0) <br>{ <br>oSavedFile.write(b,0,nRead); <br>}<br>怎么样，也很简单吧。接下来要做的就是整合成一个完整的程序了。包括一系列的线程控制等等。</p> 
+
       
     </div>
 
@@ -424,7 +425,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -432,7 +433,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

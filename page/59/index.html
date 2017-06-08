@@ -261,6 +261,242 @@
             
               
                 
+                <a class="post-title-link" href="/2006/12/20/Linux-module-init-tools模块管理概述/" itemprop="url">
+                  Linux module-init-tools模块管理概述
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2006-12-20T14:37:00+08:00" content="2006-12-20">
+              2006-12-20
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux-App/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux App</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+           作者：北南南北来自：LinuxSir.Org摘要：本文讲述与内核操作有关的基础知识；比如编译内核，装载、移除内核模块，查看模块信息等；本文涉及相关的命令有modprobe、insmod、depmod、rmmod、modinfo等；++++++++++++++++++++++++++++++++++++++++++++++++++++++正文++++++++++++++++++++++++++++++++++++++++++++++++++++++一、什么是内核；内核官方：http://www.kernel.org内核洋文用 kernel，我刚才翻了一下词典，kernel 中文意思是内核、核心、中心、精髓的意思；也是果仁、果核的意思。从字面理解，kernel 是一事物的中心，植物的果实最重要的也是果仁和果核；:) 由此我们可以推断内核是操作系统的中心。我们知道Linus Torvalds 开发了Linux ，其实他开发的就是内核，按内核官方主页的理解，这个内核就是Linux ；其它的扩展和应用都是围绕内核而展开的。所有Linux应用程序都会和内核发生直接或者间接的接触；比如硬件需要内核
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2006/12/20/Linux-module-init-tools模块管理概述/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2006/12/20/编译内核操作流程-──为新手指南/" itemprop="url">
+                  编译内核操作流程 ──为新手指南
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2006-12-20T14:26:00+08:00" content="2006-12-20">
+              2006-12-20
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+           编译内核操作流程 ──为新手指南作者：北南南北来自：LinuxSir.Org提要： 编译内核主要是通过内核实现某些功能，比如iptables 需要内支持；所有的硬件的支持也是通过内核实现的；本文只是简单的给初学者讲一下编译内核的流程；++++++++++++++++++++++++++++++++++++++++++++++++++++++++++正文++++++++++++++++++++++++++++++++++++++++++++++++++++++++++一、为什么要编译内核；有时我们为了实现某些功能，比如对iptables的防火墙有些需要内核支持；还有实现一些硬件的支持等，这时我们需要重编内核；二、内核源码版本的选择；如果发行版本提供内核源码，最好还是用发行版本提供的；比如Fedora 4.0 提供了很多版本的内核源码；我们安装好后，他自带的配置文件大多能满足我们的需要，对于新手来说，根据自带的内核的配置文件.config ，我们也能学到一点如何配置内核。也没有什么难的，熟能生巧罢了；如果从 kernel.org 下载最新稳定版本的内核也是可以的；三、内核源码安装或解压；
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2006/12/20/编译内核操作流程-──为新手指南/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2006/12/19/lxr-Linux-Cross-Reference/" itemprop="url">
                   lxr: Linux Cross-Reference
                 </a>
@@ -1185,242 +1421,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2006/11/24/samba-config2/" itemprop="url">
-                  samba config2
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2006-11-24T00:11:00+08:00" content="2006-11-24">
-              2006-11-24
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Linux-App/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux App</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            为什么选用Samba  Samba的配置   sam.conf文件简介  配置选项   Samba全局设置  大小写管理  默认全局设置-全局设置  配置共享  共享打印机  配置登录目录  默认全局设置-目录与打印机   配置片段   排除错误   基本网络是否正常  Samba 服务是否运行  防火墙是否打开  用户口令是否使用    Samba是Windows操作系统用来共享文件和打印机的协议.利用Samba可以把Linux计算机放进Microsoft网络中.Samba是个异构服务.配置好的Linux服务器放入Microsoft的网络后,其他计算机看不到它与Microsoft计算机的任何区别.Samba可以沟通Linux与Microsoft Windows, 即可以在这些操作系统中无差异的通信.可以将提供Samba服务的Linux服务器的特定目录配置成与Microsoft Windows 网络的任何其他成员一样的共享目录.为什么选用Samba文件共享的工具有很多,比如ftp,nfs等等. Samba不同于ftp,提供在线运行程序的功能,即不需要下载到本地硬盘也能够使用一些程序
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2006/11/24/samba-config2/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2006/11/23/samba-configure/" itemprop="url">
-                  samba configure
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2006-11-23T22:23:00+08:00" content="2006-11-23">
-              2006-11-23
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Linux-App/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux App</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-           [global]&nbsp;&nbsp;&nbsp;  ; General server settings&nbsp;&nbsp;&nbsp;  netbios name = ubuntu&nbsp;&nbsp;&nbsp;  server string =&nbsp;&nbsp;&nbsp;  workgroup = JFO_GROUP&nbsp;&nbsp;&nbsp;  announce version = 5.0&nbsp;&nbsp;&nbsp;  socket options = TCP_NODELAY IPTOS_LOWDELAY SO_KEEPALIVE SO_RCVBUF=8192 SO_SNDBUF=8192&nbsp;&nbsp;&nbsp;  passdb backend = tdbsam&nbsp;&nbsp;&nbsp;  security = user&nbsp;&nbsp;&nbsp;  null passwords = true&nbsp;&nbsp;&nbsp;  username map = /etc/samba/smbusers&nbsp;&n
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2006/11/23/samba-configure/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1466,7 +1466,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1474,7 +1474,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

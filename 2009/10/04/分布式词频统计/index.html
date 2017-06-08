@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://blog.pickbox.me/2009/10/04/分布式词频统计/index.html">
 <meta property="og:site_name" content="jfo planet">
 <meta property="og:description" content="http://algorithmically.blogbus.com/logs/7604574.html一个规模庞大的多语言语料库，已经经过预处理，分成了12个文件，每个文件存放在一台服务器中。每个文件中包含800亿个单词，每个单词占一行，平 均每个单词40字节。假设服务器都已经联网，每台服务器有双CPU和4G的内存，4×400GB的硬盘，换句话说，每台服务器就是一个高配置的PC机。请 设计一">
-<meta property="og:updated_time" content="2016-10-15T05:24:27.000Z">
+<meta property="og:updated_time" content="2017-06-07T05:03:27.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="分布式词频统计">
 <meta name="twitter:description" content="http://algorithmically.blogbus.com/logs/7604574.html一个规模庞大的多语言语料库，已经经过预处理，分成了12个文件，每个文件存放在一台服务器中。每个文件中包含800亿个单词，每个单词占一行，平 均每个单词40字节。假设服务器都已经联网，每台服务器有双CPU和4G的内存，4×400GB的硬盘，换句话说，每台服务器就是一个高配置的PC机。请 设计一">
@@ -322,6 +322,7 @@
 
       
          <p> </p><p><a href="http://algorithmically.blogbus.com/logs/7604574.html" target="_blank">http://algorithmically.blogbus.com/logs/7604574.html</a></p><p>一个规模庞大的多语言语料库，已经经过预处理，分成了12个文件，每个文件存放在一台服务器中。每个文件中包含800亿个单词，每个单词占一行，平 均每个单词40字节。假设服务器都已经联网，每台服务器有双CPU和4G的内存，4×400GB的硬盘，换句话说，每台服务器就是一个高配置的PC机。请 设计一个方案，找出出现频率最高的一百万个单词。</p><p>这个问题基本上可能有两种思路。第一种需要先在每台服务器，完成对单词词频 的统计，进行排序，然后每两台服务器把词频统计结构进行合并，12个服务器合并到6个，然后3个，然后2个，直到所有的结果合并到一台服务器中我们就可以 找出这一百万个高频词了。由于单词在服务器之间的分布可能不均匀，即使一个单词在所有的服务器中出现频率都不高，合在一起仍有可能有较高的频率，此算法几 乎没有优化的余地。</p><p>举个例子，单词A只出现在一台机器上，出现了10万次。单词B在每台机器上都出现1万次。从每台服务器看来，A是高频 词，而B不是，但总体来说则可能正相反。每次合并统计结果时，本地机器中所有词频高于第一百万个高频词的词频的1/N的单词都要通过网络传输到另一台机器 中。这里N是当下包含词频统计的服务器的数目。总体来说这个方法效率比较低。</p><p>另一个方案要每台服务器负责一部分单词的词频统计，之后再采用分布式的分割算法找出前一百万个高频词。个人觉得这个算法更加可行，下面详细描述：</p><ol> <li>定义一个哈希函数将每个单词映射为1到12之间的一个数字，从而把单词均匀分割为12组。这样我们可以确定哪台服务器负责维护这个单词的词频。</li> <li>每台服务器建立12个分离的结构，用于统计每一组单词的词频。可以用哈希表也可以用前缀树。</li> <li>每台服务器中统计词频的过程很简单，关键的问题在于当内存不足的时候如何处理。这里要作一点区分，对于第N个服务器中：</li> <ol> <li>除第N组单词以外词频信息占用内存最多的是第X组单词，我们可以直接将现有的统计结果发送到第X个服务器中。第X个服务器会将它自身的第X组单词的统计结果和接收到的统计结果进行合并。</li> <li>第 N组单词的统计信息如果占用了过多的内存也会导致整个过程变慢。因而，当它占用内存超过比如说2G时，我们可以将当前的统计信息写入硬盘，这样可以腾出更 多的内存。只要我们保证在磁盘中和在内存里统计信息按相同的顺序排列，我们可以非常高效的将两组统计信息合并。不如说按照字典序（使用前缀树）或者按照哈 希值加字典序（使用哈希表）</li> </ol> <li>当每台服务器处理完本地的语料库後，将所有的不是自己负责的单词的统计信息发送到对应的服务器中，并进行合并。这样每个单词的词频统计信息都唯一的出现在一台服务器中。</li> <li>采用和《<a target="_blank" href="http://algorithmically.blogbus.com/logs/7533559.html">中间值</a>》类似的分布式算法，我们可以轻易地将频率最高的一百万单词和剩下的单词分开来。注意这里我们并没有为这些单词排序。</li></ol><p><br>记N为每台计算机上的单词数，M为不同的单词数。</p><p>每台服务器进行词频统计的计算复杂度为 O(N)。<br>总通讯量为O(M)。<br>寻找分割点时服务器的总计算量为O(M)<br>寻找分割点时协调人的额外计算量O(log M)</p> 
+
       
     </div>
 
@@ -424,7 +425,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -432,7 +433,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

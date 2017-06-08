@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://blog.pickbox.me/2008/04/02/【zz】mozilla中的设计亮点/index.html">
 <meta property="og:site_name" content="jfo planet">
 <meta property="og:description" content="http://blog.csdn.net/absurd/archive/2007/03/01/1518630.aspxmozilla 是一个以浏览器为中心的软件平台，它在我们平台中占有重要地位。我们用它来实现WEB浏览器、WAP浏览器、邮件系统、电子书和帮助阅读器等应用程序。为 此，我最近花了不少时间去阅读mozilla的代码和文档，我将写一系列的BLOG作为笔记，供有需要的朋友参考。本文介绍一">
-<meta property="og:updated_time" content="2016-10-15T05:24:27.000Z">
+<meta property="og:updated_time" content="2017-06-07T05:03:27.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【zz】mozilla中的设计亮点">
 <meta name="twitter:description" content="http://blog.csdn.net/absurd/archive/2007/03/01/1518630.aspxmozilla 是一个以浏览器为中心的软件平台，它在我们平台中占有重要地位。我们用它来实现WEB浏览器、WAP浏览器、邮件系统、电子书和帮助阅读器等应用程序。为 此，我最近花了不少时间去阅读mozilla的代码和文档，我将写一系列的BLOG作为笔记，供有需要的朋友参考。本文介绍一">
@@ -322,6 +322,7 @@
 
       
          <p><a href="http://blog.csdn.net/absurd/archive/2007/03/01/1518630.aspx" target="_blank">http://blog.csdn.net/absurd/archive/2007/03/01/1518630.aspx</a></p><p><br></p><p>mozilla 是一个以浏览器为中心的软件平台，它在我们平台中占有重要地位。我们用它来实现WEB浏览器、WAP浏览器、邮件系统、电子书和帮助阅读器等应用程序。为 此，我最近花了不少时间去阅读mozilla的代码和文档，我将写一系列的BLOG作为笔记，供有需要的朋友参考。本文介绍一下mozilla中的设计亮 点。</p><p> </p><p>近几年我看了不少大型开源系统，它们每个设计得都很经典，而mozilla无疑是其中的佼佼者之一。好的设计总是遵循一些众所周知的设计准则，套句俗语说，差的设计千差万别，好的设计都差不多。Mozilla也一样，它也无非是遵循了一些好的准则，只是实现手段有些差异罢了。这里简单的说一说，就算是温故知新吧。</p><p> </p><p>1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   针对接口编程。</p><p>Mozilla 整个设计都是基于组件对象模型(COM)的，而组件对象模型(COM)的主要特点就是针对接口编程。在《设计模式》中，作者把针对接口编程作为设计的首要 准则。针对接口编程的主要目的就是信息隐藏，隔离变化，把模块的使用者和实现者之间的耦合减到最小。而且在XPCOM的帮助下，组件可以动态替换或者增 加，具有更强的灵活性。</p><p> </p><p>2.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   分离界面和实现。</p><p>在这一方面，mozilla 算是非常前卫了：用标记语言(XML)开发界面，用编程语言来实现(C++)逻辑，而用脚本语言(javascript)把两者胶合起来，这可以说是把三 者的长处发挥到了极致。以前我也有过类似的想法，当时刚进入手机行业，我发现各种GUI的不统一，导致手机程序移植非常困难。当时就想，如果应用程序的界 面用HTML来写，应用程序的逻辑用C/C++写，界面在浏览器中运行，而应用程序的逻辑作为WEB服务器运行。再扩展一下HTTP协议，支持异步事件， 完全可以实现传统的应用程序。后来发现mozilla早就实现了类似的东东，让我大跌眼镜。</p><p> </p><p>另外mozilla也大量应用了观察者模式，这对分离界面和实现很有帮助。比如，网络操作通常都要花很长时间，在此期间要报告操作的当前状态。通过观察者模式，可以在长时间操作中更新状态，而又避免了操作与用户界面的耦合。</p><p> </p><p>3.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   可移植性。</p><p>Mozilla 是一个跨平台的软件，它的基本运行平台有linux、windows和mac，实际上它还可以运行在其它unix平台上，所以可移植性是mozilla是 主要目标之一。如果开发过跨平台软件，你就会知道开发可移植性软件是多么困难，特别是大型GUI应用程序。Mozilla在可移植性上可谓费尽苦心：</p><p>l&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   实现了一套跨平台的组件对象模型(XPCOM)，这使得mozilla可以利用组件对象模型(COM)的好处，而又不限于windows平台。</p><p>l&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   实现了一套可移植运行库,对各种操作系统的接口作了抽象，隔离上层模块对操作系统的依赖。</p><p>l&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   实现了自己国际化机制，包括编码转换、编码检测和字符串翻译等等。</p><p>l&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   对GUI作了抽象，实现了widget和gfx两个库，前者负责窗口/控件的处理，后者负责图形/图像的绘制。可以用不同的GUI作为实现后端。</p><p> </p><p>4.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   可扩展性。</p><p>对于浏览器来说，可扩展性也是非常重要的。由于它涉及的东西太多，专业的功能应该由专业的厂商去做，而不是全部由浏览器来实现。比如像flash播放、视频播放和pdf阅读等等都应该从浏览器中分离出来。Mozilla提供了两种扩展机制，一种称为plugin，另外一种称为extension。这可能有点让人混淆，我是这样理解的：</p><p>l&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   plugin用来增强现有功能，比如wml browser plugin可以把wml转换成html，而media player plugin可以播放音/视频文件。所有的plugin都要实现指定的接口。</p><p>l&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   extension用来扩展新功能，这些功能可能与浏览器有关，也可能无关，像help extension就是用来实现帮助功能的。Extension不必实现特定的接口。</p><p> </p><p>5.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   稳定性(内存问题检测)。</p><p>用C/C++开发的应用程序，最大的毛病就是容易出现内存泄露和越界，即使有多年开发经验的老手也可能在此栽了跟头。有人说，有很多工具可以帮助检测内存问题啊。没错，但有两种情况可能让这些工具失效，一是GUI系统，它们通常使用了共享内存，大多数工具对此都无能为力。不信的话，你可以用valgrind检查一下GTK应用程序试试。二是自己管理了内存，大型系统中，为了高效的利用内存，往往实现了自己的内存管理器，工具对此一无所知，自然帮不上忙。</p><p> </p><p>Mozilla实现了自己的内存管理器，同时还实现多种内存问题检查机制，比如用boehm垃圾回收机制来检查内存泄露问题。当然，对于C/C++这个毛病，也是迫不得已，大家都在重复实现这些东西，却没有好的重用办法，这不怪mozilla。</p> 
+
       
     </div>
 
@@ -424,7 +425,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -432,7 +433,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

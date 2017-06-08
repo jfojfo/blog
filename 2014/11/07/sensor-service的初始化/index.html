@@ -94,14 +94,14 @@ sensor service init首先是SystemServer中的初始化入口，位于frameworks
 <meta property="og:site_name" content="jfo planet">
 <meta property="og:description" content="基于android-4.4源码分析
 sensor service init首先是SystemServer中的初始化入口，位于frameworks/base/services/java/com/android/server/SystemServer.java在main()函数中调用nativeInit()，它位于frameworks/base/services/jni/com_android_ser">
-<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/sensor-service-init.png">
-<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/SensorManager-init.png">
-<meta property="og:updated_time" content="2016-10-15T05:24:27.000Z">
+<meta property="og:image" content="http://img.pickbox.cc/wp-content/uploads/sensor-service-init.png">
+<meta property="og:image" content="http://img.pickbox.cc/wp-content/uploads/SensorManager-init.png">
+<meta property="og:updated_time" content="2017-06-07T05:03:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="sensor service的初始化">
 <meta name="twitter:description" content="基于android-4.4源码分析
 sensor service init首先是SystemServer中的初始化入口，位于frameworks/base/services/java/com/android/server/SystemServer.java在main()函数中调用nativeInit()，它位于frameworks/base/services/jni/com_android_ser">
-<meta name="twitter:image" content="http://img.pickbox.me/wp-content/uploads/sensor-service-init.png">
+<meta name="twitter:image" content="http://img.pickbox.cc/wp-content/uploads/sensor-service-init.png">
 
 
 
@@ -328,7 +328,7 @@ sensor service init首先是SystemServer中的初始化入口，位于frameworks
 
       
         <p>基于android-4.4源码分析</p>
-<p></p><h4>sensor service init</h4><br><a href="http://img.pickbox.me/wp-content/uploads/sensor-service-init.png" target="_blank" rel="external"><img src="http://img.pickbox.me/wp-content/uploads/sensor-service-init.png" alt="sensor service init" width="739" height="409" class="alignnone size-full wp-image-1069"></a><br>首先是SystemServer中的初始化入口，位于frameworks/base/services/java/com/android/server/SystemServer.java<br>在main()函数中调用nativeInit()，它位于<br>frameworks/base/services/jni/com_android_server_SystemServer.cpp<p></p>
+<p></p><h4>sensor service init</h4><br><a href="http://img.pickbox.cc/wp-content/uploads/sensor-service-init.png" target="_blank" rel="external"><img src="http://img.pickbox.cc/wp-content/uploads/sensor-service-init.png" alt="sensor service init" width="739" height="409" class="alignnone size-full wp-image-1069"></a><br>首先是SystemServer中的初始化入口，位于frameworks/base/services/java/com/android/server/SystemServer.java<br>在main()函数中调用nativeInit()，它位于<br>frameworks/base/services/jni/com_android_server_SystemServer.cpp<p></p>
 <pre>
 static JNINativeMethod gMethods[] = {
     /* name, signature, funcPtr */
@@ -412,7 +412,7 @@ class BpServiceManager : public BpInterface&lt;IServiceManager&gt;
 </pre>
 
 <p>addService时有sp<ibinder>参数的传递，会导致SensorService的onFirstRef()被调用<br>onFirstRef()属于父类RefBase，该函数在强引用sp新增引用计数时调用</ibinder></p>
-<p></p><h4>SensorManager init</h4><br><a href="http://img.pickbox.me/wp-content/uploads/SensorManager-init.png" target="_blank" rel="external"><img src="http://img.pickbox.me/wp-content/uploads/SensorManager-init.png" alt="SensorManager init" width="847" height="450" class="alignnone size-full wp-image-1068"></a><br>回到前面，instantiate()之后SensorService注册完毕<p></p>
+<p></p><h4>SensorManager init</h4><br><a href="http://img.pickbox.cc/wp-content/uploads/SensorManager-init.png" target="_blank" rel="external"><img src="http://img.pickbox.cc/wp-content/uploads/SensorManager-init.png" alt="SensorManager init" width="847" height="450" class="alignnone size-full wp-image-1068"></a><br>回到前面，instantiate()之后SensorService注册完毕<p></p>
 <p>app通过getSystemService(Context.SENSOR_SERVICE)可以获取到sensor服务，它需要先在ContextImpl中初始化</p>
 <pre>
 registerService(SENSOR_SERVICE, new ServiceFetcher() {
@@ -551,6 +551,7 @@ status_t SensorManager::assertStateLocked() const {
     return NO_ERROR;
 }
 </pre>
+
       
     </div>
 
@@ -653,7 +654,7 @@ status_t SensorManager::assertStateLocked() const {
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -661,7 +662,7 @@ status_t SensorManager::assertStateLocked() const {
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

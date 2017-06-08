@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://blog.pickbox.me/2011/11/25/JQuery参考/index.html">
 <meta property="og:site_name" content="jfo planet">
 <meta property="og:description" content="&amp;nbsp;=================================================================http://www.oschina.net/news/23240/jquery-skills?from=201111203. 数组方式使用jQuery对象运行选择器的结果是一个jQuery对象。然而，jQuery类库让你感觉你正在使用一个定义了index">
-<meta property="og:updated_time" content="2016-10-15T05:24:27.000Z">
+<meta property="og:updated_time" content="2017-06-07T05:03:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JQuery参考">
 <meta name="twitter:description" content="&amp;nbsp;=================================================================http://www.oschina.net/news/23240/jquery-skills?from=201111203. 数组方式使用jQuery对象运行选择器的结果是一个jQuery对象。然而，jQuery类库让你感觉你正在使用一个定义了index">
@@ -322,6 +322,7 @@
 
       
          <p>&nbsp;</p><p>=================================================================</p><p><a href="http://www.oschina.net/news/23240/jquery-skills?from=20111120" target="_blank" rel="external">http://www.oschina.net/news/23240/jquery-skills?from=20111120</a></p><p></p>3. 数组方式使用jQuery对象<p>运行选择器的结果是一个jQuery对象。然而，jQuery类库让你感觉你正在使用一个定义了index和长度的数组。</p>// Selecting all the navigation buttons:var buttons = $(‘#navigation a.button’);// We can loop though the collection:for(var i=0;i&lt;buttons.length;i++){    console.log(buttons[i]);    // A DOM element, not a jQuery object}// We can even slice it:var firstFour = buttons.slice(0,4);<p>如果性能是你关注的，那么使用简单for或者while循环来处理，而不是$.each()，这样能使<a href="http://jsfiddle.net/martinaglv/NcRsV/" target="_blank">你的代码更快</a>。</p><p>检查长度也是一个检查你的collection是否含有元素的方式。</p>if(buttons){    // This is always true    // Do something}if(buttons.length){ // True only if buttons contains elements    // Do something}9.&nbsp;$.proxy()<p>使用callback方法的缺点之一是当执行类库中的方法后，context被设置到另外一个元素，例如：</p>&lt;div id=&quot;panel&quot; style=&quot;display:none&quot;&gt;    &lt;button&gt;Close&lt;/button&gt;&lt;/div&gt;<p>执行下面代码：</p>$(‘#panel’).fadeIn(function(){    // this points to #panel    $(‘#panel button’).click(function(){        // this points to the button        $(this).fadeOut();    });});<p>你将遇到问题，button会消失，不是panel。使用$.proxy方法，你可以这样书写代码：</p>$(‘#panel’).fadeIn(function(){    // Using $.proxy to bind this:    $(‘#panel button’).click($.proxy(function(){        // this points to #panel        $(this).fadeOut();    },this));});<p>这样才正确的执行。$.proxy方法接受两个参数，你最初的方法，还有context。这里阅读更多<a href="http://api.jquery.com/jQuery.proxy/" target="_blank">$.proxy in the docs</a>.。</p>10. 判断页面是否太过复杂<p>一个非常简单的道理，约复杂的页面，加载的速度越慢。你可以使用下面代码检查一下你的页面内容：</p>console.log( $(‘*’).length );<p>以上代码返回的数值越小，网页加载速度越快。你可以考虑通过删除无用多余的元素来优化你的代码</p>11. 将你的代码转化成jQuery插件<p>如果你要花一定得时间去开发一段jQuery代码，那么你可以考虑将代码变成插件。这将能够帮助你重用代码，并且能够有效的帮助你组织代码。创建一个插件代码如下：</p>(function($){    $.fn.yourPluginName = function(){        // Your code goes here        return this;    };})(jQuery);<p></p>13. 在动画中使用delay()方法<p>链式的动画效果是jQuery的强大之处。但是有一个忽略了的细节就是你可以在动画之间加上delays，如下：</p>// This is wrong:$(‘#elem’).animate({width:200},function(){&nbsp;&nbsp; &nbsp;setTimeout(function(){&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;$(‘#elem’).animate({marginTop:100});&nbsp;&nbsp; &nbsp;},2000);});// Do it like this:$(‘#elem’).animate({width:200}).delay(2000).animate({marginTop:100});<p>jQuery动画帮了我们大忙，否则我们得自己处理一堆的细节，设置timtout，处理属性值，跟踪动画变化等等。</p><p>大家可以参考这个文章：<a href="http://api.jquery.com/category/effects/" target="_blank">jQuery animations</a></p><br><p></p><p></p> 
+
       
     </div>
 
@@ -424,7 +425,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -432,7 +433,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

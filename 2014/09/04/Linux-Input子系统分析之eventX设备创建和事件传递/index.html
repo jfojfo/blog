@@ -98,18 +98,18 @@ input_register_device对input_handler_list中的每一个handler尝试input_atta
 &amp;nbsp;
 注册eventX设备注册过程大致如下：input_register_device -&amp;gt; input_attach_handler -&amp;gt; input_match_device -&amp;gt; connect
 input_register_device对input_handler_list中的每一个handler尝试input_attach_">
-<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/Linux-Input子系统的架构图.jpg">
-<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/The-input-subsystem.gif">
-<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/每个eventX都对应一对input_dev和input_handler由input_handle绑定在一起，一个input_dev可以对应多个input_handler，一个input_handler也可以对应多个input_dev.jpg">
-<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/每个eventX都对应一个evdevinput_device_registe调用evdev_connect产生，每次open-eventX都会分配一个evdev_client挂在evdev的client_list上.jpg">
-<meta property="og:updated_time" content="2016-10-15T05:24:27.000Z">
+<meta property="og:image" content="http://img.pickbox.cc/wp-content/uploads/Linux-Input子系统的架构图.jpg">
+<meta property="og:image" content="http://img.pickbox.cc/wp-content/uploads/The-input-subsystem.gif">
+<meta property="og:image" content="http://img.pickbox.cc/wp-content/uploads/每个eventX都对应一对input_dev和input_handler由input_handle绑定在一起，一个input_dev可以对应多个input_handler，一个input_handler也可以对应多个input_dev.jpg">
+<meta property="og:image" content="http://img.pickbox.cc/wp-content/uploads/每个eventX都对应一个evdevinput_device_registe调用evdev_connect产生，每次open-eventX都会分配一个evdev_client挂在evdev的client_list上.jpg">
+<meta property="og:updated_time" content="2017-06-07T05:03:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux Input子系统分析之eventX设备创建和事件传递">
 <meta name="twitter:description" content="Linux Input子系统整体架构
 &amp;nbsp;
 注册eventX设备注册过程大致如下：input_register_device -&amp;gt; input_attach_handler -&amp;gt; input_match_device -&amp;gt; connect
 input_register_device对input_handler_list中的每一个handler尝试input_attach_">
-<meta name="twitter:image" content="http://img.pickbox.me/wp-content/uploads/Linux-Input子系统的架构图.jpg">
+<meta name="twitter:image" content="http://img.pickbox.cc/wp-content/uploads/Linux-Input子系统的架构图.jpg">
 
 
 
@@ -335,7 +335,7 @@ input_register_device对input_handler_list中的每一个handler尝试input_atta
       
 
       
-        <p></p><h2>Linux Input子系统整体架构</h2><br><a href="http://img.pickbox.me/wp-content/uploads/Linux-Input子系统的架构图.jpg" target="_blank" rel="external"><img class="alignnone size-full wp-image-999" alt="Linux Input子系统的架构图" src="http://img.pickbox.me/wp-content/uploads/Linux-Input子系统的架构图.jpg" width="644" height="594"></a><br><br><br><a href="http://img.pickbox.me/wp-content/uploads/The-input-subsystem.gif" target="_blank" rel="external"><img class="alignnone size-full wp-image-1000" alt="The input subsystem" src="http://img.pickbox.me/wp-content/uploads/The-input-subsystem.gif" width="500" height="597"></a><p></p>
+        <p></p><h2>Linux Input子系统整体架构</h2><br><a href="http://img.pickbox.cc/wp-content/uploads/Linux-Input子系统的架构图.jpg" target="_blank" rel="external"><img class="alignnone size-full wp-image-999" alt="Linux Input子系统的架构图" src="http://img.pickbox.cc/wp-content/uploads/Linux-Input子系统的架构图.jpg" width="644" height="594"></a><br><br><br><a href="http://img.pickbox.cc/wp-content/uploads/The-input-subsystem.gif" target="_blank" rel="external"><img class="alignnone size-full wp-image-1000" alt="The input subsystem" src="http://img.pickbox.cc/wp-content/uploads/The-input-subsystem.gif" width="500" height="597"></a><p></p>
 <p>&nbsp;</p>
 <p></p><h2>注册eventX设备</h2><br>注册过程大致如下：<br>input_register_device -&gt; input_attach_handler -&gt; input_match_device -&gt; connect<p></p>
 <p>input_register_device对input_handler_list中的每一个handler尝试input_attach_handler</p>
@@ -416,7 +416,7 @@ evdev->dev.parent = dev->dev
 两个dev的class都是input_class
 
 每个eventX都对应一对input_dev和input_handler(由input_handle绑定在一起)，一个input_dev可以对应多个input_handler，一个input_handler也可以对应多个input_dev
-<a href="http://img.pickbox.me/wp-content/uploads/每个eventX都对应一对input_dev和input_handler由input_handle绑定在一起，一个input_dev可以对应多个input_handler，一个input_handler也可以对应多个input_dev.jpg" target="_blank" rel="external"><img class="alignnone size-full wp-image-995" alt="每个eventX都对应一对input_dev和input_handler(由input_handle绑定在一起)，一个input_dev可以对应多个input_handler，一个input_handler也可以对应多个input_dev" src="http://img.pickbox.me/wp-content/uploads/每个eventX都对应一对input_dev和input_handler由input_handle绑定在一起，一个input_dev可以对应多个input_handler，一个input_handler也可以对应多个input_dev.jpg" width="764" height="503"></a>
+<a href="http://img.pickbox.cc/wp-content/uploads/每个eventX都对应一对input_dev和input_handler由input_handle绑定在一起，一个input_dev可以对应多个input_handler，一个input_handler也可以对应多个input_dev.jpg" target="_blank" rel="external"><img class="alignnone size-full wp-image-995" alt="每个eventX都对应一对input_dev和input_handler(由input_handle绑定在一起)，一个input_dev可以对应多个input_handler，一个input_handler也可以对应多个input_dev" src="http://img.pickbox.cc/wp-content/uploads/每个eventX都对应一对input_dev和input_handler由input_handle绑定在一起，一个input_dev可以对应多个input_handler，一个input_handler也可以对应多个input_dev.jpg" width="764" height="503"></a>
 
 注：与eventX对应的input_dev包含多个handler：sysrq、rfkill、kbd、evdev，evdev只是其中之一
 <pre>
@@ -471,10 +471,10 @@ evdev_pass_event将新event事件加入到evdev_client的buffer中，并唤醒bu
 从以上流程可以看到，对evdev创建的eventX设备write时，会导致所有的handler的event被调用，而不仅仅是evdev的evdev_event
 <br>
 每个eventX都对应一个evdev(input_device_registe调用evdev_connect产生)，每次open eventX都会分配一个evdev_client挂在evdev的client_list上
-<a href="http://img.pickbox.me/wp-content/uploads/每个eventX都对应一个evdevinput_device_registe调用evdev_connect产生，每次open-eventX都会分配一个evdev_client挂在evdev的client_list上.jpg" target="_blank" rel="external"><img class="alignnone size-full wp-image-997" alt="每个eventX都对应一个evdev(input_device_registe调用evdev_connect产生)，每次open eventX都会分配一个evdev_client挂在evdev的client_list上" src="http://img.pickbox.me/wp-content/uploads/每个eventX都对应一个evdevinput_device_registe调用evdev_connect产生，每次open-eventX都会分配一个evdev_client挂在evdev的client_list上.jpg" width="745" height="304"></a>
+<a href="http://img.pickbox.cc/wp-content/uploads/每个eventX都对应一个evdevinput_device_registe调用evdev_connect产生，每次open-eventX都会分配一个evdev_client挂在evdev的client_list上.jpg" target="_blank" rel="external"><img class="alignnone size-full wp-image-997" alt="每个eventX都对应一个evdev(input_device_registe调用evdev_connect产生)，每次open eventX都会分配一个evdev_client挂在evdev的client_list上" src="http://img.pickbox.cc/wp-content/uploads/每个eventX都对应一个evdevinput_device_registe调用evdev_connect产生，每次open-eventX都会分配一个evdev_client挂在evdev的client_list上.jpg" width="745" height="304"></a>
 <br>
 <h2>Input Kernel Driver Example</h2>
-<a href="http://img.pickbox.me/wp-content/uploads/event-injector-kmod.rar" target="_blank" rel="external">event-injector-kmod</a>是一个内核驱动demo，insmod后会注册一个/dev/input/eventX设备
+<a href="http://img.pickbox.cc/wp-content/uploads/event-injector-kmod.rar" target="_blank" rel="external">event-injector-kmod</a>是一个内核驱动demo，insmod后会注册一个/dev/input/eventX设备
 
 假设我们创建出的设备为/dev/input/event2，在Android中可以通过以下脚本模拟调节音量键
 <pre>
@@ -535,7 +535,7 @@ void inject()
 
 <p><br><br><br></p>
 <p></p><h3>参考</h3><br><a href="http://blog.csdn.net/ielife/article/details/7814108" target="_blank">input子系统整体流程全面分析</a><br><a href="http://www.cnblogs.com/lknlfy/p/3275781.html" target="_blank">Linux设备驱动剖析之Input（一）（二）（三）（四）</a><br><a href="http://blog.csdn.net/droidphone/article/details/8432151" target="_blank">Linux输入子系统：输入设备编程指南 – input-programming.txt</a><br><a href="http://www.embeddedlinux.org.cn/EssentialLinuxDeviceDrivers/final/ch07lev1sec1.html#ch07lev1sec1" target="_blank">Input Event Drivers (Virtual Mouse)</a><p></p>
-<p>PDF格式：<br><a href="http://img.pickbox.me/wp-content/uploads/linux-input子系统整体流程分析.pdf" target="_blank" rel="external">linux input子系统整体流程分析</a><br><a href="http://img.pickbox.me/wp-content/uploads/设备驱动程序实例_Button.pdf" target="_blank" rel="external">设备驱动程序实例_Button</a><br><a href="http://img.pickbox.me/wp-content/uploads/设备驱动程序实例_VirtualMouse.pdf" target="_blank" rel="external">设备驱动程序实例_VirtualMouse</a></p>
+<p>PDF格式：<br><a href="http://img.pickbox.cc/wp-content/uploads/linux-input子系统整体流程分析.pdf" target="_blank" rel="external">linux input子系统整体流程分析</a><br><a href="http://img.pickbox.cc/wp-content/uploads/设备驱动程序实例_Button.pdf" target="_blank" rel="external">设备驱动程序实例_Button</a><br><a href="http://img.pickbox.cc/wp-content/uploads/设备驱动程序实例_VirtualMouse.pdf" target="_blank" rel="external">设备驱动程序实例_VirtualMouse</a></p>
 
       
     </div>
@@ -639,7 +639,7 @@ void inject()
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -647,7 +647,7 @@ void inject()
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

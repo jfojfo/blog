@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://blog.pickbox.me/2010/09/12/反编译apk/index.html">
 <meta property="og:site_name" content="jfo planet">
 <meta property="og:description" content="keytooleg:keytool.exe -list -keystore key.store -vkeytool.exe -genkey -keystore key.store -alias dicewars -validity 222222keytool.exe -importkeystore -srckeystore ../../MyControlWidget/config/mycontr">
-<meta property="og:updated_time" content="2016-10-15T05:24:27.000Z">
+<meta property="og:updated_time" content="2017-06-07T05:03:27.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="反编译apk">
 <meta name="twitter:description" content="keytooleg:keytool.exe -list -keystore key.store -vkeytool.exe -genkey -keystore key.store -alias dicewars -validity 222222keytool.exe -importkeystore -srckeystore ../../MyControlWidget/config/mycontr">
@@ -322,6 +322,7 @@
 
       
          <p><strong>keytool</strong></p><p>eg:</p><p>keytool.exe -list -keystore key.store -v</p><p>keytool.exe -genkey -keystore key.store -alias dicewars -validity 222222</p><p>keytool.exe -importkeystore -srckeystore ../../MyControlWidget/config/mycontrol.keystore -destkeystore key.store</p><p>keytool.exe -export -file dice.cer -keystore key.store -alias dicewars</p><p>eg2:</p><p>keytool -genkey -keystore mykeystorefile -alias mykeystore -validity 999</p><p>jarsigner.exe -verbose -keystore ../../mykeystorefile -signedjar com.jfo.app.signed.apk com.jfo.app.apk&nbsp;mykeystore</p><p>&nbsp;</p><p>———————————————————————-</p>一、更改apk文件的后缀名，如：LianyunHelper3.0.11.apk改成LianyunHelper3.0.11.zip <br>二、用zip解压缩LianyunHelper3.0.11.zip文件 <br>三、从解压缩的文件夹中取出classes.dex文件并放到dex2jar.bat所在目录 <br>四、运行cmd命令，进入dex2jar.bat所在的目录，输入dex2jar.bat classes.dex即可生成classes.dex.dex2jar.jar文件 <br>五、用JD-GUI工具打开classes.dex.dex2jar.jar文件，即可看到源码 <br>六、将AndroidManifest.xml文件放到AXMLPrinter2.jar所在目录，运行cmd命令，进入 AXMLPrinter2.jar所在目录，输入java -jar AXMLPrinter2.jar AndroidManifest.xml &gt; AndroidManifest.txt。 <br><br><a href="http://dl.javaeye.com/topics/download/b6536556-bfa8-31e9-9fc1-fb3e92862a18" target="_blank" rel="external">apk反编译工具.rar</a> (1.6 MB)<br><br>———————————————————————-<br><a href="http://android-apktool.googlecode.com/" target="_blank"><strong>Apktool 命令</strong></a><p>　　apktool d XXX.apk ABC 反编译 XXX.apk到文件夹ABC</p><p>　　apktool b ABC 从文件夹ABC重建APK，输出到ABCdistout.apk</p>apktool 对AndroidManifest.xml文件反编译效果比较好，<br><p>但对源代码反编译成了.smali格式。</p><p>如果没有classes.dex文件，可以加上 -s/–no-src 选项。</p><p>&nbsp;</p><p>———————————————————————–</p><p></p><p>有时候，某些应用并不太常用，放在ROM里面占空间挺可惜的，不如把它变成一个单独的APK安装包，想用的时候再装来的更方便些。这种时候，就需要把优化成APK文件和Odex文件组成的程序重新合并起来。<br>需要用到的工具是smali，一个开源的java处理软件</p><p><a href="http://code.google.com/p/smali/downloads/list" target="_blank">http://code.google.com/p/smali/downloads/list</a></p><p>下载里面的baksmali和smali的jar文件到工作目录，把ROM里面的core.odex, ext.odex, framework.odex, android.policy.odex, services.odex这5个文件也放在同一目录（也可以放在别的目录，通过设置BOOTCLASSPATH指定，默认就是当前目录）。</p><p>我们以teeter为例子，ROM里面拿出来的可能是2个文件，teeter.apk + teeter.odex。<br>第一步，分解odex文件：<br>java -jar baksmali-1.2.1.jar -x teeter.odex<br>如果没其他问题，会在工作目录生成一个out的目录，里面是分解出来的一些文件，我们在此不深究这些文件的作用。</p><p>第二部，把分解得到的文件变成classes.dex：<br>java -Xmx512M -jar smali-1.2.1.jar out -o classes.dex<br>这样，我们就得到了一个有用的classes.dex文件，用WinZip或者WinRAR打开teeter.apk文件，把这个classes.dex放进去，最后再用signapk把最新得到的这个包含classes.dex的apk重新签署一下，就生成一个可以安装的单独APK程序了。</p><p>就这么简单。</p><p></p> 
+
       
     </div>
 
@@ -424,7 +425,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -432,7 +433,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

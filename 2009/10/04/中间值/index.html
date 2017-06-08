@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://blog.pickbox.me/2009/10/04/中间值/index.html">
 <meta property="og:site_name" content="jfo planet">
 <meta property="og:description" content="http://algorithmically.blogbus.com/logs/7533559.html给你O(N)台联网的计算机，每台计算机上保存了O(N)个整数。假设由于内存的限制每台计算机最多能购处理O(N)个整数，请设计一个算法找出这O(N×N)个整数的中间值(Median)。提示：可以假设有一台或几台计算机上没有保存数据（协调人），用来协调其他计算机的工作。如果你不记得什么是中间值的">
-<meta property="og:updated_time" content="2016-10-15T05:24:27.000Z">
+<meta property="og:updated_time" content="2017-06-07T05:03:27.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="中间值">
 <meta name="twitter:description" content="http://algorithmically.blogbus.com/logs/7533559.html给你O(N)台联网的计算机，每台计算机上保存了O(N)个整数。假设由于内存的限制每台计算机最多能购处理O(N)个整数，请设计一个算法找出这O(N×N)个整数的中间值(Median)。提示：可以假设有一台或几台计算机上没有保存数据（协调人），用来协调其他计算机的工作。如果你不记得什么是中间值的">
@@ -322,6 +322,7 @@
 
       
          <p> </p><p><a href="http://algorithmically.blogbus.com/logs/7533559.html" target="_blank">http://algorithmically.blogbus.com/logs/7533559.html</a></p><p>给你O(N)台联网的计算机，每台计算机上保存了O(N)个整数。假设由于内存的限制每台计算机最多能购处理O(N)个整数，请设计一个算法找出这O(N×N)个整数的中间值(Median)。</p><p>提示：可以假设有一台或几台计算机上没有保存数据（协调人），用来协调其他计算机的工作。</p><p>如果你不记得什么是中间值的话，这里有一个例子</p><p>1, 2, 3, 4, 5, 16, 17, 18, 19, 20 这里5和16都是中间值</p><p>1, 2, 3, 4, 5, 17, 18, 19, 20 这里5是中间值</p><p>我的答案：</p><p>先介绍一下总体思路，然后在讨论如何优化。&#160;</p><ol> <li>将每台计算机中保存的整数进行排序。</li> <li>计算机将各自整数的值域（最大最小值）都发送给协调人。</li> <li>协调人计算出所有整数的值域，以其最大值和最小值的平均数作为分割点，并通知其他计算机。</li> <li>每台计算机对大于等于（≥）和小于（&lt;）分割点的整数分别计数，并返回给协调人。</li> <li>综合每台计算机返回的计数，协调人可以知道中间值大于还是小于这一分割点。</li> <li>于是协调人选择中间值所在的那一半值域为当前的值域，重新计算分割点。这一过程反复进行，直到当前的值域只包含一个数字，或大于等于和小于分割点的整数数目相同为止：</li> <ul> <li>如果当前搜索的值域只包含一个数字，这个数字就是中间值。</li> <li>大于等于和小于分割点的整数数目相同，有两种情况：分割点本身出现在这些整数中的话，分割点和刚刚小于分割点的整数都是中间值，否则刚刚大于和刚刚小于分割点的数字都是中间值。</li> </ul></ol><br><p>这个算法实际上是一个分布式的二分查找过程，每一步把搜索范围缩减到原来的一半，共需要log(MAX-MIN)步才能完成搜索。算法本身可以进一步优化：</p><p>首先，计算机不需要对整数预先排序。第一次计算每组整数的值域时只需要一边扫描即可，复杂度为O(N)。为了对大于和小于分割点的整数分别计数，我们只需要采用Quick Sort的方式的一编扫描即可：</p><ol> <li>指针A从整数数组的首部开始向后扫描，直到遇到大于等于分割点的整数</li> <li>指针B从整数数组的尾部开始向前扫描，直到遇到小于分割点的整数</li> <li>将A和B所指向的数字交换，然后继续扫描。</li> <li>但A和B相遇的时候，我们已经把所有大于分割点的整数和小于分割点的整数分离了</li></ol><p>通过A和B相交的位置，我们便可以计算出大于等于和小于分割点的整数的数目。这样做我们同时避免了协调人一开始的等待时间。</p><p>其 次，当进行计数时，如果我们记住了大于和小于当前值域范围的整数的数目，我们只需要在当前值域范围内进行计数即可。因为值域的范围每次缩小一半，算法会越 来越快。第一次的计算量为N，第二次的计算量为N/2，第三次为N/4，……，总的计算量为2N，这远远小于排序算法的计算量O(N log N)。</p><p>&#160;</p><p>算法的空间复杂度O(1)<br>存储数据的计算机的总计算复杂度O(N)<br>协调人的计算复杂度和网络通信量皆为O(log N)</p><p>&#160;</p> 
+
       
     </div>
 
@@ -424,7 +425,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -432,7 +433,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

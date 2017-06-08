@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://blog.pickbox.me/2011/07/26/Property-Animation-in-Honeycomb/index.html">
 <meta property="og:site_name" content="jfo planet">
 <meta property="og:description" content="http://android-developers.blogspot.com/2011/02/animation-in-honeycomb.html&amp;nbsp;1.使用ValueAnimator在回调函数中执行动画操作ValueAnimatoranim=ValueAnimator.ofFloat(0f,1f);//&amp;nbsp;ValueAnimatoranim=ValueAnimator.ofI">
-<meta property="og:updated_time" content="2016-10-15T05:24:27.000Z">
+<meta property="og:updated_time" content="2017-06-07T05:03:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Property Animation in Honeycomb">
 <meta name="twitter:description" content="http://android-developers.blogspot.com/2011/02/animation-in-honeycomb.html&amp;nbsp;1.使用ValueAnimator在回调函数中执行动画操作ValueAnimatoranim=ValueAnimator.ofFloat(0f,1f);//&amp;nbsp;ValueAnimatoranim=ValueAnimator.ofI">
@@ -322,6 +322,7 @@
 
       
          <p><a href="http://android-developers.blogspot.com/2011/02/animation-in-honeycomb.html" target="_blank">http://android-developers.blogspot.com/2011/02/animation-in-honeycomb.html</a></p><p>&nbsp;</p><p>1.使用ValueAnimator</p><p>在回调函数中执行动画操作</p><p>ValueAnimatoranim=ValueAnimator.ofFloat(0f,1f);</p><p>//&nbsp;ValueAnimatoranim=ValueAnimator.ofInt(0,100);<br>anim.setDuration(500);</p><p>anim.addUpdateListener(newValueAnimator.AnimatorUpdateListener(){<br>&nbsp; &nbsp; &nbsp; &nbsp;publicvoidonAnimationUpdate(ValueAnimatoranimation){<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Floatvalue=(Float)animation.getAnimatedValue();<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;// do something with value…<br>&nbsp; &nbsp; &nbsp; &nbsp;}<br>&nbsp; &nbsp;});<br>anim.start();</p><p>—–</p><p>publicclassPointEvaluatorimplementsTypeEvaluator{<br>&nbsp; &nbsp; &nbsp; &nbsp;publicObjectevaluate(floatfraction,ObjectstartValue,ObjectendValue){<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;PointstartPoint=(Point)startValue;<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;PointendPoint=(Point)endValue;<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;returnnewPoint(startPoint.x+fraction<em>(endPoint.x-startPoint.x),<br>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; startPoint.y+fraction</em>(endPoint.y-startPoint.y));<br>&nbsp; &nbsp; &nbsp; &nbsp;}<br>&nbsp; &nbsp;}</p><p>Pointp0=newPoint(0,0);<br>Pointp1=newPoint(100,200);<br>ValueAnimatoranim=ValueAnimator.ofObject(newPointEvaluator(),p0,p1);<br></p><p><br></p><p>写在xml中：</p><p>&lt;animatorxmlns:android=&quot;<a href="http://schemas.android.com/apk/res/android&amp;quot" target="_blank" rel="external">http://schemas.android.com/apk/res/android&amp;quot</a>;<br>&nbsp; &nbsp; &nbsp; &nbsp;android:valueFrom=&quot;0&quot;<br>&nbsp; &nbsp; &nbsp; &nbsp;android:valueTo=&quot;100&quot;<br>&nbsp; &nbsp; &nbsp; &nbsp;android:valueType=&quot;intType&quot;/&gt;</p><p><br></p><p>2.ObjectAnimator</p><p>ObjectAnimator.ofFloat(myObject,&quot;alpha&quot;,0f).start();</p><p>或者写在xml中</p><p>&lt;objectAnimatorxmlns:android=&quot;<a href="http://schemas.android.com/apk/res/android&amp;quot" target="_blank" rel="external">http://schemas.android.com/apk/res/android&amp;quot</a>;<br>&nbsp; &nbsp; &nbsp; &nbsp;android:valueTo=&quot;0&quot;<br>&nbsp; &nbsp; &nbsp; &nbsp;android:propertyName=&quot;alpha&quot;/&gt;</p><p>ObjectAnimatoranim=AnimatorInflator.loadAnimator(context,resID);<br>anim.setTarget(myObject);<br>anim.start();</p><p>对于ObjectAnimator，必须有该property的get和set函数，会在运行时通过reflection调用：</p><p>publicvoidsetAlpha(floatvalue);<br>publicfloatgetAlpha();</p><p><br></p><p>3.AnimatorSet</p><p>ObjectAnimatorfadeOut=ObjectAnimator.ofFloat(v1,&quot;alpha&quot;,0f);<br>ObjectAnimatormover=ObjectAnimator.ofFloat(v2,&quot;translationX&quot;,-500f,0f);<br>ObjectAnimatorfadeIn=ObjectAnimator.ofFloat(v2,&quot;alpha&quot;,0f,1f);<br>AnimatorSetanimSet=newAnimatorSet().play(mover).with(fadeIn).after(fadeOut);;<br>animSet.start();</p><p>&nbsp;</p><p>4.ViewPropertyAnimator</p><p></p><p></p><p></p><p></p><p></p><p>myView.animate().x(50f).y(100f);&nbsp;&nbsp;（animate()&nbsp;returns an instance of ViewPropertyAnimator）</p><p>等价==》</p><p>PropertyValuesHolder pvhX = PropertyValuesHolder.ofFloat(&quot;x&quot;, 50f);</p><p>PropertyValuesHolder pvhY = PropertyValuesHolder.ofFloat(&quot;y&quot;, 100f);</p><p>ObjectAnimator.ofPropertyValuesHolder(myView, pvhX, pvyY).start();</p><p></p><p>比AnimatorSet效率高==》</p><p>ObjectAnimator animX = ObjectAnimator.ofFloat(myView, &quot;x&quot;, 50f);</p><p>ObjectAnimator animY = ObjectAnimator.ofFloat(myView, &quot;y&quot;, 100f);</p><p>AnimatorSet animSetXY = new AnimatorSet();</p><p>animSetXY.playTogether(animX, animY);</p><p>animSetXY.start();</p><p><br></p><p><br></p><p><br></p><p></p> 
+
       
     </div>
 
@@ -424,7 +425,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -432,7 +433,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

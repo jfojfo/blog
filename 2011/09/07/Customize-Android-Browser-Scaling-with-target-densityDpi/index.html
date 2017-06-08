@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://blog.pickbox.me/2011/09/07/Customize-Android-Browser-Scaling-with-target-densityDpi/index.html">
 <meta property="og:site_name" content="jfo planet">
 <meta property="og:description" content="WebSettings webSettings = mWebView.getSettings();webSettings.setDefaultZoom(ZoomDensity.FAR);ZoomDensity：Enum for specifying the WebView’s desired density. FAR makes 100% looking like in 240dpi MEDIU">
-<meta property="og:updated_time" content="2016-10-15T05:24:27.000Z">
+<meta property="og:updated_time" content="2017-06-07T05:03:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Customize Android Browser Scaling with target-densityDpi">
 <meta name="twitter:description" content="WebSettings webSettings = mWebView.getSettings();webSettings.setDefaultZoom(ZoomDensity.FAR);ZoomDensity：Enum for specifying the WebView’s desired density. FAR makes 100% looking like in 240dpi MEDIU">
@@ -322,6 +322,7 @@
 
       
          <p>WebSettings webSettings = mWebView.getSettings();</p><p>webSettings.setDefaultZoom(ZoomDensity.FAR);</p><p></p><p>ZoomDensity：Enum for specifying the WebView’s desired density. FAR makes 100% looking like in 240dpi MEDIUM makes 100% looking like in 160dpi CLOSE makes 100% looking like in 120dpi</p><p>&nbsp;</p><p>~~ OR ~~</p><p>&nbsp;</p><p></p><p>It was hard to find this little gem, so I thought I’d share it with the world: the Android team has implemented a custom meta viewport property to allow you to customize browser scaling for high resolution (HDPI) screens, like the WVGA 480x854 Motorola Droid and 480x800 Nexus One.  [This is as opposed to medium resolution (MDPI) HVGA 320x480 T-Mobile G1 or myTouch 3G.]</p><p></p><p>You can use it like this, for example:  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, target-densityDpi=device-dpi&quot;&gt;</p>What’s Browser Scaling?<p>Here, <a href="http://www.quirksmode.org/blog/archives/2010/04/a_pixel_is_not.html" target="_blank" rel="external">ppk explains why a pixel is not a pixel</a>.  The CSS &quot;px&quot; unit may differ from a device’s actual pixels, as the browser &quot;scales&quot; images and fonts to a larger size than you requested.  (The browser just naturally assumes you didn’t really mean &quot;pixels&quot; when you said &quot;px,&quot; and helpfully tries to resize your content to make it readable on high-resolution phone screens.)</p><p>The Nexus One and Motorola Droid (and any other WVGA devices) will scale pixels even if you use the <a href="http://developer.apple.com/safari/library/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html#//apple_ref/doc/uid/TP40008193-SW6" target="_blank" rel="external">&lt;meta name=&quot;viewport&quot;&gt; tag</a> to instruct it not to do this.  Worse, they using a non-integer scaling factor (e.g. 1.5x zoom, to scale 320px to 480px) which makes images look really weird.</p>target-densityDpi to the rescue!<p>Use this new undocumented &lt;meta name=&quot;viewport&quot;&gt; property: .  The only existing documentation is in the :</p>Add dpi support for WebView.In the &quot;viewport&quot; meta tag, you can specify &quot;target-densityDpi&quot;.If it is not specified, it uses the default, 160dpi as of today.Then the 1.0 scale factor specified in the viewport tag means 100%on G1 and 150% on Sholes. If you set &quot;target-densityDpi&quot; to&quot;device-dpi&quot;, then the 1.0 scale factor means 100% on both G1 and Sholes.Implemented Safari’s window.devicePixelRatio and css media querydevice-pixel-ratio.So if you use &quot;device-dpi&quot; and modify the css for font-size and imagesrc depending on window.devicePixelRatio, you can get a better page onSholes/Passion.Here is a list of options for &quot;target-densityDpi&quot;.device-dpi:    Use the device’s native dpi as target dpi.low-dpi:       120dpimedium-dpi:    160dpi, which is also the default as of todayhigh-dpi:      240dpi&lt;number&gt;:      We take any number between 70 and 400 as a valid target dpi.Fix <a href="http://b/issue?id=2071943" target="_blank" rel="external">http://b/issue?id=2071943</a><p></p>So how do I use it?<p>Like this, for example:  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, target-densityDpi=device-dpi&quot;&gt;</p><p>You may also want to add the &quot;user-scalable=no&quot; property to prevent the user from zooming in/out and to guarantee that your images are exactly as you designed them.  You can read more about other viewport properties in <a href="http://developer.apple.com/safari/library/documentation/AppleApplications/Reference/SafariHTMLRef/Articles/MetaTags.html#//apple_ref/doc/uid/TP40008193-SW6" target="_blank" rel="external">Apple’s documentation</a> which originally defines the&nbsp;</p><p></p> 
+
       
     </div>
 
@@ -424,7 +425,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -432,7 +433,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

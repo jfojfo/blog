@@ -92,13 +92,13 @@
 <meta property="og:url" content="http://blog.pickbox.me/2011/06/10/关于JavaScript的单线程模型/index.html">
 <meta property="og:site_name" content="jfo planet">
 <meta property="og:description" content="JS的执行原理：js引擎执行js代码的时候是单线程的，即同一时刻只会有一个进程执行JS代码，回调函数也是一个一个执行的（按照事件发生的顺序，而不是代码的顺序）。JS中的异步通信和定时是由另外的线程实现的，脱离js线程上下文。以JS定时操作举例，当JS引擎执行setTimeout(callbackFunction,100)操作时，它会通知定时线程我需要100毫秒的定时，之后JS引擎进入事件循环。1">
-<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/0c8fbc094252d17a6a60fb44.jpg">
-<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/cf3dc9ef213c6c68adafd540.jpg">
-<meta property="og:updated_time" content="2016-10-15T05:24:27.000Z">
+<meta property="og:image" content="http://img.pickbox.cc/wp-content/uploads/pic/0c8fbc094252d17a6a60fb44.jpg">
+<meta property="og:image" content="http://img.pickbox.cc/wp-content/uploads/pic/cf3dc9ef213c6c68adafd540.jpg">
+<meta property="og:updated_time" content="2017-06-07T05:03:27.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关于JavaScript的单线程模型">
 <meta name="twitter:description" content="JS的执行原理：js引擎执行js代码的时候是单线程的，即同一时刻只会有一个进程执行JS代码，回调函数也是一个一个执行的（按照事件发生的顺序，而不是代码的顺序）。JS中的异步通信和定时是由另外的线程实现的，脱离js线程上下文。以JS定时操作举例，当JS引擎执行setTimeout(callbackFunction,100)操作时，它会通知定时线程我需要100毫秒的定时，之后JS引擎进入事件循环。1">
-<meta name="twitter:image" content="http://img.pickbox.me/wp-content/uploads/pic/0c8fbc094252d17a6a60fb44.jpg">
+<meta name="twitter:image" content="http://img.pickbox.cc/wp-content/uploads/pic/0c8fbc094252d17a6a60fb44.jpg">
 
 
 
@@ -324,7 +324,8 @@
       
 
       
-         <p>JS的执行原理：js引擎执行js代码的时候是单线程的，即同一时刻只会有一个进程执行JS代码，回调函数也是一个一个执行的（按照事件发生的顺序，而不是代码的顺序）。JS中的异步通信和定时是由另外的线程实现的，脱离js线程上下文。以JS定时操作举例，当JS引擎执行setTimeout(callbackFunction,100)操作时，它会通知定时线程我需要100毫秒的定时，之后JS引擎进入事件循环。100毫秒之后，定时引擎向事件队列中加入一个时间已到的事件。JS引擎从队列中读取时间已到的事件，执行callbackFunction。如果同一时间有多个事件加入事件队列，JS引擎也只会一个一个的执行callback。对于异步也是同样，JS代码发起通信请求，通信线程执行通信操作，并在操作完成后将完成事件加入事件队列。JS引擎从队列中取出事件并调用回调处理通信结果。JS引擎在执行回调函数的时候，不能同时响应其他事件。</p><p>&nbsp;</p><p>下面两幅图能很直观的说明问题：</p><p><img class="blogimg" small="0" src="http://img.pickbox.me/wp-content/uploads/pic/0c8fbc094252d17a6a60fb44.jpg"><br></p><p>&nbsp;</p><p><img class="blogimg" small="0" src="http://img.pickbox.me/wp-content/uploads/pic/cf3dc9ef213c6c68adafd540.jpg"><br></p><p>&nbsp;</p><p>参考：<br> </p><p><a target="_blank" href="http://www.phpv.net/html/1700.html">http://www.phpv.net/html/1700.html</a></p><p><a target="_blank" href="http://www.grati.org/?p=284">http://www.grati.org/?p=284</a></p> 
+         <p>JS的执行原理：js引擎执行js代码的时候是单线程的，即同一时刻只会有一个进程执行JS代码，回调函数也是一个一个执行的（按照事件发生的顺序，而不是代码的顺序）。JS中的异步通信和定时是由另外的线程实现的，脱离js线程上下文。以JS定时操作举例，当JS引擎执行setTimeout(callbackFunction,100)操作时，它会通知定时线程我需要100毫秒的定时，之后JS引擎进入事件循环。100毫秒之后，定时引擎向事件队列中加入一个时间已到的事件。JS引擎从队列中读取时间已到的事件，执行callbackFunction。如果同一时间有多个事件加入事件队列，JS引擎也只会一个一个的执行callback。对于异步也是同样，JS代码发起通信请求，通信线程执行通信操作，并在操作完成后将完成事件加入事件队列。JS引擎从队列中取出事件并调用回调处理通信结果。JS引擎在执行回调函数的时候，不能同时响应其他事件。</p><p>&nbsp;</p><p>下面两幅图能很直观的说明问题：</p><p><img class="blogimg" small="0" src="http://img.pickbox.cc/wp-content/uploads/pic/0c8fbc094252d17a6a60fb44.jpg"><br></p><p>&nbsp;</p><p><img class="blogimg" small="0" src="http://img.pickbox.cc/wp-content/uploads/pic/cf3dc9ef213c6c68adafd540.jpg"><br></p><p>&nbsp;</p><p>参考：<br> </p><p><a target="_blank" href="http://www.phpv.net/html/1700.html">http://www.phpv.net/html/1700.html</a></p><p><a target="_blank" href="http://www.grati.org/?p=284">http://www.grati.org/?p=284</a></p> 
+
       
     </div>
 
@@ -427,7 +428,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -435,7 +436,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

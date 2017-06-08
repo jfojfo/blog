@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://blog.pickbox.me/2010/11/26/系统APN开关的初始状态/index.html">
 <meta property="og:site_name" content="jfo planet">
 <meta property="og:description" content="系统APN开关的初始状态：1.mobile data enabledframeworks/base/telephony/java/com/android/internal/telephony/gsm/GsmDataConnectionTracker.java初始化时有读取dataEnabledSetting，dataEnabledSetting = IConnectivityManager.St">
-<meta property="og:updated_time" content="2016-10-15T05:24:27.000Z">
+<meta property="og:updated_time" content="2017-06-07T05:03:27.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="系统APN开关的初始状态">
 <meta name="twitter:description" content="系统APN开关的初始状态：1.mobile data enabledframeworks/base/telephony/java/com/android/internal/telephony/gsm/GsmDataConnectionTracker.java初始化时有读取dataEnabledSetting，dataEnabledSetting = IConnectivityManager.St">
@@ -322,6 +322,7 @@
 
       
          <p>系统APN开关的初始状态：<br><br>1.mobile data enabled<br>frameworks/base/telephony/java/com/android/internal/telephony/gsm/GsmDataConnectionTracker.java<br>初始化时有读取dataEnabledSetting，<br>dataEnabledSetting = IConnectivityManager.Stub.asInterface(ServiceManager.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  getService(Context.CONNECTIVITY_SERVICE)).getMobileDataEnabled();<br>这里会一直调用到<br>frameworks/base/services/java/com/android/server/ConnectivityService.java<br>&nbsp;&nbsp;&nbsp;  public boolean getMobileDataEnabled() {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  enforceAccessPermission();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  boolean retVal = Settings.Secure.getInt(mContext.getContentResolver(),<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  Settings.Secure.MOBILE_DATA, 1) == 1;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  if (DBG) Slog.d(TAG, &quot;getMobileDataEnabled returning &quot; + retVal);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  return retVal;<br>&nbsp;&nbsp;&nbsp;  }<br>会从数据库Settings的Secure表中读取mobile_data项的数值，该数据库在初始化时默认没有设置这一项，<br>因此会返回调用时的默认值1，也就是说android系统在代码中写死了，默认mobile_data是enabled的<br><br>2.settings的APN网络开关checkbox<br>packages/apps/Phone/ApnSwitchCheckBoxPreference.java<br>ApnSwitchCheckBoxPreference类初始化时读取初始指：<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  boolean apnEnabled = true;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  mResolver = context.getContentResolver();<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  try {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  apnEnabled = android.provider.Settings.System.getInt(mResolver, APN_STATE) &gt; 0 ? true : false;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  if(DBG) Log.i(LOG_TAG, &quot;zhangwen: apnEnable=&quot; + apnEnabled);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  } catch (SettingNotFoundException e) {<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  // APN_STATE not found<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  if(DBG) Log.i(LOG_TAG, &quot;zhangwen: APN setting state not found&quot;);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  }<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  setChecked(apnEnabled);<br>同样，Settings数据库中的System表中默认没有apn_state的设置，因此会异常，apnEnabled保持声明时的true初始指<br><br>初始化完成后还会调用updateSwitchState()，进行PREFERAPN_URI的query，<br>packages/providers/TelephonyProvider/src/com/android/providers/telephony/TelephonyProvider.java<br>当query URL_PREFERAPN（content://telephony/carriers/preferapn）时，<br>会先从本地的preference “preferred-apn”文件中读取apn_id，然后将该apn_id append到查询的uri后执行数据库查询。<br>该apn_id会有一个大于0的数值，因此会返回enabled状态。<br></p> 
+
       
     </div>
 
@@ -424,7 +425,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -432,7 +433,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://blog.pickbox.me/2009/04/07/【zz】如何在-Cmd-DOS命令列显示彩色文字-使用Windows-API/index.html">
 <meta property="og:site_name" content="jfo planet">
 <meta property="og:description" content="http://genewince.blogspot.com/2008/04/cmd.html#include&amp;lt;windows.h&amp;gt;  //GetStdHandle和SetConsoleTextAttribute在頭文件windows.h中    #include&amp;lt;iostream&amp;gt;    using namespace std;    void SetColor(uns">
-<meta property="og:updated_time" content="2016-10-15T05:24:27.000Z">
+<meta property="og:updated_time" content="2017-06-07T05:03:27.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="【zz】如何在 Cmd DOS命令列显示彩色文字(使用Windows API)">
 <meta name="twitter:description" content="http://genewince.blogspot.com/2008/04/cmd.html#include&amp;lt;windows.h&amp;gt;  //GetStdHandle和SetConsoleTextAttribute在頭文件windows.h中    #include&amp;lt;iostream&amp;gt;    using namespace std;    void SetColor(uns">
@@ -322,6 +322,7 @@
 
       
          <p> </p><p><a href="http://genewince.blogspot.com/2008/04/cmd.html" target="_blank" rel="external">http://genewince.blogspot.com/2008/04/cmd.html</a></p>#include&lt;windows.h&gt;  //GetStdHandle和SetConsoleTextAttribute在頭文件windows.h中    #include&lt;iostream&gt;    using namespace std;    void SetColor(unsigned   short   ForeColor=4,unsigned   short   BackGroundColor=0)      {       HANDLE hCon = GetStdHandle(STD_OUTPUT_HANDLE);  //本例以輸出為例     　　SetConsoleTextAttribute(hCon,ForeColor|BackGroundColor);    };int main()    {       SetColor(0xE ,0x0);     std::cout&lt;&lt;&quot;Hello world!&quot;&lt;&lt;endl;       SetColor(0xF ,0x0);       std::cout&lt;&lt;&quot;Hello world!&quot;&lt;&lt;endl;       return   0;    }<br><p> </p><u>c:program filesmicrosoft visual studio 8vcplatformsdkincludewincon.h <br></u>#define FOREGROUND_BLUE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  0x0001 // text color contains blue. <br>#define FOREGROUND_GREEN&nbsp;&nbsp;&nbsp;&nbsp;  0x0002 // text color contains green. <br>#define FOREGROUND_RED&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  0x0004 // text color contains red. <br>#define FOREGROUND_INTENSITY 0x0008 // text color is intensified. <br>#define BACKGROUND_BLUE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  0x0010 // background color contains blue. <br>#define BACKGROUND_GREEN&nbsp;&nbsp;&nbsp;&nbsp;  0x0020 // background color contains green. <br>#define BACKGROUND_RED&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  0x0040 // background color contains red. <br>#define BACKGROUND_INTENSITY 0x0080 // background color is intensified.<p>so…. you can define more colors by following the example code</p><p>const int BLACK = 0x0000; <br>const int BLUE = 0x0001 | 0x0008; <br>const int GREEN = 0x0002 | 0x0008; <br>const int CYAN = 0x0003 | 0x0008; <br>const int RED = 0x0004 | 0x0008; <br>const int MAGENTA = 0x0005 | 0x0008; <br>const int YELLOW = 0x0006 | 0x0008; 黃色=紅+綠 <br>const int WHITE = 0x0007 | 0x0008;</p><p> </p><p> </p><p> </p><p> </p><p>~~ end ~~</p> 
+
       
     </div>
 
@@ -424,7 +425,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -432,7 +433,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://blog.pickbox.me/2011/08/25/HttpEntity-consumeContent/index.html">
 <meta property="og:site_name" content="jfo planet">
 <meta property="og:description" content="HttpEntity.consumeContent():&amp;nbsp;TODO: The name of this method is misnomer. It will be renamed to #finish() in the next major release.&amp;nbsp;This method is called to indicate that the content of this">
-<meta property="og:updated_time" content="2016-10-15T05:24:27.000Z">
+<meta property="og:updated_time" content="2017-06-07T05:03:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HttpEntity.consumeContent()">
 <meta name="twitter:description" content="HttpEntity.consumeContent():&amp;nbsp;TODO: The name of this method is misnomer. It will be renamed to #finish() in the next major release.&amp;nbsp;This method is called to indicate that the content of this">
@@ -322,6 +322,7 @@
 
       
          <p>HttpEntity.consumeContent():</p><p>&nbsp;</p><p>TODO: The name of this method is misnomer. It will be renamed to #finish() in the next major release.&nbsp;</p><p>This method is called to indicate that the content of this entity is no longer required. All entity implementations are expected to release all allocated resources as a result of this method invocation. Content streaming entities are also expected to dispose of the remaining content, if any. Wrapping entities should delegate this call to the wrapped entity.&nbsp;</p><p>This method is of particular importance for entities being received from a connection. The entity needs to be consumed completely in order to re-use the connection with keep-alive.</p><p>&nbsp;</p><p><a href="http://groups.google.com/group/android-developers/browse_thread/thread/31c1f93af393c5ff/a0354af5b7559db1#a0354af5b7559db1" target="_blank">http://groups.google.com/group/android-developers/browse_thread/thread/31c1f93af393c5ff/a0354af5b7559db1#a0354af5b7559db1</a></p><p>especially if keep-alive is on, calling consumeContent() can prevent&nbsp;</p><p>a lot of trouble</p><p>the trouble I saw when not calling ‘consumeContent()’, was that the&nbsp;</p><p>response of a previous request was ‘bleeding’ into the response of the next&nbsp;</p><p>request.</p><p>&nbsp;</p><p></p> 
+
       
     </div>
 
@@ -424,7 +425,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -432,7 +433,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

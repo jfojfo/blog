@@ -261,6 +261,264 @@
             
               
                 
+                <a class="post-title-link" href="/2013/08/25/给WR703n刷OpenWrt，配置无线AP-AP客户端混合模式/" itemprop="url">
+                  给WR703n刷OpenWrt，配置无线AP+AP客户端混合模式
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2013-08-25T22:09:32+08:00" content="2013-08-25">
+              2013-08-25
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Arduino-OpenWrt/" itemprop="url" rel="index">
+                    <span itemprop="name">Arduino/OpenWrt</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          前面已经引出了wr703n的rx、tx、+5V、GND信号，通过USB转串口电路板连接至电脑，就可以看到串口输出信息了。
+目前手上有一块OCRobot的MangoII板子，上面有一块FT232RL芯片，可以作为USB转TTL工具使用。
+把MangoII的TX、RX、DTR处的跳帽拔了，TX接wr703n引出的RX（即TP_IN），RX接wr703n引出的TX（即TP_OUT），5V接wr703n引出的+5V，GND接wr073n引出的GND，将MangoII通过USB线连接到电脑，就可以给wr703n供电了。
+使用其他的USB转串口板子也是一样的，比如PL2303、CP2102芯片的USB转TTL板子都可以，在taobao上搜有很多。
+在电脑上打开串口工具，波特率设为115200，可以看到启动输出信息了：
+&nbsp;
+U-Boot 1.1.4 (Mar 18 2013 - 17:36:20)
+AP121 (ar9330) U-boot
+DRAM:  32 MBled turning on for 1s…id read 0x100000ffflash size 4194304, sec
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2013/08/25/给WR703n刷OpenWrt，配置无线AP-AP客户端混合模式/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2013/08/23/tplink-TL-WR703N到手，拆机引出RX、TX、-5V、GND信号/" itemprop="url">
+                  tplink_TL-WR703N到手，拆机引出RX、TX、+5V、GND信号
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2013-08-23T20:55:16+08:00" content="2013-08-23">
+              2013-08-23
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Arduino-OpenWrt/" itemprop="url" rel="index">
+                    <span itemprop="name">Arduino/OpenWrt</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          PCB板上标注为TP_IN和TP_OUT的就是串口的RX和TX
+
+&nbsp;
+接出+5V和GND信号：
+
+ps，板子上用黑色水笔写了一个6，猜想应该是G，表示第7个版本，F为第6个版本：
+
+已经有人通过逆向工程，破解出了wr703n的原理图，这里是去除了所有元器件的空PCB板，方便看走线。
+结合原理图和PCB板高清图，可以大概得出+5V、+3.3V、GND等信号点的位置，如下图标注。
+需要注意的是micro USB外壳、USB外壳、网口外壳是通过电容串联到GND，与电路板其他部分并不电气联通，选取GND信号时需要注意！
+
+
+&nbsp;
+&nbsp;
+
+          
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2013/08/23/tplink-TL-WR703N到手，拆机引出RX、TX、-5V、GND信号/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2013/08/08/Android-Fragment生命周期/" itemprop="url">
                   Android Fragment生命周期
                 </a>
@@ -1226,261 +1484,6 @@ parse_url
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/06/06/file-get-contents获取远程文件内容/" itemprop="url">
-                  file_get_contents获取远程文件内容
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2013-06-06T11:43:02+08:00" content="2013-06-06">
-              2013-06-06
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/wordpress/" itemprop="url" rel="index">
-                    <span itemprop="name">wordpress</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          在auto-save-remote-images WordPress plugin source code中使用了wp_remote_get + wp_remote_retrieve_body的方法获取remote file，使用file_get_contents(url)也可以直接获取。
-获取到内容后，再使用file_put_contents存储内容。
-&nbsp;
-
-          
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013/06/06/file-get-contents获取远程文件内容/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/06/06/auto-save-remote-images-Wordpress-plugin-source-code/" itemprop="url">
-                  auto-save-remote-images Wordpress plugin source code
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2013-06-06T10:15:16+08:00" content="2013-06-06">
-              2013-06-06
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/wordpress/" itemprop="url" rel="index">
-                    <span itemprop="name">wordpress</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          This plugin automatically downloads the first remote image from a post and sets it as the featured image
-add_action('publish_post', 'fetch_images');
-
-function fetch_images( $post_ID )  
-{    
-    //Check to make sure function is not executed more than once on save
-    if ( defined('DOING_AUTOSAVE') &amp;&amp; DOING_AUTOSAVE ) 
-    return;
-
-    if ( !current_user_can('edit_post', $post_ID) ) 
-    return;
-
-    remove_action('publish_post', 'fetch_images');    
-
-    $post = get_post($post_ID);   
-
-
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013/06/06/auto-save-remote-images-Wordpress-plugin-source-code/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1526,7 +1529,7 @@ function fetch_images( $post_ID )
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1534,7 +1537,7 @@ function fetch_images( $post_ID )
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

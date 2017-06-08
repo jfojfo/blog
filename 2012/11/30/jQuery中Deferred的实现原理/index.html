@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://blog.pickbox.me/2012/11/30/jQuery中Deferred的实现原理/index.html">
 <meta property="og:site_name" content="jfo planet">
 <meta property="og:description" content="Deferred提供了一种用非阻塞的串行逻辑方式编写异步执行代码。defer的用法：function&amp;nbsp;doJob()&amp;nbsp;{&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;var&amp;nbsp;defer&amp;nbsp;=&amp;nbsp;$.Deferred();&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;var&amp;nbsp;image&amp;nbsp;=&amp;nbsp;new&amp;nbsp;Image">
-<meta property="og:updated_time" content="2016-10-15T05:24:27.000Z">
+<meta property="og:updated_time" content="2017-06-07T05:03:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="jQuery中Deferred的实现原理">
 <meta name="twitter:description" content="Deferred提供了一种用非阻塞的串行逻辑方式编写异步执行代码。defer的用法：function&amp;nbsp;doJob()&amp;nbsp;{&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;var&amp;nbsp;defer&amp;nbsp;=&amp;nbsp;$.Deferred();&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;var&amp;nbsp;image&amp;nbsp;=&amp;nbsp;new&amp;nbsp;Image">
@@ -322,6 +322,7 @@
 
       
          <p><span style="font-family: Helvetica,Tahoma,Arial,sans-serif; background-color: #ffffff;"><br></span></p><p><span style="font-family: Helvetica,Tahoma,Arial,sans-serif; background-color: #ffffff;">Deferred提供了一种用非阻塞的串行逻辑方式编写<span style="font-family: Helvetica,Tahoma,Arial,sans-serif; background-color: #ffffff;">异步执行</span>代码。</span><br></p><p><span style="font-family: Helvetica,Tahoma,Arial,sans-serif; background-color: #ffffff;"><br></span></p><p>defer的用法：</p><pre class="brush: js;toolbar:false;">function&nbsp;doJob()&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;defer&nbsp;=&nbsp;$.Deferred();<br>&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;image&nbsp;=&nbsp;new&nbsp;Image();<br>&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;url&nbsp;=&nbsp;&quot;<a href="http://hiphotos.baidu.com/j_fo/pic/item/5fd4af345982b2b7e633367931adcbef77099b6b.jpg&amp;quot" target="_blank" rel="external">http://hiphotos.baidu.com/j_fo/pic/item/5fd4af345982b2b7e633367931adcbef77099b6b.jpg&amp;quot</a>;;<br>&nbsp;&nbsp;&nbsp;&nbsp;image.onload&nbsp;=&nbsp;function()&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alert(&quot;success&quot;);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;defer.resolve(&nbsp;url&nbsp;);<br>&nbsp;&nbsp;&nbsp;&nbsp;};<br>&nbsp;&nbsp;&nbsp;&nbsp;image.onerror&nbsp;=&nbsp;function()&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;alert(&quot;error&quot;);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;defer.reject(&nbsp;url&nbsp;);<br>&nbsp;&nbsp;&nbsp;&nbsp;};<br>&nbsp;&nbsp;&nbsp;&nbsp;image.src&nbsp;=&nbsp;url;<br>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;defer.promise();<br>}<br>doJob().done(function(){<br>&nbsp;&nbsp;&nbsp;&nbsp;alert(&quot;done&quot;);<br>});</pre><p>更多例子：<a href="http://houfeng0923.iteye.com/blog/1722596" target="_blank">使用jQuery&nbsp;Deferred&nbsp;和&nbsp;Promise&nbsp;创建响应式应用程序</a></p><p><br></p><p><br></p><p>实现原理参考如下实现代码：</p><pre class="brush: js;toolbar:false;">function&nbsp;Deferred()&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;new&nbsp;Deferred.prototype.init();<br>}<br>Deferred.prototype.init&nbsp;=&nbsp;function()&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;this.state&nbsp;=&nbsp;0;<br>&nbsp;&nbsp;&nbsp;&nbsp;this.doneQueue&nbsp;=&nbsp;[];<br>&nbsp;&nbsp;&nbsp;&nbsp;this.failQueue&nbsp;=&nbsp;[];<br>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;this;<br>}<br>Deferred.prototype.init.prototype&nbsp;=&nbsp;Deferred.prototype;<br>Deferred.prototype.promise&nbsp;=&nbsp;function(){<br>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;this;<br>}<br>Deferred.prototype.done&nbsp;=&nbsp;function(cbDone){<br>&nbsp;&nbsp;&nbsp;&nbsp;this.doneQueue.push(cbDone);<br>&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(this.state&nbsp;!=&nbsp;0)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this._finish();<br>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;this;<br>}<br>Deferred.prototype.fail&nbsp;=&nbsp;function(cbFail){<br>&nbsp;&nbsp;&nbsp;&nbsp;this.failQueue.push(cbFail);<br>&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(this.state&nbsp;!=&nbsp;0)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;this._finish();<br>&nbsp;&nbsp;&nbsp;&nbsp;return&nbsp;this;<br>}<br>Deferred.prototype.resolve&nbsp;=&nbsp;function(){<br>&nbsp;&nbsp;&nbsp;&nbsp;this.state&nbsp;=&nbsp;1;<br>&nbsp;&nbsp;&nbsp;&nbsp;this.args&nbsp;=&nbsp;arguments;<br>&nbsp;&nbsp;&nbsp;&nbsp;this._finish();<br>}<br>Deferred.prototype.reject&nbsp;=&nbsp;function(){<br>&nbsp;&nbsp;&nbsp;&nbsp;this.state&nbsp;=&nbsp;2;<br>&nbsp;&nbsp;&nbsp;&nbsp;this.args&nbsp;=&nbsp;arguments;<br>&nbsp;&nbsp;&nbsp;&nbsp;this._finish();<br>}<br>Deferred.prototype._finish&nbsp;=&nbsp;function(){<br>&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;queue&nbsp;=&nbsp;[];<br>&nbsp;&nbsp;&nbsp;&nbsp;if&nbsp;(this.state&nbsp;==&nbsp;1)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;queue&nbsp;=&nbsp;this.doneQueue;<br>&nbsp;&nbsp;&nbsp;&nbsp;else&nbsp;if&nbsp;(state&nbsp;==&nbsp;2)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;queue&nbsp;=&nbsp;this.failQueue;<br>&nbsp;&nbsp;&nbsp;&nbsp;for&nbsp;(var&nbsp;i&nbsp;=&nbsp;0;&nbsp;i&nbsp;&lt;&nbsp;queue.length;&nbsp;i++)&nbsp;{<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;var&nbsp;cb&nbsp;=&nbsp;queue[i];<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cb.apply(this,&nbsp;this.args);<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>}</pre><p><br></p><p><br></p> 
+
       
     </div>
 
@@ -424,7 +425,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -432,7 +433,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

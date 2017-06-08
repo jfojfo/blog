@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://blog.pickbox.me/2012/04/20/如何正确使用平移动画（关于fillBefore和fillAfter的一点说明）/index.html">
 <meta property="og:site_name" content="jfo planet">
 <meta property="og:description" content="如何实现将View向上平移自身高度一半的距离？&amp;nbsp;TranslateAnimation translate = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,&amp;nbsp;Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE">
-<meta property="og:updated_time" content="2016-10-15T05:24:27.000Z">
+<meta property="og:updated_time" content="2017-06-07T05:03:27.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何正确使用平移动画（关于fillBefore和fillAfter的一点说明）">
 <meta name="twitter:description" content="如何实现将View向上平移自身高度一半的距离？&amp;nbsp;TranslateAnimation translate = new TranslateAnimation(Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,&amp;nbsp;Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE">
@@ -322,6 +322,7 @@
 
       
          <p>如何实现将View向上平移自身高度一半的距离？</p><p></p><p>&nbsp;</p><p>TranslateAnimation translate = new TranslateAnimation(</p><p>Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,&nbsp;</p><p>Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0.5f);</p><p>mView.startAnimation(translate);</p><p>问题：当动画结束后，View会跳回到原始位置。</p><p>&nbsp;</p><p>改进：</p><p>AnimationSet set = new AnimationSet(true);</p><p>TranslateAnimation translate = new TranslateAnimation(</p><p>Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,&nbsp;</p><p>Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0.5f);</p><p>set.addAnimation(translate);</p><p>set.setFillAfter(true);</p><p>mView.startAnimation(set);</p><p>&nbsp;</p><p>setFillAfter文档说明:</p><p>If fillAfter is true, the transformation that this animation performed&nbsp;</p><p>will persist when it is finished. Defaults to false if not set.</p><p>设为true之后，界面会停留在动画播放完时的界面。</p><p>&nbsp;</p><p>问题：动画结束后界面显示正确，但是View上各控件的实际位置和看上去的位置不对应，</p><p>实际位置还在View的原始位置，因此button的点击位置会有问题，和看见的位置有偏差。</p><p>&nbsp;</p><p>正确方法：</p><p>AnimationSet set = new AnimationSet(true);</p><p>TranslateAnimation translate = new TranslateAnimation(</p><p>Animation.RELATIVE_TO_SELF, 0, Animation.RELATIVE_TO_SELF, 0,&nbsp;</p><p>Animation.RELATIVE_TO_SELF, 0.5, Animation.RELATIVE_TO_SELF, 0);</p><p>set.addAnimation(translate);</p><p>set.setFillAfter(true);</p><p>mView.offsetTopAndBottom(-mView.getHeight() / 2);</p><p>mView.startAnimation(set);</p><p>&nbsp;</p><p>先将View向上平移自身高度一半的距离，然后播放动画，从最初位置一直向上移动目标位置。</p><p>&nbsp;</p><p>setFillBefore文档说明：</p><p>If fillBefore is true, this animation will apply its transformation&nbsp;</p><p>before the start time of the animation. Defaults to true if&nbsp;</p><p>setFillEnabled(boolean) is not set to true.</p><p>&nbsp;</p><p>对TranslateAnimation，setFillBefore默认为true，也就是说在动画开始前，先将transformation&nbsp;</p><p>apply到View，这也就是为什么offsetTopAndBottom()后，View依然从原始位置开始运动。</p><p>如果setFillBefore设为false，动画播放时会有一个跳动，可以看到View从目标位置跳到原始位置。</p><p>&nbsp;</p><p>总结：</p><p>使用Animation、AnimationSet框架实现的动画效果，必须先将View放置到最终的目标位置，</p><p>然后倒过来，播放从原始位置到目标位置的动画。</p><p>&nbsp;</p><p>&nbsp;</p><p></p><p>&nbsp;</p><p></p> 
+
       
     </div>
 
@@ -424,7 +425,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -432,7 +433,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://blog.pickbox.me/2010/06/02/改变Android系统默认铃声/index.html">
 <meta property="og:site_name" content="jfo planet">
 <meta property="og:description" content="修改系统notification, ringtone, alarm：在build/target/product/core.mk中添加PRODUCT_PROPERTY_OVERRIDES :=ro.config.alarm_alert=my_alarm.wavro.config.ringtone=my_ringtone.wavro.config.notification_sound=my_notif">
-<meta property="og:updated_time" content="2016-10-15T05:24:27.000Z">
+<meta property="og:updated_time" content="2017-06-07T05:03:27.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="改变Android系统默认铃声">
 <meta name="twitter:description" content="修改系统notification, ringtone, alarm：在build/target/product/core.mk中添加PRODUCT_PROPERTY_OVERRIDES :=ro.config.alarm_alert=my_alarm.wavro.config.ringtone=my_ringtone.wavro.config.notification_sound=my_notif">
@@ -326,7 +326,7 @@
 <p>frameworks/base/packages/SettingsProvider/src/com/android/providers/settings/DatabaseHelper.java:onCreate() &gt; loadSettings() &gt; loadSystemSettings()<br>设置了很多初始默认设置。</p>
 <p>对于ro.config.ringtone，是在MediaScanner.java中设置的：<br>frameworks/base/media/java/android/media/MediaScanner.java<br>setDefaultRingtoneFileNames(),<br>endFile():<br>setSettingIfNotSet(Settings.System.NOTIFICATION_SOUND, tableUri, rowId);</p>
 <p>frameworks/base/core/java/android/os/SystemProperties.java<br>frameworks/base/core/jni/android_os_SystemProperties.cpp</p>
-<p>providers在何处被调用的？<br><a href="http://blog.pickbox.me/archives/415" target="_blank">SystemServer启动时</a><br>frameworks/base/services/java/com/android/server/SystemServer.java: run()<br>其中调用ActivityManagerService.installSystemProviders()，<br>最终会调用到frameworks/base/packages/SettingsProvider/src/com/android/providers/settings/下<br>的各个content providers的onCreate()函数，初始化数据库内容</p>
+<p>providers在何处被调用的？<br><a href="http://blog.pickbox.cc/archives/415" target="_blank">SystemServer启动时</a><br>frameworks/base/services/java/com/android/server/SystemServer.java: run()<br>其中调用ActivityManagerService.installSystemProviders()，<br>最终会调用到frameworks/base/packages/SettingsProvider/src/com/android/providers/settings/下<br>的各个content providers的onCreate()函数，初始化数据库内容</p>
 <p>SD卡mount和umount时的声音：<br>对应ACTION_MEDIA_MOUNTED和ACTION_MEDIA_UNMOUNTED<br>MountService.java中的<br>notifyMediaMounted()会调用setMediaStorageNotification()向NotificationManager发通知，<br>其中设置了通知时的铃声为Notification.DEFAULT_SOUND，即系统默认铃声，<br>可以设置为自定义铃声：<br>mMediaStorageNotification.sound = Uri.parse(“file:///sdcard/notification/ringer.mp3”);</p>
 <p>然后NotificationManager.java的notify()，调用NotificationManagerService的<br>enqueueNotificationWithTag()向队列中加新的notification</p>
 <p>对应文件为：<br>frameworks/base/services/java/com/android/server/MountService.java<br>frameworks/base/core/java/android/app/NotificationManager.java<br>frameworks/base/services/java/com/android/server/NotificationManagerService.java</p>
@@ -440,7 +440,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -448,7 +448,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

@@ -96,17 +96,17 @@
 <meta property="og:description" content="AC自动机是用来处理多串匹配问题的，即给你很多串，再给你一篇文章，让你在文章中找这些串是否出现过，在哪出现。对于两个字符串匹配问题可用KMP算法，多字符串则用AC自动机。
 看下面这个例子：给定5个单词：say she shr he her，然后给定一个字符串yasherhs。问一共有多少单词在这个字符串中出现过。
 构造Trie树首先构造一棵树，如下所示，我们称之为Trie树。构造失败指针然后构造失">
-<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/2aba2a34ba2cd3105ab5f510.jpg">
-<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/8856a5ef09a54d3dfcfa3c1f.jpg">
-<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/9c49f0d336e7c1f4a8ec9aec.jpg">
-<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/47a89950f0210549843524c4.jpg">
-<meta property="og:updated_time" content="2016-10-15T05:24:27.000Z">
+<meta property="og:image" content="http://img.pickbox.cc/wp-content/uploads/pic/2aba2a34ba2cd3105ab5f510.jpg">
+<meta property="og:image" content="http://img.pickbox.cc/wp-content/uploads/pic/8856a5ef09a54d3dfcfa3c1f.jpg">
+<meta property="og:image" content="http://img.pickbox.cc/wp-content/uploads/pic/9c49f0d336e7c1f4a8ec9aec.jpg">
+<meta property="og:image" content="http://img.pickbox.cc/wp-content/uploads/pic/47a89950f0210549843524c4.jpg">
+<meta property="og:updated_time" content="2017-06-07T05:03:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="AC自动机算法详解">
 <meta name="twitter:description" content="AC自动机是用来处理多串匹配问题的，即给你很多串，再给你一篇文章，让你在文章中找这些串是否出现过，在哪出现。对于两个字符串匹配问题可用KMP算法，多字符串则用AC自动机。
 看下面这个例子：给定5个单词：say she shr he her，然后给定一个字符串yasherhs。问一共有多少单词在这个字符串中出现过。
 构造Trie树首先构造一棵树，如下所示，我们称之为Trie树。构造失败指针然后构造失">
-<meta name="twitter:image" content="http://img.pickbox.me/wp-content/uploads/pic/2aba2a34ba2cd3105ab5f510.jpg">
+<meta name="twitter:image" content="http://img.pickbox.cc/wp-content/uploads/pic/2aba2a34ba2cd3105ab5f510.jpg">
 
 
 
@@ -332,10 +332,10 @@
       
 
       
-        <p>AC自动机是用来处理多串匹配问题的，即给你很多串，再给你一篇文章，让你在文章中找这些串是否出现过，在哪出现。对于两个字符串匹配问题可用<a href="http://blog.pickbox.me/2009/09/09/kmp%E7%AE%97%E6%B3%95%EF%BC%88%E5%AD%90%E4%B8%B2%E5%8C%85%E5%90%AB%E9%97%AE%E9%A2%98%EF%BC%89/" target="_blank">KMP</a>算法，多字符串则用AC自动机。</p>
+        <p>AC自动机是用来处理多串匹配问题的，即给你很多串，再给你一篇文章，让你在文章中找这些串是否出现过，在哪出现。对于两个字符串匹配问题可用<a href="http://blog.pickbox.cc/2009/09/09/kmp%E7%AE%97%E6%B3%95%EF%BC%88%E5%AD%90%E4%B8%B2%E5%8C%85%E5%90%AB%E9%97%AE%E9%A2%98%EF%BC%89/" target="_blank">KMP</a>算法，多字符串则用AC自动机。</p>
 <p>看下面这个例子：给定5个单词：say she shr he her，然后给定一个字符串yasherhs。问一共有多少单词在这个字符串中出现过。</p>
-<p>构造Trie树<br>首先构造一棵树，如下所示，我们称之为Trie树。<br><img class="blogimg" alt="" src="http://img.pickbox.me/wp-content/uploads/pic/2aba2a34ba2cd3105ab5f510.jpg"><br>构造失败指针<br>然后构造失败指针，应当使用BFS算法。失败指针满足下面的性质：<br>假设有一个节点k，他的失败指针指向j。那么k,j满足：设root到j的距离为n，则从k之上的第n个节点到k所组成的长度为n的单词，与从root到j所组成的单词相同。<br>即图中红框部分是完全一样的，she中的’e’的失败指针就应该指向her中的’e’。<br><img class="blogimg" alt="" src="http://img.pickbox.me/wp-content/uploads/pic/8856a5ef09a54d3dfcfa3c1f.jpg"><br>构造好失败指针如图所示：（为方便递归判断，root的失败指针可指向NULL）<br><img class="blogimg" alt="" src="http://img.pickbox.me/wp-content/uploads/pic/9c49f0d336e7c1f4a8ec9aec.jpg"></p>
-<p>标记终止节点<br>应当对每个节点都遍历一次所有单词，如果读完某个单词依然可以停留在某个子节点上，则应该将该子节点标记为终止节点。<br>例如，除了say she shr he her 这5个单词，如果再加入一个单词h，终止节点还应多两个：<br><img class="blogimg" alt="" src="http://img.pickbox.me/wp-content/uploads/pic/47a89950f0210549843524c4.jpg"></p>
+<p>构造Trie树<br>首先构造一棵树，如下所示，我们称之为Trie树。<br><img class="blogimg" alt="" src="http://img.pickbox.cc/wp-content/uploads/pic/2aba2a34ba2cd3105ab5f510.jpg"><br>构造失败指针<br>然后构造失败指针，应当使用BFS算法。失败指针满足下面的性质：<br>假设有一个节点k，他的失败指针指向j。那么k,j满足：设root到j的距离为n，则从k之上的第n个节点到k所组成的长度为n的单词，与从root到j所组成的单词相同。<br>即图中红框部分是完全一样的，she中的’e’的失败指针就应该指向her中的’e’。<br><img class="blogimg" alt="" src="http://img.pickbox.cc/wp-content/uploads/pic/8856a5ef09a54d3dfcfa3c1f.jpg"><br>构造好失败指针如图所示：（为方便递归判断，root的失败指针可指向NULL）<br><img class="blogimg" alt="" src="http://img.pickbox.cc/wp-content/uploads/pic/9c49f0d336e7c1f4a8ec9aec.jpg"></p>
+<p>标记终止节点<br>应当对每个节点都遍历一次所有单词，如果读完某个单词依然可以停留在某个子节点上，则应该将该子节点标记为终止节点。<br>例如，除了say she shr he her 这5个单词，如果再加入一个单词h，终止节点还应多两个：<br><img class="blogimg" alt="" src="http://img.pickbox.cc/wp-content/uploads/pic/47a89950f0210549843524c4.jpg"></p>
 <p>匹配过程</p>
 <p>一开始，Trie中有指针t1指向root，指针t2指向待匹配串(也就是“文章”)的串头。</p>
 <p>接下来的操作和KMP很相似：如果t2指向的字母存在于Trie树中，则t1指向该节点，t2 = t2+1；否则t1顺这当前节点的失败指针向上找，直到t2是t1的一个儿子，或者t1指向NULL（t1指向树根后，t2仍然不是t1的儿子）。</p>
@@ -444,7 +444,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -452,7 +452,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

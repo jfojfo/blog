@@ -92,7 +92,7 @@
 <meta property="og:url" content="http://blog.pickbox.me/2011/07/23/Java-Generic-Class/index.html">
 <meta property="og:site_name" content="jfo planet">
 <meta property="og:description" content="http://download.oracle.com/javase/tutorial/extra/generics/fineprint.htmlA Generic Class is Shared by All Its InvocationsWhat does the following code fragment print?List &amp;lt;String&amp;gt; l1 = new ArrayL">
-<meta property="og:updated_time" content="2016-10-15T05:24:27.000Z">
+<meta property="og:updated_time" content="2017-06-07T05:03:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Java Generic Class">
 <meta name="twitter:description" content="http://download.oracle.com/javase/tutorial/extra/generics/fineprint.htmlA Generic Class is Shared by All Its InvocationsWhat does the following code fragment print?List &amp;lt;String&amp;gt; l1 = new ArrayL">
@@ -322,6 +322,7 @@
 
       
          <p><a href="http://download.oracle.com/javase/tutorial/extra/generics/fineprint.html" target="_blank" rel="external">http://download.oracle.com/javase/tutorial/extra/generics/fineprint.html</a></p><p>A Generic Class is Shared by All Its Invocations</p><p>What does the following code fragment print?</p><p>List &lt;String&gt; l1 = new ArrayList&lt;String&gt;();&nbsp;</p><p>List&lt;Integer&gt; l2 = new ArrayList&lt;Integer&gt;();&nbsp;</p><p>System.out.println(l1.getClass() == l2.getClass());&nbsp;</p><p>You might be tempted to say&nbsp;false, but you’d be wrong. It prints&nbsp;true, because all instances of a generic class have the same run-time class, regardless of their actual type parameters.</p><p>Indeed, what makes a class generic is the fact that it has the same behavior for all of its possible type parameters; the same class can be viewed as having many different types.</p><p>As consequence, the static variables and methods of a class are also shared among all the instances. That is why it is illegal to refer to the type parameters of a type declaration in a static method or initializer, or in the declaration or initializer of a static variable.</p><p>Casts and InstanceOf</p><p>Another implication of the fact that a generic class is shared among all its instances, is that it usually makes no sense to ask an instance if it is an instance of a particular invocation of a generic type:</p><p>Collection cs = new ArrayList&lt;String&gt;();&nbsp;</p><p>if (cs <b>instanceof</b> Collection&lt;String&gt;) { …} // <i>Illegal.</i></p><p>similarly, a cast such as</p><p>Collection&lt;String&gt; cstr = (Collection&lt;String&gt;) cs; // <i>Unchecked warning,</i></p><p>gives an unchecked warning, since this isn’t something the runtime system is going to check for you.</p><p>The same is true of type variables</p><p>&lt;T&gt; T badCast(T t, Object o) {<b>return</b> (T) o; // <i>Unchecked warning.</i>&nbsp;</p><p>&nbsp;}&nbsp;</p><p>Type variables don’t exist at run time. This means that they entail no performance overhead in either time nor space, which is nice. Unfortunately, it also means that you can’t reliably use them in casts.</p><p>&nbsp;</p><p>&nbsp;</p><p></p><p></p> 
+
       
     </div>
 
@@ -424,7 +425,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -432,7 +433,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

@@ -96,14 +96,14 @@
 <meta property="og:description" content="对/dev/uhid的说明可参考Linux源码的Documentation/hid/uhid.txt，还附带了一个示例samples/uhid/uhid-example.c
 另外还有一篇文章UHID: User-Space HID I/O drivers（PDF）大致介绍了一下uhid是什么，以及与uinput的区别
 下面分析通过uhid创建HID设备的过程，分析之前可以先看看uhid-examp">
-<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/hid_device的report_description结构图.jpg">
-<meta property="og:updated_time" content="2016-10-15T05:24:27.000Z">
+<meta property="og:image" content="http://img.pickbox.cc/wp-content/uploads/hid_device的report_description结构图.jpg">
+<meta property="og:updated_time" content="2017-06-07T05:03:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux uhid分析之创建HID设备">
 <meta name="twitter:description" content="对/dev/uhid的说明可参考Linux源码的Documentation/hid/uhid.txt，还附带了一个示例samples/uhid/uhid-example.c
 另外还有一篇文章UHID: User-Space HID I/O drivers（PDF）大致介绍了一下uhid是什么，以及与uinput的区别
 下面分析通过uhid创建HID设备的过程，分析之前可以先看看uhid-examp">
-<meta name="twitter:image" content="http://img.pickbox.me/wp-content/uploads/hid_device的report_description结构图.jpg">
+<meta name="twitter:image" content="http://img.pickbox.cc/wp-content/uploads/hid_device的report_description结构图.jpg">
 
 
 
@@ -329,9 +329,9 @@
       
 
       
-        <p>对/dev/uhid的说明可参考Linux源码的<a href="http://img.pickbox.me/wp-content/uploads/uhid.txt" target="_blank" rel="external">Documentation/hid/uhid.txt</a>，还附带了一个示例<a href="http://img.pickbox.me/wp-content/uploads/uhid-example.c" target="_blank" rel="external">samples/uhid/uhid-example.c</a></p>
-<p>另外还有一篇文章<a href="http://dvdhrm.wordpress.com/2012/07/16/uhid-user-space-hid-io-drivers/" target="_blank">UHID: User-Space HID I/O drivers</a>（<a href="http://img.pickbox.me/wp-content/uploads/UHID_-User-Space-HID-I_O-drivers.pdf" target="_blank" rel="external">PDF</a>）大致介绍了一下uhid是什么，以及与uinput的区别</p>
-<p>下面分析通过uhid创建HID设备的过程，分析之前可以先看看<a href="http://img.pickbox.me/wp-content/uploads/uhid-example.c" target="_blank" rel="external">uhid-example</a></p>
+        <p>对/dev/uhid的说明可参考Linux源码的<a href="http://img.pickbox.cc/wp-content/uploads/uhid.txt" target="_blank" rel="external">Documentation/hid/uhid.txt</a>，还附带了一个示例<a href="http://img.pickbox.cc/wp-content/uploads/uhid-example.c" target="_blank" rel="external">samples/uhid/uhid-example.c</a></p>
+<p>另外还有一篇文章<a href="http://dvdhrm.wordpress.com/2012/07/16/uhid-user-space-hid-io-drivers/" target="_blank">UHID: User-Space HID I/O drivers</a>（<a href="http://img.pickbox.cc/wp-content/uploads/UHID_-User-Space-HID-I_O-drivers.pdf" target="_blank" rel="external">PDF</a>）大致介绍了一下uhid是什么，以及与uinput的区别</p>
+<p>下面分析通过uhid创建HID设备的过程，分析之前可以先看看<a href="http://img.pickbox.cc/wp-content/uploads/uhid-example.c" target="_blank" rel="external">uhid-example</a></p>
 <p>分析过程涉及到以下文件</p>
 <pre>drivers/hid/uhid.c
 drivers/hid/hid-core.c
@@ -918,7 +918,7 @@ static int uhid_hid_parse(struct hid_device *hid)
 }
 </pre>
 
-<p>略过详细Parse过程，参考report和field存放示意图<br><a href="http://img.pickbox.me/wp-content/uploads/hid_device的report_description结构图.jpg" target="_blank" rel="external"><img src="http://img.pickbox.me/wp-content/uploads/hid_device的report_description结构图.jpg" alt="hid_device的report_description结构图" width="733" height="620" class="alignnone size-full wp-image-1032"></a></p>
+<p>略过详细Parse过程，参考report和field存放示意图<br><a href="http://img.pickbox.cc/wp-content/uploads/hid_device的report_description结构图.jpg" target="_blank" rel="external"><img src="http://img.pickbox.cc/wp-content/uploads/hid_device的report_description结构图.jpg" alt="hid_device的report_description结构图" width="733" height="620" class="alignnone size-full wp-image-1032"></a></p>
 <p>hid_hw_start调用ll_driver-&gt;start之后，调用一个重要函数hid_connect，hid_connect将这个hid_device与hidinput、hiddev、hidraw联系在一起</p>
 <pre>
 static inline int __must_check hid_hw_start(struct hid_device *hdev,
@@ -1192,6 +1192,7 @@ MODALIAS=input:b0003v15D9p0A37e0000-e0,1,2,4,k110,111,112,r0,1,8,am4,lsfw
 # cat /sys/bus/hid/drivers_autoprobe
 1
 </pre>
+
       
     </div>
 
@@ -1294,7 +1295,7 @@ MODALIAS=input:b0003v15D9p0A37e0000-e0,1,2,4,k110,111,112,r0,1,8,am4,lsfw
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1302,7 +1303,7 @@ MODALIAS=input:b0003v15D9p0A37e0000-e0,1,2,4,k110,111,112,r0,1,8,am4,lsfw
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

@@ -261,6 +261,265 @@
             
               
                 
+                <a class="post-title-link" href="/2017/06/08/Hadoop-stream倒排序/" itemprop="url">
+                  Hadoop stream倒排序
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-06-08T14:02:11+08:00" content="2017-06-08">
+              2017-06-08
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/大数据/" itemprop="url" rel="index">
+                    <span itemprop="name">大数据</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          原文参考：http://www.dreamingfish123.info/?p=1102
+Hadoop用于对key的排序和分桶的设置选项比较多和复杂，目前在公司内主要以KeyFieldBasePartitioner和KeyFieldBaseComparator被hadoop用户广泛使用。
+基本概念：
+
+Partition：分桶过程，用户输出的key经过partition分发到不同的reduce里，因而partitioner就是分桶器，一般用平台默认的hash分桶也可以自己指定。
+Key：是需要排序的字段，相同分桶&amp;&amp;相同key的行排序到一起。
+
+下面以一个简单的文本作为例子，通过搭配不同的参数跑出真实作业的结果来演示这些参数的使用方法。
+假设map的输出是这样以点号分隔的若干行：
+1234567d.1.5.23e.9.4.5e.5.9.22e.5.1.45e.5.1.23a.7.2.6f.8.3.3
+我们知道，在streaming模式默认hadoop会把map输出的一行中遇到的第一个设定的字段分隔符前面的部分作为key，后面的作为value，如果输出的一行中没有指定的字
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/06/08/Hadoop-stream倒排序/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2017/06/08/数据库索引/" itemprop="url">
+                  数据库索引
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-06-08T13:51:57+08:00" content="2017-06-08">
+              2017-06-08
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/python-js-php-html-mysql-http/" itemprop="url" rel="index">
+                    <span itemprop="name">python/js/php/html/mysql/http</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          
+唯一索引：索引列的值必须唯一，但允许有空值
+组合索引：则列值的组合必须唯一
+主键索引：特殊的唯一索引，不允许有空值
+
+组合索引例子：1ALTER TABLE mytable ADD INDEX name_city_age (name(10),city,age);
+建表时usernname长度为16，这里用10。这是因为一般情况下名字的长度不会超过10，这样会加速索引查询速度，还会减少索引文件的大小，提高INSERT的更新速度。
+相当于分别建立了下面三组组合MySQL数据库索引：
+【usernname,city,age】【usernname,city】【usernname】
+为什么没有 city，age这样的组合索引呢？这是因为MySQL组合索引“最左前缀”的结果。简单的理解就是只从最左面的开始组合。并不是只要包含这三列的查询都会用到该组合索引
+什么样的查询会使用索引
+当在建立了索引的列上使用精确匹配，使用“=”或者“in”时是会使用索引的。
+最左匹配原则，在a和b上建立了联合索引，where b = ?时是不会使用索引的。
+通配符%不能放在开头，也就是说，like %abc%是不会使
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/06/08/数据库索引/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/01/07/使用macbook破解WPA-WPA2-WiFi密码/" itemprop="url">
                   使用macbook破解WPA_WPA2_WiFi密码
                 </a>
@@ -1225,254 +1484,6 @@ weight指定权重
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/03/15/HTTP代理原理及实现/" itemprop="url">
-                  HTTP代理原理及实现
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-03-15T12:20:41+08:00" content="2016-03-15">
-              2016-03-15
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Network/" itemprop="url" rel="index">
-                    <span itemprop="name">Network</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          HTTP代理原理及实现（一）
-HTTP代理原理及实现（二）
-Http代理请求头中的Proxy-Connection和Request-URL
-&nbsp;
-参考：
-https://imququ.com/post/the-proxy-connection-header-in-http-request.html
-&nbsp;
-
-          
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/03/15/HTTP代理原理及实现/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/03/14/mink：浏览器模拟/" itemprop="url">
-                  mink：浏览器模拟
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-03-14T00:14:44+08:00" content="2016-03-14">
-              2016-03-14
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/python-js-php-html-mysql-http/" itemprop="url" rel="index">
-                    <span itemprop="name">python/js/php/html/mysql/http</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          Travis-CI：自动化安装环境、运行脚本behat+mink：测试网页、模拟加载/操作网页、顺序执行task并判断是否满足预期
-
-
-参考：developing web applications with behat and mink：http://docs.behat.org/en/v2.5/cookbook/behat_and_mink.html
-Automating Behat and Mink tests with Travis CIhttp://robbiemackay.com/2013/05/03/automating-behat-and-mink-tests-with-travis-ci/
-
-          
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/03/14/mink：浏览器模拟/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1518,7 +1529,7 @@ Automating Behat and Mink tests with Travis CIhttp://robbiemackay.com/2013/05/03
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1526,7 +1537,7 @@ Automating Behat and Mink tests with Travis CIhttp://robbiemackay.com/2013/05/03
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

@@ -261,6 +261,243 @@
             
               
                 
+                <a class="post-title-link" href="/2009/10/04/正态分布数据的排序/" itemprop="url">
+                  正态分布数据的排序
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2009-10-04T16:21:00+08:00" content="2009-10-04">
+              2009-10-04
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/c-c-algorithm/" itemprop="url" rel="index">
+                    <span itemprop="name">c/c++/algorithm</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+           http://algorithmically.blogbus.com/logs/7597289.html已知数组中的数据大致符合正态分布，哪种排序算法的效率最高？答案是最常用的快速排序。常用的其他排序算法，如堆排序、合并排序甚至冒泡排序等都和数据的分布无关，他们的性能更多的取决于数据的具体顺序。只有快速排序涉及到对分割点的猜测，猜测的好坏对算法的效率有较大的影响。在正态分布的数据中随机取一个数字，我们有较高的概率得到比较居中的数字，这一点只要看一眼正态分布的图形便知。如果快速排序算法通过在数据中随机选择数字，会有比较高的概率得到一个比较好的分割点。这也解释了为什么快速排序理论上的复杂度比较高，而在实际中效果很好。 
+
+          
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2009/10/04/正态分布数据的排序/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2009/10/04/中间值/" itemprop="url">
+                  中间值
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2009-10-04T14:21:00+08:00" content="2009-10-04">
+              2009-10-04
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Distributed-Computing/" itemprop="url" rel="index">
+                    <span itemprop="name">Distributed Computing</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            http://algorithmically.blogbus.com/logs/7533559.html给你O(N)台联网的计算机，每台计算机上保存了O(N)个整数。假设由于内存的限制每台计算机最多能购处理O(N)个整数，请设计一个算法找出这O(N×N)个整数的中间值(Median)。提示：可以假设有一台或几台计算机上没有保存数据（协调人），用来协调其他计算机的工作。如果你不记得什么是中间值的话，这里有一个例子1, 2, 3, 4, 5, 16, 17, 18, 19, 20 这里5和16都是中间值1, 2, 3, 4, 5, 17, 18, 19, 20 这里5是中间值我的答案：先介绍一下总体思路，然后在讨论如何优化。&#160; 将每台计算机中保存的整数进行排序。 计算机将各自整数的值域（最大最小值）都发送给协调人。 协调人计算出所有整数的值域，以其最大值和最小值的平均数作为分割点，并通知其他计算机。 每台计算机对大于等于（≥）和小于（&lt;）分割点的整数分别计数，并返回给协调人。 综合每台计算机返回的计数，协调人可以知道中间值大于还是小于这一分割点。 于是协调人选择中间值所
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2009/10/04/中间值/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2009/10/04/分布式词频统计/" itemprop="url">
                   分布式词频统计
                 </a>
@@ -1190,242 +1427,6 @@ GOT 是 data section，是一个 table，除专用的几个 entry，每个 entry
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2009/09/04/【★】Team-Them-Up/" itemprop="url">
-                  【★】Team Them Up!
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2009-09-04T12:40:00+08:00" content="2009-09-04">
-              2009-09-04
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/c-c-algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">c/c++/algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-           POJ 1112Team Them Up!                        Time Limit: 1000MS                         Memory Limit: 10000K                            Total Submissions: 2348                         Accepted: 610                         Special Judge            DescriptionYour task is to divide a number of persons into two teams, in such a way, that: everyone belongs to one of the teams; every team has at least one member; every person in the team knows every other person in his team; teams are as close in th
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2009/09/04/【★】Team-Them-Up/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2009/09/01/【★】tiling/" itemprop="url">
-                  【★】tiling
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2009-09-01T08:16:00+08:00" content="2009-09-01">
-              2009-09-01
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/c-c-algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">c/c++/algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-           POJ 2411Mondriaan’s Dream                        Time Limit: 3000MS                         Memory Limit: 65536K                            Total Submissions: 3322                         Accepted: 1914            DescriptionSquares and rectangles fascinated the famous Dutch painter Piet Mondriaan. One night, after producing the drawings in his ‘toilet series’ (where he had to use his toilet paper to draw on, for all of his paper was filled with squares and rectangles), he dreamt of filling a l
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2009/09/01/【★】tiling/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1471,7 +1472,7 @@ GOT 是 data section，是一个 table，除专用的几个 entry，每个 entry
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1479,7 +1480,7 @@ GOT 是 data section，是一个 table，除专用的几个 entry，每个 entry
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

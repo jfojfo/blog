@@ -92,12 +92,12 @@
 <meta property="og:url" content="http://blog.pickbox.me/2007/11/12/ELF文件动态链接时-GOT，PLT-的变化过程/index.html">
 <meta property="og:site_name" content="jfo planet">
 <meta property="og:description" content="Intel平台下Linux中ELF文件动态链接的加载、解析及实例分析（一）: 加载http://www.ibm.com/developerworks/cn/linux/l-elf/part1/index.htmlIntel平台下linux中ELF文件动态链接的加载、解析及实例分析（二）: 函数解析与卸载http://www.ibm.com/developerworks/cn/linux/l-el">
-<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/pic/0c43552c9f330dc08b1399ce.jpg">
-<meta property="og:updated_time" content="2016-10-15T05:24:27.000Z">
+<meta property="og:image" content="http://img.pickbox.cc/wp-content/uploads/pic/0c43552c9f330dc08b1399ce.jpg">
+<meta property="og:updated_time" content="2017-06-07T05:03:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ELF文件动态链接时 GOT，PLT 的变化过程">
 <meta name="twitter:description" content="Intel平台下Linux中ELF文件动态链接的加载、解析及实例分析（一）: 加载http://www.ibm.com/developerworks/cn/linux/l-elf/part1/index.htmlIntel平台下linux中ELF文件动态链接的加载、解析及实例分析（二）: 函数解析与卸载http://www.ibm.com/developerworks/cn/linux/l-el">
-<meta name="twitter:image" content="http://img.pickbox.me/wp-content/uploads/pic/0c43552c9f330dc08b1399ce.jpg">
+<meta name="twitter:image" content="http://img.pickbox.cc/wp-content/uploads/pic/0c43552c9f330dc08b1399ce.jpg">
 
 
 
@@ -323,7 +323,7 @@
       
 
       
-        <p> Intel平台下Linux中ELF文件动态链接的加载、解析及实例分析（一）: 加载<br><a href="http://www.ibm.com/developerworks/cn/linux/l-elf/part1/index.html" target="_blank">http://www.ibm.com/developerworks/cn/linux/l-elf/part1/index.html</a><br>Intel平台下linux中ELF文件动态链接的加载、解析及实例分析（二）: 函数解析与卸载<br><a href="http://www.ibm.com/developerworks/cn/linux/l-elf/part2/index.html" target="_blank">http://www.ibm.com/developerworks/cn/linux/l-elf/part2/index.html</a><br><a target="_blank" href="http://hiphotos.baidu.com/j%5Ffo/pic/item/93b24d4a9605c82f08f7ef5b.jpg"><img class="blogimg" small="0" src="http://img.pickbox.me/wp-content/uploads/pic/0c43552c9f330dc08b1399ce.jpg"><br></a><br><a target="_blank" href="http://linux.chinaunix.net/doc/system/2005-01-13/777.shtml">http://linux.chinaunix.net/doc/system/2005-01-13/777.shtml</a><br></p><p>最后我们讨论ELF文件的动态连接机制。每一个外部定义的符号在全局偏移表 (Global Offset Table GOT)中有相应的条目,如果符号是函数则在过程连接表(Procedure Linkage Table PLT)中也有相应的条目，且一个PLT条目对应一个GOT条目。对外部定义函数解析可能是整个ELF文件规范中最复杂的，下面是函数符号解析过程的一个 描述。</p><p>1：代码中调用外部函数func,语句形式为call 0xaabbccdd,地址0xaabbccdd实际上就是符号func在PLT表中对应的条目地址（假设地址为标号.PLT2）。</p><p>2：PLT表的形式如下</p><p><br>.PLT0: pushl&#160;&#160;        4(%ebx)&#160;&#160;&#160;        /<em> GOT表的地址保存在寄存器ebx中 </em>/<br>jmp&#160;&#160;&#160;&#160;        *8(%ebx)<br>nop; nop<br>nop; nop<br>.PLT1: jmp&#160;&#160;&#160;&#160;        )<br>pushl&#160;&#160;        $offset<br>jmp&#160;&#160;&#160;&#160;        <br>.PLT2: jmp&#160;&#160;&#160;&#160;        )<br>pushl&#160;&#160;        $offset<br>jmp&#160;&#160;&#160;&#160;        <br></p><p>3：查看标号.PLT2的语句,实际上是跳转到符号func在GOT表中对应的条目。</p><p>4：在符号没有重定位前，GOT表中此符号对应的地址为标号.PLT2的下一条语句，即是pushl $offset，其中$offset是符号func的重定位偏移量。注意到这是一个二次跳转。</p><p>5：在符号func的重定位偏移量压栈后,控制跳到PLT表的第一条目（.PLT0），把GOT[1]的内容（放置了用来标识特定库的代码）压栈，并跳转到GOT[2]对应的地址。</p><p>6：GOT[2]对应的实际上是动态符号解析函数的代码，在对符号func的地址解析后，会把func在内存中的地址设置到GOT表中此符号对应的条目中。</p><p>7：当第二次调用此符号时，GOT表中对应的条目已经包含了此符号的地址，就可直接调用而不需要利用PLT表进行跳转。</p><p>动态连接是比较复杂的，但为了获得灵活性的代价通常就是复杂性。其最终目的是把GOT表中条目的值修改为符号的真实地址，这也可解释节.got包含在可读可写段中。</p><p> </p> <p></p>
+        <p> Intel平台下Linux中ELF文件动态链接的加载、解析及实例分析（一）: 加载<br><a href="http://www.ibm.com/developerworks/cn/linux/l-elf/part1/index.html" target="_blank">http://www.ibm.com/developerworks/cn/linux/l-elf/part1/index.html</a><br>Intel平台下linux中ELF文件动态链接的加载、解析及实例分析（二）: 函数解析与卸载<br><a href="http://www.ibm.com/developerworks/cn/linux/l-elf/part2/index.html" target="_blank">http://www.ibm.com/developerworks/cn/linux/l-elf/part2/index.html</a><br><a target="_blank" href="http://hiphotos.baidu.com/j%5Ffo/pic/item/93b24d4a9605c82f08f7ef5b.jpg"><img class="blogimg" small="0" src="http://img.pickbox.cc/wp-content/uploads/pic/0c43552c9f330dc08b1399ce.jpg"><br></a><br><a target="_blank" href="http://linux.chinaunix.net/doc/system/2005-01-13/777.shtml">http://linux.chinaunix.net/doc/system/2005-01-13/777.shtml</a><br></p><p>最后我们讨论ELF文件的动态连接机制。每一个外部定义的符号在全局偏移表 (Global Offset Table GOT)中有相应的条目,如果符号是函数则在过程连接表(Procedure Linkage Table PLT)中也有相应的条目，且一个PLT条目对应一个GOT条目。对外部定义函数解析可能是整个ELF文件规范中最复杂的，下面是函数符号解析过程的一个 描述。</p><p>1：代码中调用外部函数func,语句形式为call 0xaabbccdd,地址0xaabbccdd实际上就是符号func在PLT表中对应的条目地址（假设地址为标号.PLT2）。</p><p>2：PLT表的形式如下</p><p><br>.PLT0: pushl&#160;&#160;        4(%ebx)&#160;&#160;&#160;        /<em> GOT表的地址保存在寄存器ebx中 </em>/<br>jmp&#160;&#160;&#160;&#160;        *8(%ebx)<br>nop; nop<br>nop; nop<br>.PLT1: jmp&#160;&#160;&#160;&#160;        )<br>pushl&#160;&#160;        $offset<br>jmp&#160;&#160;&#160;&#160;        <br>.PLT2: jmp&#160;&#160;&#160;&#160;        )<br>pushl&#160;&#160;        $offset<br>jmp&#160;&#160;&#160;&#160;        <br></p><p>3：查看标号.PLT2的语句,实际上是跳转到符号func在GOT表中对应的条目。</p><p>4：在符号没有重定位前，GOT表中此符号对应的地址为标号.PLT2的下一条语句，即是pushl $offset，其中$offset是符号func的重定位偏移量。注意到这是一个二次跳转。</p><p>5：在符号func的重定位偏移量压栈后,控制跳到PLT表的第一条目（.PLT0），把GOT[1]的内容（放置了用来标识特定库的代码）压栈，并跳转到GOT[2]对应的地址。</p><p>6：GOT[2]对应的实际上是动态符号解析函数的代码，在对符号func的地址解析后，会把func在内存中的地址设置到GOT表中此符号对应的条目中。</p><p>7：当第二次调用此符号时，GOT表中对应的条目已经包含了此符号的地址，就可直接调用而不需要利用PLT表进行跳转。</p><p>动态连接是比较复杂的，但为了获得灵活性的代价通常就是复杂性。其最终目的是把GOT表中条目的值修改为符号的真实地址，这也可解释节.got包含在可读可写段中。</p><p> </p> <p></p>
 
       
     </div>
@@ -427,7 +427,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -435,7 +435,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

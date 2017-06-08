@@ -1,0 +1,856 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="jfo, blog" />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="jfo planet" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="原文参考：http://www.dreamingfish123.info/?p=1102
+Hadoop用于对key的排序和分桶的设置选项比较多和复杂，目前在公司内主要以KeyFieldBasePartitioner和KeyFieldBaseComparator被hadoop用户广泛使用。
+基本概念：
+
+Partition：分桶过程，用户输出的key经过partition分发到不同的reduce里，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hadoop stream倒排序">
+<meta property="og:url" content="http://blog.pickbox.me/2017/06/08/Hadoop-stream倒排序/index.html">
+<meta property="og:site_name" content="jfo planet">
+<meta property="og:description" content="原文参考：http://www.dreamingfish123.info/?p=1102
+Hadoop用于对key的排序和分桶的设置选项比较多和复杂，目前在公司内主要以KeyFieldBasePartitioner和KeyFieldBaseComparator被hadoop用户广泛使用。
+基本概念：
+
+Partition：分桶过程，用户输出的key经过partition分发到不同的reduce里，">
+<meta property="og:updated_time" content="2017-06-08T06:13:01.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Hadoop stream倒排序">
+<meta name="twitter:description" content="原文参考：http://www.dreamingfish123.info/?p=1102
+Hadoop用于对key的排序和分桶的设置选项比较多和复杂，目前在公司内主要以KeyFieldBasePartitioner和KeyFieldBaseComparator被hadoop用户广泛使用。
+基本概念：
+
+Partition：分桶过程，用户输出的key经过partition分发到不同的reduce里，">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://blog.pickbox.me/2017/06/08/Hadoop-stream倒排序/"/>
+
+
+  <title> Hadoop stream倒排序 | jfo planet </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">jfo planet</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Hope is the best gift that tomorrow gives.</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Hadoop stream倒排序
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2017-06-08T14:02:11+08:00" content="2017-06-08">
+              2017-06-08
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/大数据/" itemprop="url" rel="index">
+                    <span itemprop="name">大数据</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>原文参考：<a href="http://www.dreamingfish123.info/?p=1102" target="_blank" rel="external">http://www.dreamingfish123.info/?p=1102</a></p>
+<p>Hadoop用于对key的排序和分桶的设置选项比较多和复杂，目前在公司内主要以KeyFieldBasePartitioner和KeyFieldBaseComparator被hadoop用户广泛使用。</p>
+<p>基本概念：</p>
+<ul>
+<li>Partition：分桶过程，用户输出的key经过partition分发到不同的reduce里，因而partitioner就是分桶器，一般用平台默认的hash分桶也可以自己指定。</li>
+<li>Key：是需要排序的字段，相同分桶&amp;&amp;相同key的行排序到一起。</li>
+</ul>
+<p>下面以一个简单的文本作为例子，通过搭配不同的参数跑出真实作业的结果来演示这些参数的使用方法。</p>
+<p>假设map的输出是这样以点号分隔的若干行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">d.1.5.23</div><div class="line">e.9.4.5</div><div class="line">e.5.9.22</div><div class="line">e.5.1.45</div><div class="line">e.5.1.23</div><div class="line">a.7.2.6</div><div class="line">f.8.3.3</div></pre></td></tr></table></figure>
+<p>我们知道，在streaming模式默认hadoop会把map输出的一行中遇到的第一个设定的字段分隔符前面的部分作为key，后面的作为value，如果输出的一行中没有指定的字段分隔符，则整行作为key，value被设置为空字符串。 那么对于上面的输出，如果想用map输出的前2个字段作为key，后面字段作为value，并且不使用hadoop默认的“\t”字段分隔符，而是根据该文本特点使用“.”来分割，需要如何设置呢</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">bin/hadoop streaming \</div><div class="line"> 	-input /tmp/comp-test.txt \</div><div class="line">true-output /tmp/xx -mapper cat -reducer cat \</div><div class="line">true-jobconf stream.num.map.output.key.fields=2 \</div><div class="line">true-jobconf stream.map.output.field.separator=. \</div><div class="line">true-jobconf mapred.reduce.tasks=5</div></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">e.9 4.5</div><div class="line">f.8 3.3</div><div class="line">——————</div><div class="line">d.1 5.23</div><div class="line">e.5 1.23</div><div class="line">e.5 1.45</div><div class="line">e.5 9.22</div><div class="line">——————</div><div class="line">a.7 2.6</div></pre></td></tr></table></figure>
+<p>总结：</p>
+<p>从结果可以看出，在reduce的输出中，前两列和后两列用“\t”分隔，证明map输出时确实把用“.”分隔的前两列作为key，后面的作为value。并且前两列相同的“e.5”开头的三行被分到了同一个reduce中，证明确实以前两列作为key整体做的partition。</p>
+<ul>
+<li><strong>stream.num.map.output.key.fields 设置map输出的前几个字段作为key</strong></li>
+<li><strong>stream.map.output.field.separator 设置map输出的字段分隔符</strong></li>
+</ul>
+<h3 id="KeyFieldBasePartitioner的用法"><a href="#KeyFieldBasePartitioner的用法" class="headerlink" title="KeyFieldBasePartitioner的用法"></a>KeyFieldBasePartitioner的用法</h3><p>如果想要灵活设置key中用于partition的字段，而不是把整个key都用来做partition。就需要使用hadoop中的org.apache.hadoop.mapred.lib.KeyFieldBasedPartitioner了。<br>下面只用第一列作partition，但依然使用前两列作为key。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">bin/hadoop streaming \</div><div class="line">true-input /tmp/comp-test.txt \</div><div class="line">true-output /tmp/xx -mapper cat -reducer cat \</div><div class="line">true-partitioner org.apache.hadoop.mapred.lib.KeyFieldBasedPartitioner \</div><div class="line">true-jobconf stream.num.map.output.key.fields=2 \</div><div class="line">true-jobconf stream.map.output.field.separator=. \</div><div class="line">true-jobconf map.output.key.field.separator=. \</div><div class="line">true-jobconf num.key.fields.for.partition=1 \</div><div class="line">true-jobconf mapred.reduce.tasks=5</div></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">d.1 5.23</div><div class="line">——————</div><div class="line">e.5 1.23</div><div class="line">e.5 1.45</div><div class="line">e.5 9.22</div><div class="line">e.9 4.5</div><div class="line">——————</div><div class="line">a.7 2.6</div><div class="line">f.8 3.3</div></pre></td></tr></table></figure>
+<p>总结：</p>
+<p>从结果可以看出，这次“e”开头的行都被分到了一个桶内，证明做partition是以第一列为准的，而key依然是前两列。并且在同一个partition内，先按照第一列排序，第一列相同的，按照第二列排序。这里要注意的是使用map.output.key.field.separator来指定key内字段的分隔符，这个参数是KeyFieldBasePartitioner和KeyFieldBaseComparator所特有的。</p>
+<ul>
+<li><strong>map.output.key.field.separator 设置key内的字段分隔符</strong></li>
+<li><strong>num.key.fields.for.partition 设置key内前几个字段用来做partition</strong></li>
+</ul>
+<p>事实上KeyFieldBasePartitioner还有一个高级参数mapred.text.key.partitioner.options，这个参数可以认为是num.key.fields.for.partition的升级版，它可以指定不仅限于key中的前几个字段用做partition，而是可以单独指定key中某个字段或者某几个字段一起做partition。<br>比如上面的需求用mapred.text.key.partitioner.options表示为</p>
+<blockquote>
+<p>mapred.text.key.partitioner.options=-k1,1</p>
+</blockquote>
+<p>注意mapred.text.key.partitioner.options和num.key.fields.for.partition不需要一起使用，一起使用则以num.key.fields.for.partition为准。</p>
+<p>这里再举一个例子，使用mapred.text.key.partitioner.options</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">bin/hadoop streaming \</div><div class="line">true-input /tmp/comp-test.txt \</div><div class="line">true-output /tmp/xx -mapper cat -reducer cat \</div><div class="line">true-partitioner org.apache.hadoop.mapred.lib.KeyFieldBasedPartitioner \</div><div class="line">true-jobconf stream.num.map.output.key.fields=3 \</div><div class="line">true-jobconf stream.map.output.field.separator=. \</div><div class="line">true-jobconf map.output.key.field.separator=. \</div><div class="line">true-jobconf mapred.text.key.partitioner.options=-k2,3 \</div><div class="line">true-jobconf mapred.reduce.tasks=5</div></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">e.9.4   5</div><div class="line">——————</div><div class="line">a.7.2   6</div><div class="line">e.5.9   22</div><div class="line">——————</div><div class="line">d.1.5   23</div><div class="line">e.5.1   23</div><div class="line">e.5.1   45</div><div class="line">f.8.3   3</div></pre></td></tr></table></figure>
+<p>可见，这次是以前3列作为key的，而partition则以key中的第2-3列，因此以“e”开头的行被拆散了，但第二三列相同的“5，1”被分到一个桶内。在同一个桶内，依然是从key的第一列开始排序的，注意，KeyFieldBasePartitioner只影响分桶并不影响排序。</p>
+<p><strong>mapred.text.key.partitioner.options 设置key内某个字段或者某个字段范围用做partition</strong></p>
+<h3 id="KeyFieldBaseComparator的用法"><a href="#KeyFieldBaseComparator的用法" class="headerlink" title="KeyFieldBaseComparator的用法"></a>KeyFieldBaseComparator的用法</h3><p>首先简单解释一下hadoop框架中key的comparator，对于hadoop所识别的所有java的key类型（在框架看来key的类型只能是java的），很多类型都自定义了基于字节的比较器，比如Text，IntWritable等等，如果不特别指定比较器而使用这些类型默认的，则会将key作为一个整体的字节数组来进行比较。而KeyFieldBaseComparator则相当于是一个可以灵活设置比较位置的高级比较器，但是它并没有自己独有的比较逻辑，而是使用默认Text的基于字典序或者通过-n来基于数字比较。</p>
+<p>之前的例子使用KeyFieldBasePartitioner自定义了使用key中的部分字段做partition，现在我们通过org.apache.hadoop.mapred.lib.KeyFieldBasedComparator来自定义使用key中的部分字段做比较。</p>
+<p>这次把前四列都作为key，前两列做partition，排序依据优先依据第三列正序(文本序)，第四列逆序(数字序)的组合排序。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">bin/hadoop streaming \</div><div class="line">true-input /tmpcomp-test.txt \</div><div class="line">true-output /tmp/xx -mapper cat -reducer cat \</div><div class="line">true-partitioner org.apache.hadoop.mapred.lib.KeyFieldBasedPartitioner \</div><div class="line">true-jobconf mapred.output.key.comparator.class=org.apache.hadoop.mapred.lib.KeyFieldBasedComparator \</div><div class="line">true-jobconf stream.num.map.output.key.fields=4 \</div><div class="line">true-jobconf stream.map.output.field.separator=. \</div><div class="line">true-jobconf map.output.key.field.separator=. \</div><div class="line">true-jobconf mapred.text.key.partitioner.options=-k1,2 \</div><div class="line">true-jobconf mapred.text.key.comparator.options=&quot;-k3,3 -k4nr&quot; \</div><div class="line">true-jobconf mapred.reduce.tasks=5</div></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">e.5.1.45</div><div class="line">e.5.1.23</div><div class="line">d.1.5.23</div><div class="line">e.5.9.22</div><div class="line">——————</div><div class="line">a.7.2.6</div><div class="line">——————</div><div class="line">f.8.3.3</div><div class="line">e.9.4.5</div></pre></td></tr></table></figure>
+<p>总结：</p>
+<p>n表示数字序，r表示倒序</p>
+<p>从结果可以看出，符合预期的按照先第三列文本正序，然后第四列基于数字逆序的排序。<br>另外注意，如果这种写法<br>mapred.text.key.comparator.options=”-k2”，则会从第二列开始，用字典序一直比较到key的最后一个字节。所以对于希望准确排序字段的需求，还是使用“k2,2”这种确定首尾范围的形式更好。另外如果给定的key中某些行需要排序的列数不够时，会比较到最后一列，缺列的行默认缺少的那一列排序值最小。</p>
+<p><strong>mapred.text.key.comparator.options 设置key中需要比较的字段或字节范围</strong></p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ul>
+<li><a href="http://www.dreamingfish123.info/?p=1102" target="_blank" rel="external">http://www.dreamingfish123.info/?p=1102</a></li>
+<li><a href="http://www.uml.org.cn/sjjm/201512111.asp" target="_blank" rel="external">http://www.uml.org.cn/sjjm/201512111.asp</a></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/08/数据库索引/" rel="next" title="数据库索引">
+                <i class="fa fa-chevron-left"></i> 数据库索引
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/wp-content/uploads/penguin.gif"
+               alt="jfo" />
+          <p class="site-author-name" itemprop="name">jfo</p>
+          <p class="site-description motion-element" itemprop="description"></p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">603</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/jfojfo" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/jfojfo" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              友情链接
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.pickbox.me" title="收藏夹" target="_blank">收藏夹</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://note.pickbox.me" title="网络剪贴板" target="_blank">网络剪贴板</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://iguangba.pickbox.me" title="爱逛吧" target="_blank">爱逛吧</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#KeyFieldBasePartitioner的用法"><span class="nav-number">1.</span> <span class="nav-text">KeyFieldBasePartitioner的用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#KeyFieldBaseComparator的用法"><span class="nav-number">2.</span> <span class="nav-text">KeyFieldBaseComparator的用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2007 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">jfo</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+  
+<script type="text/javascript" src="http://p.pickbox.me/js/pv.js"></script>
+
+
+
+</body>
+</html>

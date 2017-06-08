@@ -106,8 +106,8 @@ static int uhid_dev_input(struct uhid_device *uhid, struct uhid_event *ev)
         return -EINVAL;
 
     hid_input_report(">
-<meta property="og:image" content="http://img.pickbox.me/wp-content/uploads/hid_device的report_description结构图.jpg">
-<meta property="og:updated_time" content="2016-10-15T05:24:27.000Z">
+<meta property="og:image" content="http://img.pickbox.cc/wp-content/uploads/hid_device的report_description结构图.jpg">
+<meta property="og:updated_time" content="2017-06-07T05:03:26.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux uhid分析之输入事件传递">
 <meta name="twitter:description" content="向/dev/uhid写输入数据时，uhid_char_write调用uhid_dev_input
@@ -118,7 +118,7 @@ static int uhid_dev_input(struct uhid_device *uhid, struct uhid_event *ev)
         return -EINVAL;
 
     hid_input_report(">
-<meta name="twitter:image" content="http://img.pickbox.me/wp-content/uploads/hid_device的report_description结构图.jpg">
+<meta name="twitter:image" content="http://img.pickbox.cc/wp-content/uploads/hid_device的report_description结构图.jpg">
 
 
 
@@ -444,7 +444,7 @@ void hidinput_report_event(struct hid_device *hid, struct hid_report *report)
 }
 </pre>
 
-<p>接下来在详细分析hid_input<em>field之前，先看一下uhid-example.c中的&lt;a href=”<a href="http://img.pickbox.me/wp-content/uploads/mouse.hid" target="_blank" rel="external">http://img.pickbox.me/wp-content/uploads/mouse.hid</a></em>.rar”&gt;HID Report Desciptor</p>
+<p>接下来在详细分析hid_input<em>field之前，先看一下uhid-example.c中的&lt;a href=”<a href="http://img.pickbox.cc/wp-content/uploads/mouse.hid" target="_blank" rel="external">http://img.pickbox.cc/wp-content/uploads/mouse.hid</a></em>.rar”&gt;HID Report Desciptor</p>
 <pre>
 USAGE_PAGE (Generic Desktop)        05 01
 USAGE (Mouse)                       09 02
@@ -478,8 +478,8 @@ END_COLLECTION                      C0
 <p>这里面只有一个Physical Collection输入，没有report id（如果有report id，那么在USAGE_PAGE (Button)这行前面应该有REPORT_ID (1)），对应linux的hid_report；这个Collection又包含有三个INPUT，对应着linux的3个field</p>
 <p>field[0]表述3个button（REPORT_COUNT=3），每个button用1个bit（REPORT_SIZE=1）表示按下状态；field[1]表述用5个constant bit占位；field[2]表述3个（REPORT_COUNT=3）Relative坐标，分别为X、Y、Wheel，每个坐标值占8bit（REPORT_SIZE=8）</p>
 <p>这3个field构成的数据刚好和通过uhid_input_req传递进来的数据的顺序一致，只需要按照report descriptor解析，就能知道每个数据代表的意义</p>
-<p>更多report descriptor介绍参考<a href="http://eleccelerator.com/tutorial-about-usb-hid-report-descriptors/" target="_blank">tutorial-about-usb-hid-report-descriptors</a>（<a href="http://img.pickbox.me/wp-content/uploads/tutorial-about-usb-hid-report-descriptors.pdf" target="_blank" rel="external">PDF</a>）</p>
-<p>report descriptor在linux内核数据结构的对应关系，可以看看下面这张图<br><a href="http://img.pickbox.me/wp-content/uploads/hid_device的report_description结构图.jpg" target="_blank" rel="external"><img src="http://img.pickbox.me/wp-content/uploads/hid_device的report_description结构图.jpg" alt="hid_device的report_description结构图" width="733" height="620" class="alignnone size-full wp-image-1032"></a></p>
+<p>更多report descriptor介绍参考<a href="http://eleccelerator.com/tutorial-about-usb-hid-report-descriptors/" target="_blank">tutorial-about-usb-hid-report-descriptors</a>（<a href="http://img.pickbox.cc/wp-content/uploads/tutorial-about-usb-hid-report-descriptors.pdf" target="_blank" rel="external">PDF</a>）</p>
+<p>report descriptor在linux内核数据结构的对应关系，可以看看下面这张图<br><a href="http://img.pickbox.cc/wp-content/uploads/hid_device的report_description结构图.jpg" target="_blank" rel="external"><img src="http://img.pickbox.cc/wp-content/uploads/hid_device的report_description结构图.jpg" alt="hid_device的report_description结构图" width="733" height="620" class="alignnone size-full wp-image-1032"></a></p>
 <p>回到hid_input_field</p>
 <pre>
 static void hid_input_field(struct hid_device *hid, struct hid_field *field,
@@ -1217,7 +1217,7 @@ static inline void hid_map_usage(struct hid_input *hidinput,
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">601</span>
+              <span class="site-state-item-count">603</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1225,7 +1225,7 @@ static inline void hid_map_usage(struct hid_input *hidinput,
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">36</span>
+                <span class="site-state-item-count">37</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
