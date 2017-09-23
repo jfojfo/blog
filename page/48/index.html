@@ -261,6 +261,124 @@
             
               
                 
+                <a class="post-title-link" href="/2007/11/12/【zz】从程序员角度看ELF/" itemprop="url">
+                  【zz】从程序员角度看ELF
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2007-11-12T22:12:00+08:00" content="2007-11-12">
+              2007-11-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/gcc-binutils-make-共享库/" itemprop="url" rel="index">
+                    <span itemprop="name">gcc/binutils/make/共享库</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+           my特殊说明（by jfo）对于static-linked或shared-linked的ELF可执行文件，他们的入口点都是 _start，然后由 _start 函数调用 _init 执行相关的 .init 节中的初始化代码！（just disassemble the code）这说明内核在加载image后，在控制转入_start之前，_init 没有被调用；对于需要动态链接的可执行文件，内核将控制权转移给interpreter，interpreter 在完成链接工作后，将控制权转移给 _start ，也不会直接执行.init 节中的代码！（这里针对ELF可执行文件，对于共享库的.init段，还是由interpreter来调用的！！！see 启动过程::共享库的初始化）而dlopen 一个 .so 共享库后，_init 函数在返回前会被调用，.so 共享库是没有 _start 的！This is the example, which makes a shared .so file executable:http://hi.baidu.com/j%5Ffo/blog/item/15681
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2007/11/12/【zz】从程序员角度看ELF/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2007/11/11/【zz】使用-Kprobes-调试内核/" itemprop="url">
                   【zz】使用 Kprobes 调试内核
                 </a>
@@ -1303,124 +1421,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2007/09/30/【zz】配置winxp成为一台VPN服务器/" itemprop="url">
-                  【zz】配置winxp成为一台VPN服务器
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2007-09-30T19:30:00+08:00" content="2007-09-30">
-              2007-09-30
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Windows/" itemprop="url" rel="index">
-                    <span itemprop="name">Windows</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-           [ZZ]E文教程:如何配置winxp成为一台VPN服务器?Configure Windows XP Professional to be a VPN server For the Small Office/Home Office (SOHO), Windows XP Professional VPN features are a real boon. Traveling users with laptops or handheld computers will inevitably want files on the home network; you just can抰 bring everything with you. This is where the beauty of the Windows XP Professional computer connected to an always-on connection, such as DSL or cable modem, shines. That always-on link can be used to accept i
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2007/09/30/【zz】配置winxp成为一台VPN服务器/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1466,7 +1466,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">603</span>
+              <span class="site-state-item-count">604</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1474,7 +1474,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-count">38</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

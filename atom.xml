@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.pickbox.cc/"/>
-  <updated>2017-06-08T06:13:01.000Z</updated>
+  <updated>2017-09-23T03:22:19.000Z</updated>
   <id>http://blog.pickbox.cc/</id>
   
   <author>
@@ -14,6 +14,36 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>关于tensorflow的tf.cond依赖</title>
+    <link href="http://blog.pickbox.cc/2017/09/23/%E5%85%B3%E4%BA%8Etensorflow%E7%9A%84tf-cond%E4%BE%9D%E8%B5%96/"/>
+    <id>http://blog.pickbox.cc/2017/09/23/关于tensorflow的tf-cond依赖/</id>
+    <published>2017-09-23T03:17:48.000Z</published>
+    <updated>2017-09-23T03:22:19.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="先来看一个tensorflow官方文档的例子："><a href="#先来看一个tensorflow官方文档的例子：" class="headerlink" title="先来看一个tensorflow官方文档的例子："></a>先来看一个tensorflow官方文档的例子：</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">z = tf.multiply(a, b)</div><div class="line">result = tf.cond(x &lt; y, <span class="keyword">lambda</span>: tf.add(x, z), <span class="keyword">lambda</span>: tf.square(y))</div></pre></td></tr></table></figure>
+<p>z is needed for at least one branch of the cond, <font color="red">the tf.mul operation is always executed unconditionally</font>. Although this behavior is consistent with the dataflow model of TensorFlow, it has occasionally surprised some users who expected a lazier semantics. (<a href="https://www.tensorflow.org/versions/r1.0/api_docs/python/tf/cond" target="_blank" rel="external">https://www.tensorflow.org/versions/r1.0/api_docs/python/tf/cond</a>)</p>
+<h3 id="再来看一个stackoverflow上的例子"><a href="#再来看一个stackoverflow上的例子" class="headerlink" title="再来看一个stackoverflow上的例子"></a>再来看一个stackoverflow上的例子</h3><p><a href="https://stackoverflow.com/questions/37063952/confused-by-the-behavior-of-tf-cond" target="_blank" rel="external">https://stackoverflow.com/questions/37063952/confused-by-the-behavior-of-tf-cond</a></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">pred = tf.constant(<span class="keyword">True</span>)</div><div class="line">x = tf.Variable([<span class="number">1</span>])</div><div class="line">assign_x_2 = tf.assign(x, [<span class="number">2</span>])</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">update_x_2</span><span class="params">()</span>:</span></div><div class="line">  <span class="keyword">with</span> tf.control_dependencies([assign_x_2]):</div><div class="line">    <span class="keyword">return</span> tf.identity(x)</div><div class="line">y = tf.cond(pred, update_x_2, <span class="keyword">lambda</span>: tf.identity(x))</div><div class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> session:</div><div class="line">  session.run(tf.initialize_all_variables())</div><div class="line">  print(y.eval())</div></pre></td></tr></table></figure>
+<p>不论pred设为True还是False，都得到y=[2]</p>
+<p>稍微修改一下：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">pred = tf.placeholder(tf.bool, shape=[])</div><div class="line">x = tf.Variable([<span class="number">1</span>])</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">update_x_2</span><span class="params">()</span>:</span></div><div class="line">  <span class="keyword">with</span> tf.control_dependencies([tf.assign(x, [<span class="number">2</span>])]):</div><div class="line">    <span class="keyword">return</span> tf.identity(x)</div><div class="line">y = tf.cond(pred, update_x_2, <span class="keyword">lambda</span>: tf.identity(x))</div><div class="line"><span class="keyword">with</span> tf.Session() <span class="keyword">as</span> session:</div><div class="line">  session.run(tf.initialize_all_variables())</div><div class="line">  print(y.eval(feed_dict=&#123;pred: <span class="keyword">False</span>&#125;))  <span class="comment"># ==&gt; [1]</span></div><div class="line">  print(y.eval(feed_dict=&#123;pred: <span class="keyword">True</span>&#125;))   <span class="comment"># ==&gt; [2]</span></div></pre></td></tr></table></figure>
+<p>注意<code>tf.assign(x, [2])</code>被放到函数<code>update_x_2</code>内部，就能得到正确结果了</p>
+<h3 id="理解"><a href="#理解" class="headerlink" title="理解"></a>理解</h3><p>tf.cond的两个函数fn_true和fn_false，在执行时创建的graph，看成tf.cond的两个内部graph，tf.cond会根据pred选择执行其中一个；但如果依赖tf.cond之前的op（看成tf.cond的外部graph），则该不论pred选择哪一个分支，都会执行此op。</p>
+<p>所以，<font color="red">关键看tf.cond依赖的op在外部还是内部</font>，如果在外部，不论pred如何选择，都会执行，如果在内部，则根据pred只执行其中一个</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;先来看一个tensorflow官方文档的例子：&quot;&gt;&lt;a href=&quot;#先来看一个tensorflow官方文档的例子：&quot; class=&quot;headerlink&quot; title=&quot;先来看一个tensorflow官方文档的例子：&quot;&gt;&lt;/a&gt;先来看一个tensorflow官方
+    
+    </summary>
+    
+      <category term="机器学习" scheme="http://blog.pickbox.cc/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>Hadoop stream倒排序</title>
@@ -993,29 +1023,6 @@ default            link#7             UCSI            0        0 bridge1
     </summary>
     
       <category term="Mac OS X" scheme="http://blog.pickbox.cc/categories/Mac-OS-X/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>【zz】Android NDK开发Crash错误定位</title>
-    <link href="http://blog.pickbox.cc/2015/03/19/%E3%80%90zz%E3%80%91Android-NDK%E5%BC%80%E5%8F%91Crash%E9%94%99%E8%AF%AF%E5%AE%9A%E4%BD%8D/"/>
-    <id>http://blog.pickbox.cc/2015/03/19/【zz】Android-NDK开发Crash错误定位/</id>
-    <published>2015-03-19T03:33:58.000Z</published>
-    <updated>2017-06-07T05:03:26.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>NDK安装包中提供了三个调试工 具：addr2line、objdump和ndk-stack</p>
-<p>参考：<a href="http://android.jobbole.com/80685/" target="_blank">http://android.jobbole.com/80685/</a>  (<a href="http://img.pickbox.cc/wp-content/uploads/Android-NDK开发Crash错误定位.pdf" target="_blank" rel="external">PDF下载</a>)</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;NDK安装包中提供了三个调试工 具：addr2line、objdump和ndk-stack&lt;/p&gt;
-&lt;p&gt;参考：&lt;a href=&quot;http://android.jobbole.com/80685/&quot; target=&quot;_blank&quot;&gt;http://android.jobbol
-    
-    </summary>
-    
-      <category term="Android" scheme="http://blog.pickbox.cc/categories/Android/"/>
     
     
   </entry>

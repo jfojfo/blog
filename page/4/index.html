@@ -261,6 +261,131 @@
             
               
                 
+                <a class="post-title-link" href="/2014/11/08/sensors-data-sent-to-requested-from-android-HAL/" itemprop="url">
+                  sensors data sent to / requested from android HAL
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-11-08T20:24:09+08:00" content="2014-11-08">
+              2014-11-08
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          模拟器在硬件上为android提供虚拟sensors，通过模拟器console，或者模拟器sensors socket通道，我们可以从外界（比如eclipse调试工具）设置这些虚拟sensors的值
+模拟器中运行的android，通过qemu sensor HAL拿到这些sensors值，qemu sensor HAL与实体手机的sensor HAL的区别在于：实体手机的sensor HAL通过底层Linux驱动获取真实sensors数据，qemu sensor HAL通过qemud的socket通道获取前面设置的虚拟sensors值
+关于qemud，代码（qemud.c）中有一段介绍，很好说明了qemud与模拟器、qemu sensor HAL之间的关系：
+
+
+  the qemud daemon program is only used within Android as a bridge
+  between the emulator program and the emulated system. it really works as
+  a simple stream mult
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014/11/08/sensors-data-sent-to-requested-from-android-HAL/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2014/11/07/sensor-service的初始化/" itemprop="url">
                   sensor service的初始化
                 </a>
@@ -1416,128 +1541,6 @@ int _ZN27CInterfaceRouteMonitorLinux20routeCallbackHandlerEv()
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2014/08/01/使用make-kpkg生成linux-header/" itemprop="url">
-                  使用make-kpkg生成linux-header
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2014-08-01T20:38:09+08:00" content="2014-08-01">
-              2014-08-01
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Arduino-OpenWrt/" itemprop="url" rel="index">
-                    <span itemprop="name">Arduino/OpenWrt</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          $ sudo apt-get install kernel-package
-生成linux-headers$ export ARCH=arm$ export DEB_HOST_ARCH=armhf$ export CONCURRENCY_LEVEL=4$ make-kpkg –rootcmd fakeroot –arch arm –cross-compile arm-linux-gnueabihf- –revision 1.0 –append-to-version -sunxi kernel_headers
-生成linux-source$ make-kpkg –rootcmd fakeroot –arch arm –cross-compile arm-linux-gnueabihf- –revision 1.0 –append-to-version -sunxi kernel_source一定要指定export DEB_HOST_ARCH=armhf
-如果要生成内核image deb包，可以make-kpkg kernel_image，会自动build内核并生成kernel的deb
-产
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014/08/01/使用make-kpkg生成linux-header/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1583,7 +1586,7 @@ int _ZN27CInterfaceRouteMonitorLinux20routeCallbackHandlerEv()
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">603</span>
+              <span class="site-state-item-count">604</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1591,7 +1594,7 @@ int _ZN27CInterfaceRouteMonitorLinux20routeCallbackHandlerEv()
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-count">38</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

@@ -261,6 +261,124 @@
             
               
                 
+                <a class="post-title-link" href="/2008/03/21/Linux虚拟机中的GUI定向到cygwin-X/" itemprop="url">
+                  Linux虚拟机中的GUI定向到cygwin-X
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2008-03-21T17:20:00+08:00" content="2008-03-21">
+              2008-03-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux-App/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux App</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+           方法一：host：Windows XP虚拟机：Redhat9在host上安装Cygwin-X（嫌麻烦可以选择全部安装Cygwin中的软件包）打开cygwin bash shell，输入X，启动X server（server是运行于host机器上的）X server打开后，可以在shell中输入xterm -display 127.0.0.1:0.0 -ls，这时X server中显示一个终端，可以输入命令，在xterm中输入xhost +192.168.200.5 （虚拟机的ip）在Redhat9虚拟机中，export DISPLAY=10.1.10.68:0 （host主机的ip）然后虚拟机中的任何图形操作都可以在Cygwin-X中显示了方法二：http://www.idcnews.net/html/edu/20070101/293338.html实现远程X首先需要安装一个windows下的X server，有很多。有个免费的Xming，从这里下载：http://sourceforge.net/projects/xming安装后，运行，使用很简单，不再多说。配置sshd，打开X11
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2008/03/21/Linux虚拟机中的GUI定向到cygwin-X/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2008/03/21/【zz】Failing-To-See-the-Big-Picture/" itemprop="url">
                   【zz】Failing To See the Big Picture
                 </a>
@@ -1302,124 +1420,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2008/03/04/GDB调试/" itemprop="url">
-                  GDB调试
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2008-03-04T22:01:00+08:00" content="2008-03-04">
-              2008-03-04
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Linux-Debug/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux Debug</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-           gdb [options] –args executable-file [inferior-arguments …]p array[0]@100  打印数组前100个元素p /x var  以16进制打印break … if CONDcall printf(&ldquo;abcd&rdquo;)display /x addrundisplay 1set var varname = valuewhatis varname  //显示变量varname的类型，如double,int,…set print prettyset {int}0x83040 = 4 //向地址0x83040写入4until 结束当前循环ptype 显示一个数据结构（如一个结构或C++类）的内容checkpointx /40xw 0x20000x /10i 0x312000disassemble 0xbff00800 0x10 ：address:lenfinish － Execute until selected stack frame returnsdisplay /i $pc － 单步跟踪会在打出程序代码的同时
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2008/03/04/GDB调试/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1465,7 +1465,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">603</span>
+              <span class="site-state-item-count">604</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1473,7 +1473,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-count">38</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

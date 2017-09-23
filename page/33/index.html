@@ -261,6 +261,125 @@
             
               
                 
+                <a class="post-title-link" href="/2008/10/29/使用uvesafb为console设置高分辨率/" itemprop="url">
+                  使用uvesafb为console设置高分辨率
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2008-10-29T22:23:00+08:00" content="2008-10-29">
+              2008-10-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux-App/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux App</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+           内核要支持uvesafb模块，并且安装v86d参考：http://dev.gentoo.org/~spock/projects/uvesafb/这里的配置不需要initramfs支持然后创建文件 /etc/modprobe.d/uvesafb，内容为： options uvesafb mode_option=1280x800-32 mtrr=3 scroll=ywrap在/etc/modprobe.d/blacklist-framebuffer中加入一行： blacklist uvesafb确保/etc/modules中有 uvesafb 和 fbcon （各占一行）参考：http://coolwanglu.blogspot.com/2008/10/ubuntu-810-uvesafb.htmlend 
+
+          
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2008/10/29/使用uvesafb为console设置高分辨率/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2008/10/29/【zz】共享库函数地址解析实例（GOT、PLT）/" itemprop="url">
                   【zz】共享库函数地址解析实例（GOT、PLT）
                 </a>
@@ -1303,124 +1422,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2008/10/22/L4：map-pages-from-sigma0/" itemprop="url">
-                  L4：map pages from sigma0
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2008-10-22T20:18:00+08:00" content="2008-10-22">
-              2008-10-22
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/l4ka-pistachio-iguana/" itemprop="url" rel="index">
-                    <span itemprop="name">l4ka::pistachio/iguana</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-           客户端请求在root task中通常会先将地址空间的所有页面从sigma0中分配出来，这样以后创建的thread运行时，若没有指定pager，仍然可以正常运行。具体的请求页面操作如下所示：&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   // ** pin all code and data of the root task by requesting the pages from sigma0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   for (const char addr = &amp;elf_start; addr &lt; &amp;elf_end; addr += pagesize)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   if (!request_pag
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2008/10/22/L4：map-pages-from-sigma0/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1466,7 +1467,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">603</span>
+              <span class="site-state-item-count">604</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1474,7 +1475,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-count">38</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

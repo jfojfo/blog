@@ -261,6 +261,124 @@
             
               
                 
+                <a class="post-title-link" href="/2007/11/19/【zz】-cyg-profile-func-enter、pvtrace、Graphviz-可视化函数调用/" itemprop="url">
+                  【zz】__cyg_profile_func_enter、pvtrace、Graphviz 可视化函数调用
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2007-11-19T19:38:00+08:00" content="2007-11-19">
+              2007-11-19
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux-Debug/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux Debug</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+           http://www-128.ibm.com/developerworks/cn/linux/l-graphvis/跟踪函数调用cyg_profile_func_entercyg_profile_func_exitgcc -g -finstrument-functions test.c -o test生成函数调用关系表示（.dot文件）pvtrace a.out需要trace.txt文件（在cyg_profile_func_enter/exit中生成）E0x80487d6X0x80487d6E0x80489bfX0x80489bf。。。。生成图形dot -Tjpg test.dot -o test.jpg对unifiedkernel中运行notepad时 ntdll.dll.so 的函数调用map：                                    用 Graphviz 可视化函数调用            使用开源软件来简化复杂调用结构    级别： 初级 M. Tim Jones (), 资深软件工程师, Emulex 2005 年  7 月  11 日 花一
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2007/11/19/【zz】-cyg-profile-func-enter、pvtrace、Graphviz-可视化函数调用/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2007/11/19/example-for-从程序员角度看ELF/" itemprop="url">
                   example for 从程序员角度看ELF
                 </a>
@@ -1302,124 +1420,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2007/11/12/【zz】从程序员角度看ELF/" itemprop="url">
-                  【zz】从程序员角度看ELF
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2007-11-12T22:12:00+08:00" content="2007-11-12">
-              2007-11-12
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/gcc-binutils-make-共享库/" itemprop="url" rel="index">
-                    <span itemprop="name">gcc/binutils/make/共享库</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-           my特殊说明（by jfo）对于static-linked或shared-linked的ELF可执行文件，他们的入口点都是 _start，然后由 _start 函数调用 _init 执行相关的 .init 节中的初始化代码！（just disassemble the code）这说明内核在加载image后，在控制转入_start之前，_init 没有被调用；对于需要动态链接的可执行文件，内核将控制权转移给interpreter，interpreter 在完成链接工作后，将控制权转移给 _start ，也不会直接执行.init 节中的代码！（这里针对ELF可执行文件，对于共享库的.init段，还是由interpreter来调用的！！！see 启动过程::共享库的初始化）而dlopen 一个 .so 共享库后，_init 函数在返回前会被调用，.so 共享库是没有 _start 的！This is the example, which makes a shared .so file executable:http://hi.baidu.com/j%5Ffo/blog/item/15681
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2007/11/12/【zz】从程序员角度看ELF/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1465,7 +1465,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">603</span>
+              <span class="site-state-item-count">604</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1473,7 +1473,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-count">38</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

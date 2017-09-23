@@ -261,6 +261,128 @@
             
               
                 
+                <a class="post-title-link" href="/2014/08/01/使用make-kpkg生成linux-header/" itemprop="url">
+                  使用make-kpkg生成linux-header
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-08-01T20:38:09+08:00" content="2014-08-01">
+              2014-08-01
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Arduino-OpenWrt/" itemprop="url" rel="index">
+                    <span itemprop="name">Arduino/OpenWrt</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          $ sudo apt-get install kernel-package
+生成linux-headers$ export ARCH=arm$ export DEB_HOST_ARCH=armhf$ export CONCURRENCY_LEVEL=4$ make-kpkg –rootcmd fakeroot –arch arm –cross-compile arm-linux-gnueabihf- –revision 1.0 –append-to-version -sunxi kernel_headers
+生成linux-source$ make-kpkg –rootcmd fakeroot –arch arm –cross-compile arm-linux-gnueabihf- –revision 1.0 –append-to-version -sunxi kernel_source一定要指定export DEB_HOST_ARCH=armhf
+如果要生成内核image deb包，可以make-kpkg kernel_image，会自动build内核并生成kernel的deb
+产
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014/08/01/使用make-kpkg生成linux-header/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2014/08/01/uEnv-txt的使用/" itemprop="url">
                   uEnv.txt的使用
                 </a>
@@ -1397,137 +1519,6 @@ public class Test {
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2014/05/19/Retroarch：启动入口、android输入驱动/" itemprop="url">
-                  Retroarch：启动入口、android输入驱动
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2014-05-19T10:42:32+08:00" content="2014-05-19">
-              2014-05-19
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/cocos2d-x-模拟器/" itemprop="url" rel="index">
-                    <span itemprop="name">cocos2d-x/模拟器</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          retroarch/frontend/frontend.c
-returntype main_entry(signature())
-{
-   ...
-   while (!main_entry_iterate(signature_expand(), args));
-}
-int main_entry_iterate(signature(), args_type() args)
-{
-   if (g_extern.system.shutdown)
-      return main_entry_iterate_shutdown(args);
-   else if (g_extern.lifecycle_state &amp; (1ULL &lt;&lt; MODE_CLEAR_INPUT))
-      return main_entry_iterate_clear_input(args);
-   else if (g_extern.lifecycle_state &amp; (1ULL &lt;&lt; MODE_LOAD_GAME))
-      return main_entry_it
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014/05/19/Retroarch：启动入口、android输入驱动/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1573,7 +1564,7 @@ int main_entry_iterate(signature(), args_type() args)
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">603</span>
+              <span class="site-state-item-count">604</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1581,7 +1572,7 @@ int main_entry_iterate(signature(), args_type() args)
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-count">38</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

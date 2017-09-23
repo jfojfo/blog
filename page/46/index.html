@@ -261,6 +261,124 @@
             
               
                 
+                <a class="post-title-link" href="/2007/12/14/【zz】在C-中侦测内嵌类型的存在/" itemprop="url">
+                  【zz】在C++中侦测内嵌类型的存在
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2007-12-14T21:17:00+08:00" content="2007-12-14">
+              2007-12-14
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/c-c-template-gp-boost/" itemprop="url" rel="index">
+                    <span itemprop="name">c++/c++ template/gp/boost</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+           www.ithao123.com/cpluspluslib/20071020/1671.html  一是利用函数重载：typedef char (&amp;yes_type)[1]; // sizeof(yes_type)==1typedef char (&amp;no_type)[2]; // sizeof(no_type)==2char (&amp;)[1]表示对char[1]数组的引用，注意围绕&amp;符号的一对圆括号，它们是必要的，如果没有将会导致编译错误，正如char [1]将被解析为char的数组，char&amp; [1]将被解析为引用的数组，而后者是非法的。将&amp;用圆括号包围则改变了运算符的结合优先序，这将被解析为对char[1]数组的引用。 template&lt;class T&gt;struct does_sometypedef_exists{template&lt;class U&gt;static yes_type check(U, typename U::key_type =0); // #1static no_type check(…);stat
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2007/12/14/【zz】在C-中侦测内嵌类型的存在/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2007/12/13/boost代码分析：signal中的connect过程-下/" itemprop="url">
                   boost代码分析：signal中的connect过程(下)
                 </a>
@@ -1303,124 +1421,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2007/11/19/【zz】-cyg-profile-func-enter、pvtrace、Graphviz-可视化函数调用/" itemprop="url">
-                  【zz】__cyg_profile_func_enter、pvtrace、Graphviz 可视化函数调用
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2007-11-19T19:38:00+08:00" content="2007-11-19">
-              2007-11-19
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Linux-Debug/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux Debug</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-           http://www-128.ibm.com/developerworks/cn/linux/l-graphvis/跟踪函数调用cyg_profile_func_entercyg_profile_func_exitgcc -g -finstrument-functions test.c -o test生成函数调用关系表示（.dot文件）pvtrace a.out需要trace.txt文件（在cyg_profile_func_enter/exit中生成）E0x80487d6X0x80487d6E0x80489bfX0x80489bf。。。。生成图形dot -Tjpg test.dot -o test.jpg对unifiedkernel中运行notepad时 ntdll.dll.so 的函数调用map：                                    用 Graphviz 可视化函数调用            使用开源软件来简化复杂调用结构    级别： 初级 M. Tim Jones (), 资深软件工程师, Emulex 2005 年  7 月  11 日 花一
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2007/11/19/【zz】-cyg-profile-func-enter、pvtrace、Graphviz-可视化函数调用/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1466,7 +1466,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">603</span>
+              <span class="site-state-item-count">604</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1474,7 +1474,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-count">38</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>

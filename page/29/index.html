@@ -261,6 +261,124 @@
             
               
                 
+                <a class="post-title-link" href="/2009/05/22/dd拷贝磁盘分区/" itemprop="url">
+                  dd拷贝磁盘分区
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2009-05-22T22:07:00+08:00" content="2009-05-22">
+              2009-05-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux-App/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux App</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+           今天很不幸的发现Linux系统的根文件不见了，用的是Ubuntu的wubi装的Arch系统，在Windows下进入E:ubuntudisks目录，找不到那个熟悉而又可爱的arch.root.disk文件了（这个可是我的Linux系统的根文件，平时工作的全部内容都在里面！！！），心里一阵忐忑。。。原因初步估计是Linux下ntfs-3g在写入windows时出错了，把整个disks目录写坏，直接导致Linux的根文件不可读！所幸的是在fanfan同学的帮助下（赞一个），在另一台Linux机器上用ntfs-3g格式mount上我机器的硬盘，居然可以读出disks目录下的内容（直接用ntfs不行），也可以看到arch.root.disk了，不过显示windows上的disks目录被写坏了，需要check一下，于是打算先用dd把整个分区先备份起来，在进入windows check那个分区，God bless～关于dd，网上找了一些文章：http://linux.chinaunix.net/bbs/archiver/tid-1098191.html引用一位兄弟所做的工作：&ldquo;我刚才在
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2009/05/22/dd拷贝磁盘分区/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2009/04/19/新的blog，jfo-appspot-com/" itemprop="url">
                   新的blog，jfo.appspot.com
                 </a>
@@ -1303,124 +1421,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2009/02/23/python：解析html（HTMLParser、SGMLParser）/" itemprop="url">
-                  python：解析html（HTMLParser、SGMLParser）
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2009-02-23T18:11:00+08:00" content="2009-02-23">
-              2009-02-23
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/python-js-php-html-mysql-http/" itemprop="url" rel="index">
-                    <span itemprop="name">python/js/php/html/mysql/http</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-           参考：python模块之HTMLParser: 解析html,获取url用python解析html（SGMLParser）转载 =======================================================其实python里面有xml.dom模块，但是这次却不能用，为啥呢？因为服务器传回的html从xml角度看不是良构的，没有闭合的标签、没有被注释掉的javascript和css，xml.dom没法处理，这个时候要用sgmllib。sgmllib.py 包含一个重要的类: SGMLParser。SGMLParser 将 HTML 分解成有用的片段， 比如开始标记和结束标记。一旦它成功地分解出某个数据为一个有用的片段，它会根据 所发现的数据，调用一个自身内部的方法。为了使用这个分析器，您需要子类化 SGML- Parser类，并且覆盖这些方法。SGMLParser类里面包含了很多内部方法，开始读取html后，遇到相应的数据就会调用其对应的方法，最重要的方法有三个： starttagname(self, attrs) endtagname(self) ha
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2009/02/23/python：解析html（HTMLParser、SGMLParser）/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1466,7 +1466,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">603</span>
+              <span class="site-state-item-count">604</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1474,7 +1474,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">37</span>
+                <span class="site-state-item-count">38</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
