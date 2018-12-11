@@ -261,6 +261,125 @@
             
               
                 
+                <a class="post-title-link" href="/2009/10/07/C-对象的内存布局/" itemprop="url">
+                  C++ 对象的内存布局
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2009-10-07T13:11:00+08:00" content="2009-10-07">
+              2009-10-07
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/c-c-template-gp-boost/" itemprop="url" rel="index">
+                    <span itemprop="name">c++/c++ template/gp/boost</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+           C++ 对象的内存布局http://blog.csdn.net/haoel/archive/2008/10/15/3081385.aspx 
+
+          
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2009/10/07/C-对象的内存布局/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2009/10/07/MSVC-compiler-d1reportSingleClassLayout-d1reportAllClassLayout/" itemprop="url">
                   MSVC++ compiler /d1reportSingleClassLayout /d1reportAllClassLayout
                 </a>
@@ -1309,124 +1428,6 @@ GOT 是 data section，是一个 table，除专用的几个 entry，每个 entry
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2009/09/09/KMP算法（子串包含问题）/" itemprop="url">
-                  KMP算法（子串包含问题）
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2009-09-09T14:31:00+08:00" content="2009-09-09">
-              2009-09-09
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/c-c-algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">c/c++/algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-           问题：给你两个字符串A和B，问B是否为A的子串（A是否包含B）。比如，字符串A=&quot;abcdgo&quot;，字符串B=&quot;dgo&quot;，我们就说B是A的子串。假如，A=&quot;abababaababacb&quot;，B=&quot;ababacb&quot;，我们来看看KMP是怎么工作的。我们用两个下标i和j分别表示A和B的当前比较位置，其中A[i-j+1..i]与B[0..j-1]完全匹配。也就是说，i不断增加，随着i的增加j相应地变化，且j满足以A[i-1]结尾的长度为j的字符串正好匹配B串的前 j个字符（j当然越大越好），现在需要检验A[i]和B[j]的关系。当A[i]=B[j]时，i和j各加一；什么时候j=m（B的长度）了，我们就说B是A的子串，并且可以根据这时的i值算出匹配的位置。当A[i+1]&lt;&gt;B[j+1]，KMP的策略是调整j的位置 （减小j值为j’+1）使得A[i-j’..i]与B[0..j’]；然后继续检查A[i]和新的B[j]是否相等。我们看一看当 i = j = 5时的情况：&#160;  i = 0 1 2 3 4 
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2009/09/09/KMP算法（子串包含问题）/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1472,7 +1473,7 @@ GOT 是 data section，是一个 table，除专用的几个 entry，每个 entry
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">604</span>
+              <span class="site-state-item-count">605</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1575,7 +1576,7 @@ GOT 是 data section，是一个 table，除专用的几个 entry，每个 entry
         <div class="copyright" >
   
   &copy;  2007 - 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

@@ -261,6 +261,133 @@
             
               
                 
+                <a class="post-title-link" href="/2013/12/05/为什么从CCSpriteFrameCache创建的sprite能添加到CCSpriteBatchNode/" itemprop="url">
+                  为什么从CCSpriteFrameCache创建的sprite能添加到CCSpriteBatchNode
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2013-12-05T17:58:59+08:00" content="2013-12-05">
+              2013-12-05
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/cocos2d-x-模拟器/" itemprop="url" rel="index">
+                    <span itemprop="name">cocos2d-x/模拟器</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          在《如何使用动画和精灵表单 Cocos2d-x 2.1.4 》中介绍了如何使用plist文件创建精灵和动画，使用方法直接参考如下代码：
+bool HelloWorld::init(){    bool bRet = false;    do    {        CC_BREAK_IF(!CCLayer::init());
+    //1) Cache the sprite frames and texture
+    CCSpriteFrameCache::sharedSpriteFrameCache()-&amp;gt;addSpriteFramesWithFile(&quot;AnimBear.plist&quot;);
+
+    //2) Create a sprite batch node
+    CCSpriteBatchNode *spriteSheet = CCSpriteBatchNode::create(&quot;AnimBear.png&quot;);
+    this-&amp;gt;addChild(spriteSheet);
+
+    //3) Gath
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2013/12/05/为什么从CCSpriteFrameCache创建的sprite能添加到CCSpriteBatchNode/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2013/11/07/【zz】有一种幸福，叫做平凡/" itemprop="url">
                   【zz】有一种幸福，叫做平凡
                 </a>
@@ -1351,128 +1478,6 @@ $ make V=s&nbsp;
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/08/28/TP-Link-TL-WR703n路由USB口用途2——挂载U盘，从U盘启动/" itemprop="url">
-                  TP-Link TL-WR703n路由USB口用途2——挂载U盘，从U盘启动
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2013-08-28T14:50:16+08:00" content="2013-08-28">
-              2013-08-28
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Arduino-OpenWrt/" itemprop="url" rel="index">
-                    <span itemprop="name">Arduino/OpenWrt</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          这里先在自己的主Linux系统中格式化好U盘，就不用在Openwrt中格式化U盘了挂载U盘需要安装一些pkg模块，我的空间不够用了，于是先恢复到刷Openwrt固件的原始状态（出厂设置）重启路由的时候按住reset，可以看到蓝色LED灯闪烁，接着很快的闪烁，说明进入了恢复模式这时用telnet登陆到192.168.1.1（电脑用网线连接到wr703n的LAN口），运行
-mount_rootfirstbootreboot -f这样就恢复到了固件的初始状态
-接下来安装pkg
-root@OpenWrt:/etc/config# opkg updateDownloading http://downloads.openwrt.org/attitude_adjustment/12.09/ar71xx/generic/packages/Packages.gz.Updated list of available packages in /var/opkg-lists/attitude_adjustment.
-root@OpenWrt:/etc/config# dfFilesystem         
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013/08/28/TP-Link-TL-WR703n路由USB口用途2——挂载U盘，从U盘启动/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1518,7 +1523,7 @@ root@OpenWrt:/etc/config# dfFilesystem
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">604</span>
+              <span class="site-state-item-count">605</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1621,7 +1626,7 @@ root@OpenWrt:/etc/config# dfFilesystem
         <div class="copyright" >
   
   &copy;  2007 - 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

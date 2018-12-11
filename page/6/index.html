@@ -261,6 +261,137 @@
             
               
                 
+                <a class="post-title-link" href="/2014/05/22/NativeActivity的OnCreate过程及InputQueue相关分析/" itemprop="url">
+                  NativeActivity的OnCreate过程及InputQueue相关分析
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-05-22T11:36:20+08:00" content="2014-05-22">
+              2014-05-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          每一个应用程序都有一个ActivityThread，当这个应用的进程创建时，会进入到ActivityThread的main函数运行
+
+    public static void main(String[] args) {
+        SamplingProfilerIntegration.start();
+
+        // CloseGuard defaults to true and can be quite spammy.  We
+        // disable it here, but selectively enable it later (via
+        // StrictMode) on debug builds, but using DropBox, not logs.
+        CloseGuard.setEnabled(false);
+
+        Environment.initForCurrentUser();
+
+        // Set the reporter for event logging in libcore
+ 
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014/05/22/NativeActivity的OnCreate过程及InputQueue相关分析/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2014/05/19/Retroarch：启动入口、android输入驱动/" itemprop="url">
                   Retroarch：启动入口、android输入驱动
                 </a>
@@ -1347,133 +1478,6 @@ We have placed a hold on
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/12/05/为什么从CCSpriteFrameCache创建的sprite能添加到CCSpriteBatchNode/" itemprop="url">
-                  为什么从CCSpriteFrameCache创建的sprite能添加到CCSpriteBatchNode
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2013-12-05T17:58:59+08:00" content="2013-12-05">
-              2013-12-05
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/cocos2d-x-模拟器/" itemprop="url" rel="index">
-                    <span itemprop="name">cocos2d-x/模拟器</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          在《如何使用动画和精灵表单 Cocos2d-x 2.1.4 》中介绍了如何使用plist文件创建精灵和动画，使用方法直接参考如下代码：
-bool HelloWorld::init(){    bool bRet = false;    do    {        CC_BREAK_IF(!CCLayer::init());
-    //1) Cache the sprite frames and texture
-    CCSpriteFrameCache::sharedSpriteFrameCache()-&amp;gt;addSpriteFramesWithFile(&quot;AnimBear.plist&quot;);
-
-    //2) Create a sprite batch node
-    CCSpriteBatchNode *spriteSheet = CCSpriteBatchNode::create(&quot;AnimBear.png&quot;);
-    this-&amp;gt;addChild(spriteSheet);
-
-    //3) Gath
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013/12/05/为什么从CCSpriteFrameCache创建的sprite能添加到CCSpriteBatchNode/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1519,7 +1523,7 @@ bool HelloWorld::init(){    bool bRet = false;    do    {        CC_BREAK_IF(!CC
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">604</span>
+              <span class="site-state-item-count">605</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1622,7 +1626,7 @@ bool HelloWorld::init(){    bool bRet = false;    do    {        CC_BREAK_IF(!CC
         <div class="copyright" >
   
   &copy;  2007 - 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

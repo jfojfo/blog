@@ -261,6 +261,141 @@
             
               
                 
+                <a class="post-title-link" href="/2014/11/08/sensors-data-get-set-from-android-emulator-console/" itemprop="url">
+                  sensors data get/set from android emulator console
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2014-11-08T20:28:52+08:00" content="2014-11-08">
+              2014-11-08
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Android/" itemprop="url" rel="index">
+                    <span itemprop="name">Android</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          
+模拟器启动后telnet进入模拟器console
+
+telenet 127.0.0.1:5554
+
+help
+Android console command help:
+
+    help|h|?         print a list of commands
+    event            simulate hardware events
+    geo              Geo-location commands
+    gsm              GSM related commands
+    cdma             CDMA related commands
+    kill             kill the emulator instance
+    network          manage network settings
+    power            power related commands
+    quit|exit        quit control session
+    redir     
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014/11/08/sensors-data-get-set-from-android-emulator-console/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2014/11/08/sensors-data-sent-to-requested-from-android-HAL/" itemprop="url">
                   sensors data sent to / requested from android HAL
                 </a>
@@ -1408,139 +1543,6 @@ private String getUsbDetail(UsbDevice device) {
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2014/08/06/解决Linux下连接Cisco-VPN后局域网不能访问/" itemprop="url">
-                  解决Linux下连接Cisco VPN后局域网不能访问
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2014-08-06T10:34:21+08:00" content="2014-08-06">
-              2014-08-06
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Network/" itemprop="url" rel="index">
-                    <span itemprop="name">Network</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          在Linux下使用Cisco Anyconnect客户端连接VPN后，局域网无法访问，无论如何设置路由，路由表始终无法改变网上搜了一下，原因是Anyconnect客户端监听路由表，一旦改变，通过一个回调再改回去
-解决办法：Anyconnect监听路由表的回调代码位于一个so共享库，可以通过LD_PRELOAD阻止Anyconnect加载原来的监听回调
-创建hack.c
-
-#include &lt;sys/socket.h&gt;
-#include &lt;linux/netlink.h&gt;
-
-int _ZN27CInterfaceRouteMonitorLinux20routeCallbackHandlerEv()
-{
-  int fd=50;          // max fd to try
-  char buf[8192];
-  struct sockaddr_nl sa;
-  socklen_t len = sizeof(sa);
-
-  while (fd) {
-     if (!getsockname(fd, (struct sockaddr *)&sa, &len))
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014/08/06/解决Linux下连接Cisco-VPN后局域网不能访问/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1586,7 +1588,7 @@ int _ZN27CInterfaceRouteMonitorLinux20routeCallbackHandlerEv()
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">604</span>
+              <span class="site-state-item-count">605</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1689,7 +1691,7 @@ int _ZN27CInterfaceRouteMonitorLinux20routeCallbackHandlerEv()
         <div class="copyright" >
   
   &copy;  2007 - 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

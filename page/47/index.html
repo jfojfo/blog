@@ -261,6 +261,124 @@
             
               
                 
+                <a class="post-title-link" href="/2007/11/20/利用core文件调试/" itemprop="url">
+                  利用core文件调试
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2007-11-20T00:13:00+08:00" content="2007-11-20">
+              2007-11-20
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Linux-Debug/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux Debug</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+           首先用-g选项编译程序，然后用ulimit -c unlimited打开core文件限制to make the changes permanent, add the following line to /etc/sysctl.conf:kernel.core_pattern = core.%e.%psysctl is a similar tool to ulimit: It allows to configure kernelparameters at runtime. If you wish to keep settings persistent acrossreboots you should edit /etc/sysctl.conf - be aware that wrong settingsmay break things in unforeseen ways.用/proc/sys/kernel/core_pattern控制core文件产生的地方在测试站上root: cat /proc/sys/kernel/corepattern/tmp/core.%p%e也就是说，所有c
+          ...
+
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2007/11/20/利用core文件调试/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2007/11/19/【zz】-cyg-profile-func-enter、pvtrace、Graphviz-可视化函数调用/" itemprop="url">
                   【zz】__cyg_profile_func_enter、pvtrace、Graphviz 可视化函数调用
                 </a>
@@ -1302,124 +1420,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2007/11/12/ELF文件动态链接时-GOT，PLT-的变化过程/" itemprop="url">
-                  ELF文件动态链接时 GOT，PLT 的变化过程
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2007-11-12T22:23:00+08:00" content="2007-11-12">
-              2007-11-12
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/gcc-binutils-make-共享库/" itemprop="url" rel="index">
-                    <span itemprop="name">gcc/binutils/make/共享库</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-           Intel平台下Linux中ELF文件动态链接的加载、解析及实例分析（一）: 加载http://www.ibm.com/developerworks/cn/linux/l-elf/part1/index.htmlIntel平台下linux中ELF文件动态链接的加载、解析及实例分析（二）: 函数解析与卸载http://www.ibm.com/developerworks/cn/linux/l-elf/part2/index.htmlhttp://linux.chinaunix.net/doc/system/2005-01-13/777.shtml最后我们讨论ELF文件的动态连接机制。每一个外部定义的符号在全局偏移表 (Global Offset Table GOT)中有相应的条目,如果符号是函数则在过程连接表(Procedure Linkage Table PLT)中也有相应的条目，且一个PLT条目对应一个GOT条目。对外部定义函数解析可能是整个ELF文件规范中最复杂的，下面是函数符号解析过程的一个 描述。1：代码中调用外部函数func,语句形式为call 0xaabbccdd,地址0
-          ...
-
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2007/11/12/ELF文件动态链接时-GOT，PLT-的变化过程/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1465,7 +1465,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">604</span>
+              <span class="site-state-item-count">605</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1568,7 +1568,7 @@
         <div class="copyright" >
   
   &copy;  2007 - 
-  <span itemprop="copyrightYear">2017</span>
+  <span itemprop="copyrightYear">2018</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

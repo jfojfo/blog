@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.pickbox.cc/"/>
-  <updated>2017-09-23T03:22:19.000Z</updated>
+  <updated>2018-12-11T02:59:55.000Z</updated>
   <id>http://blog.pickbox.cc/</id>
   
   <author>
@@ -14,6 +14,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>数据库索引</title>
+    <link href="http://blog.pickbox.cc/2018/12/11/Python%20yield%E6%89%A7%E8%A1%8C%E6%97%B6%E6%9C%BA/"/>
+    <id>http://blog.pickbox.cc/2018/12/11/Python yield执行时机/</id>
+    <published>2018-12-11T02:51:57.000Z</published>
+    <updated>2018-12-11T02:59:55.000Z</updated>
+    
+    <content type="html"><![CDATA[<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">load</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">print</span> <span class="string">'load'</span></div><div class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">2</span>):</div><div class="line">        <span class="keyword">yield</span> i</div><div class="line"></div><div class="line">gen = load()</div><div class="line"><span class="keyword">print</span> <span class="string">'loop...'</span></div><div class="line"><span class="keyword">for</span> i <span class="keyword">in</span> gen:</div><div class="line">    <span class="keyword">print</span> i</div></pre></td></tr></table></figure>
+<p>输出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">loop...</div><div class="line">load</div><div class="line">0</div><div class="line">1</div></pre></td></tr></table></figure>
+<p>当你调用这个函数的时候，函数内部的代码并不立马执行 ，这个函数只是返回一个生成器对象。函数内的代码什么时候执行呢？当你使用for进行迭代的时候。</p>
+<p>第一次迭代中你的函数会执行，从开始到达 yield 关键字，然后返回 yield 后的值作为第一次迭代的返回值. 然后，每次执行这个函数都会继续执行你在函数内部定义的那个循环的下一次，再返回那个值，直到没有可以返回的。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;figure class=&quot;highlight python&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/d
+    
+    </summary>
+    
+      <category term="python/js/php/html/mysql/http" scheme="http://blog.pickbox.cc/categories/python-js-php-html-mysql-http/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>关于tensorflow的tf.cond依赖</title>
@@ -880,149 +905,6 @@ const char *class_getName(Class cls)
     </summary>
     
       <category term="Network" scheme="http://blog.pickbox.cc/categories/Network/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>How do I share internet to 2nd router through Mac?</title>
-    <link href="http://blog.pickbox.cc/2015/03/27/How-do-I-share-internet-to-2nd-router-through-Mac/"/>
-    <id>http://blog.pickbox.cc/2015/03/27/How-do-I-share-internet-to-2nd-router-through-Mac/</id>
-    <published>2015-03-27T10:19:53.000Z</published>
-    <updated>2017-06-07T05:03:26.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>Mac配置：Mac通过USB无线网卡连接外网，还有一个有线网口<br>目标：共享Mac无线网络，让另一台路由连接Mac有线网，上外网</p>
-<p>步骤：</p>
-<ol>
-<li>Make sure the 2nd router is off for now</li>
-<li>Go to Dock/Finder–&gt;Preferences–&gt;Sharing</li>
-<li>(Assuming OSX 10.7＋) Highlight the 2nd-to-last option (Internet Sharing)–&gt;Select ‘Wi-Fi’ from the ‘Share your connection from’ drop-box</li>
-<li>Click the check-box next to ‘Ethernet’ in the ‘To computers using:’ section and click the check-box next to ‘Internet Sharing’ to finally enable it.</li>
-<li>Connect the ethernet cable from your Mac to your router’s WAN/Internet port and turn your 2nd router on.</li>
-</ol>
-<p>Assuming that 2nd router is set up for DHCP it should now see your ethernet-connected Mac as its gateway and use it as its internet source.</p>
-<p><a href="http://img.pickbox.cc/wp-content/uploads/network-share-for-Mac.png" target="_blank" rel="external"><img class="alignnone size-full wp-image-1166" alt="network share for Mac" src="http://img.pickbox.cc/wp-content/uploads/network-share-for-Mac.png" width="699" height="564"></a></p>
-<p>&nbsp;</p>
-<p>&nbsp;</p>
-<p>这样设置之后，会生成/etc/bootpd.plist</p>
-<p>&nbsp;</p>
-<pre>$ cat /etc/bootpd.plist 
-&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;
-&lt;plist version="1.0"&gt;
-&lt;dict&gt;
-    &lt;key&gt;Subnets&lt;/key&gt;
-    &lt;array&gt;
-        &lt;dict&gt;
-            &lt;key&gt;_creator&lt;/key&gt;
-            &lt;string&gt;com.apple.NetworkSharing&lt;/string&gt;
-            &lt;key&gt;allocate&lt;/key&gt;
-            &lt;true/&gt;
-            &lt;key&gt;dhcp_domain_name_server&lt;/key&gt;
-            &lt;array&gt;
-                &lt;string&gt;192.168.2.1&lt;/string&gt;
-            &lt;/array&gt;
-            &lt;key&gt;dhcp_router&lt;/key&gt;
-            &lt;string&gt;192.168.2.1&lt;/string&gt;
-            &lt;key&gt;interface&lt;/key&gt;
-            &lt;string&gt;bridge100&lt;/string&gt;
-            &lt;key&gt;lease_max&lt;/key&gt;
-            &lt;integer&gt;86400&lt;/integer&gt;
-            &lt;key&gt;lease_min&lt;/key&gt;
-            &lt;integer&gt;86400&lt;/integer&gt;
-            &lt;key&gt;name&lt;/key&gt;
-            &lt;string&gt;192.168.2/24&lt;/string&gt;
-            &lt;key&gt;net_address&lt;/key&gt;
-            &lt;string&gt;192.168.2.0&lt;/string&gt;
-            &lt;key&gt;net_mask&lt;/key&gt;
-            &lt;string&gt;255.255.255.0&lt;/string&gt;
-            &lt;key&gt;net_range&lt;/key&gt;
-            &lt;array&gt;
-                &lt;string&gt;192.168.2.2&lt;/string&gt;
-                &lt;string&gt;192.168.2.254&lt;/string&gt;
-            &lt;/array&gt;
-        &lt;/dict&gt;
-    &lt;/array&gt;
-    &lt;key&gt;bootp_enabled&lt;/key&gt;
-    &lt;false/&gt;
-    &lt;key&gt;detect_other_dhcp_server&lt;/key&gt;
-    &lt;array&gt;
-        &lt;string&gt;bridge100&lt;/string&gt;
-    &lt;/array&gt;
-    &lt;key&gt;dhcp_enabled&lt;/key&gt;
-    &lt;array&gt;
-        &lt;string&gt;bridge100&lt;/string&gt;
-    &lt;/array&gt;
-    &lt;key&gt;dhcp_ignore_client_identifier&lt;/key&gt;
-    &lt;true/&gt;
-    &lt;key&gt;ignore_allow_deny&lt;/key&gt;
-    &lt;array&gt;
-        &lt;string&gt;bridge100&lt;/string&gt;
-    &lt;/array&gt;
-    &lt;key&gt;use_server_config_for_dhcp_options&lt;/key&gt;
-    &lt;false/&gt;
-&lt;/dict&gt;
-&lt;/plist&gt;</pre>
-可以通过如下命令启动／关闭dhcp服务
-<pre>sudo launchctl load -w /System/Library/LaunchDaemons/bootps.plist
-sudo launchctl unload -w /System/Library/LaunchDaemons/bootps.plist</pre>
-&nbsp;
-
-配置bootptab设置为路由配置固定IP地址
-<pre>$ cat /etc/bootptab 
-%%
-# machine entries have the following format:
-#
-# hostname      hwtype  hwaddr              ipaddr          bootfile
-newifi-wan      1       EC:0E:C4:0F:EA:79   192.168.2.100</pre>
-看看路由
-
-<pre>$ netstat -nr
-Routing tables
-
-Internet:
-Destination        Gateway            Flags        Refs      Use   Netif Expire
-default            172.22.152.1       UGSc           27     7247     en2
-default            link#7             UCSI            0        0 bridge1
-127                127.0.0.1          UCS             0        0     lo0
-127.0.0.1          127.0.0.1          UH              4   325589     lo0
-169.254            link#6             UCS             0        0     en2
-172.22.152/23      link#6             UCS             0        0     en2
-172.22.152.1/32    link#6             UCS             1        0     en2
-172.22.152.1       a4:93:4c:89:c6:4b  UHLWIir        27        0     en2    786
-172.22.152.55/32   link#6             UCS             0        0     en2
-192.168.2          link#7             UC              1        0 bridge1
-192.168.2.100      ec.e.c4.f.ea.79    UHLWIi          3      264 bridge1   1170</pre>
-
-<p>&nbsp;<br>ifconfig 可以看到多了一个bridge100</p>
-<pre>bridge100: flags=8863&lt;UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST&gt; mtu 1500
-    options=3&lt;RXCSUM,TXCSUM&gt;
-    ether c6:34:6b:42:de:64 
-    inet 192.168.2.1 netmask 0xffffff00 broadcast 192.168.2.255
-    inet6 fe80::c434:6bff:fe42:de64%bridge100 prefixlen 64 scopeid 0x7 
-    Configuration:
-        id 0:0:0:0:0:0 priority 0 hellotime 0 fwddelay 0
-        maxage 0 holdcnt 0 proto stp maxaddr 100 timeout 1200
-        root id 0:0:0:0:0:0 priority 0 ifcost 0 port 0
-        ipfilter disabled flags 0x2
-    member: en0 flags=3&lt;LEARNING,DISCOVER&gt;
-            ifmaxaddr 0 port 4 priority 0 path cost 0
-    nd6 options=1&lt;PERFORMNUD&gt;
-    media: autoselect
-    status: active</pre>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Mac配置：Mac通过USB无线网卡连接外网，还有一个有线网口&lt;br&gt;目标：共享Mac无线网络，让另一台路由连接Mac有线网，上外网&lt;/p&gt;
-&lt;p&gt;步骤：&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;Make sure the 2nd router is off for now&lt;/li&gt;
-&lt;
-    
-    </summary>
-    
-      <category term="Mac OS X" scheme="http://blog.pickbox.cc/categories/Mac-OS-X/"/>
     
     
   </entry>
